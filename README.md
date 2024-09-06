@@ -9,11 +9,9 @@ The **SDG Innovation Commons** is a Next.js application designed to support inno
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-- [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
-- [Contact](#contact)
 
 ## Project Overview
 
@@ -33,7 +31,6 @@ The **SDG Innovation Commons** is a platform that aims to bring together all the
 To run this project locally, you will need the following tools installed on your machine:
 
 - [Node.js](https://nodejs.org/) (v18.x or higher)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
 ### Installation
 
@@ -48,25 +45,25 @@ To run this project locally, you will need the following tools installed on your
    cd sdg-innovation-commons
    ```
 3. Install the dependencies:
-   If you use npm:
+   If you use pnpm:
    `bash
-     npm install
- `
+    pnpm install
+`
    Or, if you prefer yarn:
    `bash
-     yarn install
- `
+    yarn install
+`
 4. Run the development server:
-   For npm:
+   For pnpm:
 
    ```bash
-       npm run dev
+       pnpm run dev
    ```
 
    Or for yarn:
    `bash
-     yarn dev
- `
+    yarn dev
+`
    Open http://localhost:3000 to view the app in your browser.
 
 ### Technologies Used
@@ -82,14 +79,14 @@ This project is built using the following technologies:
 
 We welcome contributions to the SDG Innovation Commons project! To get started:
 
-Fork the repository.
-Create a new branch (git checkout -b feature/your-feature).
-Make your changes.
-Commit your changes (git commit -m 'Add some feature').
-Push to the branch (git push origin feature/your-feature).
-Open a pull request.
-Please make sure to follow the contribution guidelines.
+- Fork the repository.
+- Create a new branch (git checkout -b feature/your-feature).
+- Make your changes.
+- - Commit your changes (git commit -m 'Add some feature').
+- Push to the branch (git push origin feature/your-feature).
+- Open a pull request.
+  Please make sure to follow the [contribution guidelines](./CONTRIBUTING.md).
 
 ### License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
