@@ -43,7 +43,7 @@ export default async function Section() {
                         </b>
                     </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 lg:py-0 lg:px-20 lg:gap-[45px] lg:ml-[15%]">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 lg:py-0 lg:px-20 lg:gap-[45px] lg:ml-[15%] lg:mt-[5%] ">
                     {hits?.map((post: any) => (
                         <Card
                             key={post.doc_id}
