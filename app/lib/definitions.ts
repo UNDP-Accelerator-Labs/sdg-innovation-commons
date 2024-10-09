@@ -8,3 +8,16 @@ export interface ConnectionConfig {
   password?: string;
   ssl?: boolean;
 }
+
+
+export interface PostProps {
+  doc_id: number;
+  url: string;
+  title: string;
+  meta?: {
+    iso3: string[];
+  };
+  updated?: string;
+  snippets?: string;
+  base?: string;
+}

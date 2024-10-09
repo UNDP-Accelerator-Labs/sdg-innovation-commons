@@ -45,7 +45,7 @@ export default function Card(_kwargs: CardProps) {
               )}
               onClick={onButtonClick}
             >
-              <b className="relative leading-[15px] text-[13px] lg:text-[14px]">{tag}</b>
+              <b className="relative leading-[15px] text-[13px] lg:text-[14px] capitalize">{tag}</b>
             </div>
           ))}
         </div>

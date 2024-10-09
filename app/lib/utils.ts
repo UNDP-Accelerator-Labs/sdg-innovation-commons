@@ -15,6 +15,8 @@ export const commonsPlatform = [
   },
 ];
 
+export const NLP_URL = "https://nlpapi.sdg-innovation-commons.org/api";
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',
@@ -35,6 +37,22 @@ export const formatDateToLocal = (
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
 };
+
+export const formatDate = (
+  dateString: string,
+) => {
+  const date = new Date(dateString);
+  
+  // Get day, month, and year
+  const day = String(date.getDate()).padStart(2, '0'); 
+  const month = String(date.getMonth() + 1).padStart(2, '0'); 
+  const year = String(date.getFullYear()).slice(2); 
+
+  // Return formatted date in DD.MM.YY format
+  return `${day}.${month}.${year}`;
+}
+
+
 
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
