@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 export interface CardProps {
-  country: string;
+  country?: string;
   title: string;
   description: string;
   tags?: string[];

@@ -5,11 +5,13 @@ import Learn from './Learn'
 import See from './See'
 import Test from './Test'
 import How from './How-it-works'
+import FeaturedBoard from './Featured-board'
 
 export default function Home() {
   return (
     <>
       <Navbar />
+      <FeaturedBoard />
       <How />
       <Test />
       <See />
