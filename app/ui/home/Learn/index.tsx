@@ -23,7 +23,7 @@ export default async function Section() {
                         <b className="relative leading-[38px] z-[1] text-[28px] lg:text-[36px]">What We Learn</b>
                     </div>
                     <div className="lg:flex-1 lg:flex lg:flex-col lg:items-start lg:justify-start lg:gap-10 lg:text-3xl mt-5 lg:mt-0">
-                        <b className="self-stretch relative text-2xl leading-[28px] text-[21px] lg:text-[22px]">
+                        <b className="self-stretch relative text-2xl leading-[28px] lg:text-[22px]">
                             Browse through our blogs, publications, and toolkits to learn what works and what doesn’t in sustainable development.
                         </b>
                     </div>
