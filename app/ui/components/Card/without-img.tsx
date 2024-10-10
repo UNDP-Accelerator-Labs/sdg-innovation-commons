@@ -2,30 +2,35 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 
-interface CardProps {
+export interface CardProps {
   country: string;
-  date: string;
   title: string;
   description: string;
-  tagArr: string | string[]; 
+  tags?: string[];
   href: string;
-  onButtonClick?: () => void; 
-  tagStyle?: string; 
+  onButtonClick?: () => void;
+  tagStyle?: string;
+  viewCount?: number;
+  backgroundImage?: string;
+  sdg?: string | string[];
+  className?: string;
+  source?: string;
+  date?: string;
 }
 
 export default function Card(_kwargs: CardProps) {
-    const { country, date, title, description, tagArr, tagStyle, onButtonClick, href } = _kwargs
+    let { country, date, title, description, tags, tagStyle, onButtonClick, href } = _kwargs
   // Convert tagArr to an array if it's a string
-  const tags = Array.isArray(tagArr) ? tagArr : [tagArr];
+   const  tagArr = Array.isArray(tags) ? tags : [tags];
 
   return (
-    <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-start justify-start pt-5 px-5 pb-10 gap-6 text-left text-smi text-undp-blue font-mobile-labels">
+    <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-start justify-start pt-5 px-5 pb-10 gap-6 text-left text-smi text-undp-blue">
       <div className="self-stretch flex flex-col items-start justify-start gap-5">
         <div className="self-stretch flex flex-row items-start justify-between">
           <b className="relative leading-[15px] text-[13px] ">{country}</b>
           <b className="relative leading-[15px] text-black text-right text-[13px]">{date}</b>
         </div>
-        <div className="self-stretch flex flex-col items-start justify-start gap-5 text-9xl text-black font-mobile-small-paragraph">
+        <div className="self-stretch flex flex-col items-start justify-start gap-5 text-9xl text-black">
           <b className="self-stretch relative leading-[38px] lg:leading-[46px] text-[28px] lg:text-[36px]">{title}</b>
           <div className="self-stretch relative text-mini leading-[22px] text-[15px] lg:text-[16px]">
             {description}
@@ -36,7 +41,7 @@ export default function Card(_kwargs: CardProps) {
       {/* Tags */}
       <div className="self-stretch flex flex-row items-center justify-between text-center text-black">
         <div className="flex flex-row gap-2">
-          {tags.map((tag, index) => (
+          {tagArr?.map((tag, index) => (
             <div
               key={index}
               className={clsx(

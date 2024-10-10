@@ -1,0 +1,58 @@
+import { Button } from '@/app/ui/components/Button';
+import Card from '@/app/ui/components/Card/with-img';
+import Link from 'next/link';
+import seeApi from '@/app/lib/data/see';
+import { processHits } from '../Learn'
+
+export default async function Section() {
+    const data = await seeApi({ limit: 10, search: 'What solutions is the network seeing?' });
+    let { hits } = data || {};
+    hits = processHits(hits, 3);
+
+    return (
+        <>
+            <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-end py-10 lg:py-[100px] px-0 gap-[30px] lg:gap-[100px] text-left text-17xl text-black">
+                <div className="self-stretch flex flex-col lg:flex-row items-start justify-start py-0 px-5 lg:px-20 gap-[30px] lg:gap-[357px] z-[2]">
+                    <div className="w-[292.4px] relative h-[54px]">
+                        <img className="absolute top-[23.17px] lg:top-[28px] left-[-10.5px] lg:left-[0px] mw-[200.3px] lg:w-[292.4px] h-[26px]" alt="" src="images/Rectangle-light-green.svg" />
+                        <b className="absolute lg:top-[0px] lg:left-[22px] text-h2-desktop lg:text-h2-desktop ">What We See</b>
+                    </div>
+                    <div className="flex-1 flex flex-col items-start justify-start gap-10 text-3xl">
+                        <b className="self-stretch lg:w-[517.5px] relative text-h3-mobile lg:text-h3-desktop inline-block">Discover and learn existing Sustainable Development Solutions on the ground</b>
+                    </div>
+                </div>
+                <div className="self-stretch flex flex-col items-start justify-start gap-[50px] text-sm ">
+                    <div className="self-stretch flex flex-col items-start justify-start">
+                        <div className="self-stretch flex flex-col items-start justify-start py-0 px-5 lg:px-20 gap-[45px]">
+                            <div className="flex flex-col md:flex-row lg:flex-row gap-5 ">
+                                {hits?.map((post: any) => (
+                                    <Card
+                                        key={post.doc_id}
+                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        title={post?.title || ''}
+                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        source={post?.base || ''}
+                                        tagStyle='bg-light-green'
+                                        href={post?.url}
+                                        viewCount={0}
+                                        tags={['Solutions']}
+                                        sdg={'SDG 1/2/3'}
+                                    // className='lg:h-[669px]'
+                                    />
+                                ))}
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="self-stretch flex flex-row items-start justify-end py-0 px-20 gap-10 text-center text-sm lg:text-lg">
+                        <Button>
+                            <Link href={'/see'}>
+                                View All
+                            </Link>
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};

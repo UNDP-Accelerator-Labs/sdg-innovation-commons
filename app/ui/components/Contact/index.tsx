@@ -8,7 +8,7 @@ export default function Contact() {
     const [state, formAction] = useFormState(createContact, initialState);
 
     return (
-        <div className="relative bg-posted-yellow border-black border-t-[1px] border-solid box-border w-full flex flex-col lg:flex-row items-start lg:items-center justify-start text-left text-base text-black font-mobile-paragraph lg:font-desktop-paragraph">
+        <div className="relative bg-posted-yellow border-black border-t-[1px] border-solid box-border w-full flex flex-col lg:flex-row items-start lg:items-center justify-start text-left text-base text-black">
             <div className="w-full lg:w-2/3 bg-posted-yellow flex flex-col items-start justify-start py-10 px-5 lg:py-[100px] lg:px-20 box-border gap-[30px] lg:gap-[60px]">
                 <div className="lg:self-stretch lg:flex lg:flex-row items-start justify-start gap-[111px]">
                 {/* Contact Us title */}
@@ -17,7 +17,7 @@ export default function Contact() {
                     <b className="relative text-[28px] lg:text-[32px] leading-[38px] lg:leading-[46px] z-[1]">Contact Us</b>
                 </div>
                 {/* Description */}
-                <div className="lg:w-[304px] self-stretch relative leading-[24px] lg:leading-[26px] lg:text-lg lg:inline-block lg:shrink-0 text-[16px] lg:text-[18px]">
+                <div className="lg:w-[304px] self-stretch relative leading-[24px] lg:leading-[26px] lg:text-lg lg:inline-block lg:shrink-0 text-[16px]">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.
                 </div>
                 </div>

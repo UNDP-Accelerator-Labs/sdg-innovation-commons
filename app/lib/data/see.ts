@@ -1,17 +1,8 @@
 'use server';
 import { NLP_URL } from  '@/app/lib/utils';
+import { Props } from './learn'
 
-export interface Props {
-    page?: number;
-    limit?: number;
-    offset?: number;
-    search?: string;
-    language?: string;
-    country?: string;
-    doc_type?: string[];
-}
-
-export default async function learn(_kwargs:Props) {
+export default async function see(_kwargs:Props) {
     const { page, limit, offset, search, language, country } = _kwargs
     const body = {
         input: search ?? '',
@@ -22,7 +13,7 @@ export default async function learn(_kwargs:Props) {
         vecdb: "main",
         filters: {
             language: language ? [language] : [],
-            doc_type: ["blog", "publications", "news"],
+            doc_type: ["solution" ],
             iso3: country ? [country] : []
         }
     }
@@ -36,7 +27,7 @@ export default async function learn(_kwargs:Props) {
       })
       .then(async (response) => {
         const data = await response.json();
-        //TODO: Get Country name data points from DB.
+        //TODO: Get SDG, Image, reactions, country name, tags, data points from DB.
         return data;
       })
       .catch((err) => {

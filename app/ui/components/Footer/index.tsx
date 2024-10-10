@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-      <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-start justify-start py-10 px-5 lg:px-20 gap-20 lg:gap-20 text-center text-sm text-black font-mobile-buttons lg:font-desktop-buttons">
+      <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-start justify-start py-10 px-5 lg:px-20 gap-20 lg:gap-20 text-center text-sm text-black">
         
         {/* Logo and CTA */}
         <div className="self-stretch flex flex-col lg:flex-row md:flex-row items-start justify-start lg:justify-between gap-[60px] z-[0]"> 
@@ -19,7 +19,7 @@ export default function Footer() {
           
           <div className="md:w-[254px] lg:w-[254px] flex flex-col items-start justify-start md:items-end md:justify-end gap-[22px]">
             <b className="self-stretch relative leading-[18px] lg:leading-[22px] lg:text-[17px] text-[14px]">Signup for our Platform</b>
-            <button className="self-stretch relative h-[53.8px] lg:h-[80.3px] group">
+            <button className="self-stretch relative h-[53.8px] lg:h-[80.3px] group bg-inherit">
               <div className="absolute h-[87.55%] w-[95.98%] top-[0%] right-[-0.02%] bottom-[12.45%] left-[4.03%] transition-all duration-300 bg-lime-yellow group-hover:left-[0.03%] group-hover:top-[15%] " />
               <div className="absolute h-[87.17%] w-[95.98%] top-[12.46%] right-[4.02%] bottom-[0.37%] left-[0%] border-black border-[0.7px] lg:border-[1px] border-solid box-border" />
               <b className="absolute w-[77.01%] top-[37.87%] lg:top-[42.34%] left-[9.68%] leading-[17.76px] lg:leading-[22px] inline-block">Join Platform</b>
@@ -180,7 +180,7 @@ export default function Footer() {
             {/* END: Mobile view- Social media links */}
 
           </div>
-          <div className="self-stretch flex flex-row items-end justify-end md:items-start md:justify-start font-regular lg:hidden">
+          <div className="self-stretch flex flex-row items-end justify-end md:items-start md:justify-start lg:hidden">
             <span className="relative leading-[18px] lg:leading-[22px]">All Rights Reserved</span>
           </div>
         </div>

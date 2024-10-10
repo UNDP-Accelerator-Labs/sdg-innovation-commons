@@ -15,7 +15,7 @@ const NavLink: React.FC = () => {
         <div key={item.title} className="self-stretch flex flex-row items-start justify-start">
           <div className="flex-1 rounded-md overflow-hidden flex flex-row items-center justify-start py-[22px] px-8 gap-2">
             <div className="flex-1 flex flex-row items-center justify-start gap-3">
-              <Link href={item.href} className="relative leading-[26px] font-medium">
+              <Link href={item.href} className="relative leading-[26px] font-medium ">
                 {item.title}
               </Link>
             </div>

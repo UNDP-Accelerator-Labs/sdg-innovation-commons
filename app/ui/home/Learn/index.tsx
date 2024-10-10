@@ -8,26 +8,11 @@ import { PostProps } from '@/app/lib/definitions';
 export default async function Section() {
     const data = await learnApi({ limit: 10, search: 'What has the network learnt?' });
     let { hits } = data || {};
-
-    function processHits(hits: PostProps[]): PostProps[] {
-        // Filter to remove duplicates based on the 'url' or 'title' property
-        const uniqueHits = hits?.filter(
-            (item, index, self) =>
-                index === self.findIndex(
-                    (t) => t.url === item.url || t.title === item.title
-                )
-        );
-
-        // Return only the first 4 items
-        return uniqueHits.slice(0, 4);
-    }
-
-    hits = processHits(hits);
+    hits = processHits(hits, 4);
 
     return (
         <>
-            <hr className="border border-black border-1 w-full" />
-            <div className="w-full grid-background relative flex flex-col items-start justify-start py-10 px-5 box-border gap-[30px] text-left text-smi text-black font-mobile-buttons z[1]">
+            <div className="w-full grid-background border-black border-t-[1px] border-solid relative flex flex-col items-start justify-start py-10 px-5 box-border gap-[30px] text-left text-smi text-black z[1]">
                 <div className="lg:w-full lg:relative lg:flex lg:flex-row lg:items-start lg:justify-start lg:py-0 lg:px-20 lg:box-border lg:gap-[357px] lg:text-left text-17xl text-black">
                     <div className="flex flex-col items-start justify-start relative text-9xl">
                         <img
@@ -51,13 +36,13 @@ export default async function Section() {
                             date={formatDate(post?.meta?.date) || ''}
                             title={post?.title || ''}
                             description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
-                            tagArr={post?.base || ''}
+                            tags={post?.base || ''}
                             tagStyle='bg-light-blue'
                             href={post?.url}
                         />
                     ))}
                 </div>
-                <div className="self-stretch flex flex-col items-end justify-start text-center text-sm">
+                <div className="self-stretch flex flex-col items-end justify-start text-center text-sm lg:text-lg">
                     <Button>
                         <Link href={'/learn'}>
                             Read All
@@ -67,4 +52,17 @@ export default async function Section() {
             </div>
         </>
     );
+}
+
+export function processHits(hits: PostProps[], sliceValue: number): PostProps[] {
+    // Filter to remove duplicates based on the 'url' or 'title' property
+    const uniqueHits = hits?.filter(
+        (item, index, self) =>
+            index === self.findIndex(
+                (t) => t.url === item.url || t.title === item.title
+            )
+    );
+
+    // Return only the first 4 items
+    return uniqueHits?.slice(0, sliceValue);
 }

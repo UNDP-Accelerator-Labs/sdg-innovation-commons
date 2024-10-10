@@ -14,6 +14,10 @@ const config: Config = {
         "lime-yellow": "#d2f960",
         "posted-yellow": "#edffa4",
         "light-blue": "#81c2f2",
+        "light-green": "#afe69d",
+        "light-green-shade": "#ccfcbd",
+        "light-orange": "#ffbe8d",
+        "light-orange-shade": "#ffe5d2",
         "undp-blue": "#0368b1",
         "component-colors-utility-gray-utility-gray-50": "#f9fafb",
         "component-colors-utility-gray-utility-gray-200": "#e4e7ec",
@@ -21,11 +25,15 @@ const config: Config = {
       },
       spacing: {
         "spacing-md": "8px",
-        "spacing-xxs": "2px"
+        "spacing-xxs": "2px",
+        "spacing-xl": "16px",
+        "spacing-xs": "4px",
+        "spacing-lg": "12px"
       },
       "borderRadius": {
           "9980xl": "9999px",
-          "radius-full": "9999px"
+          "radius-full": "9999px",
+          "11xl": "30px"
       },
       fontFamily: {
         sans: ['Noto Sans', 'sans-serif'], 
@@ -34,6 +42,19 @@ const config: Config = {
       },
     },
     fontSize: {
+      "lg": "18px",
+      "sm": "14px",
+      "base": "16px",
+      "xl": "20px",
+      "smi": "13px",
+      "2xl": "21px",
+      "3xl": "22px",
+      "9xl": "28px",
+      "13xl": "32px",
+      "17xl": "36px",
+      "23xl": "42px",
+      "inherit": "inherit",
+
       // Desktop sizes
       'h1-desktop': ['62px', { lineHeight: '68px' }],
       'h2-desktop': ['36px', { lineHeight: '46px' }],
@@ -60,5 +81,8 @@ const config: Config = {
     },
   },
   plugins: [require('@tailwindcss/forms')],
+  corePlugins: {
+    "preflight": false
+  }
 };
 export default config;

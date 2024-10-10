@@ -5,8 +5,12 @@
 @tailwind utilities;
 
 body {
-  @apply leading-[normal] m-0 font-sans;
+  @apply leading-[normal] m-0 p-0 font-sans;
 }
+a {
+  @apply no-underline text-black cursor-pointer ;
+}
+
 *,
 ::before,
 ::after {

@@ -12,7 +12,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black font-mobile-big-paragraph">
+    <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black">
       <img
         className="w-[836px] absolute !m-[0] top-[157.89px] left-[-16px] h-[728px] overflow-hidden shrink-0 opacity-[0.13] z-[0]"
         alt=""
