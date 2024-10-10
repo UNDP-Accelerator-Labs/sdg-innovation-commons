@@ -69,20 +69,20 @@ export default function Section() {
 
             {/* Featured Card */}
             <div className='pr-[111px]'>
-            <Card
-                title={currentData.cardTitle}
-                description={currentData.cardDescription}
-                tags={currentData.cardTags}
-                href={'/'}
-                viewCount={currentData.viewCount}
-                backgroundImage="images/Rectangle 68.png"
-            />
+                <Card
+                    title={currentData.cardTitle}
+                    description={currentData.cardDescription}
+                    tags={currentData.cardTags}
+                    href={'/'}
+                    viewCount={currentData.viewCount}
+                    backgroundImage="images/Rectangle 68.png"
+                />
             </div>
 
             {/* Slide Number */}
             <div className="absolute top-[676px] left-[78px] w-[184px] h-[60px] text-[16px] text-white">
 
-            <img className="w-full absolute max-w-full overflow-hidden h-[60px] object-contain left-0" alt="" src="images/Arrow-left.svg" onClick={handlePrevSlide} />
+                <img className="w-full absolute max-w-full overflow-hidden h-[60px] object-contain left-0" alt="" src="images/Arrow-left.svg" onClick={handlePrevSlide} />
                 <div className="absolute top-[19px] left-[110px] w-[67px] h-[22px]">
                     <b className="absolute top-[0px] left-[0px] leading-[22px]">
                         {`${currentSlide + 1} / ${slides.length}`}
