@@ -19,9 +19,9 @@ export interface CardProps {
 }
 
 export default function Card(_kwargs: CardProps) {
-    let { country, date, title, description, tags, tagStyle, onButtonClick, href } = _kwargs
+  let { country, date, title, description, tags, tagStyle, onButtonClick, href } = _kwargs
   // Convert tagArr to an array if it's a string
-   const  tagArr = Array.isArray(tags) ? tags : [tags];
+  const tagArr = Array.isArray(tags) ? tags : [tags];
 
   return (
     <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-start justify-start pt-5 px-5 pb-10 gap-6 text-left text-smi text-undp-blue">
@@ -32,7 +32,7 @@ export default function Card(_kwargs: CardProps) {
         </div>
         <div className="self-stretch flex flex-col items-start justify-start gap-5 text-9xl text-black">
           <b className="self-stretch relative leading-[38px] lg:leading-[46px] text-[28px] lg:text-[36px]">{title}</b>
-          <div className="self-stretch relative text-mini leading-[22px] text-[15px] lg:text-[16px]">
+          <div className="self-stretch relative text-mini leading-[22px] lg:text-[16px]">
             {description}
           </div>
         </div>
@@ -46,7 +46,7 @@ export default function Card(_kwargs: CardProps) {
               key={index}
               className={clsx(
                 "rounded-[30px] flex flex-row items-center justify-center py-2 px-[19px] cursor-pointer",
-                tagStyle || "bg-light-blue" 
+                tagStyle || "bg-light-blue"
               )}
               onClick={onButtonClick}
             >

@@ -94,7 +94,7 @@ export default function Section() {
                             </b>
                         </div>
                         <img className="w-full relative max-w-full overflow-hidden h-[60px] object-contain left-[70px]" alt="" src="images/Arrow-right.svg" onClick={handleNextSlide} />
-                    </span> 
+                    </span>
                     <Button className="w-[166.3px] relative h-[53.8px] text-sm text-black bg-transparent lg:hidden md:hidden ">
                         <Link href={'#'} className="leading-[22px] text-sm lg:text-lg ">
                             All Boards

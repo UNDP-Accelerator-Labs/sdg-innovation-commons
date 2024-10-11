@@ -48,7 +48,7 @@ export default function NavBar() {
       {isMenuOpen && (
         <div className="self-stretch flex flex-col items-start justify-start z-[2]">
           <NavLink />
-          <div className="self-stretch flex flex-col items-start justify-center py-10 px-8 gap-10 text-center text-[16px] font-aeonik-mono-trial">
+          <div className="self-stretch flex flex-col items-start justify-center py-10 px-8 gap-10 text-center text-[16px]">
             <img
               className="w-[40.7px] relative h-[37.2px] object-cover"
               alt=""

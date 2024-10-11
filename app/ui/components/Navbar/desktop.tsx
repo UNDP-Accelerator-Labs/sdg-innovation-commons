@@ -27,7 +27,7 @@ export default function DesktopNavBar() {
         </div>
 
         {/* Login button */}
-        <button className="w-[143.1px] relative h-[51.3px] font-aeonik-mono-trial">
+        <button className="w-[143.1px] relative h-[51.3px]">
           <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
           <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
             Login
