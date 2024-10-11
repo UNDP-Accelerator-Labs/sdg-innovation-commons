@@ -40,7 +40,7 @@ export default async function Section() {
                         {cards.map((card) => (
                             <div key={card.id} className=" w-[305px] lg:w-[305px] md:w-[323px] relative h-72 md:h-[190px] lg:h-72 ">
                                 <div className="absolute top-[0px] left-[0px] w-[305px] md:w-[323px] lg:w-[305px] h-72 md:h-[190px] lg:h-72  ">
-                                    <div className="absolute top-[0px] left-[0px] bg-posted-yellow border-black border-[1px] border-solid box-border w-[305px] lg:w-[305px] md:w-[323px] h-72 lg:h-72 md:h-[190px] " >
+                                    <div className="absolute top-[0px] left-[0px] bg-posted-grey border-black border-[1px] border-solid box-border w-[305px] lg:w-[305px] md:w-[323px] h-72 lg:h-72 md:h-[190px] " >
                                         <div className="absolute top-[96px] lg:top-[179px] left-[31px] leading-[26px] inline-block w-[255px] text-base lg:text-lg">
                                             {card.text}
                                         </div>

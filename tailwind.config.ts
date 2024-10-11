@@ -13,6 +13,7 @@ const config: Config = {
         black: "#000",
         "lime-yellow": "#d2f960",
         "posted-yellow": "#edffa4",
+        "posted-grey": "#aaa",
         "light-blue": "#81c2f2",
         "light-green": "#afe69d",
         "light-green-shade": "#ccfcbd",
@@ -44,6 +45,7 @@ const config: Config = {
     fontSize: {
       "lg": "18px",
       "sm": "14px",
+      "mini": "15px",
       "base": "16px",
       "xl": "20px",
       "smi": "13px",

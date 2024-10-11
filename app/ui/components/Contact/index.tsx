@@ -111,8 +111,8 @@ export default function Contact() {
             </div>
 
             {/* Image and gradient overlay (desktop only) */}
-            <div className="hidden lg:block relative w-[648px]">
-                <img className="w-[653.7px] relative h-[783px] object-cover" alt="" src="images/Rectangle 96.png" />
+            <div className="hidden lg:flex relative w-[653px]">
+                <img className="w-[632.7px] relative h-[783px] object-cover" alt="" src="images/Rectangle 96.png" />
                 <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-b from-[rgba(3,_104,_177,_0.25)] to-[rgba(237,_255,_164,_0.25)] z-[2]" />
             </div>
         </div>
