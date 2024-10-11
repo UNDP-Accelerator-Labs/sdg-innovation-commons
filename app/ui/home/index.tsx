@@ -6,11 +6,13 @@ import See from './See'
 import Test from './Test'
 import How from './How-it-works'
 import FeaturedBoard from './Featured-board'
+import GetInspired from './Get-Inspired'
 
 export default function Home() {
   return (
     <>
       <Navbar />
+      <GetInspired />
       <FeaturedBoard />
       <How />
       <Test />

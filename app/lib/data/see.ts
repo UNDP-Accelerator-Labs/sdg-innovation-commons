@@ -1,8 +1,9 @@
 'use server';
-import { NLP_URL } from  '@/app/lib/utils';
+import { NLP_URL, commonsPlatform, getAdditionalData } from '@/app/lib/utils';
 import { Props } from './learn'
+import get from './get'
 
-export default async function see(_kwargs:Props) {
+export default async function see(_kwargs: Props) {
     const { page, limit, offset, search, language, country } = _kwargs
     const body = {
         input: search ?? '',
@@ -13,26 +14,26 @@ export default async function see(_kwargs:Props) {
         vecdb: "main",
         filters: {
             language: language ? [language] : [],
-            doc_type: ["solution" ],
+            doc_type: ["solution"],
             iso3: country ? [country] : []
         }
     }
 
-    let data = await fetch(`${NLP_URL}/search`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-      .then(async (response) => {
-        const data = await response.json();
-        //TODO: Get SDG, Image, reactions, country name, tags, data points from DB.
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
-        return null;
-      });
+    const base_url: string | undefined = commonsPlatform
+        .filter(p => p.key === 'solution')
+        ?.[0]?.url;
+
+    let data = await get({
+        url: `${NLP_URL}/search`,
+        method: 'POST',
+        body,
+    });
+
+    if (data && base_url) { //call platform api to get additional datapoints
+        data = await getAdditionalData(data, base_url)
+    } else { //fallback to platformapi to fetch data from there
+
+    }
+
     return data
 }

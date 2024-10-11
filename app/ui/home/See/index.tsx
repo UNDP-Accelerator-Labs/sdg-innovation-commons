@@ -28,16 +28,17 @@ export default async function Section() {
                                 {hits?.map((post: any) => (
                                     <Card
                                         key={post.doc_id}
-                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         title={post?.title || ''}
-                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
                                         source={post?.base || ''}
                                         tagStyle='bg-light-green'
+                                        tagStyleShade='bg-light-green-shade'
                                         href={post?.url}
                                         viewCount={0}
-                                        tags={['Solutions']}
-                                        sdg={'SDG 1/2/3'}
-                                    // className='lg:h-[669px]'
+                                        tags={post?.tags}
+                                        sdg={`SDG ${post?.sdg?.join('/')}`}
+                                        backgroundImage={post?.vignette}
                                     />
                                 ))}
                             </div>

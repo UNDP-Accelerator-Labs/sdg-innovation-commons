@@ -48,7 +48,7 @@ export default function Card({
                     </div>
                 </div>
             </div>
-            <div className="hidden lg:flex absolute top-[calc(50%_-_289px)] left-[calc(50%_+_122.5px)] rounded-[30px] bg-black flex-row items-center justify-center py-2 px-[19px] text-center text-sm text-white">
+            <div className="hidden lg:flex absolute top-[calc(50%_-_289px)] left-[calc(50%_+_105.5px)] rounded-[30px] bg-black flex-row items-center justify-center py-2 px-[19px] text-center text-sm text-white">
                 <b className="relative leading-[18px]">{tags}</b>
             </div>
         </div>

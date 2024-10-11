@@ -73,15 +73,17 @@ export default function Section() {
                                 {hits?.map((post: any) => (
                                     <Card
                                         key={post.doc_id}
-                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         title={post?.title || ''}
-                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
                                         source={post?.base || ''}
                                         tagStyle="bg-light-orange"
-                                        href={post?.url}
+                                        tagStyleShade="bg-light-orange-shade"
+                                        // href={post?.url}
                                         viewCount={0}
-                                        tags={[activeTab]}
-                                        sdg={'SDG 1/2/3'}
+                                        tags={post?.tags}
+                                        sdg={`SDG ${post?.sdg?.join('/')}`}
+                                        backgroundImage={post?.vignette}
                                     />
                                 ))}
                             </div>

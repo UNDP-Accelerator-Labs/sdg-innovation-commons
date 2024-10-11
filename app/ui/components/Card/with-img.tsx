@@ -7,9 +7,10 @@ interface CardProps {
     title: string;
     description: string;
     tags?: string[];
-    href: string;
+    href?: string;
     onButtonClick?: () => void;
     tagStyle?: string;
+    tagStyleShade?: string;
     viewCount?: number;
     backgroundImage?: string;
     sdg?: string | string[];
@@ -23,6 +24,7 @@ export default function Card({
     description,
     tags = [],
     tagStyle,
+    tagStyleShade,
     onButtonClick,
     href,
     viewCount = 0,
@@ -83,7 +85,7 @@ export default function Card({
                         {visibleTags?.map((tag: string, index: number) => (
                             <div
                                 key={index}
-                                className={clsx("rounded-11xl flex flex-row items-center justify-center py-2 px-[19px]", `${tagStyle}-shade` )}
+                                className={clsx("rounded-11xl flex flex-row items-center justify-center py-2 px-[19px]", tagStyleShade )}
                             >
                                 <b className="relative leading-[18px] capitalize ">{tag}</b>
                             </div>
@@ -91,7 +93,7 @@ export default function Card({
 
                         {/* If there are more than 4 tags, display the +n logic */}
                         {remainingTagsCount > 0 && (
-                            <div className="rounded-11xl bg-light-green-shade flex flex-row items-center justify-center py-2 px-[19px]">
+                            <div className={clsx("rounded-11xl flex flex-row items-center justify-center py-2 px-[19px]", tagStyleShade )}>
                                 <b className="relative leading-[18px]">+{remainingTagsCount}</b>
                             </div>
                         )}
@@ -105,7 +107,7 @@ export default function Card({
                             <b className="w-[52px] relative leading-[18px] inline-block shrink-0">{viewCount}</b>
                         </div>
                         {/* Arrow */}
-                        <Link href={href} className="w-[42.5px] relative h-[41.9px] group">
+                        <Link href={href || '/'} className="w-[42.5px] relative h-[41.9px] group">
                             <div className="absolute h-[84.49%] w-[87.53%] top-[0%] right-[-0.04%] bottom-[15.51%] left-[12.51%] bg-lime-yellow transition-all duration-300 group-hover:top-[15%] group-hover:left-[0.03%]" />
                             <div className="absolute h-[84.49%] w-[87.53%] top-[15.5%] right-[12.47%] bottom-[0.01%] left-[0%] border-black border-[0.7px] border-solid box-border" />
                             <img className="absolute h-[49.4%] w-[48.71%] top-[22.55%] right-[20.72%] bottom-[28.04%] left-[30.57%] max-w-full overflow-hidden max-h-full" alt="Arrow" src="images/Arrow.svg" />

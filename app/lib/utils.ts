@@ -1,21 +1,86 @@
+import get from "@/app/lib/data/get"; 
 
 export const baseHost= '.sdg-innovation-commons.org'
 export const commonsPlatform = [
   {
     title: 'Learning Plans',
     url: 'https://learningplans.sdg-innovation-commons.org/',
+    key: 'action plan'
   },
   {
     title: 'Solutions',
     url: 'https://solutions.sdg-innovation-commons.org/',
+    key: 'solution'
   },
   {
     title: 'Experiments',
     url: 'https://experiments.sdg-innovation-commons.org/',
+    key: 'experiment'
+  },
+  {
+    title: 'Insight',
+    url: 'https://blogapi.sdg-innovation-commons.org/',
+    key: 'insight'
   },
 ];
 
 export const NLP_URL = "https://nlpapi.sdg-innovation-commons.org/api";
+
+export async function getAdditionalData(results: any, base_url: string) {
+  const ids = results?.hits.map((hit: any) => hit?.main_id.split(':')[1]);
+  const url = `${base_url}/apis/fetch/pads?pads=${ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true`;
+
+  // Fetch the additional data from the API
+  const fetchedData = await get({
+    url,
+    method: 'GET',
+  });
+
+  const flattenedFetchedData = fetchedData?.flat();
+
+  if (!flattenedFetchedData) {
+    return results;
+  }
+
+  // Use Promise.all to resolve all the async operations in map
+  results.hits = await Promise.all(
+    results.hits.map(async (hit: any) => {
+      const matchingFetchedData = flattenedFetchedData.find(
+        (fetchedItem: any) => fetchedItem.pad_id === hit.doc_id
+      );
+
+      const sdg = extractSDGNumbers(matchingFetchedData);
+      
+      return {
+        ...hit,
+        ...matchingFetchedData,
+        tags: matchingFetchedData?.tags
+          ?.filter((p: any) => p.type === 'thematic_areas')
+          .map((p: any) => p.name),
+        sdg,
+      };
+    })
+  );
+
+  return results;
+}
+
+
+export function extractSDGNumbers(pad: any) {
+  const sdgNumbers: number[] = [];
+
+  pad.sections?.forEach((section: any) => {
+    section.items.forEach((item: any) => {
+      if (item.name === "sdgs") {
+        item.tags.forEach((sdg: any) => {
+          sdgNumbers.push(sdg.key); 
+        });
+      }
+    });
+  });
+
+  return sdgNumbers;
+}
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {

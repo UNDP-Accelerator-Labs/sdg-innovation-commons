@@ -1,6 +1,7 @@
 'use server';
-import { NLP_URL } from  '@/app/lib/utils';
+import { NLP_URL, commonsPlatform, getAdditionalData } from  '@/app/lib/utils';
 import { Props } from './learn'
+import get from './get'
 
 export default async function test(_kwargs:Props) {
     const { page, limit, offset, search, language, country, doc_type } = _kwargs
@@ -18,21 +19,24 @@ export default async function test(_kwargs:Props) {
         }
     }
 
-    let data = await fetch(`${NLP_URL}/search`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(body),
-      })
-      .then(async (response) => {
-        const data = await response.json();
-        //TODO: Get SDG, Image, reactions, country name, tags, data points from DB.
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
-        return null;
-      });
+    const base_url: string | undefined = commonsPlatform
+  .filter(p => p.key === doc_type?.[0]) 
+  ?.[0]?.url; 
+
+
+    let data = await get({
+      url: `${NLP_URL}/search`,
+      method: 'POST',
+      body,
+    });
+
+
+    if(data && base_url){ //call platform api to get additional datapoints
+      data = await getAdditionalData(data, base_url)
+    } else{ //fallback to platformapi to fetch data from there
+
+    }
     return data
 }
+
+
