@@ -1,6 +1,6 @@
 import React from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
+import { CardLink } from '@/app/ui/components/Link';
 
 interface CardProps {
     country: string;
@@ -40,7 +40,7 @@ export default function Card({
     const remainingTagsCount = tags.length - visibleTags.length;
 
     return (
-        <div className={clsx("w-full relative flex flex-col items-start justify-start text-center text-smi text-black", className)}>
+        <div className={clsx("w-full lg:h-[669px] relative flex flex-col items-start justify-start text-center text-smi text-black", className)}>
             <div className="w-full border-black border-[1px] border-solid box-border flex flex-col items-start justify-start">
                 {/* Background Image */}
                 <div className="self-stretch h-[191px] overflow-hidden shrink-0 flex flex-col items-start justify-start">
@@ -107,11 +107,10 @@ export default function Card({
                             <b className="w-[52px] relative leading-[18px] inline-block shrink-0">{viewCount}</b>
                         </div>
                         {/* Arrow */}
-                        <Link href={href || '/'} className="w-[42.5px] relative h-[41.9px] group">
-                            <div className="absolute h-[84.49%] w-[87.53%] top-[0%] right-[-0.04%] bottom-[15.51%] left-[12.51%] bg-lime-yellow transition-all duration-300 group-hover:top-[15%] group-hover:left-[0.03%]" />
-                            <div className="absolute h-[84.49%] w-[87.53%] top-[15.5%] right-[12.47%] bottom-[0.01%] left-[0%] border-black border-[0.7px] border-solid box-border" />
-                            <img className="absolute h-[49.4%] w-[48.71%] top-[22.55%] right-[20.72%] bottom-[28.04%] left-[30.57%] max-w-full overflow-hidden max-h-full" alt="Arrow" src="images/Arrow.svg" />
-                        </Link>
+                        <CardLink
+                            className="w-[42.5px] relative h-[41.9px]"
+                            href={href || '/'}
+                        />
                     </div>
                 </div>
             </div>

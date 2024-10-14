@@ -28,3 +28,50 @@ a {
   }
 
 }
+
+@layer utilities {
+  .slanted-bg-yellow {
+    position: relative;
+    display: inline-block;
+  }
+
+  .slanted-bg-yellow::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    width: 100%;
+    height: 0.5em;
+    background-color: #d2f960; 
+    z-index: 0;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+  }
+
+  .slanted-bg-yellow > span {
+    position: relative;
+    z-index: 1;
+  }
+
+
+  .slanted-bg-blue {
+    position: relative;
+    display: inline-block;
+  }
+
+  .slanted-bg-blue::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    width: 100%;
+    height: 0.5em;
+    background-color: #0368b1; 
+    z-index: 0;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+  }
+
+  .slanted-bg-blue > span {
+    position: relative;
+    z-index: 1;
+  }
+}

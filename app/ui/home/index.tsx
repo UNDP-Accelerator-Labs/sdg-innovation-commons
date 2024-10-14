@@ -7,11 +7,13 @@ import Test from './Test'
 import How from './How-it-works'
 import FeaturedBoard from './Featured-board'
 import GetInspired from './Get-Inspired'
+import About from './About'
 
 export default function Home() {
   return (
     <>
       <Navbar />
+      <About />
       <GetInspired />
       <FeaturedBoard />
       <How />

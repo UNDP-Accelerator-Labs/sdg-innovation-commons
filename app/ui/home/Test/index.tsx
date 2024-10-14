@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
+import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import clsx from 'clsx';
 import testApi from '@/app/lib/data/test';
@@ -13,13 +14,16 @@ export default function Section() {
     // Manage the active tab and data
     const [activeTab, setActiveTab] = useState<'experiment' | 'action plan'>('experiment');
     const [hits, setHits] = useState<PostProps[]>([]);
+    const [loading, setLoading] = useState<boolean>(true); // Loading state
 
     // Fetch data when the tab changes
     useEffect(() => {
         async function fetchData() {
+            setLoading(true); // Set loading to true when fetching starts
             const data = await testApi({ limit: 5, search: 'What is the network testing?', doc_type: [activeTab] });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, 3));
+            setLoading(false); // Set loading to false when fetching ends
         }
 
         fetchData();
@@ -45,11 +49,11 @@ export default function Section() {
                             {/* Tabs */}
                             <div className="w-full relative flex flex-row items-center justify-start text-center text-lg text-black">
                                 <div className="w-[290px] border-light-orange-shade border-b-[2px] border-solid box-border h-9 flex flex-col items-start justify-start">
-                                    <div className="flex flex-row items-start justify-start gap-spacing-xl">
+                                    <div className="flex flex-row items-start justify-start gap-spacing-xl cursor-pointer">
                                         <div
                                             onClick={(e) => {
-                                                e.preventDefault()
-                                                setActiveTab('experiment')
+                                                e.preventDefault();
+                                                setActiveTab('experiment');
                                             }}
                                             className={clsx("h-9 flex flex-row items-center justify-center pt-0 px-spacing-xs pb-spacing-lg box-border cursor-pointer", activeTab === 'experiment' ? 'border-black border-b-[2px] border-solid' : '')}
                                         >
@@ -57,8 +61,8 @@ export default function Section() {
                                         </div>
                                         <div
                                             onClick={(e) => {
-                                                e.preventDefault()
-                                                 setActiveTab('action plan')
+                                                e.preventDefault();
+                                                setActiveTab('action plan');
                                             }}
                                             className={clsx("h-9 flex flex-row items-center justify-center pt-0 px-spacing-xs pb-spacing-lg box-border cursor-pointer", activeTab === 'action plan' ? 'border-black border-b-[2px] border-solid' : '')}
                                         >
@@ -70,22 +74,26 @@ export default function Section() {
 
                             {/* Display Cards */}
                             <div className="flex flex-col md:flex-row lg:flex-row gap-5">
-                                {hits?.map((post: any) => (
-                                    <Card
-                                        key={post.doc_id}
-                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                        title={post?.title || ''}
-                                        description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
-                                        source={post?.base || ''}
-                                        tagStyle="bg-light-orange"
-                                        tagStyleShade="bg-light-orange-shade"
-                                        // href={post?.url}
-                                        viewCount={0}
-                                        tags={post?.tags}
-                                        sdg={`SDG ${post?.sdg?.join('/')}`}
-                                        backgroundImage={post?.vignette}
-                                    />
-                                ))}
+                                {loading ? (
+                                    <ImgCardsSkeleton /> // Show Skeleton when loading
+                                ) : (
+                                    hits?.map((post: any) => (
+                                        <Card
+                                            key={post.doc_id}
+                                            country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                            title={post?.title || ''}
+                                            description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
+                                            source={post?.base || ''}
+                                            tagStyle="bg-light-orange"
+                                            tagStyleShade="bg-light-orange-shade"
+                                            viewCount={0}
+                                            tags={post?.tags}
+                                            sdg={`SDG ${post?.sdg?.join('/')}`}
+                                            backgroundImage={post?.vignette}
+                                            className='lg:!h-[700px]'
+                                        />
+                                    ))
+                                )}
                             </div>
 
                         </div>

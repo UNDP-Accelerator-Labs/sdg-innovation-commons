@@ -23,7 +23,7 @@ export default async function Section() {
                     <b className="absolute top-[0px] left-[22px] leading-[46px] text-9xl lg:text-17xl">How it Works</b>
                 </div>
                 <div className="flex-1 flex flex-col items-start justify-start gap-10 text-lg">
-                    <b className="w-[517.5px] relative leading-[30px] inline-block lg:text-3xl text-2xl px-[20px] lg:px-0 pt-[20px] lg:py-0 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</b>
+                    <b className="w-full  relative leading-[30px] inline-block lg:text-3xl text-2xl px-[20px] lg:px-0 pt-[20px] lg:py-0 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</b>
 
                     <Button className='text-lg h-[70px] lg:w-[238px] w-[159.5px]'>
                         <Link href={'#'} className='leading-[22px]'>
@@ -33,21 +33,23 @@ export default async function Section() {
 
                 </div>
             </div>
-            <div className="self-stretch flex flex-col items-start justify-start z-[3] text-lg">
+            <div className="flex flex-col items-start justify-start z-[3] text-lg">
                 <div className="self-stretch flex flex-row items-start justify-start py-0 pl-20 md:pl-0 lg:pl-0 lg:mx-[80px] md:mx-[40px] ">
                     {/* Grid system for responsive layout */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
                         {cards.map((card) => (
-                            <div key={card.id} className=" w-[305px] lg:w-[305px] md:w-[323px] relative h-72 md:h-[190px] lg:h-72 ">
-                                <div className="absolute top-[0px] left-[0px] w-[305px] md:w-[323px] lg:w-[305px] h-72 md:h-[190px] lg:h-72  ">
-                                    <div className="absolute top-[0px] left-[0px] bg-posted-grey border-black border-[1px] border-solid box-border w-[305px] lg:w-[305px] md:w-[323px] h-72 lg:h-72 md:h-[190px] " >
+                            <div key={card.id} className=" w-[305px]  md:w-[323px] relative h-72 md:h-[190px] lg:h-72 ">
+                                <div className="absolute top-[0px]  w-[305px] md:w-[323px]  h-72 md:h-[190px] lg:h-72  ">
+                                    <div className="absolute top-[0px] l bg-posted-grey border-black border-[1px] border-solid box-border w-[305px] lg:w-[305px] md:w-[323px] h-72 lg:h-72 md:h-[190px] " >
                                         <div className="absolute top-[96px] lg:top-[179px] left-[31px] leading-[26px] inline-block w-[255px] text-base lg:text-lg">
                                             {card.text}
                                         </div>
                                     </div>
                                 </div>
-                                <b className="absolute top-[34px] left-[30px] text-13xl lg:text-23xl leading-[48px] inline-block w-[150px]">{card.number}</b>
-                                <img className="absolute top-[30px] left-[219px] w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="images/Layer_1.svg" />
+                                <div className='flex flex-row justify-between items-center px-[30px]'>
+                                    <b className="absolute top-[34px] text-13xl lg:text-23xl leading-[48px] inline-block w-[150px]">{card.number}</b>
+                                    <img className="absolute top-[30px] right-10  w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="images/Layer_1.svg" />
+                                </div>
                             </div>
                         ))}
                     </div>

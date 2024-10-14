@@ -1,13 +1,29 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
+import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import seeApi from '@/app/lib/data/see';
-import { processHits } from '../Learn'
+import { processHits } from '../Learn';
 
-export default async function Section() {
-    const data = await seeApi({ limit: 10, search: 'What solutions is the network seeing?' });
-    let { hits } = data || {};
-    hits = processHits(hits, 3);
+export default function Section() {
+    const [hits, setHits] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true); // Loading state
+
+    // Fetch data on component mount
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            const data = await seeApi({ limit: 10, search: 'What solutions is the network seeing?' });
+            const { hits: fetchedHits } = data || {};
+            setHits(processHits(fetchedHits, 3));
+            setLoading(false); // Set loading to false when data is fetched
+        }
+
+        fetchData();
+    }, []); // Empty dependency array to run only on mount
 
     return (
         <>
@@ -25,24 +41,27 @@ export default async function Section() {
                     <div className="self-stretch flex flex-col items-start justify-start">
                         <div className="self-stretch flex flex-col items-start justify-start py-0 px-5 lg:px-20 gap-[45px]">
                             <div className="flex flex-col md:flex-row lg:flex-row gap-5 ">
-                                {hits?.map((post: any) => (
-                                    <Card
-                                        key={post.doc_id}
-                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                        title={post?.title || ''}
-                                        description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                        source={post?.base || ''}
-                                        tagStyle='bg-light-green'
-                                        tagStyleShade='bg-light-green-shade'
-                                        href={post?.url}
-                                        viewCount={0}
-                                        tags={post?.tags}
-                                        sdg={`SDG ${post?.sdg?.join('/')}`}
-                                        backgroundImage={post?.vignette}
-                                    />
-                                ))}
+                                {loading ? (
+                                    <ImgCardsSkeleton /> // Show Skeleton while loading
+                                ) : (
+                                    hits?.map((post: any) => (
+                                        <Card
+                                            key={post.doc_id}
+                                            country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                            title={post?.title || ''}
+                                            description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                            source={post?.base || ''}
+                                            tagStyle="bg-light-green"
+                                            tagStyleShade="bg-light-green-shade"
+                                            href={post?.url}
+                                            viewCount={0}
+                                            tags={post?.tags}
+                                            sdg={`SDG ${post?.sdg?.join('/')}`}
+                                            backgroundImage={post?.vignette}
+                                        />
+                                    ))
+                                )}
                             </div>
-
                         </div>
                     </div>
                     <div className="self-stretch flex flex-row items-start justify-end py-0 px-20 gap-10 text-center text-sm lg:text-lg">
@@ -56,4 +75,4 @@ export default async function Section() {
             </div>
         </>
     );
-};
+}

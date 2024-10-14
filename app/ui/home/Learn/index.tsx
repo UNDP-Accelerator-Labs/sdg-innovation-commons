@@ -1,14 +1,30 @@
+"use client";
+
+import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/without-img';
+import { NoImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import learnApi from '@/app/lib/data/learn';
 import { formatDate } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
 
-export default async function Section() {
-    const data = await learnApi({ limit: 10, search: 'What has the network learnt?' });
-    let { hits } = data || {};
-    hits = processHits(hits, 4);
+export default function Section() {
+    const [hits, setHits] = useState<PostProps[]>([]);
+    const [loading, setLoading] = useState<boolean>(true); // Loading state
+
+    // Fetch data on component mount
+    useEffect(() => {
+        async function fetchData() {
+            setLoading(true);
+            const data = await learnApi({ limit: 10, search: 'What has the network learnt?' });
+            const { hits: fetchedHits } = data || {};
+            setHits(processHits(fetchedHits, 4));
+            setLoading(false); 
+        }
+
+        fetchData();
+    }, []); 
 
     return (
         <>
@@ -28,20 +44,31 @@ export default async function Section() {
                         </b>
                     </div>
                 </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 lg:py-0 lg:px-20 lg:gap-[45px] lg:ml-[15%] lg:mt-[5%] ">
-                    {hits?.map((post: any) => (
-                        <Card
-                            key={post.doc_id}
-                            country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
-                            date={formatDate(post?.meta?.date) || ''}
-                            title={post?.title || ''}
-                            description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
-                            tags={post?.base || ''}
-                            tagStyle='bg-light-blue'
-                            href={post?.url}
-                        />
-                    ))}
+                    {loading ? (
+                        <>
+                            <NoImgCardsSkeleton /> {/* Show Skeleton while loading */}
+                            <NoImgCardsSkeleton />
+                            <NoImgCardsSkeleton />
+                            <NoImgCardsSkeleton />
+                        </>
+                    ) : (
+                        hits?.map((post: any) => (
+                            <Card
+                                key={post.doc_id}
+                                country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                date={formatDate(post?.meta?.date) || ''}
+                                title={post?.title || ''}
+                                description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                tags={post?.base || ''}
+                                tagStyle="bg-light-blue"
+                                href={post?.url}
+                            />
+                        ))
+                    )}
                 </div>
+
                 <div className="self-stretch flex flex-col items-end justify-start text-center text-sm lg:text-lg">
                     <Button>
                         <Link href={'/learn'}>
@@ -53,6 +80,7 @@ export default async function Section() {
         </>
     );
 }
+
 
 export function processHits(hits: PostProps[], sliceValue: number): PostProps[] {
     // Filter to remove duplicates based on the 'url' or 'title' property

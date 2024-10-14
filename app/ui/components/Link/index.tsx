@@ -6,7 +6,7 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     href: string;
 }
 
-export function LinkNav({ children, href, className, ...rest }: Props) {
+export function CardLink({ children, href, className, ...rest }: Props) {
     return (
         <Link href={href} passHref
             className={clsx(
