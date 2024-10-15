@@ -4,15 +4,19 @@ import Link from 'next/link';
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     children?: React.ReactNode;
     href: string;
+    openInNewTab?: boolean;
 }
 
-export function CardLink({ children, href, className, ...rest }: Props) {
+export function CardLink({ children, href, className, openInNewTab, ...rest }: Props) {
     return (
-        <Link href={href} passHref
-            className={clsx(
-                'group bg-inherit',
-                className
-            )}>
+        <Link 
+            href={href} 
+            passHref 
+            {...rest}
+            className={clsx('group bg-inherit', className)}
+            target={openInNewTab ? '_blank' : undefined} 
+            rel={openInNewTab ? 'noopener noreferrer' : undefined} 
+        >
             {/* Background and Border Elements */}
             <div className="absolute h-[84.49%] w-[87.53%] top-[0%] right-[-0.04%] bottom-[15.51%] left-[12.51%] bg-lime-yellow transition-all duration-300 group-hover:top-[15%] group-hover:left-[0.03%]" />
             <div className="absolute h-[84.49%] w-[87.53%] top-[15.5%] right-[12.47%] bottom-[0.01%] left-[0%] border-black border-[0.7px] border-solid box-border" />
@@ -23,7 +27,6 @@ export function CardLink({ children, href, className, ...rest }: Props) {
                 alt="Arrow Icon"
                 src="/images/Arrow.svg"
             />
-            {/* Children (text or other content inside the link) */}
             {children}
         </Link>
     );

@@ -64,6 +64,7 @@ export default function Section() {
                                 tags={post?.base || ''}
                                 tagStyle="bg-light-blue"
                                 href={post?.url}
+                                openInNewTab={true}
                             />
                         ))
                     )}

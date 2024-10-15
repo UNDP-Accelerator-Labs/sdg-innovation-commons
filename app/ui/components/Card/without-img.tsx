@@ -16,10 +16,11 @@ export interface CardProps {
   className?: string;
   source?: string;
   date?: string;
+  openInNewTab?: boolean;
 }
 
 export default function Card(_kwargs: CardProps) {
-  let { country, date, title, description, tags, tagStyle, onButtonClick, href } = _kwargs
+  let { country, date, title, description, tags, tagStyle, onButtonClick, href, openInNewTab } = _kwargs
   // Convert tagArr to an array if it's a string
   const tagArr = Array.isArray(tags) ? tags : [tags];
 
@@ -58,6 +59,7 @@ export default function Card(_kwargs: CardProps) {
         <CardLink
             className="w-[42.5px] relative h-[41.9px]"
             href={href || '/'}
+            openInNewTab={openInNewTab}
         />
       </div>
     </div>
