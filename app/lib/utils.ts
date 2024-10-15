@@ -82,6 +82,17 @@ export function extractSDGNumbers(pad: any) {
   return sdgNumbers;
 }
 
+export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined => {
+  const def: { [key: string]: string } = {
+    "see": "What solutions is the network seeing?",
+    "learn": "What has the network learnt?",
+    "test": "What is the network testing?"
+  };
+  
+  return def[key];
+}
+
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',

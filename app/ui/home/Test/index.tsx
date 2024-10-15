@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import testApi from '@/app/lib/data/test';
 import { processHits } from '../Learn';
 import { PostProps } from '@/app/lib/definitions';
+import { defaultSearch } from '@/app/lib/utils';
 
 export default function Section() {
     // Manage the active tab and data
@@ -20,7 +21,7 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true); // Set loading to true when fetching starts
-            const data = await testApi({ limit: 5, search: 'What is the network testing?', doc_type: [activeTab] });
+            const data = await testApi({ limit: 5, search: defaultSearch('test'), doc_type: [activeTab] });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, 3));
             setLoading(false); // Set loading to false when fetching ends

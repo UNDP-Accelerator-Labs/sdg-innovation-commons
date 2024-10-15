@@ -7,6 +7,7 @@ import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import seeApi from '@/app/lib/data/see';
 import { processHits } from '../Learn';
+import { defaultSearch } from '@/app/lib/utils';
 
 export default function Section() {
     const [hits, setHits] = useState<any[]>([]);
@@ -16,7 +17,7 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await seeApi({ limit: 10, search: 'What solutions is the network seeing?' });
+            const data = await seeApi({ limit: 10, search: defaultSearch('see') });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, 3));
             setLoading(false); // Set loading to false when data is fetched
@@ -46,11 +47,11 @@ export default function Section() {
                                 ) : (
                                     hits?.map((post: any) => (
                                         <Card
-                                            key={post.doc_id}
+                                            key={post?.doc_id || post?.pad_id }
                                             country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                             title={post?.title || ''}
                                             description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                            source={post?.base || ''}
+                                            source={post?.base || 'Solution'}
                                             tagStyle="bg-light-green"
                                             tagStyleShade="bg-light-green-shade"
                                             href={post?.url}

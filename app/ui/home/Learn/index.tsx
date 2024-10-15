@@ -6,7 +6,7 @@ import Card from '@/app/ui/components/Card/without-img';
 import { NoImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import learnApi from '@/app/lib/data/learn';
-import { formatDate } from '@/app/lib/utils';
+import { formatDate, defaultSearch } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
 
 export default function Section() {
@@ -17,7 +17,7 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await learnApi({ limit: 10, search: 'What has the network learnt?' });
+            const data = await learnApi({ limit: 10, search: defaultSearch('learn') });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, 4));
             setLoading(false); 
@@ -87,11 +87,11 @@ export function processHits(hits: PostProps[], sliceValue: number): PostProps[] 
     // Filter to remove duplicates based on the 'url' or 'title' property
     const uniqueHits = hits?.filter(
         (item, index, self) =>
-            index === self.findIndex(
-                (t) => t.url === item.url || t.title === item.title
+            index === self.findIndex((t) => 
+                (item?.title && t?.title === item?.title) || 
+                (item?.url && t?.url === item?.url)
             )
     );
-
-    // Return only the first 4 items
     return uniqueHits?.slice(0, sliceValue);
 }
+
