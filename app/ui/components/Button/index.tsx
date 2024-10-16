@@ -8,7 +8,7 @@ export function Button({ children, className, ...rest }: ButtonProps) {
   return (
     <button 
     {...rest}
-      className={clsx('w-[166.3px] relative h-[53.8px] text-center text-[14px] font-space-mono group',
+      className={clsx('w-[166.3px] relative h-[53.8px] text-center group bg-inherit text-inherit',
         className,
       )}>
       <div className="absolute h-[87.55%] w-[95.97%] top-[0%] right-[0%] bottom-[12.45%] left-[4.03%] bg-lime-yellow transition-all duration-300 group-hover:top-[15%] group-hover:left-[0.03%]" />

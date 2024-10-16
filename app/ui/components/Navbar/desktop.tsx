@@ -7,6 +7,7 @@ export default function DesktopNavBar() {
 
   return (
     <div className="w-full relative bg-white pt-[10px] pb-[10px] pl-[80px] pr-[80px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black">
+
       {/* Logo */}
       <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] pb-[17.5px]'>
         <img className="w-[52px] relative h-[103.5px] z-[0] m-auto" alt="UNDP logo" src="/images/undp-logo.svg" />
@@ -16,7 +17,7 @@ export default function DesktopNavBar() {
         <div className="flex flex-row items-center justify-start gap-[26px]">
           {/* Map over the navItems array */}
           {navItems.map((link, index) => (
-            <Link key={index} href={link.href} passHref>
+            <Link key={index} href={link.href} passHref className='no-underline text-black'>
               <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer", index == 0 ? 'font-bold' : '')}>
                 {link.title}
               </span>
@@ -28,7 +29,7 @@ export default function DesktopNavBar() {
         </div>
 
         {/* Login button */}
-        <button className="w-[143.1px] relative h-[51.3px] font-aeonik-mono-trial">
+        <button className="w-[143.1px] relative h-[51.3px]">
           <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
           <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
             Login

@@ -12,12 +12,7 @@ export default function NavBar() {
   };
 
   return (
-    <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black font-mobile-big-paragraph">
-      <img
-        className="w-[836px] absolute !m-[0] top-[157.89px] left-[-16px] h-[728px] overflow-hidden shrink-0 opacity-[0.13] z-[0]"
-        alt=""
-        src="images/Layer_4.svg"
-      />
+    <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black">
       <div className="self-stretch border-black border-b-[1px] border-solid flex flex-row items-center justify-between pt-10 px-5 pb-5 z-[1]">
         <div className="flex flex-row items-start justify-start">
           <img
@@ -46,9 +41,9 @@ export default function NavBar() {
 
       {/* Conditionally show the menu content */}
       {isMenuOpen && (
-        <div className="self-stretch flex flex-col items-start justify-start z-[2]">
+        <div className="self-stretch flex flex-col items-start justify-start z-[2] grid-background">
           <NavLink />
-          <div className="self-stretch flex flex-col items-start justify-center py-10 px-8 gap-10 text-center text-[16px] font-aeonik-mono-trial">
+          <div className="self-stretch flex flex-col items-start justify-center py-10 px-8 gap-10 text-center text-[16px]">
             <img
               className="w-[40.7px] relative h-[37.2px] object-cover"
               alt=""
