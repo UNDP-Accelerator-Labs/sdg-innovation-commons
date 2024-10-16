@@ -17,6 +17,33 @@ a {
   border-width: 0;
 }
 
+.grid-bg {
+/* SOURCE: https://stackoverflow.com/questions/3540194/how-to-make-a-grid-like-graph-paper-grid-with-just-css */
+  background-size: 35px 35px;
+  background-image:
+    linear-gradient(to right, #EAEAEA 1px, transparent 1px),
+    linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
+}
+
+button.detach {
+  position: relative;
+}
+button.detach::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(10px, -10px);
+  width: 100%;
+  height: 100%;
+  background-color: rgb(210, 249, 96);
+  z-index: -1;
+  transition: transform .25s;
+}
+button.detach:hover::before {
+  transform: translate(0);
+}
+
 
 @layer components {
   .grid-background {
@@ -75,3 +102,4 @@ a {
     z-index: 1;
   }
 }
+
