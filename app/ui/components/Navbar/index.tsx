@@ -12,7 +12,7 @@ export default function ResponsiveNavBar() {
       </div>
 
       {/* Desktop Navbar: Display on medium and larger screens */}
-      <div className="hidden lg:block">
+      <div className="hidden lg:block z-[100] fixed w-[100%] top-0">
         <DesktopNavBar />
       </div>
     </>

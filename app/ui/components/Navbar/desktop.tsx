@@ -6,12 +6,13 @@ import { navItems } from './navlink'
 export default function DesktopNavBar() {
 
   return (
-    <div className="w-full relative bg-white h-[134px] overflow-hidden flex flex-row items-start justify-between pt-2.5 pb-0 pl-[60px] pr-20 box-border text-center text-base text-black font-noto-sans">
+    <div className="w-full relative bg-white pt-[10px] pb-[10px] pl-[80px] pr-[80px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black">
       {/* Logo */}
-      <img className="w-[52px] relative h-[103.5px] z-[0] left-[3.5%]" alt="UNDP logo" src="/images/undp-logo.svg" />
-
+      <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] pb-[17.5px]'>
+        <img className="w-[52px] relative h-[103.5px] z-[0] m-auto" alt="UNDP logo" src="/images/undp-logo.svg" />
+      </div>
       {/* Navigation Links */}
-      <div className="flex flex-row items-center justify-start gap-[31px] z-[1]">
+      <div className="flex flex-row items-center justify-end gap-[31px] z-[1]">
         <div className="flex flex-row items-center justify-start gap-[26px]">
           {/* Map over the navItems array */}
           {navItems.map((link, index) => (
@@ -36,11 +37,11 @@ export default function DesktopNavBar() {
       </div>
 
       {/* Bottom vector image */}
-      <img
+      {/*<img
         className="w-[1442.8px] absolute bottom-[1.03px] left-[calc(50%_-_721.41px)] h-[47.3px] z-[2]"
         alt=""
         src="/images/Vector 31.svg"
-      />
+      />*/}
     </div>
   );
 }

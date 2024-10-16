@@ -5,7 +5,7 @@ import Link from 'next/link';
 export default function Section() {
     return (
         <>
-        <hr className="border border-black border-1 w-full" />
+        <hr className="border-black w-full" />
         <div
             className="bg-[url('/images/Vector.svg')] bg-center h-[750px] opacity-5 "
         />
