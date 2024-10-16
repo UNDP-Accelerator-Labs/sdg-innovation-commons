@@ -1,21 +1,105 @@
-@import url("https://fonts.googleapis.com/css2?family=Newsreader:wght@400;500&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-input[type='number'] {
-  -moz-appearance: textfield;
-  appearance: textfield;
+body {
+  @apply leading-[normal] m-0 p-0 font-sans;
+}
+a {
+  @apply no-underline text-black cursor-pointer ;
 }
 
-input[type='number']::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+*,
+::before,
+::after {
+  border-width: 0;
 }
 
-input[type='number']::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+.grid-bg {
+/* SOURCE: https://stackoverflow.com/questions/3540194/how-to-make-a-grid-like-graph-paper-grid-with-just-css */
+  background-size: 35px 35px;
+  background-image:
+    linear-gradient(to right, #EAEAEA 1px, transparent 1px),
+    linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
 }
+
+button.detach {
+  position: relative;
+}
+button.detach::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate(10px, -10px);
+  width: 100%;
+  height: 100%;
+  background-color: rgb(210, 249, 96);
+  z-index: -1;
+  transition: transform .25s;
+}
+button.detach:hover::before {
+  transform: translate(0);
+}
+
+
+@layer components {
+  .grid-background {
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+    background-size: 30px 30px; 
+    background-color: white;
+  }
+
+}
+
+@layer utilities {
+  .slanted-bg-yellow {
+    position: relative;
+    display: inline-block;
+  }
+
+  .slanted-bg-yellow::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    width: 100%;
+    height: 0.5em;
+    background-color: #d2f960; 
+    z-index: 0;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+  }
+
+  .slanted-bg-yellow > span {
+    position: relative;
+    z-index: 1;
+  }
+
+
+  .slanted-bg-blue {
+    position: relative;
+    display: inline-block;
+  }
+
+  .slanted-bg-blue::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 1px;
+    width: 100%;
+    height: 0.5em;
+    background-color: #0368b1; 
+    z-index: 0;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+  }
+
+  .slanted-bg-blue > span {
+    position: relative;
+    z-index: 1;
+  }
+}
+

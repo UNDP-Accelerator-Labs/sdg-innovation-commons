@@ -1,36 +1,31 @@
-import { clsx } from 'clsx';
-import Link from 'next/link';
-import { lusitana } from '@/app/ui/fonts';
+import Navbar from '@/app/ui/components/Navbar';
+import Hero from '@/app/ui/components/Hero';
+import BlockBtns from '@/app/ui/components/BlockBtns';
+import Contact from '@/app/ui/components/Contact';
+import Footer from '@/app/ui/components/Footer';
+import Learn from './Learn'
+import See from './See'
+import Test from './Test'
+import How from './How-it-works'
+import FeaturedBoard from './Featured-board'
+import GetInspired from './Get-Inspired'
+import About from './About'
 
-interface Breadcrumb {
-  label: string;
-  href: string;
-  active?: boolean;
-}
-
-export default function Breadcrumbs({
-  breadcrumbs,
-}: {
-  breadcrumbs: Breadcrumb[];
-}) {
+export default function Home() {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 block">
-      <ol className={clsx(lusitana.className, 'flex text-xl md:text-2xl')}>
-        {breadcrumbs.map((breadcrumb, index) => (
-          <li
-            key={breadcrumb.href}
-            aria-current={breadcrumb.active}
-            className={clsx(
-              breadcrumb.active ? 'text-gray-900' : 'text-gray-500',
-            )}
-          >
-            <Link href={breadcrumb.href}>{breadcrumb.label}</Link>
-            {index < breadcrumbs.length - 1 ? (
-              <span className="mx-3 inline-block">/</span>
-            ) : null}
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <>
+      <Navbar />
+      <Hero />
+      <BlockBtns />
+      <About />
+      <GetInspired />
+      <FeaturedBoard />
+      <How />
+      <Test />
+      <See />
+      <Learn />
+      <Contact />
+      <Footer />
+    </>
   );
 }
