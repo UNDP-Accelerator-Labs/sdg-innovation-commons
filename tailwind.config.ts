@@ -25,14 +25,15 @@ const config: Config = {
         "component-colors-utility-gray-utility-gray-700": "#344054"
       },
       spacing: {
-        "spacing-md": "8px",
         "spacing-xxs": "2px",
-        "spacing-xl": "16px",
         "spacing-xs": "4px",
-        "spacing-lg": "12px"
+        "spacing-md": "8px",
+        "spacing-lg": "12px",
+        "spacing-xl": "16px",
       },
       "borderRadius": {
           "9980xl": "9999px",
+          "101xl": "120px",
           "radius-full": "9999px",
           "11xl": "30px"
       },
@@ -55,6 +56,7 @@ const config: Config = {
       "13xl": "32px",
       "17xl": "36px",
       "23xl": "42px",
+      "43xl": "62px",
       "inherit": "inherit",
 
       // Desktop sizes

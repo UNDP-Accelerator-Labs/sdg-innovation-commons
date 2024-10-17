@@ -6,7 +6,7 @@ export const connection: ConnectionConfig = {
   host: process.env.BLOG_DB_HOST,
   user: process.env.BLOG_DB_USERNAME,
   password: process.env.BLOG_DB_PASSWORD,
-  ssl: ['production', 'local-production'].includes(process.env.NODE_ENV || '') &&
+  ssl: ['production', 'local-production'].includes(process.env.NODE_ENVMT || '') &&
     process.env.BLOG_DB_HOST !== 'localhost',
 };
 

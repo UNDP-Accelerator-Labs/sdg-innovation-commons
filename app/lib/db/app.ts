@@ -20,7 +20,7 @@ export default function getConnectionConfig(app_id: string): ConnectionConfig {
 
   let connection: ConnectionConfig;
 
-  if (['production', 'local-production'].includes(process.env.NODE_ENV || '')) {
+  if (['production', 'local-production'].includes(process.env.NODE_ENVMT || '')) {
     console.log('in production environment');
     connection = {
       database: db_name || '',

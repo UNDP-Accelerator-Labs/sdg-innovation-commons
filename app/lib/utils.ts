@@ -4,22 +4,22 @@ export const baseHost= '.sdg-innovation-commons.org'
 export const commonsPlatform = [
   {
     title: 'Learning Plans',
-    url: 'https://learningplans.sdg-innovation-commons.org/',
+    url: 'https://learningplans.sdg-innovation-commons.org',
     key: 'action plan'
   },
   {
     title: 'Solutions',
-    url: 'https://solutions.sdg-innovation-commons.org/',
+    url: 'https://solutions.sdg-innovation-commons.org',
     key: 'solution'
   },
   {
     title: 'Experiments',
-    url: 'https://experiments.sdg-innovation-commons.org/',
+    url: 'https://experiments.sdg-innovation-commons.org',
     key: 'experiment'
   },
   {
     title: 'Insight',
-    url: 'https://blogapi.sdg-innovation-commons.org/',
+    url: 'https://blogapi.sdg-innovation-commons.org',
     key: 'insight'
   },
 ];
@@ -92,6 +92,12 @@ export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined
   return def[key];
 }
 
+
+export async function get_externalDb(id : number){
+  if(id == 1) return commonsPlatform.filter(p=> p.key == 'action plan')[0]?.url;
+  if(id == 2) return commonsPlatform.filter(p=> p.key == 'experiment')[0]?.url;;
+  if(id == 4) return commonsPlatform.filter(p=> p.key == 'solution')[0]?.url;;
+}
 
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
