@@ -17,6 +17,7 @@ export default function Section() {
 
     // Manage the active tab and data
     const [activeTab, setActiveTab] = useState<TabType>(tabs[0]);
+
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
 
