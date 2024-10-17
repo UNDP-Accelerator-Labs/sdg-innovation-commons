@@ -1,0 +1,30 @@
+"use client";
+import { Button } from '@/app/ui/components/Button';
+import Link from 'next/link';
+
+export default function Hero() {
+  return (
+  	<>
+  		<section className='relative lg:home-section !border-t-0 grid-bg'>
+		    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:py-[100px]'>
+	        <div className='c-left lg:col-span-5 lg:mt-[80px]'>
+            <h1>SDG Commons<br/><span className='slanted-bg-yellow'><span>powered by UNDP</span></span></h1>
+            <p className='lead'>Building a 21st-century architecture for global public goods, requires sharing openly and scaling data, insights, solutions and next practices for the Sustainable Development Goals (SDGs). Join the Accelerator Labs on this journey as we open up our body of work, and come shape the SDG Commons with us.</p>
+            {/* Search bar */}
+            <form method='GET' className='h-[60px] flex flex-row mt-[80px] mb-[30px] group relative'>
+            	{/* TO DO: FINISH FORM */}
+            	<input type='text' name='search' className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
+            	<Button type='submit' className='border-l-0 grow-0'>
+            		Search
+            	</Button>
+            </form>
+            <Link href={'#'} className='underline'>
+            	<b>Get SDG Inspired</b>
+            </Link>
+	        </div>
+		    </div>
+		    <img className='w-[40%] absolute right-0 bottom-[-10%] z-[10]' alt="Branding illustration" src="/images/hero_hand_02.png" />
+  		</section>
+  	</>
+  );
+}

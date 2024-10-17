@@ -38,3 +38,5 @@ next-env.d.ts
 version.txt
 .prettierrc
 settings.json
+
+dep.*

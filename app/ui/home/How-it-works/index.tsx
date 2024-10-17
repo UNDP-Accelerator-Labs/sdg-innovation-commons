@@ -3,60 +3,47 @@ import Link from 'next/link';
 
 export default async function Section() {
     return (
-        <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-end py-[40px] lg:py-[100px] px-[20px] gap-[100px] text-left text-17xl text-black grid-background md:bg-none lg:bg-none">
-
-            {/* Left and Right Background Images */}
-            <div className="hidden md:flex lg:flex absolute inset-0 w-full h-full">
-                <div
-                    className="absolute inset-y-0 left-0 w-1/2 h-full bg-[url('/images/Union.svg')] bg-no-repeat bg-left bg-contain"
-                    aria-hidden="true"
-                ></div>
-                <div
-                    className="absolute inset-y-0 right-0 w-1/2 h-full bg-[url('/images/Union-2.svg')] bg-no-repeat bg-right bg-contain"
-                    aria-hidden="true"
-                ></div>
-            </div>
-
-            <div className="self-stretch flex flex-col lg:flex-row items-start justify-start py-0 lg:px-20 lg:gap-[364px] z-[2]">
-                <div className="w-[285.7px] relative h-[54px]">
-                    <img className="absolute top-[28px] left-[0px] w-[285.7px] h-[26px]" alt="" src="images/Rectangle 89.svg" />
-                    <b className="absolute top-[0px] left-[22px] leading-[46px] text-9xl lg:text-17xl">How it Works</b>
+        <>
+            <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
+                {/* Display the section title and description */}
+                <div className='section-header lg:mb-[100px]'>
+                    <div className='c-left lg:col-span-5'>
+                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                            <span>How it Works</span>
+                        </h2>
+                    </div>
+                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                        <p className="lead">
+                            <b>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</b>
+                        </p>
+                        <Button className='mt-[20px]'>
+                            <Link href={'#'}>
+                                Join Platform
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
-                <div className="flex-1 flex flex-col items-start justify-start gap-10 text-lg">
-                    <b className="w-full  relative leading-[30px] inline-block lg:text-3xl text-2xl px-[20px] lg:px-0 pt-[20px] lg:py-0 ">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</b>
-
-                    <Button className='text-lg h-[70px] lg:w-[238px] w-[159.5px]'>
-                        <Link href={'#'} className='leading-[22px]'>
-                            Join Platform
-                        </Link>
-                    </Button>
-
-                </div>
-            </div>
-            <div className="flex flex-col items-start justify-start z-[3] text-lg">
-                <div className="self-stretch flex flex-row items-start justify-start py-0 pl-20 md:pl-0 lg:pl-0 lg:mx-[80px] md:mx-[40px] ">
+                <div className='section-content'>                
                     {/* Grid system for responsive layout */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                    <div className='grid gap-[20px] lg:grid-cols-4'>
                         {cards.map((card) => (
-                            <div key={card.id} className=" w-[305px]  md:w-[323px] relative h-72 md:h-[190px] lg:h-72 ">
-                                <div className="absolute top-[0px]  w-[305px] md:w-[323px]  h-72 md:h-[190px] lg:h-72  ">
-                                    <div className="absolute top-[0px] l bg-posted-grey border-black border-[1px] border-solid box-border w-[305px] lg:w-[305px] md:w-[323px] h-72 lg:h-72 md:h-[190px] " >
-                                        <div className="absolute top-[96px] lg:top-[179px] left-[31px] leading-[26px] inline-block w-[255px] text-base lg:text-lg">
-                                            {card.text}
-                                        </div>
-                                    </div>
+                            <div key={card.id} className='relative post-it'>
+                                <div className='flex flex-row justify-between items-center mb-[120px]'>
+                                    <b className="font-space-mono text-[42px]">{card.number}</b>
+                                    <img className="top-[30px] right-10  w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="images/Layer_1.svg" />
                                 </div>
-                                <div className='flex flex-row justify-between items-center px-[30px]'>
-                                    <b className="absolute top-[34px] text-13xl lg:text-23xl leading-[48px] inline-block w-[150px]">{card.number}</b>
-                                    <img className="absolute top-[30px] right-10  w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="images/Layer_1.svg" />
+                                <div className=''>
+                                    <div>
+                                        {card.text}
+                                    </div>
                                 </div>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
-
-        </div>);
+            </section>
+        </>
+    );
 };
 
 const cards = [

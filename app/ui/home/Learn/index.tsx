@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/without-img';
-import { NoImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
+import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import learnApi from '@/app/lib/data/learn';
 import { formatDate, defaultSearch } from '@/app/lib/utils';
@@ -12,6 +12,7 @@ import { PostProps } from '@/app/lib/definitions';
 export default function Section() {
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
+    const displayN = 4;
 
     // Fetch data on component mount
     useEffect(() => {
@@ -19,7 +20,7 @@ export default function Section() {
             setLoading(true);
             const data = await learnApi({ limit: 10, search: defaultSearch('learn') });
             const { hits: fetchedHits } = data || {};
-            setHits(processHits(fetchedHits, 4));
+            setHits(processHits(fetchedHits, displayN));
             setLoading(false); 
         }
 
@@ -28,56 +29,56 @@ export default function Section() {
 
     return (
         <>
-            <div className="w-full grid-background border-black border-t-[1px] border-solid relative flex flex-col items-start justify-start py-10 px-5 box-border gap-[30px] text-left text-smi text-black z[1]">
-                <div className="lg:w-full lg:relative lg:flex lg:flex-row lg:items-start lg:justify-start lg:py-0 lg:px-20 lg:box-border lg:gap-[357px] lg:text-left text-17xl text-black">
-                    <div className="flex flex-col items-start justify-start relative text-9xl">
-                        <img
-                            className="w-[234.1px] lg:w-[292.2px] absolute !m-[0] top-[23.17px] left-[-7.5px] h-[26px] z-[0]"
-                            alt="Icon"
-                            src="images/Rectangle 89.svg"
-                        />
-                        <b className="relative leading-[38px] z-[1] text-[28px] lg:text-[36px]">What We Learn</b>
+            <section className='lg:home-section lg:px-[80px] lg:py-[100px] grid-bg'>
+                {/* Display the section title and description */}
+                <div className='section-header lg:mb-[100px]'>
+                    <div className='c-left lg:col-span-5'>
+                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                            <span>What We Learn</span>
+                        </h2>
                     </div>
-                    <div className="lg:flex-1 lg:flex lg:flex-col lg:items-start lg:justify-start lg:gap-10 lg:text-3xl mt-5 lg:mt-0">
-                        <b className="self-stretch relative text-2xl leading-[28px] lg:text-[22px]">
-                            Browse through our blogs, publications, and toolkits to learn what works and what doesn’t in sustainable development.
-                        </b>
+                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                        <p className="lead">
+                            <b>Browse through our blogs, publications, and toolkits to learn what works and what doesn’t in sustainable development.</b>
+                        </p>
                     </div>
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 lg:py-0 lg:px-20 lg:gap-[45px] lg:ml-[15%] lg:mt-[5%] ">
-                    {loading ? (
-                        <>
-                            <NoImgCardsSkeleton /> {/* Show Skeleton while loading */}
-                            <NoImgCardsSkeleton />
-                            <NoImgCardsSkeleton />
-                            <NoImgCardsSkeleton />
-                        </>
-                    ) : (
-                        hits?.map((post: any) => (
-                            <Card
-                                key={post.doc_id}
-                                country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
-                                date={formatDate(post?.meta?.date) || ''}
-                                title={post?.title || ''}
-                                description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
-                                tags={post?.base || ''}
-                                tagStyle="bg-light-blue"
-                                href={post?.url}
-                                openInNewTab={true}
-                            />
-                        ))
-                    )}
+                <div className='section-content flex lg:flex-row'>
+                    {/* Display Cards */}
+                    <div className='w-full grid gap-[20px] lg:grid-cols-3'>
+                        <div className='grid gap-[20px] lg:grid-cols-2 lg:col-span-2 lg:col-start-2'>
+                            {loading ? (
+                                <>
+                                    {new Array(displayN).fill(0).map((d, i) => (
+                                        <NoImgCardSkeleton key={i} />
+                                    ))}
+                                </>
+                            ) : (
+                                hits?.map((post: any) => (
+                                    <Card
+                                        key={post.doc_id}
+                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        date={formatDate(post?.meta?.date) || ''}
+                                        title={post?.title || ''}
+                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        tags={post?.base || ''}
+                                        tagStyle="bg-light-blue"
+                                        href={post?.url}
+                                        openInNewTab={true}
+                                    />
+                                ))
+                            )}
+                        </div>
+                    </div>
                 </div>
-
-                <div className="self-stretch flex flex-col items-end justify-start text-center text-sm lg:text-lg">
+                <div className='section-footer text-right'>
                     <Button>
                         <Link href={'/learn'}>
                             Read All
                         </Link>
                     </Button>
                 </div>
-            </div>
+            </section>
         </>
     );
 }

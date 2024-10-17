@@ -62,50 +62,50 @@ export default function Section() {
     const currentData = slides[currentSlide]; // Get the current slide data
 
     return (
-        <div className="w-full relative h-[600px] md:h-[800px] lg:h-[872px] overflow-hidden shrink-0 flex flex-col items-start justify-between py-10 px-5 md:py-[60px] md:px-10 box-border text-left text-xl lg:text-3xl text-white">
-            <img className={clsx("w-full absolute !m-[0] top-[1px] left-0 h-[600px] md:h-[800px] lg:h-[872px] object-cover z-[0]", { 'opacity-0 transition-opacity duration-500': !animate })} alt="" src={currentData.backgroundImage} />
-            <div className="self-stretch flex flex-col items-start justify-start z-[1] lg:my-[75px] lg:mx-[93px] ">
-                <b className="self-stretch relative leading-[38px] text-xl">{currentData.title}</b>
-                <div className="w-[254.4px] md:w-full flex flex-col items-start justify-start relative text-9xl lg:w-[65%]">
-                    <div className="relative leading-[38px] z-[2] slanted-bg-blue font-bold">
-                        <span >{currentData.description}</span>
+        <>
+            <section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>
+                <img className={clsx("w-full absolute !m-[0] top-[1px] left-0 h-[600px] md:h-[800px] lg:h-[872px] object-cover z-[0]", { 'opacity-0 transition-opacity duration-500': !animate })} alt="" src={currentData.backgroundImage} />
+                <div className='section-content grid grid-cols-3 gap-[20px] lg:px-[80px] lg:py-[100px]'>
+                    <div className='c-left lg:col-span-2 flex flex-col'>
+                        <div>
+                            <p className='lead text-white font-space-mono mb-0'>
+                                <b>{currentData.title}</b>
+                            </p>
+                            <h2 className='slanted-bg dark blue lg:mt-[5px]'>
+                                <span>{currentData.description}</span>
+                            </h2>
+                        </div>
+                        <div>
+                            <Button className='block mt-[10px]'>
+                                <Link href={'#'}>
+                                    All Boards
+                                </Link>
+                            </Button>
+                        </div>
+                        <div className='mt-auto'>
+                            <div className='flex justify-start items-center'>
+                                <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
+                                <p className='text-white font-space-mono my-0'>
+                                    <b>{`${currentSlide + 1} / ${slides.length}`}</b>
+                                </p>
+                                <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className='c-right'>
+                        <Card
+                            title={currentData.cardTitle}
+                            description={currentData.cardDescription}
+                            tags={currentData.cardTags}
+                            href={'/'}
+                            viewCount={currentData.viewCount}
+                            backgroundImage={currentData.cardBackgroundImage}
+                            className={clsx("w-full lg:h-[600px] transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
+                        />
                     </div>
                 </div>
-                <Button className="w-[166.3px] relative h-[53.8px] text-center text-sm text-black bg-transparent mt-[40px] hidden lg:flex md:flex ">
-                    <Link href={'#'} className="leading-[22px] text-sm lg:text-lg ">
-                        All Boards
-                    </Link>
-                </Button>
-            </div>
-            <div className="self-stretch flex flex-col items-start justify-start gap-[30px] z-[2] text-lg text-black lg:my-[137px] lg:mx-[93px]">
-                <Card
-                    title={currentData.cardTitle}
-                    description={currentData.cardDescription}
-                    tags={currentData.cardTags}
-                    href={'/'}
-                    viewCount={currentData.viewCount}
-                    backgroundImage={currentData.cardBackgroundImage}
-                    className={clsx("w-[337px] md:w-[551px] md:gap-[30px] lg:top-[136px] lg:left-[850px] lg:w-[413px] lg:h-[600px] lg:absolute lg:text-left lg:mx-[90px] border-black border-[1px] border-solid box-border flex flex-col items-start justify-start transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
-                />
-
-                <div className="self-stretch flex flex-row items-end justify-between text-center text-xl text-white">
-                    {/* Slide Number */}
-                    <span className="relative leading-[38px] text-xl cursor-pointer ">
-                        <img className="w-full absolute max-w-full overflow-hidden h-[60px] object-contain left-0" alt="" src="images/Arrow-left.svg" onClick={handlePrevSlide} />
-                        <div className="absolute top-[19px] left-[45px] w-[67px] h-[22px]">
-                            <b className="absolute top-[0px] left-[0px] leading-[22px]">
-                                {`${currentSlide + 1} / ${slides.length}`}
-                            </b>
-                        </div>
-                        <img className="w-full relative max-w-full overflow-hidden h-[60px] object-contain left-[70px]" alt="" src="images/Arrow-right.svg" onClick={handleNextSlide} />
-                    </span>
-                    <Button className="w-[166.3px] relative h-[53.8px] text-sm text-black bg-transparent lg:hidden md:hidden ">
-                        <Link href={'#'} className="leading-[22px] text-sm lg:text-lg ">
-                            All Boards
-                        </Link>
-                    </Button>
-                </div>
-            </div>
-        </div>
+            </section>
+        </>
     );
 }

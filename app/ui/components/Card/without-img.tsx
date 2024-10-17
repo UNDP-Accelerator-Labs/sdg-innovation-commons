@@ -25,14 +25,14 @@ export default function Card(_kwargs: CardProps) {
   const tagArr = Array.isArray(tags) ? tags : [tags];
 
   return (
-    <div className="w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-start justify-start pt-5 px-5 pb-10 gap-6 text-left text-smi text-undp-blue">
+    <div className="card w-full relative bg-white border-black border-t-[1px] border-solid box-border flex flex-col items-between justify-start pt-5 px-5 pb-10 gap-6 text-left text-smi text-undp-blue">
       <div className="self-stretch flex flex-col items-start justify-start gap-5">
         <div className="self-stretch flex flex-row items-start justify-between">
-          <b className="relative leading-[15px] text-[13px] ">{country}</b>
-          <b className="relative leading-[15px] text-black text-right text-[13px]">{date}</b>
+          <b className="relative leading-[15px] text-[13px] font-space-mono">{country}</b>
+          <b className="relative leading-[15px] text-black text-right text-[13px] font-space-mono">{date}</b>
         </div>
         <div className="self-stretch flex flex-col items-start justify-start gap-5 text-9xl text-black">
-          <b className="self-stretch relative leading-[38px] lg:leading-[46px] text-[28px] lg:text-[36px]">{title}</b>
+          <h1>{title}</h1>
           <div className="self-stretch relative text-mini leading-[22px] lg:text-[16px]">
             {description}
           </div>
@@ -51,7 +51,7 @@ export default function Card(_kwargs: CardProps) {
               )}
               onClick={onButtonClick}
             >
-              <b className="relative leading-[15px] text-[13px] lg:text-[14px] capitalize">{tag}</b>
+              <b className="relative leading-[15px] text-[13px] lg:text-[14px] capitalize font-space-mono">{tag}</b>
             </div>
           ))}
         </div>
