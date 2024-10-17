@@ -1,7 +1,7 @@
 "use client";
 
 interface BtnProps {
-  key: integer;
+  key?: number;
   title: string;
   description: string;
 }

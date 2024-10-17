@@ -24,3 +24,15 @@ const general: IDatabase<any> = pgp(generalConnection);
 const blogs: IDatabase<any> = pgp(blogConnection);
 
 export const DB = { sm_conn, exp_conn, ap_conn, general, blogs, pgp };
+
+export const get_db_name = async (db_id : number ) => {
+  const db = await general.oneOrNone(`
+    SELECT db from extern_db
+     WHERE id = $1
+    `, [db_id])
+
+  if(db == 'ap') return ap_conn;
+  if(db == 'exp') return exp_conn;
+  if(db == 'sm') return sm_conn;
+  return null;
+}
