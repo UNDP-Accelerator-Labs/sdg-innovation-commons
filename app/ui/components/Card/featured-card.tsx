@@ -36,7 +36,6 @@ export default function Card({
                         <div className="hidden lg:flex absolute h-[54.33%] w-full top-[0%] right-[0%] bottom-[45.67%] left-[0%] [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_0.35),_rgba(237,_255,_164,_0.35))] border-black border-[1px] border-solid box-border mix-blend-normal" />
 
                         <CardLink
-                            className="w-[42.5px] relative h-[41.9px] lg:absolute lg:h-[11.83%] lg:w-[17.43%] lg:top-[84.83%] lg:right-[5.08%] lg:bottom-[3.33%] lg:left-[77.48%]"
                             href={href || '/'}
                         />
                     </div>

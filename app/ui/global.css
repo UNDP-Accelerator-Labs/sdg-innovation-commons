@@ -10,6 +10,27 @@ body {
 a {
   @apply no-underline text-black cursor-pointer ;
 }
+h1 {
+  @apply text-[62px] leading-[69px] mb-[30px] font-bold;
+}
+h2 {
+  @apply text-[36px] leading-[46px] mb-[30px] font-bold;
+}
+h3 {
+  @apply text-[22px] leading-[30px] mb-[30px] font-bold;
+}
+p {
+  @apply text-[18px] leading-[26px] mt-0; 
+}
+input[type=text],
+input[type=email],
+textarea {
+  background-color: #FFF;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
 
 *,
 ::before,
@@ -17,41 +38,118 @@ a {
   border-width: 0;
 }
 
-.grid-bg {
-/* SOURCE: https://stackoverflow.com/questions/3540194/how-to-make-a-grid-like-graph-paper-grid-with-just-css */
-  background-size: 35px 35px;
-  background-image:
-    linear-gradient(to right, #EAEAEA 1px, transparent 1px),
-    linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
-}
-
-button.detach {
-  position: relative;
-}
-button.detach::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: translate(10px, -10px);
-  width: 100%;
-  height: 100%;
-  background-color: rgb(210, 249, 96);
-  z-index: -1;
-  transition: transform .25s;
-}
-button.detach:hover::before {
-  transform: translate(0);
-}
-
 
 @layer components {
+  .grid-bg {
+  /* SOURCE: https://stackoverflow.com/questions/3540194/how-to-make-a-grid-like-graph-paper-grid-with-just-css */
+    background-size: 20px 20px;
+    background-image:
+      linear-gradient(to right, #EAEAEA 1px, transparent 1px),
+      linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
+  }
+
   .grid-background {
     background-image:
       linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
       linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
     background-size: 30px 30px; 
     background-color: white;
+  }
+
+  .home-section {
+    width: 100%;
+/*    min-height: 100vh;*/
+    border-top: 1px solid #000;
+    box-sizing: border-box;
+  }
+  .section-header {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-gap: 20px;
+    flex-direction: column;
+  }
+  .section-content {
+  }
+  .section-footer {
+    margin-top: 40px;
+  }
+  .c-left {
+    position: relative;
+    flex-shrink: 0;
+  }
+  .c-right {
+    position: relative;
+  }
+  .slideshow-lg {
+    min-width: calc(100% + 160px);
+    margin-left: -80px;
+  }
+  .card {
+    width: 300px;
+    background-color: #FFF;
+    border: 1px solid #000;
+  }
+  .card h1 {
+    font-size: 22px;
+    line-height: 30px;
+  }
+  .tabs {
+    display: flex;
+    text-transform: capitalize;
+    margin-bottom: 40px;
+  }
+  .tab {
+    padding: 0px 10px 15px 5px;
+    font-family: Space Mono, monospace;
+    cursor: pointer;
+  }
+  .tab-line {
+    border-bottom: 2px solid #000;
+  }
+  .tab-line.orange {
+    border-color: #FFBE8D;
+  }
+
+
+  .lead {
+    @apply text-[20px] leading-[29px];
+  }
+
+  .detach {
+    position: relative;
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .detach::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translate(10px, -10px);
+    width: 100%;
+    height: 100%;
+    background-color: rgb(210, 249, 96);
+    z-index: 0;
+    transition: transform .25s;
+  }
+  .detach:hover::before {
+    transform: translate(0);
+  }
+  .detach::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid #000;
+    box-sizing: border-box;
+  }
+  .post-it {
+    background-color: #EDFFA4;
+    border: 1px solid #000;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
 }
@@ -65,41 +163,66 @@ button.detach:hover::before {
   .slanted-bg-yellow::before {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: 1px;
+    left: -.05em;
+    top: .75em;
     width: 100%;
     height: 0.5em;
+/*    padding: 0 .25em;*/
     background-color: #d2f960; 
     z-index: 0;
-    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+    transform: skew(-30deg);
   }
-
   .slanted-bg-yellow > span {
     position: relative;
     z-index: 1;
   }
 
 
-  .slanted-bg-blue {
+
+  .slanted-bg {
     position: relative;
     display: inline-block;
   }
-
-  .slanted-bg-blue::before {
+  .slanted-bg::before {
     content: '';
     position: absolute;
-    left: 0;
-    bottom: 1px;
+    left: -.05em;
+    top: .75em;
     width: 100%;
     height: 0.5em;
-    background-color: #0368b1; 
+/*    padding: 0 .25em;*/
+    background-color: #81C2F2;
     z-index: 0;
-    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0% 100%);
+    transform: skew(-30deg);
   }
-
-  .slanted-bg-blue > span {
+  .slanted-bg > span {
     position: relative;
     z-index: 1;
   }
+  .slanted-bg.dark {
+    color: #FFF;
+  }
+
+  .slanted-bg.yellow::before {
+    background-color: #d2f960;
+  }
+  .slanted-bg.blue::before {
+    background-color: #81C2F2;
+  }
+  .slanted-bg.dark.blue::before {
+    background-color: #0368B1;
+  }
+  .slanted-bg.orange::before {
+    background-color: #FFBE8D;
+  }
+  .slanted-bg.green::before {
+    background-color: #AFE69D;
+  }
+  .slanted-bg.white::before {
+    background-color: #FFF;
+  }
+
+
+
 }
 
