@@ -2,7 +2,7 @@
 import { CardLink } from '@/app/ui/components/Link';
 
 interface BtnProps {
-  key: integer;
+  key: number;
   title: string;
   description: string;
   href?: string;
