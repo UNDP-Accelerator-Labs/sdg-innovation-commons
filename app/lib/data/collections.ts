@@ -113,19 +113,31 @@ export async function get_collection(id: number) {
         const col = await DB.general.oneOrNone(`
             SELECT
                 p.*, 
+                u.name,
+                u.email,
                 COALESCE(JSON_AGG(
                     DISTINCT JSONB_BUILD_OBJECT('pad', pc.pad, 'db', pc.db)
-                ) FILTER (WHERE pc.pad IS NOT NULL), '[]') AS pads
+                ) FILTER (WHERE pc.pad IS NOT NULL), '[]') AS pads,
+                COUNT(DISTINCT pc2.participant) AS contributor_count
             FROM
                 public.pinboards p
             LEFT JOIN
                 public.pinboard_contributions pc
             ON
                 p.id = pc.pinboard
+            LEFT JOIN
+                public.pinboard_contributors pc2
+            ON
+                p.id = pc2.pinboard
+            LEFT JOIN
+                public.users u
+            ON
+                p.owner = u.uuid
             WHERE
                 p.id = $1
-            GROUP BY p.id
-        `, [id]);
+            GROUP BY p.id, u.name, u.email
+        `, [id]);        
+        
 
         if (!col) {
             return null; 
@@ -146,7 +158,7 @@ export async function get_collection(id: number) {
             if (base_url) {
                 const pad_ids = padsByDb[db_id as unknown as number]
                 
-                const url = `${base_url}/apis/fetch/pads?pads=${pad_ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true`;
+                const url = `${base_url}/apis/fetch/pads?pads=${pad_ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true&include_locations=true`;
                 const fetchedData = await get({
                     url,
                     method: 'GET',

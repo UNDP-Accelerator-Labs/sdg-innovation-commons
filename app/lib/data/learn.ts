@@ -1,6 +1,7 @@
 'use server';
 import { NLP_URL, commonsPlatform, defaultSearch } from '@/app/lib/utils';
 import get from './get'
+import { get_collection, get_all_collections } from './collections'
 
 export interface Props {
   page?: number;
@@ -28,7 +29,8 @@ export default async function learn(_kwargs: Props) {
       iso3: country ? [country] : []
     }
   }
-
+// const t = await get_collection(80) //get_all_collections({})
+//   console.log(t)
   const base_url: string | undefined = commonsPlatform
     .find(p => p.key === 'insight')?.url;
 

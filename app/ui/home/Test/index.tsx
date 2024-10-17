@@ -12,9 +12,11 @@ import { PostProps } from '@/app/lib/definitions';
 import { defaultSearch } from '@/app/lib/utils';
 
 export default function Section() {
-    const tabs = ['experiment', 'action plan'];
+    const tabs = ['experiment', 'action plan'] as const; 
+    type TabType = typeof tabs[number]; 
+
     // Manage the active tab and data
-    const [activeTab, setActiveTab] = useState<tabs[0] | tabs[1]>(tabs[0]);
+    const [activeTab, setActiveTab] = useState<TabType>(tabs[0]);
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
 
