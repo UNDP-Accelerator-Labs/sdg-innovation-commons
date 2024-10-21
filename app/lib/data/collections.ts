@@ -1,6 +1,6 @@
 'use server';
 import { DB } from '@/app/lib/db';
-import { get_externalDb, extractSDGNumbers } from '@/app/lib/utils';
+import { get_externalDb, extractSDGNumbers, page_limit } from '@/app/lib/utils';
 import get from '@/app/lib/data/get';
 
 interface AllCollectionProps {
@@ -10,11 +10,21 @@ interface AllCollectionProps {
     limit?: number;
 }
 
-export async function get_all_collections({ search = '', theme = '', page = 1, limit = 10 }: AllCollectionProps) {
+interface CollectionProps {
+    id: number;
+    page?: number;
+    limit?: number;
+}
+
+export async function get_all_collections({ search = '', theme = '', page = 1, limit = page_limit }: AllCollectionProps) {
     try {
         let countQuery = `
-            SELECT COUNT(*) FROM public.pinboards p
-            WHERE p.status > 1
+            SELECT COUNT(DISTINCT p.id) 
+                FROM public.pinboards p
+            LEFT JOIN public.pinboard_contributions pc
+                ON p.id = pc.pinboard
+            WHERE p.status = 3
+                AND pc.db IN (1, 2, 4);
         `;
 
         const conditions: string[] = [];
@@ -62,7 +72,7 @@ export async function get_all_collections({ search = '', theme = '', page = 1, l
             ON
                 p.id = pc.pinboard
             WHERE
-                p.status > 1
+                p.status = 3
                 AND pc.db IN (1, 2, 4) -- sm, exp and ap dbs
         `;
 
@@ -91,7 +101,32 @@ export async function get_all_collections({ search = '', theme = '', page = 1, l
         });
 
         // Execute the formatted query to get the pinboards
-        const data = await DB.general.any(finalQuery);
+        let data = await DB.general.any(finalQuery);
+      
+        //Get additional datapoints for each collection board
+        const fetchedDataPromises = data?.map(async (p:any)=>{
+            let sub_pad = p.pads
+            if(+p.pad_count > page_limit){ //Only get details for 27 items if there are more pads
+                sub_pad = p.pads?.slice(0, page_limit) 
+            }
+            let fetched_pads : any = await get_pads({pads : sub_pad})
+            let vignettes = fetched_pads.map((p:any)=> p.vignette) //Extract the vignette of the fetched pads
+
+            if(!vignettes.length && +p.pad_count > page_limit){ //Fetch the remaining pads details if no vignette could be extracted
+                sub_pad = p.pads?.slice(page_limit);
+                fetched_pads = await get_pads({pads : sub_pad})
+                vignettes = fetched_pads.map((p:any)=> p.vignette) 
+            }
+
+            return {
+                ...p,
+                fetched_pads,
+                vignettes,
+            }
+        })
+
+        data = await Promise.all(fetchedDataPromises);
+
 
         // Return the data along with pagination info
         return {
@@ -108,9 +143,13 @@ export async function get_all_collections({ search = '', theme = '', page = 1, l
     }
 }
 
-export async function get_collection(id: number) {
+export async function get_collection(_kwarq:CollectionProps) {
+    let { page, id, limit } = _kwarq;
+    page = page ?? 1;
+    limit = limit ?? page_limit;
+
     try {
-        const col = await DB.general.oneOrNone(`
+        let col = await DB.general.oneOrNone(`
             SELECT
                 p.*, 
                 u.name,
@@ -136,56 +175,78 @@ export async function get_collection(id: number) {
             WHERE
                 p.id = $1
             GROUP BY p.id, u.name, u.email
-        `, [id]);        
+        `, [id]);          
         
 
         if (!col) {
-            return null; 
+            return null;
         }
 
-        // Group pads by db_id
-        const padsByDb: Record<number, number[]> = {};
-        col.pads.forEach((padObj: { pad: number, db: number }) => {
-            if (!padsByDb[padObj.db]) {
-                padsByDb[padObj.db] = [];
-            }
-            padsByDb[padObj.db].push(padObj.pad);
-        });
-       
-        // Fetch pads from different external DBs
-        const fetchedDataPromises = Object.keys(padsByDb).map(async (db_id) => {
-            const base_url = await get_externalDb(+db_id); // Get base URL for the db_id
-            if (base_url) {
-                const pad_ids = padsByDb[db_id as unknown as number]
-                
-                const url = `${base_url}/apis/fetch/pads?pads=${pad_ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true&include_locations=true`;
-                const fetchedData = await get({
-                    url,
-                    method: 'GET',
-                });
-                // Flatten and transform the fetched data
-                const flattenedFetchedData = fetchedData?.flat?.()?.map((p: any) => ({
-                    ...p,
-                    tags: p?.tags?.filter((tag: any) => tag.type === 'thematic_areas').map((tag: any) => tag.name),
-                    sdg: extractSDGNumbers(p), 
-                }));
+        let consolidatedPads : any = await get_pads(col)
 
-                return flattenedFetchedData;
-            }
-            return null;
-        });
+        //Also add pagination here. 
+        // We are unsure which pads are publicly available or available for user to view based on rights until the pads are fetched from respective APIs.
+        const totalPads = consolidatedPads.length ?? 0;
+        const totalPages = Math.ceil(totalPads / limit);
+        const offset = (page - 1) * limit;
 
-        const fetchedResults = await Promise.all(fetchedDataPromises);
-
-        const consolidatedPads = fetchedResults.flat().filter(Boolean); // Flatten and remove null results
+        consolidatedPads?.slice(offset, offset + limit);
 
         return {
             ...col,
             fetched_pads: consolidatedPads, 
+            pagination: {
+                currentPage: page,
+                totalPages: totalPages,
+                totalPads: totalPads,
+            }
         };
     } catch (error) {
         console.error('Error fetching collection:', error);
         return null;
     }
 }
+
+
+export const get_pads = async (col: any) =>{
+    // Group pads by db_id
+    const padsByDb: Record<number, number[]> = {};
+    col.pads.forEach((padObj: { pad: number, db: number }) => {
+        if (!padsByDb[padObj.db]) {
+            padsByDb[padObj.db] = [];
+        }
+        padsByDb[padObj.db].push(padObj.pad);
+    });
+
+    // Fetch pads from different external DBs in parallel
+    const fetchedDataPromises = Object.keys(padsByDb).map(async (db_id) => {
+        const base_url = await get_externalDb(+db_id); // Get base URL for the db_id
+        if (base_url) {
+            const pad_ids = padsByDb[db_id as unknown as number];
+            
+            const url = `${base_url}/apis/fetch/pads?pads=${pad_ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true&include_locations=true`;
+            
+            try {
+                const fetchedData = await get({ url, method: 'GET' });
+                
+                if (fetchedData) {
+                    return fetchedData?.flat()?.map((p: any) => ({
+                        ...p,
+                        tags: p?.tags?.filter((tag: any) => tag.type === 'thematic_areas').map((tag: any) => tag.name) || [],
+                        sdg: extractSDGNumbers(p), 
+                    }));
+                }
+            } catch (fetchError) {
+                console.error(`Error fetching data from db_id ${db_id}:`, fetchError);
+            }
+        }
+        return [];
+    });
+
+    const fetchedResults = await Promise.all(fetchedDataPromises);
+
+    // Flatten and remove null/undefined results
+    return fetchedResults.flat().filter(Boolean)
+}
+
 
