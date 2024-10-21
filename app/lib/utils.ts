@@ -106,6 +106,8 @@ export const formatCurrency = (amount: number) => {
   });
 };
 
+export const page_limit = 27;
+
 export const formatDateToLocal = (
   dateStr: string,
   locale: string = 'en-US',

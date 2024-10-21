@@ -18,7 +18,7 @@ export default function Hero() {
             		Search
             	</Button>
             </form>
-            <Link href={'#'} className='underline'>
+            <Link href={'/board'} className='underline'>
             	<b>Get SDG Inspired</b>
             </Link>
 	        </div>
