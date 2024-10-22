@@ -20,7 +20,7 @@ const Content: React.FC<ContentProps> = ({ slug }) => {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await globalSearch({ search: slug });
+            const data = await globalSearch({ search: decodeURIComponent(slug) });
             const { hits: fetchedHits } = data || {};
             setHits(fetchedHits);
             setLoading(false); 

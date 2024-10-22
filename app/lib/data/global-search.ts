@@ -36,7 +36,7 @@ export default async function search(_kwargs: Props) {
         ['actionplan', []],
         ['others', []],
     ]);
-
+ 
     data?.hits?.forEach((p: any) => {
         if (p.base === 'solution') baseMap.get('solution')?.push(p);
         else if (p.base === 'experiments') baseMap.get('experiments')?.push(p);
@@ -72,7 +72,10 @@ export default async function search(_kwargs: Props) {
     // Combine all lists into the final data
     const finalHits: any[] = [];
     finalHits.push(...ap_list, ...exp_list, ...solution_list, ...others_list);
-    data.hits = finalHits;
+    
+    if(data?.hits){
+        data.hits = finalHits;
+    }
 
     return data;
 }
