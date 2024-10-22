@@ -40,41 +40,49 @@ useEffect(() => {
 */
 
 
+interface PageStatsResponse {
+    total: number;
+    pages: number;
+}
+
+interface PlatformApiResponse {
+    hits: any[]; 
+}
+
 export default function Section() {
-    const [currPage, setCurrPage] = useState<any[]>([]);
-    const [pages, setPages] = useState<any[]>([]);
+    const [currPage, setCurrPage] = useState<number>(1);
+    const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true); // Loading state
+    const [loading, setLoading] = useState<boolean>(true);
 
     const platform = 'solution';
 
-    async function fetchData(page: number) {
+    async function fetchData(page: number): Promise<void> {
         setLoading(true);
         
-        const { total, pages: totalPages } = await pagestats(page, platform);
-        // const pagelist = new Array(totalPages).fill(0).map((d, i) => i + 1)
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform);
         setPages(totalPages);
         setCurrPage(page);
 
-        const data = await platformApi({ limit: page_limit, page, include_locations: true }, platform);
-        // const data = await platformApi({ limit: page_limit, page, orderby: 'random' });
-        setHits(data);
-        console.log(data)
-        // const { hits: fetchedHits } = data || {};
-        // setHits(processHits(fetchedHits, page_limit));
-        setLoading(false); // Set loading to false when data is fetched
+        const data: any = await platformApi(
+            { limit: page_limit, page, include_locations: true }, 
+            platform
+        );
+        setHits(data.hits);
+
+        setLoading(false);
     }
 
-    // Fetch data on component mount
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const page: number = !isNaN(parseInt(params.get('page'))) ? parseInt(params.get('page')) : 1;
+        const page: number = !isNaN(parseInt(params.get('page') || '')) ? parseInt(params.get('page') || '') : 1;
         fetchData(page);
-    }, []); // Empty dependency array to run only on mount
+    }, []); 
 
-    const handleClick = useCallback(page => {
-        fetchData(page)
-    });
+    const handleClick = useCallback((page: number): void => {
+        fetchData(page);
+    }, []);
+
 
     return (
         <>
