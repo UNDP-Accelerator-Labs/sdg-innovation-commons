@@ -24,7 +24,7 @@ export default function GlobalError({
                                 <b className="w-[632.7px] relative text-17xl leading-[46px] inline-block z-[2]">Something went wrong</b>
                                 <div className="w-[632.7px] relative text-xl leading-[28px] font-medium inline-block z-[3]">Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.</div>
                             </div>
-                            <img className="w-[721px] absolute !m-[0] top-[-208px] left-[-170.5px] rounded-101xl h-[729px] z-[1]" alt="" src="images/Vector 36.svg" />
+                            <img className="w-[721px] absolute !m-[0] top-[-208px] left-[-170.5px] rounded-101xl h-[729px] z-[1]" alt="" src="/images/Vector 36.svg" />
                             <div className="w-[682px] flex flex-col items-start justify-start z-[3] text-left text-base">
                                 <div className="w-[682px] flex flex-col items-start justify-end">
                                     <Button onClick={() => reset()}>

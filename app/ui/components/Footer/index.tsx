@@ -18,7 +18,7 @@ export default function Footer() {
               <img
                 className="w-full relative object-cover"
                 alt=""
-                src="images/UNDP_AccLabs_Partners_banner.png"
+                src="/images/UNDP_AccLabs_Partners_banner.png"
               />
             </div>
             <div className='col-span-3 text-right'>

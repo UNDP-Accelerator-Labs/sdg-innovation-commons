@@ -30,7 +30,7 @@ export default async function Section() {
                             <div key={card.id} className='relative post-it'>
                                 <div className='flex flex-row justify-between items-center mb-[120px]'>
                                     <b className="font-space-mono text-[42px]">{card.number}</b>
-                                    <img className="top-[30px] right-10  w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="images/Layer_1.svg" />
+                                    <img className="top-[30px] right-10  w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="/images/Layer_1.svg" />
                                 </div>
                                 <div className=''>
                                     <div>

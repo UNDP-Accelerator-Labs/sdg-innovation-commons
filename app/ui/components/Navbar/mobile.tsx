@@ -18,7 +18,7 @@ export default function NavBar() {
           <img
             className="w-[49.8px] relative h-[97.9px]"
             alt=""
-            src="images/undp-logo.svg"
+            src="/images/undp-logo.svg"
           />
         </div>
 
@@ -47,7 +47,7 @@ export default function NavBar() {
             <img
               className="w-[40.7px] relative h-[37.2px] object-cover"
               alt=""
-              src="images/gtranslate.svg"
+              src="/images/gtranslate.svg"
             />
             <button className="w-[143.1px] relative h-[51.3px]">
               <div className="absolute top-[0px] left-[0px] bg-lime-yellow w-[143.1px] h-[51.3px]" />

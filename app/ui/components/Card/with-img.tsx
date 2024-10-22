@@ -107,7 +107,7 @@ export default function Card({
                         <div className="self-stretch flex flex-row items-center justify-between text-sm py-2.5 px-5">
                             <div className="flex flex-row items-start justify-start gap-1">
                                 {/* View Count */}
-                                <img className="w-[20.2px] relative h-[17.3px]" alt="Views" src="images/heart.svg" />
+                                <img className="w-[20.2px] relative h-[17.3px]" alt="Views" src="/images/heart.svg" />
                                 <b className="w-[52px] relative leading-[18px] inline-block shrink-0">{viewCount}</b>
                             </div>
                             {/* Arrow */}

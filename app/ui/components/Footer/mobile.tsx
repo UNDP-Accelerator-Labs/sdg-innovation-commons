@@ -60,7 +60,7 @@ export default function MobileMediaLinks({ className }: { className?: string }) 
             <img
               className="w-[50px] relative h-[50px]"
               alt=""
-              src="images/Group 242.svg"
+              src="/images/Group 242.svg"
             />
           </a>
           <a
@@ -71,7 +71,7 @@ export default function MobileMediaLinks({ className }: { className?: string }) 
             <img
               className="w-[50px] lg:w-[45.6px] relative h-[50px]"
               alt=""
-              src="images/Group 243.svg"
+              src="/images/Group 243.svg"
             />
           </a>
           <a
@@ -82,7 +82,7 @@ export default function MobileMediaLinks({ className }: { className?: string }) 
             <img
               className="w-[50px] relative h-[50px]"
               alt=""
-              src="images/Group 244.svg"
+              src="/images/Group 244.svg"
             />
           </a>
           <a
@@ -93,7 +93,7 @@ export default function MobileMediaLinks({ className }: { className?: string }) 
             <img
               className="w-[50px] relative h-[50px]"
               alt=""
-              src="images/Group 245.svg"
+              src="/images/Group 245.svg"
             />
           </a>
         </div>
