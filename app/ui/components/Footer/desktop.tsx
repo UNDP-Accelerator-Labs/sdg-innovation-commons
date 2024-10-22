@@ -11,28 +11,28 @@ export default function DesktopMediaLinks({ className }: { className?: string })
             <img
               className="w-[50px] lg:w-[45.6px] relative h-[50px] lg:h-[45.6px]"
               alt=""
-              src="images/Group 242.svg"
+              src="/images/Group 242.svg"
             />
           </Link>
           <Link href='https://www.linkedin.com/company/undp-accelerator-labs/' target='_blank' rel='noopener noreferrer'>
             <img
               className="w-[50px] lg:w-[45.6px] relative h-[50px] lg:h-[45.6px]"
               alt=""
-              src="images/Group 243.svg"
+              src="/images/Group 243.svg"
             />
           </Link>
           <Link href='https://x.com/UNDPAccLabs?prefetchTimestamp=1728383203979' target='_blank' rel='noopener noreferrer'>
             <img
               className="w-[50px] lg:w-[45.6px] relative h-[50px] lg:h-[45.6px]"
               alt=""
-              src="images/Group 244.svg"
+              src="/images/Group 244.svg"
             />
           </Link>
           <Link href='https://acclabs.medium.com/' target='_blank' rel='noopener noreferrer'>
             <img
               className="w-[50px] lg:w-[45.6px] relative h-[50px] lg:h-[45.6px]"
               alt=""
-              src="images/Group 245.svg"
+              src="/images/Group 245.svg"
             />
           </Link>
         </div>

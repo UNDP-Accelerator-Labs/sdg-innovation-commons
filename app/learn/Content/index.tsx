@@ -1,30 +1,32 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/without-img';
 import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
-import Link from 'next/link';
 import learnApi from '@/app/lib/data/learn';
-import { formatDate, defaultSearch } from '@/app/lib/utils';
+import { formatDate, defaultSearch, page_limit } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
 
-export default function Section() {
+interface SectionProps {
+    searchTerm: string; 
+}
+
+export default function Section({ searchTerm }: SectionProps) {
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
-    const displayN = 27;
+    const displayN = page_limit;
 
     // Fetch data on component mount
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await learnApi({ limit: displayN, search: defaultSearch('learn') });
+            const data = await learnApi({ limit: displayN, search: searchTerm?.length ? searchTerm : defaultSearch('learn') });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, displayN));
             setLoading(false); 
         }
         fetchData();
-    }, []); 
+    }, [searchTerm]); 
 
     return (
         <>

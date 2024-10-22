@@ -1,8 +1,19 @@
 "use client";
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
+	const [searchQuery, setSearchQuery] = useState('');
+	const router = useRouter();
+
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		if (searchQuery) {
+			router.push(`/search/${encodeURIComponent(searchQuery)}`);
+		}
+	};
   return (
   	<>
   		<section className='relative lg:home-section !border-t-0 grid-bg'>
@@ -11,9 +22,8 @@ export default function Hero() {
             <h1>SDG Commons<br/><span className='slanted-bg yellow'><span>powered by UNDP</span></span></h1>
             <p className='lead'>Building a 21st-century architecture for global public goods, requires sharing openly and scaling data, insights, solutions and next practices for the Sustainable Development Goals (SDGs). Join the Accelerator Labs on this journey as we open up our body of work, and come shape the SDG Commons with us.</p>
             {/* Search bar */}
-            <form method='GET' className='h-[60px] flex flex-row mt-[80px] mb-[30px] group relative'>
-            	{/* TO DO: FINISH FORM */}
-            	<input type='text' name='search' className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
+            <form method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mt-[80px] mb-[30px] group relative'>
+            	<input type='text' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} name='search' className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
             	<Button type='submit' className='border-l-0 grow-0'>
             		Search
             	</Button>
