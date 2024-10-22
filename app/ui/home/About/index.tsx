@@ -1,7 +1,14 @@
-import { Button } from '@/app/ui/components/Button';
+'use client';
+
 import Link from 'next/link';
+import { Button } from '@/app/ui/components/Button';
+import { useRef } from 'react';
+import { useIsVisible } from '@/app/ui/components/Interaction';
 
 export default function Section() {
+
+    const ref = useRef();
+    const isVisible = useIsVisible(ref);
 
     return (
         <>
@@ -10,8 +17,8 @@ export default function Section() {
                     <div className="c-left lg:col-span-4 bg-[url('/images/about-us-2.jpeg')] bg-cover bg-no-repeat">
                         <div className='h-full w-full top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]' />
                         <div className='absolute top-0 left-0 lg:px-[80px] lg:py-[100px]'>
-                            <h2 className='slanted-bg yellow lg:mt-[5px]'>
-                                <span>What We Test</span>
+                            <h2 ref={ref} className={`yellow lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
+                                <span>About the commons</span>
                             </h2>
                         </div>
                     </div>

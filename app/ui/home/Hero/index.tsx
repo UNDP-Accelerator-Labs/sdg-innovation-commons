@@ -8,7 +8,7 @@ export default function Hero() {
   		<section className='relative lg:home-section !border-t-0 grid-bg'>
 		    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:py-[100px]'>
 	        <div className='c-left lg:col-span-5 lg:mt-[80px]'>
-            <h1>SDG Commons<br/><span className='slanted-bg-yellow'><span>powered by UNDP</span></span></h1>
+            <h1>SDG Commons<br/><span className='slanted-bg yellow'><span>powered by UNDP</span></span></h1>
             <p className='lead'>Building a 21st-century architecture for global public goods, requires sharing openly and scaling data, insights, solutions and next practices for the Sustainable Development Goals (SDGs). Join the Accelerator Labs on this journey as we open up our body of work, and come shape the SDG Commons with us.</p>
             {/* Search bar */}
             <form method='GET' className='h-[60px] flex flex-row mt-[80px] mb-[30px] group relative'>

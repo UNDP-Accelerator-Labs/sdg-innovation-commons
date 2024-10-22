@@ -5,12 +5,16 @@ import { navItems } from './navlink'
 
 export default function DesktopNavBar() {
 
+  const currPath = new URL(window.location)?.pathname;
+
   return (
     <div className="w-full relative bg-white pt-[10px] pb-[10px] pl-[80px] pr-[80px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid">
 
       {/* Logo */}
       <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] border-solid pb-[17.5px]'>
-        <img className="w-[52px] relative h-[103.5px] z-[0] m-auto" alt="UNDP logo" src="/images/undp-logo.svg" />
+        <Link href='/'>
+          <img className="w-[52px] relative h-[103.5px] z-[0] m-auto" alt="UNDP logo" src="/images/undp-logo.svg" />
+        </Link>
       </div>
       {/* Navigation Links */}
       <div className="flex flex-row items-center justify-end gap-[31px] z-[1]">
@@ -18,8 +22,12 @@ export default function DesktopNavBar() {
           {/* Map over the navItems array */}
           {navItems.map((link, index) => (
             <Link key={index} href={link.href} passHref className='no-underline text-black'>
-              <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer", index == 0 ? 'font-bold' : '')}>
-                {link.title}
+              <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
+                {link.href === currPath ? (
+                    <b>{link.title}</b>
+                  ) : (
+                    link.title
+                )}
               </span>
             </Link>
           ))}

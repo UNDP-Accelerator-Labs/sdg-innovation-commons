@@ -42,8 +42,8 @@ export default function Card({
     const remainingTagsCount = tags.length - visibleTags.length;
 
     return (
-        <div className={clsx("w-full relative flex flex-col items-start justify-start", className)}>
-            <div className="w-full border-black border-[1px] border-solid box-border flex flex-col items-start justify-start grow">
+        <div className={clsx("card w-full relative flex flex-col items-start justify-start", className)}>
+            <div className="w-full flex flex-col items-start justify-start grow">
                 {/* Background Image */}
                 <div className="self-stretch relative overflow-hidden shrink-0 flex flex-col items-start justify-start font-space-mono">
                     <div
@@ -75,10 +75,10 @@ export default function Card({
                     <div className="self-stretch flex flex-col items-start justify-start">
                         <div className="self-stretch flex flex-col items-start justify-start gap-2.5 py-2.5 px-5">
                             {/* Title */}
-                            <b className="self-stretch relative leading-[26px] text-lg lg:text-xl">{title}</b>
+                            <h1>{title}</h1>
                             {/* Description */}
                             <div className="self-stretch relative text-mini lg:text-base leading-[22px]">
-                                {description}
+                                <p>{description}</p>
                             </div>
                         </div>
                     </div>

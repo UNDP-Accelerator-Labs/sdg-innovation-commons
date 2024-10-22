@@ -19,7 +19,7 @@ export default function GlobalError({
                         <div className="flex-1 flex flex-col items-center justify-start relative gap-[23px] z-[1]">
                             <div className="flex flex-col items-center justify-start relative gap-[30px] z-[3]">
                                 <div className='flex flex-col w-[160px]'>
-                                    <div className="self-stretch relative leading-[69px] z-[1] slanted-bg-yellow "><span>500</span></div>
+                                    <div className="self-stretch relative leading-[69px] z-[1] slanted-bg yellow "><span>500</span></div>
                                 </div>
                                 <b className="w-[632.7px] relative text-17xl leading-[46px] inline-block z-[2]">Something went wrong</b>
                                 <div className="w-[632.7px] relative text-xl leading-[28px] font-medium inline-block z-[3]">Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.</div>

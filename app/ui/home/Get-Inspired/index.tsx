@@ -1,16 +1,23 @@
+'use client';
+
 import { CardLink } from '@/app/ui/components/Link';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
+import { useRef } from 'react';
+import { useIsVisible } from '@/app/ui/components/Interaction';
 
 export default function Section() {
     
+    const ref = useRef();
+    const isVisible = useIsVisible(ref);
+
     return (
         <>
             <section className='lg:home-section lg:px-[80px] lg:py-[100px] grid-bg'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                        <h2 ref={ref} className={`yellow lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
                             <span>Get Inspired</span>
                         </h2>
                     </div>

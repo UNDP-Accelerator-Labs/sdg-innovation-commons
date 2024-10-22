@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/app/ui/components/Button';
+import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/featured-card';
 import clsx from 'clsx';
@@ -61,6 +62,9 @@ export default function Section() {
 
     const currentData = slides[currentSlide]; // Get the current slide data
 
+    const ref1 = useRef();
+    const isVisible1 = useIsVisible(ref1);
+
     return (
         <>
             <section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>
@@ -71,7 +75,7 @@ export default function Section() {
                             <p className='lead text-white font-space-mono mb-0'>
                                 <b>{currentData.title}</b>
                             </p>
-                            <h2 className='slanted-bg dark blue lg:mt-[5px]'>
+                            <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
                                 <span>{currentData.description}</span>
                             </h2>
                         </div>

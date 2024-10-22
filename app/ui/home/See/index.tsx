@@ -17,12 +17,15 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await seeApi({ limit: 10, search: defaultSearch('see') });
-            const { hits: fetchedHits } = data || {};
-            setHits(processHits(fetchedHits, 3));
+            // const data = await seeApi({ limit: 10, search: defaultSearch('see') });
+            // const { hits: fetchedHits } = data || {};
+            // setHits(processHits(fetchedHits, 3));
+
+            const data = await seeApi({ limit: 3, page: 1, orderby: 'random' });
+            setHits(data);
+
             setLoading(false); // Set loading to false when data is fetched
         }
-
         fetchData();
     }, []); // Empty dependency array to run only on mount
 
