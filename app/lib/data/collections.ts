@@ -208,7 +208,7 @@ export async function get_collection(_kwarq:CollectionProps) {
 }
 
 
-export const get_pads = async (col: any) =>{
+export const get_pads = async (col: any) => {
     // Group pads by db_id
     const padsByDb: Record<number, number[]> = {};
     col.pads.forEach((padObj: { pad: number, db: number }) => {

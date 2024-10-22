@@ -1,30 +1,32 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
-import Link from 'next/link';
 import seeApi from '@/app/lib/data/see';
 import { processHits } from '@/app/ui/home/Learn';
-import { defaultSearch } from '@/app/lib/utils';
+import { defaultSearch, page_limit } from '@/app/lib/utils';
 
-export default function Section() {
+interface SectionProps {
+    searchTerm: string; 
+}
+
+export default function Section({ searchTerm }: SectionProps) {
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
-    const displayN = 27;
+    const displayN = page_limit;
 
     // Fetch data on component mount
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await seeApi({ limit: displayN, search: defaultSearch('see') });
+            const data = await seeApi({ limit: displayN, search: searchTerm?.length ? searchTerm : defaultSearch('see') });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, displayN));
-            setLoading(false); // Set loading to false when data is fetched
+            setLoading(false); 
         }
         fetchData();
-    }, []); // Empty dependency array to run only on mount
+    }, [searchTerm]); 
 
     return (
         <>
