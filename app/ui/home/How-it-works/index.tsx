@@ -1,14 +1,21 @@
+'use client';
+
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
+import { useRef } from 'react';
+import { useIsVisible } from '@/app/ui/components/Interaction';
 
-export default async function Section() {
+export default function Section() {
+    const ref = useRef();
+    const isVisible = useIsVisible(ref);
+
     return (
         <>
             <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                        <h2 ref={ref} className={`yellow lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
                             <span>How it Works</span>
                         </h2>
                     </div>

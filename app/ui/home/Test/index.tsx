@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
@@ -10,6 +10,7 @@ import testApi from '@/app/lib/data/test';
 import { processHits } from '../Learn';
 import { PostProps } from '@/app/lib/definitions';
 import { defaultSearch } from '@/app/lib/utils';
+import { useIsVisible } from '@/app/ui/components/Interaction';
 
 export default function Section() {
     const tabs = ['experiment', 'action plan'] as const; 
@@ -34,13 +35,16 @@ export default function Section() {
         fetchData();
     }, [activeTab]);
 
+    const ref = useRef();
+    const isVisible = useIsVisible(ref);
+
     return (
         <>
             <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg orange lg:mt-[5px]'>
+                        <h2 ref={ref} className={`orange lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
                             <span>What We Test</span>
                         </h2>
                     </div>

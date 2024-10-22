@@ -5,7 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
-import seeApi from '@/app/lib/data/see';
+import platformApi from '@/app/lib/data/platform-api';
 import { processHits } from '../Learn';
 import { defaultSearch } from '@/app/lib/utils';
 
@@ -17,12 +17,15 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await seeApi({ limit: 10, search: defaultSearch('see') });
-            const { hits: fetchedHits } = data || {};
-            setHits(processHits(fetchedHits, 3));
+            // const data = await platformApi({ limit: 10, search: defaultSearch('see') });
+            // const { hits: fetchedHits } = data || {};
+            // setHits(processHits(fetchedHits, 3));
+
+            const data = await platformApi({ limit: 3, page: 1, orderby: 'random' }, 'solution');
+            setHits(data);
+
             setLoading(false); // Set loading to false when data is fetched
         }
-
         fetchData();
     }, []); // Empty dependency array to run only on mount
 

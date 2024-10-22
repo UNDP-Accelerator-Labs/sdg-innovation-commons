@@ -19,7 +19,7 @@ export default function Hero() {
   			<img className='w-[40%] absolute left-0 bottom-[-15%]' alt="Branding illustration" src="/images/hero_learn_hand_01.png" />
 		    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:py-[100px]'>
 	        <div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
-            <h1 className='slanted-bg-yellow'><span>What we Learn</span></h1>
+            <h1 className='slanted-bg yellow'><span>What we Learn</span></h1>
             <p className='lead'>Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.</p>
 	        </div>
 	        <div className='c-right lg:col-span-4'></div>
