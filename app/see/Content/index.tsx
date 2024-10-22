@@ -6,7 +6,7 @@ import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/pagination';
 import Link from 'next/link';
-import seeApi from '@/app/lib/data/see';
+import platformApi from '@/app/lib/data/platform-api';
 import { processHits } from '@/app/ui/home/Learn';
 import { defaultSearch, page_limit } from '@/app/lib/utils';
 
@@ -26,8 +26,8 @@ export default function Section() {
         setPages(totalPages);
         setCurrPage(page);
 
-        const data = await seeApi({ limit: page_limit, page, include_locations: true }, platform);
-        // const data = await seeApi({ limit: page_limit, page, orderby: 'random' });
+        const data = await platformApi({ limit: page_limit, page, include_locations: true }, platform);
+        // const data = await platformApi({ limit: page_limit, page, orderby: 'random' });
         setHits(data);
         console.log(data)
         // const { hits: fetchedHits } = data || {};

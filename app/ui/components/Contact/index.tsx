@@ -1,11 +1,11 @@
 'use client';
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 import { createContact, ContactState } from '@/app/lib/data/contact-us';
 import { Button } from '@/app/ui/components/Button';
 
 export default function Contact() {
     const initialState: ContactState = { message: null, errors: {} };
-    const [state, formAction] = useFormState(createContact, initialState);
+    const [state, formAction] = useActionState(createContact, initialState);
 
     return (
         <>
