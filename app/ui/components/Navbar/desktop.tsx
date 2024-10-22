@@ -2,10 +2,11 @@
 import Link from 'next/link'; 
 import clsx from 'clsx';
 import { navItems } from './navlink'
+import { useLocation } from 'react-router-dom';
 
 export default function DesktopNavBar() {
-
-  const currPath = new URL(window.location)?.pathname;
+  const location = useLocation();
+  const currPath = location.pathname
 
   return (
     <div className="w-full relative bg-white pt-[10px] pb-[10px] pl-[80px] pr-[80px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid">

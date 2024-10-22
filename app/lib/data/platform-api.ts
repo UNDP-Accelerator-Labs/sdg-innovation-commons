@@ -28,6 +28,7 @@ export interface Props {
   include_source?: boolean;
   include_engagment?: boolean;
   include_comments?: boolean;
+  platform?: string;
 }
 
 export default async function platformApi(_kwargs: Props, platform: string) {
@@ -39,15 +40,17 @@ export default async function platformApi(_kwargs: Props, platform: string) {
 
     const params = new URLSearchParams();
     params.set('output', 'json');
-    for (let k in _kwargs) {
-        if (Array.isArray(k)) {
-            _kwargs[k].forEach(v => {
-                params.append(k, v);
-            });
-        } else {
-            params.set(k, _kwargs[k]);
+    for (const k in _kwargs) {
+        if (Object.prototype.hasOwnProperty.call(_kwargs, k)) {
+            if (Array.isArray(_kwargs[k])) {
+                (_kwargs[k] as any[]).forEach((v: any) => {
+                    params.append(k, v);
+                });
+            } else {
+                params.set(k, _kwargs[k]);
+            }
         }
-    }
+    }    
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
