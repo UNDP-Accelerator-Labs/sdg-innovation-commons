@@ -9,9 +9,14 @@ import platformApi from '@/app/lib/data/platform-api';
 import { processHits } from '@/app/ui/home/Learn';
 import { defaultSearch, page_limit } from '@/app/lib/utils';
 
+interface PageStatsResponse {
+    total: number;
+    pages: number;
+}
+
 export default function Section() {
-    const [currPage, setCurrPage] = useState<any[]>([]);
-    const [pages, setPages] = useState<any[]>([]);
+    const [currPage, setCurrPage] = useState<number>(1);
+    const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
 
@@ -19,7 +24,7 @@ export default function Section() {
         setLoading(true);
 
         
-        const { total, pages: totalPages } = await pagestats(page, platform);
+        const { total, pages: totalPages } : PageStatsResponse = await pagestats(page, platform);
         // const pagelist = new Array(totalPages).fill(0).map((d, i) => i + 1)
         setPages(totalPages);
         setCurrPage(page);
@@ -34,13 +39,13 @@ export default function Section() {
     // Fetch data on component mount
     useEffect(() => {
         const params = new URLSearchParams(window.location.search);
-        const page: number = !isNaN(parseInt(params.get('page'))) ? parseInt(params.get('page')) : 1;
+        const page: number = !isNaN(parseInt(params.get('page') || '')) ? parseInt(params.get('page') || '') : 1;
         fetchData(page, 'experiment');
     }, []); // Empty dependency array to run only on mount
 
-    const handleClick = useCallback(page => {
+    const handleClick = useCallback((page: number): void => {
         fetchData(page, 'experiment')
-    });
+    }, []);
 
     return (
         <>

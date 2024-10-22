@@ -62,7 +62,7 @@ export default function Section() {
 
     const currentData = slides[currentSlide]; // Get the current slide data
 
-    const ref1 = useRef();
+    const ref1 = useRef<HTMLDivElement>(null);
     const isVisible1 = useIsVisible(ref1);
 
     return (

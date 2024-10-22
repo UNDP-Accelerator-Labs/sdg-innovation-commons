@@ -1,5 +1,3 @@
-"use client";
-
 import NavBar from './mobile'; // Mobile navbar
 import DesktopNavBar from './desktop'; // Desktop navbar
 

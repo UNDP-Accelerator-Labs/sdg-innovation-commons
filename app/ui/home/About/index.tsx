@@ -7,7 +7,7 @@ import { useIsVisible } from '@/app/ui/components/Interaction';
 
 export default function Section() {
 
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>(null);
     const isVisible = useIsVisible(ref);
 
     return (

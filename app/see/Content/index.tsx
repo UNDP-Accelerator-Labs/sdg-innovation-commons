@@ -40,7 +40,7 @@ useEffect(() => {
 */
 
 
-interface PageStatsResponse {
+export interface PageStatsResponse {
     total: number;
     pages: number;
 }
@@ -49,7 +49,11 @@ interface PlatformApiResponse {
     hits: any[]; 
 }
 
-export default function Section() {
+interface SectionProps {
+    searchTerm: string; 
+}
+
+export default function Section({ searchTerm }: SectionProps) {
     const [currPage, setCurrPage] = useState<number>(1);
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
