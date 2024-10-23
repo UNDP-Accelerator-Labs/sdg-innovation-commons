@@ -33,7 +33,7 @@ export interface Props {
 
 export default async function platformApi(_kwargs: Props, platform: string) {
     let { space, pinboard, include_tags } = _kwargs;
-    if (!platform) _kwargs.platform = 'solution';
+    if (!platform) platform = 'solution';
     if (!space) _kwargs.space = 'public';
     if (pinboard) _kwargs.space = 'pinned';
     if (!include_tags) _kwargs.include_tags = true;

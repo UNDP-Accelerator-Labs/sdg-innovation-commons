@@ -5,6 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
+import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
 import { processHits } from '@/app/ui/home/Learn';
 import { defaultSearch, page_limit } from '@/app/lib/utils';
