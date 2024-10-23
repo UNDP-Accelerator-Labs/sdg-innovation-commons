@@ -77,7 +77,7 @@ export default function Section({ searchTerm }: SectionProps) {
         setLoading(false);
     }
 
-    useEffect(() => {
+    useEffect((): void => {
         const params = new URLSearchParams(window.location.search);
         const page: number = !isNaN(parseInt(params.get('page') || '')) ? parseInt(params.get('page') || '') : 1;
         fetchData(page);
