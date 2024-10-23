@@ -37,7 +37,7 @@ export default function Section() {
     }
 
     // Fetch data on component mount
-    useEffect(() => {
+    useEffect((): void => {
         const params = new URLSearchParams(window.location.search);
         const page: number = !isNaN(parseInt(params.get('page') || '')) ? parseInt(params.get('page') || '') : 1;
         fetchData(page, 'experiment');

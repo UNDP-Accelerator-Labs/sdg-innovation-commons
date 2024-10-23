@@ -72,7 +72,7 @@ export default function Section({ searchTerm }: SectionProps) {
             { limit: page_limit, page, include_locations: true }, 
             platform
         );
-        setHits(data.hits);
+        setHits(data);
 
         setLoading(false);
     }
