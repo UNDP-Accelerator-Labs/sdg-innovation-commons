@@ -40,3 +40,5 @@ version.txt
 settings.json
 
 dep.*
+
+*.sublime-*

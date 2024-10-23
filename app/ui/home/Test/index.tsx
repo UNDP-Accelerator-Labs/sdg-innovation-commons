@@ -35,7 +35,7 @@ export default function Section() {
         fetchData();
     }, [activeTab]);
 
-    const ref = useRef();
+    const ref = useRef<HTMLDivElement>(null);
     const isVisible = useIsVisible(ref);
 
     return (

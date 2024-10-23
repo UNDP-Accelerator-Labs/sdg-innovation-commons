@@ -1,11 +1,11 @@
 "use client";
 import Link from 'next/link'; 
 import clsx from 'clsx';
-import { navItems } from './navlink'
+import { navItems } from './navlink';
+import {usePathname, useSearchParams} from 'next/navigation';
 
 export default function DesktopNavBar() {
-
-  const currPath = new URL(window.location)?.pathname;
+  const currPath = usePathname();
 
   return (
     <div className="w-full relative bg-white pt-[10px] pb-[10px] pl-[80px] pr-[80px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid">
