@@ -87,7 +87,7 @@ export default function Section({ searchTerm }: SectionProps) {
         fetchData(page);
     }, []);
 
-console.log(hits)
+
     return (
         <>
         <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
