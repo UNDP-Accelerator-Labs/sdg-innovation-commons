@@ -29,7 +29,24 @@ export async function getCurrentUrl(pathname: string) {
 export async function logout(uuid: string) {
   try {
     await DB.general.oneOrNone(`
-      DELETE FROM public.session
+      UPDATE session 
+        SET sess = jsonb_build_object(
+          'cookie', sess -> 'cookie',
+          'sessions', sess -> 'sessions',
+          'uuid', null,
+          'username', null,
+          'email', null,
+          'team', sess -> 'team',
+          'collaborators', sess -> 'collaborators',
+          'rights', sess -> 'rights',
+          'public', sess -> 'public',
+          'language', sess -> 'language',
+          'country', sess -> 'country',
+          'app', sess -> 'app',
+          'device', sess -> 'device',
+          'is_trusted', sess -> 'is_trusted',
+          'confirm_dev_origins', sess -> 'confirm_dev_origins'
+        )
       WHERE sess->>'uuid' = $1;
     `, [uuid]);
     return redirect('/');
