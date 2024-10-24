@@ -1,9 +1,6 @@
-import { get_collection } from '@/app/lib/data/collections';
+type Params = Promise<{ id: string }>
 
-export default async function Page({ params }: { params: { id: string } }) {
-    const id = +params.id;
-    const data = await get_collection({id})
-    console.log(data)
+export default async function Page({ params }: { params: Params }) {  
   return (
     <>
     <h3>Coolection board</h3>
