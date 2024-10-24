@@ -3,12 +3,15 @@ import Hero from './Hero';
 import Content from './Content';
 import Footer from '@/app/ui/components/Footer';
 
-export default async function Page({ params }: { params: { slug: string } }) {
+type Params = Promise<{ slug: string }>
+
+export default async function PagePage({ params }: { params: Params }) {  
+  const { slug } = await params
   return (
     <>
     <Navbar />
-    <Hero slug={params.slug}  />
-    <Content slug={params.slug} />
+    <Hero slug={slug}  />
+    <Content slug={slug} />
     <Footer />
     </>
   );

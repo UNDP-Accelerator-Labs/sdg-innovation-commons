@@ -9,7 +9,7 @@ export default function Contact() {
 
     return (
         <>
-            <section className='lg:home-section lg:px-0 lg:py-0 bg-[#EDFFA4]'>
+            <section className='lg:home-section lg:px-0 lg:py-0 bg-[#EDFFA4]' id="contact" >
                 <div className='section-content grid grid-cols-9 gap-[20px]'>
                     <div className='c-left lg:col-span-4 lg:pl-[80px] lg:py-[100px]'>
                         <div className='grid grid-cols-2 gap-[20px] lg:pb-[40px]'>

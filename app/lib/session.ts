@@ -1,28 +1,33 @@
-import 'server-only'
+'use server';
 import { cookies } from 'next/headers'
+import { DB } from '@/app/lib/db';
 
-export async function getSession() {
-    const session = cookies().get(`${process.env.APP_SUITE}-session`)
+export default async function getSession(withUserInfo: Boolean) {
+    const s_id: string = (await cookies()).get(`${process.env.APP_SUITE}-session`)?.value || ''
+    if (!s_id) {
+        return null
+    }
+
+    let split = s_id?.split('.')[0]?.slice(2)
+    const session = await DB.general.oneOrNone(`
+        SELECT sess
+        FROM public.session
+        WHERE sid = $1
+        AND expire > NOW()
+        AND sess->>'uuid' IS NOT NULL;
+    `, [split], d => d?.sess ?? null)
+
+ 
+    if (withUserInfo && session) {
+        const user = await DB.general.oneOrNone(`
+            SELECT *
+            FROM public.users
+            WHERE uuid = $1
+        `, [session?.uuid])
+        if (user) delete user.password
+
+        return { user, session }
+    }
+
     return session
 }
-
-//TODO - LINK THE APP DIRRECTLY TO THE SESSION STORE
-// import nextSession from "next-session";
-// import { expressSession, promisifyStore } from "next-session/lib/compat";
-// const PgSession = require('connect-pg-simple')(expressSession);
-// import { baseHost } from './utils'
-// import { DB } from './db';
-
-// export const getSession = nextSession({
-//     name: `${process.env.APP_SUITE}-session`,
-//     store: promisifyStore(
-//         new PgSession({ pgPromise: DB.general })
-//     ),
-//     cookie: {
-//       domain: process.env.NODE_ENV === 'production' ? baseHost : undefined,
-//       httpOnly: true,
-//       secure: process.env.NODE_ENV === 'production',
-//       maxAge: 1 * 1000 * 60 * 60 * 24 * 1, // 1 day
-//       sameSite: 'lax',
-//     },
-// });
