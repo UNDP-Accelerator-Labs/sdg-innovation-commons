@@ -1,6 +1,19 @@
+"use client";
 import Navbar from '@/app/ui/components/Navbar';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-export default async function NotFound() {
+export default function NotFound() {
+    const [searchQuery, setSearchQuery] = useState('');
+	const router = useRouter();
+
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		if (searchQuery) {
+			router.replace(`/search/${encodeURIComponent(searchQuery)}`);
+		}
+	};
+
     return (
         <>
             <Navbar />
@@ -20,16 +33,13 @@ export default async function NotFound() {
                             <div className="w-[682px] flex flex-col items-start justify-end">
                                 <div className="self-stretch flex flex-col items-start justify-end">
                                     <div className="self-stretch flex flex-row items-end justify-start gap-10">
-                                        {/* TODO: Make Jeremy's Search Input a component and import here */}
-                                        <div className="w-[522px] flex flex-row items-end justify-start">
-                                            <div className="flex-1 bg-white border-black border-t-[0.7px] border-solid border-b-[0.7px] border-l-[0.7px]  box-border h-[60px] flex flex-row items-center justify-start py-[18px] px-[22px]">
-                                                <div className="relative leading-[26px]">Looking for something?</div>
-                                            </div>
-                                            <div className="w-[72px] relative h-[71px]">
-                                                <div className="absolute h-[84.51%] w-[87.5%] top-[0%] right-[0%] bottom-[15.49%] left-[12.5%] bg-lime-yellow" />
-                                                <div className="absolute h-[84.51%] w-[87.5%] top-[15.49%] right-[12.5%] bottom-[0%] left-[0%] border-black border-[1px] border-solid box-border" />
-                                                <img className="absolute h-[33.8%] w-[33.33%] top-[26.03%] right-[28.47%] bottom-[40.17%] left-[38.19%] max-w-full overflow-hidden max-h-full" alt="" src="/images/search-sm.svg" />
-                                            </div>
+                                        <div className="">
+                                            <form method='GET' onSubmit={handleSubmit} className='w-[522px] flex flex-row items-end justify-start  group relative'>
+                                                <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow h-[60px]' id='main-search-bar' placeholder='What are you looking for?' />
+                                                <button className="h-[60px] font-bold font-space-mono text-[18px] px-[40px] border-l-0 grow-0 detach">
+                                                    <img className="absolute h-[33.8%] w-[33.33%] top-[26.03%] right-[28.47%] bottom-[40.17%] left-[38.19%] max-w-full overflow-hidden max-h-full" alt="" src="/images/search-sm.svg" />
+                                                </button>
+                                            </form>
                                         </div>
                                         {/* TODO: Make Filter and children a component and import here */}
                                         <div className="flex flex-row items-end justify-center">

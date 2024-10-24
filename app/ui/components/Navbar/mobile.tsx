@@ -1,7 +1,10 @@
-"use client"; 
-
-import { useState } from "react";
+"use client";
+import { useEffect, useState } from 'react';
+import { sess } from './navlink';
+import { usePathname } from 'next/navigation';
+import { redirectToLogin } from '@/app/lib/auth';
 import NavLink from "./navlink";
+import Link from 'next/link';
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +13,18 @@ export default function NavBar() {
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
+
+  const currPath = usePathname();
+  const [session, setSess] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    async function fetchData() {
+      const data = await sess();
+      setSess(data)
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black">
@@ -49,13 +64,26 @@ export default function NavBar() {
               alt=""
               src="/images/gtranslate.svg"
             />
-            <button className="w-[143.1px] relative h-[51.3px]">
-              <div className="absolute top-[0px] left-[0px] bg-lime-yellow w-[143.1px] h-[51.3px]" />
-              <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
-                Login
-              </b>
-            </button>
-          </div> 
+            {session?.uuid ? <>
+              <Link href={'/'} passHref className='no-underline text-black'>
+                <span className="leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5">
+                  Welcome {session?.username || ''}
+                </span>
+              </Link>
+            </>
+              : <>
+                <button onClick={(e) => {
+                  e.preventDefault()
+                  redirectToLogin(currPath)
+                }} className="w-[143.1px] relative h-[51.3px]">
+                  <div className="absolute top-[0px] left-[0px] bg-lime-yellow w-[143.1px] h-[51.3px]" />
+                  <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
+                    Login
+                  </b>
+                </button>
+              </>
+            }
+          </div>
         </div>
       )}
     </div>
