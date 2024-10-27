@@ -1,8 +1,14 @@
 'use server';
 import { redirect } from "next/navigation";
 import { headers } from 'next/headers'
-import { commonsPlatform } from '@/app/lib/utils';
+import { commonsPlatform, baseHost } from '@/app/lib/utils';
 import { DB } from '@/app/lib/db';
+import jwt from 'jsonwebtoken'
+
+interface TokenPayload {
+  uuid: string;
+  rights: number;
+}
 
 export async function redirectToLogin(pathname: string) {
   const url: string | undefined = commonsPlatform.find((p: any) => p.key === 'login')?.url
@@ -55,4 +61,14 @@ export async function logout(uuid: string) {
     return redirect('/');
   }
 }
+
+export async function getToken({ uuid, rights }: TokenPayload) {
+  const token = await jwt.sign(
+    { uuid, rights },
+    process.env.APP_SECRET as string, 
+    { audience: 'user:known', issuer: baseHost?.slice(1) }
+  );
+  return token;
+}
+
 

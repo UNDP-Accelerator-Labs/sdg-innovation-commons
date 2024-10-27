@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 const cspLinks = [
   "'self'",
   '*.sdg-innovation-commons.org',
@@ -17,7 +18,7 @@ const cspLinks = [
   'https://b.tile.openstreetmap.org',
 ];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
     const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   
     const cspHeader = `
