@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export async function pagestats(page: number, platform: string) {
 	async function fetchPages() {
-	    const { total } = await statsApi(platform);
+	    const { total } = await statsApi(platform) || {};
 	    const pages = Math.ceil(total / page_limit);
 	    return { total, page, pages };
 	}

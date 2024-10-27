@@ -26,9 +26,8 @@ export default async function getSession(withUserInfo: Boolean) {
     }
     
     if(sess?.uuid){
-      const token: string = await getToken({uuid: session?.uuid, rights: session?.rights })
-      const response = NextResponse.next();
-      response.cookies.set('x-access-token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
+      const token: string = await getToken({uuid: session?.uuid, rights: session?.rights });
+      (await cookies()).set('x-access-token', token);
     }
 
     if (withUserInfo && sess?.uuid) {
