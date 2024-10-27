@@ -15,7 +15,7 @@ export default function NavBar() {
   };
 
   const currPath = usePathname();
-  const [session, setSess] = useState<Record<string, any>>({});
+  const [session, setSess] = useState<any>({});
 
   useEffect(() => {
     async function fetchData() {

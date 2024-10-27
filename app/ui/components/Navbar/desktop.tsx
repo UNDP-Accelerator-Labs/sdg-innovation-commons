@@ -8,7 +8,7 @@ import { useEffect, useState  } from 'react';
 
 export default function DesktopNavBar() {
   const currPath = usePathname();
-  const [session, setSess] = useState<Record<string, any>>({});
+  const [session, setSess] = useState<any>({});
   
   useEffect(() => {
     async function fetchData() {

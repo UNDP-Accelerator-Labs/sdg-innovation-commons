@@ -1,6 +1,8 @@
 'use server';
 import { cookies } from 'next/headers'
 import { DB } from '@/app/lib/db';
+import { NextResponse } from "next/server";
+import { getToken } from '@/app/lib/auth';
 
 export default async function getSession(withUserInfo: Boolean) {
     const s_id: string = (await cookies()).get(`${process.env.APP_SUITE}-session`)?.value || ''
@@ -16,9 +18,20 @@ export default async function getSession(withUserInfo: Boolean) {
         AND expire > NOW()
         AND sess->>'uuid' IS NOT NULL;
     `, [split], d => d?.sess ?? null)
+    
+    const sess = {
+        uuid: session?.uuid,
+        username: session?.username,
+        rights: session?.rights
+    }
+    
+    if(sess?.uuid){
+      const token: string = await getToken({uuid: session?.uuid, rights: session?.rights })
+      const response = NextResponse.next();
+      response.cookies.set('x-access-token', token, { httpOnly: true, secure: true, sameSite: 'strict' });
+    }
 
- 
-    if (withUserInfo && session) {
+    if (withUserInfo && sess?.uuid) {
         const user = await DB.general.oneOrNone(`
             SELECT *
             FROM public.users
@@ -26,8 +39,9 @@ export default async function getSession(withUserInfo: Boolean) {
         `, [session?.uuid])
         if (user) delete user.password
 
-        return { user, session }
+        return { user, session: sess }
     }
 
-    return session
+    return sess
 }
+
