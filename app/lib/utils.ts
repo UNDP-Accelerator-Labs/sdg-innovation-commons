@@ -136,9 +136,6 @@ export const formatDate = (
   return `${day}.${month}.${year}`;
 }
 
-
-
-
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.
@@ -170,4 +167,18 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     '...',
     totalPages,
   ];
+};
+
+
+export const polishTags = (data: any[]) => {
+  return data?.flat()?.map((d: any) => ({
+    ...d,
+    snippet: d?.snippet?.length > 200 ? `${d.snippet.slice(0, 200)}…` : d.snippet,
+    tags: d?.tags
+        ?.filter((t: any) => t.type === 'thematic_areas')
+        .map((t: any) => t.name),
+    sdg: d?.tags
+        ?.filter((t: any) => t.type === 'sdgs')
+        .map((t: any) => t.key)
+  }));
 };

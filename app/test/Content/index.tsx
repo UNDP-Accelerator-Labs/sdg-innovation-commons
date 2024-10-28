@@ -1,56 +1,110 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
-import { processHits } from '@/app/ui/home/Learn';
-import { defaultSearch, page_limit } from '@/app/lib/utils';
+import nlpApi from '@/app/lib/data/nlp-api';
+import { page_limit } from '@/app/lib/utils';
+import { usePathname, useRouter } from 'next/navigation';
+import clsx from 'clsx';
 
-interface PageStatsResponse {
+export interface PageStatsResponse {
     total: number;
     pages: number;
 }
 
-export default function Section() {
-    const [currPage, setCurrPage] = useState<number>(1);
+// interface PlatformApiResponse {
+//     hits: any[]; 
+// }
+
+interface SectionProps {
+    apiParams: any;
+    handlePageUpdate: Function;
+}
+
+export default function Section({
+    apiParams,
+    handlePageUpdate
+}: SectionProps) {
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const { page, search } = apiParams;
+
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
-    const [loading, setLoading] = useState<boolean>(true); // Loading state
+    const [loading, setLoading] = useState<boolean>(true);
 
-    async function fetchData(page: number, platform: string) {
+    const tabs = ['experiment', 'action plan'] as const; 
+    type TabType = typeof tabs[number]; 
+    // Manage the active tab and data
+    const [platform, setPlatform] = useState<TabType>(tabs[0]);
+
+    async function fetchData(): Promise<void> {
         setLoading(true);
 
-        
-        const { total, pages: totalPages } : PageStatsResponse = await pagestats(page, platform);
-        // const pagelist = new Array(totalPages).fill(0).map((d, i) => i + 1)
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform);
         setPages(totalPages);
-        setCurrPage(page);
+        
+        let data: any[];
+        console.log(platform)
 
-        const data = await platformApi({ limit: page_limit, page, include_locations: true }, platform);
+        if (!search) {
+            data = await platformApi(
+                { ...apiParams, ...{ limit: page_limit, include_locations: true } },
+                platform,
+                'pads'
+            );
+        } else {
+            console.log('look for search term', search)
+            data = await nlpApi(
+                { ... apiParams, ...{ limit: page_limit, doc_type: platform } },
+                platform
+            );
+        }
         setHits(data);
-        // const { hits: fetchedHits } = data || {};
-        // setHits(processHits(fetchedHits, page_limit));
-        setLoading(false); // Set loading to false when data is fetched
+
+        setLoading(false);
     }
 
-    // Fetch data on component mount
-    useEffect((): void => {
-        const params = new URLSearchParams(window.location.search);
-        const page: number = !isNaN(parseInt(params.get('page') || '')) ? parseInt(params.get('page') || '') : 1;
-        fetchData(page, 'experiment');
-    }, []); // Empty dependency array to run only on mount
+    useEffect(() => {
+        // set the url search parameters
+        const params = new URLSearchParams();
+        for (let k in apiParams) {
+            params.append(k, apiParams[k]);
+        }
+        const queryString = params.toString();
+        const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
+        router.push(updatedPath, '', { shallow: true });
+        
+        fetchData();
+    }, [apiParams, platform]);
 
     const handleClick = useCallback((page: number): void => {
-        fetchData(page, 'experiment')
-    }, []);
+        handlePageUpdate(page);
+    });
 
     return (
         <>
         <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
+            {/* Display tabs */}
+            <nav className='tabs'>
+                {tabs.map((d, i) => {
+                    return (
+                    <div key={i}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setPlatform(d);
+                        }}
+                        className={clsx('tab tab-line', platform === d ? '' : 'orange')}
+                    >
+                        <b>{`${d}s`}</b>
+                    </div>
+                    )
+                })}
+            </nav>
             <div className='section-content'>
                 {/* Display Cards */}
                 <div className='grid gap-[20px] lg:grid-cols-3'>
@@ -81,7 +135,7 @@ export default function Section() {
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
-                        page={currPage}
+                        page={page}
                         totalPages={pages}
                         handleClick={handleClick}
                     />

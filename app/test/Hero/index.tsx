@@ -1,8 +1,23 @@
 "use client";
 import { Button } from '@/app/ui/components/Button';
-import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
-export default function Hero() {
+interface heroProps {
+	search: string;
+	handleSearch: Function;
+}
+
+export default function Hero({
+	search,
+	handleSearch
+}: heroProps) {
+	const [searchQuery, setSearchQuery] = useState(search || '');
+
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault();
+		if (searchQuery) handleSearch(searchQuery.trim());
+	};
+
   return (
   	<>
   		<section className='relative lg:home-section !border-t-0 grid-bg'>
@@ -15,9 +30,8 @@ export default function Hero() {
 	        <div className='c-right lg:col-span-4'></div>
 	        <div className='lg:col-span-4'>
 	        	{/* Search bar */}
-	        	<form method='GET' className='h-[60px] flex flex-row mb-[30px] group relative'>
-	        		{/* TO DO: FINISH FORM */}
-	        		<input type='text' name='search' className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
+	        	<form method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mb-[30px] group relative'>
+	        		<input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
 	        		<Button type='submit' className='border-l-0 grow-0'>
 	        			Search
 	        		</Button>

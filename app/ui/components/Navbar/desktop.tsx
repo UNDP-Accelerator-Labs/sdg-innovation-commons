@@ -2,7 +2,7 @@
 import Link from 'next/link'; 
 import clsx from 'clsx';
 import { navItems } from './navlink';
-import {usePathname, useSearchParams} from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function DesktopNavBar() {
   const currPath = usePathname();
