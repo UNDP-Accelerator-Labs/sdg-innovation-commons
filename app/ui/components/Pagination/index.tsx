@@ -2,9 +2,14 @@ import { statsApi } from '@/app/lib/data/pagination';
 import { page_limit } from '@/app/lib/utils';
 import Link from 'next/link';
 
-export async function pagestats(page: number, platform: string) {
+export async function pagestats(page: number, platform: string, status: number) {
+	if (!status) status = 3;
+	
 	async function fetchPages() {
-	    const { total } = await statsApi(platform);
+	    const data = await statsApi(platform);
+	    const { breakdown } = data;
+	    const totalToCount = breakdown.filter((b: any) => b.status >= status);
+	    const total = totalToCount.reduce((partialSum: number, a: any) => partialSum + a.count, 0);
 	    const pages = Math.ceil(total / page_limit);
 	    return { total, page, pages };
 	}

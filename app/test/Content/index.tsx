@@ -22,11 +22,17 @@ export interface PageStatsResponse {
 interface SectionProps {
     apiParams: any;
     handlePageUpdate: Function;
+    handleTabUpdate: Function;
+    platform: string;
+    tabs: string[];
 }
 
 export default function Section({
     apiParams,
-    handlePageUpdate
+    handlePageUpdate,
+    handleTabUpdate,
+    platform,
+    tabs
 }: SectionProps) {
     const pathname = usePathname();
     const router = useRouter();
@@ -37,15 +43,10 @@ export default function Section({
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const tabs = ['experiment', 'action plan'] as const; 
-    type TabType = typeof tabs[number]; 
-    // Manage the active tab and data
-    const [platform, setPlatform] = useState<TabType>(tabs[0]);
-
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform);
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
         setPages(totalPages);
         
         let data: any[];
@@ -77,14 +78,15 @@ export default function Section({
         }
         const queryString = params.toString();
         const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
-        router.push(updatedPath, '', { shallow: true });
+        // router.push(updatedPath, '', { shallow: true });
+        router.push(updatedPath);
         
         fetchData();
     }, [apiParams, platform]);
 
     const handleClick = useCallback((page: number): void => {
         handlePageUpdate(page);
-    });
+    }, []);
 
     return (
         <>
@@ -96,7 +98,7 @@ export default function Section({
                     <div key={i}
                         onClick={(e) => {
                             e.preventDefault();
-                            setPlatform(d);
+                            handleTabUpdate(d);
                         }}
                         className={clsx('tab tab-line', platform === d ? '' : 'orange')}
                     >

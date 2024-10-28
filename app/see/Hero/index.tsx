@@ -19,14 +19,17 @@ export default function Hero({
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
 
-		const data = new FormData(event.target);
-		const searchdata = {};
-		for (const [key, value] of data) {
-			if (typeof value === 'number' || value?.length) {
+		const data = new FormData(event.nativeEvent.target as HTMLFormElement);
+		const searchdata: { [key: string]: any } = {};
+		for (const [k, v] of data) {
+			if (typeof v === 'number' || (typeof v === 'string' && v?.length)) {
+				const key = k as keyof typeof searchdata;
 				if (searchdata[key]) {
-					if (!Array.isArray(searchdata[key])) searchdata[key] = [searchdata[key]];
-					searchdata[key].push(value);
-				} else searchdata[key] = value;
+					if (!Array.isArray(searchdata[key])) {
+						searchdata[key] = [searchdata[key]];
+					}
+					searchdata[key].push(v);
+				} else searchdata[key] = v;
 			}
 		}
 
@@ -36,7 +39,8 @@ export default function Hero({
   	return (
   	<>
   		<section className='relative lg:home-section !border-t-0 grid-bg'>
-  			<img className='w-[40%] absolute left-0 bottom-[-15%]' alt="Branding illustration" src="/images/hero_learn_hand_01.png" />
+  			<img className='w-[40%] absolute right-0 top-[90px]' alt="Branding illustration" src="/images/hands/see_top.svg" />
+  			<img className='w-[40%] absolute right-[5%] bottom-[-1px]' alt="Branding illustration" src="/images/hands/see_bottom.svg" />
 		    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:pt-[100px]'>
 		        <div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
 	            	<h1 className='slanted-bg green'><span>What we See</span></h1>

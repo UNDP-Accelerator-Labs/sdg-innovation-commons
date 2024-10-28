@@ -42,7 +42,7 @@ export default function Section({
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform);
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
         setPages(totalPages);
         
         let data: any[];
@@ -78,14 +78,15 @@ export default function Section({
         }
         const queryString = params.toString();
         const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
-        router.push(updatedPath, '', { shallow: true });
+        // router.push(updatedPath, '', { shallow: true });
+        router.push(updatedPath);
         
         fetchData();
     }, [apiParams]);
 
     const handleClick = useCallback((page: number): void => {
         handlePageUpdate(page);
-    });
+    }, []);
 
     return (
         <>

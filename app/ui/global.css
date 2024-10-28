@@ -109,6 +109,9 @@ textarea {
   .tab-line.orange {
     border-color: #FFBE8D;
   }
+  .tab-line.blue {
+    border-color: #81C2F2;
+  }
 
   .lead {
     @apply text-[20px] leading-[29px];

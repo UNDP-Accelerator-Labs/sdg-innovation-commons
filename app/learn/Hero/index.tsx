@@ -32,12 +32,6 @@ export default function Hero() {
 	        		</Button>
 	        	</form>
 	        </div>
-	        <div className='lg:col-span-2'>
-	        	TO DO: Select
-	        </div>
-	        <div className='lg:col-span-2'>
-	        	TO DO: Select
-	        </div>
 		    </div>
   		</section>
 

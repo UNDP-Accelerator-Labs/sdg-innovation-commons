@@ -10,7 +10,7 @@ export interface Props {
   search?: string;
   language?: string;
   country?: string;
-  doc_type?: string[];
+  doc_type?: string[] | null;
 }
 
 export default async function learn(_kwargs: Props) {
