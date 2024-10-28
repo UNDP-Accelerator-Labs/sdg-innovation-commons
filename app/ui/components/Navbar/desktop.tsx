@@ -7,7 +7,8 @@ import { redirectToLogin } from '@/app/lib/auth';
 import { useEffect, useState  } from 'react';
 
 export default function DesktopNavBar() {
-  const currPath: string[] = usePathname().split('/').filter((d: string) => d?.length);
+  const currPath: string = usePathname()
+  const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length);
   const [session, setSess] = useState<Record<string, any>>({});
   
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function DesktopNavBar() {
             return (
               <Link key={index} href={link.href} passHref className='no-underline text-black'>
                 <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
-                  {currHref[0] === currPath[0] ? (
+                  {currHref[0] === currPathSplit[0] ? (
                     <b>{link.title}</b>
                   ) : (
                     link.title
