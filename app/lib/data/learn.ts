@@ -13,7 +13,7 @@ export interface Props {
 }
 
 export default async function learn(_kwargs: Props) {
-  const { page, limit, offset, search, language, country } = _kwargs
+  const { page, limit, offset, search, language, country, doc_type } = _kwargs
   const body = {
     input: search ?? '',
     page_limit: page ?? 1,
@@ -24,7 +24,7 @@ export default async function learn(_kwargs: Props) {
     vecdb: "main",
     filters: {
       language: language ? [language] : [],
-      doc_type: ["blog", "publications", "news"],
+      doc_type: doc_type && Array.isArray(doc_type) ? doc_type : ["blog", "publications", "news"],
       iso3: country ? [country] : []
     }
   }

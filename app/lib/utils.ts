@@ -76,7 +76,7 @@ export async function getAdditionalData(results: any, base_url: string) {
 export function extractSDGNumbers(pad: any) {
   const sdgNumbers: number[] = [];
 
-  pad.sections?.forEach((section: any) => {
+  pad?.sections?.forEach((section: any) => {
     section.items.forEach((item: any) => {
       if (item.name === "sdgs") {
         item.tags.forEach((sdg: any) => {
