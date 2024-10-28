@@ -1,43 +1,13 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
-import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
-import { processHits } from '@/app/ui/home/Learn';
-import { defaultSearch, page_limit } from '@/app/lib/utils';
-
-
-/*
---- DAPO'S IMPLEMENTATION USING SEMANTIC SEARCH
-import { useState, useEffect } from 'react';
-import Card from '@/app/ui/components/Card/with-img';
-import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
-import seeApi from '@/app/lib/data/see';
-import { processHits } from '@/app/ui/home/Learn';
-import { defaultSearch, page_limit } from '@/app/lib/utils';
-
-
-const [hits, setHits] = useState<any[]>([]);
-const [loading, setLoading] = useState<boolean>(true); // Loading state
-const displayN = page_limit;
-
-// Fetch data on component mount
-useEffect(() => {
-    async function fetchData() {
-        setLoading(true);
-        const data = await seeApi({ limit: displayN, search: searchTerm?.length ? searchTerm : defaultSearch('see') });
-        const { hits: fetchedHits } = data || {};
-        setHits(processHits(fetchedHits, displayN));
-        setLoading(false); 
-    }
-    fetchData();
-}, [searchTerm]);
-
-*/
+import nlpApi from '@/app/lib/data/nlp-api';
+import { page_limit } from '@/app/lib/utils';
+import { usePathname, useRouter } from 'next/navigation';
 
 
 export interface PageStatsResponse {
@@ -45,48 +15,78 @@ export interface PageStatsResponse {
     pages: number;
 }
 
-interface PlatformApiResponse {
-    hits: any[]; 
-}
+// interface PlatformApiResponse {
+//     hits: any[]; 
+// }
 
 interface SectionProps {
-    searchTerm: string; 
+    apiParams: any;
+    handlePageUpdate: Function;
 }
 
-export default function Section({ searchTerm }: SectionProps) {
-    const [currPage, setCurrPage] = useState<number>(1);
+export default function Section({
+    apiParams,
+    handlePageUpdate
+}: SectionProps) {
+    const pathname = usePathname();
+    const router = useRouter();
+
+    const { page, search } = apiParams;
+
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
     const platform = 'solution';
 
-    async function fetchData(page: number): Promise<void> {
+    async function fetchData(): Promise<void> {
         setLoading(true);
-        
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform);
+
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
         setPages(totalPages);
-        setCurrPage(page);
+        
+        let data: any[];
 
-        const data: any = await platformApi(
-            { limit: page_limit, page, include_locations: true }, 
-            platform
-        );
+        if (!search) {
+            console.log(apiParams)
+
+            data = await platformApi(
+                { ...apiParams, ...{ limit: page_limit, include_locations: true } },
+                platform,
+                'pads'
+            );
+        } else {
+            console.log('look for search term', search)
+            data = await nlpApi(
+                { ...apiParams, ...{ limit: page_limit, doc_type: platform } },
+                platform
+            );
+        }
         setHits(data);
-
         setLoading(false);
     }
 
-    useEffect((): void => {
-        const params = new URLSearchParams(window.location.search);
-        const page: number = !isNaN(parseInt(params.get('page') || '')) ? parseInt(params.get('page') || '') : 1;
-        fetchData(page);
-    }, []); 
+    useEffect(() => {
+        // set the url search parameters
+        const params = new URLSearchParams();
+        for (let k in apiParams) {
+            if (Array.isArray(apiParams[k])) {
+                apiParams[k].forEach((sk: any) => {
+                    params.append(k, sk); 
+                });
+            } else params.append(k, apiParams[k]);
+        }
+        const queryString = params.toString();
+        const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
+        // router.push(updatedPath, '', { shallow: true });
+        router.push(updatedPath);
+        
+        fetchData();
+    }, [apiParams]);
 
     const handleClick = useCallback((page: number): void => {
-        fetchData(page);
+        handlePageUpdate(page);
     }, []);
-
 
     return (
         <>
@@ -120,7 +120,7 @@ export default function Section({ searchTerm }: SectionProps) {
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
-                        page={currPage}
+                        page={page ?? 1}
                         totalPages={pages}
                         handleClick={handleClick}
                     />
