@@ -8,14 +8,14 @@ import FilterGroup from '@/app/ui/components/FilterGroup';
 
 interface filtersProps {
 	className?: string;
-	apiParams: any;
+	searchParams: any;
 }
 
 export default function Filters({
 	className,
-	apiParams
+	searchParams
 }: filtersProps) {
-	const { page, search, ...filterParams } = apiParams;
+	const { page, search, ...filterParams } = searchParams;
 
 	const filters = ['countries', 'thematic areas', 'sdgs'];
 	const platform = 'solution';
@@ -29,7 +29,7 @@ export default function Filters({
 	    setLoading(true);
 	    
 		const tags = await platformApi(
-	        { ...apiParams, ...{ space } },
+	        { ...searchParams, ...{ space } },
 	        platform,
 	        'tags'
 	    );
@@ -37,7 +37,7 @@ export default function Filters({
 	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
 	    })
 	    const countries = await platformApi(
-	        // { ...apiParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
+	        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
 	        { ...{ space } },
 	        platform,
 	        'countries'
@@ -58,7 +58,7 @@ export default function Filters({
 	    // } else {
 	    //     console.log('look for search term', search)
 	    //     data = await nlpApi(
-	    //         { ... apiParams, ...{ limit: page_limit, doc_type: platform } },
+	    //         { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
 	    //         platform
 	    //     );
 	    // }

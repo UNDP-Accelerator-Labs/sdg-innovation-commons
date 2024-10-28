@@ -20,19 +20,17 @@ export async function pagestats(page: number, platform: string, status: number) 
 interface paginationProps {
 	page: number;
 	totalPages: number;
-	handleClick: Function;
 }
 
 export function Pagination({
 	page,
-	totalPages,
-	handleClick
+	totalPages
 }: paginationProps) {
 	if (totalPages <= 3) {
 		return (
 			<>
 				{new Array(totalPages).fill(null).map((d, i) => (
-					<button key={i + 1} onClick={() => handleClick(i + 1)} className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
+					<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 						{i + 1}
 					</button>
 				))}
@@ -43,7 +41,7 @@ export function Pagination({
 			return (
 				<>
 					{new Array(Math.min(totalPages, 3)).fill(null).map((d, i) => (
-						<button key={i + 1} onClick={() => handleClick(i + 1)} className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
+						<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 							{i + 1}
 						</button>
 					))}
@@ -51,7 +49,7 @@ export function Pagination({
 						<span>…</span>
 					) : (null)}
 					{totalPages > 3 ? (
-						<button key={totalPages} onClick={() => handleClick(totalPages)} className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
+						<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
 							{totalPages}
 						</button>
 					) : (null)}
@@ -60,17 +58,17 @@ export function Pagination({
 		} else if (page > 2 && page <= totalPages - 3) {
 			return (
 				<>
-					<button key={1} onClick={() => handleClick(1)} className={page === 1 ? 'bg-[rgb(255,229,210)]' : ''}>
+					<button key={1} form='search-form' type='submit' value={1} name='page' className={page === 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 							1
 					</button>	
 					<span>…</span>
 					{new Array(3).fill(null).map((d, i) => (
-						<button key={page - 1 + i} onClick={() => handleClick(page - 1 + i)} className={page - 1 + i === page ? 'bg-[rgb(255,229,210)]' : ''}>
+						<button key={page - 1 + i} form='search-form' type='submit' value={page - 1 + i} name='page' className={page - 1 + i === page ? 'bg-[rgb(255,229,210)]' : ''}>
 								{page - 1 + i}
 						</button>
 					))}
 					<span>…</span>
-					<button key={totalPages} onClick={() => handleClick(totalPages)} className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
+					<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
 						{totalPages}
 					</button>
 				</>
@@ -78,12 +76,12 @@ export function Pagination({
 		} else {
 			return (
 				<>
-					<button key={1} onClick={() => handleClick(1)}>
+					<button key={1} form='search-form' type='submit' value={1} name='page'>
 						1
 					</button>	
 					<span>…</span>
 					{new Array(3).fill(null).map((d, i) => (
-						<button key={totalPages - 2 + i} onClick={() => handleClick(totalPages - 2 + i)} className={page === totalPages - 2 + i ? 'bg-[rgb(255,229,210)]' : ''}>
+						<button key={totalPages - 2 + i} form='search-form' type='submit' value={totalPages - 2 + i} name='page' className={page === totalPages - 2 + i ? 'bg-[rgb(255,229,210)]' : ''}>
 							{totalPages - 2 + i}
 						</button>
 					))}
