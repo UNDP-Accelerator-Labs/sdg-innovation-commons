@@ -98,7 +98,7 @@ export default function Section() {
                 </div>
                 <div className='section-footer text-right'>
                     <Button>
-                        <Link href={'/test'}>
+                        <Link href={'/test/experiment'}>
                             View All
                         </Link>
                     </Button>

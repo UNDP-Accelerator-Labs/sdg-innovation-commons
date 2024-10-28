@@ -7,7 +7,7 @@ import { redirectToLogin } from '@/app/lib/auth';
 import { useEffect, useState  } from 'react';
 
 export default function DesktopNavBar() {
-  const currPath = usePathname();
+  const currPath: string[] = usePathname().split('/').filter((d: string) => d?.length);
   const [session, setSess] = useState<Record<string, any>>({});
   
   useEffect(() => {
@@ -32,17 +32,20 @@ export default function DesktopNavBar() {
       <div className="flex flex-row items-center justify-end gap-[31px] z-[1]">
         <div className="flex flex-row items-center justify-start gap-[26px]">
           {/* Map over the navItems array */}
-          {navItems.map((link, index) => (
-            <Link key={index} href={link.href} passHref className='no-underline text-black'>
-              <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
-                {link.href === currPath ? (
-                  <b>{link.title}</b>
-                ) : (
-                  link.title
-                )}
-              </span>
-            </Link>
-          ))}
+          {navItems.map((link, index) => {
+            const currHref: string[] = link.href.split('/').filter((d: string) => d?.length);
+            return (
+              <Link key={index} href={link.href} passHref className='no-underline text-black'>
+                <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
+                  {currHref[0] === currPath[0] ? (
+                    <b>{link.title}</b>
+                  ) : (
+                    link.title
+                  )}
+                </span>
+              </Link>
+            )
+          })}
 
           {/* Translate icon */}
           <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" />

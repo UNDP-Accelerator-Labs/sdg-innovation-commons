@@ -2,8 +2,6 @@ import Navbar from '@/app/ui/components/Navbar';
 import Hero from './Hero';
 import Content from './Content';
 import Footer from '@/app/ui/components/Footer';
-import { useState, useCallback } from 'react';
-import { useSearchParams } from 'next/navigation';
 
 import { incomingRequestParams } from '@/app/lib/utils';
 

@@ -9,6 +9,7 @@ import nlpApi from '@/app/lib/data/nlp-api';
 import { page_limit } from '@/app/lib/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export interface PageStatsResponse {
     total: number;
@@ -27,6 +28,8 @@ export default function Section({
     tabs
 }: SectionProps) {
     const { page, search } = searchParams;
+    const windowParams = new URLSearchParams(useSearchParams());
+    windowParams.set('page', '1');
 
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
@@ -70,7 +73,7 @@ export default function Section({
                 {tabs.map((d, i) => {
                     return (
                     <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'orange')}>
-                        <Link href={`/test/${d}`}>{`${d}s`}</Link>
+                        <Link href={`/test/${d}?${windowParams.toString()}`}>{`${d}s`}</Link>
                     </div>
                     )
                 })}
