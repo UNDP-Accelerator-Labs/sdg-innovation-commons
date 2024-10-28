@@ -169,7 +169,6 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
-
 export const polishTags = (data: any[]) => {
   return data?.flat()?.map((d: any) => ({
     ...d,
@@ -182,3 +181,8 @@ export const polishTags = (data: any[]) => {
         .map((t: any) => t.key)
   }));
 };
+
+export type incomingRequestParams = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}

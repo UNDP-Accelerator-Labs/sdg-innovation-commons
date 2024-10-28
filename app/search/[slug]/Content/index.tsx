@@ -11,19 +11,22 @@ import clsx from 'clsx';
 
 export interface ContentProps {
     slug: string;
-    handleTabUpdate: Function;
-    docType: string; // THIS IS platform IN test
     tabs: string[];
 }
 
 const Content: React.FC<ContentProps> = ({ 
     slug, 
-    handleTabUpdate,
-    docType,
     tabs
 }) => {
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); 
+
+    // Manage the active tab and data
+    const [docType, setDocType] = useState<string>(tabs[0]);
+
+    function handleTabUpdate (tab: string): void {
+      setDocType(tab);
+    }
 
     // Fetch data on component mount
     useEffect(() => {
