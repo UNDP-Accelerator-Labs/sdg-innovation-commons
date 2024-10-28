@@ -50,7 +50,7 @@ export default function Section({
             <section className='lg:home-section lg:px-[80px] lg:pb-[100px] !border-none'>
                 {/* Display tabs */}
                 <nav className='tabs'>
-                    {tabs.map((d, i) => {
+                    {tabs.map((d: any, i: number) => {
                         return (
                         <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'orange')}>
                             <Link href={`/learn/${d}?${windowParams.toString()}`}>{`${d}`}</Link>
