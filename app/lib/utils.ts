@@ -1,6 +1,8 @@
 import get from "@/app/lib/data/get"; 
 
 export const baseHost= '.sdg-innovation-commons.org'
+export const page_limit = 27;
+
 export const commonsPlatform = [
   {
     title: 'Learning Plans',
@@ -22,6 +24,11 @@ export const commonsPlatform = [
     url: 'https://blogapi.sdg-innovation-commons.org',
     key: 'insight'
   },
+  {
+    title: 'Login',
+    url: 'https://login.sdg-innovation-commons.org',
+    key: 'login'
+  }
 ];
 
 export const NLP_URL = "https://nlpapi.sdg-innovation-commons.org/api";
@@ -98,29 +105,6 @@ export async function get_externalDb(id : number){
   if(id == 2) return commonsPlatform.filter(p=> p.key == 'experiment')[0]?.url;;
   if(id == 4) return commonsPlatform.filter(p=> p.key == 'solution')[0]?.url;;
 }
-
-export const formatCurrency = (amount: number) => {
-  return (amount / 100).toLocaleString('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  });
-};
-
-export const page_limit = 27;
-
-export const formatDateToLocal = (
-  dateStr: string,
-  locale: string = 'en-US',
-) => {
-  const date = new Date(dateStr);
-  const options: Intl.DateTimeFormatOptions = {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  };
-  const formatter = new Intl.DateTimeFormat(locale, options);
-  return formatter.format(date);
-};
 
 export const formatDate = (
   dateString: string,

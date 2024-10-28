@@ -1,12 +1,24 @@
 "use client";
-import Link from 'next/link'; 
+import Link from 'next/link';
 import clsx from 'clsx';
-import { navItems } from './navlink';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { navItems, sess } from './navlink';
+import { usePathname } from 'next/navigation';
+import { redirectToLogin } from '@/app/lib/auth';
+import { useEffect, useState  } from 'react';
 
 export default function DesktopNavBar() {
   const currPath = usePathname();
+  const [session, setSess] = useState<Record<string, any>>({});
+  
+  useEffect(() => {
+    async function fetchData() {
+      const data = await sess();
+      setSess(data)
+  }
 
+  fetchData();
+  }, []); 
+  
   return (
     <div className="w-full relative bg-white pt-[10px] pb-[10px] pl-[80px] pr-[80px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid">
 
@@ -24,9 +36,9 @@ export default function DesktopNavBar() {
             <Link key={index} href={link.href} passHref className='no-underline text-black'>
               <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
                 {link.href === currPath ? (
-                    <b>{link.title}</b>
-                  ) : (
-                    link.title
+                  <b>{link.title}</b>
+                ) : (
+                  link.title
                 )}
               </span>
             </Link>
@@ -37,12 +49,24 @@ export default function DesktopNavBar() {
         </div>
 
         {/* Login button */}
-        <button className="w-[143.1px] relative h-[51.3px]">
-          <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
-          <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
-            Login
-          </b>
-        </button>
+        {session?.uuid ? <>
+          <Link href={'/'} passHref className='no-underline text-black'>
+              <span className={clsx("relative leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5")}>
+                Welcome {session?. username || ''}
+              </span>
+          </Link>
+        </>
+        : <>
+          <button onClick={(e) => {
+            e.preventDefault()
+            redirectToLogin(currPath)
+          }} className="w-[143.1px] relative h-[51.3px] cursor-pointer">
+            <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
+            <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
+              Login
+            </b>
+          </button>
+        </>}
       </div>
 
       {/* Bottom vector image */}

@@ -7,6 +7,7 @@ import { incomingRequestParams } from '@/app/lib/utils';
 export default async function Page({ params, searchParams }: incomingRequestParams) {
   const { slug } = await params
   const tabs = ['all', 'solution', 'experiment', 'action plan', 'blog', 'publications', 'news'];
+
   return (
     <>
     <Navbar />

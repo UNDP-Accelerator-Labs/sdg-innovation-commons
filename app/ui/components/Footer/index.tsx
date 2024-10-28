@@ -26,7 +26,7 @@ export default function Footer() {
                 <b>Signup for our Platform</b>
               </p>
               <Button>
-                  <Link href={'#'}>
+                  <Link href={'#contact'}>
                       Join Platform
                   </Link>
               </Button>
