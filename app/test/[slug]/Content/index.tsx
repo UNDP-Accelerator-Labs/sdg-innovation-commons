@@ -7,37 +7,26 @@ import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { page_limit } from '@/app/lib/utils';
-import { usePathname, useRouter } from 'next/navigation';
 import clsx from 'clsx';
+import Link from 'next/link';
 
 export interface PageStatsResponse {
     total: number;
     pages: number;
 }
 
-// interface PlatformApiResponse {
-//     hits: any[]; 
-// }
-
 interface SectionProps {
-    apiParams: any;
-    handlePageUpdate: Function;
-    handleTabUpdate: Function;
+    searchParams: any;
     platform: string;
     tabs: string[];
 }
 
 export default function Section({
-    apiParams,
-    handlePageUpdate,
-    handleTabUpdate,
+    searchParams,
     platform,
     tabs
 }: SectionProps) {
-    const pathname = usePathname();
-    const router = useRouter();
-
-    const { page, search } = apiParams;
+    const { page, search } = searchParams;
 
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
@@ -50,18 +39,17 @@ export default function Section({
         setPages(totalPages);
         
         let data: any[];
-        console.log(platform)
 
         if (!search) {
             data = await platformApi(
-                { ...apiParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
                 platform,
                 'pads'
             );
         } else {
             console.log('look for search term', search)
             data = await nlpApi(
-                { ... apiParams, ...{ limit: page_limit, doc_type: platform } },
+                { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
                 platform
             );
         }
@@ -71,21 +59,7 @@ export default function Section({
     }
 
     useEffect(() => {
-        // set the url search parameters
-        const params = new URLSearchParams();
-        for (let k in apiParams) {
-            params.append(k, apiParams[k]);
-        }
-        const queryString = params.toString();
-        const updatedPath = queryString ? `${pathname}?${queryString}` : pathname;
-        // router.push(updatedPath, '', { shallow: true });
-        router.push(updatedPath);
-        
         fetchData();
-    }, [apiParams, platform]);
-
-    const handleClick = useCallback((page: number): void => {
-        handlePageUpdate(page);
     }, []);
 
     return (
@@ -95,14 +69,8 @@ export default function Section({
             <nav className='tabs'>
                 {tabs.map((d, i) => {
                     return (
-                    <div key={i}
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleTabUpdate(d);
-                        }}
-                        className={clsx('tab tab-line', platform === d ? '' : 'orange')}
-                    >
-                        <b>{`${d}s`}</b>
+                    <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'orange')}>
+                        <Link href={`/test/${d}`}>{`${d}s`}</Link>
                     </div>
                     )
                 })}
@@ -137,9 +105,8 @@ export default function Section({
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
-                        page={page}
+                        page={+page ?? 1}
                         totalPages={pages}
-                        handleClick={handleClick}
                     />
                 ) : (<small className='block w-full text-center'>Loading pagination</small>)
                 }

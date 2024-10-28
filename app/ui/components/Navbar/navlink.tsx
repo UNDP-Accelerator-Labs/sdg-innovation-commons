@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const navItems = [
   { title: 'About Us', href: '/about' },
-  { title: 'What We Test', href: '/test' },
+  { title: 'What We Test', href: '/test/experiment' },
   { title: 'What We See', href: '/see' },
   { title: 'What We Learn', href: '/learn' },
   { title: 'Next Practices for the SDGS', href: '/sdgs' },

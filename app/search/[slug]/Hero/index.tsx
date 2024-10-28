@@ -25,7 +25,7 @@ export default function ({ slug }: { slug: string }) {
 					<div className='c-right lg:col-span-4'></div>
 					<div className='lg:col-span-4'>
 						{/* Search bar */}
-						<form method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mb-[30px] group relative'>
+						<form id='search-form' method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mb-[30px] group relative'>
 							<input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='Looking for something?' />
 							<Button type='submit' className='border-l-0 grow-0'>
 								Search
