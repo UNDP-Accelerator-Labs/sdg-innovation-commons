@@ -21,7 +21,7 @@ export default function Section() {
             // const { hits: fetchedHits } = data || {};
             // setHits(processHits(fetchedHits, 3));
 
-            const data = await platformApi({ limit: 3, page: 1, orderby: 'random' }, 'solution');
+            const data = await platformApi({ limit: 3, page: 1, orderby: 'random' }, 'solution', 'pads');
             setHits(data);
 
             setLoading(false); // Set loading to false when data is fetched

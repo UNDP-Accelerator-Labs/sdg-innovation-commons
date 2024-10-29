@@ -6,12 +6,27 @@ import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
 import learnApi from '@/app/lib/data/learn';
 import { formatDate, defaultSearch, page_limit } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
+import clsx from 'clsx';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 interface SectionProps {
-    searchTerm: string; 
+    searchParams: any;
+    tabs: any;
+    docType: string;
 }
 
-export default function Section({ searchTerm }: SectionProps) {
+export default function Section({ 
+    searchParams,
+    tabs,
+    docType
+}: SectionProps) {
+    const { page, search } = searchParams;
+    const windowParams = new URLSearchParams(useSearchParams());
+    windowParams.set('page', '1');
+
+    // const docType = 'blogs'
+
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
     const displayN = page_limit;
@@ -20,17 +35,29 @@ export default function Section({ searchTerm }: SectionProps) {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await learnApi({ limit: displayN, search: searchTerm?.length ? searchTerm : defaultSearch('learn') });
+            const doc_type: string[] | null = docType === 'all' ? null : [docType];
+            // TO DO: CHANGE THIS TO nlpAPI
+            const data = await learnApi({ limit: displayN, search: search?.length ? search : defaultSearch('learn'), doc_type });
             const { hits: fetchedHits } = data || {};
             setHits(processHits(fetchedHits, displayN));
             setLoading(false); 
         }
         fetchData();
-    }, [searchTerm]); 
+    }, []); 
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:pb-[100px] grid-bg !border-none'>
+            <section className='lg:home-section lg:px-[80px] lg:pb-[100px] !border-none'>
+                {/* Display tabs */}
+                <nav className='tabs'>
+                    {tabs.map((d: any, i: number) => {
+                        return (
+                        <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'orange')}>
+                            <Link href={`/learn/${d}?${windowParams.toString()}`}>{`${d}`}</Link>
+                        </div>
+                        )
+                    })}
+                </nav>
                 <div className='section-content flex lg:flex-row'>
                     {/* Display Cards */}
                     <div className='w-full grid gap-[20px] lg:grid-cols-3'>

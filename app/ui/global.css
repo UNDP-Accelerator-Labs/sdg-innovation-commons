@@ -28,7 +28,7 @@ textarea {
   background-color: #FFF;
   border: 1px solid #000;
   box-sizing: border-box;
-  padding: 20px;
+  padding: auto 20px;
 }
 
 
@@ -109,7 +109,9 @@ textarea {
   .tab-line.orange {
     border-color: #FFBE8D;
   }
-
+  .tab-line.blue {
+    border-color: #81C2F2;
+  }
 
   .lead {
     @apply text-[20px] leading-[29px];
@@ -151,6 +153,55 @@ textarea {
     padding: 20px;
     box-sizing: border-box;
   }
+  /* FILTERS */
+  .filters {
+    position: relative;
+    z-index: 10;
+  }
+  .filters .inner {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 1px solid #000;
+    background-color: #FFF;
+  }
+  .filter-group {
+    position: relative;
+    width: 100%;
+  }
+  .filter-group input[type=text] {
+    width: 100%;
+    padding: 10px;
+  }
+  .filter-group menu {
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    list-style: none;
+    background-color: #FFF;
+    border: none;
+    margin-top: 0px;
+    padding: 0px;
+    max-height: 0px;
+    overflow: auto;
+    z-index: 100;
+    transition: max-height .25s;
+
+    border: 1px solid #000;
+    border-top: none;
+  }
+  .filter-group menu.open {
+    max-height: 300px;
+  }
+  .filter-group menu li {
+    text-transform: capitalize;
+    padding: 5px 20px;
+  }
+  .filter-group menu li.active,
+  .filter-group menu li:hover {
+    background-color: #d2f960;
+  }
+  /* PAGINATION */
   .pagination {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -160,7 +211,7 @@ textarea {
     font-family: Space Mono, monospace;
     line-height: 40px;
   }
-  .pagination a {
+  .pagination button {
     font-family: Space Mono, monospace;
     display: inline-block;
     border: 1px solid #000;
@@ -169,11 +220,12 @@ textarea {
     text-align: center;
     margin: 0 10px;
     font-weight: bold;
+    cursor: pointer;
   }
   .pagination.green {
     color: #AFE69D;
   }
-  .pagination.green a {
+  .pagination.green button {
     color: #AFE69D;
   }
 

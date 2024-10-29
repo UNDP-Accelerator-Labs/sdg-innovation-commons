@@ -1,5 +1,5 @@
 'use server';
-import { commonsPlatform, extractSDGNumbers } from '@/app/lib/utils';
+import { commonsPlatform, extractSDGNumbers, polishTags } from '@/app/lib/utils';
 import get from './get'
 
 export interface Props {
@@ -31,47 +31,46 @@ export interface Props {
   platform?: string;
 }
 
-export default async function platformApi(_kwargs: Props, platform: string) {
+export default async function platformApi(_kwargs: Props, platform: string, object: string) {
     let { space, pinboard, include_tags } = _kwargs;
     if (!platform) platform = 'solution';
+    if (!object) object = 'pads';
     if (!space) _kwargs.space = 'public';
     if (pinboard) _kwargs.space = 'pinned';
-    if (!include_tags) _kwargs.include_tags = true;
+    if (object === 'pads' && !include_tags) _kwargs.include_tags = true;
 
     const params = new URLSearchParams();
     params.set('output', 'json');
     
     for (let k in _kwargs) {
-        if (Array.isArray(k)) {
-            _kwargs[k as keyof typeof _kwargs].forEach((v:any) => {
+        const argV = _kwargs[k as keyof typeof _kwargs];
+        if (Array.isArray(argV)) {
+            argV.forEach((v:any) => {
                 params.append(k, v);
             });
         } else {
-            params.set(k, _kwargs[k as keyof typeof _kwargs]);
+            params.set(k, argV);
         }
     } 
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
-    // TO DO: IF THERE IS A search USE NLP API
-    const url = `${base_url}/apis/fetch/pads?${params.toString()}`;
+    const url = `${base_url}/apis/fetch/${object}?${params.toString()}`;
     const data = await get({
         url,
         method: 'GET',
     });
 
-    const polishedData = await Promise.all(data?.flat().map((d: any) => ({
-        ...d,
-        snippet: d?.snippet?.length > 200 ? `${d.snippet.slice(0, 200)}…` : d.snippet,
-        tags: d?.tags
-            ?.filter((t: any) => t.type === 'thematic_areas')
-            .map((t: any) => t.name),
-        sdg: d?.tags
-            ?.filter((t: any) => t.type === 'sdgs')
-            .map((t: any) => t.key)
-    })));
+    // set urls for pads
+    if (object === 'pads') {
+        data?.forEach((d: any) => {
+            d.forEach((c: any) => {
+                c.url = `${base_url}/en/view/pad?id=${c.pad_id}`;
+            })
+        })
+    }
 
-    return polishedData;
+    return polishTags(data);
 }
 
 

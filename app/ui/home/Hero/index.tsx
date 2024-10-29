@@ -17,6 +17,8 @@ export default function Hero() {
   return (
   	<>
   		<section className='relative lg:home-section !border-t-0 grid-bg'>
+		    <img className='w-[40%] absolute right-[10%] top-[90px] z-[10]' alt="Branding illustration" src="/images/hands/home_top.svg" />
+		    <img className='w-[40%] absolute right-0 bottom-[-10%] z-[10]' alt="Branding illustration" src="/images/hands/home_bottom.svg" />
 		    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:py-[100px]'>
 	        <div className='c-left lg:col-span-5 lg:mt-[80px]'>
             <h1>SDG Commons<br/><span className='slanted-bg yellow'><span>powered by UNDP</span></span></h1>
@@ -28,12 +30,11 @@ export default function Hero() {
             		Search
             	</Button>
             </form>
-            <Link href={'/board'} className='underline'>
+            <Link href={'/board'} className='underline-offset-2 underline'>
             	<b>Get SDG Inspired</b>
             </Link>
 	        </div>
 		    </div>
-		    <img className='w-[40%] absolute right-0 bottom-[-10%] z-[10]' alt="Branding illustration" src="/images/hero_hand_02.png" />
   		</section>
   	</>
   );
