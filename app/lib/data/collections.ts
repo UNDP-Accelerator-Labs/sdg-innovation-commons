@@ -123,10 +123,9 @@ export async function get_all_collections({ search = '', theme = '', page = 1, l
                 fetched_pads,
                 vignettes,
             }
-        })
+        });
 
         data = await Promise.all(fetchedDataPromises);
-
 
         // Return the data along with pagination info
         return {
