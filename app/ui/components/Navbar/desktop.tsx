@@ -7,7 +7,6 @@ import { redirectToLogin } from '@/app/lib/auth';
 import { useEffect, useState  } from 'react';
 
 export default function DesktopNavBar() {
-<<<<<<< HEAD
   const currPath: string = usePathname()
   const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length);
   // const [session, setSess] = useState<Record<string, any>>({});
