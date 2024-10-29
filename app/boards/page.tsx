@@ -1,3 +1,5 @@
+import Hero from './Hero';
+import Navbar from '@/app/ui/components/Navbar';
 import { get_all_collections } from '@/app/lib/data/collections';
 
 export default async function Page() {
@@ -5,7 +7,8 @@ export default async function Page() {
     console.log(data)
   return (
     <>
-    <h3>All board</h3>
+      <Navbar />
+      <Hero />
     </>
   );
 }

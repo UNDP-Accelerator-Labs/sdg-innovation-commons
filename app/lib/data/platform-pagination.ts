@@ -9,7 +9,7 @@ export async function statsApi(platform: string) {
     // TO DO: IMPROVE THIS WITH QUERY PARAMS
 
     let data = await get({
-        url: `${base_url}/apis/fetch/statistics?space=public`,
+        url: `${base_url}/apis/fetch/statistics?space=published`,
         method: 'GET',
     });
 

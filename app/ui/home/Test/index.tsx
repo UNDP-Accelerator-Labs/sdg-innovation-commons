@@ -64,9 +64,9 @@ export default function Section() {
                                     e.preventDefault();
                                     setActiveTab(d);
                                 }}
-                                className={clsx('tab tab-line', activeTab === d ? '' : 'orange')}
+                                className={clsx('tab tab-line', activeTab === d ? 'font-bold' : 'orange')}
                             >
-                                <b>{`${d}s`}</b>
+                                {`${d}s`}
                             </div>
                             )
                         })}

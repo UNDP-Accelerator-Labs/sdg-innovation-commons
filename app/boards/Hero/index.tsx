@@ -5,12 +5,13 @@ import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/featured-card';
 import clsx from 'clsx';
+// import Filters from '../Filters';
 
 export default function Section() {
     const slides = [
         {
             backgroundImage: 'images/Rectangle 15.png',
-            title: 'Featured Country Boards ',
+            title: 'Next best practices for the SDGs',
             description: 'Small Islands Developing States',
             cardTitle: 'Board Name Lorem',
             cardDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.',
@@ -64,11 +65,15 @@ export default function Section() {
     const ref1 = useRef<HTMLDivElement>(null);
     const isVisible1 = useIsVisible(ref1);
 
+    // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+
     return (
         <>
-            <section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>
+            <section className='relative lg:home-section lg:px-0 lg:pt-[90px] lg:pb-0 !border-t-0 overflow-hidden'>
                 <img className={clsx("w-full absolute !m-[0] top-[1px] left-0 h-[600px] md:h-[800px] lg:h-[872px] object-cover z-[0]", { 'opacity-0 transition-opacity duration-500': !animate })} alt="" src={currentData.backgroundImage} />
-                <div className='section-content grid grid-cols-3 gap-[20px] lg:px-[80px] lg:py-[100px]'>
+                <div className='section-content grid grid-cols-3 gap-[20px] lg:px-[80px] lg:py-[100px] lg:mb-[100px]'>
                     <div className='c-left lg:col-span-2 flex flex-col'>
                         <div>
                             <p className='lead text-white font-space-mono mb-0'>
@@ -77,13 +82,6 @@ export default function Section() {
                             <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
                                 <span>{currentData.description}</span>
                             </h2>
-                        </div>
-                        <div>
-                            <Button className='block mt-[10px]'>
-                                <Link href={'#'}>
-                                    All Boards
-                                </Link>
-                            </Button>
                         </div>
                         <div className='mt-auto'>
                             <div className='flex justify-start items-center'>
@@ -107,6 +105,33 @@ export default function Section() {
                             className={clsx("w-full lg:h-[600px] transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
                         />
                     </div>
+                </div>
+                <div className='section-content lg:px-[80px] lg:pb-[40px]'>
+                    {/* Search bar */}
+                    <form id='search-form' method='GET' className='grid grid-cols-9 gap-[20px] relative'>
+                        <div className='col-span-4 flex flex-row group items-stretch'>
+                            <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
+                            <Button type='submit' className='border-l-0 grow-0'>
+                                Search
+                            </Button>
+                        </div>
+                        <div className='lg:col-end-10'>
+                            <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center' onClick={(e) => setFilterVisibility(!filterVisibility)}>
+                                <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
+                                {!filterVisibility ? (
+                                    'Filters'
+                                ) : (
+                                    'Close'
+                                )}
+                            </button>
+                        </div>
+                        {/*<div className='col-span-9'>
+                            <Filters 
+                                className={clsx(filterVisibility ? '' : 'hidden')}
+                                searchParams={searchParams}
+                            />
+                        </div>*/}
+                    </form>
                 </div>
             </section>
         </>

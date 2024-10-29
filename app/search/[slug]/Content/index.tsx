@@ -32,18 +32,19 @@ const Content: React.FC<ContentProps> = ({
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const doc_type: string[] | null = docType === 'all' ? null : [docType]
+            const doc_type: string[] | null = docType === 'all' ? null : [docType];
             const data = await globalSearch({ search: decodeURIComponent(slug), doc_type });
             const { hits: fetchedHits } = data || {};
             setHits(fetchedHits);
             setLoading(false); 
         }
         fetchData();
-    }, [slug, docType]); 
+    }, []); 
+    // }, [slug, docType]); 
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:pb-[100px] grid-bg !border-none'>
+            <section className='lg:home-section lg:px-[80px] lg:pb-[100px] !border-none'>
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d, i) => {
