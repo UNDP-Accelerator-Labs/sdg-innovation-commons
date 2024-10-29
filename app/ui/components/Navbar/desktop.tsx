@@ -12,7 +12,7 @@ export default function DesktopNavBar() {
   const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length);
   // const [session, setSess] = useState<Record<string, any>>({});
   const [session, setSess] = useState<any>({});
-  
+
   useEffect(() => {
     async function fetchData() {
       const data = await sess();
