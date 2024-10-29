@@ -10,6 +10,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
+import { statsApi } from '@/app/lib/data/nlp-pagination';
+
 interface SectionProps {
     searchParams: any;
     tabs: any;
@@ -35,7 +37,11 @@ export default function Section({
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
+
             const doc_type: string[] | null = docType === 'all' ? null : [docType];
+
+            // const counts = await statsApi({ doc_type });
+            
             // TO DO: CHANGE THIS TO nlpAPI
             const data = await learnApi({ limit: displayN, search: search?.length ? search : defaultSearch('learn'), doc_type });
             const { hits: fetchedHits } = data || {};
@@ -52,7 +58,7 @@ export default function Section({
                 <nav className='tabs'>
                     {tabs.map((d: any, i: number) => {
                         return (
-                        <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'orange')}>
+                        <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'blue')}>
                             <Link href={`/learn/${d}?${windowParams.toString()}`}>{`${d}`}</Link>
                         </div>
                         )
@@ -68,19 +74,22 @@ export default function Section({
                                 ))}
                             </>
                         ) : (
-                            hits?.map((post: any) => (
-                                <Card
-                                    key={post.doc_id}
-                                    country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
-                                    date={formatDate(post?.meta?.date) || ''}
-                                    title={post?.title || ''}
-                                    description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
-                                    tags={post?.base || ''}
-                                    tagStyle="bg-light-blue"
-                                    href={post?.url}
-                                    openInNewTab={true}
-                                />
-                            ))
+                            hits?.map((post: any) => {
+                                console.log(post)
+                                return (
+                                    <Card
+                                        key={post.doc_id}
+                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        date={formatDate(post?.meta?.date) || ''}
+                                        title={post?.title || ''}
+                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        tags={post?.meta?.doc_type || ''}
+                                        tagStyle="bg-light-blue"
+                                        href={post?.url}
+                                        openInNewTab={true}
+                                    />
+                                )
+                            })
                         )}
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { statsApi } from '@/app/lib/data/pagination';
+import { statsApi } from '@/app/lib/data/platform-pagination';
 import { page_limit } from '@/app/lib/utils';
 import Link from 'next/link';
 

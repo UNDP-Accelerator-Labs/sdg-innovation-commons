@@ -18,7 +18,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
     <div className='grid-bg'>
       <Navbar />
       <Hero />
-      <Content searchParams={searchParams} docType={slug} tabs={tabs} />
+      <Content searchParams={sParams} docType={slug} tabs={tabs} />
     </div>
     <Footer />
     </>

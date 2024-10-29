@@ -5,19 +5,22 @@ const shimmer =
 
 export function ImgCardSkeleton({ className }: { className?: string }) {
     return (
-<div className={clsx("w-full relative flex flex-col items-start justify-start text-center text-smi text-black", shimmer, className)}>
+      <div className={clsx("w-full relative flex flex-col items-start justify-start text-center text-smi text-black", shimmer, className)}>
         <div className="w-full border-black border-[1px] border-solid box-border flex flex-col items-start justify-start animate-pulse">
           {/* Background Image Placeholder */}
           <div className="self-stretch h-[191px] bg-gray-200"></div>
   
           {/* SDG and Country Placeholder */}
-          <div className="self-stretch flex flex-row items-center justify-end pt-4 pb-0 pl-0 pr-4 gap-[11px]">
-            <div className="rounded-11xl bg-gray-200 h-6 w-16"></div>
-            <div className="rounded-11xl bg-gray-300 h-6 w-24"></div>
+          {/* Chips */}
+          <div className='chips-container absolute top-0 w-full'>
+            <div className="flex flex-row items-center justify-end pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]">
+              <div className="rounded-11xl bg-gray-200 h-6 w-16">&nbsp;</div>
+              <div className="rounded-11xl bg-gray-300 h-6 w-24">&nbsp;</div>
+            </div>
           </div>
   
           {/* Experiment Label Placeholder */}
-          <div className="self-stretch border-black border-t-[1px] border-solid flex flex-row items-center justify-start py-2.5 px-5 bg-gray-200"></div>
+          <div className="self-stretch border-black border-t-[1px] border-solid flex flex-row items-center justify-start py-2.5 px-5 bg-gray-200">&nbsp;</div>
   
           {/* Title and Description Placeholder */}
           <div className="self-stretch border-black border-t-[1px] border-solid flex flex-col pt-5 gap-6 text-lg text-left">

@@ -41,14 +41,14 @@ export default function NavBar() {
         {/* Toggle between menu icons */}
         <div
           className="flex flex-col items-center justify-start p-[13px] cursor-pointer"
-          onClick={toggleMenu}
+          onClick={(e) => toggleMenu()}
         >
           <div className="flex flex-col items-center justify-start">
             {/* Conditionally show the appropriate icon */}
             <img
               className="relative"
               alt="menu toggle"
-              src={isMenuOpen ? "images/menu-burger-close.png" : "images/menu-burger-green.svg"}
+              src={isMenuOpen ? "/images/menu-burger-close.png" : "/images/menu-burger-green.svg"}
             />
           </div>
         </div>

@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -88,10 +89,27 @@ textarea {
     width: 300px;
     background-color: #FFF;
     border: 1px solid #000;
+    box-sizing: border-box;
   }
   .card h1 {
     font-size: 22px;
     line-height: 30px;
+  }
+  .card .band {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    font-family: Space Mono, monospace;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .chip {
+    height: 30px;
+    border-radius: 30px;
+    padding: 0 20px;
+    font-family: Space Mono, monospace;
+    font-weight: bold;
   }
   .tabs {
     display: flex;

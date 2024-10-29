@@ -39,9 +39,9 @@ export default function Section() {
                                     <b className="font-space-mono text-[42px]">{card.number}</b>
                                     <img className="top-[30px] right-10  w-14 h-14 overflow-hidden lg:flex hidden" alt="" src="/images/Layer_1.svg" />
                                 </div>
-                                <div className=''>
+                                <div>
                                     <div>
-                                        {card.text}
+                                        <p>{card.text}</p>
                                     </div>
                                 </div>
                             </div>
@@ -63,8 +63,7 @@ const cards = [
         id: 2,
         text: (
             <>
-                <p className="m-0">Submit on the ground</p>
-                <p className="m-0">SDG solutions you see.</p>
+                Submit on the ground SDG solutions you see.
             </>
         ),
         number: "02",

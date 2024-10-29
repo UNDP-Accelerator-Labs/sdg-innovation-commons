@@ -27,6 +27,8 @@ export default async function search(_kwargs: Props) {
         body,
     });
 
+    console.log(data)
+
     type BaseType = 'solution' | 'experiments' | 'actionplan' | 'others';
     type BaseMap = Map<BaseType, any[]>;
 
