@@ -64,15 +64,13 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     // set urls for pads
     if (object === 'pads') {
         data?.forEach((d: any) => {
-            d.forEach((c: any) => {
-                c.url = `${base_url}/en/view/pad?id=${c.pad_id}`;
-                c.base = platform;
-                const date = new Date(c.created_at);
-                const day = date.getDate();
-                const month = date.getMonth() + 1;
-                const year = date.getFullYear();
-                c.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
-            })
+            d.url = `${base_url}/en/view/pad?id=${d.pad_id}`;
+            d.base = platform;
+            const date = new Date(d.created_at);
+            const day = date.getDate();
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+            d.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
         })
     }
 
