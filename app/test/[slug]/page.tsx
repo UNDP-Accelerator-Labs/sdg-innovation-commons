@@ -16,10 +16,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   return (
     <>
     <Navbar />
-    <Hero 
-      searchParams={sParams}
-      platform={slug} 
-    />
+    <Hero />
     <Content 
       searchParams={sParams} 
       platform={slug}

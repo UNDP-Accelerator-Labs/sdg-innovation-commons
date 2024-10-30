@@ -67,6 +67,11 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
             d.forEach((c: any) => {
                 c.url = `${base_url}/en/view/pad?id=${c.pad_id}`;
                 c.base = platform;
+                const date = new Date(c.created_at);
+                const day = date.getDate();
+                const month = date.getMonth() + 1;
+                const year = date.getFullYear();
+                c.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
             })
         })
     }

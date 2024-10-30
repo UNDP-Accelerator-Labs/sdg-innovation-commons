@@ -17,6 +17,7 @@ interface CardProps {
     className?: string;
     source?: string;
     openInNewTab?: boolean;
+    date?: string;
 }
 
 export default function Card({
@@ -33,7 +34,8 @@ export default function Card({
     sdg = [],
     className,
     source = '',
-    openInNewTab = true
+    openInNewTab = true,
+    date = ''
 }: CardProps) {
 
     const tagArray = Array.isArray(tags) ? tags : [tags];
@@ -67,7 +69,10 @@ export default function Card({
                 </div>
             </div>
             {/* BAND WITH SOURCE NAME */}
-            <div className={clsx('band w-full', tagStyle)}>{source}</div>
+            <div className={clsx('band w-full flex justify-between lg:text-[14px]', tagStyle)}>
+                <span>{source}</span>
+                <span>{date}</span>
+            </div>
             {/* MAIN CONTENT */}
             <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
                 <div>
@@ -77,7 +82,7 @@ export default function Card({
                     <p>{description}</p>
                 </div>
                 <div>
-                    <div className="hidden lg:flex flex-row items-end justify-start flex-wrap content-end gap-1.5 text-center text-sm py-[20px]">
+                    <div className="hidden lg:flex flex-row items-end justify-start flex-wrap content-end gap-1.5 text-center text-sm pb-[20px]">
                         {/* Render the first 4 tags */}
                         {visibleTags?.map((tag: string, index: number) => (
                             <button
@@ -90,14 +95,14 @@ export default function Card({
 
                         {/* If there are more than 4 tags, display the +n logic */}
                         {remainingTagsCount > 0 && (
-                            <div className={clsx("rounded-11xl flex flex-row items-center justify-center py-2 px-[19px]", tagStyleShade )}>
+                            <div className={clsx("rounded-11xl flex flex-row items-center justify-center py-2 px-[20px]", tagStyleShade )}>
                                 <b className="relative leading-[18px]">+{remainingTagsCount}</b>
                             </div>
                         )}
                     </div>
 
                     {/* Footer */}
-                    <div className="self-stretch flex flex-row items-center justify-between text-sm ">
+                    <div className="self-stretch flex flex-row items-center justify-between text-sm mb-[10px]">
                         <div className="flex flex-row items-start justify-start gap-1">
                             {/* View Count */}
                             <img className="w-[20.2px] relative h-[17.3px]" alt="Views" src="/images/heart.svg" />
