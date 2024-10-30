@@ -6,7 +6,7 @@
 @tailwind utilities;
 
 body {
-  @apply leading-[normal] m-0 p-0 font-sans;
+  @apply text-[16px] leading-[normal] m-0 p-0 font-noto-sans;
 }
 a {
   @apply no-underline text-black cursor-pointer ;
@@ -21,7 +21,7 @@ h3 {
   @apply text-[21px] leading-[28px] lg:text-[22px] lg:leading-[30px] mb-[30px] font-bold;
 }
 p {
-  @apply text-[18px] leading-[26px] lg:text-[20px] lg:leading-[28px] mt-0; 
+  @apply text-[18px] leading-[26px] lg:text-[16px] lg:leading-[26px] mt-0 mb-[20px]; 
 }
 input[type=text],
 input[type=email],
@@ -57,10 +57,28 @@ textarea {
     background-color: white;
   }
 
+  .navbar {
+
+  }
+  .navbar.movein {
+    /* display: flex; */
+    top: 0;
+    transition: top 0.3s ease-out;
+  }
+
+  .navbar.moveout {
+    /* display: none; */
+    top: -140px;
+    transition: top 0.5s ease-out;
+  }
+
   .home-section {
-    width: 100%;
+/*    width: 100%;*/
 /*    min-height: 100vh;*/
     border-top: 1px solid #000;
+    box-sizing: border-box;
+  }
+  .home-section .inner {
     box-sizing: border-box;
   }
   .section-header {
@@ -92,8 +110,10 @@ textarea {
     box-sizing: border-box;
   }
   .card h1 {
-    font-size: 22px;
-    line-height: 30px;
+    font-size: 20px;
+    line-height: 28px;
+    margin-bottom: 20px;
+    margin-top: 20px;
   }
   .card .band {
     border-top: 1px solid #000;

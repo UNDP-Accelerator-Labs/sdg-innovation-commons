@@ -12,6 +12,6 @@ export async function statsApi(platform: string) {
         url: `${base_url}/apis/fetch/statistics?space=published`,
         method: 'GET',
     });
-
+    
     return data;
 }

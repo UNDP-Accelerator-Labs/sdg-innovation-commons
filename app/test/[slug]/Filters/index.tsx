@@ -35,8 +35,9 @@ export default function Filters({
 	        'tags'
 	    );
 	    tags.forEach((d: any) => {
-	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
-	    })
+		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
+		    else d.checked = filterParams[d.type] === d.id?.toString();
+	    });
 	    const countries = await platformApi(
 	        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
 	        { ...{ space } },
@@ -48,7 +49,7 @@ export default function Filters({
 	    	d.name = d.country;
 	    	d.type = 'countries';
 	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
-	    })
+	    });
 
 	    const data = [
 	    	{ key: 'tags', data: tags.sort((a, b) => a.name.localeCompare(b.name)) }, 

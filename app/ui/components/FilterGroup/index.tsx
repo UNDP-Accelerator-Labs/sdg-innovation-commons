@@ -21,6 +21,8 @@ export default function FilterGroup({
 		options = list.map((opt: any, j: number) => {
 			const inputId = `${opt.type}-${opt.id}`;
 			const simplifiedName = opt?.name?.toLowerCase().trim();
+			if (opt.checked) console.log(opt)
+
 			return (
 				<li key={j} className={clsx(!searchValue?.length || simplifiedName.includes(searchValue.toLowerCase().trim()) ? null : 'hidden', opt.checked ? 'active' : null)}>
 					<input 

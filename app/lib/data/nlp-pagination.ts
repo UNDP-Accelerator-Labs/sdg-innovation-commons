@@ -26,18 +26,11 @@ export async function statsApi(_kwargs: Props) {
         }
     }
 
-    let { doc_count: hits, fields: returned_fields } = await get({
+    let { doc_count: hits } = await get({
         url: `${NLP_URL}/stats`,
         method: 'POST',
         body,
     });
-
-    console.log(hits, fields)
-
-    // let data = await get({
-    //     url: `${base_url}/apis/fetch/statistics?space=published`,
-    //     method: 'GET',
-    // });
 
     return hits;
 }
