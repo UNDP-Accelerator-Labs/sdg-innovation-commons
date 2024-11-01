@@ -31,51 +31,54 @@ export default function Section() {
 
     return (
         <>
-        <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
-            {/* Display the section title and description */}
-            <div className='section-header lg:mb-[100px]'>
-                <div className='c-left lg:col-span-5'>
-                    <h2 className='slanted-bg green lg:mt-[5px]'>
-                        <span>What We See</span>
-                    </h2>
+        <section className='lg:home-section lg:py-[80px]'>
+            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+                {/* Display the section title and description */}
+                <div className='section-header lg:mb-[100px]'>
+                    <div className='c-left lg:col-span-5'>
+                        <h2 className='slanted-bg green lg:mt-[5px]'>
+                            <span>What We See</span>
+                        </h2>
+                    </div>
+                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                        <p className="lead">
+                            <b>Discover and learn existing Sustainable Development Solutions on the ground.</b>
+                        </p>
+                    </div>
                 </div>
-                <div className='c-right lg:col-span-4 lg:mt-[20px]'>
-                    <p className="lead">
-                        <b>Discover and learn existing Sustainable Development Solutions on the ground.</b>
-                    </p>
+                <div className='section-content'>
+                    {/* Display Cards */}
+                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                        {loading ? (
+                            <ImgCardsSkeleton /> // Show Skeleton while loading
+                        ) : (
+                            hits?.map((post: any) => (
+                                <Card
+                                    key={post?.doc_id || post?.pad_id }
+                                    country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                    title={post?.title || ''}
+                                    description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                    source={post?.base || 'Solution'}
+                                    tagStyle="bg-light-green"
+                                    tagStyleShade="bg-light-green-shade"
+                                    href={post?.url}
+                                    viewCount={0}
+                                    tags={post?.tags}
+                                    sdg={`SDG ${post?.sdg?.join('/')}`}
+                                    backgroundImage={post?.vignette}
+                                    date={post?.date}
+                                />
+                            ))
+                        )}
+                    </div>
                 </div>
-            </div>
-            <div className='section-content'>
-                {/* Display Cards */}
-                <div className='grid gap-[20px] lg:grid-cols-3'>
-                    {loading ? (
-                        <ImgCardsSkeleton /> // Show Skeleton while loading
-                    ) : (
-                        hits?.map((post: any) => (
-                            <Card
-                                key={post?.doc_id || post?.pad_id }
-                                country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                title={post?.title || ''}
-                                description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                source={post?.base || 'Solution'}
-                                tagStyle="bg-light-green"
-                                tagStyleShade="bg-light-green-shade"
-                                href={post?.url}
-                                viewCount={0}
-                                tags={post?.tags}
-                                sdg={`SDG ${post?.sdg?.join('/')}`}
-                                backgroundImage={post?.vignette}
-                            />
-                        ))
-                    )}
+                <div className='section-footer text-right'>
+                    <Button>
+                        <Link href={'/see'}>
+                            View All
+                        </Link>
+                    </Button>
                 </div>
-            </div>
-            <div className='section-footer text-right'>
-                <Button>
-                    <Link href={'/see'}>
-                        View All
-                    </Link>
-                </Button>
             </div>
         </section>
         </>

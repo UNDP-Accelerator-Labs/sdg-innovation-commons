@@ -47,28 +47,48 @@ export default async function nlpApi(_kwargs: Props, platform: string) {
         const bases = hits.map((d: any) => d.base)
         .filter((value: any, index: number, self: any) => {
             return self.indexOf(value) === index;
+        }).filter((d: any) => {
+            let platform = d;
+            if (platform === 'actionplan') platform = 'action plan';
+            return commonsPlatform.some((c: any) => c.key === platform);
         });
 
-        const data = await Promise.all(bases.map(async (b: string) => {
-            const platformHits = hits.filter((d: any) => d.base === b);
-            const pads = platformHits.map((d: any) => d.doc_id);
+        if (bases.length) {
+            const data = await Promise.all(bases.map(async (b: string) => {
+                const platformHits = hits.filter((d: any) => d.base === b);
+                const pads = platformHits.map((d: any) => d.doc_id);
 
-            let platform = b;
-            if (platform === 'actionplan') platform = 'action plan';
-            const platformData: any[] = await platformApi({ pads }, platform, 'pads');
+                let platform = b;
+                if (platform === 'actionplan') platform = 'action plan';
+                const platformData: any[] = await platformApi({ pads }, platform, 'pads');
 
-            platformData?.forEach((d: any) => {
-                // because this is triggered by a search, we use the nlp api snippet which provides a cue as to whi the doc is a hit
-                const { snippets } = platformHits.find((c: any) => c.doc_id === d.pad_id) || {};
-                if (snippets && Array.isArray(snippets)) d.snippet = snippets[0];
-            })
-            platformData?.sort((a, b) => {
-                return pads.indexOf(a.pad_id) - pads.indexOf(b.pad_id);
+                platformData?.forEach((d: any) => {
+                    // because this is triggered by a search, we use the nlp api snippet which provides a cue as to whi the doc is a hit
+                    const { snippets } = platformHits.find((c: any) => c.doc_id === d.pad_id) || {};
+                    if (snippets && Array.isArray(snippets)) d.snippet = snippets[0];
+                })
+                platformData?.sort((a, b) => {
+                    return pads.indexOf(a.pad_id) - pads.indexOf(b.pad_id);
+                });
+
+                return platformData;
+            }));
+            return data.flat();
+        } else {
+            const countries = hits.map((d: any) => d.meta.iso3).flat()
+            .filter((value: any, index: number, self: any) => {
+                return self.indexOf(value) === index;
             });
 
-            return platformData;
-        }));
+            // TO DO: OPTIMIZE THIS WHEN countries API IS FIXED
+            const countryNames: any[] = await platformApi({ }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
+            hits.forEach((d: any) => {
+                d.country = countryNames.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
+                console.log(d.meta.iso3, d.country)
+            })
 
-        return data.flat();
+            return hits;
+        }
+
     } else return [];
 }

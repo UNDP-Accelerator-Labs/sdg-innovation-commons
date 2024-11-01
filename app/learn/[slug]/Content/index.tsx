@@ -10,7 +10,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
-import { statsApi } from '@/app/lib/data/nlp-pagination';
+import statsApi from '@/app/lib/data/nlp-pagination';
 
 interface SectionProps {
     searchParams: any;
@@ -58,8 +58,10 @@ export default function Section({
                 <nav className='tabs'>
                     {tabs.map((d: any, i: number) => {
                         return (
-                        <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'blue')}>
-                            <Link href={`/learn/${d}?${windowParams.toString()}`}>{`${d}`}</Link>
+                        <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'yellow')}>
+                            <Link href={`/learn/${d}?${windowParams.toString()}`}>
+                                {`${d}${d.slice(-1) === 's' ? '' : 's'}`}
+                            </Link>
                         </div>
                         )
                     })}

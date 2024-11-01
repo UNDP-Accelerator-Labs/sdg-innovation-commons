@@ -55,6 +55,7 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
+    console.log(`${base_url}/apis/fetch/${object}?${params.toString()}`)
     const url = `${base_url}/apis/fetch/${object}?${params.toString()}`;
     const data = await get({
         url,

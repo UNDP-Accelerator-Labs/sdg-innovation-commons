@@ -5,6 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { useIsVisible } from '@/app/ui/components/Interaction';
+import clsx from 'clsx';
 
 export default function Section() {
     
@@ -13,7 +14,8 @@ export default function Section() {
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:py-[100px] grid-bg'>
+        <section className='lg:home-section lg:py-[80px] grid-bg'>
+            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
@@ -27,12 +29,14 @@ export default function Section() {
                         </p>
                     </div>
                 </div>
+            </div>
+            <div className='inner lg:mx-auto lg:w-full'>
                 <div className='section-content'>
                     {/* List of featured collections */}
-                    <div className='overflow-x-auto lg:slideshow-lg'>
-                        <div className='flex flex-row gap-[20px] lg:px-[80px]'>
+                    <div className='overflow-x-auto '>
+                        <div className='grid grid-flow-col overflow-x-auto gap-[20px]'>
                         {cards.map((card, i) => (
-                            <div key={i} className='card lg:w-[600px] shrink-0'>
+                            <div key={i} className={clsx('card lg:w-[600px] shrink-0', i === 0 ? 'ml-[80px]' : null, i === cards.length - 1 ? 'mr-[80px]' : null)}>
                                 <div className="relative flex w-full h-[300px] overflow-hidden">
                                     <img
                                         className="object-cover flex-1 mix-blend-normal"
@@ -54,6 +58,8 @@ export default function Section() {
                         </div>
                     </div>
                 </div>
+            </div>
+            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 <div className='section-footer text-right'>
                     <Button>
                         <Link href={'#'}>
@@ -61,7 +67,8 @@ export default function Section() {
                         </Link>
                     </Button>
                 </div>
-            </section>
+            </div>
+        </section>
         </>
     );
 }

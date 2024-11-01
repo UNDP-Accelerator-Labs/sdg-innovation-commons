@@ -6,14 +6,15 @@ import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import clsx from 'clsx';
-import testApi from '@/app/lib/data/test';
+import platformApi from '@/app/lib/data/platform-api';
+import nlpApi from '@/app/lib/data/nlp-api';
 import { processHits } from '../Learn';
 import { PostProps } from '@/app/lib/definitions';
 import { defaultSearch } from '@/app/lib/utils';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 
 export default function Section() {
-    const tabs = ['experiment', 'action plan'] as const; 
+    const tabs = ['all items', 'experiment', 'action plan'] as const; 
     type TabType = typeof tabs[number]; 
 
     // Manage the active tab and data
@@ -26,9 +27,30 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true); // Set loading to true when fetching starts
-            const data = await testApi({ limit: 5, search: defaultSearch('test'), doc_type: [activeTab] });
-            const { hits: fetchedHits } = data || {};
-            setHits(processHits(fetchedHits, 3));
+            
+            // const data = await testApi({ limit: 5, search: defaultSearch('test'), doc_type: [activeTab] });
+            // const { hits: fetchedHits } = data || {};
+            // setHits(processHits(fetchedHits, 3));
+
+            let data: any[];
+
+            if (activeTab !== 'all items') {
+                data = await platformApi(
+                    { limit: 3, page: 1, orderby: 'random' }, 
+                    activeTab, 
+                    'pads'
+                );
+            } else {
+                console.log('look for all items')
+                data = await nlpApi(
+                    { limit: 3, doc_type: tabs.slice(1), search: defaultSearch('test') }
+                );
+            }
+
+
+            // const data = await platformApi({ limit: 3, page: 1, orderby: 'random' }, activeTab, 'pads');
+            setHits(data);
+
             setLoading(false); // Set loading to false when fetching ends
         }
 
@@ -40,7 +62,8 @@ export default function Section() {
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
+        <section className='lg:home-section lg:py-[80px]'>
+            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
@@ -66,7 +89,7 @@ export default function Section() {
                                 }}
                                 className={clsx('tab tab-line', activeTab === d ? 'font-bold' : 'orange')}
                             >
-                                {`${d}s`}
+                                {`${d}${d.slice(-1) === 's' ? '' : 's'}`}
                             </div>
                             )
                         })}
@@ -78,7 +101,7 @@ export default function Section() {
                         ) : (
                             hits?.map((post: any) => (
                                 <Card
-                                    key={post.doc_id}
+                                    key={post?.doc_id || post?.pad_id }
                                     country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                     title={post?.title || ''}
                                     description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
@@ -91,6 +114,7 @@ export default function Section() {
                                     sdg={`SDG ${post?.sdg?.join('/')}`}
                                     backgroundImage={post?.vignette}
                                     className=''
+                                    date={post?.date}
                                 />
                             ))
                         )}
@@ -103,7 +127,8 @@ export default function Section() {
                         </Link>
                     </Button>
                 </div>
-            </section>
+            </div>
+        </section>
         </>
     );
 }

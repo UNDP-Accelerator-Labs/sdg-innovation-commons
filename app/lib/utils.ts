@@ -92,8 +92,8 @@ export function extractSDGNumbers(pad: any) {
 export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined => {
   const def: { [key: string]: string } = {
     "see": "What solutions is the network seeing?",
-    "learn": "What has the network learnt?",
-    "test": "What is the network testing?"
+    "learn": 'learning',
+    "test": 'action learning',
   };
   
   return def[key];

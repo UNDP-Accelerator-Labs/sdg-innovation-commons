@@ -12,24 +12,6 @@ export default function DesktopNavBar() {
   // const [session, setSess] = useState<Record<string, any>>({});
   const [session, setSess] = useState<any>({});
 
-  // FOR HIDING THE NAVBAR ON SCROLL
-  const [position, setPosition] = useState(0);
-  const [visible, setVisible] = useState(true);
-
-  const handleScroll = () => {
-     let moving = window.pageYOffset
-     
-     setVisible(position > moving);
-     setPosition(moving)
-  };
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return(() => {
-       window.removeEventListener('scroll', handleScroll);
-    });
-  })
-  
   useEffect(() => {
     async function fetchData() {
       const data = await sess();
@@ -37,12 +19,10 @@ export default function DesktopNavBar() {
     }
 
     fetchData();
-  }, []); 
-
-  const cls = visible ? 'movein' : 'moveout';
+  }, []);
   
   return (
-    <div className={clsx('navbar w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid', cls)}>
+    <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
       <div className='inner relative w-[1440px] mx-auto px-[80px] box-border'>
         {/* Logo */}
         <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] border-solid pb-[17.5px]'>

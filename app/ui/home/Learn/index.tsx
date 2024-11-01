@@ -5,7 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/without-img';
 import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
-import learnApi from '@/app/lib/data/learn';
+import nlpApi from '@/app/lib/data/nlp-api';
 import { formatDate, defaultSearch } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
 
@@ -18,9 +18,16 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await learnApi({ limit: 10, search: defaultSearch('learn') });
-            const { hits: fetchedHits } = data || {};
-            setHits(processHits(fetchedHits, displayN));
+            // const data = await learnApi({ limit: 10, search: defaultSearch('learn') });
+            // const { hits: fetchedHits } = data || {};
+            // setHits(processHits(fetchedHits, displayN));
+
+            const data = await nlpApi(
+                { limit: 4, doc_type: ['blog', 'publications', 'news'], search: defaultSearch('learn') }
+            );
+            console.log(data)
+
+            setHits(data);
             setLoading(false); 
         }
 
@@ -29,7 +36,8 @@ export default function Section() {
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:py-[100px] grid-bg'>
+        <section className='lg:home-section lg:py-[80px] grid-bg'>
+            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
@@ -57,7 +65,8 @@ export default function Section() {
                                 hits?.map((post: any) => (
                                     <Card
                                         key={post.doc_id}
-                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        // country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         date={formatDate(post?.meta?.date) || ''}
                                         title={post?.title || ''}
                                         description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
@@ -78,7 +87,8 @@ export default function Section() {
                         </Link>
                     </Button>
                 </div>
-            </section>
+            </div>
+        </section>
         </>
     );
 }
