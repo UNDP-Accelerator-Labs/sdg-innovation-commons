@@ -4,8 +4,8 @@ import getSession from '@/app/lib/session';
 export const navItems = [
   { title: 'About Us', href: '/about' },
   { title: 'What We See', href: '/see' },
-  { title: 'What We Test', href: '/test/experiment' },
-  { title: 'What We Learn', href: '/learn/blog' },
+  { title: 'What We Test', href: '/test/all' },
+  { title: 'What We Learn', href: '/learn/all' },
   { title: 'Next Practices for the SDGS', href: '/boards' },
 ];
 

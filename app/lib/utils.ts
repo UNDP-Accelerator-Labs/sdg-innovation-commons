@@ -7,17 +7,20 @@ export const commonsPlatform = [
   {
     title: 'Learning Plans',
     url: 'https://learningplans.sdg-innovation-commons.org',
-    key: 'action plan'
+    key: 'action plan',
+    shortkey: 'ap'
   },
   {
     title: 'Solutions',
     url: 'https://solutions.sdg-innovation-commons.org',
-    key: 'solution'
+    key: 'solution',
+    shortkey: 'sm'
   },
   {
     title: 'Experiments',
     url: 'https://experiments.sdg-innovation-commons.org',
-    key: 'experiment'
+    key: 'experiment',
+    shortkey: 'exp'
   },
   {
     title: 'Insight',

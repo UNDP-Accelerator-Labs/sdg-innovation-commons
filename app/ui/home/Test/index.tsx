@@ -122,7 +122,7 @@ export default function Section() {
                 </div>
                 <div className='section-footer text-right'>
                     <Button>
-                        <Link href={'/test/experiment'}>
+                        <Link href={'/test/all'}>
                             View All
                         </Link>
                     </Button>

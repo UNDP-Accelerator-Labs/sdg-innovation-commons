@@ -12,7 +12,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
   // const tabs: string[] = ['experiment', 'action plan']; 
-  const tabs: string[] = ['all items', 'experiment', 'action plan']; 
+  const tabs: string[] = ['all', 'experiment', 'action plan']; 
 
   return (
     <>

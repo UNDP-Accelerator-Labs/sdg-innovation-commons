@@ -39,7 +39,7 @@ export default function Filters({
 	    if (Array.isArray(checkPlatform)) {
 	    	tags = await Promise.all(checkPlatform.map((d: any) => {
 	    		return platformApi(
-    		        { ...searchParams, ...{ space } },
+    		        { ...searchParams, ...{ space, use_pads: true } },
     		        d,
     		        'tags'
     		    );
@@ -51,7 +51,7 @@ export default function Filters({
 
 	    	countries = await Promise.all(checkPlatform.map((d: any) => {
 	    		return platformApi(
-			        { ...{ space } },
+			        { ...{ space, use_pads: true } },
 			        d,
 			        'countries'
 			    );
@@ -62,13 +62,13 @@ export default function Filters({
 	    	});
 	    } else {
 			tags = await platformApi(
-		        { ...searchParams, ...{ space } },
+		        { ...searchParams, ...{ space, use_pads: true } },
 		        checkPlatform,
 		        'tags'
 		    );
 		    countries = await platformApi(
 		        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
-		        { ...{ space } },
+		        { ...{ space, use_pads: true } },
 		        platform,
 		        'countries'
 		    );

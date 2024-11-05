@@ -5,10 +5,12 @@ import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { page_limit } from '@/app/lib/utils';
+import { page_limit, commonsPlatform } from '@/app/lib/utils';
 import { Button } from '@/app/ui/components/Button';
-import Filters from '../Filters';
+// import Filters from '../Filters';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export interface PageStatsResponse {
     total: number;
@@ -17,12 +19,16 @@ export interface PageStatsResponse {
 
 interface SectionProps {
     searchParams: any;
+    pinboards: any[];
 }
 
 export default function Section({
-    searchParams
+    searchParams,
+    pinboards,
 }: SectionProps) {
     const { page, search } = searchParams;
+    const windowParams = new URLSearchParams(useSearchParams());
+    windowParams.set('page', '1');
 
     const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -31,32 +37,48 @@ export default function Section({
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const platform = 'solution';
+    const [tabs, setTabs] = useState<string[]>([]);
+    const [platform, setPlatform] = useState<string>('');
 
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
-        setPages(totalPages);
-        
-        let data: any[];
+        // const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
+        // setPages(totalPages);
 
-        if (!search) {
-            console.log(searchParams)
+        // if (!search) {
+            const platforms = pinboards.map((d: any) => {
+                d.counts.forEach((c: any) => {
+                    c.pinboard_id = d.pinboard_id;
+                });
+                return d.counts;
+            }).flat();
 
-            data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
-                platform,
-                'pads'
-            );
-        } else {
-            console.log('look for search term', search)
-            data = await nlpApi(
-                { ...searchParams, ...{ limit: page_limit, doc_type: platform } },
-                platform
-            );
-        }
-        setHits(data);
+            setTabs(platforms.map((d: any) => commonsPlatform.find((c: any) => c.shortkey === d.platform)?.title));
+            setPlatform(tabs[0]);
+
+            const platformData: any[] = await Promise.all(platforms.map(async (d: string) => {
+                let platform: string;
+                if (d.platform === 'sm') platform = 'solution';
+                else if (d.platform === 'ap') platform = 'actionplan';
+                else if (d.platform === 'exp') platform = 'experiment';
+                const data: any[] = await platformApi(
+                    { ...searchParams, ...{ limit: page_limit, include_locations: true, pinboard: d.pinboard_id, space: 'pinned' } },
+                    platform, 
+                    'pads'
+                );
+                return data;
+            }));
+        // } 
+        // else {
+        //     console.log('look for search term', search)
+        //     data = await nlpApi(
+        //         { ...searchParams, ...{ limit: page_limit, doc_type: platform } },
+        //         platform
+        //     );
+        // }
+
+        setHits(platformData.flat());
         setLoading(false);
     }
 
@@ -68,6 +90,19 @@ export default function Section({
     <>
     <section className='home-section lg:py-[80px]'>
         <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            {/* Display the section title and description */}
+            <div className='section-header lg:mb-[100px]'>
+                <div className='c-left lg:col-span-5'>
+                    <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                        <span>Full Board Overview</span>
+                    </h2>
+                </div>
+                <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                    <p className="lead">
+                        <b>Search through all the items that are part of this board.</b>
+                    </p>
+                </div>
+            </div>
             {/* SEARCH */}
             <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
                 <div className='col-span-4 flex flex-row group items-stretch'>
@@ -87,14 +122,31 @@ export default function Section({
                     </button>
                 </div>
                 <div className='col-span-9'>
-                    <Filters 
+                    {/*<Filters 
                         className={clsx(filterVisibility ? '' : 'hidden')}
                         searchParams={searchParams}
-                    />
+                    />*/}
                 </div>
-
             </form>
-
+            {/* Display tabs */}
+            <nav className='tabs'>
+                {loading ? null :
+                (
+                    tabs.map((d: any, i: number) => {
+                        let txt: string = '';
+                        if (d === 'all') txt = 'all items';
+                        else txt = d;
+                        windowParams.set('platform', d);
+                        return (
+                            <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'yellow')}>
+                                <Link href={`?${windowParams.toString()}`}>
+                                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
+                                </Link>
+                            </div>
+                        )
+                    })
+                )}
+            </nav>
             <div className='section-content'>
                 {/* Display Cards */}
                 <div className='grid gap-[20px] lg:grid-cols-3'>
@@ -121,7 +173,7 @@ export default function Section({
                     )}
                 </div>
             </div>
-            <div className='pagination'>
+            {/*<div className='pagination'>
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
@@ -131,7 +183,7 @@ export default function Section({
                 ) : (<small className='block w-full text-center'>Loading pagination</small>)
                 }
                 </div>
-            </div>
+            </div>*/}
         </div>
     </section>
     </>

@@ -69,19 +69,7 @@ export default function Card({
                         </div>
                     </div>
                 </div>
-            ) : 
-            // (
-                // <div className='chips-container w-full'>
-                //     <div className={clsx('flex flex-row items-center justify-end pt-[20px] pb-[10px] pl-0 pr-[20px] gap-[10px] z-[2]', tagStyle)}>
-                //         {/* SDG */}
-                //         <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
-                //         {/* Country */}
-                //         <button type='button' className="chip bg-black text-white">{country}</button>
-                //     </div>
-                // </div>
-            // )
-            null
-            }
+            ) : null}
             {/* BAND WITH SOURCE NAME */}
             <div className={clsx('band w-full flex justify-between lg:text-[14px]', !backgroundImage ? '!border-t-0' : '', tagStyle)}>
                 <span>{source}</span>

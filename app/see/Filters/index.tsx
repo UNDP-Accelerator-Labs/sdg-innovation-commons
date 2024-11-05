@@ -29,7 +29,7 @@ export default function Filters({
 	    setLoading(true);
 	    
 		const tags = await platformApi(
-	        { ...searchParams, ...{ space } },
+	        { ...searchParams, ...{ space, use_pads: true } },
 	        platform,
 	        'tags'
 	    );
@@ -38,7 +38,7 @@ export default function Filters({
 	    })
 	    const countries = await platformApi(
 	        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
-	        { ...{ space } },
+	        { ...{ space, use_pads: true } },
 	        platform,
 	        'countries'
 	    );
