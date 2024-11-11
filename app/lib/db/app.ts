@@ -28,7 +28,8 @@ export default function getConnectionConfig(app_id: string): ConnectionConfig {
       host: process.env.APP_DB_HOST,
       user: process.env.APP_DB_USER,
       password: process.env.APP_DB_PASSWORD,
-      ssl: process.env.APP_DB_HOST !== 'localhost',
+      ssl: true,
+      // ssl: process.env.APP_DB_HOST !== 'localhost',
     };
   } else {
     console.log('in local test environment');

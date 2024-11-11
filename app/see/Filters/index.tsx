@@ -50,8 +50,8 @@ export default function Filters({
 	    })
 
 	    const data = [
-	    	{ key: 'tags', data: tags.sort((a, b) => a.name.localeCompare(b.name)) }, 
-	    	{ key: 'countries', data: countries.sort((a, b) => a.name.localeCompare(b.name)) }
+	    	{ key: 'tags', data: tags.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'countries', data: countries.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }
 	    ];
 	    // if (!search) {
 
@@ -59,7 +59,6 @@ export default function Filters({
 	    //     console.log('look for search term', search)
 	    //     data = await nlpApi(
 	    //         { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
-	    //         platform
 	    //     );
 	    // }
 	    setHits(data);

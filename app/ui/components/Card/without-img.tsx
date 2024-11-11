@@ -17,6 +17,7 @@ export interface CardProps {
   source?: string;
   date?: string;
   openInNewTab?: boolean;
+  tagStyleShade?: string;
 }
 
 export default function Card(_kwargs: CardProps) {

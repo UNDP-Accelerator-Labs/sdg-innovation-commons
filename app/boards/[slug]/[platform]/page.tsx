@@ -1,5 +1,5 @@
-import Hero from './Hero';
-import Info from './Info';
+import Hero from '../Hero';
+import Info from '../Info';
 import Content from './Content';
 import Navbar from '@/app/ui/components/Navbar';
 import Footer from '@/app/ui/components/Footer';
@@ -11,21 +11,19 @@ import { incomingRequestParams } from '@/app/lib/utils';
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {  
 
-  const { slug } = await params;
+  let { slug, platform } = await params;
+  platform = decodeURI(platform);
 
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
   let pages: number = 1;
-  // TO DO: IF sParams INCLUDES platform, THEN CHANGE THE api CALL TO A PLATFORM SPECFIC CALL FOR pads WITH THE pinboard AS A QUERY PARAM
-
   const data: any = await platformApi(
       // { ...searchParams, ...{ limit: page_limit, include_locations: true } },
       { ...sParams, ...{ pinboard: slug, limit: page_limit } },
       'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
   );
-
   pages = Math.ceil(data.total / page_limit);
 
   const platforms = data.counts
@@ -47,7 +45,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
       <Navbar />
       <Hero title={title} counts={counts} total={total} contributors={contributors} creatorName={creatorName} platforms={platforms} searchParams={sParams} />
       <Info description={description} />
-      <Content searchParams={sParams} platforms={platforms} pads={data.pads} tabs={tabs} pages={pages} board={+slug} />
+      <Content searchParams={sParams} platforms={platforms} pads={data.pads} tabs={tabs} board={+slug} platform={platform} />
       <Footer />
     </>
   );

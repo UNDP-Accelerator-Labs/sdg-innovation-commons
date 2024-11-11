@@ -58,7 +58,7 @@ export default function Filters({
 	    	}));
 	    	countries = countries.flat()
 	    	.filter((value: any, index: number, self: any) => {
-	    	    return self.findIndex((d: any) => d.iso3 === value.iso3) === index;
+	    	    return self.findIndex((d: any) => d?.iso3 === value?.iso3) === index;
 	    	});
 	    } else {
 			tags = await platformApi(
@@ -87,8 +87,8 @@ export default function Filters({
 	    
 
 	    const data = [
-	    	{ key: 'tags', data: tags.sort((a, b) => a.name.localeCompare(b.name)) }, 
-	    	{ key: 'countries', data: countries.sort((a, b) => a.name.localeCompare(b.name)) }
+	    	{ key: 'tags', data: tags.sort((a, b) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'countries', data: countries.sort((a, b) => a.name?.localeCompare(b.name)) }
 	    ];
 	    // if (!search) {
 
@@ -96,7 +96,6 @@ export default function Filters({
 	    //     console.log('look for search term', search)
 	    //     data = await nlpApi(
 	    //         { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
-	    //         platform
 	    //     );
 	    // }
 	    setHits(data);
@@ -110,38 +109,38 @@ export default function Filters({
 
 	return (
 		<>
-			<section className={clsx('filters lg:pl-[-20px]', className)}>
-				<div className='inner'>
-					<div className='section-content grid grid-cols-3 gap-[20px]'>
-						{filters.map((d, i) => {
-							const placeholder = `Search for ${d}`;
-							
-							if (loading) return('Loading')
-							else {
-								let list = [];
-								if (d === 'countries') {
-									list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
-								} else {
-									list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
-								}
-
-								return (
-									<FilterGroup
-										key={i}
-										placeholder={placeholder}
-										list={list}
-										loading={loading}
-									/>
-								);
+		<section className={clsx('filters lg:pl-[-20px]', className)}>
+			<div className='inner'>
+				<div className='section-content grid grid-cols-3 gap-[20px]'>
+					{filters.map((d, i) => {
+						const placeholder = `Search for ${d}`;
+						
+						if (loading) return('Loading')
+						else {
+							let list = [];
+							if (d === 'countries') {
+								list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
+							} else {
+								list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
 							}
-						})}
-					</div>
-					<div className='section-footer text-right'>
-						<Link href='?' className='font-bold font-space-mono underline underline-offset-2 lg:mr-[20px]'>Clear All</Link>
-						<Button type='submit'>Apply filters</Button>
-					</div>
+
+							return (
+								<FilterGroup
+									key={i}
+									placeholder={placeholder}
+									list={list}
+									loading={loading}
+								/>
+							);
+						}
+					})}
 				</div>
-			</section>
+				<div className='section-footer text-right'>
+					<Link href='?' className='font-bold font-space-mono underline underline-offset-2 lg:mr-[20px]'>Clear All</Link>
+					<Button type='submit'>Apply filters</Button>
+				</div>
+			</div>
+		</section>
 		</>
 	);
 }

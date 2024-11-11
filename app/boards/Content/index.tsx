@@ -45,8 +45,7 @@ export default function Section({
             console.log(searchParams)
 
             data = await platformApi(
-                // { ...searchParams, ...{ limit: page_limit, include_locations: true } },
-                { ...searchParams, ...{ } },
+                { ...searchParams, ...{ limit: page_limit } },
                 platform,
                 'pinboards'
             );
@@ -55,9 +54,10 @@ export default function Section({
         //     console.log('look for search term', search)
         //     data = await nlpApi(
         //         { ...searchParams, ...{ limit: page_limit, doc_type: platform } },
-        //         platform
         //     );
         // }
+
+        console.log(data)
 
         setHits(data);
         setLoading(false);

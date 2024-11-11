@@ -135,8 +135,8 @@ export default function Section({
                                     title={post?.title || ''}
                                     description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
                                     source={post?.base || ''}
-                                    tagStyle="bg-light-orange"
-                                    tagStyleShade="bg-light-orange-shade"
+                                    tagStyle={post?.base === 'action plan' ? 'bg-light-yellow' : 'bg-light-orange'}
+                                    tagStyleShade={post?.base === 'action plan' ? 'bg-light-yellow-shade' : 'bg-light-orange-shade'}
                                     href={post?.url}
                                     viewCount={0}
                                     tags={post?.tags}

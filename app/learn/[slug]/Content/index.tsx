@@ -13,6 +13,11 @@ import { useSearchParams } from 'next/navigation';
 
 import statsApi from '@/app/lib/data/nlp-pagination';
 
+export interface PageStatsResponse {
+    total: number;
+    pages: number;
+}
+
 interface SectionProps {
     searchParams: any;
     tabs: any;

@@ -33,9 +33,9 @@ export default function Footer() {
             </div>
           </div>
         </section>
-        <section className='lg:home-section lg:px-[80px] lg:py-[40px]'>
+        <section className='lg:home-section lg:py-[40px] bg-undp-blue'>
           {/* Desktop Buttons: Display on medium and larger screens */}
-          <DesktopMediaLinks className='hidden lg:flex' />
+          <DesktopMediaLinks className='hidden lg:block' />
           {/* Mobile Buttons: Display on medium and larger screens */}
           <MobileMediaLinks className='lg:hidden' />
         </section>

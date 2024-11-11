@@ -71,16 +71,18 @@ export default function Card({
                 </div>
             ) : null}
             {/* BAND WITH SOURCE NAME */}
-            <div className={clsx('band w-full flex justify-between lg:text-[14px]', !backgroundImage ? '!border-t-0' : '', tagStyle)}>
-                <span>{source}</span>
-                <span>{date}</span>
+            <div className={clsx('band w-full lg:text-[14px]', !backgroundImage ? '!border-t-0' : '', tagStyle)}>
+                <div className='flex justify-between'>
+                    <span>{source}</span>
+                    <span>{date}</span>
+                </div>
             </div>
             {/* MAIN CONTENT */}
             <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
                 <div>
                     {!backgroundImage ? (
                         <div className='chips-container w-full'>
-                            <div className='flex flex-row items-center justify-end py-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
+                            <div className='flex flex-row items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
                                 {/* SDG */}
                                 <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button>
                                 {/* Country */}

@@ -1,33 +1,33 @@
 'use server';
 import { NLP_URL, commonsPlatform, polishTags } from '@/app/lib/utils';
-import get from '@/app/lib/data/get';
-import platformApi from '@/app/lib/data/platform-api';
+import get from './get';
+import platformApi from './platform-api';
 
 export interface Props {
-    page?: number;
-    limit?: number;
+    page?: number | undefined;
+    limit?: number | undefined;
     offset?: number;
     search?: string;
     language?: any;
     iso3?: any;
-    platform?: string[];
-    doc_type?: any;
+    doc_type?: (string | undefined)[] | undefined;
 }
 
 // CHANGED country TO iso3
 
-export default async function nlpApi(_kwargs: Props, platform: string) {
+export default async function nlpApi(_kwargs: Props) {
     let { page, limit, offset, search, language, iso3, doc_type } = _kwargs;
+    if (!page || isNaN(page)) page = 1;
     if (!Array.isArray(language)) language = [language].filter((d: string | undefined) => d);
     if (!Array.isArray(iso3)) iso3 = [iso3].filter((d: string | undefined) => d);
     if (!Array.isArray(doc_type)) doc_type = [doc_type].filter((d: string | undefined) => d);
 
     const body = {
         input: search ?? '',
-        page_limit: page ?? 1,
-        page: page ?? 1,
+        page_limit: page,
+        page,
         limit: limit ?? 10,
-        offset: ((page ?? 1) - 1) * (limit ?? 0),
+        offset: (page - 1) * (limit ?? 0),
         short_snippets: true,
         vecdb: 'main',
         filters: {
@@ -41,9 +41,9 @@ export default async function nlpApi(_kwargs: Props, platform: string) {
         url: `${NLP_URL}/search`,
         method: 'POST',
         body,
-    });
+    }) || {};
 
-    if (status.toLowerCase() === 'ok') {
+    if (status?.toLowerCase() === 'ok') {
         const bases = hits.map((d: any) => d.base)
         .filter((value: any, index: number, self: any) => {
             return self.indexOf(value) === index;
@@ -62,11 +62,13 @@ export default async function nlpApi(_kwargs: Props, platform: string) {
                 if (platform === 'actionplan') platform = 'action plan';
                 const platformData: any[] = await platformApi({ pads }, platform, 'pads');
 
-                platformData?.forEach((d: any) => {
-                    // because this is triggered by a search, we use the nlp api snippet which provides a cue as to whi the doc is a hit
-                    const { snippets } = platformHits.find((c: any) => c.doc_id === d.pad_id) || {};
-                    if (snippets && Array.isArray(snippets)) d.snippet = snippets[0];
-                })
+                if (search?.length) {
+                    platformData?.forEach((d: any) => {
+                        // because this is triggered by a search, we use the nlp api snippet which provides a cue as to whi the doc is a hit
+                        const { snippets } = platformHits.find((c: any) => c.doc_id === d.pad_id) || {};
+                        if (snippets && Array.isArray(snippets)) d.snippet = snippets[0];
+                    });
+                }
                 platformData?.sort((a, b) => {
                     return pads.indexOf(a.pad_id) - pads.indexOf(b.pad_id);
                 });

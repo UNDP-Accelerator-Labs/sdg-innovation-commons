@@ -170,6 +170,6 @@ export const polishTags = (data: any[]) => {
 };
 
 export type incomingRequestParams = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string, platform: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }

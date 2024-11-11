@@ -14,7 +14,7 @@ import { defaultSearch } from '@/app/lib/utils';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 
 export default function Section() {
-    const tabs = ['all items', 'experiment', 'action plan'] as const; 
+    const tabs = ['all', 'experiment', 'action plan'] as const; 
     type TabType = typeof tabs[number]; 
 
     // Manage the active tab and data
@@ -34,7 +34,7 @@ export default function Section() {
 
             let data: any[];
 
-            if (activeTab !== 'all items') {
+            if (activeTab !== 'all') {
                 data = await platformApi(
                     { limit: 3, page: 1, orderby: 'random' }, 
                     activeTab, 
@@ -81,16 +81,20 @@ export default function Section() {
                     {/* Display tabs */}
                     <nav className='tabs'>
                         {tabs.map((d, i) => {
+                            let txt: string = '';
+                            if (d === 'all') txt = 'all items';
+                            else txt = d;
+
                             return (
-                            <div key={i}
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setActiveTab(d);
-                                }}
-                                className={clsx('tab tab-line', activeTab === d ? 'font-bold' : 'orange')}
-                            >
-                                {`${d}${d.slice(-1) === 's' ? '' : 's'}`}
-                            </div>
+                                <div key={i}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setActiveTab(d);
+                                    }}
+                                    className={clsx('tab tab-line', activeTab === d ? 'font-bold' : 'orange')}
+                                >
+                                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
+                                </div>
                             )
                         })}
                     </nav>
@@ -106,8 +110,8 @@ export default function Section() {
                                     title={post?.title || ''}
                                     description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
                                     source={post?.base || ''}
-                                    tagStyle="bg-light-orange"
-                                    tagStyleShade="bg-light-orange-shade"
+                                    tagStyle={post?.base === 'action plan' ? 'bg-light-yellow' : 'bg-light-orange'}
+                                    tagStyleShade={post?.base === 'action plan' ? 'bg-light-yellow-shade' : 'bg-light-orange-shade'}
                                     href={post?.url}
                                     viewCount={0}
                                     tags={post?.tags}

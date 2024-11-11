@@ -11,12 +11,13 @@ export default function Card({
     viewCount = 0,
     backgroundImage,
     className,
-    openInNewTab
+    openInNewTab,
+    tagStyleShade
 }: CardProps) {
 
     return (
-    <div className={clsx('board w-full relative flex flex-col', className)}>
-        <div className='card grow'>
+    <div className={clsx('board w-full relative flex', className)}>
+        <div className='card grow flex flex-col'>
             {/* TOP (IMAGE AND CHIPS) */}
             {backgroundImage ? (
                 <div className='w-full'>
@@ -51,10 +52,10 @@ export default function Card({
                 <div>
                     {/* Footer */}
                     <div className="self-stretch flex flex-row items-center justify-between text-sm mb-[10px]">
-                        <div className="flex flex-row items-start justify-start gap-1">
+                        <div className="flex flex-row items-end justify-start gap-1">
                             {/* View Count */}
-                            <img className="w-[20.2px] relative h-[17.3px]" alt="Views" src="/images/heart.svg" />
-                            <b className="w-[52px] relative leading-[18px] inline-block shrink-0">{viewCount}</b>
+                            <img className="w-[30px] relative" alt="Views" src="/images/board-cards.svg" />
+                            <p className="font-space-mono ml-[10px] mb-0"><b>{viewCount} Items</b></p>
                         </div>
                         {/* Arrow */}
                         <CardLink

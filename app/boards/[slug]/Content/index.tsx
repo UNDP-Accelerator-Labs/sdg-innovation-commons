@@ -19,12 +19,20 @@ export interface PageStatsResponse {
 
 interface SectionProps {
     searchParams: any;
-    pinboards: any[];
+    platforms: any[];
+    tabs: string[];
+    pads: any[];
+    pages: number;
+    board: number;
 }
 
 export default function Section({
     searchParams,
-    pinboards,
+    platforms,
+    tabs,
+    pads,
+    pages,
+    board,
 }: SectionProps) {
     const { page, search } = searchParams;
     const windowParams = new URLSearchParams(useSearchParams());
@@ -33,12 +41,10 @@ export default function Section({
     const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
-    const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [tabs, setTabs] = useState<string[]>([]);
-    const [platform, setPlatform] = useState<string>('');
+    const platform: string = tabs[0];
 
     async function fetchData(): Promise<void> {
         setLoading(true);
@@ -47,23 +53,15 @@ export default function Section({
         // setPages(totalPages);
 
         // if (!search) {
-            const platforms = pinboards.map((d: any) => {
-                d.counts.forEach((c: any) => {
-                    c.pinboard_id = d.pinboard_id;
-                });
-                return d.counts;
-            }).flat();
+            
+            // setTabs(tabs);
+            // setPlatform(tabs[0]);
 
-            setTabs(platforms.map((d: any) => commonsPlatform.find((c: any) => c.shortkey === d.platform)?.title));
-            setPlatform(tabs[0]);
-
-            const platformData: any[] = await Promise.all(platforms.map(async (d: string) => {
-                let platform: string;
-                if (d.platform === 'sm') platform = 'solution';
-                else if (d.platform === 'ap') platform = 'actionplan';
-                else if (d.platform === 'exp') platform = 'experiment';
+            const platformData: any[] = await Promise.all(platforms.map(async (d: any) => {
+                const platform: string = commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
+                const platformPads: any[] = pads.filter((c: any) => c.db === d.platform).map((c: any) => c.pad_id); // TO DO: CHANGE c.db TO c.platform
                 const data: any[] = await platformApi(
-                    { ...searchParams, ...{ limit: page_limit, include_locations: true, pinboard: d.pinboard_id, space: 'pinned' } },
+                    { limit: page_limit, include_locations: true, pads: platformPads },
                     platform, 
                     'pads'
                 );
@@ -74,7 +72,6 @@ export default function Section({
         //     console.log('look for search term', search)
         //     data = await nlpApi(
         //         { ...searchParams, ...{ limit: page_limit, doc_type: platform } },
-        //         platform
         //     );
         // }
 
@@ -136,10 +133,11 @@ export default function Section({
                         let txt: string = '';
                         if (d === 'all') txt = 'all items';
                         else txt = d;
-                        windowParams.set('platform', d);
+                        console.log(d)
+                        // windowParams.set('platform', d);
                         return (
                             <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'yellow')}>
-                                <Link href={`?${windowParams.toString()}`}>
+                                <Link href={`/boards/${board}/${encodeURI(d.toLowerCase())}?${windowParams.toString()}`}>
                                     {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
                                 </Link>
                             </div>
@@ -153,27 +151,32 @@ export default function Section({
                     {loading ? (
                         <ImgCardsSkeleton /> // Show Skeleton while loading
                     ) : (
-                        hits?.map((post: any) => (
-                            <Card
-                                key={post?.doc_id || post?.pad_id}
-                                country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                title={post?.title || ''}
-                                description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                source={post?.base || 'Solution'}
-                                tagStyle="bg-light-green"
-                                tagStyleShade="bg-light-green-shade"
-                                href={post?.url}
-                                viewCount={0}
-                                tags={post?.tags}
-                                sdg={`SDG ${post?.sdg?.join('/')}`}
-                                backgroundImage={post?.vignette}
-                                date={post?.date}
-                            />
-                        ))
+                        hits?.map((post: any) => {
+                            let color: string = 'green';
+                            if (post?.base === 'action plan') color = 'yellow';
+                            else if (post?.base === 'experiment') color = 'orange';
+                            return (
+                                <Card
+                                    key={post?.doc_id || post?.pad_id}
+                                    country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                    title={post?.title || ''}
+                                    description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                    source={post?.base || 'Solution'}
+                                    tagStyle={`bg-light-${color}`}
+                                    tagStyleShade={`bg-light-${color}-shade`}
+                                    href={post?.url}
+                                    viewCount={0}
+                                    tags={post?.tags}
+                                    sdg={`SDG ${post?.sdg?.join('/')}`}
+                                    backgroundImage={post?.vignette}
+                                    date={post?.date}
+                                />
+                            )
+                        })
                     )}
                 </div>
             </div>
-            {/*<div className='pagination'>
+            <div className='pagination'>
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
@@ -183,7 +186,7 @@ export default function Section({
                 ) : (<small className='block w-full text-center'>Loading pagination</small>)
                 }
                 </div>
-            </div>*/}
+            </div>
         </div>
     </section>
     </>

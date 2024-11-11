@@ -17,7 +17,7 @@ export default function Hero({
 	            	<p className='lead font-bold'>{description}</p>
 		        </div>
 		        <div className='c-right lg:col-span-4 lg:col-start-6'>
-		        	<img src='/images/Rectangle 15.png' className='gradient-img absolute w-[150%] min-h-[calc(100%+160px)] top-[-80px] left-0 object-contain' />
+		        	<img src='/images/Rectangle 15.png' className='gradient-img absolute min-w-[150%] min-h-[calc(100%+160px)] top-[-80px] left-0 object-contain' />
 		        	<div className='absolute h-full w-[50vw] py-[80px] top-[-80px] left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]'></div>
 		        </div>
 		    </div>

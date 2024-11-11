@@ -3,7 +3,7 @@ import nlpStatsApi from '@/app/lib/data/nlp-pagination';
 import { page_limit } from '@/app/lib/utils';
 import Link from 'next/link';
 
-export async function pagestats(page: number, platform: string, status: number) {
+export async function pagestats(page: number, platform: string | string[], status: number) {
 	if (!status) status = 3;
 	
 	async function fetchPages() {
@@ -36,17 +36,32 @@ export function Pagination({
 	if (totalPages <= 3) {
 		return (
 			<>
+				{page > 1 ? (
+					<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+					</button>
+				) : null}
 				{new Array(totalPages).fill(null).map((d, i) => (
 					<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 						{i + 1}
 					</button>
 				))}
+				{page === totalPages - 1 ? (
+					<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+					</button>
+				) : null}
 			</>
 		)
 	} else {
 		if (page <= 2) {
 			return (
 				<>
+					{page > 1 ? (
+						<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
+							<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+						</button>
+					) : null}
 					{new Array(Math.min(totalPages, 3)).fill(null).map((d, i) => (
 						<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 							{i + 1}
@@ -60,11 +75,21 @@ export function Pagination({
 							{totalPages}
 						</button>
 					) : (null)}
+					{page === totalPages - 1 ? (
+						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
+							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+						</button>
+					) : null}
 				</>
 			)
 		} else if (page > 2 && page <= totalPages - 3) {
 			return (
 				<>
+					{page > 1 ? (
+						<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
+							<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+						</button>
+					) : null}
 					<button key={1} form='search-form' type='submit' value={1} name='page' className={page === 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 							1
 					</button>	
@@ -78,11 +103,21 @@ export function Pagination({
 					<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
 						{totalPages}
 					</button>
+					{page === totalPages - 1 ? (
+						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
+							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+						</button>
+					) : null}
 				</>
 			)
 		} else {
 			return (
 				<>
+					{page > 1 ? (
+						<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
+							<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+						</button>
+					) : null}
 					<button key={1} form='search-form' type='submit' value={1} name='page'>
 						1
 					</button>	
@@ -92,6 +127,11 @@ export function Pagination({
 							{totalPages - 2 + i}
 						</button>
 					))}
+					{page === totalPages - 1 ? (
+						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
+							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+						</button>
+					) : null}
 				</>
 			)
 		}
