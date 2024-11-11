@@ -61,6 +61,9 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         method: 'GET',
     });
 
+    console.log('check url')
+    console.log(`${base_url}/apis/fetch/${object}?${params.toString()}`)
+
     // set urls for pads
     if (object === 'pads') {
         data?.forEach((d: any) => {
@@ -71,10 +74,10 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
             const month = date.getMonth() + 1;
             const year = date.getFullYear();
             d.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
-        })
-    }
+        });
+        return polishTags(data);
+    } else return data;
 
-    return polishTags(data);
 }
 
 

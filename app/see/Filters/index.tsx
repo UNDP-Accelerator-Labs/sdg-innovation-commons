@@ -29,7 +29,7 @@ export default function Filters({
 	    setLoading(true);
 	    
 		const tags = await platformApi(
-	        { ...searchParams, ...{ space } },
+	        { ...searchParams, ...{ space, use_pads: true } },
 	        platform,
 	        'tags'
 	    );
@@ -38,7 +38,7 @@ export default function Filters({
 	    })
 	    const countries = await platformApi(
 	        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
-	        { ...{ space } },
+	        { ...{ space, use_pads: true } },
 	        platform,
 	        'countries'
 	    );
@@ -50,8 +50,8 @@ export default function Filters({
 	    })
 
 	    const data = [
-	    	{ key: 'tags', data: tags.sort((a, b) => a.name.localeCompare(b.name)) }, 
-	    	{ key: 'countries', data: countries.sort((a, b) => a.name.localeCompare(b.name)) }
+	    	{ key: 'tags', data: tags.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'countries', data: countries.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }
 	    ];
 	    // if (!search) {
 
@@ -59,7 +59,6 @@ export default function Filters({
 	    //     console.log('look for search term', search)
 	    //     data = await nlpApi(
 	    //         { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
-	    //         platform
 	    //     );
 	    // }
 	    setHits(data);

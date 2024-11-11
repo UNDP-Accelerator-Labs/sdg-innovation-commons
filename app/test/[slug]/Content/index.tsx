@@ -42,13 +42,13 @@ export default function Section({
 
     async function fetchData(): Promise<void> {
         setLoading(true);
-
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
-        setPages(totalPages);
-        
+    
         let data: any[];
 
-        if (!search) {
+        if (!search && platform !== tabs[0]) {
+            const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
+            setPages(totalPages);
+
             data = await platformApi(
                 { ...searchParams, ...{ limit: page_limit, include_locations: true } },
                 platform,
@@ -56,9 +56,15 @@ export default function Section({
             );
         } else {
             console.log('look for search term', search)
+            let doc_type: string[];
+            if (platform === 'all') doc_type = tabs.slice(1);
+            else doc_type = [platform];
+
+            const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, doc_type, 3);
+            setPages(totalPages);
+
             data = await nlpApi(
-                { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
-                platform
+                { ... searchParams, ...{ limit: page_limit, doc_type } }
             );
         }
         setHits(data);
@@ -97,16 +103,22 @@ export default function Section({
                             className={clsx(filterVisibility ? '' : 'hidden')}
                             searchParams={searchParams}
                             platform={platform}
+                            tabs={tabs}
                         />
                     </div>
                 </form>
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d, i) => {
+                        let txt: string = '';
+                        if (d === 'all') txt = 'all items';
+                        else txt = d;
                         return (
-                        <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'orange')}>
-                            <Link href={`/test/${d}?${windowParams.toString()}`}>{`${d}s`}</Link>
-                        </div>
+                            <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'orange')}>
+                                <Link href={`/test/${d}?${windowParams.toString()}`}>
+                                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
+                                </Link>
+                            </div>
                         )
                     })}
                 </nav>
@@ -123,8 +135,8 @@ export default function Section({
                                     title={post?.title || ''}
                                     description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet }
                                     source={post?.base || ''}
-                                    tagStyle="bg-light-orange"
-                                    tagStyleShade="bg-light-orange-shade"
+                                    tagStyle={post?.base === 'action plan' ? 'bg-light-yellow' : 'bg-light-orange'}
+                                    tagStyleShade={post?.base === 'action plan' ? 'bg-light-yellow-shade' : 'bg-light-orange-shade'}
                                     href={post?.url}
                                     viewCount={0}
                                     tags={post?.tags}

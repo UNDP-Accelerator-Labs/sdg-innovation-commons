@@ -10,12 +10,14 @@ interface filtersProps {
 	className?: string;
 	searchParams: any;
 	platform: string;
+	tabs: string[];
 }
 
 export default function Filters({
 	className,
 	searchParams,
-	platform
+	platform,
+	tabs
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
@@ -28,32 +30,65 @@ export default function Filters({
 	// load data here
 	async function fetchData(): Promise<void> {
 	    setLoading(true);
+
+	    const checkPlatform = platform === tabs[0] ? tabs.slice(1) : platform;
+
+	    let tags: any[];
+	    let countries: any[];
 	    
-		const tags = await platformApi(
-	        { ...searchParams, ...{ space } },
-	        platform,
-	        'tags'
-	    );
+	    if (Array.isArray(checkPlatform)) {
+	    	tags = await Promise.all(checkPlatform.map((d: any) => {
+	    		return platformApi(
+    		        { ...searchParams, ...{ space, use_pads: true } },
+    		        d,
+    		        'tags'
+    		    );
+	    	}));
+	    	tags = tags.flat()
+	    	.filter((value: any, index: number, self: any) => {
+	    	    return self.findIndex((d: any) => d.id === value.id && d.type === value.type) === index;
+	    	});
+
+	    	countries = await Promise.all(checkPlatform.map((d: any) => {
+	    		return platformApi(
+			        { ...{ space, use_pads: true } },
+			        d,
+			        'countries'
+			    );
+	    	}));
+	    	countries = countries.flat()
+	    	.filter((value: any, index: number, self: any) => {
+	    	    return self.findIndex((d: any) => d?.iso3 === value?.iso3) === index;
+	    	});
+	    } else {
+			tags = await platformApi(
+		        { ...searchParams, ...{ space, use_pads: true } },
+		        checkPlatform,
+		        'tags'
+		    );
+		    countries = await platformApi(
+		        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
+		        { ...{ space, use_pads: true } },
+		        platform,
+		        'countries'
+		    );
+		}
+	    
 	    tags.forEach((d: any) => {
 		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
 		    else d.checked = filterParams[d.type] === d.id?.toString();
 	    });
-	    const countries = await platformApi(
-	        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
-	        { ...{ space } },
-	        platform,
-	        'countries'
-	    );
 	    countries.forEach((d: any) => {
 	    	d.id = d.iso3;
 	    	d.name = d.country;
 	    	d.type = 'countries';
 	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
 	    });
+	    
 
 	    const data = [
-	    	{ key: 'tags', data: tags.sort((a, b) => a.name.localeCompare(b.name)) }, 
-	    	{ key: 'countries', data: countries.sort((a, b) => a.name.localeCompare(b.name)) }
+	    	{ key: 'tags', data: tags.sort((a, b) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'countries', data: countries.sort((a, b) => a.name?.localeCompare(b.name)) }
 	    ];
 	    // if (!search) {
 
@@ -61,7 +96,6 @@ export default function Filters({
 	    //     console.log('look for search term', search)
 	    //     data = await nlpApi(
 	    //         { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
-	    //         platform
 	    //     );
 	    // }
 	    setHits(data);
@@ -75,38 +109,38 @@ export default function Filters({
 
 	return (
 		<>
-			<section className={clsx('filters lg:pl-[-20px]', className)}>
-				<div className='inner'>
-					<div className='section-content grid grid-cols-3 gap-[20px]'>
-						{filters.map((d, i) => {
-							const placeholder = `Search for ${d}`;
-							
-							if (loading) return('Loading')
-							else {
-								let list = [];
-								if (d === 'countries') {
-									list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
-								} else {
-									list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
-								}
-
-								return (
-									<FilterGroup
-										key={i}
-										placeholder={placeholder}
-										list={list}
-										loading={loading}
-									/>
-								);
+		<section className={clsx('filters lg:pl-[-20px]', className)}>
+			<div className='inner'>
+				<div className='section-content grid grid-cols-3 gap-[20px]'>
+					{filters.map((d, i) => {
+						const placeholder = `Search for ${d}`;
+						
+						if (loading) return('Loading')
+						else {
+							let list = [];
+							if (d === 'countries') {
+								list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
+							} else {
+								list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
 							}
-						})}
-					</div>
-					<div className='section-footer text-right'>
-						<Link href='?' className='font-bold font-space-mono underline underline-offset-2 lg:mr-[20px]'>Clear All</Link>
-						<Button type='submit'>Apply filters</Button>
-					</div>
+
+							return (
+								<FilterGroup
+									key={i}
+									placeholder={placeholder}
+									list={list}
+									loading={loading}
+								/>
+							);
+						}
+					})}
 				</div>
-			</section>
+				<div className='section-footer text-right'>
+					<Link href='?' className='font-bold font-space-mono underline underline-offset-2 lg:mr-[20px]'>Clear All</Link>
+					<Button type='submit'>Apply filters</Button>
+				</div>
+			</div>
+		</section>
 		</>
 	);
 }

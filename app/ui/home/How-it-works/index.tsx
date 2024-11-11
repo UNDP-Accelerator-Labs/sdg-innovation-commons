@@ -11,7 +11,8 @@ export default function Section() {
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:py-[100px]'>
+        <section className='lg:home-section lg:py-[80px]'>
+            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
@@ -48,7 +49,8 @@ export default function Section() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
         </>
     );
 };

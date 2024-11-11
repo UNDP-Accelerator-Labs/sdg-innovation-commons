@@ -11,7 +11,8 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
-  const tabs: string[] = ['experiment', 'action plan']; 
+  // const tabs: string[] = ['experiment', 'action plan']; 
+  const tabs: string[] = ['all', 'experiment', 'action plan']; 
 
   return (
     <>
@@ -19,7 +20,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
     <Hero />
     <Content 
       searchParams={sParams} 
-      platform={slug}
+      platform={decodeURIComponent(slug)}
       tabs={tabs}
     />
     <Footer />

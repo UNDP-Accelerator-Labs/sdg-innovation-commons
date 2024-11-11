@@ -46,36 +46,50 @@ export default function Card({
     return (
         <div className={clsx('card w-full relative flex flex-col', className)}>
             {/* TOP (IMAGE AND CHIPS) */}
-            <div className='w-full'>
-                {/* Background Image */}
-                <div className='relative'>
-                    <div className={clsx(
-                            "self-stretch h-[245px] flex flex-col items-start justify-start bg-cover bg-no-repeat bg-[top]",
-                            className
-                        )}
-                        style={{ backgroundImage: `url(${backgroundImage})` }}
-                    >
-                        <div className='absolute h-full w-full top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]'></div>
+            {backgroundImage ? (
+                <div className='w-full'>
+                    {/* Background Image */}
+                    <div className='relative'>
+                        <div className={clsx(
+                                "self-stretch h-[245px] flex flex-col items-start justify-start bg-cover bg-no-repeat bg-[top]",
+                                className
+                            )}
+                            style={{ backgroundImage: `url(${backgroundImage})` }}
+                        >
+                            <div className='absolute h-full w-full top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]'></div>
+                        </div>
+                    </div>
+                    {/* Chips */}
+                    <div className='chips-container absolute top-0 w-full'>
+                        <div className='flex flex-row items-center justify-end pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
+                            {/* SDG */}
+                            <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
+                            {/* Country */}
+                            <button type='button' className="chip bg-black text-white">{country}</button>
+                        </div>
                     </div>
                 </div>
-                {/* Chips */}
-                <div className='chips-container absolute top-0 w-full'>
-                    <div className='flex flex-row items-center justify-end pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
-                        {/* SDG */}
-                        <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
-                        {/* Country */}
-                        <button type='button' className="chip bg-black text-white">{country}</button>
-                    </div>
-                </div>
-            </div>
+            ) : null}
             {/* BAND WITH SOURCE NAME */}
-            <div className={clsx('band w-full flex justify-between lg:text-[14px]', tagStyle)}>
-                <span>{source}</span>
-                <span>{date}</span>
+            <div className={clsx('band w-full lg:text-[14px]', !backgroundImage ? '!border-t-0' : '', tagStyle)}>
+                <div className='flex justify-between'>
+                    <span>{source}</span>
+                    <span>{date}</span>
+                </div>
             </div>
             {/* MAIN CONTENT */}
             <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
                 <div>
+                    {!backgroundImage ? (
+                        <div className='chips-container w-full'>
+                            <div className='flex flex-row items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
+                                {/* SDG */}
+                                <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button>
+                                {/* Country */}
+                                <button type='button' className="chip bg-black text-white">{country}</button>
+                            </div>
+                        </div>
+                    ) : null}
                     {/* Title */}
                     <h1>{title}</h1>
                     {/* Description */}

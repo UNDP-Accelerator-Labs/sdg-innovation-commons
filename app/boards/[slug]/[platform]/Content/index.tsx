@@ -7,8 +7,10 @@ import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { page_limit } from '@/app/lib/utils';
 import { Button } from '@/app/ui/components/Button';
-import Filters from '../Filters';
+// import Filters from '../Filters';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export interface PageStatsResponse {
     total: number;
@@ -17,12 +19,24 @@ export interface PageStatsResponse {
 
 interface SectionProps {
     searchParams: any;
+    platforms: any[];
+    tabs: string[];
+    pads: any[];
+    board: number;
+    platform: string;
 }
 
 export default function Section({
-    searchParams
+    searchParams,
+    platforms,
+    tabs,
+    pads,
+    board,
+    platform,
 }: SectionProps) {
     const { page, search } = searchParams;
+    const windowParams = new URLSearchParams(useSearchParams());
+    windowParams.set('page', '1');
 
     const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -31,7 +45,7 @@ export default function Section({
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const platform = 'solution';
+    // const platform = 'solution';
 
     async function fetchData(): Promise<void> {
         setLoading(true);
@@ -45,7 +59,7 @@ export default function Section({
             console.log(searchParams)
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit, include_locations: true, pinboard: board } },
                 platform,
                 'pads'
             );
@@ -67,6 +81,19 @@ export default function Section({
     <>
     <section className='home-section lg:py-[80px]'>
         <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            {/* Display the section title and description */}
+            <div className='section-header lg:mb-[100px]'>
+                <div className='c-left lg:col-span-5'>
+                    <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                        <span>Full Board Overview</span>
+                    </h2>
+                </div>
+                <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                    <p className="lead">
+                        <b>Search through all the items that are part of this board.</b>
+                    </p>
+                </div>
+            </div>
             {/* SEARCH */}
             <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
                 <div className='col-span-4 flex flex-row group items-stretch'>
@@ -86,37 +113,60 @@ export default function Section({
                     </button>
                 </div>
                 <div className='col-span-9'>
-                    <Filters 
+                    {/*<Filters 
                         className={clsx(filterVisibility ? '' : 'hidden')}
                         searchParams={searchParams}
-                    />
+                    />*/}
                 </div>
-
             </form>
-
+            {/* Display tabs */}
+            <nav className='tabs'>
+                {loading ? null :
+                (
+                    tabs.map((d: any, i: number) => {
+                        let txt: string = '';
+                        if (d === 'all') txt = 'all items';
+                        else txt = d;
+                        console.log(d)
+                        // windowParams.set('platform', d);
+                        return (
+                            <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'yellow')}>
+                                <Link href={`/boards/${board}/${encodeURI(d.toLowerCase())}?${windowParams.toString()}`}>
+                                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
+                                </Link>
+                            </div>
+                        )
+                    })
+                )}
+            </nav>
             <div className='section-content'>
                 {/* Display Cards */}
                 <div className='grid gap-[20px] lg:grid-cols-3'>
                     {loading ? (
                         <ImgCardsSkeleton /> // Show Skeleton while loading
                     ) : (
-                        hits?.map((post: any) => (
-                            <Card
-                                key={post?.doc_id || post?.pad_id}
-                                country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                title={post?.title || ''}
-                                description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                source={post?.base || 'Solution'}
-                                tagStyle="bg-light-green"
-                                tagStyleShade="bg-light-green-shade"
-                                href={post?.url}
-                                viewCount={0}
-                                tags={post?.tags}
-                                sdg={`SDG ${post?.sdg?.join('/')}`}
-                                backgroundImage={post?.vignette}
-                                date={post?.date}
-                            />
-                        ))
+                        hits?.map((post: any) => {
+                            let color: string = 'green';
+                            if (post?.base === 'action plan') color = 'yellow';
+                            else if (post?.base === 'experiment') color = 'orange';
+                            return (
+                                <Card
+                                    key={post?.doc_id || post?.pad_id}
+                                    country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                    title={post?.title || ''}
+                                    description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                    source={post?.base || 'Solution'}
+                                    tagStyle={`bg-light-${color}`}
+                                    tagStyleShade={`bg-light-${color}-shade`}
+                                    href={post?.url}
+                                    viewCount={0}
+                                    tags={post?.tags}
+                                    sdg={`SDG ${post?.sdg?.join('/')}`}
+                                    backgroundImage={post?.vignette}
+                                    date={post?.date}
+                                />
+                            )
+                        })
                     )}
                 </div>
             </div>

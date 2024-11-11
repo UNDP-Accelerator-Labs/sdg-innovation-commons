@@ -10,7 +10,7 @@ export interface Props {
     fields?: any;
 }
 
-export async function statsApi(_kwargs: Props) {
+export default async function statsApi(_kwargs: Props) {
     let { language, iso3, doc_type, fields } = _kwargs || {};
     if (!Array.isArray(language)) language = [language].filter((d: string | undefined) => d);
     if (!Array.isArray(iso3)) iso3 = [iso3].filter((d: string | undefined) => d);

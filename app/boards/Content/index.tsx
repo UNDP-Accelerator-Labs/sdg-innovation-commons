@@ -1,13 +1,13 @@
 "use client";
 import { useState, useEffect, useCallback } from 'react';
-import Card from '@/app/ui/components/Card/with-img';
+import Card from '@/app/ui/components/Card/featured-card';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { page_limit } from '@/app/lib/utils';
 import { Button } from '@/app/ui/components/Button';
-import Filters from '../Filters';
+// import Filters from '../Filters';
 import clsx from 'clsx';
 
 export interface PageStatsResponse {
@@ -36,25 +36,29 @@ export default function Section({
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
-        setPages(totalPages);
+        // const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
+        // setPages(totalPages);
         
         let data: any[];
 
-        if (!search) {
+        // if (!search) {
             console.log(searchParams)
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit } },
                 platform,
-                'pads'
+                'pinboards'
             );
-        } else {
-            console.log('look for search term', search)
-            data = await nlpApi(
-                { ...searchParams, ...{ limit: page_limit, doc_type: platform } }
-            );
-        }
+        // } 
+        // else {
+        //     console.log('look for search term', search)
+        //     data = await nlpApi(
+        //         { ...searchParams, ...{ limit: page_limit, doc_type: platform } },
+        //     );
+        // }
+
+        console.log(data)
+
         setHits(data);
         setLoading(false);
     }
@@ -86,10 +90,10 @@ export default function Section({
                     </button>
                 </div>
                 <div className='col-span-9'>
-                    <Filters 
+                    {/*<Filters 
                         className={clsx(filterVisibility ? '' : 'hidden')}
                         searchParams={searchParams}
-                    />
+                    />*/}
                 </div>
 
             </form>
@@ -102,25 +106,24 @@ export default function Section({
                     ) : (
                         hits?.map((post: any) => (
                             <Card
-                                key={post?.doc_id || post?.pad_id}
+                                key={post?.pinboard_id}
                                 country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                 title={post?.title || ''}
-                                description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                description={post?.description}
                                 source={post?.base || 'Solution'}
                                 tagStyle="bg-light-green"
                                 tagStyleShade="bg-light-green-shade"
-                                href={post?.url}
-                                viewCount={0}
-                                tags={post?.tags}
-                                sdg={`SDG ${post?.sdg?.join('/')}`}
+                                href={`/boards/${post?.pinboard_id}`}
                                 backgroundImage={post?.vignette}
                                 date={post?.date}
+
+                                viewCount={post.total}
                             />
                         ))
                     )}
                 </div>
             </div>
-            <div className='pagination'>
+            {/*<div className='pagination'>
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
@@ -130,7 +133,7 @@ export default function Section({
                 ) : (<small className='block w-full text-center'>Loading pagination</small>)
                 }
                 </div>
-            </div>
+            </div>*/}
         </div>
     </section>
     </>

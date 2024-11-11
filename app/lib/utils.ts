@@ -7,17 +7,20 @@ export const commonsPlatform = [
   {
     title: 'Learning Plans',
     url: 'https://learningplans.sdg-innovation-commons.org',
-    key: 'action plan'
+    key: 'action plan',
+    shortkey: 'ap'
   },
   {
     title: 'Solutions',
     url: 'https://solutions.sdg-innovation-commons.org',
-    key: 'solution'
+    key: 'solution',
+    shortkey: 'sm'
   },
   {
     title: 'Experiments',
     url: 'https://experiments.sdg-innovation-commons.org',
-    key: 'experiment'
+    key: 'experiment',
+    shortkey: 'exp'
   },
   {
     title: 'Insight',
@@ -92,8 +95,8 @@ export function extractSDGNumbers(pad: any) {
 export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined => {
   const def: { [key: string]: string } = {
     "see": "What solutions is the network seeing?",
-    "learn": "What has the network learnt?",
-    "test": "What is the network testing?"
+    "learn": 'learning',
+    "test": 'action learning',
   };
   
   return def[key];
@@ -167,6 +170,6 @@ export const polishTags = (data: any[]) => {
 };
 
 export type incomingRequestParams = {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string, platform: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
