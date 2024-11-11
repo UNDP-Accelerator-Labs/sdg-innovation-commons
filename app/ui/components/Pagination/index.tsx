@@ -12,7 +12,7 @@ export async function pagestats(page: number, platform: string | string[], statu
 	    	const pages = Math.ceil(total / page_limit);
 	    	return { total, page, pages };
 	    } else {
-		   	const data = await statsApi(platform);
+		   	const data = await statsApi(platform) || {};
 		    const { breakdown } = data;
 		    const totalToCount = breakdown.filter((b: any) => b.status >= status);
 		    const total = totalToCount.reduce((partialSum: number, a: any) => partialSum + a.count, 0);
