@@ -50,7 +50,7 @@ export default function Section({
             setPages(totalPages);
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit } },
                 platform,
                 'pads'
             );
@@ -144,6 +144,7 @@ export default function Section({
                                     backgroundImage={post?.vignette}
                                     className=''
                                     date={post?.date}
+                                    engagement={post?.engagement}
                                 />
                             ))
                         )}

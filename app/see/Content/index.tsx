@@ -45,7 +45,7 @@ export default function Section({
             console.log(searchParams)
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit } },
                 platform,
                 'pads'
             );
@@ -115,6 +115,7 @@ export default function Section({
                                 sdg={`SDG ${post?.sdg?.join('/')}`}
                                 backgroundImage={post?.vignette}
                                 date={post?.date}
+                                engagement={post?.engagement}
                             />
                         ))
                     )}
