@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, createRef } from 'react';
+import { useState, useRef, createRef, RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
@@ -44,11 +44,11 @@ export default function Section() {
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
     */
-    const elRefs = useRef<Array<HTMLDivElement | null>>([]);
+    const elRefs = useRef<Array<RefObject<HTMLDivElement> | null>>([]);
     if (elRefs.current.length !== slides.length) {
         // add or remove refs
         elRefs.current = Array(slides.length)
-        .fill()
+        .fill(0)
         .map((_, i) => elRefs.current[i] || createRef());
     }
 
@@ -57,12 +57,12 @@ export default function Section() {
 
     const handleNextSlide = () => {
         setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-        elRefs.current[(currentSlide + 1) % slides.length].current.scrollIntoView({ behavior: "smooth" });
+        elRefs?.current[(currentSlide + 1) % slides.length]?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const handlePrevSlide = () => {
         setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
-        elRefs.current[(currentSlide || slides.length) - 1].current.scrollIntoView({ behavior: "smooth" });
+        elRefs?.current[(currentSlide || slides.length) - 1]?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const currentData = slides[currentSlide]; // Get the current slide data
