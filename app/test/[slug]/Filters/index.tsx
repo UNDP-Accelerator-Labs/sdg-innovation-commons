@@ -91,7 +91,7 @@ export default function Filters({
 	    	const obj: any = {};
 	    	obj.key = d;
 	    	obj.data = tags?.filter((c: any) => c.type === d.replace(/\s+/g, '_'));
-	    	if (d !== 'sdgs') obj.data.sort((a, b) => a.name?.localeCompare(b.name));
+	    	if (d !== 'sdgs') obj.data.sort((a: any, b: any) => a.name?.localeCompare(b.name));
 	    	else obj.data.sort((a: any, b: any) => a.id - b.id);
 	    	return obj
 	    });
