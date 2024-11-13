@@ -36,7 +36,7 @@ export default function Section({
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, searchParams);
         setPages(totalPages);
         
         let data: any[];
@@ -76,7 +76,7 @@ export default function Section({
                     </Button>
                 </div>
                 <div className='lg:col-end-10'>
-                    <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center' onClick={(e) => setFilterVisibility(!filterVisibility)}>
+                    <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
                         <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
                         {!filterVisibility ? (
                             'Filters'

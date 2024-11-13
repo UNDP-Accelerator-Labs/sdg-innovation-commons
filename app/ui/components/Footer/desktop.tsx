@@ -7,8 +7,12 @@ export default function DesktopMediaLinks({ className }: { className?: string })
       <div className={clsx('text-white lg:w-[1440px] px-[80px] mx-auto box-border', className)}>
         {/* Social media links for desktop view */}
         <div className='w-full grid lg:grid-cols-12 gap-[20px] mb-[20px]'>
-          <div className='col-span-6'>
-            Logo
+          <div className='col-span-6 flex items-center'>
+            <img
+                className="lg:h-[150px] relative"
+                alt=""
+                src="/images/UNDP-Logo-White-Large.png"
+              />
           </div>
           <div className='col-span-4 col-start-9'>
             <h2 className='mb-[20px]'>Sign up for our newsletter</h2>
