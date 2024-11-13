@@ -291,6 +291,25 @@ textarea {
     font-family: Space Mono, monospace;
     font-weight: bold;
   }
+  .gradient-img {
+    position: relative;
+  }
+  .gradient-img img {
+    /*position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);*/
+  }
+  .gradient-img::after {
+    content: '';
+    position: absolute;
+    width: 400%;
+    height: 200%;
+    top: 0;
+    left: 0;
+    background: linear-gradient(173.09deg, rgba(1,141,242,1),rgba(237,255,164,1));
+    opacity: .5;
+  }
 }
 
 @layer utilities {
