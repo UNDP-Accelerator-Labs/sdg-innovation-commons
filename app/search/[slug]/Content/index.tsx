@@ -8,6 +8,8 @@ import globalSearch from '@/app/lib/data/global-search';
 import { formatDate, page_limit } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 
 export interface ContentProps {
     slug: string;
@@ -18,6 +20,10 @@ const Content: React.FC<ContentProps> = ({
     slug, 
     tabs
 }) => {
+
+    const windowParams = new URLSearchParams(useSearchParams());
+    windowParams.set('page', '1');
+
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); 
 
@@ -48,16 +54,27 @@ const Content: React.FC<ContentProps> = ({
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d, i) => {
+                        // return (
+                        // <div key={i}
+                        //     onClick={(e) => {
+                        //         e.preventDefault();
+                        //         handleTabUpdate(d);
+                        //     }}
+                        //     className={clsx('tab tab-line', docType === d ? '' : 'blue')}
+                        // >
+                        //     <b>{`${d}s`}</b>
+                        // </div>
+                        // )
+
+                        let txt: string = '';
+                        if (d === 'all') txt = 'all items';
+                        else txt = d;
                         return (
-                        <div key={i}
-                            onClick={(e) => {
-                                e.preventDefault();
-                                handleTabUpdate(d);
-                            }}
-                            className={clsx('tab tab-line', docType === d ? '' : 'blue')}
-                        >
-                            <b>{`${d}s`}</b>
-                        </div>
+                            <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'yellow')}>
+                                <Link href={`/search/${d}?${windowParams.toString()}`}>
+                                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
+                                </Link>
+                            </div>
                         )
                     })}
                 </nav>
@@ -89,7 +106,7 @@ const Content: React.FC<ContentProps> = ({
                                     key={post?.doc_id || post?.pad_id}
                                     country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                     title={post?.title || ''}
-                                    description={post?.snippet?.length ? `${post?.snippet}}` : post?.snippets}
+                                    description={post?.snippet?.length ? `${post?.snippet?.length > 200 ? `${post.snippet.slice(0, 200)}…` : post.snippet}` : post?.snippets}
                                     source={post?.base || ''}
                                     tagStyle="bg-light-green"
                                     tagStyleShade="bg-light-green-shade"

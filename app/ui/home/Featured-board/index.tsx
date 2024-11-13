@@ -99,7 +99,7 @@ export default function Section() {
                                 </p>*/}
                                 <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
                                     {/*<span>{currentData.description}</span>*/}
-                                    <span>Featured Thematic Boards</span>
+                                    <span>Featured Thematic Collections</span>
                                 </h2>
                             </div>
                             <div>
