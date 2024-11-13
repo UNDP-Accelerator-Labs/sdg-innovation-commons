@@ -35,7 +35,7 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     let { space, pinboard, include_tags, include_locations, include_engagement } = _kwargs;
     if (!platform) platform = 'solution';
     if (!object) object = 'pads';
-    if (!space) _kwargs.space = 'public';
+    if (!space) _kwargs.space = 'published';
     if (pinboard) _kwargs.space = 'pinned';
     if (object === 'pads' && !include_tags) _kwargs.include_tags = true;
     if (object === 'pads' && !include_locations) _kwargs.include_locations = true;

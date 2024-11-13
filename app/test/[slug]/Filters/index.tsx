@@ -39,7 +39,7 @@ export default function Filters({
 	    if (Array.isArray(checkPlatform)) {
 	    	tags = await Promise.all(checkPlatform.map((d: any) => {
 	    		return platformApi(
-    		        { ...searchParams, ...{ space, use_pads: true } },
+    		        { ...searchParams, ...{ space, use_pads: true, type: ['thematic_areas', 'sdgs'] } },
     		        d,
     		        'tags'
     		    );
@@ -62,7 +62,7 @@ export default function Filters({
 	    	});
 	    } else {
 			tags = await platformApi(
-		        { ...searchParams, ...{ space, use_pads: true } },
+		        { ...searchParams, ...{ space, use_pads: true, type: ['thematic_areas', 'sdgs'] } },
 		        checkPlatform,
 		        'tags'
 		    );
@@ -74,11 +74,14 @@ export default function Filters({
 		    );
 		}
 	    
-	    tags.forEach((d: any) => {
+	    tags?.forEach((d: any) => {
 		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
 		    else d.checked = filterParams[d.type] === d.id?.toString();
 	    });
-	    countries.forEach((d: any) => {
+	    const thematic_areas = tags.filter((d: any) => d.type === 'thematic_areas');
+	    const sdgs = tags.filter((d: any) => d.type === 'sdgs');
+
+	    countries?.forEach((d: any) => {
 	    	d.id = d.iso3;
 	    	d.name = d.country;
 	    	d.type = 'countries';
@@ -87,8 +90,9 @@ export default function Filters({
 	    
 
 	    const data = [
-	    	{ key: 'tags', data: tags.sort((a, b) => a.name?.localeCompare(b.name)) }, 
-	    	{ key: 'countries', data: countries.sort((a, b) => a.name?.localeCompare(b.name)) }
+	    	{ key: 'thematic areas', data: tags?.sort((a, b) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'sdgs', data: sdgs.sort((a: any, b: any) => a.id - b.id) }, 
+	    	{ key: 'countries', data: countries?.sort((a, b) => a.name?.localeCompare(b.name)) }
 	    ];
 	    // if (!search) {
 
@@ -117,13 +121,8 @@ export default function Filters({
 						
 						if (loading) return('Loading')
 						else {
-							let list = [];
-							if (d === 'countries') {
-								list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
-							} else {
-								list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
-							}
-
+							const list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
+							
 							return (
 								<FilterGroup
 									key={i}
