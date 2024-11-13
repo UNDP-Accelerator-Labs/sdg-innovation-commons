@@ -50,7 +50,11 @@ export default function Section({
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(
+            page, 
+            platform, 
+            { ...searchParams, ...{ pinboard: board } }
+        );
         setPages(totalPages);
         
         let data: any[];
