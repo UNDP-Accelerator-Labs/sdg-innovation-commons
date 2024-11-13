@@ -16,17 +16,12 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
-  let pages: number = 1;
-  // TO DO: IF sParams INCLUDES platform, THEN CHANGE THE api CALL TO A PLATFORM SPECFIC CALL FOR pads WITH THE pinboard AS A QUERY PARAM
-
   const data: any = await platformApi(
-      // { ...searchParams, ...{ limit: page_limit, include_locations: true } },
       { ...sParams, ...{ pinboard: slug, limit: page_limit } },
       'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
   );
-
-  pages = Math.ceil(data.total / page_limit);
+  const pages = Math.ceil(data.total / page_limit) ?? 1;
 
   const platforms = data.counts
     .map((c: any) => {
