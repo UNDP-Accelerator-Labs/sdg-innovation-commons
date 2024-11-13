@@ -60,8 +60,6 @@ export default function Section({
         let data: any[];
 
         if (!search) {
-            console.log(searchParams)
-
             data = await platformApi(
                 { ...searchParams, ...{ limit: page_limit, include_locations: true, pinboard: board } },
                 platform,
