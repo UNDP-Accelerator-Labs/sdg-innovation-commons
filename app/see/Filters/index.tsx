@@ -29,13 +29,16 @@ export default function Filters({
 	    setLoading(true);
 	    
 		const tags = await platformApi(
-	        { ...searchParams, ...{ space, use_pads: true } },
+	        { ...searchParams, ...{ space, use_pads: true, type: ['thematic_areas', 'sdgs'] } },
 	        platform,
 	        'tags'
 	    );
 	    tags.forEach((d: any) => {
 	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
-	    })
+	    });
+	    const thematic_areas = tags.filter((d: any) => d.type === 'thematic_areas');
+	    const sdgs = tags.filter((d: any) => d.type === 'sdgs');
+
 	    const countries = await platformApi(
 	        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
 	        { ...{ space, use_pads: true } },
@@ -50,7 +53,8 @@ export default function Filters({
 	    })
 
 	    const data = [
-	    	{ key: 'tags', data: tags.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'thematic areas', data: thematic_areas.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }, 
+	    	{ key: 'sdgs', data: sdgs.sort((a: any, b: any) => a.id - b.id) }, 
 	    	{ key: 'countries', data: countries.sort((a: any, b: any) => a.name?.localeCompare(b.name)) }
 	    ];
 	    // if (!search) {
@@ -80,12 +84,7 @@ export default function Filters({
 							
 							if (loading) return('Loading')
 							else {
-								let list = [];
-								if (d === 'countries') {
-									list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
-								} else {
-									list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
-								}
+								const list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
 
 								return (
 									<FilterGroup

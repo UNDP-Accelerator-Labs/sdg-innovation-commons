@@ -49,7 +49,7 @@ export default function Section({
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        // const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, 3);
+        // const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, searchParams);
         // setPages(totalPages);
 
         // if (!search) {
@@ -59,7 +59,7 @@ export default function Section({
 
             const platformData: any[] = await Promise.all(platforms.map(async (d: any) => {
                 const platform: string = commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
-                const platformPads: any[] = pads.filter((c: any) => c.db === d.platform).map((c: any) => c.pad_id); // TO DO: CHANGE c.db TO c.platform
+                const platformPads: any[] = pads.filter((c: any) => c.platform === d.platform).map((c: any) => c.pad_id);
                 const data: any[] = await platformApi(
                     { limit: page_limit, include_locations: true, pads: platformPads },
                     platform, 

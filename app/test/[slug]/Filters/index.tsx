@@ -21,7 +21,7 @@ export default function Filters({
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
-	const filters = ['countries', 'thematic areas', 'sdgs'];
+	const filters = ['countries', 'thematic areas', 'sdgs', 'methods', 'datasources'];
 	const space = 'published';
 	
 	const [hits, setHits] = useState<any[]>([]);
@@ -39,14 +39,14 @@ export default function Filters({
 	    if (Array.isArray(checkPlatform)) {
 	    	tags = await Promise.all(checkPlatform.map((d: any) => {
 	    		return platformApi(
-    		        { ...searchParams, ...{ space, use_pads: true } },
+    		        { ...searchParams, ...{ space, use_pads: true, type: filters.filter((d: string) => d !== 'countries').map((d: string) => d.replace(/\s+/g, '_')) } },
     		        d,
     		        'tags'
     		    );
 	    	}));
 	    	tags = tags.flat()
 	    	.filter((value: any, index: number, self: any) => {
-	    	    return self.findIndex((d: any) => d.id === value.id && d.type === value.type) === index;
+	    	    return self.findIndex((d: any) => d?.id === value?.id && d?.type === value?.type) === index;
 	    	});
 
 	    	countries = await Promise.all(checkPlatform.map((d: any) => {
@@ -62,7 +62,7 @@ export default function Filters({
 	    	});
 	    } else {
 			tags = await platformApi(
-		        { ...searchParams, ...{ space, use_pads: true } },
+		        { ...searchParams, ...{ space, use_pads: true, type: filters.filter((d: string) => d !== 'countries').map((d: string) => d.replace(/\s+/g, '_')) } },
 		        checkPlatform,
 		        'tags'
 		    );
@@ -74,22 +74,31 @@ export default function Filters({
 		    );
 		}
 	    
-	    tags.forEach((d: any) => {
+	    tags?.forEach((d: any) => {
 		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
 		    else d.checked = filterParams[d.type] === d.id?.toString();
 	    });
-	    countries.forEach((d: any) => {
+
+	    countries?.forEach((d: any) => {
 	    	d.id = d.iso3;
 	    	d.name = d.country;
 	    	d.type = 'countries';
 	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
 	    });
 	    
-
-	    const data = [
-	    	{ key: 'tags', data: tags.sort((a, b) => a.name?.localeCompare(b.name)) }, 
-	    	{ key: 'countries', data: countries.sort((a, b) => a.name?.localeCompare(b.name)) }
-	    ];
+	    const data: any[] = filters.filter((d: string) => d !== 'countries')
+	    .map((d: string) => {
+	    	const obj: any = {};
+	    	obj.key = d;
+	    	obj.data = tags?.filter((c: any) => c.type === d.replace(/\s+/g, '_'));
+	    	if (d !== 'sdgs') obj.data.sort((a: any, b: any) => a.name?.localeCompare(b.name));
+	    	else obj.data.sort((a: any, b: any) => a.id - b.id);
+	    	return obj
+	    });
+	    data.push({
+	    	key: 'countries',
+	    	data: countries?.sort((a, b) => a.name?.localeCompare(b.name))
+	    });
 	    // if (!search) {
 
 	    // } else {
@@ -99,7 +108,6 @@ export default function Filters({
 	    //     );
 	    // }
 	    setHits(data);
-
 	    setLoading(false);
 	}
 
@@ -117,13 +125,8 @@ export default function Filters({
 						
 						if (loading) return('Loading')
 						else {
-							let list = [];
-							if (d === 'countries') {
-								list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
-							} else {
-								list = hits?.find((h: any) => h.key === 'tags')?.data?.filter((tag: any) => tag.name?.length) || [];
-							}
-
+							const list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
+							
 							return (
 								<FilterGroup
 									key={i}
