@@ -106,7 +106,7 @@ export default function Section({
                                     key={post?.pinboard_id}
                                     country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                     title={post?.title || ''}
-                                    description={post?.description}
+                                    description={post?.description?.length > 200 ? `${post?.description.slice(0, 200)}…` : post?.description}
                                     source={post?.base || 'Solution'}
                                     tagStyle="bg-light-green"
                                     tagStyleShade="bg-light-green-shade"
