@@ -4,10 +4,8 @@ import { page_limit } from '@/app/lib/utils';
 import Link from 'next/link';
 
 export async function pagestats(page: number, platform: string | string[], _kwargs: any) {
-	if (!status) status = 3;
+	let status: number = 3;
 
-	console.log(_kwargs)
-	
 	async function fetchPages() {
 	    if (Array.isArray(platform)) {
 	    	const total = await nlpStatsApi({ doc_type: platform });
