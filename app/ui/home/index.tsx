@@ -18,7 +18,7 @@ export default function Home() {
       <Hero />
       <BlockBtns />
       <About />
-      <GetInspired />
+      {/*<GetInspired />*/}
       <FeaturedBoard />
       <How />
       <Test />

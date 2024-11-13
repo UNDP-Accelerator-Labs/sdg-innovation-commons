@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef } from 'react';
+import { useState, useRef, createRef, RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
@@ -7,6 +7,7 @@ import Card from '@/app/ui/components/Card/featured-card';
 import clsx from 'clsx';
 
 export default function Section() {
+    // TO DO: LOAD SPECIFIC BOARDS
     const slides = [
         {
             backgroundImage: '/images/Rectangle 15.png',
@@ -40,23 +41,28 @@ export default function Section() {
         },
     ];
 
+    /*
+        Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
+    */
+    const elRefs = useRef<Array<RefObject<HTMLDivElement> | null>>([]);
+    if (elRefs.current.length !== slides.length) {
+        // add or remove refs
+        elRefs.current = Array(slides.length)
+        .fill(0)
+        .map((_, i) => elRefs.current[i] || createRef());
+    }
+
     const [currentSlide, setCurrentSlide] = useState(0); // Manage the current slide index
     const [animate, setAnimate] = useState(true); // Manage animation
 
     const handleNextSlide = () => {
-        setAnimate(false); // Disable animation temporarily to reset
-        setTimeout(() => {
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-            setAnimate(true); // Re-enable animation
-        }, 100); // Delay for smooth reset
+        setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+        elRefs?.current[(currentSlide + 1) % slides.length]?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const handlePrevSlide = () => {
-        setAnimate(false); // Disable animation temporarily to reset
-        setTimeout(() => {
-            setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
-            setAnimate(true); // Re-enable animation
-        }, 100); // Delay for smooth reset
+        setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
+        elRefs?.current[(currentSlide || slides.length) - 1]?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const currentData = slides[currentSlide]; // Get the current slide data
@@ -66,8 +72,22 @@ export default function Section() {
 
     return (
         <>
-        <section className='relative lg:home-section lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
-            <img className={clsx("w-full absolute !m-[0] top-[1px] left-0 h-[600px] md:h-[800px] lg:h-[872px] object-cover z-[0]", { 'opacity-0 transition-opacity duration-500': !animate })} alt="" src={currentData.backgroundImage} />
+        <section className='relative lg:home-section overflow-hidden min-h-[100vh] flex items-center'>
+            
+            <div className='caroussel w-full min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
+                <div className='slides flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border'>
+                    {slides.map((d: any, i: number) => {
+                        return (
+                            <div key={i} 
+                                ref={elRefs.current[i]}
+                                className='silde relative snap-center w-full flex-none'
+                            >
+                                <img src={d.backgroundImage} className='w-[100vw]' />
+                            </div>
+                        )
+                    })}
+                </div>
+            </div>
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
                 <div className='section-content'>
@@ -79,7 +99,7 @@ export default function Section() {
                                 </p>*/}
                                 <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
                                     {/*<span>{currentData.description}</span>*/}
-                                    <span>Featured Thematic Boards</span>
+                                    <span>Featured Thematic Collections</span>
                                 </h2>
                             </div>
                             <div>
@@ -99,7 +119,6 @@ export default function Section() {
                                 </div>
                             </div>
                         </div>
-
                         <div className='c-right'>
                             <Card
                                 title={currentData.cardTitle}
