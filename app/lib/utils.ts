@@ -8,29 +8,29 @@ export const commonsPlatform = [
     title: 'Learning Plans',
     url: 'https://learningplans.sdg-innovation-commons.org',
     key: 'action plan',
-    shortkey: 'ap'
+    shortkey: 'ap',
   },
   {
     title: 'Solutions',
     url: 'https://solutions.sdg-innovation-commons.org',
     key: 'solution',
-    shortkey: 'sm'
+    shortkey: 'sm',
   },
   {
     title: 'Experiments',
     url: 'https://experiments.sdg-innovation-commons.org',
     key: 'experiment',
-    shortkey: 'exp'
+    shortkey: 'exp',
   },
   {
     title: 'Insight',
     url: 'https://blogapi.sdg-innovation-commons.org',
-    key: 'insight'
+    key: 'insight',
   },
   {
     title: 'Login',
     url: 'https://login.sdg-innovation-commons.org',
-    key: 'login'
+    key: 'login',
   }
 ];
 

@@ -17,7 +17,7 @@ export default function Hero() {
 		            	<p className='lead'>Discover wicked development challenges we are curious about and the experiments conducted to learn what works and what doesn't in sustainable development.</p>
 			        </div>
 		    	</div>
-	      	</div>
+	      </div>
   		</section>
   	</>
   );

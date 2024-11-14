@@ -39,7 +39,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   return (
     <>
       <Navbar />
-      <Hero title={title} counts={counts} total={total} contributors={contributors} creatorName={creatorName} platforms={platforms} searchParams={sParams} />
+      <Hero title={title} counts={counts} total={total} contributors={contributors} creatorName={creatorName} platforms={platforms} searchParams={sParams} board={+slug} />
       <Content searchParams={sParams} platforms={platforms} pads={data.pads} tabs={tabs} pages={pages} board={+slug} description={description} />
       <Footer />
     </>

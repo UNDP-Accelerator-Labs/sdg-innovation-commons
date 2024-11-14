@@ -10,7 +10,8 @@ import { PostProps } from '@/app/lib/definitions';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-
+import { Button } from '@/app/ui/components/Button';
+import Filters from '../Filters';
 import statsApi from '@/app/lib/data/nlp-pagination';
 
 export interface PageStatsResponse {
@@ -37,7 +38,8 @@ export default function Section({
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
-    const displayN = page_limit;
+    const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = useState(search || '');
 
     // Fetch data on component mount
     useEffect(() => {
@@ -57,8 +59,9 @@ export default function Section({
             const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, doc_type, 3);
             setPages(totalPages);
 
+            if (searchParams.countries) searchParams.iso3 = searchParams.countries;
             const data = await nlpApi(
-                { ... searchParams, ...{ limit: page_limit, doc_type } }
+                { ...searchParams, ...{ limit: page_limit, doc_type } }
             );
             setHits(data);
 
@@ -71,6 +74,33 @@ export default function Section({
         <>
         <section className='lg:home-section lg:pb-[80px] !border-none'>
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+                {/* Search bar */}
+                <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
+                    <div className='col-span-4 flex flex-row group items-stretch'>
+                        <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
+                        <Button type='submit' className='border-l-0 grow-0'>
+                            Search
+                        </Button>
+                    </div>
+                    <div className='lg:col-end-10'>
+                        <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
+                            <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
+                            {!filterVisibility ? (
+                                'Filters'
+                            ) : (
+                                'Close'
+                            )}
+                        </button>
+                    </div>
+                    <div className='col-span-9'>
+                        <Filters 
+                            className={clsx(filterVisibility ? '' : 'hidden')}
+                            searchParams={searchParams}
+                            platform={docType}
+                            tabs={tabs}
+                        />
+                    </div>
+                </form>
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d: any, i: number) => {
@@ -91,7 +121,7 @@ export default function Section({
                     <div className='grid gap-[20px] lg:grid-cols-3'>
                         {loading ? (
                             <>
-                                {new Array(displayN).fill(0).map((d, i) => (
+                                {new Array(page_limit).fill(0).map((d, i) => (
                                     <NoImgCardSkeleton key={i} />
                                 ))}
                             </>
