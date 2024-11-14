@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { commonsPlatform } from '@/app/lib/utils';
 import platformApi from '@/app/lib/data/platform-api';
+import metaData from '@/app/lib/data/meta-data';
 import get from '@/app/lib/data/get';
 
 interface heroProps {
@@ -12,6 +13,7 @@ interface heroProps {
 	contributors: number;
 	creatorName: string;
 	platforms: any[];
+	board: number;
 }
 
 export default function Hero({
@@ -22,6 +24,7 @@ export default function Hero({
 	contributors,
 	creatorName,
 	platforms,
+	board,
 }: heroProps) {
 
 	// GET THE MAP
@@ -33,10 +36,22 @@ export default function Hero({
 	*/
 
 	const [loading, setLoading] = useState<boolean>(true);
+	const [locationsCount, setLocationsCount] = useState<number>(0);
+	const [tagsCount, setTagsCount] = useState<number>(0);
+	const [topTags, setTopTags] = useState<any[]>([]);
 	const [mapSrc, setMapSrc] = useState<string>('');
 
 	async function fetchData(): Promise<void> {
         setLoading(true);
+
+        // GET THE METADATA
+        const meta: any[] = await metaData({ 
+            searchParams: { ...searchParams, ...{ pinboard: +board } }, 
+            platforms: platforms.map((d: any) => commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform), 
+            filters: ['thematic areas']
+        });
+        setTagsCount(meta.find((d: any) => d.key === 'thematic areas')?.data.length ?? 0)
+        setTopTags(meta.find((d: any) => d.key === 'thematic areas')?.data.sort((a: any, b: any) => b.count - a.count).slice(0, 3));
 
         // GET THE LOCATION DATA
         const locations: any[] = await Promise.all(platforms.map(async (d: any) => {
@@ -69,8 +84,8 @@ export default function Hero({
         	}
         });
         // GET THE MAP (IT MAY NEED TO BE GENERATED THE FIRST TIME WHICH COULD TAKE A FEW SECONDS)
-        console.log(nested_locations)
-        console.log(platforms[0].platform)
+        setLocationsCount(nested_locations.length);
+        // console.log(platforms[0].platform)
         
         const base_url: string | undefined = commonsPlatform.find(p => p.shortkey === platforms[0].platform)?.url;
 
@@ -124,10 +139,23 @@ export default function Hero({
 	            	<h1 className='slanted-bg yellow'><span>{title}</span></h1>
 	            	<p className='lead'>Curated by {creatorName}</p>
 
-	            	<div className='stats-cartouche lg:p-[20px] flex justify-between'>
-	            		<span><span className='number lg:mr-[5px]'>{total}</span> Notes</span>
-	            		<span><span className='number lg:mr-[5px]'>{contributors}</span> Contributor</span>
+	            	<div className='flex flex-wrap flex-row gap-1.5 mb-[20px]'>
+	            	{loading ? null : (
+	            		topTags.map((d: any, i: number) => {
+	            			return (
+	            				<button className='chip bg-posted-yellow' key={i}>{d.name}</button>
+	            			)
+	            		})
+	            	)}
 	            	</div>
+	            	{loading ? null : (
+		            	<div className='stats-cartouche lg:p-[20px] inline-block'>
+		            		<span className='lg:mr-[40px]'><span className='number lg:mr-[5px]'>{total}</span> Notes</span>
+		            		<span className='lg:mr-[40px]'><span className='number lg:mr-[5px]'>{locationsCount}</span> Locations</span>
+		            		<span className='lg:mr-[40px]'><span className='number lg:mr-[5px]'>{tagsCount}</span> Thematic areas</span>
+		            		<span><span className='number lg:mr-[5px]'>{contributors}</span> Contributor</span>
+		            	</div>
+		            )}
 		        </div>
 		        <div className='c-right lg:col-span-4 lg:mt-[80px] lg:mb-[20px]'>
 		        	{loading ? null : (

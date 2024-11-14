@@ -5,12 +5,14 @@ interface filtersProps {
 	placeholder: string;
 	list: any[];
 	loading: boolean;
+	activeFilters: any[];
 }
 
 export default function FilterGroup({
 	placeholder,
 	list,
 	loading,
+	activeFilters,
 }: filtersProps) {
 	const [focus, setFocus] = useState<boolean>(false);
 	const [searchValue, setSearchValue] = useState<string>('');
@@ -49,6 +51,16 @@ export default function FilterGroup({
 			<menu className={clsx(focus ? 'open' : '')}>
 				{options}
 			</menu>
+			{activeFilters?.length ? (
+				<div className='active-filters flex flex-row gap-1.5 p-[20px]'>
+					{activeFilters?.map((d: any, i: number) => {
+						return (
+							<button key={i} className='chip square bg-posted-yellow'>{d}</button>
+						)
+					})}
+				</div>
+			) : null
+			}
 		</div>
 		</>
 	);

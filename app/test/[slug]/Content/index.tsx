@@ -33,7 +33,7 @@ export default function Section({
     const windowParams = new URLSearchParams(useSearchParams());
     windowParams.set('page', '1');
 
-    const [searchQuery, setSearchQuery] = useState(searchParams.search || '');
+    const [searchQuery, setSearchQuery] = useState(search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
     const [pages, setPages] = useState<number>(0);
@@ -45,7 +45,7 @@ export default function Section({
     
         let data: any[];
 
-        if (!search && platform !== tabs[0]) {
+        if (!search && platform !== 'all') {
             const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, searchParams);
             setPages(totalPages);
 
@@ -59,9 +59,9 @@ export default function Section({
             let doc_type: string[];
             if (platform === 'all') doc_type = tabs.slice(1);
             else doc_type = [platform];
+            if (searchParams.countries) searchParams.iso3 = searchParams.countries;
 
             const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, doc_type, 3);
-            setPages(totalPages);
 
             data = await nlpApi(
                 { ... searchParams, ...{ limit: page_limit, doc_type } }
