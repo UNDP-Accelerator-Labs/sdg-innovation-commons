@@ -2,10 +2,10 @@
 import platformApi from '@/app/lib/data/platform-api';
 
 interface Props {
-    filters: string[];
-    space: string;
-    platforms: string | string[];
-    searchParams: any;
+    filters?: string[];
+    space?: string;
+    platforms?: string | string[];
+    searchParams?: any;
 }
 
 export default async function metaData(_kwargs: Props) {
@@ -25,7 +25,7 @@ export default async function metaData(_kwargs: Props) {
 	let tags: any[] = [];
 	let countries: any[] = [];
 
-	if (filters.some((d: strng) => d !== 'countries')) {
+	if (filters.some((d: string) => d !== 'countries')) {
 		tags = await Promise.all(platforms.map((d: any) => {
 			return platformApi(
 		        { ...filterParams, ...{ space, use_pads: true, type: filters.filter((d: string) => d !== 'countries').map((d: string) => d.replace(/\s+/g, '_')) } },
@@ -37,14 +37,13 @@ export default async function metaData(_kwargs: Props) {
 		.filter((value: any, index: number, self: any) => {
 		    return self.findIndex((d: any) => d?.id === value?.id && d?.type === value?.type) === index;
 		});
-		console.log(tags)
 		tags?.forEach((d: any) => {
 		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
 		    else d.checked = filterParams[d.type] === d.id?.toString();
 		});
 	}
 
-	if (filters.some((d: strng) => d === 'countries')) {
+	if (filters.some((d: string) => d === 'countries')) {
 		countries = await Promise.all(platforms.map((d: any) => {
 			return platformApi(
 		        { ...{ space, use_pads: true } },
@@ -57,7 +56,7 @@ export default async function metaData(_kwargs: Props) {
 		    return self.findIndex((d: any) => d?.iso3 === value?.iso3) === index;
 		});
 		countries?.forEach((d: any) => {
-			d.id = d.iso3;
+			d.id = d?.iso3;
 			d.name = d.country;
 			d.type = 'countries';
 			d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;

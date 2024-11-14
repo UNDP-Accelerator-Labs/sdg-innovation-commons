@@ -1,5 +1,4 @@
 import Hero from '../Hero';
-import Info from '../Info';
 import Content from './Content';
 import Navbar from '@/app/ui/components/Navbar';
 import Footer from '@/app/ui/components/Footer';
@@ -43,9 +42,8 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   return (
     <>
       <Navbar />
-      <Hero title={title} counts={counts} total={total} contributors={contributors} creatorName={creatorName} platforms={platforms} searchParams={sParams} />
-      <Info description={description} />
-      <Content searchParams={sParams} platforms={platforms} pads={data.pads} tabs={tabs} board={+slug} platform={platform} />
+      <Hero title={title} counts={counts} total={total} contributors={contributors} creatorName={creatorName} platforms={platforms} searchParams={sParams} board={+slug} />
+      <Content searchParams={sParams} platforms={platforms} pads={data.pads} tabs={tabs} board={+slug} platform={platform} description={description} />
       <Footer />
     </>
   );

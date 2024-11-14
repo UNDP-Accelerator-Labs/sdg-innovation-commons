@@ -11,6 +11,7 @@ import { Button } from '@/app/ui/components/Button';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import Info from '../../Info';
 
 export interface PageStatsResponse {
     total: number;
@@ -24,6 +25,7 @@ interface SectionProps {
     pads: any[];
     board: number;
     platform: string;
+    description: string;
 }
 
 export default function Section({
@@ -33,6 +35,7 @@ export default function Section({
     pads,
     board,
     platform,
+    description,
 }: SectionProps) {
     const { page, search } = searchParams;
     const windowParams = new URLSearchParams(useSearchParams());
@@ -40,6 +43,7 @@ export default function Section({
 
     const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+    const [vignette, setVignette] = useState<string>('');
 
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
@@ -71,6 +75,10 @@ export default function Section({
                 { ...searchParams, ...{ limit: page_limit, doc_type: platform } }
             );
         }
+
+        const vignettes = data.map(d => d.vignette);
+        setVignette(vignettes[Math.floor(Math.random() * vignettes.length)]);
+
         setHits(data);
         setLoading(false);
     }
@@ -81,6 +89,11 @@ export default function Section({
 
     return (
     <>
+    {loading ? null :
+        (
+            <Info description={description} vignette={vignette} />
+        )
+    }
     <section className='home-section lg:py-[80px]'>
         <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
             {/* Display the section title and description */}
