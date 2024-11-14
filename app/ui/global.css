@@ -142,6 +142,7 @@ textarea {
     font-family: Space Mono, monospace;
     font-weight: bold;
     font-size: 12px;
+    text-transform: capitalize;
   }
   .chip.square {
     border-radius: 0;
