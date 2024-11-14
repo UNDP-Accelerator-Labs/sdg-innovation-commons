@@ -53,14 +53,8 @@ export default function Section({
     async function fetchData(): Promise<void> {
         setLoading(true);
 
-        // const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, searchParams);
-        // setPages(totalPages);
-
         // if (!search) {
             
-            // setTabs(tabs);
-            // setPlatform(tabs[0]);
-
             const platformData: any[] = await Promise.all(platforms.map(async (d: any) => {
                 const platform: string = commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
                 const platformPads: any[] = pads.filter((c: any) => c.platform === d.platform).map((c: any) => c.pad_id);
@@ -69,10 +63,9 @@ export default function Section({
                     platform, 
                     'pads'
                 );
-                return data;
+                return data || [];
             }));
-        console.log(pads)
-        console.log(platformData)
+
         // } 
         // else {
         //     console.log('look for search term', search)

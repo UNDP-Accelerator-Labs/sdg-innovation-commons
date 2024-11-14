@@ -32,7 +32,6 @@ textarea {
   padding: auto 20px;
 }
 
-
 *,
 ::before,
 ::after {
@@ -144,6 +143,10 @@ textarea {
     font-weight: bold;
     font-size: 12px;
   }
+  .chip.square {
+    border-radius: 0;
+    border: 1px solid #000;
+  }
   .tabs {
     display: flex;
     text-transform: capitalize;
@@ -208,16 +211,24 @@ textarea {
     box-sizing: border-box;
   }
   /* FILTERS */
+  @keyframes animatein-filters-menu {
+    from {
+      height: 0;
+    } to {
+      height: 100%;
+    }
+  }
   .filters {
     position: relative;
     z-index: 10;
+    border: 1px solid #000;
+    background-color: #FFF;
+    animation: animatein-filters-menu .5s;
   }
   .filters .inner {
     width: 100%;
     padding: 20px;
     box-sizing: border-box;
-    border: 1px solid #000;
-    background-color: #FFF;
   }
   .filter-group {
     position: relative;
@@ -230,11 +241,12 @@ textarea {
   .filter-group menu {
     position: absolute;
     width: 100%;
-    box-sizing: border-box;
     list-style: none;
     background-color: #FFF;
     border: none;
     margin-top: 0px;
+    box-sizing: border-box;
+/*    margin-left: -1px;*/
     padding: 0px;
     max-height: 0px;
     overflow: auto;
@@ -254,6 +266,10 @@ textarea {
   .filter-group menu li.active,
   .filter-group menu li:hover {
     background-color: #d2f960;
+  }
+  .filter-group .active-filters {
+    border: 1px solid #000;
+    border-top: none;
   }
   /* PAGINATION */
   .pagination {

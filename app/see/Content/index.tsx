@@ -91,7 +91,6 @@ export default function Section({
                         searchParams={searchParams}
                     />
                 </div>
-
             </form>
 
             <div className='section-content'>

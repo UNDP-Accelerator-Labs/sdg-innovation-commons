@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import platformApi from '@/app/lib/data/platform-api';
+import metaData from '@/app/lib/data/meta-data';
 import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
@@ -21,7 +21,9 @@ export default function Filters({
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
-	const filters = ['countries', 'thematic areas', 'sdgs', 'methods', 'datasources'];
+	let filters: string[] = []
+	if (platform === 'all') filters = ['countries']
+	else filters = ['countries', 'thematic areas', 'sdgs', 'methods', 'datasources'];
 	const space = 'published';
 	
 	const [hits, setHits] = useState<any[]>([]);
@@ -33,81 +35,14 @@ export default function Filters({
 
 	    const checkPlatform = platform === tabs[0] ? tabs.slice(1) : platform;
 
-	    let tags: any[];
-	    let countries: any[];
-	    
-	    if (Array.isArray(checkPlatform)) {
-	    	tags = await Promise.all(checkPlatform.map((d: any) => {
-	    		return platformApi(
-    		        { ...searchParams, ...{ space, use_pads: true, type: filters.filter((d: string) => d !== 'countries').map((d: string) => d.replace(/\s+/g, '_')) } },
-    		        d,
-    		        'tags'
-    		    );
-	    	}));
-	    	tags = tags.flat()
-	    	.filter((value: any, index: number, self: any) => {
-	    	    return self.findIndex((d: any) => d?.id === value?.id && d?.type === value?.type) === index;
-	    	});
-
-	    	countries = await Promise.all(checkPlatform.map((d: any) => {
-	    		return platformApi(
-			        { ...{ space, use_pads: true } },
-			        d,
-			        'countries'
-			    );
-	    	}));
-	    	countries = countries.flat()
-	    	.filter((value: any, index: number, self: any) => {
-	    	    return self.findIndex((d: any) => d?.iso3 === value?.iso3) === index;
-	    	});
-	    } else {
-			tags = await platformApi(
-		        { ...searchParams, ...{ space, use_pads: true, type: filters.filter((d: string) => d !== 'countries').map((d: string) => d.replace(/\s+/g, '_')) } },
-		        checkPlatform,
-		        'tags'
-		    );
-		    countries = await platformApi(
-		        // { ...searchParams, ...{ space } }, // THERE IS AN ISSUE WHEN PASSING PARAMS TO THE countries API
-		        { ...{ space, use_pads: true } },
-		        platform,
-		        'countries'
-		    );
-		}
-	    
-	    tags?.forEach((d: any) => {
-		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
-		    else d.checked = filterParams[d.type] === d.id?.toString();
-	    });
-
-	    countries?.forEach((d: any) => {
-	    	d.id = d.iso3;
-	    	d.name = d.country;
-	    	d.type = 'countries';
-	    	d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
+	    // GET THE METADATA
+	    const meta: any[] = await metaData({ 
+	        searchParams, 
+	        platforms: checkPlatform, 
+	        filters
 	    });
 	    
-	    const data: any[] = filters.filter((d: string) => d !== 'countries')
-	    .map((d: string) => {
-	    	const obj: any = {};
-	    	obj.key = d;
-	    	obj.data = tags?.filter((c: any) => c.type === d.replace(/\s+/g, '_'));
-	    	if (d !== 'sdgs') obj.data.sort((a: any, b: any) => a.name?.localeCompare(b.name));
-	    	else obj.data.sort((a: any, b: any) => a.id - b.id);
-	    	return obj
-	    });
-	    data.push({
-	    	key: 'countries',
-	    	data: countries?.sort((a, b) => a.name?.localeCompare(b.name))
-	    });
-	    // if (!search) {
-
-	    // } else {
-	    //     console.log('look for search term', search)
-	    //     data = await nlpApi(
-	    //         { ... searchParams, ...{ limit: page_limit, doc_type: platform } },
-	    //     );
-	    // }
-	    setHits(data);
+	    setHits(meta);
 	    setLoading(false);
 	}
 
@@ -119,9 +54,15 @@ export default function Filters({
 		<>
 		<section className={clsx('filters lg:pl-[-20px]', className)}>
 			<div className='inner'>
-				<div className='section-content grid grid-cols-3 gap-[20px]'>
+				<div className={clsx('section-content grid gap-[20px]', filters.length < 3 ? `grid-cols-${filters.length}` : 'grid-cols-3')}>
 					{filters.map((d, i) => {
-						const placeholder = `Search for ${d}`;
+						const placeholder = `Search for ${d === 'sdgs' ? 'SDGs' : d}`;
+						let activeFilters: any[] = []
+						const key: string = d.replace(/\s+/g, '_');
+						if (searchParams[key]) {
+							if (Array.isArray(searchParams[key])) activeFilters = searchParams[key];
+							else activeFilters = [searchParams[key]];
+						}
 						
 						if (loading) return('Loading')
 						else {
@@ -133,6 +74,7 @@ export default function Filters({
 									placeholder={placeholder}
 									list={list}
 									loading={loading}
+									activeFilters={activeFilters}
 								/>
 							);
 						}
