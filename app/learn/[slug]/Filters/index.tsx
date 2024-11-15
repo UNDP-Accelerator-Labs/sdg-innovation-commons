@@ -17,10 +17,11 @@ export default function Filters({
 	className,
 	searchParams,
 	platform,
-	tabs
+	tabs,
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
+	if (!platform) platform = 'solution';
 	const filters = ['countries'];
 	// const platform = 'solution';
 	const space = 'published';

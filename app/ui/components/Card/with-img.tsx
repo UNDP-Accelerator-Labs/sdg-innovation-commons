@@ -1,8 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import { CardLink } from '@/app/ui/components/Link';
+import Link from 'next/link';
 
 interface CardProps {
+    link?: string;
     country: string;
     title: string;
     description: string;
@@ -21,6 +23,7 @@ interface CardProps {
 }
 
 export default function Card({
+    link,
     country,
     title,
     description,
@@ -91,7 +94,9 @@ export default function Card({
                         </div>
                     ) : null}
                     {/* Title */}
-                    <h1>{title}</h1>
+                    <Link href={`${link}`}>
+                        <h1>{title}</h1>
+                    </Link>
                     {/* Description */}
                     <p>{description}</p>
                 </div>

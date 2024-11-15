@@ -162,11 +162,18 @@ export default function Section({
                     ) : (
                         hits?.map((post: any) => {
                             let color: string = 'green';
-                            if (post?.base === 'action plan') color = 'yellow';
-                            else if (post?.base === 'experiment') color = 'orange';
+                            let path: string = 'see';
+                            if (post?.base === 'action plan') {
+                                color = 'yellow';
+                                path = 'test';
+                            } else if (post?.base === 'experiment') {
+                                color = 'orange';
+                                path = 'test';
+                            }
                             return (
                                 <Card
                                     key={post?.doc_id || post?.pad_id}
+                                    link={`/${path}/${path !== 'see' ? `${post?.base}/` : ''}${post?.doc_id || post?.pad_id}`}
                                     country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                     title={post?.title || ''}
                                     description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}

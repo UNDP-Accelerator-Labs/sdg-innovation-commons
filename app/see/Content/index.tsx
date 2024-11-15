@@ -102,6 +102,7 @@ export default function Section({
                         hits?.map((post: any) => (
                             <Card
                                 key={post?.doc_id || post?.pad_id}
+                                link={`/see/${post?.doc_id || post?.pad_id}`}
                                 country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                 title={post?.title || ''}
                                 description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
