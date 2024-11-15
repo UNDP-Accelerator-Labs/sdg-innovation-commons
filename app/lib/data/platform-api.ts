@@ -29,6 +29,7 @@ export interface Props {
   include_engagement?: boolean;
   include_comments?: boolean;
   platform?: string;
+  pseudonymize?: boolean;
 }
 
 export default async function platformApi(_kwargs: Props, platform: string, object: string) {

@@ -5,11 +5,12 @@ interface Props {
 	padtype: string;
 	title: string;
 	owner: string;
-	lab: sring | undefined;
+	lab: string | undefined;
 	vignette?: string;
 	tags: string[];
 	tagStyle: string;
 	tagStyleShade: string;
+	color: string;
 }
 
 export default function Hero({ 
@@ -26,7 +27,7 @@ export default function Hero({
 }: Props) {
 	if (padtype === 'solution') padtype = 'solution note';
 	padtype = `${padtype.slice(0, 1).toUpperCase()}${padtype.substring(1)}`;
-	const labLink: string = `https://www.undp.org/acceleratorlabs/${lab.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
+	const labLink: string = `https://www.undp.org/acceleratorlabs/${lab?.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
 
   	return (
   	<>

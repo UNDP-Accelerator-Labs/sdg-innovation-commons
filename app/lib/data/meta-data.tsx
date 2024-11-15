@@ -3,7 +3,7 @@ import platformApi from '@/app/lib/data/platform-api';
 
 interface Props {
     filters: string[];
-    space: string;
+    space?: string;
     platforms: string | string[];
     searchParams: any;
 }
@@ -25,7 +25,7 @@ export default async function metaData(_kwargs: Props) {
 	let tags: any[] = [];
 	let countries: any[] = [];
 
-	if (filters.some((d: strng) => d !== 'countries')) {
+	if (filters.some((d: string) => d !== 'countries')) {
 		tags = await Promise.all(platforms.map((d: any) => {
 			return platformApi(
 		        { ...filterParams, ...{ space, use_pads: true, type: filters.filter((d: string) => d !== 'countries').map((d: string) => d.replace(/\s+/g, '_')) } },
@@ -44,7 +44,7 @@ export default async function metaData(_kwargs: Props) {
 		});
 	}
 
-	if (filters.some((d: strng) => d === 'countries')) {
+	if (filters.some((d: string) => d === 'countries')) {
 		countries = await Promise.all(platforms.map((d: any) => {
 			return platformApi(
 		        { ...{ space, use_pads: true } },

@@ -9,16 +9,20 @@ import FilterGroup from '@/app/ui/components/FilterGroup';
 interface filtersProps {
 	className?: string;
 	searchParams: any;
+	platform: string;
+	tabs: string[];
 }
 
 export default function Filters({
 	className,
-	searchParams
+	searchParams,
+	platform,
+	tabs,
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
+	if (!platform) platform = 'solution';
 	const filters = ['countries'];
-	const platform = 'solution';
 	const space = 'published';
 	
 	const [hits, setHits] = useState<any[]>([]);

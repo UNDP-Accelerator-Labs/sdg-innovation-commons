@@ -14,7 +14,7 @@ export default function Embed({
     if (!html?.length && !instruction?.length) return null;
     else {
         useEffect(() => {
-            ref.current.innerHTML = html.replace(/\s+/g, '<br/>');
+            if (ref.current) ref.current.innerHTML = html.replace(/\s+/g, '<br/>');
         }, [ref]);
 
         return (

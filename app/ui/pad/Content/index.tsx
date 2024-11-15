@@ -107,9 +107,9 @@ export default async function Section({
                                     const { type } = item;
                                     if (type === 'group') {
                                         const { items: groupItemsArr, instruction } = item;
-                                        return groupItemsArr.map((itemsArr: any[]) => {
+                                        return groupItemsArr.map((itemsArr: any[], i: number) => {
                                             return (
-                                                <div className='group border-[1px] border-solid mt-[-1px] box-border p-[20px] pb-0 mb-[40px]'>
+                                                <div key={i} className='group border-[1px] border-solid mt-[-1px] box-border p-[20px] pb-0 mb-[40px]'>
                                                     {!instruction ? null : (
                                                         <p className='font-space-mono text-[14px] leading-[20px] mb-[20px]'><b>{instruction}</b></p>
                                                     )}
@@ -160,8 +160,8 @@ function renderContent (items: any[], item: any, i: number, imgBase: string) {
     if (['checklist', 'radiolist'].includes(type)) {
         let mb: string = '';
         const nextType: string | undefined = items[i + 1]?.type;
-        if (!['checklist', 'radiolist'].includes(nextType)) mb = 'mb-[40px]';
-        return (<Checklist key={i} item={item} base={imgBase} className={mb} />)
+        if (nextType && !['checklist', 'radiolist'].includes(nextType)) mb = 'mb-[40px]';
+        return (<Checklist key={i} item={item} className={mb} />)
     }
 
     if (type === 'attachment') return (<Attachment key={i} item={item} />)

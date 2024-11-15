@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
 
 interface CardProps {
-    link: string;
+    link?: string;
     country: string;
     title: string;
     description: string;
