@@ -2,10 +2,10 @@
 import platformApi from '@/app/lib/data/platform-api';
 
 interface Props {
-    filters: string[];
+    filters?: string[];
     space?: string;
-    platforms: string | string[];
-    searchParams: any;
+    platforms?: string | string[];
+    searchParams?: any;
 }
 
 export default async function metaData(_kwargs: Props) {
@@ -37,7 +37,6 @@ export default async function metaData(_kwargs: Props) {
 		.filter((value: any, index: number, self: any) => {
 		    return self.findIndex((d: any) => d?.id === value?.id && d?.type === value?.type) === index;
 		});
-		console.log(tags)
 		tags?.forEach((d: any) => {
 		    if (Array.isArray(filterParams[d.type])) d.checked = filterParams[d.type]?.includes(d.id?.toString());
 		    else d.checked = filterParams[d.type] === d.id?.toString();
@@ -57,7 +56,7 @@ export default async function metaData(_kwargs: Props) {
 		    return self.findIndex((d: any) => d?.iso3 === value?.iso3) === index;
 		});
 		countries?.forEach((d: any) => {
-			d.id = d.iso3;
+			d.id = d?.iso3;
 			d.name = d.country;
 			d.type = 'countries';
 			d.checked = filterParams[d.type]?.includes(d.id) || filterParams[d.type] === d.id;
