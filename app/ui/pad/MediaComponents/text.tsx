@@ -14,7 +14,7 @@ export default function Txt({
     if (!txt?.length && !instruction?.length) return null;
     else {
         useEffect(() => {
-            ref.current.innerHTML = txt ? txt.replace(/\n+/g, '<br/>') : null;
+            if (ref.current) ref.current.innerHTML = txt ? txt.replace(/\n+/g, '<br/>') : null;
         }, [ref]);
 
         return (

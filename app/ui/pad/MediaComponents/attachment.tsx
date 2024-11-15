@@ -6,7 +6,7 @@ interface Props {
 
 export default function Attachment({
 	item,
-}) {
+}: Props) {
 	let { srcs, name, instruction } = item;
 	if (name === 'consent') name = 'Consent to share form or official link';
 

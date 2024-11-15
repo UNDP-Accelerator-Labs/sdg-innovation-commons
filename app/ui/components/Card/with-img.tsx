@@ -4,7 +4,7 @@ import { CardLink } from '@/app/ui/components/Link';
 import Link from 'next/link';
 
 interface CardProps {
-    link: string;
+    link?: string;
     country: string;
     title: string;
     description: string;
