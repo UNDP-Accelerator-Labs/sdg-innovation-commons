@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
 
 interface CardProps {
-    id: number;
+    link: string;
     country: string;
     title: string;
     description: string;
@@ -24,7 +24,7 @@ interface CardProps {
 }
 
 export default function Card({
-    id,
+    link,
     country,
     title,
     description,
@@ -100,7 +100,7 @@ export default function Card({
                         </div>
                     ) : null}
                     {/* Title */}
-                    <Link href={`/see/${id}`}>
+                    <Link href={`${link}`}>
                         <h1>{title}</h1>
                     </Link>
                     {/* Description */}
