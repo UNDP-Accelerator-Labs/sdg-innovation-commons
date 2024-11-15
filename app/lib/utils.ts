@@ -34,6 +34,8 @@ export const commonsPlatform = [
   }
 ];
 
+export const sdgLabels = ['No poverty','Zero hunger','Good health and well-being','Quality education','Gender equality','Clean water and sanitation','Affordable and clean energy','Decent work and economic growth','Industry, innovation and infrastructure','Reduced innequalities','Sustainable cities and communities','Responsible consumption and production','Climate action','Life below water','Life on land','Peace, justice and strong institutions','Partnerships for the goals'];
+
 export const NLP_URL = "https://nlpapi.sdg-innovation-commons.org/api";
 
 export async function getAdditionalData(results: any, base_url: string) {
@@ -160,6 +162,7 @@ export const polishTags = (data: any[]) => {
   return data?.flat()?.map((d: any) => ({
     ...d,
     snippet: d?.snippet?.length > 200 ? `${d.snippet.slice(0, 200)}…` : d.snippet,
+    rawtags: d.tags,
     tags: d?.tags
         ?.filter((t: any) => t.type === 'thematic_areas')
         .map((t: any) => t.name),
