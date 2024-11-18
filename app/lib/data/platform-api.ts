@@ -82,7 +82,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         });
         return polishTags(data);
     } else return data;
-
 }
 
 
