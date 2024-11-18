@@ -15,9 +15,11 @@ export default async function get({ url, method, body }: Props) {
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
+        /*
         if (token) {
             headers["x-access-token"] = token;
         }
+        */
 
         const response = await fetch(url, {
             method,

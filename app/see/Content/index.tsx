@@ -55,6 +55,10 @@ export default function Section({
                 { ...searchParams, ...{ limit: page_limit, doc_type: platform } }
             );
         }
+
+        console.log(data)
+        console.log(Math.min(...data.map((d: any) => d.status)), Math.max(...data.map((d: any) => d.status)))
+
         setHits(data);
         setLoading(false);
     }
