@@ -33,7 +33,6 @@ export default async function Section({
         'pads'
     );
     const [ datum ] = data;
-    console.log(datum)
     let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata } = datum;
 
     let lab: string | undefined = undefined;

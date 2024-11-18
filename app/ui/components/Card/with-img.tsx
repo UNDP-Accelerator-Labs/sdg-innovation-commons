@@ -4,8 +4,8 @@ import { CardLink } from '@/app/ui/components/Link';
 import Link from 'next/link';
 
 interface CardProps {
-    link?: string;
-    country: string;
+    id: number;
+    country: string | string[];
     title: string;
     description: string;
     tags?: string[];
@@ -23,7 +23,7 @@ interface CardProps {
 }
 
 export default function Card({
-    link,
+    id,
     country,
     title,
     description,
@@ -64,11 +64,17 @@ export default function Card({
                     </div>
                     {/* Chips */}
                     <div className='chips-container absolute top-0 w-full'>
-                        <div className='flex flex-row items-center justify-end pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
+                        <div className='flex flex-row items-center justify-end flex-wrap pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
                             {/* SDG */}
                             <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
                             {/* Country */}
-                            <button type='button' className="chip bg-black text-white">{country}</button>
+                            {Array.isArray(country) ? 
+                                country.map((d: string) => (
+                                    <button type='button' className="chip bg-black text-white">{d}</button>
+                                ))
+                            : (
+                                <button type='button' className="chip bg-black text-white">{country}</button>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -85,16 +91,22 @@ export default function Card({
                 <div>
                     {!backgroundImage ? (
                         <div className='chips-container w-full'>
-                            <div className='flex flex-row items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
+                            <div className='flex flex-row flex-wrap items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
                                 {/* SDG */}
                                 <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button>
                                 {/* Country */}
-                                <button type='button' className="chip bg-black text-white">{country}</button>
+                                {Array.isArray(country) ? 
+                                    country.map((d: string) => (
+                                        <button type='button' className="chip bg-black text-white">{d}</button>
+                                    ))
+                                : (
+                                    <button type='button' className="chip bg-black text-white">{country}</button>
+                                )}
                             </div>
                         </div>
                     ) : null}
                     {/* Title */}
-                    <Link href={`${link}`}>
+                    <Link href={`/pads/${source}/${id}`}>
                         <h1>{title}</h1>
                     </Link>
                     {/* Description */}

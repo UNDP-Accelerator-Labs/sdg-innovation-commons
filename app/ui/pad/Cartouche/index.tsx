@@ -26,6 +26,8 @@ export default async function Cartouche({
 	const mapLayers = locations.map((d: any) => {
 		return { ...d, ...{ type: 'point', color: '#d2f960', count: 1 } };
 	});
+	console.log('check layers')
+	console.log(mapLayers)
 	const { status, file: mapFile } = await woldMap({
 		platform,
 		projsize: 1440 / 3,

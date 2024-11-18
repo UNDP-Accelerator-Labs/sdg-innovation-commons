@@ -3,7 +3,8 @@ import clsx from 'clsx';
 import { CardLink } from '@/app/ui/components/Link';
 
 export interface CardProps {
-  country?: string;
+  id: number;
+  country?: string | string[];
   title: string;
   description: string;
   tags?: string[];
@@ -20,8 +21,19 @@ export interface CardProps {
   tagStyleShade?: string;
 }
 
-export default function Card(_kwargs: CardProps) {
-  let { country, date, title, description, tags, tagStyle, source, onButtonClick, href, openInNewTab } = _kwargs
+export default function Card({
+  id,
+  country,
+  date,
+  title,
+  description,
+  tags,
+  tagStyle,
+  source,
+  onButtonClick,
+  href, 
+  openInNewTab,
+}: CardProps) {
   // Convert tagArr to an array if it's a string
   const tagArr = Array.isArray(tags) ? tags : [tags];
 
