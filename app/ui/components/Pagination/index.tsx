@@ -46,7 +46,7 @@ export function Pagination({
 						{i + 1}
 					</button>
 				))}
-				{page === totalPages - 1 ? (
+				{page !== totalPages - 1 ? (
 					<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
 						<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
 					</button>
@@ -75,7 +75,7 @@ export function Pagination({
 							{totalPages}
 						</button>
 					) : (null)}
-					{page === totalPages - 1 ? (
+					{page !== totalPages - 1 ? (
 						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
 							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
 						</button>
@@ -103,7 +103,7 @@ export function Pagination({
 					<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
 						{totalPages}
 					</button>
-					{page === totalPages - 1 ? (
+					{page !== totalPages - 1 ? (
 						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
 							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
 						</button>
@@ -127,7 +127,7 @@ export function Pagination({
 							{totalPages - 2 + i}
 						</button>
 					))}
-					{page === totalPages - 1 ? (
+					{page !== totalPages - 1 ? (
 						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
 							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
 						</button>

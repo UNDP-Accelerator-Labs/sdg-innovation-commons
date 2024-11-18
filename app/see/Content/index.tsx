@@ -45,7 +45,7 @@ export default function Section({
             console.log(searchParams)
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit } },
                 platform,
                 'pads'
             );
@@ -106,10 +106,15 @@ export default function Section({
                         hits?.map((post: any) => {
                             let countries = post?.locations?.map((d: any) => d.country) || [];
                             if (!countries.length) countries = [post?.country === 'NUL' || !post?.country ? 'Global' : post?.country];
-                            else if (countries.length > 3) {
-                                const n = countries.length;
-                                countries = countries.slice(0, 3);
-                                countries.push(`+${n - 3}`);
+                            else {
+                                countries = countries.filter((value: string, index: number, array: string[]) => {
+                                  return array.indexOf(value) === index;
+                                })
+                                if (countries.length > 3) {
+                                    const n = countries.length;
+                                    countries = countries.slice(0, 3);
+                                    countries.push(`+${n - 3}`);
+                                }
                             }
                             return (
                                 <Card
@@ -127,6 +132,7 @@ export default function Section({
                                     sdg={`SDG ${post?.sdg?.join('/')}`}
                                     backgroundImage={post?.vignette}
                                     date={post?.date}
+                                    engagement={post?.engagement}
                                 />
                             )
                         })
