@@ -8,8 +8,12 @@ import { useEffect, useState  } from 'react';
 
 export default function DesktopNavBar() {
   const currPath: string = usePathname();
-  const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length);
-  // const [session, setSess] = useState<Record<string, any>>({});
+  const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length).map((d: string) => decodeURI(d));
+  const contentType = new Map()
+  contentType.set('test', ['action plan', 'experiment']);
+  contentType.set('see', ['solution']);
+  console.log(contentType)
+
   const [session, setSess] = useState<any>({});
 
   useEffect(() => {
@@ -36,10 +40,18 @@ export default function DesktopNavBar() {
             {/* Map over the navItems array */}
             {navItems.map((link, index) => {
               const currHref: string[] = link.href.split('/').filter((d: string) => d?.length);
+              const content = contentType.get(currHref[0]);
+              let active = false;
+              if (currPathSplit[0] === 'pads') {
+                /*
+                  this is to highlight the right section when reading a pad
+                */ 
+                active = content?.some((d: string) => currPathSplit.includes(d)) || false;
+              } else active = currHref[0] === currPathSplit[0]
               return (
                 <Link key={index} href={link.href} passHref className='no-underline text-black'>
                   <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
-                    {currHref[0] === currPathSplit[0] ? (
+                    {active ? (
                       <b>{link.title}</b>
                     ) : (
                       link.title
