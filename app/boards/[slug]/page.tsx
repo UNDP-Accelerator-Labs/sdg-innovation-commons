@@ -20,7 +20,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
       'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
   );
-  const pages = Math.ceil(data.total / page_limit) ?? 1;
+  const pages = Math.ceil(data?.total / page_limit) ?? 1;
 
   const platforms = data.counts
     .map((c: any) => {

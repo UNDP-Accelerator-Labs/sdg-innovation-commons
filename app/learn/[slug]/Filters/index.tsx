@@ -32,10 +32,12 @@ export default function Filters({
 	async function fetchData(): Promise<void> {
 	    setLoading(true);
 	    
+	    const checkPlatform = platform === tabs[0] ? tabs.slice(1) : platform;
+
 		// GET THE METADATA
 		const meta: any[] = await metaData({ 
 		    searchParams, 
-		    platforms: [platform], 
+		    platforms: 'solution', // TO DO: NEED TO UPDATE TO checkPlatform WHEN WE KNOW HOW TO GET COUNTRIES FROM nlp API
 		    filters
 		});
 
