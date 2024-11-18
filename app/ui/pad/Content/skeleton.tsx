@@ -13,13 +13,7 @@ import { shimmer } from '@/app/lib/utils';
 
 import Attachment from '../MediaComponents/attachment';
 
-interface Props {
-    id: number;
-}
-
-export default function Section({
-    id,
-}: Props) {
+export default function Section() {
     return (
         <>
         <Hero 
