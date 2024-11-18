@@ -176,3 +176,5 @@ export type incomingRequestParams = {
   params: Promise<{ slug: string, platform: string, pad: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
+
+export const shimmer = 'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';

@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
@@ -19,7 +20,6 @@ export default async function Section({
     id,
     platform,
 }: Props) {
-
     const data = await platformApi(
         { 
             pads: id, 
