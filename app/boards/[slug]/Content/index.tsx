@@ -172,7 +172,6 @@ export default function Section({
                                     <Card
                                         key={post?.doc_id || post?.pad_id}
                                         id={post?.doc_id || post?.pad_id}
-                                        link={`/${path}/${path !== 'see' ? `${post?.base}/` : ''}${post?.doc_id || post?.pad_id}`}
                                         country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         title={post?.title || ''}
                                         description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}

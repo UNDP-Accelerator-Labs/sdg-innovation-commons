@@ -10,6 +10,7 @@ import clsx from 'clsx';
 export default function Section() {
     const slides = [
         {
+            id: 0,
             backgroundImage: 'images/Rectangle 15.png',
             title: 'Next best practices for the SDGs',
             description: 'Small Islands Developing States',
@@ -20,6 +21,7 @@ export default function Section() {
             cardBackgroundImage: "images/Rectangle 68.png"
         },
         {
+            id: 0,
             backgroundImage: 'images/Rectangle 15-2.png',
             title: 'Featured Country Boards',
             description: 'Least Developed Countries',
@@ -30,6 +32,7 @@ export default function Section() {
             cardBackgroundImage: "images/Rectangle 68.png"
         },
         {
+            id: 0,
             backgroundImage: 'images/Rectangle 15-3.png',
             title: 'Coastal Communities',
             description: 'Addressing challenges faced by ecosystems.',
@@ -128,6 +131,7 @@ export default function Section() {
                         <div className='c-right'>
                             <Card
                                 title={currentData.cardTitle}
+                                id={currentData.id}
                                 description={currentData.cardDescription}
                                 tags={currentData.cardTags}
                                 href={'/'}
