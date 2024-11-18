@@ -50,7 +50,7 @@ export default function Section({
             setPages(totalPages);
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit } },
+                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
                 platform,
                 'pads'
             );

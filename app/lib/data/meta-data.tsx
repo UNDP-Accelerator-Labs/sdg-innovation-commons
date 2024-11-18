@@ -2,10 +2,10 @@
 import platformApi from '@/app/lib/data/platform-api';
 
 interface Props {
-    filters: string[];
+    filters?: string[];
     space?: string;
-    platforms: string | string[];
-    searchParams: any;
+    platforms?: string | string[];
+    searchParams?: any;
 }
 
 export default async function metaData(_kwargs: Props) {
