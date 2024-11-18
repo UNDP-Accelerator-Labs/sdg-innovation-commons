@@ -48,9 +48,9 @@ export default function Card({
     const visibleTags = tagArray?.slice(0, 4);
     const remainingTagsCount = tags.length - visibleTags.length;
 
-    const likes: number = engagement.find((d: any) => d.type === 'like')?.count ?? 0;
-    const dislikes: number = engagement.find((d: any) => d.type === 'dislike')?.count ?? 0;
-    const comments: number = engagement.find((d: any) => d.type === 'comment')?.count ?? 0;
+    const likes: number = engagement?.find((d: any) => d.type === 'like')?.count ?? 0;
+    const dislikes: number = engagement?.find((d: any) => d.type === 'dislike')?.count ?? 0;
+    const comments: number = engagement?.find((d: any) => d.type === 'comment')?.count ?? 0;
 
     return (
         <div className={clsx('card w-full relative flex flex-col', className)}>
