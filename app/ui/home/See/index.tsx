@@ -52,24 +52,33 @@ export default function Section() {
                         {loading ? (
                             <ImgCardsSkeleton /> // Show Skeleton while loading
                         ) : (
-                            hits?.map((post: any) => (
-                                <Card
-                                    key={post?.doc_id || post?.pad_id }
-                                    id={post.doc_id || post?.pad_id}
-                                    country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                    title={post?.title || ''}
-                                    description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                    source={post?.base || 'Solution'}
-                                    tagStyle="bg-light-green"
-                                    tagStyleShade="bg-light-green-shade"
-                                    href={post?.url}
-                                    viewCount={0}
-                                    tags={post?.tags}
-                                    sdg={`SDG ${post?.sdg?.join('/')}`}
-                                    backgroundImage={post?.vignette}
-                                    date={post?.date}
-                                />
-                            ))
+                            hits?.map((post: any) => {
+                                let countries = post?.locations?.map((d: any) => d.country) || [];
+                                if (!countries.length) countries = [post?.country === 'NUL' || !post?.country ? 'Global' : post?.country];
+                                else if (countries.length > 3) {
+                                    const n = countries.length;
+                                    countries = countries.slice(0, 3);
+                                    countries.push(`+${n - 3}`);
+                                }
+                                return (
+                                    <Card
+                                        key={post?.doc_id || post?.pad_id }
+                                        id={post.doc_id || post?.pad_id}
+                                        country={countries}
+                                        title={post?.title || ''}
+                                        description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                        source={post?.base || 'Solution'}
+                                        tagStyle="bg-light-green"
+                                        tagStyleShade="bg-light-green-shade"
+                                        href={post?.url}
+                                        viewCount={0}
+                                        tags={post?.tags}
+                                        sdg={`SDG ${post?.sdg?.join('/')}`}
+                                        backgroundImage={post?.vignette}
+                                        date={post?.date}
+                                    />
+                                )
+                            })
                         )}
                     </div>
                 </div>

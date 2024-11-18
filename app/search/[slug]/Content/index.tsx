@@ -92,6 +92,7 @@ const Content: React.FC<ContentProps> = ({
                             return !post?.vignette?.length ? (
                                 <Card
                                     key={post.doc_id}
+                                    id={post.doc_id}
                                     country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
                                     date={formatDate(post?.meta?.date) || ''}
                                     title={post?.title || ''}
@@ -104,6 +105,7 @@ const Content: React.FC<ContentProps> = ({
                             ) : (
                                 <ImgCard
                                     key={post?.doc_id || post?.pad_id}
+                                    id={post?.doc_id || post?.pad_id}
                                     country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                     title={post?.title || ''}
                                     description={post?.snippet?.length ? `${post?.snippet?.length > 200 ? `${post.snippet.slice(0, 200)}…` : post.snippet}` : post?.snippets}

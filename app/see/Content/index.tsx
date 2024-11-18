@@ -104,7 +104,7 @@ export default function Section({
                         <ImgCardsSkeleton /> // Show Skeleton while loading
                     ) : (
                         hits?.map((post: any) => {
-                            let countries = post.locations.map(d => d.country);
+                            let countries = post?.locations?.map((d: any) => d.country) || [];
                             if (!countries.length) countries = [post?.country === 'NUL' || !post?.country ? 'Global' : post?.country];
                             else if (countries.length > 3) {
                                 const n = countries.length;
