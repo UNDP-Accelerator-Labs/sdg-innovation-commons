@@ -12,7 +12,6 @@ export default function DesktopNavBar() {
   const contentType = new Map()
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
-  console.log(contentType)
 
   const [session, setSess] = useState<any>({});
 

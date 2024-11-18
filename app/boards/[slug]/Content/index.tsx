@@ -184,6 +184,7 @@ export default function Section({
                                         sdg={`SDG ${post?.sdg?.join('/')}`}
                                         backgroundImage={post?.vignette}
                                         date={post?.date}
+                                        engagement={post?.engagement}
                                     />
                                 )
                             })

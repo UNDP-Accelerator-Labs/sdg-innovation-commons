@@ -120,6 +120,7 @@ export default function Section() {
                                     backgroundImage={post?.vignette}
                                     className=''
                                     date={post?.date}
+                                    engagement={post?.engagement}
                                 />
                             ))
                         )}
