@@ -41,8 +41,8 @@ export default async function Section({
     });
     tabs.unshift('all');
 
-    const { title, description, counts, total: padsCount, contributors, creator }: { title: string, description: string, counts: any[], padsCounts: number, contributors: number, creator: any } = boardData;
-    const { name: creatorName, isUNDP, country }: { name: string } = creator || {};
+    const { title, description, counts, total: padsCount, contributors, creator }: { title: string, description: string, counts: any[], total: number, contributors: number, creator: any } = boardData;
+    const { name: creatorName, isUNDP, country }: { name: string, isUNDP: boolean, country: string | undefined } = creator || {};
 
     // DETERMINE WHETHER THE BOARD IS ATTRIBUTABLE TO AN ACCELERATOR LAB
     let lab: string | undefined = undefined;
