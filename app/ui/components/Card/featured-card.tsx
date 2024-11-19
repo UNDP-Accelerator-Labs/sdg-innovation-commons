@@ -1,4 +1,5 @@
-import React from 'react';
+'use client';
+import { useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { CardLink } from '@/app/ui/components/Link';
 import { CardProps } from "./without-img"
@@ -14,6 +15,12 @@ export default function Card({
     openInNewTab,
     tagStyleShade
 }: CardProps) {
+
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (ref.current) ref.current.innerHTML = description ? description.replace(/\n+/g, '<br/>') : null;
+    }, [ref]);
 
     return (
     <div className={clsx('board w-full relative flex', className)}>
@@ -47,7 +54,7 @@ export default function Card({
                     {/* Title */}
                     <h1>{title}</h1>
                     {/* Description */}
-                    <p>{description}</p>
+                    <p ref={ref}>{description}</p>
                 </div>
                 <div>
                     {/* Footer */}

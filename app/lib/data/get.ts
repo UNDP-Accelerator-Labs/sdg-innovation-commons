@@ -1,5 +1,5 @@
 'use server';
-import { cookies } from 'next/headers'
+import { cookies } from 'next/headers';
 
 export interface Props {
     url: string;
@@ -27,8 +27,8 @@ export default async function get({ url, method, body }: Props) {
             ...(method !== 'GET' && { body: JSON.stringify(body) }),
         });
 
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        if (!response?.ok) {
+            throw new Error(`Error: ${response?.status} ${response?.statusText}`);
         }
         const data = await response.json();
         return data;

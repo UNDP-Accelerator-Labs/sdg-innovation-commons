@@ -16,9 +16,7 @@ import Attachment from '../MediaComponents/attachment';
 export default function Section() {
     return (
         <>
-        <Hero 
-            tagStyleShade='bg-light-gray-shade'
-        />
+        <Hero />
         <section className={clsx('home-section lg:pb-[80px] lg:pt-[120px]', shimmer)}>
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px] grid lg:grid-cols-9 gap-[20px]'>
                 <div className='section-content lg:col-span-5'>

@@ -55,8 +55,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
             params.set(k, argV);
         }
     }
-    console.log("here")
-    console.log(params.toString());
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
@@ -65,9 +63,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         url,
         method: 'GET',
     });
-
-    console.log('check url')
-    console.log(`${base_url}/apis/fetch/${object}?${params.toString()}`)
 
     // set urls for pads
     if (object === 'pads') {

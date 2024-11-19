@@ -1,16 +1,4 @@
-import clsx from 'clsx';
-
-interface Props {
-	tagStyleShade: string;
-}
-
-export default function Hero({ 
-	tagStyleShade,
-}: Props) {
-	// if (padtype === 'solution') padtype = 'solution note';
-	// padtype = `${padtype.slice(0, 1).toUpperCase()}${padtype.substring(1)}`;
-	// const labLink: string = `https://www.undp.org/acceleratorlabs/${lab?.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
-
+export default function Hero() {
   	return (
   	<>
   		<section className='relative home-section !border-t-0 grid-bg lg:pb-[60px] overflow-hidden'>
@@ -27,7 +15,7 @@ export default function Hero({
 		            	<div className='flex flex-wrap flex-row gap-1.5 mb-[20px] mt-[40px]'>
 		            	{(new Array(4)).fill(0).map((d: number, i: number) => {
 	            			return (
-	            				<button className={clsx('chip', tagStyleShade)} key={i}>Tag</button>
+	            				<button className='chip bg-light-gray-shade' key={i}>Tag</button>
 	            			)
 	            		})}
 		            	</div>
