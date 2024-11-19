@@ -1,5 +1,5 @@
 'use server';
-import { NLP_URL, page_limit, getAdditionalData, get_externalDb } from '@/app/lib/utils';
+import { NLP_URL, page_limit, getAdditionalData, get_external_url } from '@/app/lib/utils';
 import { Props } from './learn';
 import get from './get';
 
@@ -15,7 +15,7 @@ export default async function search(_kwargs: Props) {
         vecdb: 'main',
         filters: {
             language: language ? [language] : [],
-            doc_type: doc_type && Array.isArray(doc_type) ? doc_type : ["solution", 'experiment', 'action plan', "blog", "publications", "news"],
+            doc_type: doc_type && Array.isArray(doc_type) ? doc_type : ["solution", 'experiment', 'action plan', "blog", "publications", "news", "press release"],
             iso3: country ? [country] : [],
         },
     };
@@ -26,8 +26,6 @@ export default async function search(_kwargs: Props) {
         method: 'POST',
         body,
     });
-
-    console.log(data)
 
     type BaseType = 'solution' | 'experiments' | 'actionplan' | 'others';
     type BaseMap = Map<BaseType, any[]>;
@@ -54,9 +52,9 @@ export default async function search(_kwargs: Props) {
     // Parallelize fetching additional data
     if (solution_list?.length || exp_list?.length || ap_list?.length) {
         const [base_solution_url, base_exp_url, base_ap_url] = await Promise.all([
-            get_externalDb(4),
-            get_externalDb(2),
-            get_externalDb(1),
+            get_external_url(4),
+            get_external_url(2),
+            get_external_url(1),
         ]);
 
         const [update_solutions, update_experiments, update_actionplans] = await Promise.all([

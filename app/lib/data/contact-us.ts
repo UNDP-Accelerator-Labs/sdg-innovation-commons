@@ -1,7 +1,6 @@
 'use server';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
-import { redirect } from 'next/navigation';
 
 // Utility function to get the current date
 const getCurrentDate = () => new Date().toISOString().split('T')[0];
@@ -34,19 +33,24 @@ const ContactSchema = z.object({
 });
 
 export type ContactState = {
+  isSubmitting?: boolean;
   errors?: {
     name?: string[];
     surname?: string[];
     email?: string[];
     org?: string[];
     message?: string[];
-  };
+  };  
+  success?: boolean;
   message?: string | null;
 };
 
 const CreateContact = ContactSchema.omit({ date: true });
 
-export async function createContact(prevState: ContactState, formData: FormData) {
+export async function createContact(prevState: ContactState, formData: FormData): Promise<ContactState> {
+
+  let newState: ContactState = { ...prevState, isSubmitting: true };
+
   // Validate form using Zod
   const validatedFields = CreateContact.safeParse({
     name: formData.get('name'),
@@ -59,6 +63,8 @@ export async function createContact(prevState: ContactState, formData: FormData)
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
+      ...newState,
+      isSubmitting: false,
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing or invalid fields. Failed to submit message.',
     };
@@ -69,7 +75,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
   const date = getCurrentDate();
 
   const mailOptions = {
-    from: email,
+    from: `SDG Innovation" <${SMTP_USER}>`,
     to: ADMIN_EMAILS,
     subject: `Contact form submission from ${name} ${surname}`,
     text: `
@@ -83,11 +89,19 @@ export async function createContact(prevState: ContactState, formData: FormData)
 
   // Send contact form data to admin email
   try {
-    await transporter.sendMail(mailOptions);
-    redirect('/');
+    process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions) : null;
+    return {
+      ...newState,
+      isSubmitting: false,
+      success: true,
+      message: 'Thank you for your message. Our focal point will contact you soon.',
+    };
   } catch (error) {
     console.error('Error sending email:', error);
     return {
+      ...newState,
+      isSubmitting: false,
+      success: false,
       message: 'Error: Failed to send message.',
     };
   }

@@ -1,10 +1,11 @@
 'use client';
+import clsx from 'clsx';
 import { useActionState } from "react";
 import { createContact, ContactState } from '@/app/lib/data/contact-us';
 import { Button } from '@/app/ui/components/Button';
 
 export default function Contact() {
-    const initialState: ContactState = { message: null, errors: {} };
+    const initialState: ContactState = { message: null, errors: {}, isSubmitting: false };
     const [state, formAction] = useActionState(createContact, initialState);
 
     return (
@@ -25,6 +26,14 @@ export default function Contact() {
                                 </p>
                             </div>
                         </div>
+
+                        {/* Display Success or Failure Message */}
+                        {state.message && (
+                            <div className={clsx(`my-4 font-bold`, state.success ? 'text-undp-blue' : 'text-red-500')}>
+                                {state.message}
+                            </div>
+                        )}
+
                         {/* Form */}
                         <form action={formAction} className='grid grid-cols-2 gap-[20px]'>
                             {/* Name Input and Error */}
@@ -94,7 +103,7 @@ export default function Contact() {
                             </div>
                             <div className='mt-[20px]'>
                                 {/* Submit Button */}
-                                <Button type="submit">Submit</Button>
+                                <Button type="submit" disabled={state.isSubmitting}>{state.isSubmitting ? 'Submitting...' : 'Submit'}</Button>
                             </div>
                         </form>
                     </div>
