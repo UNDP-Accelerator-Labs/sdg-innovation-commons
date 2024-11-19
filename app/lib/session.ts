@@ -6,8 +6,8 @@ import { SignJWT, jwtVerify } from 'jose'
 import jwt from 'jsonwebtoken'
 
 interface TokenPayload {
-  uuid: string;
-  rights: number;
+    uuid: string;
+    rights: number;
 }
 
 export default async function getSession() {
@@ -19,7 +19,7 @@ export default async function getSession() {
     const base_url: string | undefined = process.env.NODE_ENV != 'production' ? LOCAL_BASE_URL
         : commonsPlatform
             .find(p => p.key === 'login')?.url;
-            
+
     const session = await get({
         url: `${base_url}/apis/fetch/session?s_id=${s_id}`,
         method: 'GET',
@@ -27,8 +27,19 @@ export default async function getSession() {
 
     if (!session?.uuid) return null
 
-    const token: string = await getToken({uuid: session?.uuid, rights: session?.rights });
-    (await cookies()).set('_uuid_token', token);
+    const token: string = await getToken({ uuid: session?.uuid, rights: session?.rights });
+    (await cookies()).set(
+        '_uuid_token',
+        token,
+        {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+            sameSite: 'lax',
+            path: '/',
+        }
+    )
+
 
     return session
 }
@@ -49,9 +60,9 @@ export const session_info = async () => {
 
 export async function getToken({ uuid, rights }: TokenPayload) {
     const token = await jwt.sign(
-      { uuid, rights },
-      process.env.APP_SECRET as string, 
-      { audience: 'user:known', issuer: baseHost?.slice(1), expiresIn: '2m' }
+        { uuid, rights },
+        process.env.APP_SECRET as string,
+        { audience: 'user:known', issuer: baseHost?.slice(1) }
     );
     return token;
 }
@@ -74,5 +85,21 @@ export async function decrypt(session: string | undefined = '') {
         return payload
     } catch (error) {
         console.log('Failed to verify session')
+    }
+}
+
+export async function verifyToken(token: string) {
+    try {
+        const secret = process.env.APP_SECRET as string;
+        const issuer = baseHost?.slice(1);
+
+        const payload = jwt.verify(token, secret, {
+            audience: 'user:known',
+            issuer: issuer,
+        });
+
+        return payload;
+    } catch (err: any) {
+        return null;
     }
 }

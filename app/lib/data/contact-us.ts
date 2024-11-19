@@ -75,7 +75,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
   const date = getCurrentDate();
 
   const mailOptions = {
-    from: `SDG Innovation" <${SMTP_USER}>`,
+    from: `SDG Innovation Commons" <${SMTP_USER}>`,
     to: ADMIN_EMAILS,
     subject: `Contact form submission from ${name} ${surname}`,
     text: `

@@ -85,7 +85,7 @@ export default async function nlpApi(_kwargs: Props) {
             // TO DO: OPTIMIZE THIS WHEN countries API IS FIXED
             const countryNames: any[] = await platformApi({ }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
             hits.forEach((d: any) => {
-                d.country = countryNames.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
+                d.country = countryNames?.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
                 console.log(d.meta.iso3, d.country)
             })
 

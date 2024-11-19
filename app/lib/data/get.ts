@@ -31,7 +31,7 @@ export default async function get({ url, method, body }: Props) {
         const data = await response.json();
         return data;
     } catch (error) {
-        console.error('Fetch error:', error);
+        console.error('Fetch error:', url, error);
         return null;
     }
 }
