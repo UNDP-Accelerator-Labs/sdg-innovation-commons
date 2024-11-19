@@ -64,6 +64,9 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         method: 'GET',
     });
 
+    console.log('check url')
+    console.log(`${base_url}/apis/fetch/${object}?${params.toString()}`)
+
     // set urls for pads
     if (object === 'pads') {
         data?.forEach((d: any) => {

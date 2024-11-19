@@ -1,17 +1,7 @@
-import Link from 'next/link';
-import { Button } from '@/app/ui/components/Button';
-import platformApi from '@/app/lib/data/platform-api';
 import Hero from '../Hero/skeleton';
 import Cartouche from '../Cartouche/skeleton';
-import Txt from '../MediaComponents/text';
-import Embed from '../MediaComponents/embed';
-import Img from '../MediaComponents/img';
-import Checklist from '../MediaComponents/checklist';
-
 import clsx from 'clsx';
 import { shimmer } from '@/app/lib/utils';
-
-import Attachment from '../MediaComponents/attachment';
 
 export default function Section() {
     return (
@@ -36,21 +26,4 @@ export default function Section() {
         </section>
         </>
     ) 
-}
-
-function renderContent (items: any[], item: any, i: number, imgBase: string) {
-    const { type } = item;
-    if (type === 'txt') return (<Txt key={i} item={item} />) 
-    if (type === 'embed') return (<Embed key={i} item={item} />) 
-    if (type === 'img') return (<Img key={i} item={item} base={imgBase} />) 
-    if (type === 'mosaic') return (<Img key={i} item={item} base={imgBase} />) 
-    if (['checklist', 'radiolist'].includes(type)) {
-        let mb: string = '';
-        const nextType: string | undefined = items[i + 1]?.type;
-        if (nextType && !['checklist', 'radiolist'].includes(nextType)) mb = 'mb-[40px]';
-        return (<Checklist key={i} item={item} className={mb} />)
-    }
-
-    if (type === 'attachment') return (<Attachment key={i} item={item} />)
-    console.log(type)
 }

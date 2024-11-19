@@ -4,12 +4,11 @@ import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
 import Hero from '../Hero';
 import Cartouche from '../Cartouche';
-import Txt from '../MediaComponents/text';
-import Embed from '../MediaComponents/embed';
-import Img from '../MediaComponents/img';
-import Checklist from '../MediaComponents/checklist';
-
-import Attachment from '../MediaComponents/attachment';
+import Txt from '@/app/ui/components/MediaComponents/text';
+import Embed from '@/app/ui/components/MediaComponents/embed';
+import Img from '@/app/ui/components/MediaComponents/img';
+import Checklist from '@/app/ui/components/MediaComponents/checklist';
+import Attachment from '@/app/ui/components/MediaComponents/attachment';
 
 interface Props {
     id: number;

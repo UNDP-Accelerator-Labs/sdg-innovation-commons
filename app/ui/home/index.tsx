@@ -21,8 +21,8 @@ export default function Home() {
       {/*<GetInspired />*/}
       <FeaturedBoard />
       <How />
-      <Test />
       <See />
+      <Test />
       <Learn />
       <Contact />
       <Footer />

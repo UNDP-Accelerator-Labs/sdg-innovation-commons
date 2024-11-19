@@ -46,7 +46,7 @@ export default async function metaData(_kwargs: Props) {
 	if (filters.some((d: string) => d === 'countries')) {
 		countries = await Promise.all(platforms.map((d: any) => {
 			return platformApi(
-		        { ...{ space, use_pads: true } },
+		        { ...filterParams, ...{ space, use_pads: true } },
 		        d,
 		        'countries'
 		    );
