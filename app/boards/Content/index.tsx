@@ -111,7 +111,7 @@ export default function Section({
                                     source={post?.base || 'solution'}
                                     tagStyle="bg-light-green"
                                     tagStyleShade="bg-light-green-shade"
-                                    href={`/boards/${post?.pinboard_id}`}
+                                    href={`/boards/all/${post?.pinboard_id}`}
                                     backgroundImage={post?.vignette}
                                     date={post?.date}
 
