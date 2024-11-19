@@ -1,6 +1,4 @@
-import Txt from '@/app/ui/components/MediaComponents/text';
-
-interface heroProps {
+interface Props {
 	description: any[];
 	vignette: string;
 }
@@ -8,21 +6,14 @@ interface heroProps {
 export default function Infobar({
 	description,
 	vignette
-}: heroProps) {
+}: Props) {
   	return (
 	  	<>
 	  	<section className='home-section relative lg:py-[80px] overflow-hidden'>
 		    <div className='inner w-[1440px] mx-auto'>
 			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px]'>
 			        <div className='c-left lg:col-span-5'>
-		            	{/*<p className='lead font-bold'>{description}</p>*/}
-			        	{description.map((d: any, i: number) => (
-			        		<Txt 
-			        			key={i}
-			        			item={d} 
-			        			className='lead font-bold'
-			        		/>
-			        	))}
+		            	<p className='lead font-bold'>{description}</p>
 			        </div>
 			    </div>
 			</div>

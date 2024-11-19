@@ -1,14 +1,10 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
+import renderComponents from '@/app/ui/components/MediaComponents';
 import platformApi from '@/app/lib/data/platform-api';
 import Hero from '../Hero';
 import Cartouche from '../Cartouche';
-import Txt from '@/app/ui/components/MediaComponents/text';
-import Embed from '@/app/ui/components/MediaComponents/embed';
-import Img from '@/app/ui/components/MediaComponents/img';
-import Checklist from '@/app/ui/components/MediaComponents/checklist';
-import Attachment from '@/app/ui/components/MediaComponents/attachment';
 
 interface Props {
     id: number;
@@ -94,7 +90,7 @@ export default async function Section({
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px] grid lg:grid-cols-9 gap-[20px]'>
                 <div className='section-content lg:col-span-5'>
                     {
-                        sections.map((s: any) => {
+                        sections.map((s: any, j: number) => {
                             const { title, items } = s;
                             return (
                                 <>
@@ -113,14 +109,17 @@ export default async function Section({
                                                     )}
                                                     {
                                                         itemsArr.map((item: any, i: number) => {
-                                                            return renderContent(items, item, i, imgBase)
+                                                            return renderComponents(items, item, i, imgBase)
                                                         })
                                                     }
                                                 </div>
                                             )
                                         })
-                                    } else return renderContent(items, item, i, imgBase);
+                                    } else return renderComponents(items, item, i, imgBase);
                                 })}
+                                {j < sections.length - 1 && (
+                                    <div className='divider block w-full h-0 border-t-[1px] border-solid mb-[40px]'></div>
+                                )}
                                 </>
                             )
                         })
@@ -147,21 +146,4 @@ export default async function Section({
         </section>
         </>
     ) 
-}
-
-function renderContent (items: any[], item: any, i: number, imgBase: string) {
-    const { type } = item;
-    if (type === 'txt') return (<Txt key={i} item={item} />) 
-    if (type === 'embed') return (<Embed key={i} item={item} />) 
-    if (type === 'img') return (<Img key={i} item={item} base={imgBase} />) 
-    if (type === 'mosaic') return (<Img key={i} item={item} base={imgBase} />) 
-    if (['checklist', 'radiolist'].includes(type)) {
-        let mb: string = '';
-        const nextType: string | undefined = items[i + 1]?.type;
-        if (nextType && !['checklist', 'radiolist'].includes(nextType)) mb = 'mb-[40px]';
-        return (<Checklist key={i} item={item} className={mb} />)
-    }
-
-    if (type === 'attachment') return (<Attachment key={i} item={item} />)
-    console.log(type)
 }

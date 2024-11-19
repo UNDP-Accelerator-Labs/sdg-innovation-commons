@@ -121,7 +121,7 @@ export default function Section() {
                                 <div className='flex justify-start items-center'>
                                     <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
                                     <p className='text-white font-space-mono my-0'>
-                                        <b>{`${currentSlide + 1} / ${slides.length}`}</b>
+                                        <b><span className='text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
                                     </p>
                                     <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
                                 </div>

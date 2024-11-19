@@ -10,7 +10,7 @@ interface Props {
   searchParams: any;
 }
 
-export default function Pad({ 
+export default function Board({ 
   id,
   platform,
   searchParams,

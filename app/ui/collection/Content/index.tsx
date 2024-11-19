@@ -1,164 +1,119 @@
 import clsx from 'clsx';
-import Link from 'next/link';
-import Card from '@/app/ui/components/Card/with-img';
-import platformApi from '@/app/lib/data/platform-api';
+import collectionData from '@/app/lib/data/collection';
+import Card from '@/app/ui/components/Card/featured-card';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import { commonsPlatform, page_limit } from '@/app/lib/utils';
+import { Button } from '@/app/ui/components/Button';
 
-import Hero from '../Hero';
+import Hero from '@/app/ui/board/Hero';
 import Infobar from '../Infobar';
-import Search from '../Search';
-import Tabs from '../Tabs';
+// import Search from '../Search';
+// import Tabs from '../Tabs';
 
-interface Props {
-    id?: string;
+export interface PageStatsResponse {
+    total: number;
+    pages: number;
+}
+
+interface SectionProps {
+    id: string;
     searchParams: any;
 }
 
 export default async function Section({
     id,
     searchParams,
-}: Props) {
-    const { page } = searchParams;
-    // LOAD BOARD
-    /*
-    const boardData: any = await platformApi(
-        { ...searchParams, ...{ pinboard: id, limit: page_limit } },
-        'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
-        'pinboards'
-    );
-    const pages = Math.ceil(boardData?.total / page_limit) ?? 1;
+}: SectionProps) {
+    const { page, search } = searchParams;
 
-    const platforms = boardData.counts
-    .map((c: any) => {
-        c.pinboard_id = boardData.pinboard_id;
-        return c;
-    });
+    // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
+    // const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
-    const tabs = platforms.map((d: any) => {
-        return commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
-    });
-    tabs.unshift('all');
+    const { 
+        title, 
+        creatorName, 
+        sections, 
+        data, 
+        pages,
+    } = await collectionData({ id, searchParams });
 
-    const { title, description, counts, total: padsCount, contributors, creator }: { title: string, description: string, counts: any[], total: number, contributors: number, creator: any } = boardData;
-    const { name: creatorName, isUNDP, country }: { name: string, isUNDP: boolean, country: string | undefined } = creator || {};
-
-    // DETERMINE WHETHER THE BOARD IS ATTRIBUTABLE TO AN ACCELERATOR LAB
-    let lab: string | undefined = undefined;
-    // const isUNDP: boolean = email.includes('@undp.org');
-    // const isLabber: boolean = position.includes('Head of');
-    if (isUNDP) lab = `UNDP ${!country || country === 'NUL' ? 'Global' : country} Accelerator Lab`;
-
-    // LOAD CONTENT
-    // SET THE CORRECT PLATFORM(S)
-    const data: any[] = await Promise.all(
-        platforms
-        .filter((d: any) => {
-            // DETERMINE WHICH PLATFORM(S) TO QUERY
-            if (platform === 'all') return true;
-            else return commonsPlatform.find((c: any) => c.key === platform)?.shortkey === d.platform;
-        }).map(async (d: any) => {
-            if (d) {
-                const platform: string = commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
-                const platformPads: any[] = boardData.pads.filter((c: any) => c.platform === d.platform).map((c: any) => c.pad_id);
-                const data: any[] = await platformApi(
-                    { include_locations: true, pads: platformPads },
-                    platform, 
-                    'pads'
-                );
-                return data || [];
-            } else return [];
-        })
-    );
-
-    const vignettes = data?.flat().map(d => d.vignette);
-    const vignette = vignettes[Math.floor(Math.random() * vignettes.length)];
-    */
 
     return (
         <>
         <Hero 
-            id={id} 
-            platform={platform} 
-            platforms={tabs} 
-            searchParams={searchParams} 
             title={title}
             creator={creatorName}
-            lab={lab}
-            contributors={contributors}
-            padsCount={padsCount}
+            // lab={lab}
+            lab={{}}
+            includeMetadata={false}
         />
 
         <Infobar 
-            description={[{ txt: description }]} 
-            vignette={vignette} 
+            sections={sections} 
+            // vignette={vignette} 
         />
-        
+
         <section className='home-section lg:py-[80px]'>
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
-                {/* Display the section title and description */}
-                <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
-                            <span>Full Board Overview</span>
-                        </h2>
-                    </div>
-                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
-                        <p className="lead">
-                            <b>Search through all the items that are part of this board.</b>
-                        </p>
-                    </div>
-                </div>
                 {/* SEARCH */}
-                <Search searchParams={searchParams} />
-                {/* Display tabs */}
-                <Tabs id={id} tabs={tabs} platform={platform} />
+                <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
+                    {/*<div className='col-span-4 flex flex-row group items-stretch'>
+                        <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
+                        <Button type='submit' className='border-l-0 grow-0'>
+                            Search
+                        </Button>
+                    </div>
+                    <div className='lg:col-end-10'>
+                        <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center' onClick={(e) => setFilterVisibility(!filterVisibility)}>
+                            <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
+                            {!filterVisibility ? (
+                                'Filters'
+                            ) : (
+                                'Close'
+                            )}
+                        </button>
+                    </div>
+                    <div className='col-span-9'>
+                        <Filters 
+                            className={clsx(filterVisibility ? '' : 'hidden')}
+                            searchParams={searchParams}
+                        />
+                    </div>*/}
+                </form>
+
                 <div className='section-content'>
                     {/* Display Cards */}
                     <div className='grid gap-[20px] lg:grid-cols-3'>
                         {
-                            data?.flat()
-                            .map((d: any) => {
-                                let color: string = 'green';
-                                let path: string = 'see';
-                                if (d?.base === 'action plan') {
-                                    color = 'yellow';
-                                    path = 'test';
-                                } else if (d?.base === 'experiment') {
-                                    color = 'orange';
-                                    path = 'test';
-                                }
-                                return (
-                                    <Card
-                                        key={d?.doc_id || d?.pad_id}
-                                        id={d?.doc_id || d?.pad_id}
-                                        country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
-                                        title={d?.title || ''}
-                                        description={d?.snippets?.length ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}` : d?.snippet}
-                                        source={d?.base || 'solution'}
-                                        tagStyle={`bg-light-${color}`}
-                                        tagStyleShade={`bg-light-${color}-shade`}
-                                        href={d?.url}
-                                        viewCount={0}
-                                        tags={d?.tags}
-                                        sdg={`SDG ${d?.sdg?.join('/')}`}
-                                        backgroundImage={d?.vignette}
-                                        date={d?.date}
-                                        engagement={d?.engagement}
-                                    />
-                                )
-                            })
+                            data?.map((post: any) => (
+                                <Card
+                                    key={post?.pinboard_id}
+                                    id={post?.pinboard_id}
+                                    country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                    title={post?.title || ''}
+                                    description={post?.description?.length > 200 ? `${post?.description.slice(0, 200)}…` : post?.description}
+                                    source={post?.base || 'solution'}
+                                    tagStyle="bg-light-green"
+                                    tagStyleShade="bg-light-green-shade"
+                                    href={`/boards/all/${post?.pinboard_id}`}
+                                    backgroundImage={post?.vignette}
+                                    date={post?.date}
+
+                                    viewCount={post.total}
+                                />
+                            ))
                         }
                     </div>
                 </div>
-                <div className='pagination'>
-                    <div className='w-full flex justify-center col-start-2'>
-                        <Pagination
-                            page={+page ?? 1}
-                            totalPages={pages}
-                        />
+                {pages > 1 && (
+                    <div className='pagination'>
+                        <div className='w-full flex justify-center col-start-2'>
+                            <Pagination
+                                page={+page ?? 1}
+                                totalPages={pages}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
         </section>
         </>

@@ -10,7 +10,7 @@ interface Props {
   searchParams: any;
 }
 
-export default function Pad({ 
+export default function Collection({ 
   id,
   platform,
   searchParams,
@@ -18,9 +18,9 @@ export default function Pad({
   return (
     <>
       <Navbar />
-      <Suspense fallback={<Skeleton />}>
+      {/*<Suspense fallback={<Skeleton />}>*/}
         <Content id={id} platform={platform} searchParams={searchParams} />
-      </Suspense>
+      {/*</Suspense>*/}
       <Footer />
     </>
   );

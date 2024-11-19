@@ -28,10 +28,19 @@ export default async function get({ url, method, body }: Props) {
         });
 
         if (!response?.ok) {
-            throw new Error(`Error: ${response?.status} ${response?.statusText}`);
+            if (response?.status === 400) {
+                try {
+                    const data = await response.json();
+                    if (data.message) return [];
+                } catch (err) {
+                    console.log(err)
+                }
+            } else throw new Error(`Error: ${response?.status} ${response?.statusText}`);
+        } else {
+            if (response.status === 204) return [];
+            const data = await response.json();
+            return data;
         }
-        const data = await response.json();
-        return data;
     } catch (error) {
         console.error('Fetch error:', error);
         return null;

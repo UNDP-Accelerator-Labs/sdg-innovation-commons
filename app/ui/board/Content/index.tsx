@@ -1,7 +1,6 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/with-img';
-import platformApi from '@/app/lib/data/platform-api';
 
 import boardData from '@/app/lib/data/board';
 
@@ -25,8 +24,6 @@ export default async function Section({
     searchParams,
 }: Props) {
     const { page } = searchParams;
-    console.log('board data')
-    // const b = await boardData({ id, platform, searchParams });
     const { 
         title, 
         description, 
@@ -42,13 +39,14 @@ export default async function Section({
         data, 
         vignette 
     } = await boardData({ id, platform, searchParams });
-    
+
     return (
         <>
         <Hero 
             title={title}
             creator={creatorName}
             lab={lab}
+            includeMetadata={true}
             contributors={contributors}
             padsCount={pads.count}
             locations={locations}
@@ -56,7 +54,7 @@ export default async function Section({
         />
 
         <Infobar 
-            description={[{ txt: description }]} 
+            description={description} 
             vignette={vignette} 
         />
         
