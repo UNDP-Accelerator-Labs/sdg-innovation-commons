@@ -10,8 +10,8 @@ interface Props {
 	searchParams: any;
 	title: string;
 	creator: string;
-	lab: string;
-	contributors: string[];
+	lab: string | undefined;
+	contributors: number;
 	padsCount: number;
 }
 

@@ -19,7 +19,7 @@ export default function Card({
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (ref.current) ref.current.innerHTML = description ? description.replace(/\n+/g, '<br/>') : null;
+        if (ref.current) ref.current.innerHTML = description ? description.replace(/\n+/g, '<br/>') : '';
     }, [ref]);
 
     return (
