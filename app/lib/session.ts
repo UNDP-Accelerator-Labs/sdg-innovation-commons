@@ -19,13 +19,13 @@ export default async function getSession() {
     const base_url: string | undefined = process.env.NODE_ENV != 'production' ? LOCAL_BASE_URL
         : commonsPlatform
             .find(p => p.key === 'login')?.url;
-
+            
     const session = await get({
         url: `${base_url}/apis/fetch/session?s_id=${s_id}`,
         method: 'GET',
     });
 
-    if (!session.uuid) return null
+    if (!session?.uuid) return null
 
     const token: string = await getToken({uuid: session?.uuid, rights: session?.rights });
     (await cookies()).set('_uuid_token', token);
@@ -42,8 +42,8 @@ export const get_session_id = async () => {
 }
 
 export const session_info = async () => {
-    const sess = decrypt((await cookies()).get('session')?.value)
-    return sess;
+    const token = (await cookies()).get('_uuid_token')?.value
+    return token;
 }
 
 

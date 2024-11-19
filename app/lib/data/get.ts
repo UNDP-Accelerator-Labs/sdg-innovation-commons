@@ -1,5 +1,5 @@
 'use server';
-import { cookies } from 'next/headers'
+import { session_info } from '@/app/lib/session';
 
 export interface Props {
     url: string;
@@ -9,8 +9,7 @@ export interface Props {
 
 export default async function get({ url, method, body }: Props) {
     try {
-        const cookieStore = await cookies()
-        const token = cookieStore.get('_uuid_token')?.value;
+        const token = await session_info()
 
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
@@ -21,6 +20,7 @@ export default async function get({ url, method, body }: Props) {
 
         const response = await fetch(url, {
             method,
+            credentials: 'include',
             headers,
             ...(method !== 'GET' && { body: JSON.stringify(body) }),
         });

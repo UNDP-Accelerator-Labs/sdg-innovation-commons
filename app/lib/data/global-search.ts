@@ -1,18 +1,24 @@
 'use server';
 import { NLP_URL, page_limit, getAdditionalData, get_external_url } from '@/app/lib/utils';
+import { session_info } from '@/app/lib/session';
 import { Props } from './learn';
 import get from './get';
 
 export default async function search(_kwargs: Props) {
     const { page, limit, offset, search, language, country, doc_type } = _kwargs;
 
+    const token = await session_info()
+
     const body = {
+        token: token ?? '',
         input: search ?? '',
         page: page ?? 1,
         limit: limit ?? page_limit,
         offset: offset ?? 0,
         short_snippets: true,
         vecdb: 'main',
+        db: 'main',
+        order_by: 'date',
         filters: {
             language: language ? [language] : [],
             doc_type: doc_type && Array.isArray(doc_type) ? doc_type : ["solution", 'experiment', 'action plan', "blog", "publications", "news", "press release"],
@@ -22,7 +28,7 @@ export default async function search(_kwargs: Props) {
 
     // Fetch initial data from NLP_URL
     let data = await get({
-        url: `${NLP_URL}/search`,
+        url: `${NLP_URL}/${token ? 'query_embed' : 'search'}`,
         method: 'POST',
         body,
     });
