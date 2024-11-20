@@ -43,9 +43,9 @@ export default function Card({
     engagement,
 }: CardProps) {
 
-    const tagArray = Array.isArray(tags) ? tags : [tags];
-    const sdgArray = Array.isArray(sdg) ? sdg : [sdg];
-    const visibleTags = tagArray?.slice(0, 4);
+    const tagArray = tags ? (Array.isArray(tags) ? tags : [tags]) : '';
+    const sdgArray =  sdg ? (Array.isArray(sdg) ? sdg : [sdg]) : '';
+    const visibleTags = Array.isArray(tagArray) ? tagArray?.slice(0, 4) : [];
     const remainingTagsCount = tags.length - visibleTags.length;
 
     const likes: number = engagement?.find((d: any) => d.type === 'like')?.count ?? 0;
@@ -72,7 +72,7 @@ export default function Card({
                     <div className='chips-container absolute top-0 w-full'>
                         <div className='flex flex-row items-center justify-end flex-wrap pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
                             {/* SDG */}
-                            <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
+                            {Array.isArray(sdgArray) && sdgArray.length ? <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button> : '' }
                             {/* Country */}
                             {Array.isArray(country) ? 
                                 country.map((d: string, i: number) => (
@@ -99,7 +99,7 @@ export default function Card({
                         <div className='chips-container w-full'>
                             <div className='flex flex-row flex-wrap items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
                                 {/* SDG */}
-                                <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button>
+                                {Array.isArray(sdgArray) &&  sdgArray?.length ? <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button> : ''}
                                 {/* Country */}
                                 {Array.isArray(country) ? 
                                     country.map((d: string, i: number) => (

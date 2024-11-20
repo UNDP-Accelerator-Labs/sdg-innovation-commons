@@ -1,12 +1,11 @@
 "use client";
-import { useEffect, useState } from 'react';
-import { sess } from './navlink';
+import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
 import NavLink from "./navlink";
 import Link from 'next/link';
 
-export default function NavBar() {
+export default function NavBar({ session }: any) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Function to toggle the menu open/close state
@@ -15,16 +14,6 @@ export default function NavBar() {
   };
 
   const currPath = usePathname();
-  const [session, setSess] = useState<any>({});
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await sess();
-      setSess(data)
-    }
-
-    fetchData();
-  }, []);
 
   return (
     <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black">

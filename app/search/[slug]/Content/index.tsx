@@ -23,15 +23,20 @@ const Content: React.FC<ContentProps> = ({
 
     const windowParams = new URLSearchParams(useSearchParams());
     windowParams.set('page', '1');
-
+    const initialTab = windowParams.get("tab") || tabs[0];
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); 
 
     // Manage the active tab and data
-    const [docType, setDocType] = useState<string>(tabs[0]);
+    const [docType, setDocType] = useState<string>(initialTab);
 
     function handleTabUpdate (tab: string): void {
       setDocType(tab);
+    }
+
+    function tabUrl (tab:string){
+        windowParams.set('tab', tab);
+        return `/search/${slug}?${windowParams.toString()}`
     }
 
     // Fetch data on component mount
@@ -45,7 +50,7 @@ const Content: React.FC<ContentProps> = ({
             setLoading(false); 
         }
         fetchData();
-    }, []); 
+    }, [docType]); 
     // }, [slug, docType]); 
 
     return (
@@ -54,24 +59,13 @@ const Content: React.FC<ContentProps> = ({
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d, i) => {
-                        // return (
-                        // <div key={i}
-                        //     onClick={(e) => {
-                        //         e.preventDefault();
-                        //         handleTabUpdate(d);
-                        //     }}
-                        //     className={clsx('tab tab-line', docType === d ? '' : 'blue')}
-                        // >
-                        //     <b>{`${d}s`}</b>
-                        // </div>
-                        // )
 
                         let txt: string = '';
                         if (d === 'all') txt = 'all items';
                         else txt = d;
                         return (
-                            <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'yellow')}>
-                                <Link href={`/search/${d}?${windowParams.toString()}`}>
+                            <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'yellow')} onClick={()=>handleTabUpdate(d)} >
+                                <Link href={tabUrl(d)}>
                                     {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
                                 </Link>
                             </div>
@@ -89,7 +83,7 @@ const Content: React.FC<ContentProps> = ({
                             </>
                         ) : (
                             hits?.map((post: any) => {
-                            return !post?.vignette?.length ? (
+                            return post?.base == 'blog' ? (
                                 <Card
                                     key={post.doc_id}
                                     id={post.doc_id}
@@ -115,7 +109,7 @@ const Content: React.FC<ContentProps> = ({
                                     href={post?.url}
                                     viewCount={0}
                                     tags={post?.tags}
-                                    sdg={`SDG ${post?.sdg?.join('/')}`}
+                                    sdg={post?.sdg?.length ? `SDG ${post?.sdg?.join('/')}` : ''}
                                     backgroundImage={post?.vignette}
                                 />
                             );

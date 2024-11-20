@@ -25,7 +25,6 @@ export default function Section() {
             const data = await nlpApi(
                 { limit: 4, doc_type: ['blog', 'publications', 'news'], search: defaultSearch('learn') }
             );
-            console.log(data)
 
             setHits(data);
             setLoading(false); 

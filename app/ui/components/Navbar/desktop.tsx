@@ -1,28 +1,17 @@
 "use client";
 import Link from 'next/link';
 import clsx from 'clsx';
-import { navItems, sess } from './navlink';
+import { navItems } from './navlink';
 import { usePathname } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
-import { useEffect, useState  } from 'react';
 
-export default function DesktopNavBar() {
+export default function DesktopNavBar({ session } : any) {
   const currPath: string = usePathname();
   const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length).map((d: string) => decodeURI(d));
   const contentType = new Map()
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
 
-  const [session, setSess] = useState<any>({});
-
-  useEffect(() => {
-    async function fetchData() {
-      const data = await sess();
-      setSess(data)
-    }
-
-    fetchData();
-  }, []);
   
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
