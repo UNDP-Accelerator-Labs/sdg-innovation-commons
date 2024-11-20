@@ -1,12 +1,15 @@
 'use client';
+import clsx from 'clsx';
 import { useRef, useEffect } from 'react';
 
 interface Props {
     item: any;
+    className?: string;
 }
 
 export default function Txt({
     item,
+    className,
 }: Props) {
     const { instruction, txt } = item;
     const ref = useRef<HTMLDivElement>(null);
@@ -20,9 +23,9 @@ export default function Txt({
         return (
             <>
             {!instruction ? null : (
-                <p className='font-space-mono text-[14px] leading-[20px] mb-[10px]'><b>{instruction}</b></p>
+                <p className={clsx('font-space-mono text-[14px] leading-[20px] mb-[10px]', className)}><b>{instruction}</b></p>
             )}
-            <p ref={ref} className='mb-[40px]'>{txt}</p>
+            <p ref={ref} className={clsx('mb-[40px]', className)}>{txt}</p>
             </>
         )
     }

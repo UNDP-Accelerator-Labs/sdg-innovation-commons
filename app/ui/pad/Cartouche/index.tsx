@@ -1,50 +1,35 @@
 import clsx from 'clsx';
-import woldMap from '@/app/lib/data/world-map';
 import { sdgLabels } from '@/app/lib/utils';
 
 interface Props {
 	locations: any[];
 	sdgs: number[];
 	className: string;
-	platform: string;
-	datasources: string[];
-	methods: string[];
-	scaling: string[];
-	cost: string[];
+	datasources?: string[];
+	methods?: string[];
+	scaling?: string[];
+	cost?: string[];
+	mapFile?: string;
 }
 
 export default async function Cartouche({
 	locations,
 	sdgs,
 	className,
-	platform,
 	datasources,
 	methods,
 	scaling,
 	cost,
+	mapFile,
 }: Props) {
-	const mapLayers = locations.map((d: any) => {
-		return { ...d, ...{ type: 'point', color: '#d2f960', count: 1 } };
-	});
-	const { status, file: mapFile } = await woldMap({
-		platform,
-		projsize: 1440 / 3,
-		base_color: '#000',
-		layers: mapLayers,
-	});
-
 	return (
 		// <div className={clsx('cartouche border-[1px] border-solid self-start sticky top-[89px]', className)}>
 		<div className={clsx('cartouche border-[1px] border-solid self-start', className)}>
 			<div>
-				{status === 200 ? (
-					<img src={mapFile} className='w-full mt-[-20%] mb-[-30%]' />
-				) : (
-					<p>Failed to generate map</p>
-				)}
+				<img src={mapFile || ''} className='w-full mt-[-20%] mb-[-30%]' />
 			</div>
-			<div className='flex flex-row flex-wrap gap-1.5 border-y-[1px] border-solid p-[20px]'>
-				<p className='font-space-mono text-[14px] mb-0 basis-full'><b>Location(s)</b></p>
+			<div className='flex flex-row flex-wrap gap-1.5 border-b-[1px] border-solid pb-[20px] pl-[20px] pr-[20px] justify-center'>
+				{/*<p className='font-space-mono text-[14px] mb-0 basis-full'><b>Location(s)</b></p>*/}
 				{locations.map((d: any, i: number) => (
 					<button key={`chip-${i}`} className='chip bg-black text-white'>{d.country}</button>
 				))}
@@ -56,7 +41,7 @@ export default async function Cartouche({
 					<div className='flex flex-row gap-1.5 flex-wrap'>
 						{methods.map((d: string, i: number) => {
 							return (
-								<button key={i} className='text-[14px] leading-[20px] chip square bg-white !h-auto min-h-[30px] text-left normal-case py-[5px]'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
+								<button key={i} className='text-[14px] leading-[20px] chip border-[1px] border-solid bg-white !h-auto min-h-[30px] text-left normal-case py-[5px]'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
 							)
 						})}
 					</div>
@@ -69,7 +54,7 @@ export default async function Cartouche({
 					<div className='flex flex-row gap-1.5 flex-wrap'>
 						{datasources.map((d: string, i: number) => {
 							return (
-								<button key={i} className='text-[14px] leading-[20px] chip square bg-white !h-auto min-h-[30px] text-left normal-case py-[5px]'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
+								<button key={i} className='text-[14px] leading-[20px] chip border-[1px] border-solid bg-white !h-auto min-h-[30px] text-left normal-case py-[5px]'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
 							)
 						})}
 					</div>
@@ -82,7 +67,7 @@ export default async function Cartouche({
 					<div className='flex flex-row gap-1.5 flex-wrap'>
 						{scaling.map((d: string, i: number) => {
 							return (
-								<button key={i} className='text-[14px] leading-[20px] chip square bg-white !h-auto min-h-[30px] text-left normal-case py-[5px]'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
+								<button key={i} className='text-[14px] leading-[20px] chip border-[1px] border-solid bg-white !h-auto min-h-[30px] text-left normal-case py-[5px]'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
 							)
 						})}
 					</div>
@@ -95,7 +80,7 @@ export default async function Cartouche({
 					<div className='flex flex-row gap-1.5 flex-wrap'>
 						{cost.map((d: string, i: number) => {
 							return (
-								<button key={i} className='text-[14px] chip square bg-white !h-auto min-h-[30px] text-left normal-case py-[5px'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
+								<button key={i} className='text-[14px] chip border-[1px] border-solid bg-white !h-auto min-h-[30px] text-left normal-case py-[5px'>{`${d.slice(0, 1).toUpperCase()}${d.substring(1)}`}</button>
 							)
 						})}
 					</div>

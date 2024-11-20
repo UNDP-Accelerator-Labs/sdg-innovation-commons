@@ -18,7 +18,8 @@ export default function Section() {
             cardDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.',
             viewCount: 145,
             cardTags: ['SIDS'],
-            cardBackgroundImage: "images/Rectangle 68.png"
+            cardBackgroundImage: "images/Rectangle 68.png",
+            href: '/collections/circular-economy',
         },
         {
             id: 0,
@@ -29,7 +30,8 @@ export default function Section() {
             cardDescription: 'Focusing on the sustainability and development in mountain regions.',
             viewCount: 123,
             cardTags: ['Country'],
-            cardBackgroundImage: "images/Rectangle 68.png"
+            cardBackgroundImage: "images/Rectangle 68.png",
+            href: '/collections/food-systems',
         },
         {
             id: 0,
@@ -40,7 +42,8 @@ export default function Section() {
             cardDescription: 'Sustainable development practices for coastal communities.',
             viewCount: 98,
             cardTags: ['Coast'],
-            cardBackgroundImage: "images/Rectangle 68.png"
+            cardBackgroundImage: "images/Rectangle 68.png",
+            href: '/collections/digital-financial-inclusion',
         },
     ];
 
@@ -121,7 +124,7 @@ export default function Section() {
                                 <div className='flex justify-start items-center'>
                                     <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
                                     <p className='text-white font-space-mono my-0'>
-                                        <b>{`${currentSlide + 1} / ${slides.length}`}</b>
+                                        <b><span className='text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
                                     </p>
                                     <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
                                 </div>
@@ -134,11 +137,11 @@ export default function Section() {
                                 id={currentData.id}
                                 description={currentData.cardDescription}
                                 tags={currentData.cardTags}
-                                href={'/'}
+                                href={'collections/circular-economy'}
                                 viewCount={currentData.viewCount}
                                 backgroundImage={currentData.cardBackgroundImage}
                                 className={clsx("transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
-                                openInNewTab={true}
+                                openInNewTab={false}
                             />
                         </div>
                     </div>

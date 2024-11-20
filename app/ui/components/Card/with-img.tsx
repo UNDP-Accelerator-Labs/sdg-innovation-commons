@@ -75,8 +75,8 @@ export default function Card({
                             <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
                             {/* Country */}
                             {Array.isArray(country) ? 
-                                country.map((d: string) => (
-                                    <button type='button' className="chip bg-black text-white">{d}</button>
+                                country.map((d: string, i: number) => (
+                                    <button key={i} type='button' className="chip bg-black text-white">{d}</button>
                                 ))
                             : (
                                 <button type='button' className="chip bg-black text-white">{country}</button>
@@ -102,8 +102,8 @@ export default function Card({
                                 <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button>
                                 {/* Country */}
                                 {Array.isArray(country) ? 
-                                    country.map((d: string) => (
-                                        <button type='button' className="chip bg-black text-white">{d}</button>
+                                    country.map((d: string, i: number) => (
+                                        <button key={i} type='button' className="chip bg-black text-white">{d}</button>
                                     ))
                                 : (
                                     <button type='button' className="chip bg-black text-white">{country}</button>
@@ -121,10 +121,10 @@ export default function Card({
                 <div>
                     <div className="hidden lg:flex flex-row items-end justify-start flex-wrap content-end gap-1.5 text-center text-sm pb-[20px]">
                         {/* Render the first 4 tags */}
-                        {visibleTags?.map((tag: string, index: number) => (
+                        {visibleTags?.map((tag: string, i: number) => (
                             <button
                                 type='button'
-                                key={index}
+                                key={i}
                                 className={clsx('chip capitalize', tagStyleShade )}
                             >{tag}
                             </button>

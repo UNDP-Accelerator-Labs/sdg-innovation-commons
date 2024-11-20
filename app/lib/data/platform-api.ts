@@ -59,13 +59,17 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
     const url = `${base_url}/apis/fetch/${object}?${params.toString()}`;
+    
+    console.log('check url')
+    console.log(`${base_url}/apis/fetch/${object}?${params.toString()}`)
+
     const data = await get({
         url,
         method: 'GET',
     });
 
     // set urls for pads
-    if (object === 'pads') {
+    if (object === 'pads' && Array.isArray(data)) {
         data?.forEach((d: any) => {
             d.url = `${base_url}/en/view/pad?id=${d.pad_id}`;
             d.base = platform;
