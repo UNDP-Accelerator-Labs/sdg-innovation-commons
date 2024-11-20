@@ -104,13 +104,14 @@ export default function Section({
                             hits?.map((post: any) => (
                                 <Card
                                     key={post?.pinboard_id}
+                                    id={post?.pinboard_id}
                                     country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                     title={post?.title || ''}
                                     description={post?.description?.length > 200 ? `${post?.description.slice(0, 200)}…` : post?.description}
-                                    source={post?.base || 'Solution'}
+                                    source={post?.base || 'solution'}
                                     tagStyle="bg-light-green"
                                     tagStyleShade="bg-light-green-shade"
-                                    href={`/boards/${post?.pinboard_id}`}
+                                    href={`/boards/all/${post?.pinboard_id}`}
                                     backgroundImage={post?.vignette}
                                     date={post?.date}
 

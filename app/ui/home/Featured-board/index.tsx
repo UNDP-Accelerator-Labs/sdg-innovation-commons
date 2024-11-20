@@ -10,6 +10,7 @@ export default function Section() {
     // TO DO: LOAD SPECIFIC BOARDS
     const slides = [
         {
+            id: 0,
             backgroundImage: '/images/Rectangle 15.png',
             title: 'Featured Country Boards ',
             description: 'Small Islands Developing States',
@@ -20,6 +21,7 @@ export default function Section() {
             cardBackgroundImage: "images/Rectangle 68.png"
         },
         {
+            id: 0,
             backgroundImage: '/images/Rectangle 15-2.png',
             title: 'Featured Country Boards',
             description: 'Least Developed Countries',
@@ -30,6 +32,7 @@ export default function Section() {
             cardBackgroundImage: "images/Rectangle 68.png"
         },
         {
+            id: 0,
             backgroundImage: '/images/Rectangle 15-3.png',
             title: 'Coastal Communities',
             description: 'Addressing challenges faced by ecosystems.',
@@ -121,6 +124,7 @@ export default function Section() {
                         </div>
                         <div className='c-right'>
                             <Card
+                                id={currentData.id}
                                 title={currentData.cardTitle}
                                 description={currentData.cardDescription}
                                 tags={currentData.cardTags}

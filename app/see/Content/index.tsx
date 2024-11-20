@@ -45,7 +45,7 @@ export default function Section({
             console.log(searchParams)
 
             data = await platformApi(
-                { ...searchParams, ...{ limit: page_limit, include_locations: true } },
+                { ...searchParams, ...{ limit: page_limit } },
                 platform,
                 'pads'
             );
@@ -103,24 +103,39 @@ export default function Section({
                     {loading ? (
                         <ImgCardsSkeleton /> // Show Skeleton while loading
                     ) : (
-                        hits?.map((post: any) => (
-                            <Card
-                                key={post?.doc_id || post?.pad_id}
-                                link={`/see/${post?.doc_id || post?.pad_id}`}
-                                country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                title={post?.title || ''}
-                                description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                source={post?.base || 'Solution'}
-                                tagStyle="bg-light-green"
-                                tagStyleShade="bg-light-green-shade"
-                                href={post?.url}
-                                viewCount={0}
-                                tags={post?.tags}
-                                sdg={`SDG ${post?.sdg?.join('/')}`}
-                                backgroundImage={post?.vignette}
-                                date={post?.date}
-                            />
-                        ))
+                        hits?.map((post: any) => {
+                            let countries = post?.locations?.map((d: any) => d.country) || [];
+                            if (!countries.length) countries = [post?.country === 'NUL' || !post?.country ? 'Global' : post?.country];
+                            else {
+                                countries = countries.filter((value: string, index: number, array: string[]) => {
+                                  return array.indexOf(value) === index;
+                                })
+                                if (countries.length > 3) {
+                                    const n = countries.length;
+                                    countries = countries.slice(0, 3);
+                                    countries.push(`+${n - 3}`);
+                                }
+                            }
+                            return (
+                                <Card
+                                    key={post?.doc_id || post?.pad_id}
+                                    id={post?.doc_id || post?.pad_id}
+                                    country={countries}
+                                    title={post?.title || ''}
+                                    description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
+                                    source={post?.base || 'solution'}
+                                    tagStyle="bg-light-green"
+                                    tagStyleShade="bg-light-green-shade"
+                                    href={post?.url}
+                                    viewCount={0}
+                                    tags={post?.tags}
+                                    sdg={`SDG ${post?.sdg?.join('/')}`}
+                                    backgroundImage={post?.vignette}
+                                    date={post?.date}
+                                    engagement={post?.engagement}
+                                />
+                            )
+                        })
                     )}
                 </div>
             </div>

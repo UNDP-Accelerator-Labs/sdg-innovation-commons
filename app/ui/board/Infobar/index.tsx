@@ -1,22 +1,28 @@
-"use client";
-import { useState, useEffect } from 'react';
+'use client';
+import { useRef, useEffect } from 'react';
 
 interface heroProps {
 	description: string;
 	vignette: string;
 }
 
-export default function Hero({
+export default function Infobar({
 	description,
 	vignette
 }: heroProps) {
+  	const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (ref.current) ref.current.innerHTML = description ? description.replace(/\n+/g, '<br/>') : '';
+    }, [ref]);
+
   	return (
 	  	<>
 	  	<section className='home-section relative lg:py-[80px] overflow-hidden'>
 		    <div className='inner w-[1440px] mx-auto'>
 			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px]'>
 			        <div className='c-left lg:col-span-5'>
-		            	<p className='lead font-bold'>{description}</p>
+		            	<p ref={ref} className='lead font-bold'>{description}</p>
 			        </div>
 			    </div>
 			</div>

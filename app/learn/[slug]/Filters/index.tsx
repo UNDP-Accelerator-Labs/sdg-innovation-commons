@@ -23,7 +23,6 @@ export default function Filters({
 
 	if (!platform) platform = 'solution';
 	const filters = ['countries'];
-	// const platform = 'solution';
 	const space = 'published';
 	
 	const [hits, setHits] = useState<any[]>([]);

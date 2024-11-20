@@ -26,19 +26,21 @@ export interface Props {
   include_locations?: boolean;
   include_metafields?: boolean;
   include_source?: boolean;
-  include_engagment?: boolean;
+  include_engagement?: boolean;
   include_comments?: boolean;
   platform?: string;
   pseudonymize?: boolean;
 }
 
 export default async function platformApi(_kwargs: Props, platform: string, object: string) {
-    let { space, pinboard, include_tags } = _kwargs;
+    let { space, pinboard, include_tags, include_locations, include_engagement } = _kwargs;
     if (!platform) platform = 'solution';
     if (!object) object = 'pads';
     if (!space) _kwargs.space = 'published';
     if (pinboard) _kwargs.space = 'pinned';
     if (object === 'pads' && !include_tags) _kwargs.include_tags = true;
+    if (object === 'pads' && !include_locations) _kwargs.include_locations = true;
+    if (object === 'pads' && !include_engagement) _kwargs.include_engagement = true;
 
     const params = new URLSearchParams();
     params.set('output', 'json');
@@ -52,7 +54,7 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         } else {
             params.set(k, argV);
         }
-    } 
+    }
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
@@ -61,9 +63,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         url,
         method: 'GET',
     });
-
-    console.log('check url')
-    console.log(`${base_url}/apis/fetch/${object}?${params.toString()}`)
 
     // set urls for pads
     if (object === 'pads') {

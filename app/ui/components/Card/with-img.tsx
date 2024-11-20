@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { CardLink } from '@/app/ui/components/Link';
 import Link from 'next/link';
+import { Button } from '@/app/ui/components/Button';
 
 interface CardProps {
-    link?: string;
-    country: string;
+    id: number;
+    country: string | string[];
     title: string;
     description: string;
     tags?: string[];
@@ -20,10 +20,11 @@ interface CardProps {
     source?: string;
     openInNewTab?: boolean;
     date?: string;
+    engagement?: any[];
 }
 
 export default function Card({
-    link,
+    id,
     country,
     title,
     description,
@@ -38,13 +39,18 @@ export default function Card({
     className,
     source = '',
     openInNewTab = true,
-    date = ''
+    date = '',
+    engagement,
 }: CardProps) {
 
     const tagArray = Array.isArray(tags) ? tags : [tags];
     const sdgArray = Array.isArray(sdg) ? sdg : [sdg];
     const visibleTags = tagArray?.slice(0, 4);
     const remainingTagsCount = tags.length - visibleTags.length;
+
+    const likes: number = engagement?.find((d: any) => d.type === 'like')?.count ?? 0;
+    const dislikes: number = engagement?.find((d: any) => d.type === 'dislike')?.count ?? 0;
+    const comments: number = engagement?.find((d: any) => d.type === 'comment')?.count ?? 0;
 
     return (
         <div className={clsx('card w-full relative flex flex-col', className)}>
@@ -64,11 +70,17 @@ export default function Card({
                     </div>
                     {/* Chips */}
                     <div className='chips-container absolute top-0 w-full'>
-                        <div className='flex flex-row items-center justify-end pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
+                        <div className='flex flex-row items-center justify-end flex-wrap pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
                             {/* SDG */}
                             <button type='button' className="chip bg-white">{sdgArray.join(', ')}</button>
                             {/* Country */}
-                            <button type='button' className="chip bg-black text-white">{country}</button>
+                            {Array.isArray(country) ? 
+                                country.map((d: string) => (
+                                    <button type='button' className="chip bg-black text-white">{d}</button>
+                                ))
+                            : (
+                                <button type='button' className="chip bg-black text-white">{country}</button>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -85,16 +97,22 @@ export default function Card({
                 <div>
                     {!backgroundImage ? (
                         <div className='chips-container w-full'>
-                            <div className='flex flex-row items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
+                            <div className='flex flex-row flex-wrap items-center justify-end py-0 pl-0 gap-[10px] z-[2]'>
                                 {/* SDG */}
                                 <button type='button' className="chip bg-white border">{sdgArray.join(', ')}</button>
                                 {/* Country */}
-                                <button type='button' className="chip bg-black text-white">{country}</button>
+                                {Array.isArray(country) ? 
+                                    country.map((d: string) => (
+                                        <button type='button' className="chip bg-black text-white">{d}</button>
+                                    ))
+                                : (
+                                    <button type='button' className="chip bg-black text-white">{country}</button>
+                                )}
                             </div>
                         </div>
                     ) : null}
                     {/* Title */}
-                    <Link href={`${link}`}>
+                    <Link href={`/pads/${source}/${id}`}>
                         <h1>{title}</h1>
                     </Link>
                     {/* Description */}
@@ -122,16 +140,33 @@ export default function Card({
 
                     {/* Footer */}
                     <div className="self-stretch flex flex-row items-center justify-between text-sm mb-[10px]">
-                        <div className="flex flex-row items-start justify-start gap-1">
-                            {/* View Count */}
-                            <img className="w-[20.2px] relative h-[17.3px]" alt="Views" src="/images/heart.svg" />
-                            <b className="w-[52px] relative leading-[18px] inline-block shrink-0">{viewCount}</b>
+                        <div className="flex flex-row items-start justify-start">
+                            <img className="w-[20px] relative" alt="Likes" src="/images/thumb-up.svg" />
+                            <p className="font-space-mono ml-[5px] mb-0"><b>{likes}</b></p>
                         </div>
+                        <div className="flex flex-row items-start justify-start">
+                            <img className="w-[20px] mt-[5px] relative" alt="Dislikes" src="/images/thumb-down.svg" />
+                            <p className="font-space-mono ml-[5px] mb-0"><b>{dislikes}</b></p>
+                        </div>
+                        <div className="flex flex-row items-start justify-start">
+                            <img className="w-[20px] mt-[5px] relative" alt="Comments" src="/images/comment.svg" />
+                            <p className="font-space-mono ml-[5px] mb-0"><b>{comments}</b></p>
+                        </div>
+                        <button className="w-[40px] h-[40px] border-solid border-black border-[1px] bg-[transparent]">
+                            <img className="w-[20px] mt-[5px] relative" alt="Download" src="/images/download.svg" />
+                        </button>
+
                         {/* Arrow */}
-                        <CardLink
+                        {/*<Link
                             href={href || '/'}
                             openInNewTab={openInNewTab}
-                        />
+                            className='detach'
+                        >
+                            Add to Board
+                        </Link>*/}
+                        <Button type='button' className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+                            Add to Board
+                        </Button>
                     </div>
                 </div>
             </div>

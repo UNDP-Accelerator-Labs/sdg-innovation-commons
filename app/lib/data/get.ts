@@ -25,8 +25,8 @@ export default async function get({ url, method, body }: Props) {
             ...(method !== 'GET' && { body: JSON.stringify(body) }),
         });
 
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status} ${response.statusText}`);
+        if (!response?.ok) {
+            throw new Error(`Error: ${response?.status} ${response?.statusText}`);
         }
         const data = await response.json();
         return data;

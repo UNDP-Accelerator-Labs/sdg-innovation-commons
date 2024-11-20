@@ -22,6 +22,8 @@ const config: Config = {
         "light-yellow": "#FFD96F",
         "light-yellow-shade": "#FFEAAD",
         "undp-blue": "#0368b1",
+        "light-gray": "rgb(75,85,99)",
+        "light-gray-shade": "rgb(156,163,175)",
         "component-colors-utility-gray-utility-gray-50": "#f9fafb",
         "component-colors-utility-gray-utility-gray-200": "#e4e7ec",
         "component-colors-utility-gray-utility-gray-700": "#344054",

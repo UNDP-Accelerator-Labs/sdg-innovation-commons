@@ -130,6 +130,7 @@ export default function Section({
                                 return (
                                     <Card
                                         key={post.doc_id}
+                                        id={post.doc_id}
                                         // country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
                                         country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         date={formatDate(post?.meta?.date) || ''}

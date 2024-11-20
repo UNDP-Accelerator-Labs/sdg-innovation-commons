@@ -14,10 +14,10 @@ export default function DesktopMediaLinks({ className }: { className?: string })
                 src="/images/UNDP-Logo-White-Large.png"
               />
           </div>
-          <div className='col-span-4 col-start-9'>
+          {/*<div className='col-span-4 col-start-9'>
             <h2 className='mb-[20px]'>Sign up for our newsletter</h2>
             <p>The subscription service is currently unavailable. Please check again later.</p>
-          </div>
+          </div>*/}
         </div>
 
         <div className='w-full grid lg:grid-cols-12 gap-[20px] border-t-[1px] border-white border-solid pt-[40px] mb-[60px]'>

@@ -27,7 +27,12 @@ export default function Hero({
 }: Props) {
 	if (padtype === 'solution') padtype = 'solution note';
 	padtype = `${padtype.slice(0, 1).toUpperCase()}${padtype.substring(1)}`;
-	const labLink: string = `https://www.undp.org/acceleratorlabs/${lab?.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
+	let labLink: string = '';
+	if (lab) {
+		if (lab.includes('Global')) {
+			labLink = 'https://www.undp.org/acceleratorlabs/';
+		} else labLink = `https://www.undp.org/acceleratorlabs/${lab?.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
+	}
 
   	return (
   	<>

@@ -7,17 +7,19 @@ import Footer from '@/app/ui/components/Footer';
 interface Props {
   id: number;
   platform: string;
+  searchParams: any;
 }
 
 export default function Pad({ 
   id,
   platform,
+  searchParams,
 }: Props) {
   return (
     <>
       <Navbar />
       <Suspense fallback={<Skeleton />}>
-        <Content id={id} platform={platform} />
+        <Content id={id} platform={platform} searchParams={searchParams} />
       </Suspense>
       <Footer />
     </>
