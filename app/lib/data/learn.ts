@@ -24,7 +24,7 @@ export default async function learn(_kwargs: Props) {
     vecdb: "main",
     filters: {
       language: language ? [language] : [],
-      doc_type: doc_type && Array.isArray(doc_type) ? doc_type : ["blog", "publications", "news"],
+      doc_type: doc_type && Array.isArray(doc_type) ? doc_type : ["blog", "publications", "news", "press release"],
       iso3: country ? [country] : []
     }
   }
