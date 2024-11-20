@@ -10,11 +10,12 @@ export default async function Data({
 	boards,
 	searchParams,
 }: Props) {
-	const { data, count } = await platformApi(
+	let { data, count } = await platformApi(
 	    { ...searchParams, ...{ limit: page_limit, pinboard: boards } },
 	    'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
 	    'pinboards'
 	);
+	if (!data) data = [];
 	const pages = Math.ceil(count / page_limit);
 
 	return {
