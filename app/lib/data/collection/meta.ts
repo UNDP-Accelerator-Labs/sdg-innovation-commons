@@ -28,9 +28,10 @@ export default async function Data({
 	const tagsCount: number = tags.length ?? 0;
 	const topTags: any[] = tags.sort((a: any, b: any) => b.count - a.count).slice(0, 3);
 	const remainingTagsCount: number = tagsCount - topTags.length;
-	const sdgs: any[] = meta.find((d: any) => d.key === 'sdgs')?.data;
+	let sdgs: any[] = meta.find((d: any) => d.key === 'sdgs')?.data;
+	sdgs = sdgs.filter((d: any) => d.count > 0);
 	sdgs.forEach((d: any, i: number) => {
-		d.key = i;
+		d.key = i + 1;
 	});
 
 	const locations: any[] = meta.find((d: any) => d.key === 'countries')?.data || [];

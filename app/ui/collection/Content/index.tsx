@@ -47,7 +47,7 @@ export default async function Section({
             creator={creatorName}
             image={mainImage}
             tags={tags}
-            cards={data.sort((a: any, b: any) => b.total - a.total).slice(0, 3)}
+            cards={data?.sort((a: any, b: any) => b.total - a.total).slice(0, 3)}
         />
 
         <Infobar 
