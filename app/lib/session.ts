@@ -23,7 +23,7 @@ export default async function getSession() {
         url: `${base_url}/apis/fetch/session?s_id=${s_id}`,
         method: 'GET',
     });
-
+console.log('check session ', session)
     if (!session?.uuid) return null
 
     const token: string = await getToken({ uuid: session?.uuid, rights: session?.rights });

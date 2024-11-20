@@ -18,9 +18,6 @@ export default function Section() {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            // const data = await learnApi({ limit: 10, search: defaultSearch('learn') });
-            // const { hits: fetchedHits } = data || {};
-            // setHits(processHits(fetchedHits, displayN));
 
             const data = await nlpApi(
                 { limit: 4, doc_type: ['blog', 'publications', 'news'], search: defaultSearch('learn') }

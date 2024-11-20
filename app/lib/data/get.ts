@@ -10,7 +10,7 @@ export interface Props {
 export default async function get({ url, method, body }: Props) {
     try {
         const token = await session_info()
-
+        console.log('check token ', token)
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };

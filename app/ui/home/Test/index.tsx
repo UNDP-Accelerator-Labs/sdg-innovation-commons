@@ -26,12 +26,7 @@ export default function Section() {
     // Fetch data when the tab changes
     useEffect(() => {
         async function fetchData() {
-            setLoading(true); // Set loading to true when fetching starts
-            
-            // const data = await testApi({ limit: 5, search: defaultSearch('test'), doc_type: [activeTab] });
-            // const { hits: fetchedHits } = data || {};
-            // setHits(processHits(fetchedHits, 3));
-
+            setLoading(true); 
             let data: any[];
 
             if (activeTab !== 'all') {
@@ -47,11 +42,8 @@ export default function Section() {
                 );
             }
 
-
-            // const data = await platformApi({ limit: 3, page: 1, orderby: 'random' }, activeTab, 'pads');
             setHits(data);
-
-            setLoading(false); // Set loading to false when fetching ends
+            setLoading(false);
         }
 
         fetchData();
