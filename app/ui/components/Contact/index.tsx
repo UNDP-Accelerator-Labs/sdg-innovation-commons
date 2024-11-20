@@ -13,7 +13,7 @@ export default function Contact() {
             <section className='lg:home-section lg:px-0 lg:py-0 bg-[#EDFFA4]' id="contact" >
                 <div className='section-content grid grid-cols-9 gap-[20px]'>
                     <div className='c-left lg:col-span-4 lg:pl-[80px] lg:py-[100px]'>
-                        <div className='grid grid-cols-2 gap-[20px] lg:pb-[40px]'>
+                        <div className='grid grid-cols-2 gap-[20px] lg:pb-[20px]'>
                             <div>
                                 <h2 className='slanted-bg white lg:mt-[5px]'>
                                     <span>Contact us</span>
@@ -26,6 +26,10 @@ export default function Contact() {
                                 </p>
                             </div>
                         </div>
+
+                        <p className='text-base font-semibold'>
+                            If you would like to report a bug or a technical issue, please <a href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/issues/new/choose" target='_blank' className='text-light-blue'>click here.</a>
+                        </p>
 
                         {/* Display Success or Failure Message */}
                         {state.message && (
@@ -88,9 +92,32 @@ export default function Contact() {
                                 ))}
                             </div>
 
+                             {/* Dropdown Menu */}
+                             <div className="col-span-2">
+                                <select
+                                    name="reason"
+                                    className="w-full focus:outline-none focus:ring-0"
+                                    defaultValue=""
+                                    required
+                                >
+                                    <option value="" disabled>
+                                        Select a reason for contact
+                                    </option>
+                                    <option value="I would like to become a super user">I would like to become a super user.</option>
+                                    <option value="I'm trying to use it but I'm stuck, please help">I'm trying to use it but I'm stuck, please help.</option>
+                                    <option value="I have content to contribute">I have content to contribute.</option>
+                                    <option value="I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further">
+                                        I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further.
+                                    </option>
+                                    <option value="Other">Other</option>
+                                </select>
+                                {state.errors?.reason && state.errors.reason.map((error: string) => (
+                                    <p className="mt-1 text-sm text-red-500" key={error}>{error}</p>
+                                ))}
+                            </div>
+
                             <div className='col-span-2'>
                                 {/* Message Textarea and Error */}
-                                {/*<div className="relative h-[164px] focus-within:border-blue-500">*/}
                                 <textarea
                                     placeholder="Write Your Message..."
                                     name="message"

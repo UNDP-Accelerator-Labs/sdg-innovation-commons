@@ -16,8 +16,7 @@ export default async function getSession() {
         return null
     }
 
-    const base_url: string | undefined = process.env.NODE_ENV != 'production' ? LOCAL_BASE_URL
-        : commonsPlatform
+    const base_url: string | undefined =  commonsPlatform
             .find(p => p.key === 'login')?.url;
 
     const session = await get({

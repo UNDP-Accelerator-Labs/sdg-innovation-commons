@@ -28,6 +28,7 @@ const ContactSchema = z.object({
   surname: z.string().min(1, 'Please provide your surname.'),
   email: z.string().email('Please provide a valid email.'),
   org: z.string().min(1, 'Please provide your organization.'),
+  reason: z.string().min(1, 'Please select your reason for contact.'),
   message: z.string().min(1, 'Please provide your message.'),
   date: z.string().optional(), // Optional as it is automatically generated
 });
@@ -39,6 +40,7 @@ export type ContactState = {
     surname?: string[];
     email?: string[];
     org?: string[];
+    reason?: string[];
     message?: string[];
   };  
   success?: boolean;
@@ -57,6 +59,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
     surname: formData.get('surname'),
     email: formData.get('email'),
     org: formData.get('org'),
+    reason: formData.get('reason'),
     message: formData.get('message'),
   });
 
@@ -71,7 +74,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
   }
 
   // Prepare email data
-  const { name, surname, email, org, message } = validatedFields.data;
+  const { name, surname, email, org, reason, message } = validatedFields.data;
   const date = getCurrentDate();
 
   const mailOptions = {
@@ -82,6 +85,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
       Name: ${name} ${surname}
       Email: ${email}
       Organization: ${org}
+      Reason for Contact: ${reason}
       Message: ${message}
       Date: ${date}
     `,
