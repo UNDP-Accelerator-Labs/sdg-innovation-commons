@@ -31,6 +31,7 @@ br {
 
 input[type=text],
 input[type=email],
+select,
 textarea {
   background-color: #FFF;
   border: 1px solid #000;
