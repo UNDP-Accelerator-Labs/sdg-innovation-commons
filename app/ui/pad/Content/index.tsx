@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
 import renderComponents from '@/app/ui/components/MediaComponents';
 import platformApi from '@/app/lib/data/platform-api';
+import woldMap from '@/app/lib/data/world-map';
 import Hero from '../Hero';
 import Cartouche from '../Cartouche';
 
@@ -71,6 +72,16 @@ export default async function Section({
     else if (base === 'experiment') color = 'orange';
    
     const imgBase = vignette?.split('/uploads/')[0];
+
+    const mapLayers = locations.map((d: any) => {
+        return { ...d, ...{ type: 'point', color: '#d2f960', count: 1 } };
+    });
+    const { status, file: mapFile } = await woldMap({
+        platform,
+        projsize: 1440 / 3,
+        base_color: '#000',
+        layers: mapLayers,
+    });
     
     return (
         <>
@@ -93,7 +104,7 @@ export default async function Section({
                         sections.map((s: any, j: number) => {
                             const { title, items } = s;
                             return (
-                                <>
+                                <div key={j}>
                                 {!title ? null : (
                                     <h3>{title}</h3>
                                 )}
@@ -120,7 +131,7 @@ export default async function Section({
                                 {j < sections.length - 1 && (
                                     <div className='divider block w-full h-0 border-t-[1px] border-solid mb-[40px]'></div>
                                 )}
-                                </>
+                                </div>
                             )
                         })
                     }
@@ -129,11 +140,11 @@ export default async function Section({
                     locations={locations} 
                     sdgs={sdg} 
                     className='lg:col-start-7 lg:col-span-3'
-                    platform={platform}
                     datasources={datasources}
                     methods={methods}
                     scaling={scaling}
                     cost={cost}
+                    mapFile={mapFile}
                 />
                 {(typeof source !== 'object') ? null : (
                     <div className='lg:col-span-5'>

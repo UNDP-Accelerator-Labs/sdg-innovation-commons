@@ -1,7 +1,6 @@
-import platformApi from '@/app/lib/data/platform-api';
-import main from './main.ts';
-import meta from './meta.ts';
-import cards from './cards.ts';
+import main from './main';
+import meta from './meta';
+import cards from './cards';
 
 interface Props {
     id?: number;

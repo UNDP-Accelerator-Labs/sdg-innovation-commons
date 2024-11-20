@@ -69,7 +69,7 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     });
 
     // set urls for pads
-    if (object === 'pads') {
+    if (object === 'pads' && Array.isArray(data)) {
         data?.forEach((d: any) => {
             d.url = `${base_url}/en/view/pad?id=${d.pad_id}`;
             d.base = platform;

@@ -37,7 +37,6 @@ export default async function get({ url, method, body }: Props) {
                 }
             } else throw new Error(`Error: ${response?.status} ${response?.statusText}`);
         } else {
-            if (response.status === 204) return [];
             const data = await response.json();
             return data;
         }

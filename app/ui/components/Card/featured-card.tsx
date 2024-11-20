@@ -62,7 +62,7 @@ export default function Card({
                         <div className="flex flex-row items-end justify-start gap-1">
                             {/* View Count */}
                             <img className="w-[30px] relative" alt="Views" src="/images/board-cards.svg" />
-                            <p className="font-space-mono ml-[10px] mb-0"><b>{viewCount} Items</b></p>
+                            <p className="font-space-mono ml-[10px] mb-0"><b>{viewCount} Item{viewCount !== 1 ? 's' : null}</b></p>
                         </div>
                         {/* Arrow */}
                         <CardLink

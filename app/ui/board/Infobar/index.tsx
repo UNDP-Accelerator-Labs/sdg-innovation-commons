@@ -1,5 +1,5 @@
 interface Props {
-	description: any[];
+	description: string;
 	vignette: string;
 }
 

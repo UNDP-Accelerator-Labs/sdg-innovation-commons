@@ -25,8 +25,9 @@ export default async function Data({
 		platforms: platforms,
 		filters: ['thematic areas', 'countries'],
 	});
-	const tagsCount: number = meta.find((d: any) => d.key === 'thematic areas')?.data.length ?? 0;
-	const topTags: any[] = meta.find((d: any) => d.key === 'thematic areas')?.data.sort((a: any, b: any) => b.count - a.count).slice(0, 3);
+	const tags: any[] = meta.find((d: any) => d.key === 'thematic areas')?.data || [];
+	const tagsCount: number = tags.length ?? 0;
+	const topTags: any[] = tags.sort((a: any, b: any) => b.count - a.count).slice(0, 3) ;
 	const remainingTagsCount: number = tagsCount - topTags.length;
 
 	const locations: any[] = meta.find((d: any) => d.key === 'countries')?.data || [];

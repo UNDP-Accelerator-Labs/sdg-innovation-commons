@@ -4,7 +4,7 @@ import Card from '@/app/ui/components/Card/featured-card';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { Button } from '@/app/ui/components/Button';
 
-import Hero from '@/app/ui/board/Hero';
+import Hero from '../Hero';
 import Infobar from '../Infobar';
 // import Search from '../Search';
 // import Tabs from '../Tabs';
@@ -30,25 +30,30 @@ export default async function Section({
 
     const { 
         title, 
-        creatorName, 
+        creatorName,
+        mainImage,
         sections, 
         data, 
         pages,
+        tags,
+        sdgs,
+        locations,
     } = await collectionData({ id, searchParams });
-
 
     return (
         <>
         <Hero 
             title={title}
             creator={creatorName}
-            // lab={lab}
-            lab={{}}
-            includeMetadata={false}
+            image={mainImage}
+            tags={tags}
+            cards={data.sort((a: any, b: any) => b.total - a.total).slice(0, 3)}
         />
 
         <Infobar 
             sections={sections} 
+            sdgs={sdgs}
+            locations={locations}
             // vignette={vignette} 
         />
 
@@ -79,7 +84,20 @@ export default async function Section({
                         />
                     </div>*/}
                 </form>
-
+                {/* Display the section title and description */}
+                <div className='section-header lg:mb-[100px]'>
+                    <div className='c-left lg:col-span-5'>
+                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
+                            <span>Full List of Boards in this Collection</span>
+                        </h2>
+                    </div>
+                    {/*<div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                        <p className="lead">
+                            <b>Search through all the items that are part of this collection.</b>
+                        </p>
+                    </div>*/}
+                </div>
+                {/* Display the content */}
                 <div className='section-content'>
                     {/* Display Cards */}
                     <div className='grid gap-[20px] lg:grid-cols-3'>

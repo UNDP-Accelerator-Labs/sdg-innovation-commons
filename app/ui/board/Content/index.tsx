@@ -83,34 +83,36 @@ export default async function Section({
                         {
                             data?.flat()
                             .map((d: any) => {
-                                let color: string = 'green';
-                                let path: string = 'see';
-                                if (d?.base === 'action plan') {
-                                    color = 'yellow';
-                                    path = 'test';
-                                } else if (d?.base === 'experiment') {
-                                    color = 'orange';
-                                    path = 'test';
+                                if (d) {
+                                    let color: string = 'green';
+                                    let path: string = 'see';
+                                    if (d?.base === 'action plan') {
+                                        color = 'yellow';
+                                        path = 'test';
+                                    } else if (d?.base === 'experiment') {
+                                        color = 'orange';
+                                        path = 'test';
+                                    }
+                                    return (
+                                        <Card
+                                            key={d?.doc_id || d?.pad_id}
+                                            id={d?.doc_id || d?.pad_id}
+                                            country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
+                                            title={d?.title || ''}
+                                            description={d?.snippets?.length ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}` : d?.snippet}
+                                            source={d?.base || 'solution'}
+                                            tagStyle={`bg-light-${color}`}
+                                            tagStyleShade={`bg-light-${color}-shade`}
+                                            href={d?.url}
+                                            viewCount={0}
+                                            tags={d?.tags}
+                                            sdg={`SDG ${d?.sdg?.join('/')}`}
+                                            backgroundImage={d?.vignette}
+                                            date={d?.date}
+                                            engagement={d?.engagement}
+                                        />
+                                    )
                                 }
-                                return (
-                                    <Card
-                                        key={d?.doc_id || d?.pad_id}
-                                        id={d?.doc_id || d?.pad_id}
-                                        country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
-                                        title={d?.title || ''}
-                                        description={d?.snippets?.length ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}` : d?.snippet}
-                                        source={d?.base || 'solution'}
-                                        tagStyle={`bg-light-${color}`}
-                                        tagStyleShade={`bg-light-${color}-shade`}
-                                        href={d?.url}
-                                        viewCount={0}
-                                        tags={d?.tags}
-                                        sdg={`SDG ${d?.sdg?.join('/')}`}
-                                        backgroundImage={d?.vignette}
-                                        date={d?.date}
-                                        engagement={d?.engagement}
-                                    />
-                                )
                             })
                         }
                     </div>

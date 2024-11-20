@@ -6,43 +6,63 @@ import Link from 'next/link';
 import Card from '@/app/ui/components/Card/featured-card';
 import clsx from 'clsx';
 
+import { collection as collectionData } from '@/app/lib/data/collection/tempData';
+
 export default function Section() {
     // TO DO: LOAD SPECIFIC BOARDS
+    console.log(collectionData)
+
+    const slides = collectionData.map((d: any, i: number) => {
+        const { id, ...obj } = d;
+        obj.key = id;
+        obj.id = i;
+        obj.href = `/collections/${id}`;
+        obj.description = obj.sections[0].items[0].txt;
+        obj.cardBackgroundImage = 'images/Rectangle 68.png';
+        return obj
+    })
+    console.log(slides)
+
+    /*
     const slides = [
         {
             id: 0,
             backgroundImage: '/images/Rectangle 15.png',
             title: 'Featured Country Boards ',
-            description: 'Small Islands Developing States',
+            // description: 'Small Islands Developing States',
             cardTitle: 'Board Name Lorem',
             cardDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.',
             viewCount: 145,
             cardTags: ['SIDS'],
-            cardBackgroundImage: "images/Rectangle 68.png"
+            cardBackgroundImage: "images/Rectangle 68.png",
+            href: '/collections/circular-economy',
         },
         {
             id: 0,
             backgroundImage: '/images/Rectangle 15-2.png',
             title: 'Featured Country Boards',
-            description: 'Least Developed Countries',
+            // description: 'Least Developed Countries',
             cardTitle: 'Vietnam Board',
             cardDescription: 'Focusing on the sustainability and development in mountain regions.',
             viewCount: 123,
             cardTags: ['Country'],
-            cardBackgroundImage: "images/Rectangle 68.png"
+            cardBackgroundImage: "images/Rectangle 68.png",
+            href: '/collections/food-systems',
         },
         {
             id: 0,
             backgroundImage: '/images/Rectangle 15-3.png',
             title: 'Coastal Communities',
-            description: 'Addressing challenges faced by ecosystems.',
+            // description: 'Addressing challenges faced by ecosystems.',
             cardTitle: 'Coastal Board',
             cardDescription: 'Sustainable development practices for coastal communities.',
             viewCount: 98,
             cardTags: ['Coast'],
-            cardBackgroundImage: "images/Rectangle 68.png"
+            cardBackgroundImage: "images/Rectangle 68.png",
+            href: '/collections/digital-financial-inclusion',
         },
     ];
+    */
 
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
@@ -83,9 +103,9 @@ export default function Section() {
                         return (
                             <div key={i} 
                                 ref={elRefs.current[i]}
-                                className='silde relative snap-center w-full flex-none'
+                                className='silde relative snap-center w-full flex-none z-[-2]'
                             >
-                                <img src={d.backgroundImage} className='w-[100vw]' />
+                                <img src={d.mainImage} className='w-[100vw]' />
                             </div>
                         )
                     })}
@@ -125,13 +145,13 @@ export default function Section() {
                         <div className='c-right'>
                             <Card
                                 id={currentData.id}
-                                title={currentData.cardTitle}
-                                description={currentData.cardDescription}
-                                tags={currentData.cardTags}
-                                href={'/collections/circular-economy'}
-                                viewCount={currentData.viewCount}
+                                title={currentData.title}
+                                // description={currentData.description}
+                                description={''}
+                                tags={[]}
+                                href={currentData.href}
+                                viewCount={currentData.boards.length}
                                 backgroundImage={currentData.cardBackgroundImage}
-                                className={clsx("transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
                                 openInNewTab={false}
                             />
                         </div>
