@@ -38,6 +38,8 @@ export const sdgLabels = ['No poverty','Zero hunger','Good health and well-being
 
 export const NLP_URL = "https://nlpapi.sdg-innovation-commons.org/api";
 
+export const LOCAL_BASE_URL = 'http://localhost:3000'
+
 export async function getAdditionalData(results: any, base_url: string) {
   const ids = results?.hits.map((hit: any) => hit?.main_id.split(':')[1]);
   const url = `${base_url}/apis/fetch/pads?pads=${ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true`;
@@ -105,7 +107,7 @@ export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined
 }
 
 
-export async function get_externalDb(id : number){
+export async function get_external_url(id : number){
   if(id == 1) return commonsPlatform.filter(p=> p.key == 'action plan')[0]?.url;
   if(id == 2) return commonsPlatform.filter(p=> p.key == 'experiment')[0]?.url;;
   if(id == 4) return commonsPlatform.filter(p=> p.key == 'solution')[0]?.url;;

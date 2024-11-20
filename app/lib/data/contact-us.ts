@@ -1,7 +1,6 @@
 'use server';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
-import { redirect } from 'next/navigation';
 
 // Utility function to get the current date
 const getCurrentDate = () => new Date().toISOString().split('T')[0];
@@ -29,53 +28,64 @@ const ContactSchema = z.object({
   surname: z.string().min(1, 'Please provide your surname.'),
   email: z.string().email('Please provide a valid email.'),
   org: z.string().min(1, 'Please provide your organization.'),
+  reason: z.string().min(1, 'Please select your reason for contact.'),
   message: z.string().min(1, 'Please provide your message.'),
   date: z.string().optional(), // Optional as it is automatically generated
 });
 
 export type ContactState = {
+  isSubmitting?: boolean;
   errors?: {
     name?: string[];
     surname?: string[];
     email?: string[];
     org?: string[];
+    reason?: string[];
     message?: string[];
-  };
+  };  
+  success?: boolean;
   message?: string | null;
 };
 
 const CreateContact = ContactSchema.omit({ date: true });
 
-export async function createContact(prevState: ContactState, formData: FormData) {
+export async function createContact(prevState: ContactState, formData: FormData): Promise<ContactState> {
+
+  let newState: ContactState = { ...prevState, isSubmitting: true };
+
   // Validate form using Zod
   const validatedFields = CreateContact.safeParse({
     name: formData.get('name'),
     surname: formData.get('surname'),
     email: formData.get('email'),
     org: formData.get('org'),
+    reason: formData.get('reason'),
     message: formData.get('message'),
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
   if (!validatedFields.success) {
     return {
+      ...newState,
+      isSubmitting: false,
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing or invalid fields. Failed to submit message.',
     };
   }
 
   // Prepare email data
-  const { name, surname, email, org, message } = validatedFields.data;
+  const { name, surname, email, org, reason, message } = validatedFields.data;
   const date = getCurrentDate();
 
   const mailOptions = {
-    from: email,
+    from: `SDG Commons" <${SMTP_USER}>`,
     to: ADMIN_EMAILS,
     subject: `Contact form submission from ${name} ${surname}`,
     text: `
       Name: ${name} ${surname}
       Email: ${email}
       Organization: ${org}
+      Reason for Contact: ${reason}
       Message: ${message}
       Date: ${date}
     `,
@@ -83,11 +93,19 @@ export async function createContact(prevState: ContactState, formData: FormData)
 
   // Send contact form data to admin email
   try {
-    await transporter.sendMail(mailOptions);
-    redirect('/');
+    process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions) : null;
+    return {
+      ...newState,
+      isSubmitting: false,
+      success: true,
+      message: 'Thank you for your message. Our focal point will contact you soon.',
+    };
   } catch (error) {
     console.error('Error sending email:', error);
     return {
+      ...newState,
+      isSubmitting: false,
+      success: false,
       message: 'Error: Failed to send message.',
     };
   }

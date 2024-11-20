@@ -20,7 +20,7 @@ export default function Home() {
       <About />
       {/*<GetInspired />*/}
       <FeaturedBoard />
-      <How />
+      {/* <How /> */}
       <See />
       <Test />
       <Learn />

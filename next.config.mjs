@@ -2,6 +2,9 @@
 
 const nextConfig = {
 	poweredByHeader: false,
+	devIndicators: {
+		appIsrStatus: false,
+	},
 };
 
 export default nextConfig;
