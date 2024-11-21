@@ -60,18 +60,18 @@ export default async function Section({
             />
         )}
         
-        <section className='home-section lg:py-[80px]'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section md:py-[40px] lg:py-[80px]'>
+            <div className='inner mx-auto md:px-[40px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
-                <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 className='lg:mt-[5px]'>
+                <div className='section-header md:mb-[20px] lg:mb-[100px]'>
+                    <div className='c-left md:col-span-9 lg:col-span-5'>
+                        <h2 className='md:mb-[20px]'>
                             <span className='slanted-bg yellow'>
                                 <span>Full Board Overview</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                    <div className='c-right md:col-span-9 lg:col-span-4 lg:mt-[20px]'>
                         <p className="lead">
                             <b>Search through all the items that are part of this board.</b>
                         </p>
@@ -83,7 +83,7 @@ export default async function Section({
                 <Tabs id={id} tabs={tabs} platform={platform} />
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
                         {
                             data?.flat()
                             .map((d: any) => {

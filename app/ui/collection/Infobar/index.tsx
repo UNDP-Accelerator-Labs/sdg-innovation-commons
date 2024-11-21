@@ -14,10 +14,16 @@ export default function Infobar({
 }: Props) {
   	return (
 	  	<>
-	  	<section className='home-section relative lg:py-[80px] overflow-hidden'>
-		    <div className='inner w-[1440px] mx-auto'>
-			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px]'>
-			        <div className='c-left lg:col-span-5'>
+	  	<section className='home-section relative md:py-[40px] lg:py-[80px] overflow-hidden'>
+		    <div className='inner md:w-[744px] lg:w-[1440px] mx-auto'>
+		    	<Cartouche 
+		    	    locations={locations.values} 
+		    	    sdgs={sdgs.highlight} 
+		    	    className='lg:hidden col-span-9 bg-white grid grid-cols-2 mb-[40px]'
+		    	    mapFile={locations.map}
+		    	/>
+			    <div className='section-content grid grid-cols-9 gap-[20px] md:px-[40px] lg:px-[80px]'>
+			        <div className='c-left md:col-span-9 lg:col-span-5'>
 		            	{
 		            	    sections.map((s: any, j: number) => {
 		            	        const { title, items } = s;
@@ -54,7 +60,7 @@ export default function Infobar({
 			        <Cartouche 
 			            locations={locations.values} 
 			            sdgs={sdgs.highlight} 
-			            className='lg:col-start-7 lg:col-span-3 bg-white'
+			            className='hidden lg:block lg:col-start-7 lg:col-span-3 bg-white'
 			            mapFile={locations.map}
 			        />
 			    </div>

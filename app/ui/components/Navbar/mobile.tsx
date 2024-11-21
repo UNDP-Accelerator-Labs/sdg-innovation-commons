@@ -16,36 +16,34 @@ export default function NavBar({ session }: any) {
   const currPath = usePathname();
 
   return (
-    <div className="w-full relative bg-white border-black border-b-[1px] border-solid box-border overflow-hidden flex flex-col items-center justify-start text-left text-lg text-black">
-      <div className="self-stretch border-black border-b-[1px] border-solid flex flex-row items-center justify-between pt-10 px-5 pb-5 z-[1]">
-        <div className="flex flex-row items-start justify-start">
+    <div className='w-full relative bg-white py-[20px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid z-10'>
+      <div className='inner relative w-full mx-auto px-[40px] box-border flex flex-row items-center justify-between'>
           <img
-            className="w-[49.8px] relative h-[97.9px]"
-            alt=""
-            src="/images/undp-logo.svg"
+            className='w-[50px]'
+            alt='UNDP logo'
+            src='/images/undp-logo.svg'
           />
-        </div>
 
 
-        {/* Toggle between menu icons */}
-        <div
-          className="flex flex-col items-center justify-start p-[13px] cursor-pointer"
-          onClick={(e) => toggleMenu()}
-        >
-          <div className="flex flex-col items-center justify-start">
-            {/* Conditionally show the appropriate icon */}
-            <img
-              className="relative"
-              alt="menu toggle"
-              src={isMenuOpen ? "/images/menu-burger-close.png" : "/images/menu-burger-green.svg"}
-            />
+          {/* Toggle between menu icons */}
+          <div
+            className="flex flex-col items-center justify-start p-[13px] cursor-pointer"
+            onClick={(e) => toggleMenu()}
+          >
+            <div className="flex flex-col items-center justify-start">
+              {/* Conditionally show the appropriate icon */}
+              <img
+                className='relative'
+                alt='menu toggle'
+                src={isMenuOpen ? '/images/menu-burger-close.png' : '/images/menu-burger-green.svg'}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
       {/* Conditionally show the menu content */}
       {isMenuOpen && (
-        <div className="self-stretch flex flex-col items-start justify-start z-[2] grid-background">
+        <div className="self-stretch flex flex-col items-start justify-start z-[2]">
           <NavLink />
           <div className="self-stretch flex flex-col items-start justify-center py-10 px-8 gap-10 text-center text-[16px]">
             <img

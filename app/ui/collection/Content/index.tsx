@@ -59,10 +59,11 @@ export default async function Section({
             // vignette={vignette} 
         />
 
-        <section className='home-section lg:py-[80px] grid-bg'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section md:py-[40px] lg:py-[80px] grid-bg'>
+            <div className='inner mx-auto md:px-[40px] lg:px-[80px] md:w-[744px] lg:w-[1440px]'>
                 {/* SEARCH */}
-                <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
+                <form id='search-form' method='GET' className='section-header relative'>
+                {/*<form id='search-form' method='GET' className='section-header relative md:pb-[40px] lg:pb-[80px]'>*/}
                     {/*<div className='col-span-4 flex flex-row group items-stretch'>
                         <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                         <Button type='submit' className='border-l-0 grow-0'>
@@ -87,9 +88,9 @@ export default async function Section({
                     </div>*/}
                 </form>
                 {/* Display the section title and description */}
-                <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 className='lg:mt-[5px]'>
+                <div className='section-header md:mb-[20px] lg:mb-[100px]'>
+                    <div className='c-left md:col-span-9 lg:col-span-5'>
+                        <h2 className='md:mb-[20px]'>
                             <span className='slanted-bg yellow'>
                                 <span>Full List of Boards in this Collection</span>
                             </span>
@@ -104,7 +105,7 @@ export default async function Section({
                 {/* Display the content */}
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3 md:mb-[40px] lg:mb-[80px]'>
                         {
                             data?.map((post: any) => (
                                 <Card

@@ -60,15 +60,15 @@ export default function Hero({
 
     return (
         <>
-        <section className='relative lg:home-section lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
+        <section className='relative home-section md:py-[40px] lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
             
-            <div className='caroussel w-full min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
+            <div className='caroussel w-full lg:min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
                 <div className='slides flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border'>
-                    <img src={image} className='w-[100vw] z-[-2]' />
+                    <img src={image} className='lg:min-w-[100vw] md:block h-full z-[-2]' />
                 </div>
             </div>
 
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner lg:mx-auto md:px-[40px] lg:px-[80px] md:w-[744px] lg:w-[1440px]'>
                 <div className='section-content'>
                     <div className='grid gap-[20px] lg:grid-cols-3'>
                         <div className='c-left lg:col-span-2 flex flex-col'>

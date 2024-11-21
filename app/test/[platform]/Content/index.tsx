@@ -77,17 +77,17 @@ export default function Section({
 
     return (
         <>
-        <section className='lg:home-section lg:py-[80px]'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[80px]'>
+            <div className='inner mx-auto md:px-[40px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Search bar */}
-                <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
-                    <div className='col-span-4 flex flex-row group items-stretch'>
+                <form id='search-form' method='GET' className='section-header relative md:pb-[40px] lg:pb-[80px]'>
+                    <div className='md:col-span-9 lg:col-span-4 flex flex-row group items-stretch'>
                         <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                         <Button type='submit' className='border-l-0 grow-0'>
                             Search
                         </Button>
                     </div>
-                    <div className='lg:col-end-10'>
+                    <div className='md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1'>
                         <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
                             <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
                             {!filterVisibility ? (
@@ -113,7 +113,7 @@ export default function Section({
                         if (d === 'all') txt = 'all items';
                         else txt = d;
                         return (
-                            <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'orange')}>
+                            <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'yellow')}>
                                 <Link href={`/test/${d}?${windowParams.toString()}`}>
                                     {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
                                 </Link>
@@ -123,7 +123,7 @@ export default function Section({
                 </nav>
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
                         {loading ? (
                             <ImgCardsSkeleton /> // Show Skeleton while loading
                         ) : (
