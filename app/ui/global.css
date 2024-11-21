@@ -12,13 +12,13 @@ a {
   @apply no-underline text-black cursor-pointer ;
 }
 h1 {
-  @apply text-[40px] lg:text-[62px] leading-[50px] lg:leading-[69px] mb-[30px] font-bold;
+  @apply text-[40px] lg:text-[62px] leading-[50px] lg:leading-[69px] mb-[40px] font-bold;
 }
 h2 {
-  @apply text-[28px] lg:text-[36px] leading-[38px] lg:leading-[46px] mb-[30px] font-bold;
+  @apply text-[28px] lg:text-[36px] leading-[38px] lg:leading-[46px] mb-[40px] font-bold;
 }
 h3 {
-  @apply text-[21px] leading-[28px] lg:text-[22px] lg:leading-[30px] mb-[30px] font-bold;
+  @apply text-[21px] leading-[28px] lg:text-[22px] lg:leading-[30px] mb-[40px] font-bold;
 }
 p {
   @apply text-[18px] leading-[26px] lg:text-[16px] lg:leading-[26px] mt-0 mb-[20px]; 
@@ -334,6 +334,75 @@ textarea {
     background: linear-gradient(173.09deg, rgba(1,141,242,1),rgba(237,255,164,1));
     opacity: .5;
   }
+
+  .folder {
+    width: 100%;
+    position: relative;
+  }
+  .folder-label {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+/*    min-width: calc(50% - 40px);*/
+    max-width: calc(100% - 40px);
+    height: 40px;
+    background-color: #000;
+    padding: 8px 40px 0 20px;
+    z-index: 2;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 5px;
+    font-size: 14px;
+    font-family: Space mono, monospace;
+    font-weight: bold;
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    color: #FFF;
+  }
+  .folder-label span {
+    position: relative;
+    z-index: 10;
+  }
+  .folder-label::after {
+    content: '';
+    position: absolute;
+    bottom: calc(16px - 1px);
+    left: calc(100% - 20px);
+    width: 40px;
+    height: calc(40px - 16px + 1px);
+    transform: skew(45deg);
+    background-color: #000;
+    border-top-right-radius: 5px;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    box-sizing: border-box;
+  }
+  .folder-base {
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: calc(100% - 20px);
+    border-top: 1px solid #000;
+    border-left: 1px solid #000;
+    height: 16px;
+    background-color: #000;
+    box-sizing: border-box;
+    border-top-right-radius: 5px;
+  }
+  .folder-base::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: calc(100% - 8px);
+    width: 20px;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+    transform: skew(45deg);
+    height: 16px;
+    background-color: #000;
+    box-sizing: border-box;
+    border-top-right-radius: 5px;
+  }
 }
 
 @layer utilities {
@@ -347,13 +416,13 @@ textarea {
 
   .slanted-bg {
     position: relative;
-    display: inline-block;
+/*    display: inline-block;*/
   }
   .slanted-bg::before {
     content: '';
     position: absolute;
     left: -.05em;
-    top: .75em;
+    bottom: 0;
     width: 100%;
     height: 0.5em;
     background-color: #81C2F2;

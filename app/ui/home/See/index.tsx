@@ -29,8 +29,10 @@ export default function Section() {
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg green lg:mt-[5px]'>
-                            <span>What We See</span>
+                        <h2 className='lg:mt-[5px]'>
+                            <span className='slanted-bg green'>
+                                <span>What We See</span>
+                            </span>
                         </h2>
                     </div>
                     <div className='c-right lg:col-span-4 lg:mt-[20px]'>

@@ -15,7 +15,11 @@ export default function Hero() {
 		<div className='inner w-[1440px] mx-auto'>
 		    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:pt-[80px] lg:pb-[20px]'>
 		        <div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
-	            	<h1 className='slanted-bg yellow'><span>What we Learn</span></h1>
+	            	<h1>
+	            		<span className='slanted-bg yellow'>
+	            			<span>What we Learn</span>
+	            		</span>
+	            	</h1>
 	            	<p className='lead'>Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.</p>
 		        </div>
 		    </div>

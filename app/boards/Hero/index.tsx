@@ -3,49 +3,20 @@ import { useState, useRef, createRef, RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
-import Card from '@/app/ui/components/Card/featured-card';
+import Card from '@/app/ui/components/Card/collection-card';
 import clsx from 'clsx';
-// import Filters from '../Filters';
+import { collection as collectionData } from '@/app/lib/data/collection/tempData';
 
 export default function Section() {
-    const slides = [
-        {
-            id: 0,
-            backgroundImage: 'images/Rectangle 15.png',
-            title: 'Next best practices for the SDGs',
-            description: 'Small Islands Developing States',
-            cardTitle: 'Board Name Lorem',
-            cardDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.',
-            viewCount: 145,
-            cardTags: ['SIDS'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/circular-economy',
-        },
-        {
-            id: 0,
-            backgroundImage: 'images/Rectangle 15-2.png',
-            title: 'Featured Country Boards',
-            description: 'Least Developed Countries',
-            cardTitle: 'Vietnam Board',
-            cardDescription: 'Focusing on the sustainability and development in mountain regions.',
-            viewCount: 123,
-            cardTags: ['Country'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/food-systems',
-        },
-        {
-            id: 0,
-            backgroundImage: 'images/Rectangle 15-3.png',
-            title: 'Coastal Communities',
-            description: 'Addressing challenges faced by ecosystems.',
-            cardTitle: 'Coastal Board',
-            cardDescription: 'Sustainable development practices for coastal communities.',
-            viewCount: 98,
-            cardTags: ['Coast'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/digital-financial-inclusion',
-        },
-    ];
+    const slides = collectionData.map((d: any, i: number) => {
+        const { id, ...obj } = d;
+        obj.key = id;
+        obj.id = i;
+        obj.href = `/collections/${id}`;
+        obj.description = obj.sections[0].items[0].txt;
+        obj.cardBackgroundImage = '/images/Rectangle 68.png';
+        return obj
+    });
 
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
@@ -73,8 +44,8 @@ export default function Section() {
 
     const currentData = slides[currentSlide]; // Get the current slide data
 
-    const ref1 = useRef<HTMLDivElement>(null);
-    const isVisible1 = useIsVisible(ref1);
+    // const ref1 = useRef<HTMLDivElement>(null);
+    // const isVisible1 = useIsVisible(ref1);
 
     // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -92,7 +63,7 @@ export default function Section() {
                                 ref={elRefs.current[i]}
                                 className='silde relative snap-center w-full flex-none'
                             >
-                                <img src={d.backgroundImage} className='w-[100vw]' />
+                                <img src={d.mainImage} className='w-[100vw]' />
                             </div>
                         )
                     })}
@@ -101,17 +72,21 @@ export default function Section() {
 
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
-                <div className='section-content]'>
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                <div className='section-content'>
+                    <div className='grid gap-[20px] lg:grid-cols-3 items-center'>
                         <div className='c-left lg:col-span-2 flex flex-col'>
                             <div>
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
                                 </p>*/}
-                                <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
-                                    {/*<span>{currentData.description}</span>*/}
-                                    <span>Featured Thematic Collections</span>
-                                </h2>
+                                <h1 className='text-white'>
+                                    <span className='dark blue slanted-bg'>
+                                        <span>Featured Thematic Collections</span>
+                                    </span>
+                                </h1>
+                                <p className='lead text-white font-bold lg:mb-[160px]'>
+                                    Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
+                                </p>
                             </div>
                             {/*<div>
                                 <Button className='block mt-[10px]'>
@@ -131,16 +106,15 @@ export default function Section() {
                             </div>
                         </div>
 
-                        <div className='c-right'>
+                        <div className='c-right lg:col-start-3'>
                             <Card
-                                title={currentData.cardTitle}
                                 id={currentData.id}
-                                description={currentData.cardDescription}
-                                tags={currentData.cardTags}
-                                href={'collections/circular-economy'}
-                                viewCount={currentData.viewCount}
+                                title={currentData.title}
+                                description={''}
+                                tags={[]}
+                                href={currentData.href}
+                                viewCount={currentData.boards.length}
                                 backgroundImage={currentData.cardBackgroundImage}
-                                className={clsx("transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
                                 openInNewTab={false}
                             />
                         </div>

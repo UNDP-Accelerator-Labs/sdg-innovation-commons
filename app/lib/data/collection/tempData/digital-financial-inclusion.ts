@@ -1,17 +1,10 @@
 export const collection = {
 	id: 'digital-financial-inclusion',
 	title: 'Digital Financial Inclusion',
+	description: 'More than 1.4 billion people in the Global Majority do not have access to bank accounts. And yet, the demand for credit is massive—the credit gap for African small and medium-sized enterprises alone is US$330 billion. Financial inclusion creates access to useful and affordable financial products and services – transactions, payments, savings, credit and insurance. Technology is being used to deliver financial products and services more cheaply and to more people. But does this move us closer to a world without poverty?',
 	creatorName: 'Tayo Akinyemi',
 	mainImage: '/images/Rectangle 15.png',
 	sections: [
-		{
-			items: [
-				{
-					type: 'txt',
-					txt: 'More than 1.4 billion people in the Global Majority do not have access to bank accounts. And yet, the demand for credit is massive—the credit gap for African small and medium-sized enterprises alone is US$330 billion. Financial inclusion creates access to useful and affordable financial products and services – transactions, payments, savings, credit and insurance. Technology is being used to deliver financial products and services more cheaply and to more people. But does this move us closer to a world without poverty?',
-				}
-			]
-		},
 		{
 			title: 'R&D agenda',
 			items: [
