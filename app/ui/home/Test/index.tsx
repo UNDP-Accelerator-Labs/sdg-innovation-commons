@@ -111,10 +111,9 @@ export default function Section() {
                                     tags={post?.tags}
                                     sdg={`SDG ${post?.sdg?.join('/')}`}
                                     backgroundImage={post?.vignette}
-                                    className=''
                                     date={post?.date}
                                     engagement={post?.engagement}
-                                    className={i === 2 ? 'hidden lg:block' : ''}
+                                    className={clsx(i === 2 ? 'hidden lg:block' : '')}
                                 />
                             ))
                         )}
