@@ -1,11 +1,10 @@
 "use client";
-
+import clsx from 'clsx';
 import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
-import clsx from 'clsx';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { processHits } from '../Learn';
@@ -59,8 +58,10 @@ export default function Section() {
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 ref={ref} className={`orange lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
-                            <span>What We Test</span>
+                        <h2 ref={ref} className='lg:mt-[5px]'>
+                            <span className={clsx('orange', isVisible ? 'slanted-bg' : '')}>
+                                <span>What We Test</span>
+                            </span>
                         </h2>
                     </div>
                     <div className='c-right lg:col-span-4 lg:mt-[20px]'>

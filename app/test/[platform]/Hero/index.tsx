@@ -13,7 +13,11 @@ export default function Hero() {
 		    <div className='inner w-[1440px] mx-auto'>
 			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:pt-[80px]'>
 			        <div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
-		            	<h1 className='slanted-bg yellow'><span>What we Test</span></h1>
+		            	<h1>
+		            		<span className='slanted-bg yellow'>
+		            			<span>What we Test</span>
+		            		</span>
+		            	</h1>
 		            	<p className='lead'>Discover wicked development challenges we are curious about and the experiments conducted to learn what works and what doesn't in sustainable development.</p>
 			        </div>
 		    	</div>

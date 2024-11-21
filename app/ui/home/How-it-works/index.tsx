@@ -1,5 +1,5 @@
 'use client';
-
+import clsx from 'clsx';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { useRef } from 'react';
@@ -16,8 +16,10 @@ export default function Section() {
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 ref={ref} className={`yellow lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
-                            <span>How it Works</span>
+                        <h2 ref={ref} className=''>
+                            <span className={clsx('yellow', isVisible ? 'slanted-bg' : '')}>
+                                <span>How it Works</span>
+                            </span>
                         </h2>
                     </div>
                     <div className='c-right lg:col-span-4 lg:mt-[20px]'>

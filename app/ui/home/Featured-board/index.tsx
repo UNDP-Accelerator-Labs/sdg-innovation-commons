@@ -1,68 +1,24 @@
 'use client';
+import clsx from 'clsx';
 import { useState, useRef, createRef, RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/featured-card';
-import clsx from 'clsx';
-
 import { collection as collectionData } from '@/app/lib/data/collection/tempData';
 
 export default function Section() {
-    // TO DO: LOAD SPECIFIC BOARDS
-    console.log(collectionData)
-
+    // TO DO: FOR NOW, THE COLLECTIONS ARE STATICLY ENCODED IN THE DATA
+    // NEED TO BUILD A WAY TO MAKE THIS DYNAMIC
     const slides = collectionData.map((d: any, i: number) => {
         const { id, ...obj } = d;
         obj.key = id;
         obj.id = i;
         obj.href = `/collections/${id}`;
         obj.description = obj.sections[0].items[0].txt;
-        obj.cardBackgroundImage = 'images/Rectangle 68.png';
+        obj.cardBackgroundImage = '/images/Rectangle 68.png';
         return obj
-    })
-    console.log(slides)
-
-    /*
-    const slides = [
-        {
-            id: 0,
-            backgroundImage: '/images/Rectangle 15.png',
-            title: 'Featured Country Boards ',
-            // description: 'Small Islands Developing States',
-            cardTitle: 'Board Name Lorem',
-            cardDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.',
-            viewCount: 145,
-            cardTags: ['SIDS'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/circular-economy',
-        },
-        {
-            id: 0,
-            backgroundImage: '/images/Rectangle 15-2.png',
-            title: 'Featured Country Boards',
-            // description: 'Least Developed Countries',
-            cardTitle: 'Vietnam Board',
-            cardDescription: 'Focusing on the sustainability and development in mountain regions.',
-            viewCount: 123,
-            cardTags: ['Country'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/food-systems',
-        },
-        {
-            id: 0,
-            backgroundImage: '/images/Rectangle 15-3.png',
-            title: 'Coastal Communities',
-            // description: 'Addressing challenges faced by ecosystems.',
-            cardTitle: 'Coastal Board',
-            cardDescription: 'Sustainable development practices for coastal communities.',
-            viewCount: 98,
-            cardTags: ['Coast'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/digital-financial-inclusion',
-        },
-    ];
-    */
+    });
 
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
@@ -120,9 +76,10 @@ export default function Section() {
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
                                 </p>*/}
-                                <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
-                                    {/*<span>{currentData.description}</span>*/}
-                                    <span>Featured Thematic Collections</span>
+                                <h2 ref={ref1} className='lg:mt-[5px]'>
+                                    <span className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>
+                                        <span>Featured Thematic Collections</span>
+                                    </span>
                                 </h2>
                             </div>
                             <div>
@@ -146,7 +103,6 @@ export default function Section() {
                             <Card
                                 id={currentData.id}
                                 title={currentData.title}
-                                // description={currentData.description}
                                 description={''}
                                 tags={[]}
                                 href={currentData.href}

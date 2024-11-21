@@ -29,7 +29,8 @@ export default async function Section({
     // const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
     const { 
-        title, 
+        title,
+        description,
         creatorName,
         mainImage,
         sections, 
@@ -44,6 +45,7 @@ export default async function Section({
         <>
         <Hero 
             title={title}
+            description={description}
             creator={creatorName}
             image={mainImage}
             tags={tags}
@@ -57,7 +59,7 @@ export default async function Section({
             // vignette={vignette} 
         />
 
-        <section className='home-section lg:py-[80px]'>
+        <section className='home-section lg:py-[80px] grid-bg'>
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 {/* SEARCH */}
                 <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
@@ -87,8 +89,10 @@ export default async function Section({
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
-                            <span>Full List of Boards in this Collection</span>
+                        <h2 className='lg:mt-[5px]'>
+                            <span className='slanted-bg yellow'>
+                                <span>Full List of Boards in this Collection</span>
+                            </span>
                         </h2>
                     </div>
                     {/*<div className='c-right lg:col-span-4 lg:mt-[20px]'>

@@ -1,11 +1,10 @@
 'use client';
-
+import clsx from 'clsx';
 import { CardLink } from '@/app/ui/components/Link';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { useIsVisible } from '@/app/ui/components/Interaction';
-import clsx from 'clsx';
 
 export default function Section() {
     
@@ -19,8 +18,10 @@ export default function Section() {
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 ref={ref} className={`yellow lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
-                            <span>Get Inspired</span>
+                        <h2 ref={ref} className='lg:mt-[5px]'>
+                            <span className={clsx('yellow', isVisible ? 'slanted-bg' : '')}>
+                                <span>Get Inspired</span>
+                            </span>
                         </h2>
                     </div>
                     <div className='c-right lg:col-span-4 lg:mt-[20px]'>

@@ -15,8 +15,10 @@ export default function Contact() {
                     <div className='c-left lg:col-span-4 lg:pl-[80px] lg:py-[100px]'>
                         <div className='grid grid-cols-2 gap-[20px] lg:pb-[20px]'>
                             <div>
-                                <h2 className='slanted-bg white lg:mt-[5px]'>
-                                    <span>Contact us</span>
+                                <h2 className='lg:mt-[5px]'>
+                                    <span className='slanted-bg white'>
+                                        <span>Contact us</span>
+                                    </span>
                                 </h2>
                             </div>
                             {/* Description */}

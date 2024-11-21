@@ -32,7 +32,11 @@ export default async function Hero({
 			<div className='inner w-[1440px] mx-auto'>
 				<div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:pt-[80px]'>
 					<div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[20px]'>
-						<h1 className='slanted-bg yellow'><span>{title}</span></h1>
+						<h1>
+							<span className='slanted-bg yellow'>
+								<span>{title}</span>
+							</span>
+						</h1>
 						<p className='lead mb-[10px]'><b>Curated by {creator}</b></p>
 						{lab === undefined ? null : (
 							<a href={lab.link} target='_blank' rel='noopener noreferrer' className='underline'>{lab.name}</a>

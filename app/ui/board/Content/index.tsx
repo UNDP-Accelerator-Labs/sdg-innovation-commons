@@ -53,18 +53,22 @@ export default async function Section({
             tags={tags}
         />
 
-        <Infobar 
-            description={description} 
-            vignette={vignette} 
-        />
+        {description?.length && (
+            <Infobar 
+                description={description} 
+                vignette={vignette} 
+            />
+        )}
         
         <section className='home-section lg:py-[80px]'>
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
-                            <span>Full Board Overview</span>
+                        <h2 className='lg:mt-[5px]'>
+                            <span className='slanted-bg yellow'>
+                                <span>Full Board Overview</span>
+                            </span>
                         </h2>
                     </div>
                     <div className='c-right lg:col-span-4 lg:mt-[20px]'>
