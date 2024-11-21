@@ -1,7 +1,8 @@
 'use server';
-import { NLP_URL, commonsPlatform, polishTags } from '@/app/lib/utils';
+import { NLP_URL, commonsPlatform, page_limit } from '@/app/lib/utils';
 import get from './get';
 import platformApi from './platform-api';
+import { session_info } from '@/app/lib/session';
 
 export interface Props {
     page?: number | undefined;
@@ -22,6 +23,7 @@ export default async function nlpApi(_kwargs: Props) {
     if (!Array.isArray(iso3)) iso3 = [iso3].filter((d: string | undefined) => d);
     if (!Array.isArray(doc_type)) doc_type = [doc_type].filter((d: string | undefined) => d);
 
+    const token = await session_info();
     const body = {
         input: search ?? '',
         page_limit: page,
@@ -30,6 +32,8 @@ export default async function nlpApi(_kwargs: Props) {
         offset: (page - 1) * (limit ?? 0),
         short_snippets: true,
         vecdb: 'main',
+        db: 'main',
+        token: token ?? '',
         filters: {
             language,
             doc_type,
@@ -38,7 +42,7 @@ export default async function nlpApi(_kwargs: Props) {
     }
 
     let { hits, status } = await get({
-        url: `${NLP_URL}/search`,
+        url: `${NLP_URL}/${token ? 'query_embed' : 'search'}`,
         method: 'POST',
         body,
     }) || {};
@@ -50,6 +54,7 @@ export default async function nlpApi(_kwargs: Props) {
         }).filter((d: any) => {
             let platform = d;
             if (platform === 'actionplan') platform = 'action plan';
+            if (platform === 'blog') platform = 'insight';
             return commonsPlatform.some((c: any) => c.key === platform);
         });
 
@@ -57,10 +62,14 @@ export default async function nlpApi(_kwargs: Props) {
             const data = await Promise.all(bases.map(async (b: string) => {
                 const platformHits = hits.filter((d: any) => d.base === b);
                 const pads = platformHits.map((d: any) => d.doc_id);
+                if (b === 'blog') {
+                    return platformHits; 
+                }
 
                 let platform = b;
                 if (platform === 'actionplan') platform = 'action plan';
-                const platformData: any[] = await platformApi({ pads }, platform, 'pads');
+                
+                const platformData: any[] = await platformApi({ pads, limit: page_limit }, platform, 'pads');
 
                 if (search?.length) {
                     platformData?.forEach((d: any) => {

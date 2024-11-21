@@ -41,8 +41,8 @@ export default async function test(_kwargs: Props) {
   else if (!data?.status || data.status !== 'ok') {
     if (base_url) {
       const searchTxt = search && search != defaultSearch('test') ? `&search=${encodeURI(body.input)}` : null
-      const url = `${base_url}/apis/fetch/pads?output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true&page=${body.page}&page_limit=${body.page_limit}${searchTxt ? searchTxt : ''}`;
-      // TODO: Add pagination to platform API source code
+      const url = `${base_url}/apis/fetch/pads?output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true&page=${body.page}&limit=${body.page_limit}${searchTxt ? searchTxt : ''}`;
+
       const fetchedData = await get({
           url,
           method: 'GET',
@@ -58,7 +58,6 @@ export default async function test(_kwargs: Props) {
               sdg: extractSDGNumbers(p)
           })
           )
-              ?.slice(0, body.limit) //TODO: Remove this line after pagination at platform source code
       );
       if (flattenedFetchedData && flattenedFetchedData.length) {
           data = { hits: flattenedFetchedData };

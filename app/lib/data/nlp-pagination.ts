@@ -2,6 +2,7 @@
 
 import { NLP_URL } from '@/app/lib/utils';
 import get from './get';
+import { session_info } from '@/app/lib/session';
 
 export interface Props {
     language?: any;
@@ -16,9 +17,13 @@ export default async function statsApi(_kwargs: Props) {
     if (!Array.isArray(iso3)) iso3 = [iso3].filter((d: string | undefined) => d);
     if (!Array.isArray(doc_type)) doc_type = [doc_type].filter((d: string | undefined) => d);
 
+    const token = await session_info();
+
     const body = {
         fields: fields || [],
         vecdb: 'main',
+        db: 'main',
+        token: token ?? '',
         filters: {
             language,
             doc_type,
@@ -27,7 +32,7 @@ export default async function statsApi(_kwargs: Props) {
     }
 
     let { doc_count: hits } = await get({
-        url: `${NLP_URL}/stats`,
+        url: `${NLP_URL}/${token ? 'stat_embed' : 'stats'}`,
         method: 'POST',
         body,
     });

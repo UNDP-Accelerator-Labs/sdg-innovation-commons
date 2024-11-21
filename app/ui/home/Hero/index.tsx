@@ -11,7 +11,7 @@ export default function Hero() {
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault();
 		if (searchQuery) {
-			router.push(`/search/${encodeURIComponent(searchQuery)}`);
+			router.push(`/search/all?search=${encodeURIComponent(searchQuery)}`);
 		}
 	};
   return (

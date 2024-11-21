@@ -13,6 +13,7 @@ interface TokenPayload {
 export default async function getSession() {
     const s_id: string | null = await get_session_id()
     if (!s_id) {
+        (await cookies()).delete('_uuid_token')
         return null
     }
 
@@ -24,7 +25,10 @@ export default async function getSession() {
         method: 'GET',
     });
 
-    if (!session?.uuid) return null
+    if (!session?.uuid) {
+        (await cookies()).delete('_uuid_token')
+        return null
+    }
 
     const token: string = await getToken({ uuid: session?.uuid, rights: session?.rights });
     (await cookies()).set(
