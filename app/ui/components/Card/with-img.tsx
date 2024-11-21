@@ -152,7 +152,7 @@ export default function Card({
                             <img className="w-[20px] mt-[5px] relative" alt="Comments" src="/images/comment.svg" />
                             <p className="font-space-mono ml-[5px] mb-0"><b>{comments}</b></p>
                         </div>
-                        <button className="w-[40px] h-[40px] border-solid border-black border-[1px] bg-[transparent]">
+                        <button className="hidden lg:block w-[40px] h-[40px] border-solid border-black border-[1px] bg-[transparent]">
                             <img className="w-[20px] mt-[5px] relative" alt="Download" src="/images/download.svg" />
                         </button>
 
@@ -164,7 +164,7 @@ export default function Card({
                         >
                             Add to Board
                         </Link>*/}
-                        <Button type='button' className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+                        <Button type='button' className='hidden lg:block border-l-0 grow-0 !text-[14px] !h-[40px]'>
                             Add to Board
                         </Button>
                     </div>

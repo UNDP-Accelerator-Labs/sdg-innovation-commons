@@ -32,27 +32,27 @@ export default function Section() {
 
     return (
         <>
-        <section className='lg:home-section lg:py-[80px] grid-bg'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px] grid-bg'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 className='lg:mt-[5px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 className='mb-[20px]'>
                             <span className='slanted-bg yellow'>
                                 <span>What We Learn</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                    <div className='c-right col-span-9 lg:col-span-4 mb-[40px] lg:mb-0 lg:mt-[20px]'>
                         <p className="lead">
                             <b>Browse through our blogs, publications, and toolkits to learn what works and what doesn’t in sustainable development.</b>
                         </p>
                     </div>
                 </div>
-                <div className='section-content flex lg:flex-row'>
+                <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='w-full grid gap-[20px] lg:grid-cols-3'>
-                        <div className='grid gap-[20px] lg:grid-cols-2 lg:col-span-2 lg:col-start-2'>
+                    <div className='w-full grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
+                        <div className='grid md:grid-cols-2 col-span-2 lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
                             {loading ? (
                                 <>
                                     {new Array(displayN).fill(0).map((d, i) => (
@@ -60,7 +60,7 @@ export default function Section() {
                                     ))}
                                 </>
                             ) : (
-                                hits?.map((post: any) => (
+                                hits?.map((post: any, i: number) => (
                                     <Card
                                         id={post.doc_id}
                                         key={post.doc_id}
@@ -73,6 +73,7 @@ export default function Section() {
                                         tagStyle="bg-light-blue"
                                         href={post?.url}
                                         openInNewTab={true}
+                                        className={i >= 2 ? 'hidden lg:block' : ''}
                                     />
                                 ))
                             )}

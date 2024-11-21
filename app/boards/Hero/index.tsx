@@ -53,28 +53,28 @@ export default function Section() {
 
     return (
         <>
-        <section className='relative lg:home-section lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
-            
-            <div className='caroussel w-full min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
-                <div className='slides flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border'>
+        <section className='relative home-section pt-[120px] lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
+
+            <div className='caroussel w-full min-h-[100vh] h-full absolute ml-[calc((100% - 100vw) / 2)]'>
+                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border'>
                     {slides.map((d: any, i: number) => {
                         return (
                             <div key={i} 
                                 ref={elRefs.current[i]}
-                                className='silde relative snap-center w-full flex-none'
+                                className='silde relative snap-center w-full h-full flex-none'
                             >
-                                <img src={d.mainImage} className='w-[100vw]' />
+                                <img src={d.mainImage} className='h-full block lg:min-w-[100vw]' />
                             </div>
                         )
                     })}
                 </div>
             </div>
 
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
                 <div className='section-content'>
-                    <div className='grid gap-[20px] lg:grid-cols-3 items-center'>
-                        <div className='c-left lg:col-span-2 flex flex-col'>
+                    <div className='md:grid md:gap-[20px] md:grid-cols-3 lg:grid-cols-3 items-end md:mb-[40px]'>
+                        <div className='c-left col-span-3 lg:col-span-2 flex flex-col mb-[80px] lg:mb-0'>
                             <div>
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
@@ -95,7 +95,7 @@ export default function Section() {
                                     </Link>
                                 </Button>
                             </div>*/}
-                            <div className='mt-auto'>
+                            <div className='mt-auto hidden lg:block'>
                                 <div className='flex justify-start items-center'>
                                     <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
                                     <p className='text-white font-space-mono my-0'>
@@ -105,8 +105,16 @@ export default function Section() {
                                 </div>
                             </div>
                         </div>
-
-                        <div className='c-right lg:col-start-3'>
+                        <div className='c-left hidden md:block lg:hidden'>
+                            <div className='flex justify-start items-center'>
+                                <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
+                                <p className='text-white font-space-mono my-0'>
+                                    <b><span className='text-[24px] lg:text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
+                                </p>
+                                <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
+                            </div>
+                        </div>
+                        <div className='c-right col-span-2 lg:col-span-1 lg:col-start-3'>
                             <Card
                                 id={currentData.id}
                                 title={currentData.title}
@@ -117,6 +125,15 @@ export default function Section() {
                                 backgroundImage={currentData.cardBackgroundImage}
                                 openInNewTab={false}
                             />
+                        </div>
+                        <div className='c-left block md:hidden lg:hidden my-[40px]'>
+                            <div className='flex justify-start items-center'>
+                                <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
+                                <p className='text-white font-space-mono my-0'>
+                                    <b><span className='text-[24px] lg:text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
+                                </p>
+                                <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
+                            </div>
                         </div>
                     </div>
                 </div>

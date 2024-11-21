@@ -53,26 +53,26 @@ export default function Section() {
 
     return (
         <>
-        <section className='lg:home-section lg:py-[80px]'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px]'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 ref={ref} className='lg:mt-[5px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 ref={ref} className='mb-[20px]'>
                             <span className={clsx('orange', isVisible ? 'slanted-bg' : '')}>
                                 <span>What We Test</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
-                        <p className="lead">
+                    <div className='c-right col-span-9 lg:col-span-4 lg:mt-[20px] mb-[40px] lg:mb-0'>
+                        <p className='lead'>
                             <b>Discover wicked development challenges we are curious about and the experiments conducted to learn what works and what doesn't in sustainable development.</b>
                         </p>
                     </div>
                 </div>
                 <div className='section-content'>
                     {/* Display tabs */}
-                    <nav className='tabs'>
+                    <nav className='tabs items-end'>
                         {tabs.map((d, i) => {
                             let txt: string = '';
                             if (d === 'all') txt = 'all items';
@@ -92,11 +92,11 @@ export default function Section() {
                         })}
                     </nav>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
                         {loading ? (
                             <ImgCardsSkeleton /> // Show Skeleton when loading
                         ) : (
-                            hits?.map((post: any) => (
+                            hits?.map((post: any, i: number) => (
                                 <Card
                                     key={post?.doc_id || post?.pad_id }
                                     id={post.doc_id || post?.pad_id}
@@ -114,6 +114,7 @@ export default function Section() {
                                     className=''
                                     date={post?.date}
                                     engagement={post?.engagement}
+                                    className={i === 2 ? 'hidden lg:block' : ''}
                                 />
                             ))
                         )}

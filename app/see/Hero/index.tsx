@@ -10,12 +10,13 @@ export default function Hero({
 }: heroProps) {
   	return (
   	<>
-  		<section className='relative home-section !border-t-0 grid-bg lg:pb-[60px]'>
-  			<img className='w-[40%] absolute right-0 top-[90px]' alt="Branding illustration" src="/images/hands/see_top.svg" />
-  			<img className='w-[40%] absolute right-[5%] bottom-[-1px]' alt="Branding illustration" src="/images/hands/see_bottom.svg" />
-		    <div className='inner w-[1440px] mx-auto'>
-			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:pt-[80px]'>
-			        <div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
+  		<section className='relative home-section !border-t-0 grid-bg pt-[120px] lg:pt-0 lg:pb-[80px]'>
+  			<img className='w-[80%] lg:w-[40%] absolute right-0 top-[140px] md:top-[-30px] lg:top-[90px]' alt='Branding illustration' src='/images/hands/see_top.svg' />
+  			<img className='w-[80%] lg:w-[40%] absolute right-[15%] md:right-0 lg:right-[5%] bottom-[-1px]' alt="Branding illustration" src='/images/hands/see_bottom.svg' />
+		    
+		    <div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto'>
+			    <div className='section-content grid grid-cols-9 gap-[20px] px-[40px] lg:px-[80px] pt-[80px]'>
+			        <div className='c-left col-span-9 lg:col-span-5 mb-[80px] lg:mb-[40px] lg:mt-[80px]'>
 		            	<h1>
 		            		<span className='slanted-bg yellow'>
 		            			<span>What we See</span>

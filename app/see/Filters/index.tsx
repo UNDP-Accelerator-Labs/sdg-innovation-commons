@@ -47,7 +47,7 @@ export default function Filters({
 		<>
 			<section className={clsx('filters lg:pl-[-20px]', className)}>
 				<div className='inner'>
-					<div className={clsx('section-content grid gap-[20px]', filters.length < 3 ? `grid-cols-${filters.length}` : 'grid-cols-3')}>
+					<div className={clsx('section-content grid gap-[20px]', filters.length < 3 ? `lg:grid-cols-${filters.length}` : 'lg:grid-cols-3')}>
 						{filters.map((d, i) => {
 							const placeholder = `Search for ${d === 'sdgs' ? 'SDGs' : d}`;
 							let activeFilters: any[] = []
@@ -74,8 +74,8 @@ export default function Filters({
 						})}
 					</div>
 					<div className='section-footer text-right'>
-						<Link href='?' className='font-bold font-space-mono underline underline-offset-2 lg:mr-[20px]'>Clear All</Link>
-						<Button type='submit'>Apply filters</Button>
+						<Link href='?' className='font-bold font-space-mono underline underline-offset-2 md:mr-[20px] lg:mr-[20px]'>Clear All</Link>
+						<Button type='submit' className='mt-[20px] md:mt-0 lg:mt-0'>Apply filters</Button>
 					</div>
 				</div>
 			</section>

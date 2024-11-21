@@ -67,10 +67,10 @@ export default function Section({
 
     return (
         <>
-        <section className='home-section lg:py-[80px]'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[80px]'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* SEARCH */}
-                <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
+                <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
                     {/*<div className='col-span-4 flex flex-row group items-stretch'>
                         <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                         <Button type='submit' className='border-l-0 grow-0'>
@@ -97,7 +97,7 @@ export default function Section({
 
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
                         {loading ? (
                             <ImgCardsSkeleton /> // Show Skeleton while loading
                         ) : (
