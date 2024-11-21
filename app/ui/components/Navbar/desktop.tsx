@@ -50,14 +50,14 @@ export default function DesktopNavBar({ session } : any) {
             })}
 
             {/* Translate icon */}
-            <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" />
+            {/* <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" /> */}
           </div>
 
           {/* Login button */}
-          {session?.uuid ? <>
+          {session?.username ? <>
             <Link href={'/'} passHref className='no-underline text-black'>
                 <span className={clsx("relative leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5")}>
-                  Welcome {session?. username || ''}
+                  Welcome {session?.username || ''}
                 </span>
             </Link>
           </>

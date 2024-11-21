@@ -13,7 +13,7 @@ export default function Contact() {
             <section className='lg:home-section lg:px-0 lg:py-0 bg-[#EDFFA4]' id="contact" >
                 <div className='section-content grid grid-cols-9 gap-[20px]'>
                     <div className='c-left lg:col-span-4 lg:pl-[80px] lg:py-[100px]'>
-                        <div className='grid grid-cols-2 gap-[20px] lg:pb-[20px]'>
+                        <div className='grid grid-cols-2 gap-[20px] lg:pb-[10px]'>
                             <div>
                                 <h2 className='slanted-bg white lg:mt-[5px]'>
                                     <span>Contact us</span>
@@ -27,9 +27,9 @@ export default function Contact() {
                             </div>
                         </div>
 
-                        <p className='text-base font-semibold'>
-                            If you would like to report a bug or a technical issue, please <a href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/issues/new/choose" target='_blank' className='text-light-blue'>click here.</a>
-                        </p>
+                        <small className='block w-full mb-5 text-base'>
+                            If you would like to report a bug or a technical issue, or suggest a new feature please <a href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/issues/new/choose" target='_blank' className='text-light-blue'>click here.</a>
+                        </small>
 
                         {/* Display Success or Failure Message */}
                         {state.message && (

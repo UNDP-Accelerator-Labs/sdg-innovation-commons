@@ -39,13 +39,23 @@ export default function Section({
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [filterParams, setfilterParams ] = useState<any>(searchParams);
 
+  
     async function fetchData(): Promise<void> {
         setLoading(true);
 
         let data: any[];
 
-        if (!search && platform !== 'all') {
+        let updatedFilterParams = { ...filterParams }; 
+        if (updatedFilterParams?.page) delete updatedFilterParams['page'];
+        if (updatedFilterParams?.search) delete updatedFilterParams['search'];
+        const hasFilters = Object.values(updatedFilterParams)
+        ?.flat()
+        .filter(value => value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0))
+        ?.length > 0;
+
+        if (!hasFilters && !search && platform !== 'all') {
             const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, searchParams);
             setPages(totalPages);
             data = await platformApi(
@@ -114,7 +124,7 @@ export default function Section({
                             else txt = d;
                             return (
                                 <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'orange')}>
-                                    <Link href={`/test/${d}?${windowParams.toString()}`}>
+                                    <Link href={`/test/${d}?${windowParams.toString()}`} scroll={false} >
                                         {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
                                     </Link>
                                 </div>

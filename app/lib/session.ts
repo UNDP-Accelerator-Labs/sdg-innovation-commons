@@ -6,23 +6,32 @@ import { SignJWT, jwtVerify } from 'jose'
 import jwt from 'jsonwebtoken'
 
 interface TokenPayload {
-    uuid: string;
-    rights: number;
+    uuid?: string;
+    username?: string;
+    rights?: number;
 }
 
 export default async function getSession() {
     const s_id: string | null = await get_session_id()
     if (!s_id) {
         (await cookies()).delete('_uuid_token')
+        console.log('no session, return ')
         return null
     }
 
+    const currtoken = await session_info();
+    const currname: any = await session_name()
+    if(currname?.username && currtoken ) return console.log('valid session, return ')
+
     const base_url: string | undefined =  commonsPlatform
-            .find(p => p.key === 'login')?.url;
+            .find(p => p.key === 'solution')?.url;
 
     const session = await get({
         url: `${base_url}/apis/fetch/session?s_id=${s_id}`,
         method: 'GET',
+        cache: {
+            cache: 'force-cache',
+          }
     });
 
     if (!session?.uuid) {
@@ -31,9 +40,23 @@ export default async function getSession() {
     }
 
     const token: string = await getToken({ uuid: session?.uuid, rights: session?.rights });
+    const name: string = await getToken({ username: session?.username });
+
     (await cookies()).set(
         '_uuid_token',
         token,
+        {
+            httpOnly: true,
+            secure: true,
+            expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+            sameSite: 'lax',
+            path: '/',
+        }
+    );
+
+    (await cookies()).set(
+        '_uuid_platform',
+        name,
         {
             httpOnly: true,
             secure: true,
@@ -60,10 +83,16 @@ export const session_info = async () => {
     return token;
 }
 
+export const session_name = async () => {
+    const token: string|undefined = (await cookies()).get('_uuid_platform')?.value as string
+    const name = verifyToken(token)
+    return name;
+}
 
-export async function getToken({ uuid, rights }: TokenPayload) {
+
+export async function getToken({ uuid, rights, username }: TokenPayload) {
     const token = await jwt.sign(
-        { uuid, rights },
+        { uuid, rights, username },
         process.env.APP_SECRET as string,
         { audience: 'user:known', issuer: baseHost?.slice(1) }
     );
@@ -76,7 +105,6 @@ export async function encrypt(payload: any) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
-        .setExpirationTime('1d')
         .sign(encodedKey)
 }
 
