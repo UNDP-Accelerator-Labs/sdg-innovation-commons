@@ -14,7 +14,7 @@ export default function Button({
   href,
 }: Props) {
   return (
-  	<div className='md:px-[40px] lg:px-[80px] md:py-[20px] lg:py-[40px] md:mt-[-1px] relative flex flex-col justify-between border-black border-solid border-[1px] border-r-0'>
+  	<div className='px-[40px] py-[20px] lg:px-[80px] lg:py-[40px] mt-[-1px] relative flex flex-col justify-between border-black border-solid border-[1px] border-r-0'>
   		<div>
         <h3>
           <span className='slanted-bg blue'>

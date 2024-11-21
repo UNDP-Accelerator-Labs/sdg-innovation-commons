@@ -26,10 +26,10 @@ export default async function Hero({
 }: Props) {
 	return (
 	  	<>
-	  	<section className='relative home-section !border-t-0 grid-bg lg:pb-[80px]'>
-			<div className='inner md:w-[744px] lg:w-[1440px] mx-auto'>
-				<div className='section-content grid grid-cols-9 gap-[20px] md:px-[40px] lg:px-[80px] pt-[80px]'>
-					<div className='c-left md:col-span-9 lg:col-span-5 lg:mt-[80px] md:mb-[80px] lg:mb-[40px]'>
+	  	<section className='relative home-section !border-t-0 grid-bg pt-[80px] lg:pt-0 lg:pb-[80px]'>
+			<div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto'>
+				<div className='section-content grid grid-cols-9 gap-[20px] px-[40px] lg:px-[80px] pt-[80px]'>
+					<div className='c-left col-span-9 lg:col-span-5 lg:mt-[80px] mb-[80px] lg:mb-[40px]'>
 						<h1>
 							<span className='slanted-bg yellow'>
 								<span>{title}</span>
@@ -41,8 +41,8 @@ export default async function Hero({
 						)}
 						{includeMetadata && (
 							<>
-							<div className='lg:hidden c-right mb-[-320px]'>
-								<img src={locations.map} className='gradient-img w-[100%] top-[-120px] object-contain' />
+							<div className='lg:hidden c-right mb-[-150px] md:mb-[-320px]'>
+								<img src={locations.map} className='gradient-img w-[100%] top-[-40px] md:top-[-120px] object-contain' />
 							</div>
 							<div className='flex flex-wrap flex-row gap-1.5 mb-[40px] mt-[40px]'>
 								{tags.highlight.map((d: any, i: number) => (
@@ -53,11 +53,11 @@ export default async function Hero({
 								    <button className='chip bg-posted-yellow'>+{tags.diff}</button>
 								)}
 							</div>
-							<div className='stats-cartouche p-[20px] inline-block'>
-								<span className='mr-[40px]'><span className='number lg:mr-[5px]'>{padsCount}</span>Note{padsCount !== 1 ? 's' : null}</span>
-								<span className='mr-[40px]'><span className='number lg:mr-[5px]'>{locations.count}</span> Location{locations.count !== 1 ? 's' : null}</span>
-								<span className='mr-[40px]'><span className='number lg:mr-[5px]'>{tags.count}</span> Thematic area{tags.count !== 1 ? 's' : null}</span>
-								<span><span className='number lg:mr-[5px]'>{contributors}</span> Contributor{contributors !== 1 ? 's' : null}</span>
+							<div className='stats-cartouche flex flex-wrap justify-between p-[20px] md:inline-block lg:inline-block'>
+								<span className='mr-[40px]'><span className='number mr-[5px]'>{padsCount}</span>Note{padsCount !== 1 ? 's' : null}</span>
+								<span className='mr-[40px]'><span className='number mr-[5px]'>{locations.count}</span> Location{locations.count !== 1 ? 's' : null}</span>
+								<span className='mr-[40px]'><span className='number mr-[5px]'>{tags.count}</span> Thematic area{tags.count !== 1 ? 's' : null}</span>
+								<span><span className='number mr-[5px]'>{contributors}</span> Contributor{contributors !== 1 ? 's' : null}</span>
 							</div>
 							</>
 						)}

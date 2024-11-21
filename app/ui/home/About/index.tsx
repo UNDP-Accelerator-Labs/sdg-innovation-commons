@@ -1,16 +1,11 @@
-import Tablet from './tablet';
+import Mobile from './mobile';
 import Desktop from './desktop';
 
 export default function About() {
     return (
         <>
         {/* Mobile */}
-        {/*<div className="block lg:hidden">
-            <NavBar session={session} />
-        </div>*/}
-
-        {/* Tablet */}
-        <Tablet className='hidden md:block lg:hidden' />
+        <Mobile className='lg:hidden' />
 
         {/* Desktop */}
         <Desktop className='hidden lg:block' />

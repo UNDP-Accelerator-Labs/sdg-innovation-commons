@@ -12,7 +12,6 @@ export default function DesktopNavBar({ session } : any) {
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
 
-  
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
       <div className='inner relative w-[1440px] mx-auto px-[80px] box-border'>

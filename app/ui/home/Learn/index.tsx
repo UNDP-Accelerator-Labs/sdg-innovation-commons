@@ -32,18 +32,18 @@ export default function Section() {
 
     return (
         <>
-        <section className='home-section md:py-[40px] lg:py-[80px] grid-bg'>
-            <div className='inner mx-auto md:px-[40px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px] grid-bg'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left md:col-span-9 lg:col-span-5'>
-                        <h2 className='md:mb-[20px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 className='mb-[20px]'>
                             <span className='slanted-bg yellow'>
                                 <span>What We Learn</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right md:col-span-9 lg:col-span-4 md:mb-[20px] lg:mt-[20px]'>
+                    <div className='c-right col-span-9 lg:col-span-4 mb-[40px] lg:mb-0 lg:mt-[20px]'>
                         <p className="lead">
                             <b>Browse through our blogs, publications, and toolkits to learn what works and what doesn’t in sustainable development.</b>
                         </p>
@@ -52,7 +52,7 @@ export default function Section() {
                 <div className='section-content'>
                     {/* Display Cards */}
                     <div className='w-full grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
-                        <div className='md:grid md:grid-cols-2 md:col-span-2 lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
+                        <div className='grid md:grid-cols-2 col-span-2 lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
                             {loading ? (
                                 <>
                                     {new Array(displayN).fill(0).map((d, i) => (
@@ -73,7 +73,7 @@ export default function Section() {
                                         tagStyle="bg-light-blue"
                                         href={post?.url}
                                         openInNewTab={true}
-                                        className={i >= 2 ? 'md:hidden lg:block' : ''}
+                                        className={i >= 2 ? 'hidden lg:block' : ''}
                                     />
                                 ))
                             )}

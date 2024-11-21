@@ -143,7 +143,7 @@ textarea {
     text-transform: uppercase;
   }
   .chip {
-    height: 30px;
+    min-height: 30px;
     border-radius: 30px;
     padding: 0 20px;
     font-family: Space Mono, monospace;

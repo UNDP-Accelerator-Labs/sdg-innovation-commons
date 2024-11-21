@@ -97,8 +97,8 @@ export default async function Section({
             tagStyleShade={`bg-light-${color}-shade`}
             color={color === 'yellow' ? 'light-yellow' : color}
         />
-        <section className='home-section md:pb-[40px] lg:pb-[80px] md:pt-[80px] lg:pt-[120px]'>
-            <div className='inner mx-auto md:w-[744px] lg:hidden'>
+        <section className='home-section pb-[40px] lg:pb-[80px] pt-[80px] lg:pt-[120px]'>
+            <div className='inner mx-auto w-[375px] md:w-[744px] lg:hidden'>
                 <Cartouche 
                     locations={locations} 
                     sdgs={sdg} 
@@ -110,8 +110,8 @@ export default async function Section({
                     mapFile={mapFile}
                 />
             </div>
-            <div className='inner mx-auto md:px-[40px] lg:px-[80px] md:w-[744px] lg:w-[1440px] grid grid-cols-9 gap-[20px]'>
-                <div className='section-content md:col-span-9 lg:col-span-5'>
+            <div className='inner mx-auto px-[40px] lg:px-[80px] w-[375px] md:w-[744px] lg:w-[1440px] grid grid-cols-9 gap-[20px]'>
+                <div className='section-content col-span-9 lg:col-span-5'>
                     {
                         sections.map((s: any, j: number) => {
                             const { title, items } = s;
@@ -159,7 +159,7 @@ export default async function Section({
                     mapFile={mapFile}
                 />
                 {(typeof source !== 'object') ? null : (
-                    <div className='text-right md:col-span-9 lg:col-span-5'>
+                    <div className='text-right col-span-9 lg:col-span-5'>
                         <Button>
                             <Link href={source?.source_pad_id?.toString()}>Read more</Link>
                         </Button>

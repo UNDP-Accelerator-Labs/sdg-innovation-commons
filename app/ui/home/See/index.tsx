@@ -24,18 +24,18 @@ export default function Section() {
 
     return (
         <>
-        <section className='home-section md:py-[40px] lg:py-[80px]'>
-            <div className='inner mx-auto md:px-[40px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px]'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left md:col-span-9 lg:col-span-5'>
-                        <h2 className='md:mb-[20px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 className='mb-[20px]'>
                             <span className='slanted-bg green'>
                                 <span>What We See</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right md:col-span-9 lg:col-span-4 md:mb-[20px] lg:mt-[20px]'>
+                    <div className='c-right col-span-9 lg:col-span-4 mb-[40px] lg:mb-0 lg:mt-[20px]'>
                         <p className='lead'>
                             <b>Discover and learn existing Sustainable Development Solutions on the ground.</b>
                         </p>
@@ -77,7 +77,7 @@ export default function Section() {
                                         backgroundImage={post?.vignette}
                                         date={post?.date}
                                         engagement={post?.engagement}
-                                        className={i === 2 ? 'md:hidden lg:block' : ''}
+                                        className={i === 2 ? 'hidden lg:block' : ''}
                                     />
                                 )
                             })

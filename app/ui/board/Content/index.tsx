@@ -53,25 +53,25 @@ export default async function Section({
             tags={tags}
         />
 
-        {description?.length && (
+        {description?.length > 0 && (
             <Infobar 
                 description={description} 
                 vignette={vignette} 
             />
         )}
         
-        <section className='home-section md:py-[40px] lg:py-[80px]'>
-            <div className='inner mx-auto md:px-[40px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px]'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
-                <div className='section-header md:mb-[20px] lg:mb-[100px]'>
-                    <div className='c-left md:col-span-9 lg:col-span-5'>
-                        <h2 className='md:mb-[20px]'>
+                <div className='section-header mb-[20px] lg:mb-[100px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 className='mb-[20px]'>
                             <span className='slanted-bg yellow'>
                                 <span>Full Board Overview</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right md:col-span-9 lg:col-span-4 lg:mt-[20px]'>
+                    <div className='c-right col-span-9 lg:col-span-4 lg:mt-[20px]'>
                         <p className="lead">
                             <b>Search through all the items that are part of this board.</b>
                         </p>

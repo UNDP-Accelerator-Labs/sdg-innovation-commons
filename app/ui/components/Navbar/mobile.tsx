@@ -18,12 +18,13 @@ export default function NavBar({ session }: any) {
   return (
     <div className='w-full relative bg-white py-[20px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid z-10'>
       <div className='inner relative w-full mx-auto px-[40px] box-border flex flex-row items-center justify-between'>
-          <img
-            className='w-[50px]'
-            alt='UNDP logo'
-            src='/images/undp-logo.svg'
-          />
-
+          <Link href='/'>
+            <img
+              className='w-[50px]'
+              alt='UNDP logo'
+              src='/images/undp-logo.svg'
+            />
+          </Link>
 
           {/* Toggle between menu icons */}
           <div

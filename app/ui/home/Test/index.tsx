@@ -53,18 +53,18 @@ export default function Section() {
 
     return (
         <>
-        <section className='home-section md:py-[40px] lg:py-[80px]'>
-            <div className='inner mx-auto md:px-[40px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px]'>
+            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
-                    <div className='c-left md:col-span-9 lg:col-span-5'>
-                        <h2 ref={ref} className='md:mb-[20px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 ref={ref} className='mb-[20px]'>
                             <span className={clsx('orange', isVisible ? 'slanted-bg' : '')}>
                                 <span>What We Test</span>
                             </span>
                         </h2>
                     </div>
-                    <div className='c-right md:col-span-9 lg:col-span-4 lg:mt-[20px]'>
+                    <div className='c-right col-span-9 lg:col-span-4 lg:mt-[20px] mb-[40px] lg:mb-0'>
                         <p className='lead'>
                             <b>Discover wicked development challenges we are curious about and the experiments conducted to learn what works and what doesn't in sustainable development.</b>
                         </p>
@@ -72,7 +72,7 @@ export default function Section() {
                 </div>
                 <div className='section-content'>
                     {/* Display tabs */}
-                    <nav className='tabs'>
+                    <nav className='tabs items-end'>
                         {tabs.map((d, i) => {
                             let txt: string = '';
                             if (d === 'all') txt = 'all items';
@@ -114,7 +114,7 @@ export default function Section() {
                                     className=''
                                     date={post?.date}
                                     engagement={post?.engagement}
-                                    className={i === 2 ? 'md:hidden lg:block' : ''}
+                                    className={i === 2 ? 'hidden lg:block' : ''}
                                 />
                             ))
                         )}

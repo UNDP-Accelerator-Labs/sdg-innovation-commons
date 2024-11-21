@@ -41,7 +41,7 @@ export default function ResponsiveNavBar() {
   return (
     <>
       {/* Mobile Navbar: Display on small screens */}
-      <div className="block lg:hidden">
+      <div className={clsx('navbar lg:hidden z-[100] fixed w-[100%] top-0', cls)}>
         <NavBar session={session} />
       </div>
 
