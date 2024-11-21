@@ -51,8 +51,8 @@ export default function Hero({
 
     // const currentData = cards[currentSlide]; // Get the current slide data
 
-    const ref1 = useRef<HTMLDivElement>(null);
-    const isVisible1 = useIsVisible(ref1);
+    // const ref1 = useRef<HTMLDivElement>(null);
+    // const isVisible1 = useIsVisible(ref1);
 
     // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -69,12 +69,12 @@ export default function Hero({
             </div>
 
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
-                <div className='section-content]'>
+                <div className='section-content'>
                     <div className='grid gap-[20px] lg:grid-cols-3'>
                         <div className='c-left lg:col-span-2 flex flex-col'>
                             <div>
-                                <h1 ref={ref1} className='lg:mt-[5px] lg:mb-[40px]'>
-                                    <span className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>
+                                <h1>
+                                    <span className='dark blue slanted-bg'>
                                         <span>{title}</span>
                                     </span>
                                 </h1>

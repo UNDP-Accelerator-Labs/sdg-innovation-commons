@@ -4,7 +4,7 @@ import { useState, useRef, createRef, RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
-import Card from '@/app/ui/components/Card/featured-card';
+import Card from '@/app/ui/components/Card/collection-card';
 import { collection as collectionData } from '@/app/lib/data/collection/tempData';
 
 export default function Section() {
@@ -70,20 +70,23 @@ export default function Section() {
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
                 <div className='section-content'>
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] lg:grid-cols-3 items-center'>
                         <div className='c-left lg:col-span-2 flex flex-col'>
                             <div>
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
                                 </p>*/}
-                                <h2 ref={ref1} className='lg:mt-[5px]'>
+                                <h2 ref={ref1} className='lg:mt-[5px] lg:mb-[40px]'>
                                     <span className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>
                                         <span>Featured Thematic Collections</span>
                                     </span>
                                 </h2>
+                                <p className='lead text-white font-bold lg:mb-[40px]'>
+                                    Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
+                                </p>
                             </div>
                             <div>
-                                <Button className='block mt-[10px]'>
+                                <Button className='block lg:mb-[160px]'>
                                     <Link href={'/boards'}>
                                         All Boards
                                     </Link>

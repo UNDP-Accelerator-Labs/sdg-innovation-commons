@@ -12,13 +12,13 @@ a {
   @apply no-underline text-black cursor-pointer ;
 }
 h1 {
-  @apply text-[40px] lg:text-[62px] leading-[50px] lg:leading-[69px] mb-[30px] font-bold;
+  @apply text-[40px] lg:text-[62px] leading-[50px] lg:leading-[69px] mb-[40px] font-bold;
 }
 h2 {
-  @apply text-[28px] lg:text-[36px] leading-[38px] lg:leading-[46px] mb-[30px] font-bold;
+  @apply text-[28px] lg:text-[36px] leading-[38px] lg:leading-[46px] mb-[40px] font-bold;
 }
 h3 {
-  @apply text-[21px] leading-[28px] lg:text-[22px] lg:leading-[30px] mb-[30px] font-bold;
+  @apply text-[21px] leading-[28px] lg:text-[22px] lg:leading-[30px] mb-[40px] font-bold;
 }
 p {
   @apply text-[18px] leading-[26px] lg:text-[16px] lg:leading-[26px] mt-0 mb-[20px]; 

@@ -44,8 +44,8 @@ export default function Section() {
 
     const currentData = slides[currentSlide]; // Get the current slide data
 
-    const ref1 = useRef<HTMLDivElement>(null);
-    const isVisible1 = useIsVisible(ref1);
+    // const ref1 = useRef<HTMLDivElement>(null);
+    // const isVisible1 = useIsVisible(ref1);
 
     // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -72,18 +72,18 @@ export default function Section() {
 
             <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
-                <div className='section-content]'>
+                <div className='section-content'>
                     <div className='grid gap-[20px] lg:grid-cols-3 items-center'>
-                        <div className='c-left lg:col-span-1 flex flex-col'>
+                        <div className='c-left lg:col-span-2 flex flex-col'>
                             <div>
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
                                 </p>*/}
-                                <h2 ref={ref1} className='lg:mt-[5px] lg:mb-[40px]'>
-                                    <span className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>
+                                <h1 className='text-white'>
+                                    <span className='dark blue slanted-bg'>
                                         <span>Featured Thematic Collections</span>
                                     </span>
-                                </h2>
+                                </h1>
                                 <p className='lead text-white font-bold lg:mb-[160px]'>
                                     Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
                                 </p>
