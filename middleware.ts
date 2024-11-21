@@ -3,6 +3,7 @@ const cspLinks = [
   "'self'",
   '*.sdg-innovation-commons.org',
   'sdg-innovation-commons.org',
+  'https://www.undp.org',
   'https://fonts.googleapis.com',
   'https://fonts.gstatic.com',
   'https://acclabplatforms.blob.core.windows.net',
@@ -25,11 +26,21 @@ export async function middleware(request: NextRequest) {
       upgrade-insecure-requests;
     `.replace(/\s{2,}/g, " ").trim();
   
-    const response = NextResponse.next();
-    response.headers.set("x-nonce", nonce);
-    response.headers.set("Content-Security-Policy", cspHeader);
-    response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin, same-origin");
-    response.headers.set("Strict-Transport-Security", "max-age=123456");
+    const requestHeaders = new Headers(request.headers);
+    requestHeaders.set("x-nonce", nonce);
+
+    requestHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin, same-origin");
+    requestHeaders.set("Strict-Transport-Security", "max-age=123456");
+    requestHeaders.set(
+      "Content-Security-Policy",
+      cspHeader,
+    );
+
+    const response = NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    });
 
     return response;
   }

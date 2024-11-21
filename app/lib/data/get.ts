@@ -5,12 +5,12 @@ export interface Props {
     url: string;
     method: string;
     body?: Record<string, any>; 
+    cache?: Record<string, any>; 
 }
 
-export default async function get({ url, method, body }: Props) {
+export default async function get({ url, method, body, cache }: Props) {
     try {
         const token = await session_info()
-        console.log('check token ', token)
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
@@ -23,6 +23,7 @@ export default async function get({ url, method, body }: Props) {
             credentials: 'include',
             headers,
             ...(method !== 'GET' && { body: JSON.stringify(body) }),
+            ...(cache ? cache : '')
         });
 
         if (!response?.ok) {
