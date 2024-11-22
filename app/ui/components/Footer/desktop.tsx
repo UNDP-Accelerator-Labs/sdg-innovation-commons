@@ -56,11 +56,11 @@ export default function DesktopMediaLinks({ className }: { className?: string })
         </div>
         <div className='text-right col-span-3 col-start-10 flex flex-col justify-between'>
           <div>
-            <img
+            {/*<img
                 className="w-[50px] w-[45.6px] relative h-[50px] h-[45.6px]"
                 alt=""
                 src="/images/Group 244.svg"
-              />
+              />*/}
           </div>
           <div>
             <ul className='list-none m-0 p-0'>

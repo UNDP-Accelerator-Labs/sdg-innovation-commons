@@ -18,12 +18,16 @@ export default function DesktopNavBar({ session } : any) {
         {/* Logo */}
         <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] border-solid pb-[17.5px]'>
           <Link href='/'>
-            <img className='w-[50px] relative z-[0] m-auto' alt='UNDP logo' src="/images/undp-logo.svg" />
+            <img className='w-[50px] relative z-[0] m-auto' 
+              alt='UNDP logo' 
+              src='/images/undp-logo.svg'
+            />
           </Link>
         </div>
         {/* Navigation Links */}
-        <div className="flex flex-row items-center justify-end gap-[31px] z-[1]">
-          <div className="flex flex-row items-center justify-start gap-[26px]">
+        <div className='flex flex-row items-center justify-end gap-[31px] z-[1]'>
+          <p className='ml-[100px] mr-auto mb-0'>SDG Commons</p>
+          <div className='flex flex-row items-center justify-start gap-[26px]'>
             {/* Map over the navItems array */}
             {navItems.map((link, index) => {
               const currHref: string[] = link.href.split('/').filter((d: string) => d?.length);
@@ -37,7 +41,7 @@ export default function DesktopNavBar({ session } : any) {
               } else active = currHref[0] === currPathSplit[0]
               return (
                 <Link key={index} href={link.href} passHref className='no-underline text-black'>
-                  <span className={clsx("relative leading-[69px] text-[16px] cursor-pointer")}>
+                  <span className={clsx('relative leading-[69px] text-[16px] cursor-pointer')}>
                     {active ? (
                       <b>{link.title}</b>
                     ) : (

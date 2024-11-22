@@ -18,7 +18,7 @@ export default function Hero() {
 		        <div className='c-left col-span-9 lg:col-span-5 mb-[80px] lg:mb-[40px] lg:mt-[80px]'>
 	            	<h1>
 	            		<span className='slanted-bg yellow'>
-	            			<span>What we Learn</span>
+	            			<span>What We Learn</span>
 	            		</span>
 	            	</h1>
 	            	<p className='lead'>Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.</p>

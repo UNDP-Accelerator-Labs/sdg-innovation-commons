@@ -81,11 +81,11 @@ export default function Section() {
                                 </p>*/}
                                 <h1 className='text-white'>
                                     <span className='dark blue slanted-bg'>
-                                        <span>Featured Thematic Collections</span>
+                                        <span>Next practices for the SDGS</span>
                                     </span>
                                 </h1>
                                 <p className='lead text-white font-bold lg:mb-[160px]'>
-                                    Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
+                                    Discover curated thematic boards on frontier development challenges.
                                 </p>
                             </div>
                             {/*<div>

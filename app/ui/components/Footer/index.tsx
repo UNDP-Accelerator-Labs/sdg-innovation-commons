@@ -1,6 +1,7 @@
+'use client';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
-
+import { redirectToLogin } from '@/app/lib/auth';
 import Mobile from './mobile';
 import Desktop from './desktop';
 
@@ -22,13 +23,16 @@ export default function Footer() {
                   src='/images/UNDP_AccLabs_Partners_banner.png'
                 />
               </div>
-              <div className='col-span-9 lg:col-span-3 text-right'>
-                <p className='font-space-mono'>
+              <div className='col-span-9 lg:col-span-3 text-right self-center'>
+                {/*<p className='font-space-mono'>
                   <b>Signup for our Platform</b>
-                </p>
-                <Button>
+                </p>*/}
+                <Button onClick={(e) => {
+                  e.preventDefault()
+                  redirectToLogin(currPath)
+                }}>
                     <Link href={'/#contact'}>
-                        Join Platform
+                        Sign up
                     </Link>
                 </Button>
               </div>
@@ -37,9 +41,9 @@ export default function Footer() {
         </section>
         <section className='lg:home-section lg:py-[40px] bg-undp-blue'>
           {/* Mobile Buttons: Display on medium and larger screens */}
-          <Mobile className='lg:hidden' />
+          <Mobile className='xl:hidden' />
           {/* Desktop Buttons: Display on medium and larger screens */}
-          <Desktop className='hidden lg:block' />
+          <Desktop className='hidden xl:block' />
         </section>
       </>
     );

@@ -79,11 +79,11 @@ export default function Section({
                             <div>
                                 <h2 ref={ref1} className='mt-[5px] mb-[40px]'>
                                     <span className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>
-                                        <span>Featured Thematic Collections</span>
+                                        <span>Next Practices for the SDGs</span>
                                     </span>
                                 </h2>
                                 <p className='lead text-white font-bold mb-[40px]'>
-                                    Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
+                                    Discover curated thematic boards on frontier development challenges.
                                 </p>
                             </div>
                             <div>
