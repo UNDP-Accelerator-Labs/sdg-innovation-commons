@@ -57,7 +57,7 @@ export default function Section({
         }
 
         console.log(data)
-        console.log(Math.min(...data.map((d: any) => d.status)), Math.max(...data.map((d: any) => d.status)))
+        // console.log(Math.min(...data.map((d: any) => d.status)), Math.max(...data.map((d: any) => d.status)))
 
         setHits(data);
         setLoading(false);
