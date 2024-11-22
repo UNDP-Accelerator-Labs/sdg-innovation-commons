@@ -18,7 +18,7 @@ export interface PageStatsResponse {
     pages: number;
 }
 
-interface SectionProps {
+export interface SectionProps {
     searchParams: any;
     platform: string;
     tabs: string[];
@@ -39,32 +39,42 @@ export default function Section({
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [filterParams, setfilterParams ] = useState<any>(searchParams);
 
+  
     async function fetchData(): Promise<void> {
         setLoading(true);
-    
+
         let data: any[];
 
-        if (!search && platform !== 'all') {
+        let updatedFilterParams = { ...filterParams }; 
+        if (updatedFilterParams?.page) delete updatedFilterParams['page'];
+        if (updatedFilterParams?.search) delete updatedFilterParams['search'];
+        const hasFilters = Object.values(updatedFilterParams)
+        ?.flat()
+        .filter(value => value !== undefined && value !== null && value !== '' && !(Array.isArray(value) && value.length === 0))
+        ?.length > 0;
+
+        if (!hasFilters && !search && platform !== 'all') {
             const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, platform, searchParams);
             setPages(totalPages);
-
             data = await platformApi(
                 { ...searchParams, ...{ limit: page_limit, include_locations: true } },
                 platform,
                 'pads'
             );
         } else {
-            console.log('look for search term', search)
+            console.log('look for search term ', search)
             let doc_type: string[];
             if (platform === 'all') doc_type = tabs.slice(1);
             else doc_type = [platform];
             if (searchParams.countries) searchParams.iso3 = searchParams.countries;
 
             const { total, pages: totalPages }: PageStatsResponse = await pagestats(page, doc_type, 3);
+            setPages(totalPages);
 
             data = await nlpApi(
-                { ... searchParams, ...{ limit: page_limit, doc_type } }
+                { ...searchParams, ...{ limit: page_limit, doc_type } }
             );
         }
         setHits(data);
@@ -114,7 +124,7 @@ export default function Section({
                         else txt = d;
                         return (
                             <div key={i} className={clsx('tab tab-line', platform === d ? 'font-bold' : 'yellow')}>
-                                <Link href={`/test/${d}?${windowParams.toString()}`}>
+                                <Link href={`/test/${d}?${windowParams.toString()}`} scroll={false}>
                                     {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
                                 </Link>
                             </div>
@@ -154,7 +164,7 @@ export default function Section({
                     <div className='w-full flex justify-center col-start-2'>
                     {!loading ? (
                         <Pagination
-                            page={+page ?? 1}
+                            page={page}
                             totalPages={pages}
                         />
                     ) : (<small className='block w-full text-center'>Loading pagination</small>)

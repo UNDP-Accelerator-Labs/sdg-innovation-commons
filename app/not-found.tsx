@@ -1,19 +1,48 @@
 "use client";
 import Navbar from '@/app/ui/components/Navbar';
 import { useState } from 'react';
+import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/app/ui/components/Button';
+import Filters from '@/app/test/[platform]/Filters';
 
 export default function NotFound() {
     const [searchQuery, setSearchQuery] = useState('');
-	const router = useRouter();
+    const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+    const router = useRouter();
 
-	const handleSubmit = (event: React.FormEvent) => {
-		event.preventDefault();
-		if (searchQuery) {
-			router.replace(`/search/${encodeURIComponent(searchQuery)}`);
-		}
-	};
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        const formData = new FormData(event.target as HTMLFormElement);
+        const formValues: Record<string, any> = {};
 
+        for (const [key, value] of formData.entries()) {
+            if (formValues[key]) {
+                formValues[key] = Array.isArray(formValues[key])
+                    ? [...formValues[key], value]
+                    : [formValues[key], value];
+            } else {
+                formValues[key] = value;
+            }
+        }
+
+        if (formValues?.search || formValues?.countries?.length) {
+            const searchQuery = formValues.search ? `search=${encodeURIComponent(formValues.search)}` : '';
+            const countryQuery = formValues.countries
+                ? Array.isArray(formValues.countries)
+                    ? formValues.countries.map((country) => `countries=${encodeURIComponent(country)}`).join('&')
+                    : `countries=${encodeURIComponent(formValues.countries)}`
+                : '';
+
+            const queryString = [searchQuery, countryQuery].filter(Boolean).join('&');
+
+            router.replace(`/search/all?${queryString}`);
+        }
+
+    };
+
+
+    const tabs = ['all', 'solution',];
     return (
         <>
             <Navbar />
@@ -30,28 +59,36 @@ export default function NotFound() {
                         </div>
                         <img className="w-[721px] absolute !m-[0] top-[-208px] left-[-170.5px] rounded-101xl h-[729px] z-[1]" alt="" src="/images/Vector 36.svg" />
                         <div className="w-[682px] flex flex-col items-start justify-start z-[3] text-left text-base">
-                            <div className="w-[682px] flex flex-col items-start justify-end">
-                                <div className="self-stretch flex flex-col items-start justify-end">
-                                    <div className="self-stretch flex flex-row items-end justify-start gap-10">
-                                        <div className="">
-                                            <form method='GET' onSubmit={handleSubmit} className='w-[522px] flex flex-row items-end justify-start  group relative'>
-                                                <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow h-[60px]' id='main-search-bar' placeholder='What are you looking for?' />
-                                                <button className="h-[60px] font-bold font-space-mono text-[18px] px-[40px] border-l-0 grow-0 detach">
-                                                    <img className="absolute h-[33.8%] w-[33.33%] top-[26.03%] right-[28.47%] bottom-[40.17%] left-[38.19%] max-w-full overflow-hidden max-h-full" alt="" src="/images/search-sm.svg" />
-                                                </button>
-                                            </form>
-                                        </div>
-                                        {/* TODO: Make Filter and children a component and import here */}
-                                        <div className="flex flex-row items-end justify-center">
-                                            <div className="shadow-[0px_0px_0px_1px_rgba(16,_24,_40,_0.18)_inset,_0px_-2px_0px_rgba(16,_24,_40,_0.05)_inset,_0px_1px_2px_rgba(16,_24,_40,_0.05)] bg-white border-black border-[1px] border-solid box-border h-[60px] overflow-hidden flex flex-row items-center justify-center p-5 gap-2.5">
-                                                <img className="w-5 relative h-5 overflow-hidden shrink-0" alt="" src="/images/filter-lines.svg" />
-                                                <div className="flex flex-row items-center justify-center py-0 px-spacing-xxs">
-                                                    <div className="relative leading-[26px]">Filters</div>
-                                                </div>
-                                            </div>
-                                        </div>
+
+                            <div className='inner lg:mx-auto lg:w-[1440px]'>
+                                {/* Search bar */}
+                                <form id='search-form' method='GET' onSubmit={handleSubmit} className='section-header relative mb-[30px]'>
+                                    <div className='col-span-4 flex flex-row group items-stretch'>
+                                        <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='Looking for something?' />
+                                        <Button type='submit' className='border-l-0 grow-0'>
+                                            Search
+                                        </Button>
                                     </div>
-                                </div>
+
+                                    <div className=''>
+                                        <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
+                                            <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
+                                            {!filterVisibility ? (
+                                                'Filters'
+                                            ) : (
+                                                'Close'
+                                            )}
+                                        </button>
+                                    </div>
+                                    <div className='col-span-12 w-[50%]'>
+                                        <Filters
+                                            className={clsx(filterVisibility ? '' : 'hidden')}
+                                            searchParams={{ page: 1, search: searchQuery }}
+                                            platform={'all'}
+                                            tabs={tabs}
+                                        />
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

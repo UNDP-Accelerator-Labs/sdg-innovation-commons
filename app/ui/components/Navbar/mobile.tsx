@@ -47,12 +47,12 @@ export default function NavBar({ session }: any) {
         <div className="self-stretch flex flex-col items-start justify-start z-[2]">
           <NavLink />
           <div className="self-stretch flex flex-col items-start justify-center py-10 px-8 gap-10 text-center text-[16px]">
-            <img
+            {/* <img
               className="w-[40.7px] relative h-[37.2px] object-cover"
               alt=""
               src="/images/gtranslate.svg"
-            />
-            {session?.uuid ? <>
+            /> */}
+            {session?.username ? <>
               <Link href={'/'} passHref className='no-underline text-black'>
                 <span className="leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5">
                   Welcome {session?.username || ''}

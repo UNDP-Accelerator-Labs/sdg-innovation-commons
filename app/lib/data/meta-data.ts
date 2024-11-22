@@ -13,7 +13,7 @@ export default async function metaData(_kwargs: Props) {
 	if (!filters) filters = ['countries', 'thematic areas', 'sdgs'];
 	if (!platforms) platforms = ['solution'];
 	else if (!Array.isArray(platforms)) platforms = [platforms];
-	
+
 	if (!searchParams) searchParams = {};
 	const { page, ...filterParams } = searchParams;
 

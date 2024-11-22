@@ -65,8 +65,8 @@ export default function Section({
 
     return (
     <>
-    <section className='home-section py-[80px]'>
-        <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
+    <section className='home-section lg:py-[80px]'>
+        <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
             {/* SEARCH */}
             <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
                 <div className='col-span-9 lg:col-span-4 flex flex-row group items-stretch'>
@@ -139,7 +139,7 @@ export default function Section({
                 <div className='w-full flex justify-center col-start-2'>
                 {!loading ? (
                     <Pagination
-                        page={+page ?? 1}
+                        page={page }
                         totalPages={pages}
                     />
                 ) : (<small className='block w-full text-center'>Loading pagination</small>)

@@ -30,9 +30,9 @@ export default function Contact() {
                             </div>
                         </div>
 
-                        <p className='text-base font-semibold'>
-                            If you would like to report a bug or a technical issue, please <a href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/issues/new/choose" target='_blank' className='text-light-blue'>click here.</a>
-                        </p>
+                        <small className='block w-full mb-5 text-base'>
+                            If you would like to report a bug or a technical issue, or suggest a new feature please <a href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/issues/new/choose" target='_blank' className='text-light-blue'>click here.</a>
+                        </small>
 
                         {/* Display Success or Failure Message */}
                         {state.message && (
