@@ -74,8 +74,8 @@ jobs:
       - name: Wait for staging
         run: sleep 60
 
-      # - uses: azure/webapps-deploy@v2
-      #   with:
-      #     app-name: 'sdg-innovation-commons'
-      #     publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-      #     images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'acclabs'
+          publish-profile: ${{ secrets.AZURE_PROD_PUBLISH_PROFILE }}
+          images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
