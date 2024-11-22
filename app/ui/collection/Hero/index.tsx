@@ -64,7 +64,7 @@ export default function Hero({
             
             <div className='caroussel min-w-full h-full lg:min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
                 <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border'>
-                    <img src={image} className='lg:min-w-[100vw] block h-full z-[-2]' />
+                    <img src={image} className='lg:min-w-[100vw] block min-h-full z-[-2]' />
                 </div>
             </div>
 
@@ -89,40 +89,7 @@ export default function Hero({
                                     <button className='chip bg-light-blue'>+{tags.diff}</button>
                                 )}
                             </div>
-                            {/*<div className='stats-cartouche lg:p-[20px] inline-block'>
-                                <span className='lg:mr-[40px]'><span className='number lg:mr-[5px]'>{padsCount}</span>Note{padsCount !== 1 ? 's' : null}</span>
-                                <span className='lg:mr-[40px]'><span className='number lg:mr-[5px]'>{locations.count}</span> Location{locations.count !== 1 ? 's' : null}</span>
-                                <span className='lg:mr-[40px]'><span className='number lg:mr-[5px]'>{tags.count}</span> Thematic area{tags.count !== 1 ? 's' : null}</span>
-                                <span><span className='number lg:mr-[5px]'>{contributors}</span> Contributor{contributors !== 1 ? 's' : null}</span>
-                            </div>*/}
-                            {/*<div className='mt-auto'>
-                                <div className='flex justify-start items-center'>
-                                    <img className='cursor-pointer' alt='Arrow left' src='/images/Arrow-left.svg' onClick={handlePrevSlide} />
-                                    <p className='text-white font-space-mono my-0'>
-                                        <b><span className='text-[36px]'>0{currentSlide + 1}</span> / 0{cards.length}</b>
-                                    </p>
-                                    <img className='cursor-pointer' alt='Arrow right' src='/images/Arrow-right.svg' onClick={handleNextSlide} />
-                                </div>
-                            </div>*/}
                         </div>
-                        {/*<div className='c-right slides flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border p-[20px]'>
-                            {cards.map((d: any, i: number) => {
-                                return (
-                                    <div key={i} ref={elRefs.current[i]} className={clsx('shrink-0 silde relative snap-center w-full flex-none', i < cards.length - 1 && 'mr-[80px]')}>
-                                        <Card
-                                            title={d.title}
-                                            id={d.pinboard_id}
-                                            description={d.description}
-                                            // tags={currentData.cardTags}
-                                            href={`/boards/all/${d.pinboard_id}`}
-                                            viewCount={d.total}
-                                            // backgroundImage={currentData.cardBackgroundImage}
-                                            openInNewTab={false}
-                                        />
-                                    </div>
-                                )
-                            })}
-                        </div>*/}
                     </div>
                 </div>
             </div>

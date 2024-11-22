@@ -59,7 +59,8 @@ export default function Card({
             <div className='content flex flex-row justify-between items-center px-[20px] bg-white border-l-[1px] border-r-[1px] border-b-[1px] border-solid'>
 
                     {/* Title */}
-                    <h1>{title.length > 25 ? `${title.slice(0, 25)}…` : title}</h1>
+                    {/*<h1>{title.length > 25 ? `${title.slice(0, 25)}…` : title}</h1>*/}
+                    <h1>{title}</h1>
                     {/* Arrow */}
                     <CardLink
                         href={href || '/'}
