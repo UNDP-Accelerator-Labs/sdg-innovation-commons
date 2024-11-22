@@ -55,7 +55,7 @@ const Content: React.FC<ContentProps> = ({
 
     return (
         <>
-            <section className='lg:home-section lg:px-[80px] lg:pb-[100px] !border-none'>
+            <section className='lg:home-section px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:pb-[100px] !border-none'>
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d, i) => {

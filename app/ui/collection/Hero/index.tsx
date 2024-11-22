@@ -68,7 +68,7 @@ export default function Hero({
                 </div>
             </div>
 
-            <div className='inner lg:mx-auto px-[40px] lg:px-[80px] w-[375px] md:w-[744px] lg:w-[1440px]'>
+            <div className='inner lg:mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 <div className='section-content'>
                     <div className='grid gap-[20px] lg:grid-cols-3'>
                         <div className='c-left lg:col-span-2 flex flex-col'>

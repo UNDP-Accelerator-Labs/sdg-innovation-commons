@@ -164,7 +164,7 @@ export default function Card({
                         >
                             Add to Board
                         </Link>*/}
-                        <Button type='button' className='hidden lg:block border-l-0 grow-0 !text-[14px] !h-[40px]'>
+                        <Button type='button' className='hidden lg:block border-l-0 grow-0 !text-[14px] !h-[40px] lg:px-[20px]'>
                             Add to Board
                         </Button>
                     </div>

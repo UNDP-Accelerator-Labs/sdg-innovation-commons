@@ -54,7 +54,7 @@ export default function Section() {
     return (
         <>
         <section className='home-section py-[40px] lg:py-[80px]'>
-            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left col-span-9 lg:col-span-5'>

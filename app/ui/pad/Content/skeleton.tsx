@@ -8,7 +8,7 @@ export default function Section() {
         <>
         <Hero />
         <section className={clsx('home-section lg:pb-[80px] lg:pt-[120px]', shimmer)}>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px] grid lg:grid-cols-9 gap-[20px]'>
+            <div className='inner lg:mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:w-[1440px] grid lg:grid-cols-9 gap-[20px]'>
                 <div className='section-content lg:col-span-5'>
                     <div className='w-[33%] h-5 mb-[20px] bg-gray-400 rounded-md'></div>
                     

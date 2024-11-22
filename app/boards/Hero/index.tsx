@@ -70,7 +70,7 @@ export default function Section() {
                 </div>
             </div>
 
-            <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
                 <div className='section-content'>
                     <div className='md:grid md:gap-[20px] md:grid-cols-3 lg:grid-cols-3 items-end md:mb-[40px]'>
