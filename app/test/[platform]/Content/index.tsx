@@ -86,7 +86,7 @@ export default function Section({
         const baseUrl = await platformApi({ render: true, action: 'download' }, platform, 'pads', true);
         const params = new URLSearchParams();
         idz.forEach(id => params.append('pads', id.toString()));
-        const url = `${baseUrl}?${params.toString()}`;
+        const url = `${baseUrl}&${params.toString()}`;
         setHref(url)
 
         setHits(data);
