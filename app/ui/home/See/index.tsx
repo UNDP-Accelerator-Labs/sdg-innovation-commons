@@ -43,7 +43,7 @@ export default function Section() {
                 </div>
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 xl:grid-cols-3'>
                         {loading ? (
                             <ImgCardsSkeleton /> // Show Skeleton while loading
                         ) : (
@@ -77,7 +77,7 @@ export default function Section() {
                                         backgroundImage={post?.vignette}
                                         date={post?.date}
                                         engagement={post?.engagement}
-                                        className={i === 2 ? 'hidden lg:block' : ''}
+                                        className={i === 2 ? 'hidden xl:block' : ''}
                                     />
                                 )
                             })

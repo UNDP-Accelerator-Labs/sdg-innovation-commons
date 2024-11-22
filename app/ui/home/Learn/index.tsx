@@ -51,8 +51,8 @@ export default function Section() {
                 </div>
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='w-full grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
-                        <div className='grid md:grid-cols-2 col-span-2 lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
+                    <div className='w-full grid gap-[20px] md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-3'>
+                        <div className='grid md:grid-cols-2 col-span-2 lg:col-span-3 col-span-2 lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
                             {loading ? (
                                 <>
                                     {new Array(displayN).fill(0).map((d, i) => (
@@ -73,7 +73,7 @@ export default function Section() {
                                         tagStyle="bg-light-blue"
                                         href={post?.url}
                                         openInNewTab={true}
-                                        className={i >= 2 ? 'hidden lg:block' : ''}
+                                        className={i >= 2 ? 'hidden xl:block' : ''}
                                     />
                                 ))
                             )}
