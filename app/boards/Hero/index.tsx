@@ -3,49 +3,20 @@ import { useState, useRef, createRef, RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
-import Card from '@/app/ui/components/Card/featured-card';
+import Card from '@/app/ui/components/Card/collection-card';
 import clsx from 'clsx';
-// import Filters from '../Filters';
+import { collection as collectionData } from '@/app/lib/data/collection/tempData';
 
 export default function Section() {
-    const slides = [
-        {
-            id: 0,
-            backgroundImage: 'images/Rectangle 15.png',
-            title: 'Next best practices for the SDGs',
-            description: 'Small Islands Developing States',
-            cardTitle: 'Board Name Lorem',
-            cardDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.',
-            viewCount: 145,
-            cardTags: ['SIDS'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/circular-economy',
-        },
-        {
-            id: 0,
-            backgroundImage: 'images/Rectangle 15-2.png',
-            title: 'Featured Country Boards',
-            description: 'Least Developed Countries',
-            cardTitle: 'Vietnam Board',
-            cardDescription: 'Focusing on the sustainability and development in mountain regions.',
-            viewCount: 123,
-            cardTags: ['Country'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/food-systems',
-        },
-        {
-            id: 0,
-            backgroundImage: 'images/Rectangle 15-3.png',
-            title: 'Coastal Communities',
-            description: 'Addressing challenges faced by ecosystems.',
-            cardTitle: 'Coastal Board',
-            cardDescription: 'Sustainable development practices for coastal communities.',
-            viewCount: 98,
-            cardTags: ['Coast'],
-            cardBackgroundImage: "images/Rectangle 68.png",
-            href: '/collections/digital-financial-inclusion',
-        },
-    ];
+    const slides = collectionData.map((d: any, i: number) => {
+        const { id, ...obj } = d;
+        obj.key = id;
+        obj.id = i;
+        obj.href = `/collections/${id}`;
+        obj.description = obj.sections[0].items[0].txt;
+        obj.cardBackgroundImage = '/images/Rectangle 68.png';
+        return obj
+    });
 
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
@@ -73,8 +44,8 @@ export default function Section() {
 
     const currentData = slides[currentSlide]; // Get the current slide data
 
-    const ref1 = useRef<HTMLDivElement>(null);
-    const isVisible1 = useIsVisible(ref1);
+    // const ref1 = useRef<HTMLDivElement>(null);
+    // const isVisible1 = useIsVisible(ref1);
 
     // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -82,36 +53,40 @@ export default function Section() {
 
     return (
         <>
-        <section className='relative lg:home-section lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
-            
-            <div className='caroussel w-full min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
-                <div className='slides flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border'>
+        <section className='relative home-section pt-[120px] lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
+
+            <div className='caroussel w-full min-h-[100vh] h-full absolute ml-[calc((100% - 100vw) / 2)]'>
+                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border'>
                     {slides.map((d: any, i: number) => {
                         return (
                             <div key={i} 
                                 ref={elRefs.current[i]}
-                                className='silde relative snap-center w-full flex-none'
+                                className='silde relative snap-center w-full h-full flex-none'
                             >
-                                <img src={d.backgroundImage} className='w-[100vw]' />
+                                <img src={d.mainImage} className='h-full block lg:min-w-[100vw]' />
                             </div>
                         )
                     })}
                 </div>
             </div>
 
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
-                <div className='section-content]'>
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
-                        <div className='c-left lg:col-span-2 flex flex-col'>
+                <div className='section-content'>
+                    <div className='md:grid md:gap-[20px] md:grid-cols-3 lg:grid-cols-3 items-end md:mb-[40px]'>
+                        <div className='c-left col-span-3 lg:col-span-2 flex flex-col mb-[80px] lg:mb-0'>
                             <div>
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
                                 </p>*/}
-                                <h2 ref={ref1} className={`dark blue lg:mt-[5px] ${isVisible1 ? 'slanted-bg' : ''}`}>
-                                    {/*<span>{currentData.description}</span>*/}
-                                    <span>Featured Thematic Collections</span>
-                                </h2>
+                                <h1 className='text-white'>
+                                    <span className='dark blue slanted-bg'>
+                                        <span>Featured Thematic Collections</span>
+                                    </span>
+                                </h1>
+                                <p className='lead text-white font-bold lg:mb-[160px]'>
+                                    Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
+                                </p>
                             </div>
                             {/*<div>
                                 <Button className='block mt-[10px]'>
@@ -120,7 +95,7 @@ export default function Section() {
                                     </Link>
                                 </Button>
                             </div>*/}
-                            <div className='mt-auto'>
+                            <div className='mt-auto hidden lg:block'>
                                 <div className='flex justify-start items-center'>
                                     <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
                                     <p className='text-white font-space-mono my-0'>
@@ -130,19 +105,35 @@ export default function Section() {
                                 </div>
                             </div>
                         </div>
-
-                        <div className='c-right'>
+                        <div className='c-left hidden md:block lg:hidden'>
+                            <div className='flex justify-start items-center'>
+                                <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
+                                <p className='text-white font-space-mono my-0'>
+                                    <b><span className='text-[24px] lg:text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
+                                </p>
+                                <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
+                            </div>
+                        </div>
+                        <div className='c-right col-span-2 lg:col-span-1 lg:col-start-3'>
                             <Card
-                                title={currentData.cardTitle}
                                 id={currentData.id}
-                                description={currentData.cardDescription}
-                                tags={currentData.cardTags}
-                                href={'collections/circular-economy'}
-                                viewCount={currentData.viewCount}
+                                title={currentData.title}
+                                description={''}
+                                tags={[]}
+                                href={currentData.href}
+                                viewCount={currentData.boards.length}
                                 backgroundImage={currentData.cardBackgroundImage}
-                                className={clsx("transition-transform duration-500 transform", { 'translate-x-0': animate, 'translate-x-full': !animate })}
                                 openInNewTab={false}
                             />
+                        </div>
+                        <div className='c-left block md:hidden lg:hidden my-[40px]'>
+                            <div className='flex justify-start items-center'>
+                                <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
+                                <p className='text-white font-space-mono my-0'>
+                                    <b><span className='text-[24px] lg:text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
+                                </p>
+                                <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
+                            </div>
                         </div>
                     </div>
                 </div>

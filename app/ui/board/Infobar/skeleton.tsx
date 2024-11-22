@@ -3,7 +3,7 @@ export default function Infobar() {
 	  	<>
 	  	<section className='home-section relative lg:py-[80px] overflow-hidden'>
 		    <div className='inner w-[1440px] mx-auto'>
-			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px]'>
+			    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px]'>
 			        <div className='c-left lg:col-span-5'>
 		            	<div className='w-[97%] h-4 mb-[10px] bg-gray-400 rounded-md'></div>
 		            	<div className='w-[95%] h-4 mb-[10px] bg-gray-400 rounded-md'></div>

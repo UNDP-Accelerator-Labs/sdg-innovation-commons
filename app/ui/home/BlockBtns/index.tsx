@@ -10,11 +10,13 @@ export default function BlockBtns() {
 
 	return (
 		<>
-		<div className='grid gap-0 lg:grid-cols-4'>
+		<div className='grid gap-0 md:grid-cols-2 lg:grid-cols-4'>
 			{btns.map((d, i) => {
-				// const { title, description, href } = d;
+				const { title, description, href } = d;
 				const key = i;
-				return (Button({ key, ...d }));
+				return (
+					<Button key={i} title={title} description={description} href={href} />
+				);
 			})}
 		</div> 
 		</>

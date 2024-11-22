@@ -29,7 +29,8 @@ export default async function Section({
     // const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
     const { 
-        title, 
+        title,
+        description,
         creatorName,
         mainImage,
         sections, 
@@ -44,6 +45,7 @@ export default async function Section({
         <>
         <Hero 
             title={title}
+            description={description}
             creator={creatorName}
             image={mainImage}
             tags={tags}
@@ -57,10 +59,11 @@ export default async function Section({
             // vignette={vignette} 
         />
 
-        <section className='home-section lg:py-[80px]'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px] grid-bg'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* SEARCH */}
-                <form id='search-form' method='GET' className='section-header relative lg:pb-[60px]'>
+                <form id='search-form' method='GET' className='section-header relative'>
+                {/*<form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>*/}
                     {/*<div className='col-span-4 flex flex-row group items-stretch'>
                         <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                         <Button type='submit' className='border-l-0 grow-0'>
@@ -85,10 +88,12 @@ export default async function Section({
                     </div>*/}
                 </form>
                 {/* Display the section title and description */}
-                <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
-                            <span>Full List of Boards in this Collection</span>
+                <div className='section-header mb-[20px] lg:mb-[100px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 className='mb-[20px]'>
+                            <span className='slanted-bg yellow'>
+                                <span>Full List of Boards in this Collection</span>
+                            </span>
                         </h2>
                     </div>
                     {/*<div className='c-right lg:col-span-4 lg:mt-[20px]'>
@@ -100,7 +105,7 @@ export default async function Section({
                 {/* Display the content */}
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3 mb-[40px] lg:mb-[80px]'>
                         {
                             data?.map((post: any) => (
                                 <Card

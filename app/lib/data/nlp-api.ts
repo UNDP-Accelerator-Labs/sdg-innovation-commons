@@ -1,5 +1,5 @@
 'use server';
-import { NLP_URL, commonsPlatform, page_limit } from '@/app/lib/utils';
+import { NLP_URL, commonsPlatform, polishTags, page_limit } from '@/app/lib/utils';
 import get from './get';
 import platformApi from './platform-api';
 import { session_info } from '@/app/lib/session';
@@ -68,7 +68,6 @@ export default async function nlpApi(_kwargs: Props) {
 
                 let platform = b;
                 if (platform === 'actionplan') platform = 'action plan';
-                
                 const platformData: any[] = await platformApi({ pads, limit: page_limit }, platform, 'pads');
 
                 if (search?.length) {

@@ -1,11 +1,10 @@
 'use client';
-
+import clsx from 'clsx';
 import { CardLink } from '@/app/ui/components/Link';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { useRef } from 'react';
 import { useIsVisible } from '@/app/ui/components/Interaction';
-import clsx from 'clsx';
 
 export default function Section() {
     
@@ -15,12 +14,14 @@ export default function Section() {
     return (
         <>
         <section className='lg:home-section lg:py-[80px] grid-bg'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner lg:mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
                     <div className='c-left lg:col-span-5'>
-                        <h2 ref={ref} className={`yellow lg:mt-[5px] ${isVisible ? 'slanted-bg' : ''}`}>
-                            <span>Get Inspired</span>
+                        <h2 ref={ref} className='lg:mt-[5px]'>
+                            <span className={clsx('yellow', isVisible ? 'slanted-bg' : '')}>
+                                <span>Get Inspired</span>
+                            </span>
                         </h2>
                     </div>
                     <div className='c-right lg:col-span-4 lg:mt-[20px]'>
@@ -59,7 +60,7 @@ export default function Section() {
                     </div>
                 </div>
             </div>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            <div className='inner lg:mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:w-[1440px]'>
                 <div className='section-footer text-right'>
                     <Button>
                         <Link href={'#'}>

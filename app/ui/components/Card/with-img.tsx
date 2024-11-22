@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
 import { Button } from '@/app/ui/components/Button';
-import { platform } from 'os';
 
 interface CardProps {
     id: number;

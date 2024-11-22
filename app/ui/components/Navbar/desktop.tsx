@@ -12,14 +12,13 @@ export default function DesktopNavBar({ session } : any) {
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
 
-  
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
       <div className='inner relative w-[1440px] mx-auto px-[80px] box-border'>
         {/* Logo */}
         <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] border-solid pb-[17.5px]'>
           <Link href='/'>
-            <img className="w-[52px] relative h-[103.5px] z-[0] m-auto" alt="UNDP logo" src="/images/undp-logo.svg" />
+            <img className='w-[50px] relative z-[0] m-auto' alt='UNDP logo' src="/images/undp-logo.svg" />
           </Link>
         </div>
         {/* Navigation Links */}

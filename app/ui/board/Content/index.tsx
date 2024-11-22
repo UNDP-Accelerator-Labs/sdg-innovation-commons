@@ -53,21 +53,25 @@ export default async function Section({
             tags={tags}
         />
 
-        <Infobar 
-            description={description} 
-            vignette={vignette} 
-        />
+        {description?.length > 0 && (
+            <Infobar 
+                description={description} 
+                vignette={vignette} 
+            />
+        )}
         
-        <section className='home-section lg:py-[80px]'>
-            <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+        <section className='home-section py-[40px] lg:py-[80px]'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display the section title and description */}
-                <div className='section-header lg:mb-[100px]'>
-                    <div className='c-left lg:col-span-5'>
-                        <h2 className='slanted-bg yellow lg:mt-[5px]'>
-                            <span>Full Board Overview</span>
+                <div className='section-header mb-[20px] lg:mb-[100px]'>
+                    <div className='c-left col-span-9 lg:col-span-5'>
+                        <h2 className='mb-[20px]'>
+                            <span className='slanted-bg yellow'>
+                                <span>Full Board Overview</span>
+                            </span>
                         </h2>
                     </div>
-                    <div className='c-right lg:col-span-4 lg:mt-[20px]'>
+                    <div className='c-right col-span-9 lg:col-span-4 lg:mt-[20px]'>
                         <p className="lead">
                             <b>Search through all the items that are part of this board.</b>
                         </p>
@@ -79,7 +83,7 @@ export default async function Section({
                 <Tabs id={id} tabs={tabs} platform={platform} />
                 <div className='section-content'>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
                         {
                             data?.flat()
                             .map((d: any) => {
