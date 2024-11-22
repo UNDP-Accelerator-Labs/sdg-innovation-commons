@@ -59,8 +59,8 @@ export default function Content({
 
     return (
         <>
-            <section className='lg:home-section lg:py-[80px]'>
-                <div className='inner lg:mx-auto lg:px-[80px] lg:w-[1440px]'>
+            <section className='lg:home-section !border-t-0 lg:pb-[80px]'>
+                <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
                     {/* Display tabs */}
                     <nav className='tabs'>
                         {tabs.map((d, i) => {
@@ -77,9 +77,9 @@ export default function Content({
                             )
                         })}
                     </nav>
-                    <div className='section-content flex lg:flex-row'>
+                    <div className='section-content'>
                         {/* Display Cards */}
-                        <div className='grid gap-[20px] lg:grid-cols-3'>
+                        <div className='grid gap-[20px] md:grid-cols-2 xl:grid-cols-3'>
                             {loading ? (
                                 <ImgCardsSkeleton />
                             ) : (

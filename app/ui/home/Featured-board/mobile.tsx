@@ -89,7 +89,7 @@ export default function Section({
                         </Button>
                     </div>
                 </div>
-                <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px]'>
+                <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     <div className='section-content'>
                         <div className='md:grid md:gap-[20px] md:grid-cols-5 items-center'>
                             <div className='hidden c-left col-span-2 md:flex flex-col'>
