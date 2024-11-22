@@ -25,7 +25,7 @@ export default function Contact() {
                             {/* Description */}
                             <div className='lg:mt-[20px]'>
                                 <p className='lead'>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam ut accumsan diam adipiscing elit.
+                                If you want to be involved or get help, drop us a line below. We’re here to help.
                                 </p>
                             </div>
                         </div>
@@ -106,11 +106,10 @@ export default function Contact() {
                                     <option value="" disabled>
                                         Select a reason for contact
                                     </option>
-                                    <option value="I would like to become a super user">I would like to become a super user.</option>
-                                    <option value="I'm trying to use it but I'm stuck, please help">I'm trying to use it but I'm stuck, please help.</option>
-                                    <option value="I have content to contribute">I have content to contribute.</option>
-                                    <option value="I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further">
-                                        I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further.
+                                    <option value="I would like to become a super user to actively test it for my team">I would like to become a super user to actively test it for my team.</option>
+                                    <option value="I have content to contribute ">I have content to contribute .</option>
+                                    <option value="I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further .">
+                                        I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further .
                                     </option>
                                     <option value="Other">Other</option>
                                 </select>

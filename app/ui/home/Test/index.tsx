@@ -114,6 +114,7 @@ export default function Section() {
                                     date={post?.date}
                                     engagement={post?.engagement}
                                     className={clsx(i === 2 ? 'hidden xl:block' : '')}
+                                    data={post}
                                 />
                             ))
                         )}

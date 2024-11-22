@@ -25,42 +25,39 @@ export default function DesktopMediaLinks({ className }: { className?: string })
             <div>
               <h3 className='uppercase text-[16px] mb-[20px]'>Who we are</h3>
               <ul className='list-none m-0 p-0'>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>About us</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Leadership</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Executive Board</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Our Partners</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Funding</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Transparency and Accountability</Link></li>
+                <li className='mb-[20px]'><Link href="https://www.undp.org/acceleratorlabs/aboutus" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>About us</Link></li>
+                <li className='mb-[20px]'><Link href="https://www.undp.org/acceleratorlabs/our-work" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Our work</Link></li>
+                <li className='mb-[20px]'><Link href="https://www.undp.org/acceleratorlabs/partnerships-core-our-network" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Partnerships: the core of our network</Link></li>
+                <li className='mb-[20px]'><Link href="https://www.undp.org/acceleratorlabs/our-work/untapped" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>UNTAPPED</Link></li>
+                <li className='mb-[20px]'><Link href="https://www.undp.org/acceleratorlabs/peoplepowered" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Grassroots Energy Solutions</Link></li>
               </ul>
             </div>
             <div>
-              <h3 className='uppercase text-[16px] mb-[20px]'>What we do</h3>
+              <h3 className='uppercase text-[16px] mb-[20px]'>Where we are</h3>
               <ul className='list-none m-0 p-0'>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Sustainable Development Goals</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Human Development Report</Link></li>
+                <li className='mb-[20px]'><Link href="https://www.undp.org/acceleratorlabs/our-locations" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Our Locations</Link></li>
+                {/* <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Human Development Report</Link></li>
                 <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Our Strategic Plan</Link></li>
-                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Our Expertise</Link></li>
+                <li className='mb-[20px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Our Expertise</Link></li> */}
               </ul>
             </div>
             <div>
-              <h3 className='uppercase text-[16px] mb-[20px]'>Our impact</h3>
+              <h3 className='uppercase text-[16px] mb-[20px]'>Our Learnings</h3>
               <ul className='list-none m-0 p-0'>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>News Center</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Results</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Publications</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Blogs</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Stories</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Asset Library</Link></li>
+                <li className='mb-[10px]'><Link href="https://www.undp.org/acceleratorlabs/globalpublications" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Global Publications</Link></li>
+                <li className='mb-[10px]'><Link href="https://www.undp.org/acceleratorlabs/localpublications" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Country Publications</Link></li>
+                <li className='mb-[10px]'><Link href="https://www.undp.org/acceleratorlabs/blog" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Blogs</Link></li>
+                {/* <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Stories</Link></li>
+                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Asset Library</Link></li> */}
               </ul>
             </div>
             <div>
-              <h3 className='uppercase text-[16px] mb-[20px]'>Get involved</h3>
+              <h3 className='uppercase text-[16px] mb-[20px]'>News</h3>
               <ul className='list-none m-0 p-0'>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Careers</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Procurement</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>UNDP Shop</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>UNDP Giving</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Contact Us</Link></li>
+                <li className='mb-[10px]'><Link href="https://www.undp.org/acceleratorlabs/news-updates" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>News center</Link></li>
+                <li className='mb-[10px]'><Link href="https://www.undp.org/acceleratorlabs/events" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Events</Link></li>
+                <li className='mb-[10px]'><Link href="https://www.undp.org/acceleratorlabs/newsletters" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Newsletters</Link></li>
+                <li className='mb-[10px]'><Link href="https://undp.us3.list-manage.com/subscribe?u=ff020e3d052a15deb7058d052&id=a1f6e5947a" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Join our community</Link></li>
               </ul>
             </div>
           </div>
@@ -74,10 +71,10 @@ export default function DesktopMediaLinks({ className }: { className?: string })
             </div>
             <div>
               <ul className='list-none m-0 p-0'>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Report Fraud, Abuse, Misconduct</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Submit social environment complaint</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Scam Alert</Link></li>
-                <li className='mb-[10px]'><Link href="/" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Terms of Use</Link></li>
+              <li className='mb-[10px]'><Link href="https://www.undp.org/accountability/audit/investigations" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Report Fraud, Abuse, Misconduct</Link></li>
+              <li className='mb-[10px]'><Link href="https://www.undp.org/accountability/audit/social-and-environmental-compliance-review-and-stakeholder-response-mechanism" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Submit social environment complaint</Link></li>
+              <li className='mb-[10px]'><Link href="https://www.undp.org/scam-alert" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Scam Alert</Link></li>
+              <li className='mb-[10px]'><Link href="https://www.undp.org/copyright-terms-use" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Terms of Use</Link></li>
               </ul>
             </div>
             <div className='w-full flex justify-between mb-[20px]'>

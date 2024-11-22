@@ -31,12 +31,15 @@ export interface Props {
   include_comments?: boolean;
   platform?: string;
   pseudonymize?: boolean;
+  render?: boolean;
+  action?:string;
 }
 
-export default async function platformApi(_kwargs: Props, platform: string, object: string) {
-    let { space, pinboard, include_tags, include_locations, include_engagement } = _kwargs;
+export default async function platformApi(_kwargs: Props, platform: string, object: string, urlOnly:boolean = false, ) {
+    let { space, pinboard, include_tags, include_locations, include_engagement, action, render } = _kwargs;
     if (!platform) platform = 'solution';
     if (!object) object = 'pads';
+    if (!action) action = 'fetch';
     if (!space) _kwargs.space = 'published';
     if (pinboard) _kwargs.space = 'pinned';
     if (object === 'pads' && !include_tags) _kwargs.include_tags = true;
@@ -46,7 +49,9 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     if (platform === 'blogs') return await blogsApi(_kwargs);
 
     const params = new URLSearchParams();
-    params.set('output', 'json');
+    if(render) params.set('output', 'csv');
+    else params.set('output', 'json');
+    params.set('include_data', 'true');
     
     for (let k in _kwargs) {
         const argV = _kwargs[k as keyof typeof _kwargs];
@@ -60,9 +65,11 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     }
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
-    const url = `${base_url}/apis/fetch/${object}?${params.toString()}`;
-    
+
+    const url = `${base_url}/apis/${action}/${object}?${params.toString()}`;    
     console.log('check url ', url)
+
+    if(urlOnly) return url 
 
     const data = await get({
         url,
@@ -80,7 +87,34 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
             const year = date.getFullYear();
             d.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
         });
+        // console.log(data)
         return polishTags(data);
     } 
     else return data;
+}
+
+
+  export async function engageApi(
+    platform: string, 
+    type: string, 
+    action: string, 
+    id: number
+) {
+
+    const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
+
+    const url = `${base_url}/engage`;
+    const body = {
+        action,
+        id,
+        object: 'pad',
+        type
+    }
+
+    const data = await get({
+        url,
+        method: 'POST',
+        body
+    });
+    return data;
 }
