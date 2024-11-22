@@ -77,6 +77,7 @@ export default function Section() {
                                         backgroundImage={post?.vignette}
                                         date={post?.date}
                                         engagement={post?.engagement}
+                                        data={post}
                                         className={i === 2 ? 'hidden xl:block' : ''}
                                     />
                                 )

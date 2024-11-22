@@ -41,6 +41,8 @@ export default function Section({
     const [loading, setLoading] = useState<boolean>(true);
     const [filterParams, setfilterParams ] = useState<any>(searchParams);
 
+    const [allowDownLoad, setallowDownLoad ] = useState<boolean>(false);
+    const [hrefs, setHref] = useState<string>('');
   
     async function fetchData(): Promise<void> {
         setLoading(true);
@@ -63,6 +65,7 @@ export default function Section({
                 platform,
                 'pads'
             );
+            setallowDownLoad(true)
         } else {
             console.log('look for search term ', search)
             let doc_type: string[];
@@ -76,7 +79,16 @@ export default function Section({
             data = await nlpApi(
                 { ...searchParams, ...{ limit: page_limit, doc_type } }
             );
+            setallowDownLoad(false)
         }
+
+        const idz: number[] = data?.map(p=>p?.pad_id || p?.doc_id)
+        const baseUrl = await platformApi({ render: true, action: 'download' }, platform, 'pads', true);
+        const params = new URLSearchParams();
+        idz.forEach(id => params.append('pads', id.toString()));
+        const url = `${baseUrl}?${params.toString()}`;
+        setHref(url)
+
         setHits(data);
         setLoading(false);
     }
@@ -97,7 +109,7 @@ export default function Section({
                             Search
                         </Button>
                     </div>
-                    <div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1'>
+                    <div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1  flex flex-row gap-x-5'>
                         <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
                             <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
                             {!filterVisibility ? (
@@ -106,6 +118,11 @@ export default function Section({
                                 'Close'
                             )}
                         </button>
+                        {allowDownLoad && (
+                            <Button className='border-l-0 grow-0'>
+                            <a href={hrefs} target='_blank' >Download All</a>
+                        </Button>
+                        )}
                     </div>
                     <div className='col-span-9'>
                         <Filters 
@@ -155,6 +172,7 @@ export default function Section({
                                     className=''
                                     date={post?.date}
                                     engagement={post?.engagement}
+                                    data={post}
                                 />
                             ))
                         )}
