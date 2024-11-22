@@ -92,7 +92,7 @@ export default function Section() {
                         })}
                     </nav>
                     {/* Display Cards */}
-                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
+                    <div className='grid gap-[20px] md:grid-cols-2 xl:grid-cols-3'>
                         {loading ? (
                             <ImgCardsSkeleton /> // Show Skeleton when loading
                         ) : (
@@ -113,7 +113,7 @@ export default function Section() {
                                     backgroundImage={post?.vignette}
                                     date={post?.date}
                                     engagement={post?.engagement}
-                                    className={clsx(i === 2 ? 'hidden lg:block' : '')}
+                                    className={clsx(i === 2 ? 'hidden xl:block' : '')}
                                 />
                             ))
                         )}
