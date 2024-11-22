@@ -3,7 +3,7 @@ export const collection = {
 	title: 'Circular Economy & Climate Action',
 	description: 'Just over 7% of used materials are cycled back into our economies. Meanwhile, in just the past six years, we have consumed over half a trillion tons of materials—nearly as much as all the materials consumed in the 20th century. If we continue on this trajectory, we will require resources equivalent to nearly three Earth-like planets by 2050. Meanwhile there is huge untapped business potential. The World Resource Institute projects that the circular economy offers a US$4.5 trillion economic opportunity by reducing waste, stimulating innovation and creating employment.',
 	creatorName: 'Mirko Ebelshaeuser',
-	mainImage: '/images/Rectangle 15.png',
+	mainImage: '/images/bg-ce.jpg',
 	sections: [
 		{
 			title: 'R&D agenda',

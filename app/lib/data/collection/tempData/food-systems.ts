@@ -3,7 +3,7 @@ export const collection = {
 	title: 'Food systems',
 	description: 'Food systems are at risk worldwide but the economic and environmental potential for transformation is huge. The Food and Agriculture Organization of the United Nations (FAO) estimates that one in eleven people globally still face hunger, while US$400 billion worth of food is lost getting it from farms to retail, with more food wasted by consumers. Food systems transformation could yield benefits up to US$5 trillion per year. But how do we transform food systems in a way that is consistent with economic, social, and political realities and benefits the most vulnerable?',
 	creatorName: 'Alberto Cottica',
-	mainImage: '/images/Rectangle 15.png',
+	mainImage: '/images/bg-fs.jpg',
 	sections: [
 		{
 			title: 'R&D agenda',

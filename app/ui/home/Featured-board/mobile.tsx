@@ -22,7 +22,6 @@ export default function Section({
         obj.id = i;
         obj.href = `/collections/${id}`;
         obj.description = obj.sections[0].items[0].txt;
-        obj.cardBackgroundImage = '/images/Rectangle 68.png';
         return obj
     });
 
@@ -64,9 +63,9 @@ export default function Section({
                         return (
                             <div key={i} 
                                 ref={elRefs.current[i]}
-                                className='silde relative snap-center w-full h-full flex-none z-[-2]'
+                                className='silde relative snap-center w-full h-full flex-none z-[-2] overflow-hidden'
                             >
-                                <img src={d.mainImage} className='h-full block' />
+                                <img src={d.mainImage} className='min-h-full lg:min-w-[100vw] block' />
                             </div>
                         )
                     })}
@@ -112,7 +111,7 @@ export default function Section({
                                     tags={[]}
                                     href={currentData.href}
                                     viewCount={currentData.boards.length}
-                                    backgroundImage={currentData.cardBackgroundImage}
+                                    backgroundImage={currentData.mainImage}
                                     openInNewTab={false}
                                 />
                             </div>
