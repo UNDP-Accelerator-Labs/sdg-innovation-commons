@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/with-img';
+import BlogCard from '@/app/ui/components/Card/without-img';
 
 import boardData from '@/app/lib/data/board';
 
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import { commonsPlatform, page_limit } from '@/app/lib/utils';
+import { commonsPlatform, page_limit, formatDate } from '@/app/lib/utils';
 
 import Hero from '../Hero';
 import Infobar from '../Infobar';
@@ -86,36 +87,54 @@ export default async function Section({
                     <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
                         {
                             data?.flat()
-                            .map((d: any) => {
+                            .map((d: any, i: number) => {
                                 if (d) {
-                                    let color: string = 'green';
-                                    let path: string = 'see';
-                                    if (d?.base === 'action plan') {
-                                        color = 'yellow';
-                                        path = 'test';
-                                    } else if (d?.base === 'experiment') {
-                                        color = 'orange';
-                                        path = 'test';
+                                    if (d.base === 'blog') {
+                                        return (
+                                            <BlogCard
+                                                id={i}
+                                                key={d.doc_id}
+                                                country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
+                                                date={formatDate(d?.parsed_date) || ''}
+                                                title={d?.title || ''}
+                                                description=''
+                                                tags={d?.base || ''}
+                                                tagStyle='bg-light-blue'
+                                                href={d?.url}
+                                                openInNewTab={true}
+                                                className='border-[1px] border-solid box-border'
+                                            />
+                                        )
+                                    } else {
+                                        let color: string = 'green';
+                                        let path: string = 'see';
+                                        if (d.base === 'action plan') {
+                                            color = 'yellow';
+                                            path = 'test';
+                                        } else if (d?.base === 'experiment') {
+                                            color = 'orange';
+                                            path = 'test';
+                                        }
+                                        return (
+                                            <Card
+                                                key={i}
+                                                id={d?.doc_id || d?.pad_id}
+                                                country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
+                                                title={d?.title || ''}
+                                                description={d?.snippets?.length ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}` : d?.snippet}
+                                                source={d?.base || 'solution'}
+                                                tagStyle={`bg-light-${color}`}
+                                                tagStyleShade={`bg-light-${color}-shade`}
+                                                href={d?.url}
+                                                viewCount={0}
+                                                tags={d?.tags}
+                                                sdg={`SDG ${d?.sdg?.join('/')}`}
+                                                backgroundImage={d?.vignette}
+                                                date={d?.date}
+                                                engagement={d?.engagement}
+                                            />
+                                        )
                                     }
-                                    return (
-                                        <Card
-                                            key={d?.doc_id || d?.pad_id}
-                                            id={d?.doc_id || d?.pad_id}
-                                            country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
-                                            title={d?.title || ''}
-                                            description={d?.snippets?.length ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}` : d?.snippet}
-                                            source={d?.base || 'solution'}
-                                            tagStyle={`bg-light-${color}`}
-                                            tagStyleShade={`bg-light-${color}-shade`}
-                                            href={d?.url}
-                                            viewCount={0}
-                                            tags={d?.tags}
-                                            sdg={`SDG ${d?.sdg?.join('/')}`}
-                                            backgroundImage={d?.vignette}
-                                            date={d?.date}
-                                            engagement={d?.engagement}
-                                        />
-                                    )
                                 }
                             })
                         }

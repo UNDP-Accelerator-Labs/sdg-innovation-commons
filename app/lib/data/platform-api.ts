@@ -1,4 +1,5 @@
 'use server';
+import blogsApi from './blogs-api';
 import { commonsPlatform, extractSDGNumbers, polishTags } from '@/app/lib/utils';
 import get from './get'
 
@@ -42,6 +43,8 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     if (object === 'pads' && !include_locations) _kwargs.include_locations = true;
     if (object === 'pads' && !include_engagement) _kwargs.include_engagement = true;
 
+    if (platform === 'blogs') return await blogsApi(_kwargs);
+
     const params = new URLSearchParams();
     params.set('output', 'json');
     
@@ -57,7 +60,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     }
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
-
     const url = `${base_url}/apis/fetch/${object}?${params.toString()}`;
     
     console.log('check url ', url)
@@ -79,5 +81,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
             d.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
         });
         return polishTags(data);
-    } else return data;
+    } 
+    else return data;
 }
