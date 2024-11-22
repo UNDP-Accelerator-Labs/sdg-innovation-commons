@@ -5,10 +5,10 @@ export default function About() {
     return (
         <>
         {/* Mobile */}
-        <Mobile className='lg:hidden' />
+        <Mobile className='xxl:hidden' />
 
         {/* Desktop */}
-        <Desktop className='hidden lg:block' />
+        <Desktop className='hidden xxl:block' />
         </>
     );
 }

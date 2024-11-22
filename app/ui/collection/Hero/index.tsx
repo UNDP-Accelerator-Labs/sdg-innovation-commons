@@ -63,7 +63,7 @@ export default function Hero({
         <section className='relative home-section pb-[40px] pt-[160px] lg:py-[80px] overflow-hidden min-h-[100vh] h-full flex items-center'>
             
             <div className='caroussel min-w-full h-full lg:min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
-                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border'>
+                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border overflow-hidden'>
                     <img src={image} className='lg:min-w-[100vw] block min-h-full z-[-2]' />
                 </div>
             </div>
