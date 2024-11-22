@@ -77,19 +77,42 @@ export async function createContact(prevState: ContactState, formData: FormData)
   const { name, surname, email, org, reason, message } = validatedFields.data;
   const date = getCurrentDate();
 
+  const adminEmails = ADMIN_EMAILS
+    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+    : [];
+
+  if (adminEmails.length === 0) {
+    throw new Error('No admin emails provided.');
+  }
+
+  const to = adminEmails[0]
+  const cc = adminEmails.length > 1 ? adminEmails.slice(1).join(';') : '';
+
   const mailOptions = {
-    from: `SDG Commons" <${SMTP_USER}>`,
-    to: ADMIN_EMAILS,
-    subject: `Contact form submission from ${name} ${surname}`,
+    from: `SDG Commons <${SMTP_USER}>`,
+    to,
+    cc,
+    subject: `Contact Form Submission from ${name} ${surname}`,
     text: `
-      Name: ${name} ${surname}
-      Email: ${email}
-      Organization: ${org}
-      Reason for Contact: ${reason}
-      Message: ${message}
-      Date: ${date}
-    `,
-  };
+        Dear Admin,
+
+        You have received a new contact form submission on the platform. Below are the details:
+
+        Name: ${name} ${surname}  
+        Email: ${email}  
+        Organization: ${org || 'N/A'}  
+        Reason for Contact: ${reason}  
+        Message:  
+        ${message}
+
+        Submission Date: ${date}
+
+        Please review the submission and take the necessary actions.
+
+        Best regards,  
+        SDG Commons Platform
+            `,
+    };
 
   // Send contact form data to admin email
   try {
