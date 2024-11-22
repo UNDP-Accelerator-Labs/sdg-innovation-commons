@@ -1,3 +1,4 @@
+'use client';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
@@ -51,8 +52,6 @@ export default function Card({
     
     const [isLiked, setIsLiked] = useState<boolean>(hasEngagement('like'));
     const [isDisliked, setIsDisliked] = useState<boolean>(hasEngagement('dislike'));
-
-    
 
     const tagArray = tags ? (Array.isArray(tags) ? tags : [tags]) : '';
     const sdgArray = sdg ? (Array.isArray(sdg) ? sdg : [sdg]) : '';
