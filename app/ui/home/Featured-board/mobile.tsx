@@ -74,11 +74,11 @@ export default function Section({
                     <div className='section-content'>
                         <h2 className='mt-[5px] mb-[40px]'>
                             <span ref={ref1} className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>
-                                <span>Featured Thematic Collections</span>
+                                <span>Next Practices for the SDGs</span>
                             </span>
                         </h2>
                         <p className='lead text-white font-bold mb-[40px]'>
-                            Short description about the 3 thematic boards, lorem ipsum dolor sit amet consectetur, lorem. 
+                            Discover curated thematic boards on frontier development challenges.
                         </p>
                     </div>
                     <div>
@@ -92,7 +92,7 @@ export default function Section({
                 <div className='inner mx-auto px-[40px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     <div className='section-content'>
                         <div className='md:grid md:gap-[20px] md:grid-cols-5 items-center'>
-                            <div className='hidden c-left col-span-2 md:flex flex-col'>
+                            <div className='hidden c-left col-span-2 lg:col-span-3 md:flex flex-col'>
                                 <div className='mt-auto'>
                                     <div className='flex justify-start items-center'>
                                         <img className='cursor-pointer' alt='Arrow left' src='/images/Arrow-left.svg' onClick={handlePrevSlide} />
@@ -103,7 +103,7 @@ export default function Section({
                                     </div>
                                 </div>
                             </div>
-                            <div className='c-right col-span-3 mb-[40px] md:mb-[120px]'>
+                            <div className='c-right col-span-3 lg:col-span-2 mb-[40px] md:mb-[120px]'>
                                 <Card
                                     id={currentData.id}
                                     title={currentData.title}

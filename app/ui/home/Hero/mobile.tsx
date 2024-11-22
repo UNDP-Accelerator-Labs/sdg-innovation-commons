@@ -37,7 +37,8 @@ export default function Hero({
 		            		powered by UNDP</span>
 		            	</span>
 		            </h1>
-		            <p className='lead'>Building a 21st-century architecture for global public goods, requires sharing openly and scaling data, insights, solutions and next practices for the Sustainable Development Goals (SDGs). Join the Accelerator Labs on this journey as we open up our body of work, and come shape the SDG Commons with us.</p>
+		            <p className='lead'><b>Discover what we are learning from the people we serve</b></p>
+		            <p className='lead'>The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.</p>
 		            {/* Search bar */}
 		            <form method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mt-[40px] mb-[40px] group relative'>
 		            	<input type='text' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} name='search' className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />

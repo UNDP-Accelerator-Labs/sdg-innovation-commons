@@ -25,6 +25,7 @@ export default function NavBar({ session }: any) {
               src='/images/undp-logo.svg'
             />
           </Link>
+          <p className='ml-[20px] mr-auto mb-0'>SDG Commons</p>
 
           {/* Toggle between menu icons */}
           <div
