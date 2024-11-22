@@ -81,7 +81,7 @@ export default function Filters({
 					})}
 				</div>
 				<div className='section-footer text-right'>
-					<Link href='?' className='font-bold font-space-mono underline underline-offset-2 lg:mr-[20px]'>Clear All</Link>
+					<Link href='?' className='font-bold font-space-mono underline underline-offset-2 mr-[20px]'>Clear All</Link>
 					<Button type='submit' className='mt-[20px] md:mt-0 lg:mt-0'>Apply filters</Button>
 				</div>
 			</div>
