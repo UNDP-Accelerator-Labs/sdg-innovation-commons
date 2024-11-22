@@ -76,6 +76,6 @@ jobs:
 
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: 'acclabs'
+          app-name: 'acclabs/sdg-commons'
           publish-profile: ${{ secrets.AZURE_PROD_PUBLISH_PROFILE }}
           images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
