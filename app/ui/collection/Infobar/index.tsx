@@ -15,14 +15,14 @@ export default function Infobar({
   	return (
 	  	<>
 	  	<section className='home-section relative py-[40px] lg:py-[80px] overflow-hidden'>
-		    <div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto'>
+		    <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
 		    	<Cartouche 
 		    	    locations={locations.values} 
 		    	    sdgs={sdgs.highlight} 
 		    	    className='lg:hidden col-span-9 bg-white grid grid-cols-2 mb-[40px]'
 		    	    mapFile={locations.map}
 		    	/>
-			    <div className='section-content grid grid-cols-9 gap-[20px] px-[40px] lg:px-[80px]'>
+			    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px]'>
 			        <div className='c-left col-span-9 lg:col-span-5'>
 		            	{
 		            	    sections.map((s: any, j: number) => {

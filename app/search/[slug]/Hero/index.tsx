@@ -18,7 +18,7 @@ export default function ({ slug }: { slug: string }) {
 		<>
 			<section className='relative lg:home-section !border-t-0 grid-bg'>
 				{/*<img className='w-[40%] absolute left-0 bottom-[-15%]' alt="Branding illustration" src="/images/hero_learn_hand_01.png" />*/}
-				<div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:py-[100px]'>
+				<div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:py-[100px]'>
 					<div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
 						<h1>
 							<span className='slanted-bg yellow'>

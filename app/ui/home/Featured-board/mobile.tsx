@@ -71,7 +71,7 @@ export default function Section({
                         )
                     })}
                 </div>
-                <div className='inner mx-auto px-[40px] pt-[40px] pb-[80px] md:py-[120px] w-[375px] md:w-[744px]'>
+                <div className='inner mx-auto px-[40px] pt-[40px] pb-[80px] md:py-[120px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     <div className='section-content'>
                         <h2 className='mt-[5px] mb-[40px]'>
                             <span ref={ref1} className={clsx('dark blue', isVisible1 ? 'slanted-bg' : '')}>

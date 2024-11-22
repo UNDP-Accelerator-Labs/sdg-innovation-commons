@@ -13,8 +13,8 @@ export default function Hero() {
 	  	<img className='w-[80%] lg:w-[40%] absolute right-[5%] lg:right-[10%] top-[140px] lg:top-[90px] z-0 pointer-events-none' alt='Branding illustration' src='/images/hands/home_top.svg' />
 	  	<img className='w-[60%] lg:w-[40%] absolute right-0 bottom-0 md:bottom-[-20%] lg:bottom-[-10%] z-0 pointer-events-none' alt="Branding illustration" src="/images/hands/home_bottom.svg" />
 		
-		<div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto'>
-		    <div className='section-content grid grid-cols-9 gap-[20px] px-[40px] lg:px-[80px] pt-[80px]'>
+		<div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+		    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] pt-[80px]'>
 		        <div className='c-left col-span-9 lg:col-span-5 mb-[80px] lg:mb-[40px] lg:mt-[80px]'>
 	            	<h1>
 	            		<span className='slanted-bg yellow'>

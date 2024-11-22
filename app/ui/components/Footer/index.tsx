@@ -8,7 +8,7 @@ export default function Footer() {
     return (
       <>
         <section className='home-section py-[40px]'>
-          <div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto px-[40px] lg:px-[80px]'>
+          <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px]'>
             <div className='section-content grid grid-cols-9 gap-[20px]'>
               <div className='col-span-9 lg:col-span-1'>
                 <p className='font-space-mono'>

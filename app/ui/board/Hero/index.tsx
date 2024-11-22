@@ -27,8 +27,8 @@ export default async function Hero({
 	return (
 	  	<>
 	  	<section className='relative home-section !border-t-0 grid-bg pt-[80px] lg:pt-0 lg:pb-[80px]'>
-			<div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto'>
-				<div className='section-content grid grid-cols-9 gap-[20px] px-[40px] lg:px-[80px] pt-[80px]'>
+			<div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+				<div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] pt-[80px]'>
 					<div className='c-left col-span-9 lg:col-span-5 lg:mt-[80px] mb-[80px] lg:mb-[40px]'>
 						<h1>
 							<span className='slanted-bg yellow'>

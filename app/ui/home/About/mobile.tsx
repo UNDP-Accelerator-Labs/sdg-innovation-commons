@@ -22,8 +22,8 @@ export default function Section({
             <div className="relative bg-[url('/images/about-us-2.jpeg')] bg-cover bg-no-repeat h-[75vh]">
                 <div className='h-full w-full top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]' />
                 <div>
-                    <div className='absolute top-0 inner w-[744px] mx-auto'>
-                        <div className='px-[40px] py-[80px]'>
+                    <div className='absolute top-0 inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+                        <div className='px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] py-[80px]'>
                             <h2>
                                 <span ref={ref} className={clsx('yellow', isVisible ? 'slanted-bg' : '')}>
                                     <span>About the commons</span>
@@ -33,7 +33,7 @@ export default function Section({
                     </div>
                 </div>
             </div>
-            <div className='inner w-[375px] md:w-[744px] mx-auto'>
+            <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
                 <div className='section-content'>
                     <div className='px-[40px] py-[120px]'>
                         <p className='lead'>

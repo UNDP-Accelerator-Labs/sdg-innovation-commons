@@ -28,7 +28,7 @@ export default function Hero({
 	    		<img className='absolute left-[30%] md:left-[5%]' alt='Branding illustration' src='/images/hands/home_top.svg' />
 	    		<img className='absolute right-[-22%] md:right-[-80px] bottom-[-5%] md:bottom-[-15%]' alt='Branding illustration' src='/images/hands/home_bottom.svg' />
 	    	</div>
-	    <div className='inner w-[375] md:w-[744px] mx-auto'>
+	    <div className='inner w-[375] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
 		    <div className='section-content px-[40px]'>
 		        <div className='c-left mt-[40px]'>
 		            <h1>

@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function DesktopMediaLinks({ className }: { className?: string }) {
   return (
     <>
-      <div className={clsx('text-white w-[375px] md:w-[744px] px-[40px] py-[80px] mx-auto box-border', className)}>
+      <div className={clsx('text-white w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] px-[40px] py-[80px] mx-auto box-border', className)}>
         {/* Social media links for desktop view */}
         <div className='w-full grid grid-cols-6 gap-[20px] mb-[20px]'>
           <div className='col-span-3 flex items-center'>

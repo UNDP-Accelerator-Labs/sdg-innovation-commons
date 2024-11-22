@@ -60,7 +60,7 @@ export default async function Section({
         />
 
         <section className='home-section py-[40px] lg:py-[80px] grid-bg'>
-            <div className='inner mx-auto px-[40px] lg:px-[80px] w-[375px] md:w-[744px] lg:w-[1440px]'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* SEARCH */}
                 <form id='search-form' method='GET' className='section-header relative'>
                 {/*<form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>*/}

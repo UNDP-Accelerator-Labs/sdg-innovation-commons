@@ -10,10 +10,10 @@ export default function Contact() {
 
     return (
         <>
-        <section className='home-section lg:px-0 lg:py-0 bg-posted-yellow' id='contact' >
-            <div className='inner mx-auto w-[375px] md:w-[744px] lg:w-[1440px]'>
-                <div className='section-content grid grid-cols-9 gap-[20px]'>
-                    <div className='c-left col-span-9 lg:col-span-4 px-[40px] py-[80px] lg:pl-[80px] lg:py-[120px]'>
+        <section className='home-section overflow-hidden lg:px-0 lg:py-0 bg-posted-yellow' id='contact' >
+            <div className='inner mx-auto w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
+                <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px]'>
+                    <div className='c-left col-span-9 xl:col-span-4 py-[80px] lg:py-[120px]'>
                         <div className='lg:grid lg:grid-cols-2 lg:gap-[20px] lg:mb-[20px]'>
                             <div>
                                 <h2 className='mb-[20px]'>
@@ -137,9 +137,9 @@ export default function Contact() {
                             </div>
                         </form>
                     </div>
-                    <div className='c-right hidden lg:block lg:col-span-4 lg:col-start-6 border-l-[1px] border-black border-solid'>
+                    <div className='c-right hidden xl:block lg:col-span-4 lg:col-start-6 border-l-[1px] border-black border-solid'>
                         <img className='min-w-full h-full object-cover' alt='Contact stock image' src='images/Rectangle 96.png' />
-                        <div className='absolute h-full min-w-[calc(100%+80px)] top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5] border-none' />
+                        <div className='absolute h-full w-[100vw] top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5] border-none' />
                     </div>
                 </div>
             </div>

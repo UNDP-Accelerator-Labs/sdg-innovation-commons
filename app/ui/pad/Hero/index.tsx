@@ -36,8 +36,8 @@ export default function Hero({
 
   	return (
 	<section className='relative home-section !border-t-0 grid-bg pt-[140px] lg:pt-0 pb-[40px] lg:pb-[80px] overflow-hidden'>
-	    <div className='inner w-[375px] md:w-[744px] lg:w-[1440px] mx-auto'>
-		    <div className='section-content grid grid-cols-9 gap-[20px] px-[40px] lg:px-[80px] pt-[40px] lg:pt-[80px]'>
+	    <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+		    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] pt-[40px] lg:pt-[80px]'>
 		        <div className='c-left col-span-9 md:col-span-5 lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
 	            	<span className={clsx('slanted-bg full', color)}>
 	            		<span><b>{padtype}</b></span>

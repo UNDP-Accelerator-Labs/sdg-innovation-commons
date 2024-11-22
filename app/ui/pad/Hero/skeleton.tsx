@@ -3,7 +3,7 @@ export default function Hero() {
   	<>
   		<section className='relative home-section !border-t-0 grid-bg lg:pb-[60px] overflow-hidden'>
 		    <div className='inner w-[1440px] mx-auto'>
-			    <div className='section-content grid grid-cols-9 gap-[20px] lg:px-[80px] lg:pt-[80px]'>
+			    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:pt-[80px]'>
 			        <div className='c-left lg:col-span-5 lg:mt-[80px] lg:mb-[60px]'>
 		            	<span><span>
 		            		<b>&nbsp;</b>
