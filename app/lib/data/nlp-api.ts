@@ -63,7 +63,7 @@ export default async function nlpApi(_kwargs: Props) {
                 const platformHits = hits.filter((d: any) => d.base === b);
                 const pads = platformHits.map((d: any) => d.doc_id);
                 if (b === 'blog') {
-                    return platformHits; 
+                    return await getCountryNames(platformHits);
                 }
 
                 let platform = b;
@@ -85,19 +85,23 @@ export default async function nlpApi(_kwargs: Props) {
             }));
             return data.flat();
         } else {
-            const countries = hits.map((d: any) => d.meta.iso3).flat()
-            .filter((value: any, index: number, self: any) => {
-                return self.indexOf(value) === index;
-            });
-
-            const countryNames: any[] = await platformApi({ }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
-            hits.forEach((d: any) => {
-                d.country = countryNames?.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
-                console.log(d.meta.iso3, d.country)
-            })
-
-            return hits;
+            return await getCountryNames(hits);
         }
 
     } else return [];
+}
+
+async function getCountryNames (data: any) {
+    const countries = data.map((d: any) => d.meta.iso3).flat()
+    .filter((value: any, index: number, self: any) => {
+        return self.indexOf(value) === index;
+    });
+
+    const countryNames: any[] = await platformApi({ }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
+    data.forEach((d: any) => {
+        d.country = countryNames?.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
+        console.log(d.meta.iso3, d.country)
+    })
+
+    return data;
 }
