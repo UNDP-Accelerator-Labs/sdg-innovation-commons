@@ -46,7 +46,6 @@ export default function Content({
         data = await nlpApi(
             { ...searchParams, ...{ limit: page_limit, doc_type } }
         );
-        console.log('doc_type ', data)
         setHits(data);
         setLoading(false);
     }

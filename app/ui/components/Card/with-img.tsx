@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import platformApi, { engageApi } from '@/app/lib/data/platform-api';
+import { is_user_logged_in } from '@/app/lib/session';
+import Notification from '@/app/ui/components/Notification';
 
 interface CardProps {
     id: number;
@@ -64,27 +66,30 @@ export default function Card({
 
     const [likeCounts, setLikeCounts ] = useState<number>(likes);
     const [dislikeCounts, setDislikeCounts ] = useState<number>(dislikes);
+    const [showNotification, setShowNotification] = useState(false);
 
     type EngagementType = 'like' | 'dislike';
     type ActionType = 'delete' | 'insert';
 
     const engage = async (action: ActionType, type: EngagementType) => {
+        const isLogIn = await is_user_logged_in()
+        if(!isLogIn) return handleShowNotification()
         try {
             const data = await engageApi(source, type, action, id);
             if (data?.status === 200) {
                 if (type === 'like') {
                     setIsLiked(action === 'insert');
-                    setLikeCounts(+likes + 1)
+                    setLikeCounts(likeCounts + 1)
                     if(!data.active){
                         setIsLiked(false);
-                        setLikeCounts(likes)
+                        setLikeCounts(likeCounts - 1)
                     }
                 } else if (type === 'dislike') {
                     setIsDisliked(action === 'insert');
-                    setDislikeCounts(+dislikes + 1)
+                    setDislikeCounts(dislikeCounts + 1)
                     if(!data.active){
                         setIsDisliked(false);
-                        setDislikeCounts(dislikes)
+                        setDislikeCounts(dislikeCounts - 1)
                     }
                 }
             } else {
@@ -94,6 +99,14 @@ export default function Card({
             console.error('Engagement action failed:', error);
         }
     };
+
+    const handleShowNotification = () => {
+        setShowNotification(true);
+        setTimeout(() => {
+          setShowNotification(false);
+        }, 3000); 
+      };
+    
 
     useEffect(() => {
         const fetchHref = async () => {
@@ -244,6 +257,15 @@ export default function Card({
                         {/* <Button type='button' className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
                             Add to Board
                         </Button> */}
+
+                    {showNotification && (
+                        <Notification
+                            message="Action Required!"
+                            subMessage="You need to log in to engage with this post."
+                            type="warning"
+                        />
+                        
+                    )}
                     </div>
                 </div>
             </div>
