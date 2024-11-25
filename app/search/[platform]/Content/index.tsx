@@ -82,12 +82,13 @@ export default function Content({
                             {loading ? (
                                 <ImgCardsSkeleton />
                             ) : (
-                                hits?.map((post: any) => {
+                                hits?.map((post: any, i: number) => {
                                     return post?.base == 'blog' ? (
                                         <Card
-                                            key={post.doc_id}
+                                            key={i}
                                             id={post.doc_id}
-                                            country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                            // country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                            country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                             date={formatDate(post?.meta?.date) || ''}
                                             title={post?.title || ''}
                                             description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
@@ -98,7 +99,7 @@ export default function Content({
                                         />
                                     ) : (
                                         <ImgCard
-                                            key={post?.doc_id || post?.pad_id}
+                                            key={i}
                                             id={post?.doc_id || post?.pad_id}
                                             country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                             title={post?.title || ''}
