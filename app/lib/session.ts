@@ -80,15 +80,25 @@ export const get_session_id = async () => {
 
 export const session_info = async () => {
     const token: string|undefined = (await cookies()).get('_uuid_token')?.value
+    if (!token) return null;
     return token;
 }
 
 export const session_name = async () => {
     const token: string|undefined = (await cookies()).get('_uuid_platform')?.value as string
+    if (!token) return null;
     const name = verifyToken(token)
     return name;
 }
 
+
+export const is_user_logged_in = async () => {
+    const name = await session_name();
+    if (name && typeof name === 'object' && 'username' in name) {
+        return !!name.username; 
+    }
+    return false;
+};
 
 export async function getToken({ uuid, rights, username }: TokenPayload) {
     const token = await jwt.sign(
