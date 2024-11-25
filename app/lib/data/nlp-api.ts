@@ -91,7 +91,7 @@ export default async function nlpApi(_kwargs: Props) {
     } else return [];
 }
 
-async function getCountryNames (data) {
+async function getCountryNames (data: any) {
     const countries = data.map((d: any) => d.meta.iso3).flat()
     .filter((value: any, index: number, self: any) => {
         return self.indexOf(value) === index;
