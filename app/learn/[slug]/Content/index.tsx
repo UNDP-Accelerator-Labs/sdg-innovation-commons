@@ -64,7 +64,7 @@ export default function Section({
                 { ...searchParams, ...{ limit: page_limit, doc_type } }
             );
             setHits(data);
-
+            console.log(data)
             setLoading(false); 
         }
         fetchData();
@@ -131,8 +131,8 @@ export default function Section({
                                     <Card
                                         key={post.doc_id}
                                         id={post.doc_id}
-                                        // country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
-                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                        country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        // country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         date={formatDate(post?.meta?.date) || ''}
                                         title={post?.title || ''}
                                         description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}

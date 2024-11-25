@@ -118,11 +118,11 @@ export default function Section({
                                 'Close'
                             )}
                         </button>
-                        {allowDownLoad && (
+                        {allowDownLoad && hrefs && hrefs.length ? (
                             <Button className='border-l-0 grow-0'>
                             <a href={hrefs} target='_blank' >Download All</a>
                         </Button>
-                        )}
+                        ) : '' }
                     </div>
                     <div className='col-span-9'>
                         <Filters 
