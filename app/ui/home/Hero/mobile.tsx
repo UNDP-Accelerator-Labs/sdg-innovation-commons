@@ -24,20 +24,18 @@ export default function Hero({
   return (
   	<>
 	<section className={clsx('relative home-section pb-[80px] !border-t-0 grid-bg', className)}>
-	    	<div className='w-full pt-[140px] h-[50vh] relative'>
-	    		<img className='absolute left-[30%] md:left-[5%]' alt='Branding illustration' src='/images/hands/home_top.svg' />
-	    		<img className='absolute right-[-22%] md:right-[-80px] bottom-[-5%] md:bottom-[-15%]' alt='Branding illustration' src='/images/hands/home_bottom.svg' />
-	    	</div>
-	    <div className='inner w-[375] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+    	
+	    <div className='inner w-[375] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto pt-[75vh] relative overflow-hidden'>
+		    <img className='absolute left-[30%] md:left-[5%] top-[120px]' alt='Branding illustration' src='/images/hands/home_top.svg' />
+		    <img className='absolute right-[-22%] md:right-[-80px] top-[25%] ' alt='Branding illustration' src='/images/hands/home_bottom.svg' />
+
 		    <div className='section-content px-[40px]'>
 		        <div className='c-left mt-[40px]'>
 		            <h1>
 		            	<span className='slanted-bg yellow'>
-		            		<span>SDG Commons<br/>
-		            		powered by UNDP</span>
+		            		<span>Discover what we are learning from the people we serve</span>
 		            	</span>
 		            </h1>
-		            <p className='lead'><b>Discover what we are learning from the people we serve</b></p>
 		            <p className='lead'>The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.</p>
 		            {/* Search bar */}
 		            <form method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mt-[40px] mb-[40px] group relative'>

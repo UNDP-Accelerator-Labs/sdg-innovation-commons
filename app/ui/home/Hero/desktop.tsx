@@ -31,11 +31,9 @@ export default function Hero({
 		        <div className='c-left col-span-5 mt-[80px]'>
 		            <h1>
 		            	<span className='slanted-bg yellow'>
-		            		<span>SDG Commons<br/>
-		            		powered by UNDP</span>
+		            		<span>Discover what we are learning from the people we serve</span>
 		            	</span>
 		            </h1>
-		            <p className='lead'><b>Discover what we are learning from the people we serve</b></p>
 		            <p className='lead'>The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.</p>
 		            {/* Search bar */}
 		            <form method='GET' onSubmit={handleSubmit} className='h-[60px] flex flex-row mt-[40px] mb-[40px] group relative'>

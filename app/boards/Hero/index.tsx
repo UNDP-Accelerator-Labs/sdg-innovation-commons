@@ -74,14 +74,14 @@ export default function Section() {
             {/*<section className='relative lg:home-section lg:px-0 lg:py-0 !border-t-0 overflow-hidden'>*/}
                 <div className='section-content'>
                     <div className='md:grid md:gap-[20px] md:grid-cols-3 lg:grid-cols-3 items-end md:mb-[40px]'>
-                        <div className='c-left col-span-3 lg:col-span-2 flex flex-col mb-[80px] lg:mb-0'>
+                        <div className='c-left col-span-3 lg:col-span-2 flex flex-col my-[80px] lg:mb-0'>
                             <div>
                                 {/*<p className='lead text-white font-space-mono mb-0'>
                                     <b>{currentData.title}</b>
                                 </p>*/}
                                 <h1 className='text-white'>
                                     <span className='dark blue slanted-bg'>
-                                        <span>Next practices for the SDGS</span>
+                                        <span>Next practices for the SDGs</span>
                                     </span>
                                 </h1>
                                 <p className='lead text-white font-bold lg:mb-[160px]'>
