@@ -6,8 +6,14 @@ import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
+import { boolean } from 'zod';
 
-export default function Section() {
+export interface Props {
+    boards: any[];
+    isLogedIn: boolean;
+}
+
+export default function Section({ boards, isLogedIn}: Props) {
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
 
@@ -67,7 +73,7 @@ export default function Section() {
                                         country={countries}
                                         title={post?.title || ''}
                                         description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                        source={post?.base || 'Solution'}
+                                        source={post?.base || 'solution'}
                                         tagStyle="bg-light-green"
                                         tagStyleShade="bg-light-green-shade"
                                         href={post?.url}
@@ -79,6 +85,11 @@ export default function Section() {
                                         engagement={post?.engagement}
                                         data={post}
                                         className={i === 2 ? 'hidden xl:block' : ''}
+
+                                        isLogedIn={isLogedIn}
+                                        boardInfo={{
+                                            boards
+                                        }}
                                     />
                                 )
                             })

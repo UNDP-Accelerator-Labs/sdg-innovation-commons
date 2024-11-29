@@ -1,6 +1,14 @@
-import React from 'react';
+'use client';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import { CardLink } from '@/app/ui/components/Link';
+import Link from 'next/link';
+import { pin } from '@/app/lib/data/platform-api';
+import Notification from '@/app/ui/components/Notification';
+import { Button } from '@/app/ui/components/Button';
+import AddToBoard from '@/app/ui/components/Modal/add-to-board';
+import { handleShowNotification, handleBoard, removeFromBoardApi, redirectUser } from './utils'
+import { BoardInfo } from './with-img'
+import { usePathname } from 'next/navigation'
 
 export interface CardProps {
   id: number;
@@ -19,6 +27,8 @@ export interface CardProps {
   date?: string;
   openInNewTab?: boolean;
   tagStyleShade?: string;
+  boardInfo?: BoardInfo
+  isLogedIn?: boolean;
 }
 
 export default function Card({
@@ -34,9 +44,44 @@ export default function Card({
   href, 
   openInNewTab,
   className,
+  boardInfo,
+  isLogedIn,
 }: CardProps) {
-  // Convert tagArr to an array if it's a string
-  const tagArr = Array.isArray(tags) ? tags : [tags];
+
+  const pathname = usePathname();
+  const { boards, removeFromBoard, boardId } = boardInfo || {};
+
+  //Notification DOM states
+  const [showNotification, setShowNotification] = useState(false);
+  const [message, setMessage] = useState<string>("Action Required!");
+  const [submessage, setSubMessage] = useState<string>("You need to log in to engage with this post.");
+  const [messageType, setMessageType] = useState<string>("warning");
+
+  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  type ActionType = 'delete' | 'insert';
+
+  const handleBoardFn = (action: ActionType) => {
+    return handleBoard(
+        isLogedIn as boolean, 
+        removeFromBoard as boolean,
+        setModalOpen, 
+        () => handleShowNotification(setShowNotification), 
+        action => removeFromBoardApi(
+                action,
+                boardId as number, 
+                id, 
+                source as string, 
+                pin, 
+                setMessage, 
+                setMessageType, 
+                setSubMessage, 
+                setShowNotification, 
+                () => redirectUser(pathname), 
+                setModalOpen 
+          )
+    ); 
+  }
 
   return (
     <div className={clsx('card border-0 border-t-[1px] w-full relative flex flex-col', className)}>
@@ -53,8 +98,15 @@ export default function Card({
       {/* MAIN CONTENT */}
       <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
         <div>
-          <h1>{title}</h1>
-          <p>{description}</p>
+          <Link 
+              href={href} 
+              passHref 
+              target={'_blank'} 
+              rel={'noopener noreferrer'} 
+          >
+            <h1>{title}</h1>
+            <p>{description}</p>
+          </Link>
         </div>
         {/* TYPE INFO */}
         <div className="flex flex-row justify-between mt-[20px]">
@@ -72,12 +124,35 @@ export default function Card({
             ))}
           </div>*/}
           <button type='button' className="chip bg-black text-white">{country}</button>
-          <CardLink
-              href={href || '/'}
-              openInNewTab={openInNewTab}
-          />
+
+          <Button type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' :'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+              {removeFromBoard ? 'Remove from' : 'Add to'} Board
+          </Button>
+                        
         </div>
       </div>
+
+      {showNotification && (
+            <Notification
+                message={message}
+                subMessage={submessage}
+                type={messageType}
+            />
+
+        )}
+
+        <AddToBoard
+            boards={boards || []}
+            isOpen={isModalOpen}
+            onClose={() => setModalOpen(false)}
+            platform={source as string}
+            id={id}
+
+            setMessage={setMessage}
+            setSubMessage={setSubMessage}
+            setMessageType={setMessageType}
+            setShowNotification={setShowNotification}
+        />
     </div>
   );
 }

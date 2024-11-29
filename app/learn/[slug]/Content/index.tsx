@@ -12,7 +12,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
 import Filters from '../Filters';
-import statsApi from '@/app/lib/data/nlp-pagination';
+import { is_user_logged_in } from '@/app/lib/session';
+import platformApi from '@/app/lib/data/platform-api';
 
 export interface PageStatsResponse {
     total: number;
@@ -41,6 +42,9 @@ export default function Section({
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState(search || '');
 
+    const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
+    const [boards, setBoards] = useState<any[]>([]);
+
     // Fetch data on component mount
     useEffect(() => {
         async function fetchData() {
@@ -64,7 +68,18 @@ export default function Section({
                 { ...searchParams, ...{ limit: page_limit, doc_type } }
             );
             setHits(data);
-            console.log(data)
+            
+
+            const { data : board, count: board_count } = await platformApi(
+                { ...searchParams, ...{ limit: 200 } }, //TODO: ADD 'all' PARAMETER TO PLATFORM API TO RETURN ALL LIST
+                'solution', 
+                'pinboards'
+            );
+            setBoards(board)
+    
+            const isValidUser = await is_user_logged_in();
+            setIsLogedIn(isValidUser)
+
             setLoading(false); 
         }
         fetchData();
@@ -140,7 +155,11 @@ export default function Section({
                                         tagStyle="bg-light-blue"
                                         href={post?.url}
                                         openInNewTab={true}
-                                        source={post?.meta?.doc_type || ''}
+                                        source={post?.meta?.doc_type || 'blog'}
+                                        isLogedIn={isLogedIn}
+                                        boardInfo={{
+                                            boards: boards,
+                                        }}
                                     />
                                 )
                             })
@@ -150,7 +169,7 @@ export default function Section({
                         <div className='w-full flex justify-center col-start-2'>
                         {!loading ? (
                             <Pagination
-                                page={+page ?? 1}
+                                page={+page}
                                 totalPages={pages}
                             />
                         ) : (<small className='block w-full text-center'>Loading pagination</small>)

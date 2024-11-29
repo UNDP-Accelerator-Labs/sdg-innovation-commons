@@ -16,13 +16,13 @@ export default async function Data({
 }: Props) {
 	// LOAD CONTENT
 	// SET THE CORRECT PLATFORM(S)
-	const data: any[] = await Promise.all(
+	const data: any[] = platforms?.length ? await Promise.all(
 	    platforms
-	    .filter((d: any) => {
+	    ?.filter((d: any) => {
 	        // DETERMINE WHICH PLATFORM(S) TO QUERY
 	        if (platform === 'all') return d !== 'all';
 	        else return commonsPlatform.find((c: any) => c.key === platform)?.shortkey === d.platform;
-	    }).map(async (d: any) => {
+	    })?.map(async (d: any) => {
 	        if (d) {
 	            const platform: string = commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
 	            const platformPads: any[] = pads.filter((c: any) => c.platform === d.platform).map((c: any) => c.pad_id);
@@ -35,7 +35,7 @@ export default async function Data({
 	            return data || [];
 	        } else return [];
 	    })
-	);
+	) : [];
 	// GET THE MAIN VIGNETTE FOR THE BOARD
 	const vignettes = data?.flat().map(d => d.vignette);
 	const vignette = vignettes[Math.floor(Math.random() * vignettes.length)];

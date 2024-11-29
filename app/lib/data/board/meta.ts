@@ -16,8 +16,8 @@ export default async function Data({
 	searchParams,
 }: Props) {
 	// SET THE CORRECT PLATFORM(S)
-	if (platform === 'all') platforms = platforms.filter((d: string) => d !== 'all');
-	else platforms = platforms.filter((d: string) => d === platform);
+	if (platform === 'all') platforms = platforms?.filter((d: string) => d !== 'all');
+	else platforms = platforms?.filter((d: string) => d === platform);
 
 	// GET THE METADATA
 	const meta: any[] = await metaData({ 

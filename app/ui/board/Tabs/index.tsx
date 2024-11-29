@@ -12,6 +12,7 @@ export default async function Section({
     tabs,
     platform,
 }: Props) {
+    if(!tabs?.length) return <></>
     return (
         <>
         <nav className='tabs'>

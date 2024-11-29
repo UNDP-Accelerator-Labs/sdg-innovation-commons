@@ -7,6 +7,8 @@ import boardData from '@/app/lib/data/board';
 
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { commonsPlatform, page_limit, formatDate } from '@/app/lib/utils';
+import { is_user_logged_in } from '@/app/lib/session';
+import platformApi from '@/app/lib/data/platform-api';
 
 import Hero from '../Hero';
 import Infobar from '../Infobar';
@@ -41,6 +43,14 @@ export default async function Section({
         vignette 
     } = await boardData({ id, platform, searchParams });
 
+    const { data: boardlist, count } = await platformApi(
+        { ...searchParams, ...{ limit: 200 } }, // TODO: ALLOW ALL LIST FROM PLATFORM API
+        'solution', 
+        'pinboards'
+    );
+
+    const isLogedIn = await is_user_logged_in();
+
     return (
         <>
         <Hero 
@@ -49,7 +59,7 @@ export default async function Section({
             lab={lab}
             includeMetadata={true}
             contributors={contributors}
-            padsCount={pads.count}
+            padsCount={pads?.count}
             locations={locations}
             tags={tags}
         />
@@ -92,8 +102,8 @@ export default async function Section({
                                     if (d.base === 'blog') {
                                         return (
                                             <BlogCard
-                                                id={i}
-                                                key={d.doc_id}
+                                                id={d?.id}
+                                                key={i}
                                                 country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
                                                 date={formatDate(d?.parsed_date) || ''}
                                                 title={d?.title || ''}
@@ -103,6 +113,14 @@ export default async function Section({
                                                 href={d?.url}
                                                 openInNewTab={true}
                                                 className='border-[1px] border-solid box-border'
+                                                source={d?.base || 'blog'}
+
+                                                isLogedIn={isLogedIn}
+                                                boardInfo={{
+                                                    boards: boardlist,
+                                                    removeFromBoard: true,
+                                                    boardId: id
+                                                }}
                                             />
                                         )
                                     } else {
@@ -116,7 +134,7 @@ export default async function Section({
                                             path = 'test';
                                         }
                                         return (
-                                            <Card
+                                            <Card 
                                                 key={i}
                                                 id={d?.doc_id || d?.pad_id}
                                                 country={d?.country === 'NUL' || !d?.country ? 'Global' : d?.country}
@@ -132,6 +150,14 @@ export default async function Section({
                                                 backgroundImage={d?.vignette}
                                                 date={d?.date}
                                                 engagement={d?.engagement}
+                                                data={d}
+                                                isLogedIn={isLogedIn}
+                                                boardInfo={{
+                                                    boards: boardlist,
+                                                    removeFromBoard: true,
+                                                    boardId: id
+                                                }}
+                                                
                                             />
                                         )
                                     }
@@ -143,7 +169,7 @@ export default async function Section({
                 <div className='pagination'>
                     <div className='w-full flex justify-center col-start-2'>
                         <Pagination
-                            page={+page ?? 1}
+                            page={+page}
                             totalPages={pages}
                         />
                     </div>

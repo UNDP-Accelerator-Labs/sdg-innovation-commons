@@ -1,41 +1,41 @@
 'use server';
 import blogsApi from './blogs-api';
-import { commonsPlatform, extractSDGNumbers, polishTags } from '@/app/lib/utils';
+import { commonsPlatform, extractSDGNumbers, polishTags, LOCAL_BASE_URL } from '@/app/lib/utils';
 import get from './get'
 
 export interface Props {
-  space?: string;
-  page?: number;
-  limit?: number;
-  search?: string; 
-  status?: any;
-  contributors?: any;
-  countries?: any;
-  regions?: any;
-  teams?: any;
-  pads?: any;
-  templates?: any;
-  mobilizations?: any;
-  pinboard?: any;
-  section?: any;
-  methods?: any;
-  nodes?: any;
-  orderby?: string;
-  include_tags?: boolean;
-  include_imgs?: boolean;
-  include_data?: boolean;
-  include_locations?: boolean;
-  include_metafields?: boolean;
-  include_source?: boolean;
-  include_engagement?: boolean;
-  include_comments?: boolean;
-  platform?: string;
-  pseudonymize?: boolean;
-  render?: boolean;
-  action?:string;
+    space?: string;
+    page?: number;
+    limit?: number;
+    search?: string;
+    status?: any;
+    contributors?: any;
+    countries?: any;
+    regions?: any;
+    teams?: any;
+    pads?: any;
+    templates?: any;
+    mobilizations?: any;
+    pinboard?: any;
+    section?: any;
+    methods?: any;
+    nodes?: any;
+    orderby?: string;
+    include_tags?: boolean;
+    include_imgs?: boolean;
+    include_data?: boolean;
+    include_locations?: boolean;
+    include_metafields?: boolean;
+    include_source?: boolean;
+    include_engagement?: boolean;
+    include_comments?: boolean;
+    platform?: string;
+    pseudonymize?: boolean;
+    render?: boolean;
+    action?: string;
 }
 
-export default async function platformApi(_kwargs: Props, platform: string, object: string, urlOnly:boolean = false, ) {
+export default async function platformApi(_kwargs: Props, platform: string, object: string, urlOnly: boolean = false,) {
     let { space, pinboard, include_tags, include_locations, include_engagement, action, render } = _kwargs;
     if (!platform) platform = 'solution';
     if (!object) object = 'pads';
@@ -49,14 +49,14 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     if (platform === 'blogs') return await blogsApi(_kwargs);
 
     const params = new URLSearchParams();
-    if(render) params.set('output', 'csv');
+    if (render) params.set('output', 'csv');
     else params.set('output', 'json');
     params.set('include_data', 'true');
-    
+
     for (let k in _kwargs) {
         const argV = _kwargs[k as keyof typeof _kwargs];
         if (Array.isArray(argV)) {
-            argV.forEach((v:any) => {
+            argV.forEach((v: any) => {
                 params.append(k, v);
             });
         } else {
@@ -66,10 +66,10 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
 
     const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
 
-    const url = `${base_url}/apis/${action}/${object}?${params.toString()}`;    
+    const url = `${base_url}/apis/${action}/${object}?${params.toString()}`;
     console.log('check url ', url)
 
-    if(urlOnly) return url 
+    if (urlOnly) return url
 
     const data = await get({
         url,
@@ -89,15 +89,15 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         });
         // console.log(data)
         return polishTags(data);
-    } 
+    }
     else return data;
 }
 
 
-  export async function engageApi(
-    platform: string, 
-    type: string, 
-    action: string, 
+export async function engageApi(
+    platform: string,
+    type: string,
+    action: string,
     id: number
 ) {
 
@@ -116,5 +116,36 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
         method: 'POST',
         body
     });
+    return data;
+}
+
+export async function pin(
+    platform: string,
+    action: string,
+    board_id: number,
+    object_id: number,
+    board_title?: string,
+) {
+    let source = platform;
+    if(['news', 'blog', 'publications', 'press release'].includes(platform)) source = 'solution'
+
+    const base_url: string | undefined = commonsPlatform.find(p => p.key === source)?.url;
+
+    const url = `${base_url}/pin`;
+    const body = {
+        action,
+        board_id,
+        object_id,
+        object: 'pad',
+        board_title,
+        source: platform,
+    }
+
+    const data = await get({
+        url,
+        method: 'POST',
+        body
+    });
+    
     return data;
 }

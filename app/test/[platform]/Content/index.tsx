@@ -12,6 +12,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
 import Filters from '../Filters';
+import { is_user_logged_in } from '@/app/lib/session';
 
 export interface PageStatsResponse {
     total: number;
@@ -43,6 +44,9 @@ export default function Section({
 
     const [allowDownLoad, setallowDownLoad ] = useState<boolean>(false);
     const [hrefs, setHref] = useState<string>('');
+
+    const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
+    const [boards, setBoards] = useState<any[]>([]);
   
     async function fetchData(): Promise<void> {
         setLoading(true);
@@ -90,6 +94,17 @@ export default function Section({
         setHref(url)
 
         setHits(data);
+
+        const { data : board, count: board_count } = await platformApi(
+            { ...searchParams, ...{ limit: 200 } }, //TODO: ADD 'all' PARAMETER TO PLATFORM API TO RETURN ALL LIST
+            'solution', 
+            'pinboards'
+        );
+        setBoards(board)
+
+        const isValidUser = await is_user_logged_in()
+        setIsLogedIn(isValidUser)
+
         setLoading(false);
     }
 
@@ -173,6 +188,10 @@ export default function Section({
                                     date={post?.date}
                                     engagement={post?.engagement}
                                     data={post}
+                                    isLogedIn={isLogedIn}
+                                    boardInfo={{
+                                        boards: boards,
+                                    }}
                                 />
                             ))
                         )}

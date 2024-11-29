@@ -20,18 +20,18 @@ export default async function Data({
     );
     const pages = Math.ceil(boardData?.total / page_limit) ?? 1;
 
-    const platforms = boardData.counts
-    .map((c: any) => {
+    const platforms = boardData?.counts
+    ?.map((c: any) => {
         c.pinboard_id = boardData.pinboard_id;
         return c;
     });
 
-    const tabs = platforms.map((d: any) => {
+    const tabs = platforms?.map((d: any) => {
         return commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
     });
-    tabs.unshift('all');
+    tabs?.unshift('all');
 
-    const { title, description, total: padsCount, pads, contributors, creator }: { title: string, description: string, total: number, contributors: number, creator: any, pads: any[] } = boardData;
+    const { title, description, total: padsCount, pads, contributors, creator }: { title: string, description: string, total: number, contributors: number, creator: any, pads: any[] } = boardData || {};
     const { name: creatorName, isUNDP, country }: { name: string, isUNDP: boolean, country: string | undefined } = creator || {};
 
     // DETERMINE WHETHER THE BOARD IS ATTRIBUTABLE TO AN ACCELERATOR LAB

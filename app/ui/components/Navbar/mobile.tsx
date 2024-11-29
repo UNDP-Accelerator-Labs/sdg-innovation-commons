@@ -53,6 +53,9 @@ export default function NavBar({ session }: any) {
               alt=""
               src="/images/gtranslate.svg"
             /> */}
+            <Link href={'/search/all'}>
+              <img className="w-[40.7px] relative h-[37.2px] object-cover" alt="Search" src="/images/search.svg" />
+            </Link>
             {session?.username ? <>
               <Link href={'/'} passHref className='no-underline text-black'>
                 <span className="leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5">

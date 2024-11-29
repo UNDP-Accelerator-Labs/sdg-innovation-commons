@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
+import { is_user_logged_in } from '@/app/lib/session';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { page_limit } from '@/app/lib/utils';
@@ -26,10 +27,13 @@ export default function Section({
 
     const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+    const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
 
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+
+    const [boards, setBoards] = useState<any[]>([]);
 
     const [hrefs, setHref] = useState<string>('');
 
@@ -57,6 +61,16 @@ export default function Section({
                 { ...searchParams, ...{ limit: page_limit, doc_type: platform } }
             );
         }
+
+        const { data : board, count: board_count } = await platformApi(
+            { ...searchParams, ...{ limit: 200 } }, //TODO: ADD 'all' PARAMETER TO PLATFORM API TO RETURN ALL LIST
+            'solution', 
+            'pinboards'
+        );
+        setBoards(board)
+
+        const isValidUser = await is_user_logged_in()
+        setIsLogedIn(isValidUser)
 
         const idz: number[] = data?.map(p=>p?.pad_id || p?.doc_id)
         const baseUrl = await platformApi({ render: true, action: 'download' }, platform, 'pads', true);
@@ -146,6 +160,10 @@ export default function Section({
                                     date={post?.date}
                                     engagement={post?.engagement}
                                     data={post}
+                                    isLogedIn={isLogedIn}
+                                    boardInfo={{
+                                        boards: boards,
+                                    }}
                                 />
                             )
                         })

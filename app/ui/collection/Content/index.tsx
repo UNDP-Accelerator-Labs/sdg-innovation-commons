@@ -131,7 +131,7 @@ export default async function Section({
                     <div className='pagination'>
                         <div className='w-full flex justify-center col-start-2'>
                             <Pagination
-                                page={+page ?? 1}
+                                page={+page}
                                 totalPages={pages}
                             />
                         </div>

@@ -51,6 +51,9 @@ export default function DesktopNavBar({ session } : any) {
                 </Link>
               )
             })}
+          <Link href={'/search/all'}>
+            <img className="w-[31.8px] relative h-[29px] object-cover" alt="Search" src="/images/search.svg" />
+          </Link>
 
             {/* Translate icon */}
             {/* <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" /> */}

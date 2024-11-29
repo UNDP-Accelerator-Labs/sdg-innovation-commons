@@ -11,8 +11,9 @@ import { processHits } from '../Learn';
 import { PostProps } from '@/app/lib/definitions';
 import { defaultSearch } from '@/app/lib/utils';
 import { useIsVisible } from '@/app/ui/components/Interaction';
+import { Props } from '../See'
 
-export default function Section() {
+export default function Section({ boards, isLogedIn}: Props) {
     const tabs = ['all', 'experiment', 'action plan'] as const; 
     type TabType = typeof tabs[number]; 
 
@@ -115,6 +116,11 @@ export default function Section() {
                                     engagement={post?.engagement}
                                     className={clsx(i === 2 ? 'hidden xl:block' : '')}
                                     data={post}
+
+                                    isLogedIn={isLogedIn}
+                                    boardInfo={{
+                                        boards
+                                    }}
                                 />
                             ))
                         )}
