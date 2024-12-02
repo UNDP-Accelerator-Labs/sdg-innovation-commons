@@ -5,6 +5,7 @@ import DropDown from '@/app/ui/components/DropDown';
 import { MenuItem } from '@headlessui/react'
 import UpdateBoardModal from '@/app/ui/components/Modal/update-board';
 import Notification from '@/app/ui/components/Notification';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 interface Props {
     searchParams: any;
@@ -30,6 +31,9 @@ export default function Section({
     const [messageType, setMessageType] = useState<string>("warning");
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
+    const { sharedState } = useSharedState();
+    const { isLogedIn } = sharedState || {}
+
     const updateBoard = (e: any) => {
         e.preventDefault();
         setModalOpen(true)
@@ -53,7 +57,7 @@ export default function Section({
                             'Close'
                         )}
                     </button>
-
+                    {isLogedIn && (
                     <DropDown>
                         <MenuItem as="button" className={'bg-white'}>
                             <div
@@ -64,6 +68,7 @@ export default function Section({
                             </div>
                         </MenuItem>
                     </DropDown>
+                    )}
                 </div>
                 <div className='col-span-9'>
                     {/*<Filters 
