@@ -33,7 +33,7 @@ export default function Section({ boards, isLogedIn}: Props) {
 
     return (
         <>
-        <section className='home-section py-[40px] lg:py-[80px] grid-bg'>
+        <section id='learn' className='home-section py-[40px] lg:py-[80px] grid-bg'>
             <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>

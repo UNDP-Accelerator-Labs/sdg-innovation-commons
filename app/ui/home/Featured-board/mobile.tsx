@@ -56,7 +56,7 @@ export default function Section({
 
     return (
         <>
-        <section className={clsx('relative home-section overflow-hidden min-h-[100vh] flex items-center', className)}>
+        <section id='featured-boards' className={clsx('relative home-section overflow-hidden min-h-[100vh] flex items-center', className)}>
             <div className='caroussel w-full min-h-[100vh] ml-[calc((100% - 100vw) / 2)]'>
                 <div className='slides absolute h-full flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border'>
                     {slides.map((d: any, i: number) => {
