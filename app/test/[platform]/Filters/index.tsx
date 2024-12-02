@@ -41,7 +41,6 @@ export default function Filters({
 	        platforms: checkPlatform, 
 	        filters
 	    });
-	    
 	    setHits(meta);
 	    setLoading(false);
 	}

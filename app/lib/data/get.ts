@@ -26,27 +26,22 @@ export default async function get({ url, method, body, cache }: Props) {
             ...(cache ? cache : '')
         });
 
+        const responseData = await response.json();
+
         if (!response.ok) {
             if (response.status === 400) {
-                try {
-                    const data = await response.json(); 
-                    if (data?.message) {
-                        return [];
-                    }
-                    return data;
-                } catch (err) {
-                    console.error('Error parsing JSON:', err);
-                    return null;
+                if (responseData?.message) {
+                    return [];
                 }
+                return responseData;
             } else {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
-        } else {
-            const data = await response.json();
-            return data;
         }
+
+        return responseData;
     } catch (error) {
-        console.error('Fetch error:', url, error);
+        console.log('Fetch error:', url, error);
         return null;
     }
 }

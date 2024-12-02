@@ -98,7 +98,7 @@ export default function Hero({
 								className={clsx(filterVisibility ? '' : 'hidden')}
 								searchParams={searchParams}
 								platform={'all'}
-								tabs={['solution']}
+								tabs={tabs}
 							/>
 						</div>
 					</form>
