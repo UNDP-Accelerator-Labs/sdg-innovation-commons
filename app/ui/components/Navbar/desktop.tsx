@@ -15,6 +15,11 @@ export default function DesktopNavBar() {
 
   const { sharedState } = useSharedState();
 
+  const loginRedirect = (e:any)=>{
+      e.preventDefault()
+      redirectToLogin(currPath)
+  }
+
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
       <div className='inner relative w-[1440px] mx-auto px-[80px] box-border'>
@@ -64,17 +69,14 @@ export default function DesktopNavBar() {
 
           {/* Login button */}
           {sharedState?.session?.username ? <>
-            <Link href={'/'} passHref className='no-underline text-black'>
+            <button onClick={loginRedirect} className='no-underline text-black bottom-0 bg-inherit'>
                 <span className={clsx("relative leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5")}>
                   Welcome {sharedState?.session?.username || ''}
                 </span>
-            </Link>
+            </button>
           </>
           : <>
-            <button onClick={(e) => {
-              e.preventDefault()
-              redirectToLogin(currPath)
-            }} className="w-[143.1px] relative h-[51.3px] cursor-pointer">
+            <button onClick={loginRedirect} className="w-[143.1px] relative h-[51.3px] cursor-pointer">
               <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
               <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
                 Login

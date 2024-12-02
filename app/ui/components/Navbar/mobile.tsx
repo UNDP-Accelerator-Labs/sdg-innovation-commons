@@ -16,7 +16,11 @@ export default function NavBar() {
   };
 
   const currPath = usePathname();
-
+  const loginRedirect = (e:any)=>{
+      e.preventDefault()
+      redirectToLogin(currPath)
+  }
+  
   return (
     <div className='w-full relative bg-white py-[20px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid z-10'>
       <div className='inner relative w-full mx-auto px-[40px] box-border flex flex-row items-center justify-between'>
@@ -59,17 +63,14 @@ export default function NavBar() {
               <img className="w-[40.7px] relative h-[37.2px] object-cover" alt="Search" src="/images/search.svg" />
             </Link>
             {sharedState?.session?.username ? <>
-              <Link href={'/'} passHref className='no-underline text-black'>
+              <button onClick={loginRedirect} className='no-underline text-black bottom-0 bg-inherit'>
                 <span className="leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5">
                   Welcome {sharedState?.session?.username || ''}
                 </span>
-              </Link>
+              </button>
             </>
               : <>
-                <button onClick={(e) => {
-                  e.preventDefault()
-                  redirectToLogin(currPath)
-                }} className="w-[143.1px] relative h-[51.3px]">
+                <button onClick={loginRedirect} className="w-[143.1px] relative h-[51.3px]">
                   <div className="absolute top-[0px] left-[0px] bg-lime-yellow w-[143.1px] h-[51.3px]" />
                   <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
                     Login
