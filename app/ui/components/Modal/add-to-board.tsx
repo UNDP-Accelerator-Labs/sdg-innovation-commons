@@ -118,12 +118,13 @@ const AddToBoard: FC<Props> = ({
                                 <div key={index} className="flex items-center my-1">
                                     <input
                                         id={item.name}
-                                        type="checkbox"
+                                        type="radio"
                                         className="mr-2 border-solid border-1 hover:border-light-blue "
                                         // defaultChecked={true}
-                                        name={item.name}
+                                        name="boardSelection"
                                         value={item.id}
                                         onChange={() => setBoardId(item.id)}
+                                        checked={boardId === item.id}
                                     />
                                     <label className="flex-grow text-gray-800">{item.name}</label>
                                     <span className="text-gray-500">{item.count}</span>
