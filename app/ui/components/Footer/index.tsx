@@ -33,9 +33,9 @@ export default function Footer() {
                 e.preventDefault()
                 redirectToLogin(currPath)
               }}>
-                  <Link href={'/#contact'}>
+                  {/* <Link href={'/#contact'}> */}
                       Sign up
-                  </Link>
+                  {/* </Link> */}
               </Button>
             </div>
           </div>
