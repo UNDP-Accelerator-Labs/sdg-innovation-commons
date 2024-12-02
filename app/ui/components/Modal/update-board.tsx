@@ -1,3 +1,4 @@
+"use client";
 import React, { FC, useState } from "react";
 import { usePathname } from 'next/navigation'
 import Modal from "./index";
