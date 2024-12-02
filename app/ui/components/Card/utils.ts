@@ -92,6 +92,7 @@ export const removeFromBoardApi = async (
     try {
         const data = await pin(platform, action, boardId, id);
         if (data?.status === 200) {
+            console.log(data)
             setMessage('');
             setMessageType('success');
             setSubMessage('Successfully removed item from board.');

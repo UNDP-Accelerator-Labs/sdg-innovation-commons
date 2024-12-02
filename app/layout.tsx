@@ -2,6 +2,7 @@ import '@/app/ui/global.css'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import { headers } from 'next/headers'
+import { SharedStateProvider } from '@/app/ui/components/SharedState/Context';
 
 export const metadata: Metadata = {
   title: 'SDG Commons',
@@ -32,7 +33,11 @@ export default async function RootLayout({
           strategy="afterInteractive"
         />
       )}
-      <body>{children}</body>
+      <body>
+        <SharedStateProvider>
+          {children}
+        </SharedStateProvider>
+      </body>
     </html>
   );
 }

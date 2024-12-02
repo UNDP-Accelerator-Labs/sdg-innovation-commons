@@ -13,6 +13,7 @@ export interface BoardInfo {
     boards?: any[];
     removeFromBoard?: boolean;
     boardId?: number;
+    articleType?: string;
 }
 
 interface CardProps {

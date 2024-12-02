@@ -4,8 +4,6 @@ import Card from '@/app/ui/components/Card/featured-card';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi from '@/app/lib/data/platform-api';
-import nlpApi from '@/app/lib/data/nlp-api';
-import { is_user_logged_in } from '@/app/lib/session';
 import { page_limit } from '@/app/lib/utils';
 import { Button } from '@/app/ui/components/Button';
 // import Filters from '../Filters';
@@ -25,13 +23,9 @@ export default function Section({
 }: SectionProps) {
     const { page, search } = searchParams;
 
-    const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
-    const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
-
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
 
     // const platform = 'solution';
 
@@ -46,10 +40,6 @@ export default function Section({
 
         setHits(data);
         setPages(pages);
-
-        const isValidUser = await is_user_logged_in()
-        setIsLogedIn(isValidUser)
-
         setLoading(false);
     }
 

@@ -15,7 +15,7 @@ interface Props {
     onClose: () => void;
     boards: any[];
     platform: string;
-    id: number;
+    id: number | number[];
 
     setMessage: any;
     setSubMessage: any;
@@ -100,7 +100,7 @@ const AddToBoard: FC<Props> = ({
                             value={searchTerm}
                             onChange={handleSearchChange}
                             className="bg-white border-black !border-r-0 grow px-3 py-2"
-                            id="main-search-bar"
+                            id="search-bar"
                             placeholder="Find board"
                         />
                         <Button type="button" className="border-l-0 grow-0">
@@ -110,7 +110,7 @@ const AddToBoard: FC<Props> = ({
                 </div>
 
                 {/* Board List */}
-                <div className="space-y-2 overflow-y-auto max-h-60 p-2 my-4">
+                <div className="space-y-2 overflow-y-auto max-h-60 my-4">
                     <fieldset>
                         {filteredCollections.length > 0 ? (
                             filteredCollections.map((item, index) => (
@@ -119,8 +119,8 @@ const AddToBoard: FC<Props> = ({
                                     <input
                                         id={item.name}
                                         type="checkbox"
-                                        // className="mr-2 border  border-gray-300 hover:border-gray-400 focus:border-blue-500 highlighted-checkbox"
-                                        // defaultChecked={item.checked}
+                                        className="mr-2 border-solid border-1 hover:border-light-blue "
+                                        // defaultChecked={true}
                                         name={item.name}
                                         value={item.id}
                                         onChange={() => setBoardId(item.id)}
@@ -130,7 +130,7 @@ const AddToBoard: FC<Props> = ({
                                 </div>
                             ))
                         ) : (
-                            <p className="text-gray-500 text-sm text-center">
+                            <p className="text-sm text-center">
                                 No boards found. Create a new one!
                             </p>
                         )}

@@ -11,9 +11,8 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { PageStatsResponse, SectionProps } from '@/app/test/[platform]/Content';
-import { is_user_logged_in } from '@/app/lib/session';
 import platformApi from '@/app/lib/data/platform-api';
-
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export default function Content({
     searchParams,
@@ -28,8 +27,11 @@ export default function Content({
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
 
-    const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
     const [boards, setBoards] = useState<any[]>([]);
+
+    const [objectIdz, setObjectIdz] = useState<number[]>([]);
+
+    const { sharedState, setSharedState } = useSharedState();
 
     const initialTab = platform || tabs[0];
 
@@ -53,16 +55,25 @@ export default function Content({
         );
         setHits(data);
 
+        const idz: number[] = data?.map(p => p?.pad_id || p?.doc_id)
+        setObjectIdz(idz)
+
         const { data : board, count: board_count } = await platformApi(
-            { ...searchParams, ...{ limit: 200 } }, //TODO: ADD 'all' PARAMETER TO PLATFORM API TO RETURN ALL LIST
+            {},
             'solution', 
             'pinboards'
         );
         setBoards(board)
 
-        const isValidUser = await is_user_logged_in();
-        setIsLogedIn(isValidUser)
-
+        setSharedState((prevState: any) => ({
+            ...prevState, 
+            searchData: {
+                boards: board,
+                objectIdz: idz,
+                hits: data,
+            }
+        }));
+        
         setLoading(false);
     }
 
@@ -114,7 +125,7 @@ export default function Content({
                                             openInNewTab={true}
                                             source={post?.base || 'blog'}
 
-                                            isLogedIn={isLogedIn}
+                                            isLogedIn={sharedState?.isLogedIn}
                                             boardInfo={{
                                                 boards: boards,
                                             }}
@@ -135,7 +146,7 @@ export default function Content({
                                             sdg={post?.sdg?.length ? `SDG ${post?.sdg?.join('/')}` : ''}
                                             backgroundImage={post?.vignette}
 
-                                            isLogedIn={isLogedIn}
+                                            isLogedIn={sharedState?.isLogedIn}
                                             boardInfo={{
                                                 boards: boards,
                                             }}

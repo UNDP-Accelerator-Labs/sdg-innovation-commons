@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { MenuItem } from '@headlessui/react'
 import Card from '@/app/ui/components/Card/without-img';
 import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
@@ -12,8 +13,11 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
 import Filters from '../Filters';
-import { is_user_logged_in } from '@/app/lib/session';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import platformApi from '@/app/lib/data/platform-api';
+import AddToBoard from '@/app/ui/components/Modal/add-to-board';
+import Notification from '@/app/ui/components/Notification';
+import DropDown from '@/app/ui/components/DropDown';
 
 export interface PageStatsResponse {
     total: number;
@@ -35,6 +39,10 @@ export default function Section({
     const windowParams = new URLSearchParams(useSearchParams());
     windowParams.set('page', '1');
 
+    const platform = 'blog';
+	const { sharedState } = useSharedState();
+	const { isLogedIn } = sharedState || {}
+
     // const docType = 'blogs'
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<PostProps[]>([]);
@@ -42,8 +50,16 @@ export default function Section({
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
     const [searchQuery, setSearchQuery] = useState(search || '');
 
-    const [isLogedIn, setIsLogedIn] = useState<boolean>(false);
     const [boards, setBoards] = useState<any[]>([]);
+
+    const [objectIdz, setObjectIdz] = useState<number[]>([]);
+
+    //Notification DOM states
+    const [showNotification, setShowNotification] = useState(false);
+    const [message, setMessage] = useState<string>("Action Required!");
+    const [submessage, setSubMessage] = useState<string>("You need to log in to engage with this post.");
+    const [messageType, setMessageType] = useState<string>("warning");
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
     // Fetch data on component mount
     useEffect(() => {
@@ -69,21 +85,25 @@ export default function Section({
             );
             setHits(data);
             
+            const idz: number[] = data?.map((p:any) => p?.doc_id)
+            setObjectIdz(idz)
 
             const { data : board, count: board_count } = await platformApi(
-                { ...searchParams, ...{ limit: 200 } }, //TODO: ADD 'all' PARAMETER TO PLATFORM API TO RETURN ALL LIST
+                {}, 
                 'solution', 
                 'pinboards'
             );
             setBoards(board)
-    
-            const isValidUser = await is_user_logged_in();
-            setIsLogedIn(isValidUser)
 
             setLoading(false); 
         }
         fetchData();
     }, []); 
+
+    const handleAddAllToBoard = (e: any) => {
+        e.preventDefault();
+        setModalOpen(true)
+    }
 
     return (
         <>
@@ -97,7 +117,7 @@ export default function Section({
                             Search
                         </Button>
                     </div>
-                    <div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1'>
+                    <div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1 flex flex-row gap-x-5'>
                         <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
                             <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
                             {!filterVisibility ? (
@@ -106,6 +126,21 @@ export default function Section({
                                 'Close'
                             )}
                         </button>
+
+                        <DropDown>
+                            <MenuItem as="button" className={'bg-white'}>
+                                {
+                                    isLogedIn && search?.length ? (
+                                        <div
+                                            className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none"
+                                            onClick={handleAddAllToBoard}
+                                        >
+                                            Add All to Board
+                                        </div>
+                                    ) : ''
+                                }
+                            </MenuItem>
+                        </DropDown>
                     </div>
                     <div className='col-span-9'>
                         <Filters 
@@ -179,6 +214,28 @@ export default function Section({
                 </div>
             </div>
         </section>
+
+        <AddToBoard
+            boards={boards || []}
+            isOpen={isModalOpen}
+            onClose={() => setModalOpen(false)}
+            platform={platform}
+            id={objectIdz}
+
+            setMessage={setMessage}
+            setSubMessage={setSubMessage}
+            setMessageType={setMessageType}
+            setShowNotification={setShowNotification}
+        />
+
+        {showNotification && (
+            <Notification
+                message={message}
+                subMessage={submessage}
+                type={messageType}
+            />
+
+        )}
         </>
     );
 }

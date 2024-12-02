@@ -27,6 +27,14 @@ export default async function Section({
     searchParams,
 }: Props) {
     const { page } = searchParams;
+
+    // Group asynchronous calls
+    const [boardDataResult, boardList, isLogedIn] = await Promise.all([
+        boardData({ id, platform, searchParams }), 
+        platformApi({}, 'solution', 'pinboards'),  
+        is_user_logged_in()                        
+    ]);
+
     const { 
         title, 
         description, 
@@ -41,15 +49,9 @@ export default async function Section({
         locations, 
         data, 
         vignette 
-    } = await boardData({ id, platform, searchParams });
+    } = boardDataResult || {};
 
-    const { data: boardlist, count } = await platformApi(
-        { ...searchParams, ...{ limit: 200 } }, // TODO: ALLOW ALL LIST FROM PLATFORM API
-        'solution', 
-        'pinboards'
-    );
-
-    const isLogedIn = await is_user_logged_in();
+    const { data: boardlist, count } = boardList;
 
     return (
         <>
@@ -89,7 +91,7 @@ export default async function Section({
                     </div>
                 </div>
                 {/* SEARCH */}
-                <Search searchParams={searchParams} />
+                <Search searchParams={searchParams} title={title} description={description} id={id as number} />
                 {/* Display tabs */}
                 <Tabs id={id} tabs={tabs} platform={platform} />
                 <div className='section-content'>
@@ -119,7 +121,8 @@ export default async function Section({
                                                 boardInfo={{
                                                     boards: boardlist,
                                                     removeFromBoard: true,
-                                                    boardId: id
+                                                    boardId: id,
+                                                    articleType: d?.article_type
                                                 }}
                                             />
                                         )

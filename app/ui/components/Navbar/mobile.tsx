@@ -4,9 +4,11 @@ import { usePathname } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
 import NavLink from "./navlink";
 import Link from 'next/link';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
-export default function NavBar({ session }: any) {
+export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { sharedState } = useSharedState();
 
   // Function to toggle the menu open/close state
   const toggleMenu = () => {
@@ -56,10 +58,10 @@ export default function NavBar({ session }: any) {
             <Link href={'/search/all'}>
               <img className="w-[40.7px] relative h-[37.2px] object-cover" alt="Search" src="/images/search.svg" />
             </Link>
-            {session?.username ? <>
+            {sharedState?.session?.username ? <>
               <Link href={'/'} passHref className='no-underline text-black'>
                 <span className="leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5">
-                  Welcome {session?.username || ''}
+                  Welcome {sharedState?.session?.username || ''}
                 </span>
               </Link>
             </>

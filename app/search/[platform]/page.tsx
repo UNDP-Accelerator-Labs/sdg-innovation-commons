@@ -19,7 +19,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
         searchParams={sParams} 
         platform={platform}
         tabs={tabs}
-       />
+      />
       <Content 
         searchParams={sParams} 
         platform={platform}

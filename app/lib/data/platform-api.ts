@@ -87,7 +87,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
             const year = date.getFullYear();
             d.date = `${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}.${year}`;
         });
-        // console.log(data)
         return polishTags(data);
     }
     else return data;
@@ -123,7 +122,7 @@ export async function pin(
     platform: string,
     action: string,
     board_id: number,
-    object_id: number,
+    object_id: number  | number[],
     board_title?: string,
 ) {
     let source = platform;
@@ -146,6 +145,27 @@ export async function pin(
         method: 'POST',
         body
     });
-    
+    return data;
+}
+
+
+export async function updatePinboard(
+    id: number,
+    title: string,
+    description: string,
+) {
+
+    const base_url: string | undefined = commonsPlatform.find(p => p.key === 'solution')?.url;
+
+    const url = `${base_url}/save/pinboard`;
+    const body = {
+        id, title, description
+    }
+
+    const data = await get({
+        url,
+        method: 'POST',
+        body
+    });
     return data;
 }

@@ -6,7 +6,6 @@ import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
-import { boolean } from 'zod';
 
 export interface Props {
     boards: any[];

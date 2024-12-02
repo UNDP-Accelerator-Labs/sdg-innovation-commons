@@ -4,13 +4,16 @@ import clsx from 'clsx';
 import { navItems } from './navlink';
 import { usePathname } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
-export default function DesktopNavBar({ session } : any) {
+export default function DesktopNavBar() {
   const currPath: string = usePathname();
   const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length).map((d: string) => decodeURI(d));
   const contentType = new Map()
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
+
+  const { sharedState } = useSharedState();
 
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
@@ -60,10 +63,10 @@ export default function DesktopNavBar({ session } : any) {
           </div>
 
           {/* Login button */}
-          {session?.username ? <>
+          {sharedState?.session?.username ? <>
             <Link href={'/'} passHref className='no-underline text-black'>
                 <span className={clsx("relative leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5")}>
-                  Welcome {session?.username || ''}
+                  Welcome {sharedState?.session?.username || ''}
                 </span>
             </Link>
           </>

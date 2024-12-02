@@ -87,7 +87,7 @@ export default function Card({
     <div className={clsx('card border-0 border-t-[1px] w-full relative flex flex-col', className)}>
       {/* BAND WITH SOURCE NAME */}
       <div className={clsx('band w-full flex justify-between lg:text-[14px] !border-t-0', tagStyle)}>
-          <span>{source}</span>
+          <span>{boardInfo?.articleType || source}</span>
           <span>{date}</span>
       </div>
       {/* METADATA */}

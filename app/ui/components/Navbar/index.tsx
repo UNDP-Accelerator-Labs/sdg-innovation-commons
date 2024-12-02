@@ -4,14 +4,15 @@ import { sess } from './navlink';
 import NavBar from './mobile'; // Mobile navbar
 import DesktopNavBar from './desktop'; // Desktop navbar
 import clsx from 'clsx';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { is_user_logged_in } from '@/app/lib/session';
 
 export default function ResponsiveNavBar() {
 
   // FOR HIDING THE NAVBAR ON SCROLL
   const [position, setPosition] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [session, setSess] = useState<any>({});
-
+  const { setSharedState } = useSharedState();
 
   const handleScroll = () => {
      let moving = window.pageYOffset
@@ -23,7 +24,12 @@ export default function ResponsiveNavBar() {
   useEffect(() => {
     async function fetchData() {
       const data = await sess();
-      setSess(data)
+      const isValidUser = await is_user_logged_in()
+      setSharedState((prevState: any) => ({
+          ...prevState, 
+          isLogedIn: isValidUser,
+          session: data
+      }));
     }
 
     fetchData();
@@ -42,12 +48,12 @@ export default function ResponsiveNavBar() {
     <>
       {/* Mobile Navbar: Display on small screens */}
       <div className={clsx('navbar lg:hidden z-[100] fixed w-[100%] top-0', cls)}>
-        <NavBar session={session} />
+        <NavBar/>
       </div>
 
       {/* Desktop Navbar: Display on medium and larger screens */}
       <div className={clsx('navbar hidden lg:block z-[100] fixed w-[100%] top-0', cls)}>
-        <DesktopNavBar session={session} />
+        <DesktopNavBar/>
       </div>
     </>
   );

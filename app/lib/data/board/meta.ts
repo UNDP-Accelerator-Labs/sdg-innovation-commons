@@ -40,8 +40,8 @@ export default async function Data({
 			mapLayers.push({ 
 				iso3: groupby, 
 				count: d?.count, 
-				lat: d?.location.lat, 
-				lng: d?.location.lng,
+				lat: d?.location?.lat, 
+				lng: d?.location?.lng,
 				type: 'point',
 				color: '#d2f960',
 			});

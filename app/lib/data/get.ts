@@ -26,15 +26,21 @@ export default async function get({ url, method, body, cache }: Props) {
             ...(cache ? cache : '')
         });
 
-        if (!response?.ok) {
-            if (response?.status === 400) {
+        if (!response.ok) {
+            if (response.status === 400) {
                 try {
-                    const data = await response.json();
-                    if (data.message) return [];
+                    const data = await response.json(); 
+                    if (data?.message) {
+                        return [];
+                    }
+                    return data;
                 } catch (err) {
-                    console.log(err)
+                    console.error('Error parsing JSON:', err);
+                    return null;
                 }
-            } else throw new Error(`Error: ${response?.status} ${response?.statusText}`);
+            } else {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
         } else {
             const data = await response.json();
             return data;
