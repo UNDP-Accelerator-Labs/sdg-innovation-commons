@@ -18,7 +18,7 @@ export default function Section({
 
     return (
         <>
-        <section className={clsx('home-section px-0 py-0 !border-t-0', className)}>
+        <section id='about-us' className={clsx('home-section px-0 py-0 !border-t-0', className)}>
             <div className='section-content grid grid-cols-9 gap-[20px]'>
                 <div className="c-left col-span-4 bg-[url('/images/about-us-2.jpeg')] bg-cover bg-no-repeat">
                     <div className='h-full w-full top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]' />

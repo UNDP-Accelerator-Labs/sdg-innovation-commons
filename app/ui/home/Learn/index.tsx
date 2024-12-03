@@ -8,8 +8,9 @@ import Link from 'next/link';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { formatDate, defaultSearch } from '@/app/lib/utils';
 import { PostProps } from '@/app/lib/definitions';
+import { Props } from '../See'
 
-export default function Section() {
+export default function Section({ boards, isLogedIn}: Props) {
     const [hits, setHits] = useState<PostProps[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
     const displayN = 4;
@@ -32,7 +33,7 @@ export default function Section() {
 
     return (
         <>
-        <section className='home-section py-[40px] lg:py-[80px] grid-bg'>
+        <section id='learn' className='home-section py-[40px] lg:py-[80px] grid-bg'>
             <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
@@ -52,7 +53,7 @@ export default function Section() {
                 <div className='section-content'>
                     {/* Display Cards */}
                     <div className='w-full grid gap-[20px] md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-3'>
-                        <div className='grid md:grid-cols-2 col-span-2 lg:col-span-3 col-span-2 lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
+                        <div className='grid md:grid-cols-2 col-span-2  lg:grid lg:grid-cols-2 lg:col-span-2 lg:col-start-2 gap-[20px] '>
                             {loading ? (
                                 <>
                                     {new Array(displayN).fill(0).map((d, i) => (
@@ -74,6 +75,13 @@ export default function Section() {
                                         href={post?.url}
                                         openInNewTab={true}
                                         className={i >= 2 ? 'hidden xl:block' : ''}
+                                        source={post?.base || 'blog'}
+
+                                        isLogedIn={isLogedIn}
+                                        boardInfo={{
+                                            boards
+                                        }}
+                                        data={post}
                                     />
                                 ))
                             )}

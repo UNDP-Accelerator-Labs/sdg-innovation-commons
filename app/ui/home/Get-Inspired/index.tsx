@@ -13,7 +13,7 @@ export default function Section() {
 
     return (
         <>
-        <section className='lg:home-section lg:py-[80px] grid-bg'>
+        <section id='get-inspired' className='lg:home-section lg:py-[80px] grid-bg'>
             <div className='inner lg:mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] lg:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>

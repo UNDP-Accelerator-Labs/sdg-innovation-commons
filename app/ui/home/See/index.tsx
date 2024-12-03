@@ -7,7 +7,12 @@ import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
 
-export default function Section() {
+export interface Props {
+    boards: any[];
+    isLogedIn: boolean;
+}
+
+export default function Section({ boards, isLogedIn}: Props) {
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true); // Loading state
 
@@ -24,7 +29,7 @@ export default function Section() {
 
     return (
         <>
-        <section className='home-section py-[40px] lg:py-[80px]'>
+        <section id='see' className='home-section py-[40px] lg:py-[80px]'>
             <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[100px]'>
@@ -67,7 +72,7 @@ export default function Section() {
                                         country={countries}
                                         title={post?.title || ''}
                                         description={post?.snippets?.length ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}` : post?.snippet}
-                                        source={post?.base || 'Solution'}
+                                        source={post?.base || 'solution'}
                                         tagStyle="bg-light-green"
                                         tagStyleShade="bg-light-green-shade"
                                         href={post?.url}
@@ -79,6 +84,11 @@ export default function Section() {
                                         engagement={post?.engagement}
                                         data={post}
                                         className={i === 2 ? 'hidden xl:block' : ''}
+
+                                        isLogedIn={isLogedIn}
+                                        boardInfo={{
+                                            boards
+                                        }}
                                     />
                                 )
                             })

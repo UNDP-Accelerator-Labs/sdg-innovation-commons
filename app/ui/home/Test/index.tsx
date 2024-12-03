@@ -11,8 +11,9 @@ import { processHits } from '../Learn';
 import { PostProps } from '@/app/lib/definitions';
 import { defaultSearch } from '@/app/lib/utils';
 import { useIsVisible } from '@/app/ui/components/Interaction';
+import { Props } from '../See'
 
-export default function Section() {
+export default function Section({ boards, isLogedIn}: Props) {
     const tabs = ['all', 'experiment', 'action plan'] as const; 
     type TabType = typeof tabs[number]; 
 
@@ -53,7 +54,7 @@ export default function Section() {
 
     return (
         <>
-        <section className='home-section py-[40px] lg:py-[80px]'>
+        <section id='test' className='home-section py-[40px] lg:py-[80px]'>
             <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display the section title and description */}
                 <div className='section-header lg:mb-[40px]'>
@@ -115,6 +116,11 @@ export default function Section() {
                                     engagement={post?.engagement}
                                     className={clsx(i === 2 ? 'hidden xl:block' : '')}
                                     data={post}
+
+                                    isLogedIn={isLogedIn}
+                                    boardInfo={{
+                                        boards
+                                    }}
                                 />
                             ))
                         )}

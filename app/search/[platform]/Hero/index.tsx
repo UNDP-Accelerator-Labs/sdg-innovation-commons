@@ -1,10 +1,15 @@
 "use client";
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { MenuItem } from '@headlessui/react'
 import clsx from 'clsx';
 import { SectionProps } from '@/app/test/[platform]/Content';
 import { Button } from '@/app/ui/components/Button';
 import Filters from '@/app/test/[platform]/Filters';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import Notification from '@/app/ui/components/Notification';
+import AddToBoard from '@/app/ui/components/Modal/add-to-board';
+import DropDown from '@/app/ui/components/DropDown';
 
 export default function Hero({
 	searchParams,
@@ -17,6 +22,22 @@ export default function Hero({
 
 	const [searchQuery, setSearchQuery] = useState(search || '');
 	const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+
+	//Notification DOM states
+	const [showNotification, setShowNotification] = useState(false);
+	const [message, setMessage] = useState<string>("Action Required!");
+	const [submessage, setSubMessage] = useState<string>("You need to log in to engage with this post.");
+	const [messageType, setMessageType] = useState<string>("warning");
+	const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+	const { sharedState } = useSharedState();
+	const { isLogedIn } = sharedState || {}
+	const { boards, objectIdz, hits } = sharedState?.searchData || {}
+
+	const handleAddAllToBoard = (e: any) => {
+		e.preventDefault();
+		setModalOpen(true)
+	}
 
 	return (
 		<>
@@ -32,15 +53,15 @@ export default function Hero({
 					</div>
 				</div>
 			</section>
-			<section className='home-section !border-t-0 py-0'>	
+			<section className='home-section !border-t-0 py-0'>
 				<div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
 					{/* Search bar */}
 					{/*<form id='search-form' method='GET' className='section-header relative mb-[30px]'>
 						<div className='col-span-4 flex flex-row group items-stretch'>
 							*/}
 					<form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
-					    <div className='col-span-9 lg:col-span-4 flex flex-row group items-stretch'>
-					    	<input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='Looking for something?' />
+						<div className='col-span-9 lg:col-span-4 flex flex-row group items-stretch'>
+							<input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='Looking for something?' />
 							<Button type='submit' className='border-l-0 grow-0'>
 								Search
 							</Button>
@@ -55,18 +76,56 @@ export default function Hero({
 									'Close'
 								)}
 							</button>
+
+							{
+								isLogedIn && search?.length && platform !== 'all' ? (
+									<DropDown>
+										<MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+											<div
+												className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none"
+												onClick={handleAddAllToBoard}
+											>
+												Add All to Board
+											</div>
+										</MenuItem>
+									</DropDown>
+
+								) : ''
+							}
 						</div>
 						<div className='col-span-9'>
 							<Filters
 								className={clsx(filterVisibility ? '' : 'hidden')}
 								searchParams={searchParams}
 								platform={'all'}
-								tabs={['solution']}
+								tabs={tabs}
 							/>
 						</div>
 					</form>
 				</div>
 			</section>
+
+			<AddToBoard
+				boards={boards || []}
+				isOpen={isModalOpen}
+				onClose={() => setModalOpen(false)}
+				platform={platform}
+				id={objectIdz}
+
+				setMessage={setMessage}
+				setSubMessage={setSubMessage}
+				setMessageType={setMessageType}
+				setShowNotification={setShowNotification}
+			/>
+
+			{showNotification && (
+				<Notification
+					message={message}
+					subMessage={submessage}
+					type={messageType}
+				/>
+
+			)}
 		</>
 	);
 }

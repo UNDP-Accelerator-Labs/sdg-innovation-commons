@@ -4,13 +4,21 @@ import clsx from 'clsx';
 import { navItems } from './navlink';
 import { usePathname } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
-export default function DesktopNavBar({ session } : any) {
+export default function DesktopNavBar() {
   const currPath: string = usePathname();
   const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length).map((d: string) => decodeURI(d));
   const contentType = new Map()
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
+
+  const { sharedState } = useSharedState();
+
+  const loginRedirect = (e:any)=>{
+      e.preventDefault()
+      redirectToLogin(currPath)
+  }
 
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
@@ -51,24 +59,24 @@ export default function DesktopNavBar({ session } : any) {
                 </Link>
               )
             })}
+          <Link href={'/search/all'}>
+            <img className="w-[31.8px] relative h-[29px] object-cover" alt="Search" src="/images/search.svg" />
+          </Link>
 
             {/* Translate icon */}
             {/* <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" /> */}
           </div>
 
           {/* Login button */}
-          {session?.username ? <>
-            <Link href={'/'} passHref className='no-underline text-black'>
+          {sharedState?.session?.username ? <>
+            <button onClick={loginRedirect} className='no-underline text-black bottom-0 bg-inherit'>
                 <span className={clsx("relative leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5")}>
-                  Welcome {session?.username || ''}
+                  Welcome {sharedState?.session?.username || ''}
                 </span>
-            </Link>
+            </button>
           </>
           : <>
-            <button onClick={(e) => {
-              e.preventDefault()
-              redirectToLogin(currPath)
-            }} className="w-[143.1px] relative h-[51.3px] cursor-pointer">
+            <button onClick={loginRedirect} className="w-[143.1px] relative h-[51.3px] cursor-pointer">
               <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
               <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
                 Login

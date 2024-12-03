@@ -11,7 +11,8 @@ const cspLinks = [
 
 export async function middleware(request: NextRequest) {
     const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
-  
+    const currentPath = request.nextUrl.pathname;
+
     const cspHeader = `
       img-src ${cspLinks.join(' ')};
       script-src ${cspLinks.join(' ')} 'nonce-${nonce}' 'strict-dynamic' https: http: ${
@@ -28,6 +29,7 @@ export async function middleware(request: NextRequest) {
   
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-nonce", nonce);
+    requestHeaders.set('x-current-path', `${currentPath}`);
 
     requestHeaders.set("Referrer-Policy", "strict-origin-when-cross-origin, same-origin");
     requestHeaders.set("Strict-Transport-Security", "max-age=123456");
