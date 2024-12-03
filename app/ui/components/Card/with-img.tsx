@@ -8,12 +8,14 @@ import Notification from '@/app/ui/components/Notification';
 import { Button } from '@/app/ui/components/Button';
 import AddToBoard from '@/app/ui/components/Modal/add-to-board';
 import { engage, handleShowNotification, handleBoard, removeFromBoardApi } from './utils'
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export interface BoardInfo {
     boards?: any[];
     removeFromBoard?: boolean;
     boardId?: number;
     articleType?: string;
+    isContributor?: boolean;
 }
 
 interface CardProps {
@@ -64,7 +66,7 @@ export default function Card({
 
     const { pinboards, current_user_engagement } = data || {}
     const pathname = usePathname();
-    const { boards, removeFromBoard, boardId } = boardInfo || {};
+    const { boards, removeFromBoard, boardId, isContributor } = boardInfo || {};
     const [hrefs, setHref] = useState<string>('');
     const hasEngagement = (type: string) =>
         !!current_user_engagement?.some((p: any) => p.type === type);
@@ -152,6 +154,10 @@ export default function Card({
         fetchHref();
     }, []);
 
+
+    const { sharedState } = useSharedState();
+    const { session } = sharedState || {}
+    let disabled = session?.rights > 2 ? false : removeFromBoard && !isContributor ? true : false 
 
     return (
         <div className={clsx('card w-full relative flex flex-col', className)}>
@@ -282,7 +288,7 @@ export default function Card({
                             </a>
                         </div>
 
-                        <Button type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' : 'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+                        <Button disabled={disabled} type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' : 'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
                             {removeFromBoard ? 'Remove from' : 'Add to'} Board
                         </Button>
 

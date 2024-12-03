@@ -41,7 +41,7 @@ export default function Section({
 
     const platform = 'blog';
     const { sharedState } = useSharedState();
-    const { isLogedIn } = sharedState || {}
+    const { isLogedIn, session } = sharedState || {}
 
     // const docType = 'blogs'
     const [pages, setPages] = useState<number>(0);
@@ -88,17 +88,22 @@ export default function Section({
             const idz: number[] = data?.map((p: any) => p?.doc_id)
             setObjectIdz(idz)
 
-            const { data: board, count: board_count } = await platformApi(
-                { space: 'private' },
-                'solution',
-                'pinboards'
-            );
-            setBoards(board)
-
             setLoading(false);
         }
         fetchData();
     }, []);
+
+    useEffect(() => {
+        async function fetchBoard(){
+            const { data: board, count: board_count } = await platformApi(
+                { space : session?.rights >= 3 ? 'all' : 'private' },
+                'solution',
+                'pinboards'
+            );
+            setBoards(board)
+        }
+        fetchBoard();
+    }, [session]);
 
     const handleAddAllToBoard = (e: any) => {
         e.preventDefault();
