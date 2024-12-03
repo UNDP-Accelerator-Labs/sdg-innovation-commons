@@ -25,7 +25,7 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       const { data: board, count: board_count } = await platformApi(
-        {},
+        { space: 'private' },
         "solution",
         "pinboards"
       );
