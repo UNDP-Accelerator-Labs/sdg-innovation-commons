@@ -6,19 +6,24 @@ import { MenuItem } from '@headlessui/react'
 import UpdateBoardModal from '@/app/ui/components/Modal/update-board';
 import Notification from '@/app/ui/components/Notification';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { publish } from '@/app/lib/data/board/main'
 
 interface Props {
     searchParams: any;
     title?: string | undefined;
     description?: string | undefined;
     id: number;
+    status: number;
+    is_contributor: boolean;
 }
 
 export default function Section({
     searchParams,
     title,
     description,
-    id
+    id,
+    status,
+    is_contributor
 }: Props) {
     const { search } = searchParams;
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -39,6 +44,13 @@ export default function Section({
         setModalOpen(true)
     }
 
+    const publishBoard = async (e: any) => {
+        e.preventDefault();
+        await publish(status, id)
+        const form = e.target.closest('form');
+        form.submit();
+    }
+
     return (
         <>
             <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
@@ -57,9 +69,9 @@ export default function Section({
                             'Close'
                         )}
                     </button>
-                    {isLogedIn && (
+                    {isLogedIn && is_contributor ? (
                     <DropDown>
-                        <MenuItem as="button" className={'bg-white'}>
+                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
                             <div
                                 className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none cursor-pointer"
                                 onClick={updateBoard}
@@ -67,8 +79,17 @@ export default function Section({
                                 Update Board Details
                             </div>
                         </MenuItem>
+
+                        <MenuItem as="button" type='submit' className={' w-full text-start bg-white hover:bg-lime-yellow'}>
+                            <div
+                                className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none cursor-pointer"
+                                onClick={publishBoard}
+                            >
+                                { status < 3 ? 'Publish Board' : 'Unpublish Board'}
+                            </div>
+                        </MenuItem>
                     </DropDown>
-                    )}
+                    ) : ''}
                 </div>
                 <div className='col-span-9'>
                     {/*<Filters 

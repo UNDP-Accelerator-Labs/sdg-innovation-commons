@@ -62,11 +62,12 @@ export default function Card({
     boardInfo
 }: CardProps) {
 
+    const { pinboards, current_user_engagement } = data || {}
     const pathname = usePathname();
     const { boards, removeFromBoard, boardId } = boardInfo || {};
     const [hrefs, setHref] = useState<string>('');
     const hasEngagement = (type: string) =>
-        !!data?.current_user_engagement?.some((p: any) => p.type === type);
+        !!current_user_engagement?.some((p: any) => p.type === type);
 
     const [isLiked, setIsLiked] = useState<boolean>(hasEngagement('like'));
     const [isDisliked, setIsDisliked] = useState<boolean>(hasEngagement('dislike'));
@@ -294,6 +295,7 @@ export default function Card({
                             onClose={() => setModalOpen(false)}
                             platform={source}
                             id={id}
+                            pinboards={pinboards}
 
                             setMessage={setMessage}
                             setSubMessage={setSubMessage}

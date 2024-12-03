@@ -10,7 +10,7 @@ export interface Props {
 
 export default async function get({ url, method, body, cache }: Props) {
     try {
-        const token = await session_info()
+        const token = await session_info();
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
@@ -26,22 +26,33 @@ export default async function get({ url, method, body, cache }: Props) {
             ...(cache ? cache : '')
         });
 
-        const responseData = await response.json();
-
         if (!response.ok) {
             if (response.status === 400) {
-                if (responseData?.message) {
-                    return [];
+                try {
+                    const responseData = await response.json();
+                    if (responseData?.message) {
+                        return [];
+                    }
+                    return responseData;
+                } catch {
+                    throw new Error(`Error parsing JSON for status 400`);
                 }
-                return responseData;
             } else {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
         }
 
-        return responseData;
+        const contentType = response.headers.get('Content-Type');
+        if (contentType && contentType.includes('application/json')) {
+            const responseData = await response.json();
+            return responseData;
+        } else {
+            const textResponse = await response.text();
+            return { status: 200, message: 'Success', data: textResponse };
+        }
     } catch (error) {
-        console.log('Fetch error:', url, error);
+        console.error('Fetch error:', url, error);
         return null;
     }
 }
+

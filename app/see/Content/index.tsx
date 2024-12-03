@@ -77,7 +77,7 @@ export default function Section({
         }
 
         const { data: board, count: board_count } = await platformApi(
-            {} , 
+            { space : 'private'},
             'solution',
             'pinboards'
         );
@@ -125,7 +125,7 @@ export default function Section({
                                 )}
                             </button>
                             <DropDown>
-                                <MenuItem as="button" className={'bg-white'}>
+                                <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
                                     {
                                         hrefs && hrefs.length ? (
                                             <a
@@ -138,7 +138,7 @@ export default function Section({
                                         ) : ''
                                     }
                                 </MenuItem>
-                                <MenuItem as="button" className={'bg-white'}>
+                                <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
                                     {
                                         isLogedIn && search?.length ? (
                                             <div

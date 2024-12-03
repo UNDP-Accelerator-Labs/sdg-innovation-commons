@@ -31,7 +31,7 @@ export default async function Section({
     // Group asynchronous calls
     const [boardDataResult, boardList, isLogedIn] = await Promise.all([
         boardData({ id, platform, searchParams }), 
-        platformApi({}, 'solution', 'pinboards'),  
+        platformApi({ space : 'private' }, 'solution', 'pinboards'),  
         is_user_logged_in()                        
     ]);
 
@@ -48,7 +48,9 @@ export default async function Section({
         tags, 
         locations, 
         data, 
-        vignette 
+        vignette,
+        status,
+        is_contributor, 
     } = boardDataResult || {};
 
     const { data: boardlist, count } = boardList;
@@ -91,7 +93,7 @@ export default async function Section({
                     </div>
                 </div>
                 {/* SEARCH */}
-                <Search searchParams={searchParams} title={title} description={description} id={id as number} />
+                <Search searchParams={searchParams} title={title} description={description} id={id as number} status={status} is_contributor={is_contributor} />
                 {/* Display tabs */}
                 <Tabs id={id} tabs={tabs} platform={platform} />
                 <div className='section-content'>
@@ -124,6 +126,7 @@ export default async function Section({
                                                     boardId: id,
                                                     articleType: d?.article_type
                                                 }}
+                                                data={d}
                                             />
                                         )
                                     } else {

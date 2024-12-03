@@ -1,5 +1,6 @@
 import platformApi from '@/app/lib/data/platform-api';
 import { commonsPlatform, page_limit } from '@/app/lib/utils';
+import get from '@/app/lib/data/get'
 
 interface Props {
     id?: number;
@@ -31,7 +32,7 @@ export default async function Data({
     });
     tabs?.unshift('all');
 
-    const { title, description, total: padsCount, pads, contributors, creator }: { title: string, description: string, total: number, contributors: number, creator: any, pads: any[] } = boardData || {};
+    const { title, description, total: padsCount, pads, contributors, creator, status, is_contributor }: { title: string, description: string, total: number, contributors: number, creator: any, pads: any[], status: number, is_contributor : boolean } = boardData || {};
     const { name: creatorName, isUNDP, country }: { name: string, isUNDP: boolean, country: string | undefined } = creator || {};
 
     // DETERMINE WHETHER THE BOARD IS ATTRIBUTABLE TO AN ACCELERATOR LAB
@@ -52,6 +53,8 @@ export default async function Data({
         description,
         creatorName,
         contributors,
+        status,
+        is_contributor,
         lab: {
             name: lab,
             link: labLink,
@@ -64,4 +67,21 @@ export default async function Data({
             count: padsCount,
         }
     }
+}
+
+
+export async function publish(
+    status: number,
+    id: number,
+) {
+    const stats = status < 3 ? 3 : 1
+    const base_url: string | undefined = commonsPlatform.find(p => p.key === 'solution')?.url;
+
+    const url = `${base_url}/publish/pinboards?id=${id}&status=${stats}`;
+
+    const data = await get({
+        url,
+        method: 'GET',
+    });
+    return data;
 }

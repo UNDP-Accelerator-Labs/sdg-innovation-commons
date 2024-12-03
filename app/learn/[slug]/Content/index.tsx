@@ -89,7 +89,7 @@ export default function Section({
             setObjectIdz(idz)
 
             const { data : board, count: board_count } = await platformApi(
-                {}, 
+                { space : 'private'},
                 'solution', 
                 'pinboards'
             );
@@ -128,7 +128,7 @@ export default function Section({
                         </button>
 
                         <DropDown>
-                            <MenuItem as="button" className={'bg-white'}>
+                            <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
                                 {
                                     isLogedIn && search?.length ? (
                                         <div
@@ -195,6 +195,7 @@ export default function Section({
                                         boardInfo={{
                                             boards: boards,
                                         }}
+                                        data={post}
                                     />
                                 )
                             })

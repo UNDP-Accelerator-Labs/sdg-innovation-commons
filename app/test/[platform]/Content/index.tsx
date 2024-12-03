@@ -117,7 +117,7 @@ export default function Section({
         setHits(data);
 
         const { data: board, count: board_count } = await platformApi(
-            {}, //TODO: ADD 'all' PARAMETER TO PLATFORM API TO RETURN ALL LIST
+            { space : 'private'},
             'solution',
             'pinboards'
         );
@@ -152,7 +152,7 @@ export default function Section({
                                 )}
                             </button>
                             <DropDown>
-                                <MenuItem as="button" className={'bg-white'}>
+                                <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
                                     {
                                         allowDownLoad && hrefs && hrefs.length ? (
                                             <a
@@ -165,7 +165,7 @@ export default function Section({
                                         ) : ''
                                     }
                                 </MenuItem>
-                                <MenuItem as="button" className={'bg-white'}>
+                                <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
                                     {
                                         isLogedIn && search?.length && platform !== 'all' ? (
                                             <div

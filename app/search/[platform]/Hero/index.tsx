@@ -80,7 +80,7 @@ export default function Hero({
 							{
 								isLogedIn && search?.length && platform !== 'all' ? (
 									<DropDown>
-										<MenuItem as="button" className={'bg-white'}>
+										<MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
 											<div
 												className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none"
 												onClick={handleAddAllToBoard}

@@ -81,6 +81,7 @@ export default function Section({ boards, isLogedIn}: Props) {
                                         boardInfo={{
                                             boards
                                         }}
+                                        data={post}
                                     />
                                 ))
                             )}

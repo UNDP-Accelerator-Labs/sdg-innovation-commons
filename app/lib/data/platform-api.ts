@@ -33,10 +33,11 @@ export interface Props {
     pseudonymize?: boolean;
     render?: boolean;
     action?: string;
+    include_pinboards?: string;
 }
 
 export default async function platformApi(_kwargs: Props, platform: string, object: string, urlOnly: boolean = false,) {
-    let { space, pinboard, include_tags, include_locations, include_engagement, action, render } = _kwargs;
+    let { space, pinboard, include_tags, include_locations, include_engagement, include_pinboards, action, render } = _kwargs;
     if (!platform) platform = 'solution';
     if (!object) object = 'pads';
     if (!action) action = 'fetch';
@@ -45,6 +46,7 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     if (object === 'pads' && !include_tags) _kwargs.include_tags = true;
     if (object === 'pads' && !include_locations) _kwargs.include_locations = true;
     if (object === 'pads' && !include_engagement) _kwargs.include_engagement = true;
+    if(object === 'pads' && !include_pinboards) _kwargs.include_pinboards = 'own'
 
     if (platform === 'blogs') return await blogsApi(_kwargs);
 

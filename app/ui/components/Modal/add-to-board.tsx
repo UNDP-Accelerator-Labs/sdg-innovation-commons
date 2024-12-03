@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import Modal from "./index";
 import { Button } from "@/app/ui/components/Button";
 import { pin } from '@/app/lib/data/platform-api';
+import clsx from "clsx";
 
 interface Collection {
     name: string;
@@ -16,6 +17,7 @@ interface Props {
     boards: any[];
     platform: string;
     id: number | number[];
+    pinboards?: any[];
 
     setMessage: any;
     setSubMessage: any;
@@ -29,6 +31,7 @@ const AddToBoard: FC<Props> = ({
     boards,
     platform,
     id,
+    pinboards,
     setMessage,
     setMessageType,
     setSubMessage,
@@ -113,23 +116,24 @@ const AddToBoard: FC<Props> = ({
                 <div className="space-y-2 overflow-y-auto max-h-60 my-4">
                     <fieldset>
                         {filteredCollections.length > 0 ? (
-                            filteredCollections.map((item, index) => (
-
+                            filteredCollections.map((item, index) => {
+                                const activeBoard = !!pinboards?.find((p)=> p?.pinboard_id === item.id)
+                                return(
                                 <div key={index} className="flex items-center my-1">
                                     <input
                                         id={item.name}
                                         type="radio"
-                                        className="mr-2 border-solid border-1 hover:border-light-blue "
-                                        // defaultChecked={true}
-                                        name="boardSelection"
+                                        className="mr-2 border-solid border-1 hover:border-light-blue disabled:checked:text-gray-500"
+                                        disabled={activeBoard}
+                                        name={ activeBoard ? item.name : "boardSelection" }
                                         value={item.id}
                                         onChange={() => setBoardId(item.id)}
-                                        checked={boardId === item.id}
+                                        checked={activeBoard || boardId === item.id}
                                     />
-                                    <label className="flex-grow text-gray-800">{item.name}</label>
+                                    <label className={clsx("flex-grow", activeBoard ? 'text-gray-500' : 'text-gray-800' )}>{item.name}</label>
                                     <span className="text-gray-500">{item.count}</span>
                                 </div>
-                            ))
+                            )})
                         ) : (
                             <p className="text-sm text-center">
                                 No boards found. Create a new one!

@@ -29,6 +29,7 @@ export interface CardProps {
   tagStyleShade?: string;
   boardInfo?: BoardInfo
   isLogedIn?: boolean;
+  data?: any;
 }
 
 export default function Card({
@@ -46,11 +47,12 @@ export default function Card({
   className,
   boardInfo,
   isLogedIn,
+  data,
 }: CardProps) {
 
   const pathname = usePathname();
   const { boards, removeFromBoard, boardId } = boardInfo || {};
-
+  const { pinboards } = data || {}
   //Notification DOM states
   const [showNotification, setShowNotification] = useState(false);
   const [message, setMessage] = useState<string>("Action Required!");
@@ -147,6 +149,7 @@ export default function Card({
             onClose={() => setModalOpen(false)}
             platform={source as string}
             id={id}
+            pinboards={pinboards}
 
             setMessage={setMessage}
             setSubMessage={setSubMessage}

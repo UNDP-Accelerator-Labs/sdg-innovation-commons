@@ -59,7 +59,7 @@ export default function Content({
         setObjectIdz(idz)
 
         const { data : board, count: board_count } = await platformApi(
-            {},
+            { space : 'private'},
             'solution', 
             'pinboards'
         );
@@ -129,6 +129,7 @@ export default function Content({
                                             boardInfo={{
                                                 boards: boards,
                                             }}
+                                            data={post}
                                         />
                                     ) : (
                                         <Card
