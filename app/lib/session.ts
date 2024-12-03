@@ -40,7 +40,7 @@ export default async function getSession() {
     }
 
     const token: string = await getToken({ uuid: session?.uuid, rights: session?.rights });
-    const name: string = await getToken({ username: session?.username });
+    const name: string = await getToken({ username: session?.username, rights: session?.rights });
 
     (await cookies()).set(
         '_uuid_token',

@@ -81,7 +81,7 @@ export default function Section({
                     </div>*/}
                         {
                             isLogedIn && (
-                                <div className="flex flex-row text-inherit">
+                                <div className="flex flex-row font-space-mono">
                                     <div className="flex items-center my-1">
                                         <input
                                             type="radio"

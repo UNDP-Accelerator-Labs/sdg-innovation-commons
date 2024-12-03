@@ -39,7 +39,7 @@ export default function Section({
     windowParams.set('page', '1');
 
     const { sharedState } = useSharedState();
-    const { isLogedIn } = sharedState || {}
+    const { isLogedIn, session } = sharedState || {}
 
     const [searchQuery, setSearchQuery] = useState(search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -116,19 +116,24 @@ export default function Section({
 
         setHits(data);
 
-        const { data: board, count: board_count } = await platformApi(
-            { space: 'private' },
-            'solution',
-            'pinboards'
-        );
-        setBoards(board)
-
         setLoading(false);
     }
 
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        async function fetchBoard(){
+            const { data: board, count: board_count } = await platformApi(
+                { space : session?.rights >= 3 ? 'all' : 'private' },
+                'solution',
+                'pinboards'
+            );
+            setBoards(board)
+        }
+        fetchBoard();
+    }, [session]);
 
     return (
         <>

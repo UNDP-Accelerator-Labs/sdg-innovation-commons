@@ -19,13 +19,13 @@ export default function Home() {
   const [boards, setBoards] = useState<any[]>([]);
   const [dataLoaded, setDataLoaded] = useState(false); 
   const { sharedState } = useSharedState();
-  const { isLogedIn } = sharedState || {};
+  const { isLogedIn, session } = sharedState || {};
 
   // Fetch data on component mount
   useEffect(() => {
     async function fetchData() {
       const { data: board, count: board_count } = await platformApi(
-        { space: 'private' },
+        { space : session?.rights >= 3 ? 'all' : 'private' },
         "solution",
         "pinboards"
       );
@@ -33,7 +33,7 @@ export default function Home() {
       setDataLoaded(true); 
     }
     fetchData();
-  }, []);
+  }, [session]);
 
 
   useEffect(() => {
