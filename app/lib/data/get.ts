@@ -51,7 +51,7 @@ export default async function get({ url, method, body, cache }: Props) {
             return { status: 200, message: 'Success', data: textResponse };
         }
     } catch (error) {
-        console.error('Fetch error:', url, error);
+        console.log('Fetch error:', url, error);
         return null;
     }
 }

@@ -65,11 +65,6 @@ export const handleBoard = (
     setModalOpen(true);
 };
 
-export const redirectUser = (pathname: string) => {
-    window.history.replaceState(null, '', pathname);
-    window.location.reload();
-};
-
 export const removeFromBoardApi = async (
     action: ActionType,
     boardId: number,

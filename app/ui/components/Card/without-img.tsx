@@ -6,7 +6,7 @@ import { pin } from '@/app/lib/data/platform-api';
 import Notification from '@/app/ui/components/Notification';
 import { Button } from '@/app/ui/components/Button';
 import AddToBoard from '@/app/ui/components/Modal/add-to-board';
-import { handleShowNotification, handleBoard, removeFromBoardApi, redirectUser } from './utils'
+import { handleShowNotification, handleBoard, removeFromBoardApi } from './utils'
 import { BoardInfo } from './with-img'
 import { usePathname } from 'next/navigation'
 
@@ -60,6 +60,11 @@ export default function Card({
   const [messageType, setMessageType] = useState<string>("warning");
 
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+
+  const redirectUser = (pathname: string) => {
+    window.history.replaceState(null, '', pathname);
+    window.location.reload();
+};
 
   type ActionType = 'delete' | 'insert';
 

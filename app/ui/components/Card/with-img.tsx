@@ -7,7 +7,7 @@ import platformApi, { engageApi, pin } from '@/app/lib/data/platform-api';
 import Notification from '@/app/ui/components/Notification';
 import { Button } from '@/app/ui/components/Button';
 import AddToBoard from '@/app/ui/components/Modal/add-to-board';
-import { engage, handleShowNotification, handleBoard, removeFromBoardApi, redirectUser } from './utils'
+import { engage, handleShowNotification, handleBoard, removeFromBoardApi } from './utils'
 
 export interface BoardInfo {
     boards?: any[];
@@ -92,6 +92,12 @@ export default function Card({
 
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
+
+    const redirectUser = (pathname: string) => {
+        window.history.replaceState(null, '', pathname);
+        window.location.reload();
+    };
+    
     type EngagementType = 'like' | 'dislike';
     type ActionType = 'delete' | 'insert';
 

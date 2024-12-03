@@ -38,8 +38,8 @@ export default function Section({
     const windowParams = new URLSearchParams(useSearchParams());
     windowParams.set('page', '1');
 
-	const { sharedState } = useSharedState();
-	const { isLogedIn } = sharedState || {}
+    const { sharedState } = useSharedState();
+    const { isLogedIn } = sharedState || {}
 
     const [searchQuery, setSearchQuery] = useState(search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -117,7 +117,7 @@ export default function Section({
         setHits(data);
 
         const { data: board, count: board_count } = await platformApi(
-            { space : 'private'},
+            { space: 'private' },
             'solution',
             'pinboards'
         );
@@ -152,9 +152,10 @@ export default function Section({
                                 )}
                             </button>
                             <DropDown>
-                                <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
-                                    {
-                                        allowDownLoad && hrefs && hrefs.length ? (
+                                {
+                                    allowDownLoad && hrefs && hrefs.length ? (
+                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+
                                             <a
                                                 className="block p-4 text-inherit text-base data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
                                                 href={hrefs}
@@ -162,21 +163,23 @@ export default function Section({
                                             >
                                                 Download All
                                             </a>
-                                        ) : ''
-                                    }
-                                </MenuItem>
-                                <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
-                                    {
-                                        isLogedIn && search?.length && platform !== 'all' ? (
+                                        </MenuItem>
+
+                                    ) : ''
+                                }
+                                {
+                                    isLogedIn && search?.length && platform !== 'all' ? (
+                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+
                                             <div
                                                 className="block p-4 text-inherit text-base  data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none cursor-pointer"
                                                 onClick={handleAddAllToBoard}
                                             >
                                                 Add All to Board
                                             </div>
-                                        ) : ''
-                                    }
-                                </MenuItem>
+                                        </MenuItem>
+                                    ) : ''
+                                }
                             </DropDown>
                         </div>
                         <div className='col-span-9'>
