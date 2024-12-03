@@ -5,6 +5,7 @@ import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi from '@/app/lib/data/platform-api';
 import { page_limit } from '@/app/lib/utils';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { Button } from '@/app/ui/components/Button';
 // import Filters from '../Filters';
 import clsx from 'clsx';
@@ -26,13 +27,16 @@ export default function Section({
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [space, setSpace] = useState<string>('published');
 
+    const { sharedState } = useSharedState();
+    const { isLogedIn } = sharedState || {}
     // const platform = 'solution';
 
     async function fetchData(): Promise<void> {
         setLoading(true);
         const { data, count } = await platformApi(
-            { ...searchParams, ...{ limit: page_limit } },
+            { ...searchParams, ...{ limit: page_limit, space } },
             'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
             'pinboards'
         );
@@ -45,15 +49,15 @@ export default function Section({
 
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [space]);
 
     return (
         <>
-        <section className='home-section py-[80px]'>
-            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
-                {/* SEARCH */}
-                <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
-                    {/*<div className='col-span-4 flex flex-row group items-stretch'>
+            <section className='home-section py-[80px]'>
+                <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
+                    {/* SEARCH */}
+                    <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
+                        {/*<div className='col-span-4 flex flex-row group items-stretch'>
                         <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                         <Button type='submit' className='border-l-0 grow-0'>
                             Search
@@ -75,47 +79,72 @@ export default function Section({
                             searchParams={searchParams}
                         />
                     </div>*/}
-                </form>
+                        {
+                            isLogedIn && (
+                                <div className="flex flex-row text-inherit">
+                                    <div className="flex items-center my-1">
+                                        <input
+                                            type="radio"
+                                            className="mr-2 border-solid border-1 hover:border-light-blue disabled:checked:text-gray-500"
+                                            name="board"
+                                            onChange={() => setSpace('published')}
+                                            checked={space === 'published'}
+                                        />
+                                        <label className={clsx("flex-grow", 'text-gray-800')}>Published</label>
+                                    </div>
+                                    <div className="flex items-center my-1">
+                                        <input
+                                            type="radio"
+                                            className="mr-2 border-solid border-1 hover:border-light-blue disabled:checked:text-gray-500"
+                                            name="board"
+                                            onChange={() => setSpace('private')}
+                                            checked={space === 'private'}
+                                        />
+                                        <label className={clsx("flex-grow", 'text-gray-800')}>Private</label>
+                                    </div>
+                                </div>
+                            )}
+                    </form>
 
-                <div className='section-content'>
-                    {/* Display Cards */}
-                    <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
-                        {loading ? (
-                            <ImgCardsSkeleton /> // Show Skeleton while loading
-                        ) : (
-                            hits?.map((post: any) => (
-                                <Card
-                                    key={post?.pinboard_id}
-                                    id={post?.pinboard_id}
-                                    country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                    title={post?.title || ''}
-                                    description={post?.description?.length > 200 ? `${post?.description.slice(0, 200)}…` : post?.description}
-                                    source={post?.base || 'solution'}
-                                    tagStyle="bg-light-green"
-                                    tagStyleShade="bg-light-green-shade"
-                                    href={`/boards/all/${post?.pinboard_id}`}
-                                    backgroundImage={post?.vignette}
-                                    date={post?.date}
+                    <div className='section-content'>
+                        {/* Display Cards */}
+                        <div className='grid gap-[20px] md:grid-cols-2 lg:grid-cols-3'>
+                            {loading ? (
+                                <ImgCardsSkeleton /> // Show Skeleton while loading
+                            ) : (
+                                hits?.map((post: any) => (
+                                    <Card
+                                        key={post?.pinboard_id}
+                                        id={post?.pinboard_id}
+                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                        title={post?.title || ''}
+                                        description={post?.description?.length > 200 ? `${post?.description.slice(0, 200)}…` : post?.description}
+                                        source={post?.base || 'solution'}
+                                        tagStyle="bg-light-green"
+                                        tagStyleShade="bg-light-green-shade"
+                                        href={`/boards/all/${post?.pinboard_id}`}
+                                        backgroundImage={post?.vignette}
+                                        date={post?.date}
 
-                                    viewCount={post.total}
+                                        viewCount={post.total}
+                                    />
+                                ))
+                            )}
+                        </div>
+                    </div>
+                    <div className='pagination'>
+                        <div className='w-full flex justify-center col-start-2'>
+                            {!loading ? (
+                                <Pagination
+                                    page={+page}
+                                    totalPages={pages}
                                 />
-                            ))
-                        )}
+                            ) : (<small className='block w-full text-center'>Loading pagination</small>)
+                            }
+                        </div>
                     </div>
                 </div>
-                <div className='pagination'>
-                    <div className='w-full flex justify-center col-start-2'>
-                    {!loading ? (
-                        <Pagination
-                            page={+page}
-                            totalPages={pages}
-                        />
-                    ) : (<small className='block w-full text-center'>Loading pagination</small>)
-                    }
-                    </div>
-                </div>
-            </div>
-        </section>
+            </section>
         </>
     );
 }
