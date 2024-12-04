@@ -30,7 +30,7 @@ export default function Section({
     const { page, search } = searchParams;
 
     const { sharedState } = useSharedState();
-    const { isLogedIn } = sharedState || {}
+    const { isLogedIn, session } = sharedState || {}
 
     const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -76,13 +76,6 @@ export default function Section({
             );
         }
 
-        const { data: board, count: board_count } = await platformApi(
-            { space: 'private' },
-            'solution',
-            'pinboards'
-        );
-        setBoards(board)
-
         const idz: number[] = data?.map(p => p?.pad_id || p?.doc_id)
         setObjectIdz(idz)
         const baseUrl = await platformApi({ render: true, action: 'download' }, platform, 'pads', true);
@@ -102,6 +95,18 @@ export default function Section({
     useEffect(() => {
         fetchData();
     }, []);
+
+    useEffect(() => {
+        async function fetchBoard(){
+            const { data: board, count: board_count } = await platformApi(
+                { space : session?.rights >= 3 ? 'all' : 'private' },
+                'solution',
+                'pinboards'
+            );
+            setBoards(board)
+        }
+        fetchBoard();
+    }, [session]);
 
     return (
         <>

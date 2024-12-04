@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { pin } from '@/app/lib/data/platform-api';
@@ -9,6 +9,7 @@ import AddToBoard from '@/app/ui/components/Modal/add-to-board';
 import { handleShowNotification, handleBoard, removeFromBoardApi } from './utils'
 import { BoardInfo } from './with-img'
 import { usePathname } from 'next/navigation'
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export interface CardProps {
   id: number;
@@ -51,7 +52,7 @@ export default function Card({
 }: CardProps) {
 
   const pathname = usePathname();
-  const { boards, removeFromBoard, boardId } = boardInfo || {};
+  const { boards, removeFromBoard, boardId, isContributor } = boardInfo || {};
   const { pinboards } = data || {}
   //Notification DOM states
   const [showNotification, setShowNotification] = useState(false);
@@ -60,6 +61,7 @@ export default function Card({
   const [messageType, setMessageType] = useState<string>("warning");
 
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const redirectUser = (pathname: string) => {
     window.history.replaceState(null, '', pathname);
@@ -89,6 +91,14 @@ export default function Card({
           )
     ); 
   }
+
+  const { sharedState } = useSharedState();
+  const { session } = sharedState || {}
+
+  useEffect(() => {
+    let d = session?.rights > 2 ? false : removeFromBoard && !isContributor ? true : false 
+    setIsDisabled(d);
+  }, [session]);
 
   return (
     <div className={clsx('card border-0 border-t-[1px] w-full relative flex flex-col', className)}>
@@ -132,7 +142,7 @@ export default function Card({
           </div>*/}
           <button type='button' className="chip bg-black text-white">{country}</button>
 
-          <Button type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' :'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+          <Button disabled={isDisabled} type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' :'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
               {removeFromBoard ? 'Remove from' : 'Add to'} Board
           </Button>
                         

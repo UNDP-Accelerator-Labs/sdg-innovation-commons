@@ -125,7 +125,8 @@ export default async function Section({
                                                     boards: boardlist,
                                                     removeFromBoard: true,
                                                     boardId: id,
-                                                    articleType: d?.article_type
+                                                    articleType: d?.article_type,
+                                                    isContributor: is_contributor, 
                                                 }}
                                                 data={d}
                                             />
@@ -162,7 +163,8 @@ export default async function Section({
                                                 boardInfo={{
                                                     boards: boardlist,
                                                     removeFromBoard: true,
-                                                    boardId: id
+                                                    boardId: id,
+                                                    isContributor: is_contributor, 
                                                 }}
                                                 
                                             />

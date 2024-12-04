@@ -32,6 +32,7 @@ export default function Content({
     const [objectIdz, setObjectIdz] = useState<number[]>([]);
 
     const { sharedState, setSharedState } = useSharedState();
+    const { session } = sharedState || {}
 
     const initialTab = platform || tabs[0];
 
@@ -57,22 +58,6 @@ export default function Content({
 
         const idz: number[] = data?.map(p => p?.pad_id || p?.doc_id)
         setObjectIdz(idz)
-
-        const { data : board, count: board_count } = await platformApi(
-            { space : 'private'},
-            'solution', 
-            'pinboards'
-        );
-        setBoards(board)
-
-        setSharedState((prevState: any) => ({
-            ...prevState, 
-            searchData: {
-                boards: board,
-                objectIdz: idz,
-                hits: data,
-            }
-        }));
         
         setLoading(false);
     }
@@ -82,6 +67,28 @@ export default function Content({
         fetchData();
     }, []);
 
+    useEffect(() => {
+        async function fetchBoard(){
+            const { data: board, count: board_count } = await platformApi(
+                { space : session?.rights >= 3 ? 'all' : 'private' },
+                'solution',
+                'pinboards'
+            );
+            setBoards(board)
+        }
+        fetchBoard();
+    }, [session]);
+
+    useEffect(() => {
+        setSharedState((prevState: any) => ({
+            ...prevState, 
+            searchData: {
+                boards,
+                objectIdz,
+                hits,
+            }
+        }));
+    }, [boards, loading]);
 
     return (
         <>
