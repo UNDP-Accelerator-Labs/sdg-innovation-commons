@@ -157,8 +157,13 @@ export default function Card({
 
     const { sharedState } = useSharedState();
     const { session } = sharedState || {}
-    let disabled = session?.rights > 2 ? false : removeFromBoard && !isContributor ? true : false 
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
+    useEffect(() => {
+        let d = session?.rights > 2 ? false : removeFromBoard && !isContributor ? true : false 
+        setIsDisabled(d);
+      }, [session]);
+      
     return (
         <div className={clsx('card w-full relative flex flex-col', className)}>
             {/* TOP (IMAGE AND CHIPS) */}
@@ -288,7 +293,7 @@ export default function Card({
                             </a>
                         </div>
 
-                        <Button disabled={disabled} type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' : 'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+                        <Button disabled={isDisabled} type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' : 'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
                             {removeFromBoard ? 'Remove from' : 'Add to'} Board
                         </Button>
 
