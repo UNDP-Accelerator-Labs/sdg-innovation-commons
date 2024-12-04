@@ -48,7 +48,7 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
     if (object === 'pads' && !include_engagement) _kwargs.include_engagement = true;
     if (object === 'pads' && !include_pinboards) _kwargs.include_pinboards = 'own';
 
-    if (platform === 'blogs') return await blogsApi(_kwargs);
+    if (['blogs', 'insight'].includes(platform)) return await blogsApi(_kwargs);
 
     const params = new URLSearchParams();
     if (render) params.set('output', 'csv');
