@@ -70,7 +70,6 @@ export default async function platformApi(_kwargs: Props, platform: string, obje
 
     const url = `${base_url}/apis/${action}/${object}?${params.toString()}`;
     console.log('check url ', url)
-    // console.trace()
 
     if (urlOnly) return url
 
