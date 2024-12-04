@@ -6,6 +6,7 @@ import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi from '@/app/lib/data/platform-api';
 import { page_limit } from '@/app/lib/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
 // import Filters from '../Filters';
 import clsx from 'clsx';
@@ -22,21 +23,22 @@ interface SectionProps {
 export default function Section({
     searchParams
 }: SectionProps) {
-    const { page, search } = searchParams;
+    const { page, search, space } = searchParams;
+    const windowParams = new URLSearchParams(useSearchParams());
 
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [space, setSpace] = useState<string>('published');
-
+    const [_space, setSpace] = useState<string>(space || 'published');
+    windowParams.set('space', _space);
     const { sharedState } = useSharedState();
     const { isLogedIn } = sharedState || {}
-    // const platform = 'solution';
+  
 
     async function fetchData(): Promise<void> {
         setLoading(true);
         const { data, count } = await platformApi(
-            { ...searchParams, ...{ limit: page_limit, space } },
+            { ...searchParams, ...{ limit: page_limit, space: _space } },
             'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
             'pinboards'
         );
@@ -47,9 +49,15 @@ export default function Section({
         setLoading(false);
     }
 
+    const handleSpace = (e: any, space: string)=>{
+        setSpace(space)
+        const form = e.target.closest('form');
+        form.submit();
+    }
+
     useEffect(() => {
         fetchData();
-    }, [space]);
+    }, [_space]);
 
     return (
         <>
@@ -86,9 +94,10 @@ export default function Section({
                                         <input
                                             type="radio"
                                             className="mr-2 border-solid border-1 hover:border-light-blue disabled:checked:text-gray-500"
-                                            name="board"
-                                            onChange={() => setSpace('published')}
-                                            checked={space === 'published'}
+                                            name="space"
+                                            onChange={(e) => handleSpace(e, 'published')}
+                                            checked={_space === 'published'}
+                                            value={'published'}
                                         />
                                         <label className={clsx("flex-grow", 'text-gray-800')}>Published</label>
                                     </div>
@@ -96,9 +105,10 @@ export default function Section({
                                         <input
                                             type="radio"
                                             className="mr-2 border-solid border-1 hover:border-light-blue disabled:checked:text-gray-500"
-                                            name="board"
-                                            onChange={() => setSpace('private')}
-                                            checked={space === 'private'}
+                                            name="space"
+                                            onChange={(e) => handleSpace(e, 'private')}
+                                            checked={_space === 'private'}
+                                            value={'private'}
                                         />
                                         <label className={clsx("flex-grow", 'text-gray-800')}>Private</label>
                                     </div>
