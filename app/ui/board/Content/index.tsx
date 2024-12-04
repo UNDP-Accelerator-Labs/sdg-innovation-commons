@@ -31,8 +31,7 @@ export default async function Section({
     // Group asynchronous calls
     const [boardDataResult, boardList, isLogedIn] = await Promise.all([
         boardData({ id, platform, searchParams }), 
-        {},
-        // platformApi({ space : 'private' }, 'solution', 'pinboards'),  
+        {}, 
         is_user_logged_in()
     ]);
 
@@ -53,8 +52,6 @@ export default async function Section({
         status,
         is_contributor, 
     } = boardDataResult || {};
-
-    const { data: boardlist, count } = boardList;
 
     return (
         <>
@@ -122,7 +119,7 @@ export default async function Section({
 
                                                 isLogedIn={isLogedIn}
                                                 boardInfo={{
-                                                    boards: boardlist,
+                                                    boards: [],
                                                     removeFromBoard: true,
                                                     boardId: id,
                                                     articleType: d?.article_type,
@@ -161,7 +158,7 @@ export default async function Section({
                                                 data={d}
                                                 isLogedIn={isLogedIn}
                                                 boardInfo={{
-                                                    boards: boardlist,
+                                                    boards: [],
                                                     removeFromBoard: true,
                                                     boardId: id,
                                                     isContributor: is_contributor, 
