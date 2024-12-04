@@ -153,7 +153,7 @@ export default function Content({
                                             tags={post?.tags}
                                             sdg={post?.sdg?.length ? `SDG ${post?.sdg?.join('/')}` : ''}
                                             backgroundImage={post?.vignette}
-
+                                            data={post}
                                             isLogedIn={sharedState?.isLogedIn}
                                             boardInfo={{
                                                 boards: boards,
