@@ -19,6 +19,5 @@ export default async function Data({
     // GET THE METADATA
     const metaData = await meta({ id, platform, platforms: tabs, searchParams });
     const cardsData = await cards({ platform, platforms, searchParams, pads: pads.data });
-
     return { ...boardData, ...metaData, ...cardsData };
 }

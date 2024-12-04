@@ -31,8 +31,9 @@ export default async function Section({
     // Group asynchronous calls
     const [boardDataResult, boardList, isLogedIn] = await Promise.all([
         boardData({ id, platform, searchParams }), 
-        platformApi({ space : 'private' }, 'solution', 'pinboards'),  
-        is_user_logged_in()                        
+        {},
+        // platformApi({ space : 'private' }, 'solution', 'pinboards'),  
+        is_user_logged_in()
     ]);
 
     const { 
