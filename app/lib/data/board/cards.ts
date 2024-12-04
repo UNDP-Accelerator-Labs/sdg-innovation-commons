@@ -26,13 +26,17 @@ export default async function Data({
 	        if (d) {
 	            const platform: string = commonsPlatform.find((c: any) => c.shortkey === d.platform)?.key || d.platform;
 	            const platformPads: any[] = pads.filter((c: any) => c.platform === d.platform).map((c: any) => c.pad_id);
-	            const data: any[] = await platformApi(
-	                { include_locations: true, pads: platformPads },
-	                platform, 
-	                'pads'
-	            );
-
-	            return data || [];
+	            
+	            console.log(platform)
+	            console.log(platformPads)
+	            if (platformPads.length) {
+		            const data: any[] = await platformApi(
+		                { include_locations: true, pads: platformPads },
+		                platform, 
+		                'pads'
+		            );
+					return data || [];
+				} else return [];
 	        } else return [];
 	    })
 	) : [];

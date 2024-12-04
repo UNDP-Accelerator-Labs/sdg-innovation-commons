@@ -25,7 +25,8 @@ export const commonsPlatform = [
   {
     title: 'Insight',
     url: 'https://blogapi.sdg-innovation-commons.org',
-    key: 'insight'
+    key: 'insight',
+    shortkey: 'blogs'
   },
   {
     title: 'Login',
