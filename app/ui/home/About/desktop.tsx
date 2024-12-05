@@ -39,7 +39,7 @@ export default function Section({
                         <p>We are constantly updating these platforms and curating the content available, reach out to us if you would like to be involved.</p>
                     </div>
                     <Button className="mt-[40px]">
-                        <Link href={'#'}>
+                        <Link href={'/about'}>
                             About Us
                         </Link>
                     </Button>
