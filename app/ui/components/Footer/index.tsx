@@ -5,9 +5,12 @@ import { redirectToLogin } from '@/app/lib/auth';
 import Mobile from './mobile';
 import Desktop from './desktop';
 import { usePathname } from 'next/navigation';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export default function Footer() {
   const currPath: string = usePathname();
+  const { sharedState } = useSharedState();
+  const { isLogedIn, session } = sharedState || {}
   return (
     <>
       <section className='home-section py-[40px]'>
@@ -29,14 +32,15 @@ export default function Footer() {
               {/*<p className='font-space-mono'>
                 <b>Signup for our Platform</b>
               </p>*/}
-              <Button onClick={(e) => {
-                e.preventDefault()
-                redirectToLogin(currPath)
-              }}>
-                  {/* <Link href={'/#contact'}> */}
-                      Sign up
-                  {/* </Link> */}
-              </Button>
+              {!isLogedIn && (
+                <Button onClick={(e) => {
+                  e.preventDefault()
+                  redirectToLogin(currPath)
+                }}>
+                  Sign In
+                </Button>
+              )}
+              
             </div>
           </div>
         </div>

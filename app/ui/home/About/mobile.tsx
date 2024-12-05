@@ -45,7 +45,7 @@ export default function Section({
                         </div>
                         <div className='text-right'>
                             <Button className='mt-[40px]'>
-                                <Link href={'#'}>
+                                <Link href={'/about'}>
                                     About Us
                                 </Link>
                             </Button>
