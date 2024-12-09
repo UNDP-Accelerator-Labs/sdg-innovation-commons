@@ -7,6 +7,7 @@ import UpdateBoardModal from '@/app/ui/components/Modal/update-board';
 import Notification from '@/app/ui/components/Notification';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { publish } from '@/app/lib/data/board/main'
+import Share from '@/app/ui/components/Modal/share-with-user';
 
 interface Props {
     searchParams: any;
@@ -118,8 +119,9 @@ export default function Section({
                     subMessage={submessage}
                     type={messageType}
                 />
-
             )}
+
+		  {/* <Share /> */}
         </>
     )
 }

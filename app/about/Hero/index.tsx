@@ -2,9 +2,9 @@ export default function Hero() {
 	return (
 		<>
 			<section className='relative home-section !border-t-0 grid-bg pt-[120px] lg:pt-0 lg:pb-[80px]'>
-				{/* <img id="arm" className='w-[60%] lg:w-[60%] absolute right-[10%] lg:right-[5%] top-[20%] md:top-[18%] lg:top-[3%]' alt='Branding illustration' src='/images/hands/about_us_top.png' />
+				<img id="arm" className='w-[60%] lg:w-[60%] absolute right-[10%] lg:right-[5%] top-[20%] md:top-[18%] lg:top-[3%]' alt='Branding illustration' src='/images/hands/about_us_top.png' />
 				<img id="hand" className='w-[10%] lg:w-[10%] absolute right-[5%] lg:right-0 top-[26%] md:top-[32%] lg:top-[23%]' alt='Branding illustration' src='/images/hands/about_us_hand.png' />
-				<img className='w-[20%] lg:w-[15%] absolute right-0 md:right-[15%] lg:right-[15%] top-[40%] lg:top-[30%] hidden lg:flex' alt="Branding illustration" src='/images/hero_image.svg' /> */}
+				<img className='w-[20%] lg:w-[15%] absolute right-0 md:right-[15%] lg:right-[15%] top-[40%] lg:top-[30%] hidden lg:flex' alt="Branding illustration" src='/images/hero_image.svg' />
 				<img className='w-[60%] lg:w-[50%] absolute right-[15%] md:right-0 lg:right-[5%] bottom-[-1px]' alt="Branding illustration" src='/images/hands/about_us.svg' />
 
 				<div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
