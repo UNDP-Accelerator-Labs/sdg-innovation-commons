@@ -20,5 +20,4 @@ export default function renderComponents (items: any[], item: any, i: number, im
     }
 
     if (type === 'attachment') return (<Attachment key={i} item={item} />)
-    console.log(type)
 }
