@@ -92,7 +92,7 @@ const AddToBoard: FC<Props> = ({
     <>
       <Modal isOpen={isOpen} onClose={onClose} title="Add to Board">
         <p className="text-left text-sm text-gray-500">
-          To create a board, enter the desired name and click "Create New Board." Alternatively, select an existing board from the list to add items.
+          To create a new board, enter the desired name and click "Create New Board." Alternatively, select an existing board from the list to add items.
         </p>
         {/* Search Input */}
         <div className="flex items-center overflow-hidden rounded-lg border border-gray-300">
