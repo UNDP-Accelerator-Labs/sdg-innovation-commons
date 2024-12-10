@@ -6,6 +6,8 @@ import platformApi from '@/app/lib/data/platform-api';
 import woldMap from '@/app/lib/data/world-map';
 import Hero from '../Hero';
 import Cartouche from '../Cartouche';
+import Disclaimer from '../Disclamer';
+import clsx from 'clsx';
 
 interface Props {
     id: number;
@@ -112,6 +114,9 @@ export default async function Section({
             </div>
             <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[1440px] grid grid-cols-9 gap-[20px]'>
                 <div className='section-content col-span-9 lg:col-span-5'>
+                    <div className={clsx("p-3", `bg-light-${color}`)}>
+                        <Disclaimer platform={base} />
+                    </div>
                     {
                         sections.map((s: any, j: number) => {
                             const { title, items } = s;

@@ -34,6 +34,7 @@ export interface Props {
     render?: boolean;
     action?: string;
     include_pinboards?: string;
+    email?: string;
 }
 
 export default async function platformApi(_kwargs: Props, platform: string, object: string, urlOnly: boolean = false,) {
