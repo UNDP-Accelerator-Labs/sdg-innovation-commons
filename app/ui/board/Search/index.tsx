@@ -16,6 +16,7 @@ interface Props {
     id: number;
     status: number;
     is_contributor: boolean;
+    platform?: string;
 }
 
 export default function Section({
@@ -24,7 +25,8 @@ export default function Section({
     description,
     id,
     status,
-    is_contributor
+    is_contributor,
+    platform,
 }: Props) {
     const { search } = searchParams;
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
@@ -37,8 +39,8 @@ export default function Section({
     const [messageType, setMessageType] = useState<string>("warning");
     const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
-    const { sharedState } = useSharedState();
-    const { isLogedIn } = sharedState || {}
+    const { sharedState, setSharedState } = useSharedState();
+    const { isLogedIn, share } = sharedState || {}
 
     const updateBoard = (e: any) => {
         e.preventDefault();
@@ -51,6 +53,18 @@ export default function Section({
         const form = e.target.closest('form');
         form.submit();
     }
+
+    const handleShare = (e:any)=>{
+        e.preventDefault()
+        setSharedState((prevState: any) => ({
+          ...prevState, 
+          share: {
+            _isModalOpen: true,
+            boardId: id,
+            platform
+          }
+      }));
+      }
 
     return (
         <>
@@ -89,6 +103,14 @@ export default function Section({
                                 { status < 3 ? 'Publish Board' : 'Unpublish Board'}
                             </div>
                         </MenuItem>
+                        <MenuItem as="button" type='submit' className={' w-full text-start bg-white hover:bg-lime-yellow'}>
+                            <div
+                                className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none cursor-pointer"
+                                onClick={handleShare}
+                            >
+                                Share
+                            </div>
+                        </MenuItem>
                     </DropDown>
                     ) : ''}
                 </div>
@@ -121,7 +143,7 @@ export default function Section({
                 />
             )}
 
-		  {/* <Share /> */}
+		  <Share />
         </>
     )
 }

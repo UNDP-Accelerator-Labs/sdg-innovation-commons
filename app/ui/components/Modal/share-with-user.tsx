@@ -1,138 +1,115 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Modal from './index';
 import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export default function Share() {
-  const [collections, setCollections] = useState<any[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [u_email, setEmail] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [disabled, setDisabled] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const filteredCollections = collections.filter((collection) =>
-    collection?.name?.toLowerCase()?.includes(searchTerm?.toLowerCase())
-  );
+  // Access shared state
+  const { sharedState, setSharedState } = useSharedState();
+  const { isLogedIn, share } = sharedState || {};
+  const { _isModalOpen, boardId, platform } = share || {};
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(e.target.value);
+    const email = e.target.value;
+    setEmail(email);
+
+    if (!email.endsWith('@undp.org')) {
+      setErrorMessage('Only @undp.org emails are allowed.');
+      setDisabled(true);
+    } else {
+      setErrorMessage('');
+      setDisabled(false);
+    }
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      const data = await platformApi({}, 'solution', 'contributors');
-      console.log(data);
-      if (Array.isArray(data) && data?.length) {
-        setCollections(data);
-        setLoading(false);
-      }
+  const handleShare = async () => {
+    setLoading(true);
+    try {
+      const data = await platformApi(
+        { pinboard: boardId, email: u_email },
+        'solution',
+        'share'
+      );
+      
+      if (!data?.success) throw Error(data);
+      setEmail('');
+      setSuccessMessage(data?.message);
+      setErrorMessage('')
+    } catch (error) {
+      console.error('Error sharing email:', error);
+      setErrorMessage('Failed to share with user. Please try again.');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    fetchData();
-  }, []);
+  const handleModalClose = () => {
+    setSharedState((prevState: any) => ({
+      ...prevState,
+      share: {
+        _isModalOpen: false,
+        boardId: null,
+      },
+    }));
+  };
+
+  if (!isLogedIn && !_isModalOpen) return null;
 
   return (
     <>
       <Modal
-        isOpen={true}
-        onClose={() => true}
+        isOpen={_isModalOpen}
+        onClose={handleModalClose}
         title="Share with other contributors."
       >
-        {/* Search Input */}
-        <div
-          className={clsx(
-            'flex items-center overflow-hidden rounded-lg border border-gray-300',
-            loading && 'animate-pulse bg-gray-200'
-          )}
-        >
+        <p className="text-left text-sm text-gray-500">
+          Please provide user email. Only existing or UNDP users are currently
+          supported.
+        </p>
+        <div className="mt-4">
           <div
             className={clsx(
-              'group flex w-full flex-row items-stretch',
-              loading && 'animate-pulse bg-gray-200'
+              'flex items-center overflow-hidden rounded-lg border border-gray-300'
             )}
           >
             <input
-              type="text"
-              name="search"
-              value={searchTerm}
+              type="email"
+              name="email"
+              value={u_email}
               onChange={handleSearchChange}
-              className={clsx(
-                'grow !border-r-0 border-black bg-white px-3 py-2',
-                loading && 'bg-gray-200 text-transparent'
-              )}
-              id="search-bar"
-              placeholder="Find User"
+              className="grow border-none bg-white px-3 py-2"
+              placeholder="Email"
               disabled={loading}
             />
-            <Button
-              type="button"
-              className={clsx(
-                'grow-0 border-l-0',
-                loading && 'bg-gray-200 text-transparent'
-              )}
-              disabled={loading}
-            >
-              🔍
-            </Button>
           </div>
-        </div>
-
-        {/* List */}
-        <div
-          className={clsx(
-            'my-4 max-h-60 space-y-2 overflow-y-auto',
-            loading && 'animate-pulse'
+          {errorMessage && (
+            <p className="mt-2 text-sm text-red-500">{errorMessage}</p>
           )}
-        >
-          <fieldset>
-            {loading ? (
-              <div className="space-y-2">
-                {/* Placeholder for list items */}
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <div key={index} className="h-8 rounded bg-gray-200" />
-                ))}
-              </div>
-            ) : filteredCollections.length > 0 ? (
-              filteredCollections.map((item, index) => {
-                const activeBoard = true;
-                return (
-                  <div key={index} className="my-1 flex items-center">
-                    <input
-                      id={item.name}
-                      type="checkbox"
-                      className="border-1 mr-2 border-solid hover:border-light-blue disabled:checked:text-gray-500"
-                      name={item.name}
-                      value={item.email}
-                    />
-                    <label
-                      className={clsx(
-                        'flex-grow',
-                        activeBoard ? 'text-gray-500' : 'text-gray-800'
-                      )}
-                    >
-                      {item.name}
-                    </label>
-                  </div>
-                );
-              })
-            ) : (
-              <p className="text-center text-sm">
-                No contributors found. Try another search!
-              </p>
-            )}
-          </fieldset>
+          {successMessage && (
+            <p className="mt-2 text-sm text-light-green">{successMessage}</p>
+          )}
         </div>
 
-        <div className="mt-4 text-center">
+        <div className="mt-10 text-center">
           <Button
             type="button"
             className={clsx(
-              'w-full grow-0 border-l-0',
-              loading && 'bg-gray-200 text-transparent'
+              'w-full grow-0',
+              loading ? 'cursor-wait' : '',
+              disabled && 'cursor-not-allowed opacity-50'
             )}
-            disabled={loading}
+            onClick={handleShare}
+            disabled={disabled || loading}
           >
-            Share
+            {loading ? 'Sharing...' : 'Share'}
           </Button>
         </div>
       </Modal>
