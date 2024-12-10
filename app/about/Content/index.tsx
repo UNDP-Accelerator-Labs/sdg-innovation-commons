@@ -55,10 +55,10 @@ export default function Section() {
               openness as a tool to shift power and drive systems transformation
               from the bottom up.
             </p>
-            <p className="mt-6 leading-[26px]">
+            {/* <p className="mt-6 leading-[26px]">
               We hope you will find it helpful. Please share your feedback with
               us, so we can improve it and make it useful for your daily work.
-            </p>
+            </p> */}
           </div>
         </div>
       </section>
