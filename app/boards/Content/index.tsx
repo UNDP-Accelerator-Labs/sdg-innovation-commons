@@ -90,7 +90,7 @@ export default function Section({
                             searchParams={searchParams}
                         />
                     </div>*/}
-                        {
+                        {/* {
                             isLogedIn && (
                                 <div className="flex flex-row font-space-mono">
                                     <div className="flex items-center my-1">
@@ -116,7 +116,7 @@ export default function Section({
                                         <label className={clsx("flex-grow", 'text-gray-800')}>Private</label>
                                     </div>
                                 </div>
-                            )}
+                            )} */}
                     </form>
 
                     <div className='section-content'>

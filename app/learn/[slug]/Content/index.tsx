@@ -115,7 +115,7 @@ export default function Section({
             <section className='home-section py-[80px] !border-none'>
                 <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     {/* Search bar */}
-                    <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
+                    <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[40px]'>
                         <div className='col-span-9 lg:col-span-4 flex flex-row group items-stretch'>
                             <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                             <Button type='submit' className='border-l-0 grow-0'>
@@ -157,6 +157,11 @@ export default function Section({
                             />
                         </div>
                     </form>
+
+                    <p className='text-lg mb-10'>
+                    Pin interesting blogs, publications, news, and press releases on a board by clicking “Add to board”. You can create new boards or add to an existing one. Customize your boards by clicking on “My boards” at the bottom right.
+                    </p>
+
                     {/* Display tabs */}
                     <nav className='tabs flex-wrap items-end'>
                         {tabs.map((d: any, i: number) => {

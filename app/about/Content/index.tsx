@@ -86,7 +86,7 @@ export default function Section() {
 
               <Button type="submit" className="grow-0 border-l-0">
                 <Link href={'/#contact'} passHref>
-                  Reach out to Us
+                  Contact Us
                 </Link>
               </Button>
             </div>
