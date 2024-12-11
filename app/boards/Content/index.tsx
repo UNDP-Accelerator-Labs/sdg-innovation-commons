@@ -67,7 +67,7 @@ export default function Section({
             <section className='home-section py-[80px]'>
                 <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     {/* SEARCH */}
-                    <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[80px]'>
+                    <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[40px]'>
                         {/*<div className='col-span-4 flex flex-row group items-stretch'>
                         <input type='text' name='search' value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)}  className='bg-white border-black !border-r-0 grow' id='main-search-bar' placeholder='What are you looking for?' />
                         <Button type='submit' className='border-l-0 grow-0'>
@@ -118,6 +118,10 @@ export default function Section({
                                 </div>
                             )} */}
                     </form>
+
+                    <p className='text-lg mb-10'>
+                    Browse through thematic curated boards on frontier sustainable development challenges. Click on “My boards” at the bottom right to access and customize your own boards.
+                    </p>
 
                     <div className='section-content'>
                         {/* Display Cards */}
