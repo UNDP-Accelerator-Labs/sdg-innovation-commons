@@ -3,6 +3,7 @@ import Modal from './index';
 import { Button } from '@/app/ui/components/Button';
 import { pin } from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation'
 
 interface Collection {
   name: string;
@@ -39,6 +40,8 @@ const AddToBoard: FC<Props> = ({
 }) => {
   if (!isOpen) return null;
 
+  const router = useRouter()
+
   const [collections, setCollections] = useState<Collection[]>(
     boards.map((b: any) => ({
       name: b?.title,
@@ -67,12 +70,14 @@ const AddToBoard: FC<Props> = ({
   const pinApi = async (action: ActionType) => {
     try {
       const data = await pin(source, action, boardId, id, searchTerm);
+      console.log('data ', data, boardId, action, searchTerm)
       if (data?.status === 200) {
         setMessage('');
         setMessageType('success');
         setSubMessage(data?.message || '');
 
         setShowNotification(true);
+        if(!boardId && searchTerm) return router.push(`/boards/all/${data?.board_id}`)
       } else {
         console.error('Unexpected response status:', data?.status);
         throw new Error();
