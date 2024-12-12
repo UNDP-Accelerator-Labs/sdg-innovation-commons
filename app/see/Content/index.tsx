@@ -111,7 +111,7 @@ export default function Section({
     return (
         <>
             <section className='home-section lg:py-[80px]'>
-                <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+                <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
                     {/* SEARCH */}
                     <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[40px]'>
                         <div className='col-span-9 lg:col-span-4 flex flex-row group items-stretch'>

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import statsApi from '@/app/lib/data/platform-pagination';
 import nlpStatsApi from '@/app/lib/data/nlp-pagination';
 import { page_limit } from '@/app/lib/utils';
@@ -36,102 +37,102 @@ export function Pagination({
 	if (totalPages <= 3) {
 		return (
 			<>
-				{page > 1 ? (
-					<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
-						<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
-					</button>
-				) : null}
-				{new Array(totalPages).fill(null).map((d, i) => (
-					<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
-						{i + 1}
-					</button>
-				))}
-				{page !== totalPages - 1 ? (
-					<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
-						<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
-					</button>
-				) : null}
+			{+page > 1 ? (
+				<button form='search-form' type='submit' value={+page - 1} name='page' className='relative bg-[#d2f960]'>
+					<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+				</button>
+			) : null}
+			{new Array(totalPages).fill(null).map((d, i) => (
+				<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={clsx(!page || +page === i + 1 ? 'bg-[rgb(255,229,210)]' : '')}>
+					{i + 1}
+				</button>
+			))}
+			{+page !== totalPages ? (
+				<button form='search-form' type='submit' value={+page + 1} name='page' className='relative bg-[#d2f960]'>
+					<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+				</button>
+			) : null}
 			</>
 		)
 	} else {
-		if (page <= 2) {
+		if (+page <= 2) {
 			return (
 				<>
-					{page > 1 ? (
-						<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
-							<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
-						</button>
-					) : null}
-					{new Array(Math.min(totalPages, 3)).fill(null).map((d, i) => (
-						<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
-							{i + 1}
-						</button>
-					))}
-					{totalPages > 3 ? (
-						<span>…</span>
-					) : (null)}
-					{totalPages > 3 ? (
-						<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
-							{totalPages}
-						</button>
-					) : (null)}
-					{page !== totalPages - 1 ? (
-						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
-							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
-						</button>
-					) : null}
-				</>
-			)
-		} else if (page > 2 && page <= totalPages - 3) {
-			return (
-				<>
-					{page > 1 ? (
-						<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
-							<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
-						</button>
-					) : null}
-					<button key={1} form='search-form' type='submit' value={1} name='page' className={page === 1 ? 'bg-[rgb(255,229,210)]' : ''}>
-							1
-					</button>	
+				{+page > 1 ? (
+					<button form='search-form' type='submit' value={+page - 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+					</button>
+				) : null}
+				{new Array(Math.min(totalPages, 3)).fill(null).map((d, i) => (
+					<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || +page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
+						{i + 1}
+					</button>
+				))}
+				{totalPages > 3 ? (
 					<span>…</span>
-					{new Array(3).fill(null).map((d, i) => (
-						<button key={page - 1 + i} form='search-form' type='submit' value={page - 1 + i} name='page' className={page - 1 + i === page ? 'bg-[rgb(255,229,210)]' : ''}>
-								{page - 1 + i}
-						</button>
-					))}
-					<span>…</span>
-					<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
+				) : (null)}
+				{totalPages > 3 ? (
+					<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={+page === totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
 						{totalPages}
 					</button>
-					{page !== totalPages - 1 ? (
-						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
-							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
-						</button>
-					) : null}
+				) : (null)}
+				{+page !== totalPages ? (
+					<button form='search-form' type='submit' value={+page + 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+					</button>
+				) : null}
+				</>
+			)
+		} else if (+page > 2 && +page <= totalPages - 3) {
+			return (
+				<>
+				{+page > 1 ? (
+					<button form='search-form' type='submit' value={+page - 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+					</button>
+				) : null}
+				<button key={1} form='search-form' type='submit' value={1} name='page' className={+page === 1 ? 'bg-[rgb(255,229,210)]' : ''}>
+						1
+				</button>	
+				<span>…</span>
+				{new Array(3).fill(null).map((d, i) => (
+					<button key={+page - 1 + i} form='search-form' type='submit' value={+page - 1 + i} name='page' className={clsx(+page - 1 + i + 1 === +page ? 'bg-[rgb(255,229,210)]' : '')}>
+							{+page - 1 + i}
+					</button>
+				))}
+				<span>…</span>
+				<button key={totalPages} form='search-form' type='submit' value={totalPages} name='page' className={+page === +totalPages ? 'bg-[rgb(255,229,210)]' : ''}>
+					{totalPages}
+				</button>
+				{page !== totalPages ? (
+					<button form='search-form' type='submit' value={+page + 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+					</button>
+				) : null}
 				</>
 			)
 		} else {
 			return (
 				<>
-					{page > 1 ? (
-						<button form='search-form' type='submit' value={page - 1} name='page' className='relative bg-[#d2f960]'>
-							<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
-						</button>
-					) : null}
-					<button key={1} form='search-form' type='submit' value={1} name='page'>
-						1
-					</button>	
-					<span>…</span>
-					{new Array(3).fill(null).map((d, i) => (
-						<button key={totalPages - 2 + i} form='search-form' type='submit' value={totalPages - 2 + i} name='page' className={page === totalPages - 2 + i ? 'bg-[rgb(255,229,210)]' : ''}>
-							{totalPages - 2 + i}
-						</button>
-					))}
-					{page !== totalPages - 1 ? (
-						<button form='search-form' type='submit' value={page + 1} name='page' className='relative bg-[#d2f960]'>
-							<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
-						</button>
-					) : null}
+				{+page > 1 ? (
+					<button form='search-form' type='submit' value={+page - 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
+					</button>
+				) : null}
+				<button key={1} form='search-form' type='submit' value={1} name='page'>
+					1
+				</button>	
+				<span>…</span>
+				{new Array(3).fill(null).map((d, i) => (
+					<button key={totalPages - 2 + i} form='search-form' type='submit' value={totalPages - 2 + i} name='page' className={+page === totalPages - 2 + i ? 'bg-[rgb(255,229,210)]' : ''}>
+						{totalPages - 2 + i}
+					</button>
+				))}
+				{+page !== totalPages ? (
+					<button form='search-form' type='submit' value={+page + 1} name='page' className='relative bg-[#d2f960]'>
+						<img src='/images/arrow-r.svg' className='w-[40px] absolute right-[3px] top-0' />
+					</button>
+				) : null}
 				</>
 			)
 		}

@@ -121,8 +121,8 @@ export default function Card({
               target={'_blank'} 
               rel={'noopener noreferrer'} 
           >
-            <h1>{title}</h1>
-            <p>{description}</p>
+            <h1>{title.replace(/\&amp;/g, '&')}</h1>
+            <p>{description.replace(/\&amp;/g, '&')}</p>
           </Link>
         </div>
         {/* TYPE INFO */}

@@ -4,14 +4,13 @@ import get from '@/app/lib/data/get';
 import { commonsPlatform, baseHost, LOCAL_BASE_URL } from '@/app/lib/utils';
 import { SignJWT, jwtVerify } from 'jose'
 import jwt from 'jsonwebtoken'
-
+ 
 interface TokenPayload {
     uuid?: string;
     username?: string;
     rights?: number;
     pinboards?: any;
 }
-
 const TOKEN_EXPIRATION_MS = 2 * 60 * 60 * 1000; //2 hrs
 
 export default async function getSession() {
@@ -53,13 +52,11 @@ export default async function getSession() {
             console.log('Session UUID not found, returning null.');
             return null;
         }
-
         // Generate tokens concurrently
         const [token, name] = await Promise.all([
             getToken({ uuid: session.uuid, rights: session.rights, pinboards: session?.pinboards }),
             getToken({ username: session.username, rights: session.rights, pinboards: session?.pinboards }),
         ]);
-
         // Set cookies
         const cookieOptions = {
             httpOnly: true,
@@ -68,17 +65,14 @@ export default async function getSession() {
             sameSite: 'lax' as const,
             path: '/',
         };
-
         cookieStore.set('_uuid_token', token, cookieOptions);
         cookieStore.set('_uuid_platform', name, cookieOptions);
-
         return session;
     } catch (error) {
         console.error('Error in getSession:', error);
         return null;
     }
 }
-
 
 export const get_session_id = async () => {
     const s_id: string = (await cookies()).get(`${process.env.APP_SUITE}-session`)?.value || '';
@@ -87,25 +81,25 @@ export const get_session_id = async () => {
     }
     return s_id?.split('.')[0]?.slice(2);
 }
-
+ 
 export const session_info = async () => {
     const token: string|undefined = (await cookies()).get('_uuid_token')?.value
     if (!token) return null;
     return token;
 }
-
+ 
 export const session_name = async () => {
     const token: string|undefined = (await cookies()).get('_uuid_platform')?.value as string
     if (!token) return null;
     const name = verifyToken(token)
     return name;
 }
-
-
+ 
+ 
 export const is_user_logged_in = async () => {
     const name = await session_name();
     if (name && typeof name === 'object' && 'username' in name) {
-        return !!name.username; 
+        return !!name.username;
     }
     return false;
 };
@@ -118,16 +112,16 @@ export async function getToken({ uuid, rights, username, pinboards }: TokenPaylo
     );
     return token;
 }
-
+ 
 const encodedKey = new TextEncoder().encode(process.env.APP_SECRET)
-
+ 
 export async function encrypt(payload: any) {
     return new SignJWT(payload)
         .setProtectedHeader({ alg: 'HS256' })
         .setIssuedAt()
         .sign(encodedKey)
 }
-
+ 
 export async function decrypt(session: string | undefined = '') {
     try {
         const { payload } = await jwtVerify(session, encodedKey, {
@@ -138,17 +132,17 @@ export async function decrypt(session: string | undefined = '') {
         console.log('Failed to verify session')
     }
 }
-
+ 
 export async function verifyToken(token: string) {
     try {
         const secret = process.env.APP_SECRET as string;
         const issuer = baseHost?.slice(1);
-
+ 
         const payload = jwt.verify(token, secret, {
             audience: 'user:known',
             issuer: issuer,
         });
-
+ 
         return payload;
     } catch (err: any) {
         return null;

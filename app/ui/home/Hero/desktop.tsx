@@ -26,8 +26,8 @@ export default function Hero({
 	<section className={clsx('relative home-section !border-t-0 grid-bg', className)}>
 	    <img className='w-[40%] absolute right-[10%] top-[90px] z-[10]' alt='Branding illustration' src="/images/hands/home_top.svg" />
 	    <img className='w-[40%] absolute right-0 bottom-[-10%] z-[10]' alt='Branding illustration' src="/images/hands/home_bottom.svg" />
-	    <div className='inner w-[1440px] mx-auto'>
-		    <div className='section-content grid grid-cols-9 gap-[20px] px-[80px] py-[100px]'>
+	    <div className='inner px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+		    <div className='section-content grid grid-cols-9 gap-[20px] pt-[80px] pb-[100px]'>
 		        <div className='c-left col-span-5 mt-[80px]'>
 		            <h1>
 		            	<span className='slanted-bg yellow'>

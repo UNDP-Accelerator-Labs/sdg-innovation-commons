@@ -2,11 +2,11 @@ import Link from 'next/link';
 import getSession, { session_name }  from '@/app/lib/session';
 
 export const navItems = [
-  { title: 'About Us', href: '/about' },
-  { title: 'What We See', href: '/see' },
-  { title: 'What We Test', href: '/test/all' },
-  { title: 'What We Learn', href: '/learn/all' },
-  { title: 'Next Practices for the SDGS', href: '/boards' },
+  { title: 'About', suffix: 'Us', href: '/about' },
+  { prefix: 'What We', title: 'See', href: '/see' },
+  { prefix: 'What We', title: 'Test', href: '/test/all' },
+  { prefix: 'What We', title: 'Learn', href: '/learn/all' },
+  { title: 'Next Practices', suffix: 'for the SDGS', href: '/boards' },
 ];
 
 const NavLink: React.FC = () => {
@@ -17,7 +17,7 @@ const NavLink: React.FC = () => {
           <div className='flex-1 rounded-md overflow-hidden flex flex-row items-center justify-start py-[10px] lg:py-[20px] px-8 gap-2'>
             <div className='flex-1 flex flex-row items-center justify-start gap-3'>
               <Link href={item.href} className='relative leading-[26px] font-medium'>
-                {item.title}
+                {item.prefix} {item.title} {item.suffix}
               </Link>
             </div>
           </div>

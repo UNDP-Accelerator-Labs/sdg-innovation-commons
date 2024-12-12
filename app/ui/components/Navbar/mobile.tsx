@@ -23,7 +23,7 @@ export default function NavBar() {
   
   return (
     <div className='w-full relative bg-white py-[20px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid z-10'>
-      <div className='inner relative w-full mx-auto px-[40px] box-border flex flex-row items-center justify-between'>
+      <div className='inner relative w-full mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] box-border flex flex-row items-center justify-between'>
           <Link href='/'>
             <img
               className='w-[50px]'
