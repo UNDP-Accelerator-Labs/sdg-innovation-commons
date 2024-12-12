@@ -92,32 +92,33 @@ export default function Content({
 
     return (
         <>
-            <section className='lg:home-section !border-t-0 lg:pb-[80px]'>
-                <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
-                    {/* Display tabs */}
-                    <nav className='tabs'>
-                        {tabs.map((d, i) => {
+        <section className='lg:home-section !border-t-0 lg:pb-[80px]'>
+            <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+                {/* Display tabs */}
+                <nav className='tabs'>
+                    {tabs.map((d, i) => {
 
-                            let txt: string = '';
-                            if (d === 'all') txt = 'all items';
-                            else txt = d;
-                            return (
-                                <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'yellow')}>
-                                    <Link href={`/search/${d}?${windowParams.toString()}`} scroll={false}>
-                                        {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
-                                    </Link>
-                                </div>
-                            )
-                        })}
-                    </nav>
-                    <div className='section-content'>
-                        {/* Display Cards */}
-                        <div className='grid gap-[20px] md:grid-cols-2 xl:grid-cols-3'>
-                            {loading ? (
-                                <ImgCardsSkeleton />
-                            ) : (
-                                hits?.map((post: any, i: number) => {
-                                    return post?.base == 'blog' ? (
+                        let txt: string = '';
+                        if (d === 'all') txt = 'all items';
+                        else txt = d;
+                        return (
+                            <div key={i} className={clsx('tab tab-line', docType === d ? 'font-bold' : 'yellow')}>
+                                <Link href={`/search/${d}?${windowParams.toString()}`} scroll={false}>
+                                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
+                                </Link>
+                            </div>
+                        )
+                    })}
+                </nav>
+                <div className='section-content'>
+                    {/* Display Cards */}
+                    <div className='grid gap-[20px] md:grid-cols-2 xl:grid-cols-3'>
+                        {loading ? (
+                            <ImgCardsSkeleton />
+                        ) : (
+                            hits?.map((post: any, i: number) => {
+                                if (post?.base == 'blog') {
+                                    return (
                                         <BlogCard
                                             key={i}
                                             id={post.doc_id}
@@ -138,7 +139,18 @@ export default function Content({
                                             }}
                                             data={post}
                                         />
-                                    ) : (
+                                    )
+                                } else {
+                                    let color: string = 'green';
+                                    let path: string = 'see';
+                                    if (d.base === 'action plan') {
+                                        color = 'yellow';
+                                        path = 'test';
+                                    } else if (d?.base === 'experiment') {
+                                        color = 'orange';
+                                        path = 'test';
+                                    }
+                                    return (
                                         <Card
                                             key={i}
                                             id={post?.doc_id || post?.pad_id}
@@ -159,27 +171,64 @@ export default function Content({
                                                 boards: boards,
                                             }}
                                         />
-                                    );
-                                })
-                            )}
-                        </div>
+                                    )
 
+                                    return (
+                                      <Card
+                                        key={i}
+                                        id={d?.doc_id || d?.pad_id}
+                                        country={
+                                          d?.country === 'NUL' || !d?.country
+                                            ? 'Global'
+                                            : d?.country
+                                        }
+                                        title={d?.title || ''}
+                                        description={
+                                          d?.snippets?.length
+                                            ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}`
+                                            : d?.snippet
+                                        }
+                                        source={d?.base || 'solution'}
+                                        tagStyle={`bg-light-${color}`}
+                                        tagStyleShade={`bg-light-${color}-shade`}
+                                        href={d?.url}
+                                        viewCount={0}
+                                        tags={d?.tags}
+                                        sdg={`SDG ${d?.sdg?.join('/')}`}
+                                        backgroundImage={d?.vignette}
+                                        date={d?.date}
+                                        engagement={d?.engagement}
+                                        data={d}
+                                        isLogedIn={isLogedIn}
+                                        boardInfo={{
+                                          boards: [],
+                                          removeFromBoard: true,
+                                          boardId: id,
+                                          isContributor: is_contributor,
+                                        }}
+                                      />
+                                    );
+                                }
+                            })
+                        )}
                     </div>
 
+                </div>
 
-                    <div className='pagination'>
-                        <div className='w-full flex justify-center col-start-2'>
-                            {!loading ? (
-                                <Pagination
-                                    page={+page}
-                                    totalPages={pages}
-                                />
-                            ) : (<small className='block w-full text-center'>Loading pagination</small>)
-                            }
-                        </div>
+
+                <div className='pagination'>
+                    <div className='w-full flex justify-center col-start-2'>
+                        {!loading ? (
+                            <Pagination
+                                page={+page}
+                                totalPages={pages}
+                            />
+                        ) : (<small className='block w-full text-center'>Loading pagination</small>)
+                        }
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
         </>
     );
 }
