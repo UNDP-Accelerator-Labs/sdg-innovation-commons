@@ -22,7 +22,7 @@ export default function DesktopNavBar() {
 
   return (
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
-      <div className='inner relative w-[1440px] mx-auto px-[80px] box-border'>
+      <div className='inner relative px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto box-border'>
         {/* Logo */}
         <div className='before:content-[""] before:w-[89px] before:bg-white before:absolute before:left-[-1px] before:top-[-1px] before:h-[79px] w-[87px] absolute text-center bg-white border-black border-[1px] border-solid pb-[17.5px]'>
           <Link href='/'>
@@ -34,8 +34,8 @@ export default function DesktopNavBar() {
         </div>
         {/* Navigation Links */}
         <div className='flex flex-row items-center justify-end gap-[31px] z-[1]'>
-          <p className='ml-[100px] mr-auto mb-0'>SDG Commons</p>
-          <div className='flex flex-row items-center justify-start gap-[26px]'>
+          <p className='ml-[100px] mr-auto mb-0 block lg:hidden xl:block'>SDG Commons</p>
+          <div className='flex flex-row items-center justify-start gap-[26px]' key='desktop'>
             {/* Map over the navItems array */}
             {navItems.map((link, index) => {
               const currHref: string[] = link.href.split('/').filter((d: string) => d?.length);
@@ -47,20 +47,29 @@ export default function DesktopNavBar() {
                 */ 
                 active = content?.some((d: string) => currPathSplit.includes(d)) || false;
               } else active = currHref[0] === currPathSplit[0]
+              const { prefix, title, suffix } = link;
+
               return (
-                <Link key={index} href={link.href} passHref className='no-underline text-black'>
+                <div key={index}>
+                {index === 1 ? (
+                  <span className='inline lg:hidden xl:inline xxl:hidden mr-[10px] text-light-gray-shade'>{prefix}-</span>
+                ) : null}
+                <Link href={link.href} passHref className='no-underline text-black'>
                   <span className={clsx('relative leading-[69px] text-[16px] cursor-pointer')}>
                     {active ? (
-                      <b>{link.title}</b>
+                      <b><span className='hidden xxl:inline'>{prefix} </span>{title}<span className='hidden xxl:inline'> {suffix}</span></b>
                     ) : (
-                      link.title
+                      <>
+                      <span className='hidden xxl:inline'>{prefix} </span>{title}<span className='hidden xxl:inline'> {suffix}</span>
+                      </>
                     )}
                   </span>
                 </Link>
+                </ div>
               )
             })}
             <Link href={'/search/all'}>
-              <img className="w-[31.8px] relative h-[29px] object-cover" alt="Search" src="/images/search.svg" />
+              <img className="w-[30px] relative h-[30px] object-cover" alt="Search" src="/images/search.svg" />
             </Link>
 
             {/* Translate icon */}
@@ -69,7 +78,8 @@ export default function DesktopNavBar() {
             {/* Login button */}
             {sharedState?.session?.username ? <>
               <button onClick={loginRedirect} className='cursor-pointer bg-lime-yellow h-[60px] px-[40px] font-bold font-space-mono text-[14px]'>
-                    Welcome {sharedState?.session?.username || ''}
+                  {/*Welcome {sharedState?.session?.username?.length > 12 ? sharedState?.session?.username.split(' ')[0] : sharedState?.session?.username || ''}*/}
+                  Welcome {sharedState?.session?.username?.split(' ')[0]}
               </button>
             </>
             : <>

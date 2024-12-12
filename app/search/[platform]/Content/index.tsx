@@ -106,7 +106,7 @@ export default function Content({
     return (
         <>
         <section className='lg:home-section !border-t-0 lg:pb-[80px]'>
-            <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 {/* Display tabs */}
                 <nav className='tabs'>
                     {tabs.map((d, i) => {
