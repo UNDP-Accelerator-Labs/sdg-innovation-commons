@@ -13,13 +13,21 @@ export default async function Data({
     platform,
     searchParams,
 }: Props) {
+    // GET THE DB SHORTKEY TO PASS TO THE API IN CASE THERE IS A PLATFORM SPECIFIC FILTER
+    const db = commonsPlatform.find((c: any) => c.key === platform.toLowerCase())?.shortkey || null;
+    let databases = {};
+    if (db) databases = { databases: db }
+    console.log(databases)
+
     // LOAD BOARD
     const boardData: any = await platformApi(
-        { ...searchParams, ...{ pinboard: id, limit: page_limit } },
+        { ...searchParams, ...{ pinboard: id, limit: page_limit }, ...databases },
         'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
         'pinboards'
     );
     const pages = Math.ceil(boardData?.total / page_limit) ?? 1;
+
+    console.log(boardData)
 
     const platforms = boardData?.counts
     ?.map((c: any) => {
