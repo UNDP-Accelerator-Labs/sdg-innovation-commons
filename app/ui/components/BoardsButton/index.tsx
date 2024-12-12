@@ -8,6 +8,8 @@ export default function Button() {
 
   const { pinboards } = session || {};
 
+  console.log(session)
+
   if (isLogedIn && pinboards?.length) {
     return (
       <div className='fixed z-[10] bottom-[80px] right-[80px]'>
