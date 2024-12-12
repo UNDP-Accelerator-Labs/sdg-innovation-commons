@@ -32,7 +32,7 @@ export default function Hero({
 
 	const { sharedState } = useSharedState();
 	const { isLogedIn } = sharedState || {}
-	const { boards, objectIdz, boardIdz, hits } = sharedState?.searchData || {}
+	const { boards, objectIdz, allObjectIdz, hits } = sharedState?.searchData || {}
 
 	const handleAddAllToBoard = (e: any) => {
 		e.preventDefault();
@@ -106,7 +106,7 @@ export default function Hero({
 
 			<AddToBoard
 				boards={boards || []}
-				boardIdz={boardIdz}
+				allObjectIdz={allObjectIdz}
 				isOpen={isModalOpen}
 				onClose={() => setModalOpen(false)}
 				platform={platform}

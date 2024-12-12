@@ -57,9 +57,9 @@ export default function Section({
     const [allowDownLoad, setallowDownLoad] = useState<boolean>(false);
     const [hrefs, setHref] = useState<string>('');
     const [objectIdz, setObjectIdz] = useState<number[]>([]);
+    const [allObjectIdz, setAllObjectIdz] = useState<any>();
 
     const [boards, setBoards] = useState<any[]>([]);
-    const [boardIdz, setBoardIdz] = useState<any>();
 
     //Notification DOM states
     const [showNotification, setShowNotification] = useState(false);
@@ -94,7 +94,7 @@ export default function Section({
                 platform,
                 'pads'
             );
-            setBoardIdz(null)
+            setAllObjectIdz(null)
             setallowDownLoad(true)
         } else {
             console.log('look for search term ', search)
@@ -119,7 +119,7 @@ export default function Section({
                 }
                 sorted_keys[key].push(item.pad_id); 
             });
-            setBoardIdz(sorted_keys)
+            setAllObjectIdz(sorted_keys)
             
             setallowDownLoad(true)
         }
@@ -285,7 +285,7 @@ export default function Section({
                 onClose={() => setModalOpen(false)}
                 platform={platform}
                 id={objectIdz}
-                boardIdz={boardIdz}
+                allObjectIdz={allObjectIdz}
 
                 setMessage={setMessage}
                 setSubMessage={setSubMessage}
