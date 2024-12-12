@@ -89,7 +89,7 @@ const AddToBoard: FC<Props> = ({
         if (allSuccess) {
           setMessage('');
           setMessageType('success');
-          setSubMessage('All items successfully processed.');
+          setSubMessage('All cards successfully processed.');
           setShowNotification(true);
   
           // Redirect if needed
@@ -103,7 +103,7 @@ const AddToBoard: FC<Props> = ({
         if (data?.status === 200) {
           setMessage('');
           setMessageType('success');
-          setSubMessage(data?.message || '');
+          setSubMessage('Successfully added card to board.');
           setShowNotification(true);
   
           if (!boardId && searchTerm) return router.push(`/boards/all/${data?.board_id}`);
