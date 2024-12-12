@@ -56,7 +56,7 @@ export default function Section() {
         <section className='relative home-section pt-[120px] lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
 
             <div className='caroussel w-full min-h-[100vh] h-full absolute ml-[calc((100% - 100vw) / 2)]'>
-                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border'>
+                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-hidden box-border'>
                     {slides.map((d: any, i: number) => {
                         return (
                             <div key={i} 

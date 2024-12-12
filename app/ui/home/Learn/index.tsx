@@ -74,7 +74,7 @@ export default function Section({ boards, isLogedIn}: Props) {
                                         tagStyle="bg-light-blue"
                                         href={post?.url}
                                         openInNewTab={true}
-                                        className={i >= 2 ? 'hidden xl:block' : ''}
+                                        className={i >= 2 ? 'hidden xl:flex' : ''}
                                         source={post?.base || 'blog'}
 
                                         isLogedIn={isLogedIn}

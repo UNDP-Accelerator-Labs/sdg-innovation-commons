@@ -59,7 +59,7 @@ export default function Section({
         <>
         <section id='featured-boards' className={clsx('relative home-section overflow-hidden min-h-[100vh] flex items-center', className)}>
             <div className='caroussel w-full min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
-                <div className='slides flex items-center justify-between flex-nowrap snap-x w-full overflow-auto box-border'>
+                <div className='slides flex items-center justify-between flex-nowrap snap-x w-full overflow-hidden box-border'>
                     {slides.map((d: any, i: number) => {
                         return (
                             <div key={i} 

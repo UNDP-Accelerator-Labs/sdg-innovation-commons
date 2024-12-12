@@ -17,11 +17,11 @@ export default function Board({
 }: Props) {
   return (
     <>
-      <Navbar />
-      <Suspense fallback={<Skeleton />}>
-        <Content id={id} platform={platform} searchParams={searchParams} />
-      </Suspense>
-      <Footer />
+    <Navbar />
+    <Suspense fallback={<Skeleton />}>
+      <Content id={id} platform={platform} searchParams={searchParams} />
+    </Suspense>
+    <Footer />
     </>
   );
 }
