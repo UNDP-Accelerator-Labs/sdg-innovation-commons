@@ -114,7 +114,7 @@ export default function Section({ boards, isLogedIn}: Props) {
                                     backgroundImage={post?.vignette}
                                     date={post?.date}
                                     engagement={post?.engagement}
-                                    className={clsx(i === 2 ? 'hidden xl:block' : '')}
+                                    className={clsx(i === 2 ? 'hidden xl:flex' : '')}
                                     data={post}
 
                                     isLogedIn={isLogedIn}

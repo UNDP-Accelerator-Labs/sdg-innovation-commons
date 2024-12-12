@@ -83,7 +83,7 @@ export default function Section({ boards, isLogedIn}: Props) {
                                         date={post?.date}
                                         engagement={post?.engagement}
                                         data={post}
-                                        className={i === 2 ? 'hidden xl:block' : ''}
+                                        className={i === 2 ? 'hidden xl:flex' : ''}
 
                                         isLogedIn={isLogedIn}
                                         boardInfo={{

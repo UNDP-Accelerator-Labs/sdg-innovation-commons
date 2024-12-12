@@ -59,30 +59,25 @@ export default function DesktopNavBar() {
                 </Link>
               )
             })}
-          <Link href={'/search/all'}>
-            <img className="w-[31.8px] relative h-[29px] object-cover" alt="Search" src="/images/search.svg" />
-          </Link>
+            <Link href={'/search/all'}>
+              <img className="w-[31.8px] relative h-[29px] object-cover" alt="Search" src="/images/search.svg" />
+            </Link>
 
             {/* Translate icon */}
             {/* <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" /> */}
-          </div>
 
-          {/* Login button */}
-          {sharedState?.session?.username ? <>
-            <button onClick={loginRedirect} className='no-underline text-black bottom-0 bg-inherit'>
-                <span className={clsx("relative leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5")}>
-                  Welcome {sharedState?.session?.username || ''}
-                </span>
-            </button>
-          </>
-          : <>
-            <button onClick={loginRedirect} className="w-[143.1px] relative h-[51.3px] cursor-pointer">
-              <div className="absolute top-0 left-0 bg-lime-yellow w-[143.1px] h-[51.3px]" />
-              <b className="absolute top-[15px] left-[22px] leading-[21px] inline-block w-[98.9px] h-[21px]">
-                Login
-              </b>
-            </button>
-          </>}
+            {/* Login button */}
+            {sharedState?.session?.username ? <>
+              <button onClick={loginRedirect} className='cursor-pointer bg-lime-yellow h-[60px] px-[40px] font-bold font-space-mono text-[14px]'>
+                    Welcome {sharedState?.session?.username || ''}
+              </button>
+            </>
+            : <>
+              <button onClick={loginRedirect} className='cursor-pointer bg-lime-yellow h-[60px] px-[40px] font-bold font-space-mono text-[18px]'>
+                  Login
+              </button>
+            </>}
+          </div>
         </div>
 
         {/* Bottom vector image */}
