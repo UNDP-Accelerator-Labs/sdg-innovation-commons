@@ -25,7 +25,7 @@ interface Props {
   setMessageType: any;
   setShowNotification: any;
 
-  boardIdz?: Record<string, number[]>;
+  allObjectIdz?: Record<string, number[]>;
 }
 
 const AddToBoard: FC<Props> = ({
@@ -34,7 +34,7 @@ const AddToBoard: FC<Props> = ({
   boards,
   platform,
   id,
-  boardIdz,
+  allObjectIdz,
   pinboards,
   setMessage,
   setMessageType,
@@ -73,8 +73,8 @@ const AddToBoard: FC<Props> = ({
   
   const pinApi = async (action: ActionType) => {
     try {
-      if (boardIdz && Object.keys(boardIdz).length > 0) {
-        const apiPromises = Object.entries(boardIdz).map(([key, ids]) =>{
+      if (allObjectIdz && Object.keys(allObjectIdz).length > 0) {
+        const apiPromises = Object.entries(allObjectIdz).map(([key, ids]) =>{
           let _source = key
           if (['news', 'blog', 'publications', 'press release'].includes(key)) {
             _source = 'blog';

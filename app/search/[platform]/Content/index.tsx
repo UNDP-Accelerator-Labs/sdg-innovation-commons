@@ -28,7 +28,7 @@ export default function Content({
     const [loading, setLoading] = useState<boolean>(true);
 
     const [boards, setBoards] = useState<any[]>([]);
-    const [boardIdz, setBoardIdz] = useState<any>();
+    const [allObjectIdz, setAllObjectIdz] = useState<any>();
 
     const [objectIdz, setObjectIdz] = useState<number[]>([]);
 
@@ -69,7 +69,7 @@ export default function Content({
             }
             sorted_keys[key].push(item?.pad_id || item?.doc_id); 
         });
-        setBoardIdz(sorted_keys)
+        setAllObjectIdz(sorted_keys)
 
         setLoading(false);
     }
@@ -96,12 +96,12 @@ export default function Content({
             ...prevState, 
             searchData: {
                 boards,
-                boardIdz,
+                allObjectIdz,
                 objectIdz,
                 hits,
             }
         }));
-    }, [boards, loading, boardIdz]);
+    }, [boards, loading, allObjectIdz]);
 
     return (
         <>
