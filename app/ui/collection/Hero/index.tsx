@@ -82,7 +82,7 @@ export default function Hero({
                             </div>
                             <div className='flex flex-wrap flex-row gap-1.5 mb-[20px] mt-[40px]'>
                                 {tags.highlight.map((d: any, i: number) => (
-                                        <button className='chip bg-light-blue' key={i}>{d.name}</button>
+                                    <button className='chip bg-light-blue' key={i}>{d.name}</button>
                                     )
                                 )}
                                 {tags.diff > 0 && (
