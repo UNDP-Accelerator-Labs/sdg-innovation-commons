@@ -132,34 +132,34 @@ export default function Content({
                             hits?.map((post: any, i: number) => {
                                 if (post?.base == 'blog') {
                                     return (
-                                        <BlogCard
-                                            key={i}
-                                            id={post.doc_id}
-                                            // country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
-                                            country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
-                                            date={formatDate(post?.meta?.date) || ''}
-                                            title={post?.title || ''}
-                                            description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
-                                            tags={post?.base || ''}
-                                            tagStyle="bg-light-blue"
-                                            href={post?.url}
-                                            openInNewTab={true}
-                                            source={post?.base || 'blog'}
+                                    <BlogCard
+                                        key={i}
+                                        id={post.doc_id}
+                                        // country={post?.meta?.iso3[0] === 'NUL' || !post?.meta?.iso3[0] ? 'Global' : post?.meta?.iso3[0]}
+                                        country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                        date={formatDate(post?.meta?.date) || ''}
+                                        title={post?.title || ''}
+                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        tags={post?.base || ''}
+                                        tagStyle="bg-light-blue"
+                                        href={post?.url}
+                                        openInNewTab={true}
+                                        source={post?.base || 'blog'}
 
-                                            isLogedIn={sharedState?.isLogedIn}
-                                            boardInfo={{
-                                                boards: boards,
-                                            }}
-                                            data={post}
-                                        />
+                                        isLogedIn={sharedState?.isLogedIn}
+                                        boardInfo={{
+                                            boards: boards,
+                                        }}
+                                        data={post}
+                                    />
                                     )
                                 } else {
                                     let color: string = 'green';
                                     let path: string = 'see';
-                                    if (d.base === 'action plan') {
+                                    if (post?.base === 'action plan') {
                                         color = 'yellow';
                                         path = 'test';
-                                    } else if (d?.base === 'experiment') {
+                                    } else if (post?.base === 'experiment') {
                                         color = 'orange';
                                         path = 'test';
                                     }
@@ -167,17 +167,22 @@ export default function Content({
                                         <Card
                                             key={i}
                                             id={post?.doc_id || post?.pad_id}
-                                            country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
+                                            country={
+                                              post?.country === 'NUL' || !post?.country
+                                                ? 'Global'
+                                                : post?.country
+                                            }
                                             title={post?.title || ''}
                                             description={post?.snippet?.length ? `${post?.snippet?.length > 200 ? `${post.snippet.slice(0, 200)}…` : post.snippet}` : post?.snippets}
-                                            source={post?.base || ''}
-                                            tagStyle="bg-light-green"
-                                            tagStyleShade="bg-light-green-shade"
+                                            source={post?.base || 'solution'}
+                                            tagStyle={`bg-light-${color}`}
+                                            tagStyleShade={`bg-light-${color}-shade`}
                                             href={post?.url}
                                             viewCount={0}
                                             tags={post?.tags}
                                             sdg={post?.sdg?.length ? `SDG ${post?.sdg?.join('/')}` : ''}
                                             backgroundImage={post?.vignette}
+                                            date={post?.date}
                                             data={post}
                                             isLogedIn={sharedState?.isLogedIn}
                                             boardInfo={{
@@ -185,42 +190,6 @@ export default function Content({
                                             }}
                                         />
                                     )
-
-                                    return (
-                                      <Card
-                                        key={i}
-                                        id={d?.doc_id || d?.pad_id}
-                                        country={
-                                          d?.country === 'NUL' || !d?.country
-                                            ? 'Global'
-                                            : d?.country
-                                        }
-                                        title={d?.title || ''}
-                                        description={
-                                          d?.snippets?.length
-                                            ? `${d?.snippets} ${d?.snippets?.length ? '...' : ''}`
-                                            : d?.snippet
-                                        }
-                                        source={d?.base || 'solution'}
-                                        tagStyle={`bg-light-${color}`}
-                                        tagStyleShade={`bg-light-${color}-shade`}
-                                        href={d?.url}
-                                        viewCount={0}
-                                        tags={d?.tags}
-                                        sdg={`SDG ${d?.sdg?.join('/')}`}
-                                        backgroundImage={d?.vignette}
-                                        date={d?.date}
-                                        engagement={d?.engagement}
-                                        data={d}
-                                        isLogedIn={isLogedIn}
-                                        boardInfo={{
-                                          boards: [],
-                                          removeFromBoard: true,
-                                          boardId: id,
-                                          isContributor: is_contributor,
-                                        }}
-                                      />
-                                    );
                                 }
                             })
                         )}
