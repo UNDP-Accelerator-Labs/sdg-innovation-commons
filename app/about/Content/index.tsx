@@ -4,9 +4,9 @@ import Link from 'next/link';
 export default function Section() {
   return (
     <>
-      <section className="relative flex h-[1800px] w-full flex-col justify-start overflow-hidden bg-white font-noto-sans text-lg text-black md:h-[900px] lg:h-[900px]">
-        <div className="absolute left-1/2 top-0 flex -translate-x-1/2 transform flex-row items-center justify-center px-0 py-[120px]">
-          <div className="w-full px-5 lg:w-[846px] lg:px-0">
+      <section className="home-section w-full overflow-hidden bg-white font-noto-sans text-lg text-black ">
+      <div className="inner mx-auto w-[846px]">
+          <div className="w-full px-5 lg:w-[846px] lg:px-0 py-[80px]">
             <p className="pb-10">
               <strong className="text-[22px] leading-[30px]">
                 The SDG Commons grows each day and is AI-powered to help UNDP
@@ -55,16 +55,12 @@ export default function Section() {
               openness as a tool to shift power and drive systems transformation
               from the bottom up.
             </p>
-            {/* <p className="mt-6 leading-[26px]">
-              We hope you will find it helpful. Please share your feedback with
-              us, so we can improve it and make it useful for your daily work.
-            </p> */}
           </div>
         </div>
       </section>
-      <section className="home-section mx-10 flex lg:mx-0 lg:py-[80px]">
+      <section className="home-section mx-10 flex lg:mx-0 lg:py-[10px]">
         <div className="inner mx-auto w-[846px]">
-          <div className="box-border items-center justify-start gap-10 px-0 py-[120px]">
+          <div className="box-border items-center justify-start gap-10 px-0 py-[80px]">
             <div className="relative self-stretch text-center">
               <p className="m-0">
                 <b>
@@ -86,7 +82,7 @@ export default function Section() {
 
               <Button type="submit" className="grow-0 border-l-0">
                 <Link href={'/#contact'} passHref>
-                  Reach out to Us
+                  Contact Us
                 </Link>
               </Button>
             </div>

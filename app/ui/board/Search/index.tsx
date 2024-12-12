@@ -8,6 +8,7 @@ import Notification from '@/app/ui/components/Notification';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { publish } from '@/app/lib/data/board/main'
 import Share from '@/app/ui/components/Modal/share-with-user';
+import Link from 'next/link';
 
 interface Props {
     searchParams: any;
@@ -91,7 +92,7 @@ export default function Section({
                                 className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none cursor-pointer"
                                 onClick={updateBoard}
                             >
-                                Update Board Details
+                                Update board details
                             </div>
                         </MenuItem>
 
@@ -100,7 +101,7 @@ export default function Section({
                                 className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none cursor-pointer"
                                 onClick={publishBoard}
                             >
-                                { status < 3 ? 'Publish Board' : 'Unpublish Board'}
+                                { status < 3 ? 'Publish board' : 'Unpublish board'}
                             </div>
                         </MenuItem>
                         <MenuItem as="button" type='submit' className={' w-full text-start bg-white hover:bg-lime-yellow'}>
@@ -110,6 +111,15 @@ export default function Section({
                             >
                                 Share
                             </div>
+                        </MenuItem>
+                        <MenuItem as="button" type='submit' className={' w-full text-start bg-white hover:bg-lime-yellow'}>
+                            <Link
+                                className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none cursor-pointer"
+                                href='/search/all'
+                                passHref
+                            >
+                                Add more to board
+                            </Link>
                         </MenuItem>
                     </DropDown>
                     ) : ''}

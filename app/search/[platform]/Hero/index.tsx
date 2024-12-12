@@ -32,7 +32,7 @@ export default function Hero({
 
 	const { sharedState } = useSharedState();
 	const { isLogedIn } = sharedState || {}
-	const { boards, objectIdz, hits } = sharedState?.searchData || {}
+	const { boards, objectIdz, allObjectIdz, hits } = sharedState?.searchData || {}
 
 	const handleAddAllToBoard = (e: any) => {
 		e.preventDefault();
@@ -68,17 +68,8 @@ export default function Hero({
 						</div>
 
 						<div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1 flex flex-row gap-x-5'>
-							<button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
-								<img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
-								{!filterVisibility ? (
-									'Filters'
-								) : (
-									'Close'
-								)}
-							</button>
-
 							{
-								isLogedIn && search?.length && platform !== 'all' ? (
+								isLogedIn && search?.length ? (
 									<DropDown>
 										<MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
 											<div
@@ -92,6 +83,14 @@ export default function Hero({
 
 								) : ''
 							}
+							<button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
+								<img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
+								{!filterVisibility ? (
+									'Filters'
+								) : (
+									'Close'
+								)}
+							</button>
 						</div>
 						<div className='col-span-9'>
 							<Filters
@@ -107,6 +106,7 @@ export default function Hero({
 
 			<AddToBoard
 				boards={boards || []}
+				allObjectIdz={allObjectIdz}
 				isOpen={isModalOpen}
 				onClose={() => setModalOpen(false)}
 				platform={platform}

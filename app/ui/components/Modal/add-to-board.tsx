@@ -3,6 +3,7 @@ import Modal from './index';
 import { Button } from '@/app/ui/components/Button';
 import { pin } from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation'
 
 interface Collection {
   name: string;
@@ -23,6 +24,8 @@ interface Props {
   setSubMessage: any;
   setMessageType: any;
   setShowNotification: any;
+
+  allObjectIdz?: Record<string, number[]>;
 }
 
 const AddToBoard: FC<Props> = ({
@@ -31,6 +34,7 @@ const AddToBoard: FC<Props> = ({
   boards,
   platform,
   id,
+  allObjectIdz,
   pinboards,
   setMessage,
   setMessageType,
@@ -38,6 +42,8 @@ const AddToBoard: FC<Props> = ({
   setShowNotification,
 }) => {
   if (!isOpen) return null;
+
+  const router = useRouter()
 
   const [collections, setCollections] = useState<Collection[]>(
     boards.map((b: any) => ({
@@ -59,34 +65,63 @@ const AddToBoard: FC<Props> = ({
   };
 
   let source = platform;
-  if (['news', 'blog', 'publications', 'press release'].includes(platform))
+  if (['news', 'blog', 'publications', 'press release'].includes(platform)) {
     source = 'blog';
-
+  }
+  
   type ActionType = 'delete' | 'insert';
-
+  
   const pinApi = async (action: ActionType) => {
     try {
-      const data = await pin(source, action, boardId, id, searchTerm);
-      if (data?.status === 200) {
-        setMessage('');
-        setMessageType('success');
-        setSubMessage(data?.message || '');
-
-        setShowNotification(true);
+      if (allObjectIdz && Object.keys(allObjectIdz).length > 0) {
+        const apiPromises = Object.entries(allObjectIdz).map(([key, ids]) =>{
+          let _source = key
+          if (['news', 'blog', 'publications', 'press release'].includes(key)) {
+            _source = 'blog';
+          }
+          return pin(_source, action, boardId, ids, searchTerm)
+      });
+  
+        const results = await Promise.all(apiPromises);
+  
+        const allSuccess = results.every(data => data?.status === 200);
+  
+        if (allSuccess) {
+          setMessage('');
+          setMessageType('success');
+          setSubMessage('All items successfully processed.');
+          setShowNotification(true);
+  
+          // Redirect if needed
+          if (!boardId && searchTerm) return router.push(`/boards/all/${results[0]?.board_id}`);
+        } else {
+          console.error('One or more API calls failed:', results);
+          throw new Error('Some API calls failed');
+        }
       } else {
-        console.error('Unexpected response status:', data?.status);
-        throw new Error();
+        const data = await pin(source, action, boardId, id, searchTerm);
+        if (data?.status === 200) {
+          setMessage('');
+          setMessageType('success');
+          setSubMessage(data?.message || '');
+          setShowNotification(true);
+  
+          if (!boardId && searchTerm) return router.push(`/boards/all/${data?.board_id}`);
+        } else {
+          console.error('Unexpected response status:', data?.status);
+          throw new Error();
+        }
       }
     } catch (error) {
       console.error('Engagement action failed:', error);
       setMessage('');
       setMessageType('warning');
-      setSubMessage('Error occured while adding item to board.');
-
+      setSubMessage('Error occurred while adding items to board.');
       setShowNotification(true);
     }
     return onClose();
   };
+  
 
   return (
     <>
