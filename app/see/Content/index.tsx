@@ -121,6 +121,32 @@ export default function Section({
                             </Button>
                         </div>
                         <div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1 flex flex-row gap-x-5'>
+                        {(hrefs?.length > 0 || (isLogedIn && search?.length > 0)) && (
+                                <DropDown>
+                                    {hrefs?.length > 0 && (
+                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+                                            <a
+                                                className="block p-4 text-inherit text-base data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                                                href={hrefs}
+                                                target="_blank"
+                                            >
+                                                Download All
+                                            </a>
+                                        </MenuItem>
+                                    )}
+                                    {isLogedIn && search?.length > 0 && (
+                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+                                            <div
+                                                className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none"
+                                                onClick={handleAddAllToBoard}
+                                            >
+                                                Add All to Board
+                                            </div>
+                                        </MenuItem>
+                                    )}
+                                </DropDown>
+                            )}
+
                             <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
                                 <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
                                 {!filterVisibility ? (
@@ -129,36 +155,6 @@ export default function Section({
                                     'Close'
                                 )}
                             </button>
-                            <DropDown>
-                                {
-                                    hrefs && hrefs.length ? (
-                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
-
-                                            <a
-                                                className="block p-4 text-inherit text-base data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                                                href={hrefs}
-                                                target='_blank'
-                                            >
-                                                Download All
-                                            </a>
-                                        </MenuItem>
-
-                                    ) : ''
-                                }
-                                {
-                                    isLogedIn && search?.length ? (
-                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
-
-                                            <div
-                                                className="block p-4 text-inherit text-base focus:bg-gray-100 focus:text-gray-900 focus:outline-none bg-inherit border-none"
-                                                onClick={handleAddAllToBoard}
-                                            >
-                                                Add All to Board
-                                            </div>
-                                        </MenuItem>
-                                    ) : ''
-                                }
-                            </DropDown>
                         </div>
                         <div className='col-span-9'>
                             <Filters

@@ -120,7 +120,7 @@ export default function Section({
                     </form>
 
                     <p className='text-lg mb-10'>
-                    Browse through thematic curated boards on frontier sustainable development challenges. Click on “My boards” at the bottom right to access and customize your own boards.
+                        Browse through thematic curated boards on frontier sustainable development challenges. Click on “My boards” at the bottom right to access and customize your own boards.
                     </p>
 
                     <div className='section-content'>
