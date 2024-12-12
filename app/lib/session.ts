@@ -11,55 +11,52 @@ interface TokenPayload {
     rights?: number;
     pinboards?: any;
 }
- 
-const TOKEN_EXPIRATION_MS = 2 * 60 * 60; //2 mins
- 
+const TOKEN_EXPIRATION_MS = 2 * 60 * 60 * 1000; //2 hrs
+
 export default async function getSession() {
     try {
-        const cookieStore = await cookies();
+        const cookieStore = await cookies(); 
         const s_id: string | null = await get_session_id();
- 
+
         if (!s_id) {
             cookieStore.delete('_uuid_token');
-            cookieStore.delete('_uuid_platform');
+            cookieStore.delete('_uuid_platform'); 
             console.log('No session ID found, returning null.');
             return null;
         }
- 
+
         const [currtoken, currname]: [string | null, any] = await Promise.all([
             session_info(),
             session_name(),
         ]);
- 
+
         if (currname?.username && currtoken) {
             console.log('Valid session, returning.');
             return { username: currname.username, token: currtoken };
         }
- 
+
         const base_url = commonsPlatform.find(p => p.key === 'solution')?.url;
         if (!base_url) {
             console.error('Base URL not found.');
             return null;
         }
- 
+
         const session = await get({
             url: `${base_url}/apis/fetch/session?s_id=${s_id}`,
             method: 'GET',
         });
- 
+
         if (!session?.uuid) {
             cookieStore.delete('_uuid_token');
-            cookieStore.delete('_uuid_platform');
+            cookieStore.delete('_uuid_platform'); 
             console.log('Session UUID not found, returning null.');
             return null;
         }
- 
         // Generate tokens concurrently
         const [token, name] = await Promise.all([
             getToken({ uuid: session.uuid, rights: session.rights, pinboards: session?.pinboards }),
             getToken({ username: session.username, rights: session.rights, pinboards: session?.pinboards }),
         ]);
- 
         // Set cookies
         const cookieOptions = {
             httpOnly: true,
@@ -68,18 +65,15 @@ export default async function getSession() {
             sameSite: 'lax' as const,
             path: '/',
         };
- 
         cookieStore.set('_uuid_token', token, cookieOptions);
         cookieStore.set('_uuid_platform', name, cookieOptions);
- 
         return session;
     } catch (error) {
         console.error('Error in getSession:', error);
         return null;
     }
 }
- 
- 
+
 export const get_session_id = async () => {
     const s_id: string = (await cookies()).get(`${process.env.APP_SUITE}-session`)?.value || '';
     if (!s_id) {
@@ -109,7 +103,7 @@ export const is_user_logged_in = async () => {
     }
     return false;
 };
- 
+
 export async function getToken({ uuid, rights, username, pinboards }: TokenPayload) {
     const token = await jwt.sign(
         { uuid, rights, username, pinboards },

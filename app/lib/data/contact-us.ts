@@ -34,7 +34,7 @@ const ContactSchema = z.object({
 });
 
 export type ContactState = {
-  isSubmitting?: boolean;
+  isSubmited?: boolean;
   errors?: {
     name?: string[];
     surname?: string[];
@@ -51,7 +51,7 @@ const CreateContact = ContactSchema.omit({ date: true });
 
 export async function createContact(prevState: ContactState, formData: FormData): Promise<ContactState> {
 
-  let newState: ContactState = { ...prevState, isSubmitting: true };
+  let newState: ContactState = { ...prevState, isSubmited: true };
 
   // Validate form using Zod
   const validatedFields = CreateContact.safeParse({
@@ -67,7 +67,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
   if (!validatedFields.success) {
     return {
       ...newState,
-      isSubmitting: false,
+      isSubmited: false,
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing or invalid fields. Failed to submit message.',
     };
@@ -114,12 +114,26 @@ export async function createContact(prevState: ContactState, formData: FormData)
             `,
     };
 
+    const mailOptions2 = {
+      from: `SDG Commons <${SMTP_USER}>`,
+      to: email,
+      subject: `Your comment on the SDG Commons, powered by the UNDP Accelerator Labs`,
+      text: `
+          Dear contributor,
+
+          Thank you for your message. It is well received and is being reviewed by team members of the UNDP Accelerator Labs who will get back to you shortly.
+          
+          Stay tuned.
+              `,
+      };
+
   // Send contact form data to admin email
   try {
     process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions) : null;
+    process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions2) : null;
     return {
       ...newState,
-      isSubmitting: false,
+      isSubmited: true,
       success: true,
       message: 'Thank you for your message. Our focal point will contact you soon.',
     };
@@ -127,7 +141,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
     console.error('Error sending email:', error);
     return {
       ...newState,
-      isSubmitting: false,
+      isSubmited: false,
       success: false,
       message: 'Error: Failed to send message.',
     };

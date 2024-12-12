@@ -1,13 +1,26 @@
 'use client';
 import clsx from 'clsx';
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { createContact, ContactState } from '@/app/lib/data/contact-us';
 import { Button } from '@/app/ui/components/Button';
 
 export default function Contact() {
-    const initialState: ContactState = { message: null, errors: {}, isSubmitting: false };
-    const [state, formAction] = useActionState(createContact, initialState);
+    const [loading, setLoading] = useState<boolean>(false);
 
+    const initialState: ContactState = { message: null, errors: {}, isSubmited: false };
+    const [state, formAction] = useActionState(createContact, initialState);
+    
+    useEffect(()=>{
+        setLoading(!!state.isSubmited);
+        if(state.success === true){
+            setLoading(false)
+        }
+    }, [state])
+
+const handleForm = (e: FormData)=>{
+    setLoading(true)
+    formAction(e)
+}
     return (
         <>
         <section className='home-section overflow-hidden lg:px-0 lg:py-0 bg-posted-yellow' id='contact' >
@@ -42,7 +55,7 @@ export default function Contact() {
                         )}
 
                         {/* Form */}
-                        <form action={formAction} className='lg:grid lg:grid-cols-2 lg:gap-[20px]'>
+                        <form action={handleForm} className='lg:grid lg:grid-cols-2 lg:gap-[20px]'>
                             {/* Name Input and Error */}
                             <div className='mb-[20px] lg:mb-0'>
                                 <input
@@ -107,9 +120,9 @@ export default function Contact() {
                                         Select a reason for contact
                                     </option>
                                     <option value="I would like to become a super user to actively test it for my team">I would like to become a super user to actively test it for my team.</option>
-                                    <option value="I have content to contribute ">I have content to contribute .</option>
-                                    <option value="I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further .">
-                                        I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further .
+                                    <option value="I have content to contribute">I have content to contribute.</option>
+                                    <option value="I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further.">
+                                        I'm interested in using the SDG Commons, and I need help to make sense of it and would like to collaborate further.
                                     </option>
                                     <option value="Other">Other</option>
                                 </select>
@@ -132,7 +145,9 @@ export default function Contact() {
                             </div>
                             <div className='mt-[20px] text-right lg:col-start-2'>
                                 {/* Submit Button */}
-                                <Button type="submit" disabled={state.isSubmitting}>{state.isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+                                <Button type="submit" disabled={loading} >
+                                    {loading ? 'Submitting...' : 'Submit'}
+                                </Button>
                             </div>
                         </form>
                     </div>
