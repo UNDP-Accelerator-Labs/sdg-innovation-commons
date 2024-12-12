@@ -29,6 +29,11 @@ export interface SectionProps {
     tabs: string[];
 }
 
+type Item = {
+    base: string;
+    pad_id: number;
+};
+
 export default function Section({
     searchParams,
     platform,
@@ -54,6 +59,7 @@ export default function Section({
     const [objectIdz, setObjectIdz] = useState<number[]>([]);
 
     const [boards, setBoards] = useState<any[]>([]);
+    const [boardIdz, setBoardIdz] = useState<any>();
 
     //Notification DOM states
     const [showNotification, setShowNotification] = useState(false);
@@ -88,6 +94,7 @@ export default function Section({
                 platform,
                 'pads'
             );
+            setBoardIdz(null)
             setallowDownLoad(true)
         } else {
             console.log('look for search term ', search)
@@ -102,7 +109,19 @@ export default function Section({
             data = await nlpApi(
                 { ...searchParams, ...{ limit: page_limit, doc_type } }
             );
-            setallowDownLoad(false)
+            
+            const sorted_keys: Record<string, number[]> = {}; 
+            
+            data.forEach((item: Item) => {
+                const key = item.base;
+                if (!sorted_keys[key]) {
+                    sorted_keys[key] = []; 
+                }
+                sorted_keys[key].push(item.pad_id); 
+            });
+            setBoardIdz(sorted_keys)
+            
+            setallowDownLoad(true)
         }
 
         const idz: number[] = data?.map(p => p?.pad_id || p?.doc_id)
@@ -124,9 +143,9 @@ export default function Section({
     }, []);
 
     useEffect(() => {
-        async function fetchBoard(){
+        async function fetchBoard() {
             const { data: board, count: board_count } = await platformApi(
-                { space : session?.rights >= 3 ? 'all' : 'private' },
+                { space: session?.rights >= 3 ? 'all' : 'private' },
                 'solution',
                 'pinboards'
             );
@@ -148,6 +167,32 @@ export default function Section({
                             </Button>
                         </div>
                         <div className='col-span-5 col-start-5 md:col-span-2 md:col-start-8 lg:col-end-10 lg:col-span-1  flex flex-row gap-x-5'>
+                            {(allowDownLoad && hrefs?.length > 0) || (isLogedIn && search?.length > 0 && platform !== 'all') ? (
+                                <DropDown>
+                                    {allowDownLoad && hrefs?.length > 0 && (
+                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+                                            <a
+                                                className="block p-4 text-inherit text-base data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
+                                                href={hrefs}
+                                                target="_blank"
+                                            >
+                                                Download All
+                                            </a>
+                                        </MenuItem>
+                                    )}
+                                    {isLogedIn && search?.length > 0 &&  (
+                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
+                                            <div
+                                                className="block p-4 text-inherit text-base data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none cursor-pointer"
+                                                onClick={handleAddAllToBoard}
+                                            >
+                                                Add All to Board
+                                            </div>
+                                        </MenuItem>
+                                    )}
+                                </DropDown>
+                            ) : null}
+
                             <button type='button' className='w-full h-[60px] text-[18px] bg-white border-black border-[1px] flex justify-center items-center cursor-pointer' onClick={(e) => setFilterVisibility(!filterVisibility)}>
                                 <img src='/images/icon-filter.svg' alt='Filter icon' className='mr-[10px]' />
                                 {!filterVisibility ? (
@@ -156,35 +201,6 @@ export default function Section({
                                     'Close'
                                 )}
                             </button>
-                            <DropDown>
-                                {
-                                    allowDownLoad && hrefs && hrefs.length ? (
-                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
-                                            <a
-                                                className="block p-4 text-inherit text-base data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                                                href={hrefs}
-                                                target='_blank'
-                                            >
-                                                Download All
-                                            </a>
-                                        </MenuItem>
-
-                                    ) : ''
-                                }
-                                {
-                                    isLogedIn && search?.length && platform !== 'all' ? (
-                                        <MenuItem as="button" className="w-full text-start bg-white hover:bg-lime-yellow">
-
-                                            <div
-                                                className="block p-4 text-inherit text-base  data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none cursor-pointer"
-                                                onClick={handleAddAllToBoard}
-                                            >
-                                                Add All to Board
-                                            </div>
-                                        </MenuItem>
-                                    ) : ''
-                                }
-                            </DropDown>
                         </div>
                         <div className='col-span-9'>
                             <Filters
@@ -199,7 +215,7 @@ export default function Section({
                     <p className='text-lg mb-10'>
                         Pin interesting experiments and action plans on a board by clicking “Add to board”. You can create new boards or add to an existing one. Customize your boards by clicking on “My boards” at the bottom right.
                     </p>
-                        
+
                     {/* Display tabs */}
                     <nav className='tabs items-end'>
                         {tabs.map((d, i) => {
@@ -269,6 +285,7 @@ export default function Section({
                 onClose={() => setModalOpen(false)}
                 platform={platform}
                 id={objectIdz}
+                boardIdz={boardIdz}
 
                 setMessage={setMessage}
                 setSubMessage={setSubMessage}
