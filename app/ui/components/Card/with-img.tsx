@@ -293,7 +293,7 @@ export default function Card({
                             </a>
                         </div>
                         { isDisabled ? '' : (
-                        <Button disabled={isDisabled} type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' : 'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px]'>
+                        <Button disabled={isDisabled} type='button' onClick={() => handleBoardFn(removeFromBoard ? 'delete' : 'insert')} className='border-l-0 grow-0 !text-[14px] !h-[40px] !px-[20px]'>
                             {removeFromBoard ? 'Remove from' : 'Add to'} Board
                         </Button>
                         )}

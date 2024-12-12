@@ -5,6 +5,7 @@ import platformApi from "@/app/lib/data/platform-api";
 import Navbar from "@/app/ui/components/Navbar";
 import Contact from "@/app/ui/components/Contact";
 import Footer from "@/app/ui/components/Footer";
+import BoardsButton from "@/app/ui/components/BoardsButton";
 import Hero from "./Hero";
 import BlockBtns from "./BlockBtns";
 import Learn from "./Learn";
@@ -88,6 +89,7 @@ export default function Home() {
       <Learn boards={boards} isLogedIn={isLogedIn} />
       <Contact />
       <Footer />
+      <BoardsButton />
     </>
   );
 }
