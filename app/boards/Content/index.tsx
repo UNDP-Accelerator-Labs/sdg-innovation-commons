@@ -26,14 +26,14 @@ export default function Section({
     const { page, search, space } = searchParams;
     const windowParams = new URLSearchParams(useSearchParams());
 
+    const { sharedState } = useSharedState();
+    const { isLogedIn, session } = sharedState || {};
+
     const [pages, setPages] = useState<number>(0);
     const [hits, setHits] = useState<any[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [_space, setSpace] = useState<string>(space || 'published');
     windowParams.set('space', _space);
-    const { sharedState } = useSharedState();
-    const { isLogedIn } = sharedState || {}
-  
 
     // LIMIT THE DATABASES TO PULL BOARDS FROM
     const databases = commonsPlatform.filter((d: any) => d.shortkey).map((d: any) => d.shortkey);
