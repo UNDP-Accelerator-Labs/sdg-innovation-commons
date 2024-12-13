@@ -129,8 +129,8 @@ export async function createContact(prevState: ContactState, formData: FormData)
 
   // Send contact form data to admin email
   try {
-    process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions) : null;
-    process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions2) : null;
+    process.env.NODE_ENV === 'production' ? transporter.sendMail(mailOptions) : null;
+    process.env.NODE_ENV === 'production' ?  transporter.sendMail(mailOptions2) : null;
 
     return {
       ...newState,
