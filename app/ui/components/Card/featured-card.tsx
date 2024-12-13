@@ -24,7 +24,7 @@ export default function Card({
 
     return (
     <div className={clsx('board w-full relative flex', className)}>
-        <div className='card grow flex flex-col'>
+        <div className='card grow flex flex-col z-[1]'>
             {/* TOP (IMAGE AND CHIPS) */}
             {backgroundImage ? (
                 <div className='w-full'>

@@ -16,13 +16,13 @@ export interface PageStatsResponse {
     pages: number;
 }
 
-interface SectionProps {
+interface Props {
     searchParams: any;
 }
 
 export default function Section({
     searchParams
-}: SectionProps) {
+}: Props) {
     const { page, search, space } = searchParams;
     const windowParams = new URLSearchParams(useSearchParams());
 
@@ -64,7 +64,9 @@ export default function Section({
 
     return (
         <>
-            <section className='home-section py-[80px]'>
+            {/* TEMP: WHILE WE DO NOT HAVE A SOLUTION FOR SEARCHING THROUGH BOARDS, REMOVE THE PADDING FROM THE section ELEMENT */}
+            {/*<section className='home-section py-[80px] border-t-0'>*/}
+            <section className='home-section border-t-0'>
                 <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     {/* SEARCH */}
                     <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[40px]'>
@@ -119,9 +121,11 @@ export default function Section({
                             )} */}
                     </form>
 
-                    <p className='text-lg mb-10'>
-                        Browse through thematic curated boards on frontier sustainable development challenges. Click on “My boards” at the bottom right to access and customize your own boards.
-                    </p>
+                    {isLogedIn && session?.pinboards?.length ? (
+                        <p className='lead mb-[40px]'>
+                            Click on “My boards” at the bottom right to access and customize your own boards.
+                        </p>
+                    ) : null}
 
                     <div className='section-content'>
                         {/* Display Cards */}

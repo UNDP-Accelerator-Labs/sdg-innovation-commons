@@ -13,11 +13,13 @@ export default async function Page({ params, searchParams }: incomingRequestPara
 
   return (
     <>
-      <Navbar />
-      <Hero />
+    <Navbar />
+    <div className='grid-bg'>
+      <Hero searchParams={sParams} />
       <Content searchParams={sParams} />
-      <Footer />
-      <BoardsButton />
+    </div>
+    <Footer />
+    <BoardsButton />
     </>
   );
 }
