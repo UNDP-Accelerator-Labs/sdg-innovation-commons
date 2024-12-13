@@ -1,45 +1,35 @@
 "use client";
-import React, { FC, useState } from "react";
-import { usePathname } from 'next/navigation'
+import React, { FC, useEffect, useState } from "react";
 import Modal from "./index";
 import { Button } from "@/app/ui/components/Button";
 import { updatePinboard } from '@/app/lib/data/platform-api';
-
+import { useRouter } from 'next/navigation'
 
 interface Props {
     isOpen: boolean;
     onClose: () => void;
-    id: number;
-
-    title?: string,
-    description?: string,
-
-    setMessage?: any;
-    setSubMessage?: any;
-    setMessageType?: any;
-    setShowNotification?: any;
 }
 
 const CreateBoard: FC<Props> = ({
     isOpen,
     onClose,
-    id,
-    title,
-    description,
 }) => {
     if (!isOpen) return null;
 
-    const [boardTitle, setBoardTitle] = useState<string>(title || "");
-    const [boardDescription, setBoardDescription] = useState<string>(description || "");
+    const router = useRouter()
 
-    const pathname = usePathname();
+    const [boardTitle, setBoardTitle] = useState<string>("");
+    const [boardDescription, setBoardDescription] = useState<string>("");
+    const [ disabled, setDisabled] = useState<boolean>(false)
+    const [ loading, setLoading] = useState<boolean>(false)
 
-    const update = async () => {
+    const create = async () => {
+        setLoading(true)
         try {
-            const data = await updatePinboard(id, boardTitle, boardDescription);
+            const data = await updatePinboard(null,boardTitle, boardDescription);
+            console.log('data ', data)
             if (data?.status === 200) {
-                window.history.replaceState(null, '', pathname);
-                window.location.reload();
+                return router.push(`/boards/all/${data?.board_id}`)
             } else {
                 console.error('Unexpected response status:', data?.status);
                 throw new Error
@@ -47,9 +37,14 @@ const CreateBoard: FC<Props> = ({
         } catch (error) {
             console.error('Engagement action failed:', error);
         }
+        setLoading(false)
         return onClose()
     };
 
+    useEffect(()=>{
+        const disabled = boardTitle.length > 1 && boardDescription.length > 2
+        setDisabled(!disabled)
+    }, [boardDescription, boardTitle])
     return (
         <>
             <Modal
@@ -83,8 +78,8 @@ const CreateBoard: FC<Props> = ({
                 </div>
 
                 <div className="text-center mt-10">
-                    <Button type='button' onClick={update} className='w-full border-l-0 grow-0'>
-                        Update
+                    <Button disabled={disabled || loading} type='button' onClick={create} className='w-full border-l-0 grow-0'>
+                      {loading ? 'Creating...' : 'Create'}  
                     </Button>
                 </div>
             </Modal>

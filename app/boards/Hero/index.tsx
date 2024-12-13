@@ -4,11 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { MenuItem } from '@headlessui/react'
 import clsx from 'clsx';
 import { Button } from '@/app/ui/components/Button';
-import Filters from '@/app/test/[platform]/Filters';
-import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import Notification from '@/app/ui/components/Notification';
-import AddToBoard from '@/app/ui/components/Modal/add-to-board';
-import DropDown from '@/app/ui/components/DropDown';
+import CreateBoard from '@/app/ui/components/Modal/create-new-board';
 
 interface Props {
 	searchParams: any;
@@ -21,6 +17,13 @@ export default function Hero({
 	const windowParams = new URLSearchParams(useSearchParams());
 	windowParams.set('page', '1');
 
+
+    const [isModalOpen, setModalOpen] = useState<boolean>(false);
+    const createBoard = (e: any) => {
+        e.preventDefault();
+        setModalOpen(true)
+    }
+
 	return (
 		<>
 		<section className='relative lg:home-section !border-t-0'>
@@ -32,7 +35,7 @@ export default function Hero({
 						</span></h1>
 						<p className='lead'>Browse through community curated boards of what we see, what we test, and what we learn about specific frontier sustainable development challenges.</p>
 
-                        <Button  className='border-l-0 grow-0'>
+                        <Button onClick={createBoard}  className='border-l-0 grow-0'>
 							Create new board
 						</Button>
 					</div>
@@ -72,6 +75,12 @@ export default function Hero({
 				</form>
 			</div>
 		</section>
+
+		<CreateBoard
+			isOpen={isModalOpen}
+			onClose={() => setModalOpen(false)}
+
+        />
 		</>
 	);
 }

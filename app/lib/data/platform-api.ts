@@ -153,7 +153,7 @@ export async function pin(
 
 
 export async function updatePinboard(
-    id: number,
+    id: number|null,
     title: string,
     description: string,
 ) {
