@@ -66,7 +66,7 @@ export default function Section({
         <>
             {/* TEMP: WHILE WE DO NOT HAVE A SOLUTION FOR SEARCHING THROUGH BOARDS, REMOVE THE PADDING FROM THE section ELEMENT */}
             {/*<section className='home-section py-[80px] border-t-0'>*/}
-            <section className='home-section border-t-0'>
+            <section className='home-section border-t-0 pb-[80px]'>
                 <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                     {/* SEARCH */}
                     <form id='search-form' method='GET' className='section-header relative pb-[40px] lg:pb-[40px]'>
