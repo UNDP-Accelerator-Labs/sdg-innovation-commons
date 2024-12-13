@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { useActionState, useEffect, useState } from "react";
+import { useActionState, useState } from "react";
 import { createContact, ContactState } from '@/app/lib/data/contact-us';
 import { Button } from '@/app/ui/components/Button';
 
@@ -10,17 +10,14 @@ export default function Contact() {
     const initialState: ContactState = { message: null, errors: {}, isSubmited: false };
     const [state, formAction] = useActionState(createContact, initialState);
     
-    useEffect(()=>{
-        setLoading(!!state.isSubmited);
-        if(state.success === true){
+    const handleForm = async (e: FormData)=>{
+        setLoading(true)
+        formAction(e)
+        setTimeout(() => {
             setLoading(false)
-        }
-    }, [state])
+        }, 3000);
+    }
 
-const handleForm = (e: FormData)=>{
-    setLoading(true)
-    formAction(e)
-}
     return (
         <>
         <section className='home-section overflow-hidden lg:px-0 lg:py-0 bg-posted-yellow' id='contact' >
