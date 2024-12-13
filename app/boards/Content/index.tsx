@@ -119,12 +119,15 @@ export default function Section({
                                     </div>
                                 </div>
                             )} */}
+
                     </form>
 
                     {isLogedIn && session?.pinboards?.length ? (
+                        <>
                         <p className='lead mb-[40px]'>
                             Click on “My boards” at the bottom right to access and customize your own boards.
                         </p>
+                        </>
                     ) : null}
 
                     <div className='section-content'>

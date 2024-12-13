@@ -31,6 +31,10 @@ export default function Hero({
 							<span>Community Curated Boards</span>
 						</span></h1>
 						<p className='lead'>Browse through community curated boards of what we see, what we test, and what we learn about specific frontier sustainable development challenges.</p>
+
+                        <Button  className='border-l-0 grow-0'>
+							Create new board
+						</Button>
 					</div>
 				</div>
 			</div>
