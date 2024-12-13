@@ -25,17 +25,17 @@ export default async function getSession() {
             return null;
         }
 
-        const [currtoken, currname]: [string | null, any] = await Promise.all([
-            session_info(),
-            session_name(),
-        ]);
+        // const [currtoken, currname]: [string | null, any] = await Promise.all([
+        //     session_info(),
+        //     session_name(),
+        // ]);
 
-        if (currname?.username && currtoken) {
-            console.log('Valid session, returning.');
-            return { username: currname.username, token: currtoken };
-        }
+        // if (currname?.username && currtoken) {
+        //     console.log('Valid session, returning.');
+        //     return { username: currname.username, token: currtoken };
+        // }
 
-        const base_url = commonsPlatform.find(p => p.key === 'solution')?.url;
+        const base_url = commonsPlatform.find(p => p.key === 'login')?.url;
         if (!base_url) {
             console.error('Base URL not found.');
             return null;
@@ -108,7 +108,11 @@ export async function getToken({ uuid, rights, username, pinboards }: TokenPaylo
     const token = await jwt.sign(
         { uuid, rights, username, pinboards },
         process.env.APP_SECRET as string,
-        { audience: 'user:known', issuer: baseHost?.slice(1) }
+        {
+            audience: 'user:known',
+            issuer: baseHost?.slice(1),
+            // expiresIn: '5m',
+        }
     );
     return token;
 }
