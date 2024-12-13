@@ -51,7 +51,7 @@ const CreateContact = ContactSchema.omit({ date: true });
 
 export async function createContact(prevState: ContactState, formData: FormData): Promise<ContactState> {
 
-  let newState: ContactState = { ...prevState, isSubmited: true };
+  let newState: ContactState = { ...prevState, isSubmited: false };
 
   // Validate form using Zod
   const validatedFields = CreateContact.safeParse({
@@ -131,6 +131,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
   try {
     process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions) : null;
     process.env.NODE_ENV === 'production' ? await transporter.sendMail(mailOptions2) : null;
+
     return {
       ...newState,
       isSubmited: true,

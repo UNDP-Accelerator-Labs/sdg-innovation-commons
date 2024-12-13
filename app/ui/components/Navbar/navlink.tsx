@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import getSession, { session_name }  from '@/app/lib/session';
 
 export const navItems = [
   { title: 'About', suffix: 'Us', href: '/about' },
@@ -28,10 +27,5 @@ const NavLink: React.FC = () => {
   );
 };
 
-export const sess = async () => {
-  await getSession()
-  const sess = await session_name(); 
-  return sess;
-}
 
 export default NavLink;

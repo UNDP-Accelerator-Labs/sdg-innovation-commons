@@ -1,5 +1,6 @@
 'use client';
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import getSession, { session_name, is_user_logged_in }  from '@/app/lib/session';
 
 interface SharedStateContextType {
   sharedState: any;
@@ -10,6 +11,21 @@ const SharedStateContext = createContext<SharedStateContextType | undefined>(und
 
 export function SharedStateProvider({ children }: { children: ReactNode }) {
   const [sharedState, setSharedState] = useState<any>(null);
+
+  useEffect(() => {
+    async function fetchData() {
+      await getSession()
+      const data = await session_name(); 
+      const isValidUser = await is_user_logged_in()
+      setSharedState((prevState: any) => ({
+          ...prevState, 
+          isLogedIn: isValidUser,
+          session: data
+      }));
+    }
+
+    fetchData();
+  },[]);
 
   return (
     <SharedStateContext.Provider value={{ sharedState, setSharedState }}>

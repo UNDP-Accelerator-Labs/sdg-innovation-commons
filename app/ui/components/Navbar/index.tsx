@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState  } from 'react';
-import { sess } from './navlink';
 import NavBar from './mobile'; // Mobile navbar
 import DesktopNavBar from './desktop'; // Desktop navbar
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import { is_user_logged_in } from '@/app/lib/session';
+
 
 export default function ResponsiveNavBar() {
 
@@ -21,19 +20,7 @@ export default function ResponsiveNavBar() {
      setPosition(moving)
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      const data = await sess();
-      const isValidUser = await is_user_logged_in()
-      setSharedState((prevState: any) => ({
-          ...prevState, 
-          isLogedIn: isValidUser,
-          session: data
-      }));
-    }
-
-    fetchData();
-  },[]);
+  
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
