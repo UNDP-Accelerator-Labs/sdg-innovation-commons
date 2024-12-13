@@ -78,13 +78,13 @@ export default function Section({
                             </span>
                         </h2>
                         <p className='lead text-white font-bold mb-[40px]'>
-                            Discover curated thematic boards on frontier development challenges.
+                            Discover how we are uncovering next practices for the SDGs through what we see, what we test, and what we learn.
                         </p>
                     </div>
                     <div>
                         <Button className='block'>
                             <Link href={'/boards'}>
-                                All Boards
+                                View All
                             </Link>
                         </Button>
                     </div>
