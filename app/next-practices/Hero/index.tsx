@@ -53,7 +53,7 @@ export default function Section() {
 
     return (
         <>
-        <section className='relative home-section pt-[120px] lg:py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
+        <section className='relative home-section pt-[120px] py-[80px] overflow-hidden min-h-[100vh] flex items-center'>
 
             <div className='caroussel w-full min-h-[100vh] h-full absolute ml-[calc((100% - 100vw) / 2)]'>
                 <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-hidden box-border'>
@@ -76,9 +76,6 @@ export default function Section() {
                     <div className='md:grid md:gap-[20px] md:grid-cols-6 lg:grid-cols-9 items-end md:mb-[40px]'>
                         <div className='c-left md:col-span-6 lg:col-span-5 flex flex-col my-[80px] lg:mb-0'>
                             <div>
-                                {/*<p className='lead text-white font-space-mono mb-0'>
-                                    <b>{currentData.title}</b>
-                                </p>*/}
                                 <h1 className='text-white'>
                                     <span className='dark blue slanted-bg'>
                                         <span>Next practices for the SDGs</span>
@@ -88,14 +85,7 @@ export default function Section() {
                                     Discover how we are uncovering next practices for the SDGs through what we see, what we test, and what we learn.
                                 </p>
                             </div>
-                            {/*<div>
-                                <Button className='block mt-[10px]'>
-                                    <Link href={'#'}>
-                                        All Boards
-                                    </Link>
-                                </Button>
-                            </div>*/}
-                            <div className='mt-auto hidden lg:block'>
+                            {/*<div className='mt-auto hidden lg:block'>
                                 <div className='flex justify-start items-center'>
                                     <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
                                     <p className='text-white font-space-mono my-0'>
@@ -103,17 +93,8 @@ export default function Section() {
                                     </p>
                                     <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
                                 </div>
-                            </div>
+                            </div>*/}
                         </div>
-                        {/*<div className='c-left hidden md:block lg:hidden'>
-                            <div className='flex justify-start items-center'>
-                                <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
-                                <p className='text-white font-space-mono my-0'>
-                                    <b><span className='text-[24px] lg:text-[36px]'>0{currentSlide + 1}</span> / 0{slides.length}</b>
-                                </p>
-                                <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
-                            </div>
-                        </div>*/}
                         <div className='c-right md:col-span-4 lg:col-span-4 lg:col-start-6'>
                             <Card
                                 id={currentData.id}
@@ -126,7 +107,7 @@ export default function Section() {
                                 openInNewTab={false}
                             />
                         </div>
-                        <div className='c-left block md:row-start-3 md:col-span-4 lg:hidden my-[40px]'>
+                        {/*<div className='c-left block md:row-start-3 md:col-span-4 lg:hidden my-[40px]'>
                             <div className='flex justify-start items-center'>
                                 <img className='cursor-pointer' alt='Arrow left' src='images/Arrow-left.svg' onClick={handlePrevSlide} />
                                 <p className='text-white font-space-mono my-0'>
@@ -134,7 +115,7 @@ export default function Section() {
                                 </p>
                                 <img className='cursor-pointer' alt='Arrow right' src='images/Arrow-right.svg' onClick={handleNextSlide} />
                             </div>
-                        </div>
+                        </div>*/}
                     </div>
                 </div>
             </div>

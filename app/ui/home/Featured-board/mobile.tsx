@@ -20,7 +20,7 @@ export default function Section({
         const { id, ...obj } = d;
         obj.key = id;
         obj.id = i;
-        obj.href = `/collections/${id}`;
+        obj.href = `/next-practices/${id}`;
         obj.description = obj.sections[0].items[0].txt;
         return obj
     });
@@ -83,7 +83,7 @@ export default function Section({
                     </div>
                     <div>
                         <Button className='block'>
-                            <Link href={'/boards'}>
+                            <Link href={'/next-practices'}>
                                 View All
                             </Link>
                         </Button>

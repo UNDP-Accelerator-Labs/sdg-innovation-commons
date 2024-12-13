@@ -17,7 +17,7 @@ interface Props {
 export default function Hero({
 	searchParams,
 }: Props) {
-	const { page, search } = searchParams;
+	const { page, search, space } = searchParams;
 	const windowParams = new URLSearchParams(useSearchParams());
 	windowParams.set('page', '1');
 
@@ -28,7 +28,11 @@ export default function Hero({
 				<div className='section-content grid grid-cols-9 gap-[20px] lg:pt-[80px]'>
 					<div className='c-left col-span-9 lg:col-span-5 mb-[80px] lg:mb-[40px] lg:mt-[80px]'>
 						<h1><span className='slanted-bg yellow'>
-							<span>Community Curated Boards</span>
+							{space === 'private' ? (
+								<span>My Boards</span>
+							) : (
+								<span>Community Curated Boards</span>
+							)}
 						</span></h1>
 						<p className='lead'>Browse through community curated boards of what we see, what we test, and what we learn about specific frontier sustainable development challenges.</p>
 					</div>
