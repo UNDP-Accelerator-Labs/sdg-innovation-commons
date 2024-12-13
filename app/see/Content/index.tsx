@@ -164,9 +164,11 @@ export default function Section({
                         </div>
                     </form>
 
-                    <p className='text-lg mb-10'>
-                    Pin interesting solutions notes on a board by clicking “Add to board”. You can create new boards or add to an existing one. Customize your boards by clicking on “My boards” at the bottom right.
-                    </p>
+                    {isLogedIn && session?.pinboards?.length ? (
+                        <p className='lead mb-[40px]'>
+                            Pin interesting solutions notes on a board by clicking “Add to board”. You can create new boards or add to existing ones. Customize your boards by clicking on “My boards” at the bottom right.
+                        </p>
+                    ) : null}
 
                     <div className='section-content'>
                         {/* Display Cards */}

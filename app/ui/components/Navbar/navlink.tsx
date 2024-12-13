@@ -6,7 +6,8 @@ export const navItems = [
   { prefix: 'What We', title: 'See', href: '/see' },
   { prefix: 'What We', title: 'Test', href: '/test/all' },
   { prefix: 'What We', title: 'Learn', href: '/learn/all' },
-  { title: 'Next Practices', suffix: 'for the SDGS', href: '/boards' },
+  { prefix: 'Community Curated', title: 'Boards', href: '/boards' },
+  { title: 'Next Practices', suffix: 'for the SDGS', href: '/next-practices' },
 ];
 
 const NavLink: React.FC = () => {

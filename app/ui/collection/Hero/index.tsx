@@ -15,6 +15,7 @@ interface Props {
     image: string;
     tags: any;
     cards: any[];
+    count: number;
 }
 
 export default function Hero({
@@ -24,6 +25,7 @@ export default function Hero({
     image,
     tags,
     cards,
+    count = 0,
 }: Props) {
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
@@ -60,33 +62,53 @@ export default function Hero({
 
     return (
         <>
-        <section className='relative home-section pb-[40px] pt-[160px] lg:py-[80px] overflow-hidden min-h-[100vh] h-full flex items-center'>
+        <section className='relative home-section pb-[40px] pt-[160px] lg:py-[80px] overflow-hidden min-h-[100vh] h-full lg:flex items-center'>
             
-            <div className='caroussel min-w-full h-full lg:min-h-[100vh] absolute ml-[calc((100% - 100vw) / 2)]'>
-                <div className='slides flex items-center justify-between flex-nowrap snap-x min-w-full h-full overflow-auto box-border overflow-hidden'>
-                    <img src={image} className='lg:min-w-[100vw] block min-h-full z-[-2]' />
+            {/* FOR SMALL DISPLAYS */}
+            <div className='lg:hidden mt-[-20px]'>
+                <div className='w-full'>
+                    <img src={image} className='w-full block min-h-full' />
+                </div>
+                <div className='folder horizontal'>
+                    <div className='folder-label'>
+                        <span>{count} Board{count !== 1 ? 's' : null}</span>
+                    </div>
+                    <div className='folder-base'></div>
                 </div>
             </div>
 
-            <div className='inner lg:mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
+            {/* FOR LARGE DISPLAYS */}
+            <div className='hidden lg:block'>
+                <div className='absolute right-0 top-0 w-[40%] overflow-hidden h-full'>
+                    <img src={image} className='lg:min-w-[100vw] block min-h-full translate-x-[-10%]' />
+                </div>
+                <div className='folder vertical right-[40%]'>
+                    <div className='folder-label'>
+                        <span>{count} Board{count !== 1 ? 's' : null}</span>
+                    </div>
+                    <div className='folder-base'></div>
+                </div>
+            </div>
+
+            <div className='inner mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]'>
                 <div className='section-content'>
-                    <div className='grid gap-[20px] lg:grid-cols-3'>
-                        <div className='c-left lg:col-span-2 flex flex-col'>
+                    <div className='grid gap-[20px] lg:grid-cols-2'>
+                        <div className='c-left flex flex-col mb-[80px] lg:mb-[40px] mt-[80px]'>
                             <div>
                                 <h1>
-                                    <span className='dark blue slanted-bg'>
+                                    <span className='yellow slanted-bg'>
                                         <span>{title}</span>
                                     </span>
                                 </h1>
-                                <p className='lead text-white font-bold mb-[40px]'>{description}</p>
+                                <p className='mb-[40px]'>{description}</p>
                             </div>
                             <div className='flex flex-wrap flex-row gap-1.5 mb-[20px] mt-[40px]'>
                                 {tags.highlight.map((d: any, i: number) => (
-                                    <button className='chip bg-light-blue' key={i}>{d.name}</button>
+                                    <button className='chip bg-posted-yellow' key={i}>{d.name}</button>
                                     )
                                 )}
                                 {tags.diff > 0 && (
-                                    <button className='chip bg-light-blue'>+{tags.diff}</button>
+                                    <button className='chip bg-posted-yellow'>+{tags.diff}</button>
                                 )}
                             </div>
                         </div>

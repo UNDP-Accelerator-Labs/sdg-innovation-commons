@@ -14,8 +14,8 @@ export default async function Page({ params, searchParams }: incomingRequestPara
 
   return (
     <>
+    <Navbar />
     <div className='grid-bg'>
-      <Navbar />
       <Hero 
         searchParams={sParams} 
         platform={platform}
