@@ -11,6 +11,7 @@ import Share from '@/app/ui/components/Modal/share-with-user';
 import Link from 'next/link';
 import DeleteBoard from '@/app/ui/board/Delete';
 import RequestBoardContribution from '@/app/ui/board/Request';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface Props {
   searchParams: any;
@@ -33,6 +34,7 @@ export default function Section({
   platform,
   total,
 }: Props) {
+  const router = useRouter();
   const { search } = searchParams;
   const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>(
@@ -78,10 +80,20 @@ export default function Section({
     }));
   };
 
+  const updateUrl = (title: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.delete('title');
+    const updatedQuery = new URLSearchParams({ title }).toString() + '&' + params.toString();
+    router.push(`?${updatedQuery}`);
+  };
 
   useEffect(()=>{
-    const { share } = searchParams;
+    const { share, title: _title } = searchParams;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+    if(id && title && !_title){
+        updateUrl(title)
+    }
 
     if(share?.length && emailRegex.test(share)){
         setSharedState((prevState: any) => ({
