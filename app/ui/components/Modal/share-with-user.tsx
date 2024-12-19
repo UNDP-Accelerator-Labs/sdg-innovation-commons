@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from './index';
 import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
@@ -6,16 +6,19 @@ import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export default function Share() {
-  const [u_email, setEmail] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [disabled, setDisabled] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
 
   // Access shared state
   const { sharedState, setSharedState } = useSharedState();
   const { isLogedIn, share } = sharedState || {};
-  const { _isModalOpen, boardId, platform } = share || {};
+  const { _isModalOpen, boardId, platform, email } = share || {};
+
+
+  const [u_email, setEmail] = useState<string>(email || '');
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -57,12 +60,19 @@ export default function Share() {
       share: {
         _isModalOpen: false,
         boardId: null,
+        email: ''
       },
     }));
   };
 
   if (!isLogedIn && !_isModalOpen) return null;
 
+  useEffect(()=>{
+    if(email) {
+      setEmail(email)
+      setDisabled(false)
+    }
+  }, [email])
   return (
     <>
       <Modal
