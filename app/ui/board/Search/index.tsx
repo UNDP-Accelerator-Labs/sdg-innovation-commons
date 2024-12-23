@@ -65,6 +65,8 @@ export default function Section({
         _isModalOpen: true,
         boardId: id,
         platform,
+        is_contributor,
+        title,
         email: '',
       },
     }));
@@ -94,6 +96,8 @@ export default function Section({
           boardId: id,
           platform,
           email: share,
+          is_contributor,
+          title,
         },
       }));
     }
@@ -166,7 +170,7 @@ export default function Section({
                       className="block cursor-pointer border-none bg-inherit p-4 text-base text-inherit focus:bg-gray-100 focus:text-gray-900 focus:outline-none"
                       onClick={handleShare}
                     >
-                      Share
+                      Grant Contributor Access
                     </div>
                   </MenuItem>
                   <MenuItem
@@ -216,7 +220,7 @@ export default function Section({
                       setRequestOpen(true);
                     }}
                   >
-                    Request collaboration
+                    Request contributor access
                   </div>
                 </MenuItem>
               )}

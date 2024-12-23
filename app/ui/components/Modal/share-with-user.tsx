@@ -12,7 +12,7 @@ export default function Share() {
   // Access shared state
   const { sharedState, setSharedState } = useSharedState();
   const { isLogedIn, share } = sharedState || {};
-  const { _isModalOpen, boardId, platform, email } = share || {};
+  const { _isModalOpen, boardId, platform, email, is_contributor, title } = share || {};
 
 
   const [u_email, setEmail] = useState<string>(email || '');
@@ -73,14 +73,17 @@ export default function Share() {
   }, [email])
 
 
-  if (!isLogedIn && !_isModalOpen) return null;
+  if (!isLogedIn && !_isModalOpen && !is_contributor) return null;
   return (
     <>
       <Modal
         isOpen={_isModalOpen}
         onClose={handleModalClose}
-        title="Share with other contributors."
+        title="Grant Contributor Access"
       >
+        <p className="text-left text-sm text-gray-500">
+          Granting contributor access to the board <b>{title}</b> allows the user to manage and contribute to the board.
+        </p>
         <p className="text-left text-sm text-gray-500">
           Please provide user email. Only existing or UNDP users are currently
           supported.
@@ -120,7 +123,7 @@ export default function Share() {
             onClick={handleShare}
             disabled={disabled || loading}
           >
-            {loading ? 'Sharing...' : 'Share'}
+            {loading ? 'Please wait...' : 'Grant Contributor Access'}
           </Button>
         </div>
       </Modal>
