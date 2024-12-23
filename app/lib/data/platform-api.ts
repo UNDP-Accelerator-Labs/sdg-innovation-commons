@@ -97,7 +97,7 @@ export default async function platformApi(
     (p) => p.key === platform
   )?.url;
 
-  const url = `${LOCAL_BASE_URL}/apis/${action}/${object}?${params.toString()}`; //TODO: remove LOCAL_BASE_URL
+  const url = `${base_url}/apis/${action}/${object}?${params.toString()}`; 
   console.log('check url ', url);
 
   if (urlOnly) return url;
