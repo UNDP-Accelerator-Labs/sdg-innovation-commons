@@ -1,4 +1,7 @@
+'use client'
 import clsx from 'clsx';
+import { Button } from '@/app/ui/components/Button';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 interface Props {
 	id: number;
@@ -11,6 +14,8 @@ interface Props {
 	tagStyle: string;
 	tagStyleShade: string;
 	color: string;
+	platform?: string;
+	pinboards?: any[];
 }
 
 export default function Hero({ 
@@ -24,6 +29,8 @@ export default function Hero({
 	tagStyle,
 	tagStyleShade,
 	color,
+	platform,
+	pinboards = [],
 }: Props) {
 	if (padtype === 'solution') padtype = 'solution note';
 	padtype = `${padtype.slice(0, 1).toUpperCase()}${padtype.substring(1)}`;
@@ -33,6 +40,19 @@ export default function Hero({
 			labLink = 'https://www.undp.org/acceleratorlabs/';
 		} else labLink = `https://www.undp.org/acceleratorlabs/${lab?.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
 	}
+
+	const { setSharedState } = useSharedState();
+	const showAddToBoardModal = () => {
+		setSharedState((prevState: any) => ({
+		  ...prevState,
+		  addToBoard: {
+			showAddToBoardModal: true,
+			platform,
+			id,
+			pinboards,
+		  },
+		}));
+	  };
 
   	return (
 	<section className='relative home-section !border-t-0 grid-bg pt-[140px] lg:pt-0 pb-[40px] lg:pb-[80px] overflow-hidden'>
@@ -54,6 +74,10 @@ export default function Hero({
 	        			)
 	        		})}
 	            	</div>
+
+					<Button onClick={showAddToBoardModal} className="grow-0 border-l-0 mt-5">
+						Add to board
+					</Button>
 		        </div>
 		    </div>
 		</div>

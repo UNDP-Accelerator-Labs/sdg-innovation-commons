@@ -1,8 +1,4 @@
 "use client";
-import { Button } from '@/app/ui/components/Button';
-import { useState, useEffect } from 'react';
-import Filters from '../Filters';
-import clsx from 'clsx';
 
 export default function Hero() {
   return (

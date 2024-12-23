@@ -65,14 +65,15 @@ export default function Share() {
     }));
   };
 
-  if (!isLogedIn && !_isModalOpen) return null;
-
   useEffect(()=>{
     if(email) {
       setEmail(email)
       setDisabled(false)
     }
   }, [email])
+
+
+  if (!isLogedIn && !_isModalOpen) return null;
   return (
     <>
       <Modal

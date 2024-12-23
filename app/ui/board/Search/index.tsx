@@ -4,14 +4,13 @@ import { Button } from '@/app/ui/components/Button';
 import DropDown from '@/app/ui/components/DropDown';
 import { MenuItem } from '@headlessui/react';
 import UpdateBoardModal from '@/app/ui/components/Modal/update-board';
-import Notification from '@/app/ui/components/Notification';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { publish } from '@/app/lib/data/board/main';
 import Share from '@/app/ui/components/Modal/share-with-user';
 import Link from 'next/link';
 import DeleteBoard from '@/app/ui/board/Delete';
 import RequestBoardContribution from '@/app/ui/board/Request';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 interface Props {
   searchParams: any;
@@ -35,25 +34,16 @@ export default function Section({
   total,
 }: Props) {
   const router = useRouter();
-  const { search } = searchParams;
-  const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>(
     searchParams.search || ''
   );
 
-  //Notification DOM states
-  const [showNotification, setShowNotification] = useState(false);
-  const [message, setMessage] = useState<string>('Action Required!');
-  const [submessage, setSubMessage] = useState<string>(
-    'You need to log in to engage with this post.'
-  );
-  const [messageType, setMessageType] = useState<string>('warning');
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [isRequestOpen, setRequestOpen] = useState<boolean>(false);
 
   const { sharedState, setSharedState } = useSharedState();
-  const { isLogedIn, share } = sharedState || {};
+  const { isLogedIn } = sharedState || {};
 
   const updateBoard = (e: any) => {
     e.preventDefault();
@@ -75,7 +65,7 @@ export default function Section({
         _isModalOpen: true,
         boardId: id,
         platform,
-        email: ''
+        email: '',
       },
     }));
   };
@@ -83,31 +73,31 @@ export default function Section({
   const updateUrl = (title: string) => {
     const params = new URLSearchParams(searchParams);
     params.delete('title');
-    const updatedQuery = new URLSearchParams({ title }).toString() + '&' + params.toString();
+    const updatedQuery =
+      new URLSearchParams({ title }).toString() + '&' + params.toString();
     router.push(`?${updatedQuery}`);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     const { share, title: _title } = searchParams;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-    if(id && title && !_title){
-        updateUrl(title)
+    if (id && title && !_title) {
+      updateUrl(title);
     }
 
-    if(share?.length && emailRegex.test(share)){
-        setSharedState((prevState: any) => ({
-            ...prevState,
-            share: {
-              _isModalOpen: true,
-              boardId: id,
-              platform,
-              email: share
-            },
-          }));
+    if (share?.length && emailRegex.test(share)) {
+      setSharedState((prevState: any) => ({
+        ...prevState,
+        share: {
+          _isModalOpen: true,
+          boardId: id,
+          platform,
+          email: share,
+        },
+      }));
     }
-  }, [searchParams])
-
+  }, [searchParams]);
 
   return (
     <>
@@ -131,7 +121,6 @@ export default function Section({
           </Button>
         </div>
         <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-
           {isLogedIn ? (
             <DropDown>
               {is_contributor && (
@@ -235,25 +224,6 @@ export default function Section({
           ) : (
             ''
           )}
-
-            {/* <button
-            type="button"
-            className="flex h-[60px] w-full items-center justify-center border-[1px] border-black bg-white text-[18px]"
-            onClick={(e) => setFilterVisibility(!filterVisibility)}
-          >
-            <img
-              src="/images/icon-filter.svg"
-              alt="Filter icon"
-              className="mr-[10px]"
-            />
-            {!filterVisibility ? 'Filters' : 'Close'}
-          </button> */}
-        </div>
-        <div className="col-span-9">
-          {/*<Filters 
-                    className={clsx(filterVisibility ? '' : 'hidden')}
-                    searchParams={searchParams}
-                />*/}
         </div>
       </form>
 
@@ -263,19 +233,7 @@ export default function Section({
         id={id}
         title={title}
         description={description}
-        setMessage={setMessage}
-        setSubMessage={setSubMessage}
-        setMessageType={setMessageType}
-        setShowNotification={setShowNotification}
       />
-
-      {showNotification && (
-        <Notification
-          message={message}
-          subMessage={submessage}
-          type={messageType}
-        />
-      )}
 
       <DeleteBoard
         id={id}

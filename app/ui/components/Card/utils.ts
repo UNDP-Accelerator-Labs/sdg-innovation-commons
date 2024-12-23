@@ -6,7 +6,6 @@ export const engage = async (
     type: EngagementType,
     source: string,
     id: number,
-    isLogedIn: boolean,
     engageApi: (source: string, type: EngagementType, action: ActionType, id: number) => Promise<any>,
     setIsLiked: (isLiked: boolean) => void,
     setIsDisliked: (isDisliked: boolean) => void,
@@ -14,9 +13,7 @@ export const engage = async (
     setLikeCounts: (count: number) => void,
     dislikeCounts: number,
     setDislikeCounts: (count: number) => void,
-    handleShowNotification: () => void
 ) => {
-    if (!isLogedIn) return handleShowNotification();
     try {
         const data = await engageApi(source, type, action, id);
         if (data?.status === 200) {
@@ -43,26 +40,14 @@ export const engage = async (
     }
 };
 
-export const handleShowNotification = (
-    setShowNotification: (show: boolean) => void,
-    timeout: number = 3000
-) => {
-    setShowNotification(true);
-    setTimeout(() => {
-        setShowNotification(false);
-    }, timeout);
-};
 
 export const handleBoard = (
-    isLogedIn: boolean,
     removeFromBoard: boolean,
-    setModalOpen: (isOpen: boolean) => void,
-    handleShowNotification: () => void,
+    showAddToBoardModal: () => void,
     removeFromBoardApi: (action: ActionType) => Promise<void>
 ) => {
-    if (!isLogedIn) return handleShowNotification();
     if (removeFromBoard) return removeFromBoardApi('delete');
-    setModalOpen(true);
+    return showAddToBoardModal()
 };
 
 export const removeFromBoardApi = async (
@@ -71,12 +56,8 @@ export const removeFromBoardApi = async (
     id: number,
     source: string,
     pin: (source: string, action: ActionType, boardId: number, id: number) => Promise<any>,
-    setMessage: (message: string) => void,
-    setMessageType: (type: 'success' | 'warning') => void,
-    setSubMessage: (message: string) => void,
-    setShowNotification: (show: boolean) => void,
+    showNotification: (message : string, submessage: string, messageType: string ) => void,
     redirectUser: () => void,
-    setModalOpen: (isOpen: boolean) => void
 ) => {
 
     let platform = source;
@@ -87,11 +68,11 @@ export const removeFromBoardApi = async (
     try {
         const data = await pin(platform, action, boardId, id);
         if (data?.status === 200) {
-            console.log(data)
-            setMessage('');
-            setMessageType('success');
-            setSubMessage('Successfully removed item from board.');
-            setShowNotification(true);
+            showNotification(
+                '',
+                'Successfully removed item from board.',
+                'success'
+            );
             redirectUser();
         } else {
             console.error('Unexpected response status:', data?.status);
@@ -99,10 +80,10 @@ export const removeFromBoardApi = async (
         }
     } catch (error) {
         console.error('Remove from board action failed:', error);
-        setMessage('');
-        setMessageType('warning');
-        setSubMessage('Error occurred while removing item from board.');
-        setShowNotification(true);
+        showNotification(
+            '',
+            'Error occurred while removing item from board.',
+            'success'
+        );
     }
-    setModalOpen(false);
 };

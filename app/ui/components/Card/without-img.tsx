@@ -3,14 +3,8 @@ import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { pin } from '@/app/lib/data/platform-api';
-import Notification from '@/app/ui/components/Notification';
 import { Button } from '@/app/ui/components/Button';
-import AddToBoard from '@/app/ui/components/Modal/add-to-board';
-import {
-  handleShowNotification,
-  handleBoard,
-  removeFromBoardApi,
-} from './utils';
+import { handleBoard, removeFromBoardApi } from './utils';
 import { BoardInfo } from './with-img';
 import { usePathname } from 'next/navigation';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
@@ -55,17 +49,11 @@ export default function Card({
   data,
 }: CardProps) {
   const pathname = usePathname();
-  const { boards, removeFromBoard, boardId, isContributor } = boardInfo || {};
-  const { pinboards } = data || {};
-  //Notification DOM states
-  const [showNotification, setShowNotification] = useState(false);
-  const [message, setMessage] = useState<string>('Action Required!');
-  const [submessage, setSubMessage] = useState<string>(
-    'You need to log in to engage with this post.'
-  );
-  const [messageType, setMessageType] = useState<string>('warning');
+  const { sharedState, setSharedState } = useSharedState();
+  const { session } = sharedState || {};
 
-  const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const { removeFromBoard, boardId, isContributor } = boardInfo || {};
+  const { pinboards } = data || {};
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const redirectUser = (pathname: string) => {
@@ -76,11 +64,10 @@ export default function Card({
   type ActionType = 'delete' | 'insert';
 
   const handleBoardFn = (action: ActionType) => {
+    if (!isLogedIn) return showNotification();
     return handleBoard(
-      isLogedIn as boolean,
       removeFromBoard as boolean,
-      setModalOpen,
-      () => handleShowNotification(setShowNotification),
+      showAddToBoardModal,
       (action) =>
         removeFromBoardApi(
           action,
@@ -88,18 +75,41 @@ export default function Card({
           id,
           source as string,
           pin,
-          setMessage,
-          setMessageType,
-          setSubMessage,
-          setShowNotification,
-          () => redirectUser(pathname),
-          setModalOpen
+          showNotification,
+          () => redirectUser(pathname)
         )
     );
   };
 
-  const { sharedState } = useSharedState();
-  const { session } = sharedState || {};
+  const showAddToBoardModal = () => {
+    setSharedState((prevState: any) => ({
+      ...prevState,
+      addToBoard: {
+        showAddToBoardModal: true,
+        platform: source,
+        id,
+        pinboards,
+      },
+    }));
+  };
+
+  type Notification = string | undefined;
+
+  const showNotification = (
+    message: Notification = 'Action Required!',
+    submessage: Notification = 'You need to log in to engage with this post.',
+    messageType: Notification = 'warning'
+  ) => {
+    setSharedState((prevState: any) => ({
+      ...prevState,
+      notification: {
+        showNotification: true,
+        message,
+        submessage,
+        messageType,
+      },
+    }));
+  };
 
   useEffect(() => {
     let d =
@@ -183,27 +193,6 @@ export default function Card({
           )}
         </div>
       </div>
-
-      {showNotification && (
-        <Notification
-          message={message}
-          subMessage={submessage}
-          type={messageType}
-        />
-      )}
-
-      <AddToBoard
-        boards={boards || []}
-        isOpen={isModalOpen}
-        onClose={() => setModalOpen(false)}
-        platform={source as string}
-        id={id}
-        pinboards={pinboards}
-        setMessage={setMessage}
-        setSubMessage={setSubMessage}
-        setMessageType={setMessageType}
-        setShowNotification={setShowNotification}
-      />
     </div>
   );
 }
