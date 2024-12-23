@@ -1,7 +1,7 @@
 import get from "@/app/lib/data/get"; 
 
 export const baseHost= '.sdg-innovation-commons.org'
-export const page_limit = 27;
+export const page_limit = 18;
 
 export const commonsPlatform = [
   {

@@ -7,7 +7,6 @@ import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { processHits } from '../Learn';
 import { PostProps } from '@/app/lib/definitions';
 import { defaultSearch } from '@/app/lib/utils';
 import { useIsVisible } from '@/app/ui/components/Interaction';

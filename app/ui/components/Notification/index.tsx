@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 const Notification = ({ message, subMessage, type = 'success', duration = 3000 }:any ) => {
   const [isVisible, setIsVisible] = useState(true);
 
+  const { setSharedState } = useSharedState();
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(false);
+      setSharedState((prevState: any) => ({
+        ...prevState,
+        notification: null,
+      }));
     }, duration);
 
     return () => clearTimeout(timer); 

@@ -5,8 +5,6 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   let { platform, pad } = await params;
   platform = decodeURI(platform);
 
-  console.log(platform, pad)
-
   return (
     <Pad platform={platform} id={+pad} />
   );
