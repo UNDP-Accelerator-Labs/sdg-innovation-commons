@@ -50,6 +50,15 @@ export function SharedStateProvider({ children }: { children: ReactNode }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    async function fetchPosts() {
+      const res = await fetch('https://experiments.sdg-innovation-commons.org/apis/fetch/pads?pads=629')
+      const data = await res.json()
+      console.log('test data ', data)
+    }
+    fetchPosts()
+  }, [])
+
   return (
     <SharedStateContext.Provider value={{ sharedState, setSharedState }}>
       {children}
