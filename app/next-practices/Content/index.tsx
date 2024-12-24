@@ -114,6 +114,7 @@ export default function Section({
                                 viewCount={d.boards.length}
                                 backgroundImage={d.mainImage}
                                 openInNewTab={false}
+                                className='mt-10'
                             />
                         ))}
                     </div>
