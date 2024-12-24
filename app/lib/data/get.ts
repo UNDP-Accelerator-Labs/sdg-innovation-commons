@@ -10,13 +10,13 @@ export interface Props {
 
 export default async function get({ url, method, body, cache }: Props) {
     try {
-        // const token = await session_info();
+        const token = await session_info();
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
-        // if (token) {
-        //     headers["x-access-token"] = token;
-        // }
+        if (token) {
+            headers["x-access-token"] = token;
+        }
 
         const response = await fetch(url, {
             method,
