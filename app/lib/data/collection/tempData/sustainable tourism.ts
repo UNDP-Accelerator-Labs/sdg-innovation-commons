@@ -49,11 +49,9 @@ export const collection = {
 	],
 	highlights: [],
 	boards: [
-		440,
-		439,
-		438,
-		437,
-		436,
-		435,
+		490,
+		491,
+		493,
+		492,
 	],
 }
