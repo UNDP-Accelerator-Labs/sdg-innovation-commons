@@ -34,6 +34,7 @@ export function Pagination({
 	page,
 	totalPages
 }: paginationProps) {
+	if(!page || !totalPages) return null
 	if (totalPages <= 3) {
 		return (
 			<>
@@ -63,7 +64,7 @@ export function Pagination({
 						<img src='/images/arrow-l.svg' className='w-[40px] absolute left-[3px] top-0' />
 					</button>
 				) : null}
-				{new Array(Math.min(totalPages, 3)).fill(null).map((d, i) => (
+				{totalPages && new Array(Math.min(totalPages, 3)).fill(null).map((d, i) => (
 					<button key={i + 1} form='search-form' type='submit' value={i + 1} name='page' className={!page || +page === i + 1 ? 'bg-[rgb(255,229,210)]' : ''}>
 						{i + 1}
 					</button>

@@ -9,8 +9,8 @@ export default function Section() {
 
   return (
     <>
-      <section className="home-section w-full overflow-hidden bg-white font-noto-sans text-lg text-black ">
-      <div className="inner mx-auto w-[846px]">
+      <section className="home-section  bg-white font-noto-sans text-lg text-black ">
+      <div className="inner mx-auto lg:w-[846px]">
           <div className="w-full px-5 lg:w-[846px] lg:px-0 py-[80px]">
             <p className="pb-10">
               <strong className="lead">
@@ -51,9 +51,9 @@ export default function Section() {
           </div>
         </div>
       </section>
-      <section className="home-section mx-10 flex lg:mx-0 lg:py-[10px]">
-        <div className="inner mx-auto w-[846px]">
-          <div className="box-border items-center justify-start gap-10 px-0 py-[80px]">
+      <section className="home-section flex lg:mx-0 lg:py-[10px]">
+        <div className="inner mx-auto lg:w-[846px]">
+          <div className="box-border items-center justify-start gap-10 px-5 lg:px-0 py-[80px]">
             <div className="relative self-stretch text-center">
               <p className="m-0">
                 <b>

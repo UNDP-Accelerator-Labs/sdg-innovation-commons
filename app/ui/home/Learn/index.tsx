@@ -101,16 +101,3 @@ export default function Section({ boards, isLogedIn}: Props) {
     );
 }
 
-
-export function processHits(hits: PostProps[], sliceValue: number): PostProps[] {
-    // Filter to remove duplicates based on the 'url' or 'title' property
-    const uniqueHits = hits?.filter(
-        (item, index, self) =>
-            index === self.findIndex((t) => 
-                (item?.title && t?.title === item?.title) || 
-                (item?.url && t?.url === item?.url)
-            )
-    );
-    return uniqueHits?.slice(0, sliceValue);
-}
-
