@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Modal from './index';
+import Modal from '../../components/Modal/index';
 import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';

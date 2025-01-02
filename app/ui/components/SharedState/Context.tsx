@@ -7,7 +7,7 @@ import {
   ReactNode,
 } from 'react';
 import getSession, { session_name, is_user_logged_in } from '@/app/lib/session';
-import AddToBoard from '@/app/ui/components/Modal/add-to-board';
+import AddToBoard from '@/app/ui/board/Add';
 import Notification from '@/app/ui/components/Notification';
 
 interface SharedStateContextType {
