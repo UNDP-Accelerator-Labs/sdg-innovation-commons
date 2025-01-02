@@ -65,14 +65,6 @@ export default function Share() {
     }));
   };
 
-  useEffect(()=>{
-    if(email) {
-      setEmail(email)
-      setDisabled(false)
-    }
-  }, [email])
-
-
   if (!isLogedIn && !_isModalOpen && !is_contributor) return null;
   return (
     <>
