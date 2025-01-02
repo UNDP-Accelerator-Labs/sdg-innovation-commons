@@ -6,7 +6,7 @@ import {
   useEffect,
   ReactNode,
 } from 'react';
-import getSession, { session_name, is_user_logged_in } from '@/app/lib/session';
+import getSession from '@/app/lib/session';
 import AddToBoard from '@/app/ui/board/Add';
 import Notification from '@/app/ui/components/Notification';
 
@@ -37,9 +37,11 @@ export function SharedStateProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     async function fetchData() {
-      await getSession();
-      const data = await session_name();
-      const isValidUser = await is_user_logged_in();
+      const data = await getSession();
+      let isValidUser = false;
+      if (data && typeof data === 'object' && 'username' in data) {
+        isValidUser = true
+      }
       setSharedState((prevState: any) => ({
         ...prevState,
         isLogedIn: isValidUser,

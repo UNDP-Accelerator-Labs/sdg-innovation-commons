@@ -38,12 +38,6 @@ export async function middleware(request: NextRequest) {
       cspHeader,
     );
 
-    // // Ensure the Cookie header remains intact
-    // if (request.headers.has("cookie")) {
-    //     const cookies = request.headers.get("cookie");
-    //     requestHeaders.set("cookie", cookies || "");
-    // }
-
     const response = NextResponse.next({
       request: {
         headers: requestHeaders,

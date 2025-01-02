@@ -2,7 +2,7 @@
 import { NLP_URL, commonsPlatform, polishTags, page_limit } from '@/app/lib/utils';
 import get from './get';
 import platformApi from './platform-api';
-import { session_info } from '@/app/lib/session';
+import { session_token } from '@/app/lib/session';
 
 export interface Props {
     page?: number | undefined;
@@ -23,7 +23,8 @@ export default async function nlpApi(_kwargs: Props) {
     if (!Array.isArray(iso3)) iso3 = [iso3].filter((d: string | undefined) => d);
     if (!Array.isArray(doc_type)) doc_type = [doc_type].filter((d: string | undefined) => d);
 
-    const token = await session_info();
+    const token = await session_token();
+
     const body = {
         input: search ?? '',
         page_limit: page,
