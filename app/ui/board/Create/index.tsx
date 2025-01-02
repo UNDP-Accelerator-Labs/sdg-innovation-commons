@@ -71,7 +71,7 @@ export default function Create({ isOpen, onClose }: Props) {
           By default, all new boards are private. They are only accessible to
           the board owner and any collaborators you choose to share them with.
           To manage your boards, click 'My Boards' in the bottom right corner of
-          the page, where you can share, update, publish, or delete them.
+          the page, where you can add new contributor, update, publish, or delete them.
         </p>
 
         <div className="flex flex-col items-center gap-5 rounded-lg border border-gray-300">

@@ -1,14 +1,5 @@
 "use client";
-import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { MenuItem } from '@headlessui/react'
-import clsx from 'clsx';
-import { Button } from '@/app/ui/components/Button';
-import Filters from '@/app/test/[platform]/Filters';
-import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import Notification from '@/app/ui/components/Notification';
-import AddToBoard from '@/app/ui/components/Modal/add-to-board';
-import DropDown from '@/app/ui/components/DropDown';
 
 interface Props {
 	searchParams: any;

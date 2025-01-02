@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Modal from './index';
+import Modal from '../../components/Modal/index';
 import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
@@ -64,14 +64,6 @@ export default function Share() {
       },
     }));
   };
-
-  useEffect(()=>{
-    if(email) {
-      setEmail(email)
-      setDisabled(false)
-    }
-  }, [email])
-
 
   if (!isLogedIn && !_isModalOpen && !is_contributor) return null;
   return (

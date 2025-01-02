@@ -1,7 +1,7 @@
 'use client';
 import React, { FC, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Modal from './index';
+import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
 import { updatePinboard } from '@/app/lib/data/platform-api';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';

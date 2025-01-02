@@ -1,7 +1,7 @@
-import get from "@/app/lib/data/get"; 
 
 export const baseHost= '.sdg-innovation-commons.org'
 export const page_limit = 18;
+export const base_url = 'https://sdg-innovation-commons.org';
 
 export const commonsPlatform = [
   {
@@ -41,46 +41,6 @@ export const NLP_URL = "https://nlpapi.sdg-innovation-commons.org/api";
 
 export const LOCAL_BASE_URL = 'http://localhost:3000'
 
-export async function getAdditionalData(results: any, base_url: string) {
-  const ids = results?.hits.map((hit: any) => hit?.main_id.split(':')[1]);
-  const url = `${base_url}/apis/fetch/pads?pads=${ids.join('&pads=')}&output=json&include_engagement=true&include_tags=true&include_metafields=true&include_data=true`;
-
-  // Fetch the additional data from the API
-  const fetchedData = await get({
-    url,
-    method: 'GET',
-  });
-
-  const flattenedFetchedData = fetchedData?.flat();
-
-  if (!flattenedFetchedData) {
-    return results;
-  }
-
-  // Use Promise.all to resolve all the async operations in map
-  results.hits = await Promise.all(
-    results.hits.map(async (hit: any) => {
-      const matchingFetchedData = flattenedFetchedData.find(
-        (fetchedItem: any) => fetchedItem.pad_id === hit.doc_id
-      );
-
-      const sdg = extractSDGNumbers(matchingFetchedData);
-      
-      return {
-        ...hit,
-        ...matchingFetchedData,
-        tags: matchingFetchedData?.tags
-          ?.filter((p: any) => p.type === 'thematic_areas')
-          .map((p: any) => p.name),
-        sdg,
-      };
-    })
-  );
-
-  return results;
-}
-
-
 export function extractSDGNumbers(pad: any) {
   const sdgNumbers: number[] = [];
 
@@ -108,12 +68,6 @@ export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined
 }
 
 
-export async function get_external_url(id : number){
-  if(id == 1) return commonsPlatform.filter(p=> p.key == 'action plan')[0]?.url;
-  if(id == 2) return commonsPlatform.filter(p=> p.key == 'experiment')[0]?.url;;
-  if(id == 4) return commonsPlatform.filter(p=> p.key == 'solution')[0]?.url;;
-}
-
 export const formatDate = (
   dateString: string,
 ) => {
@@ -127,39 +81,6 @@ export const formatDate = (
   // Return formatted date in DD.MM.YY format
   return `${day}.${month}.${year}`;
 }
-
-export const generatePagination = (currentPage: number, totalPages: number) => {
-  // If the total number of pages is 7 or less,
-  // display all pages without any ellipsis.
-  if (totalPages <= 7) {
-    return Array.from({ length: totalPages }, (_, i) => i + 1);
-  }
-
-  // If the current page is among the first 3 pages,
-  // show the first 3, an ellipsis, and the last 2 pages.
-  if (currentPage <= 3) {
-    return [1, 2, 3, '...', totalPages - 1, totalPages];
-  }
-
-  // If the current page is among the last 3 pages,
-  // show the first 2, an ellipsis, and the last 3 pages.
-  if (currentPage >= totalPages - 2) {
-    return [1, 2, '...', totalPages - 2, totalPages - 1, totalPages];
-  }
-
-  // If the current page is somewhere in the middle,
-  // show the first page, an ellipsis, the current page and its neighbors,
-  // another ellipsis, and the last page.
-  return [
-    1,
-    '...',
-    currentPage - 1,
-    currentPage,
-    currentPage + 1,
-    '...',
-    totalPages,
-  ];
-};
 
 export const polishTags = (data: any[]) => {
   return data?.flat()?.map((d: any) => ({

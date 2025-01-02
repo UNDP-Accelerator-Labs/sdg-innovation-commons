@@ -3,13 +3,14 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import DropDown from '@/app/ui/components/DropDown';
 import { MenuItem } from '@headlessui/react';
-import UpdateBoardModal from '@/app/ui/components/Modal/update-board';
+import UpdateBoardModal from '@/app/ui/board/Update';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { publish } from '@/app/lib/data/board/main';
-import Share from '@/app/ui/components/Modal/share-with-user';
+import Share from '@/app/ui/board/Share';
 import Link from 'next/link';
 import DeleteBoard from '@/app/ui/board/Delete';
 import RequestBoardContribution from '@/app/ui/board/Request';
+import ApproveBoardContribution from '@/app/ui/board/Approve';
 import { useRouter } from 'next/navigation';
 
 interface Props {
@@ -41,6 +42,7 @@ export default function Section({
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
   const [isDeleteOpen, setDeleteOpen] = useState<boolean>(false);
   const [isRequestOpen, setRequestOpen] = useState<boolean>(false);
+  const [isApproveOpen, setApproveOpen] = useState<boolean>(false);
 
   const { sharedState, setSharedState } = useSharedState();
   const { isLogedIn } = sharedState || {};
@@ -89,17 +91,7 @@ export default function Section({
     }
 
     if (share?.length && emailRegex.test(share)) {
-      setSharedState((prevState: any) => ({
-        ...prevState,
-        share: {
-          _isModalOpen: true,
-          boardId: id,
-          platform,
-          email: share,
-          is_contributor,
-          title,
-        },
-      }));
+      setApproveOpen(true);
     }
   }, [searchParams]);
 
@@ -249,6 +241,14 @@ export default function Section({
         id={id}
         isOpen={isRequestOpen}
         onClose={() => setRequestOpen(false)}
+      />
+
+      <ApproveBoardContribution
+        id={id}
+        isOpen={isApproveOpen}
+        onClose={() => setApproveOpen(false)}
+        user={searchParams.share}
+        title={title}
       />
 
       <Share />
