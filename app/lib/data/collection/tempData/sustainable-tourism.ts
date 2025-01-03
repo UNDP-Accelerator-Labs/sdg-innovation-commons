@@ -22,7 +22,7 @@ export const collection = {
 				},
 				{ 
 					type: 'txt', 
-					txt: 'In 2024, the Global Environment Facility has asked UNDP to take the lead on the development of iCOAST (Integrated Collaborative Approaches for Sustainable Tourism), which is likely to involve, among others, UNEP, UNIDO, WWF and multilateral development banks. Its goal is to support and incentivize governments, private sector and local communities to introduce sustainable tourism practices, anchored in local sustainable supply chains linked to the tourism sector. To know more about this project, contact the <a href = "https://www.undp.org/chemicals-waste">Chemicals and Waste Management Hub</a>.'
+					txt: 'In 2024, the Global Environment Facility has asked UNDP to take the lead on the development of iCOAST (Integrated Collaborative Approaches for Sustainable Tourism), which is likely to involve, among others, UNEP, UNIDO, WWF and multilateral development banks. Its goal is to support and incentivize governments, private sector and local communities to introduce sustainable tourism practices, anchored in local sustainable supply chains linked to the tourism sector. To know more about this project, contact the <a href = "https://www.undp.org/chemicals-waste">Chemicals and Waste Hub</a>.'
 				},
 			]
 		},
