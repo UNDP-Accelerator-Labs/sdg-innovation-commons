@@ -1,4 +1,3 @@
-import { Suspense } from 'react';
 import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
 import renderComponents from '@/app/ui/components/MediaComponents';
@@ -31,7 +30,7 @@ export default async function Section({
         'pads'
     );
     const [ datum ] = data;
-    let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata } = datum;
+    let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata, pinboards } = datum;
 
     let lab: string | undefined = undefined;
     const isUNDP: boolean = email.includes('@undp.org');
@@ -89,6 +88,7 @@ export default async function Section({
         <>
         <Hero 
             id={id} 
+            platform={platform}
             title={title} 
             vignette={vignette}
             owner={ownername}
@@ -98,6 +98,7 @@ export default async function Section({
             tagStyle={`bg-light-${color}`}
             tagStyleShade={`bg-light-${color}-shade`}
             color={color === 'yellow' ? 'light-yellow' : color}
+            pinboards={pinboards}
         />
         <section className='home-section pb-[40px] lg:pb-[80px] pt-[80px] lg:pt-[120px]'>
             <div className='inner mx-auto w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] lg:hidden'>

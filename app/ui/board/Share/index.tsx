@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import Modal from './index';
+import React, { useEffect, useState } from 'react';
+import Modal from '../../components/Modal/index';
 import { Button } from '@/app/ui/components/Button';
 import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export default function Share() {
-  const [u_email, setEmail] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [disabled, setDisabled] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
 
   // Access shared state
   const { sharedState, setSharedState } = useSharedState();
   const { isLogedIn, share } = sharedState || {};
-  const { _isModalOpen, boardId, platform } = share || {};
+  const { _isModalOpen, boardId, platform, email, is_contributor, title } = share || {};
+
+
+  const [u_email, setEmail] = useState<string>(email || '');
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [disabled, setDisabled] = useState<boolean>(true);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const email = e.target.value;
@@ -57,19 +60,22 @@ export default function Share() {
       share: {
         _isModalOpen: false,
         boardId: null,
+        email: ''
       },
     }));
   };
 
-  if (!isLogedIn && !_isModalOpen) return null;
-
+  if (!isLogedIn && !_isModalOpen && !is_contributor) return null;
   return (
     <>
       <Modal
         isOpen={_isModalOpen}
         onClose={handleModalClose}
-        title="Share with other contributors."
+        title="Grant Contributor Access"
       >
+        <p className="text-left text-sm text-gray-500">
+          Granting contributor access to the board <b>{title}</b> allows the user to manage and contribute to the board.
+        </p>
         <p className="text-left text-sm text-gray-500">
           Please provide user email. Only existing or UNDP users are currently
           supported.
@@ -109,7 +115,7 @@ export default function Share() {
             onClick={handleShare}
             disabled={disabled || loading}
           >
-            {loading ? 'Sharing...' : 'Share'}
+            {loading ? 'Please wait...' : 'Grant Contributor Access'}
           </Button>
         </div>
       </Modal>

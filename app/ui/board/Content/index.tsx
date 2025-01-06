@@ -1,14 +1,9 @@
-import clsx from 'clsx';
-import Link from 'next/link';
 import Card from '@/app/ui/components/Card/with-img';
 import BlogCard from '@/app/ui/components/Card/without-img';
-
 import boardData from '@/app/lib/data/board';
-
-import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import { commonsPlatform, page_limit, formatDate } from '@/app/lib/utils';
+import { Pagination } from '@/app/ui/components/Pagination';
+import { formatDate } from '@/app/lib/utils';
 import { is_user_logged_in } from '@/app/lib/session';
-import platformApi from '@/app/lib/data/platform-api';
 
 import Hero from '../Hero';
 import Infobar from '../Infobar';
@@ -39,6 +34,7 @@ export default async function Section({ id, platform, searchParams }: Props) {
     lab,
     tabs,
     pages,
+    total,
     platforms,
     pads,
     tags,
@@ -92,6 +88,7 @@ export default async function Section({ id, platform, searchParams }: Props) {
             status={status}
             is_contributor={is_contributor}
             platform={platform}
+            total={total}
           />
           {/* Display tabs */}
           <Tabs id={id} tabs={tabs} platform={platform} />
