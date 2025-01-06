@@ -225,10 +225,10 @@ export default function Card({
                     ) : null}
                     {/* Title */}
                     <Link href={`/pads/${source}/${id}`}>
-                        <h1>{title.replace(/\&amp;/g, '&')}</h1>
+                        <h1>{title?.replace(/\&amp;/g, '&')}</h1>
                     </Link>
                     {/* Description */}
-                    <p className='break-words'>{description.replace(/\&amp;/g, '&')}</p>
+                    <p className='break-words'>{description?.replace(/\&amp;/g, '&')}</p>
                 </div>
                 <div>
                     <div className="hidden lg:flex flex-row items-end justify-start flex-wrap content-end gap-1.5 text-center text-sm pb-[20px]">
