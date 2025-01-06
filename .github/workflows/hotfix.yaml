@@ -35,7 +35,7 @@ jobs:
           make -s dockerpush
 
   deploy_hotfix_pipeline:
-    name: Deploy Staging
+    name: Deploy Hotfix
     needs: build_pipeline
     runs-on: ubuntu-latest
 
