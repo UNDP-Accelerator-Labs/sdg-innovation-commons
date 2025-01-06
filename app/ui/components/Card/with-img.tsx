@@ -204,6 +204,7 @@ export default function Card({
             >
               <div className="absolute left-0 top-0 h-full w-full opacity-[.5] [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))]"></div>
             </div>
+
           </div>
           {/* Chips */}
           <div className="chips-container absolute top-0 w-full">
