@@ -12,7 +12,7 @@ export default function Button() {
   if (isLogedIn && pinboards?.length) {
     return (
       <div className='fixed z-10 bottom-10 right-10'>
-        <div className='relative bg-lime-400 rounded-full p-5 group'>
+        <div className='relative bg-lime-yellow rounded-full p-5 group'>
           <Link href='/boards?space=private'>
             <img className="w-5 relative" alt="My boards" src="/images/board-cards.svg" />
           </Link>
