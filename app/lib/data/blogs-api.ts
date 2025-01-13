@@ -40,8 +40,6 @@ export default async function blogApi(_kwargs: Props) {
     
     const url = `https://blogapi.sdg-innovation-commons.org/articles?${params.toString()}`;
 
-    console.log('check blog url ', url)
-
     const data = await get({
         url,
         method: 'GET',

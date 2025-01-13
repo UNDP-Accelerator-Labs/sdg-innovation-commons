@@ -25,6 +25,18 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+      <meta property="og:image" content="<generated>" />
+      <meta property="og:image:type" content="<generated>" />
+      <meta property="og:image:width" content="<generated>" />
+      <meta property="og:image:height" content="<generated>" />
+      <meta property="og:image:alt" content="<generated>" />
+
+      <meta name="twitter:image" content="<generated>" />
+      <meta name="twitter:image:type" content="<generated>" />
+      <meta name="twitter:image:width" content="<generated>" />
+      <meta name="twitter:image:height" content="<generated>" />
+      <meta name="twitter:image:alt" content="<generated>" />
+
       {isProduction && isProd && (
         <Script
           nonce={nonce}
