@@ -20,7 +20,7 @@ export default function List({
         )}
         <ul className='mb-[40px] mt-0'>
             {items.map((d: string, i: number) =>  (
-                <li key={i} className={clsx('mb-[10px]', className)}>{d}</li>
+                <li key={i} className={clsx('mb-[10px]', className)} dangerouslySetInnerHTML={{ __html: d }} />
             ))}
         </ul>
         </>

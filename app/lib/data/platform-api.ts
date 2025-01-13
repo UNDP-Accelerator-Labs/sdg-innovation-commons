@@ -98,7 +98,7 @@ export default async function platformApi(
   )?.url;
 
   const url = `${base_url}/apis/${action}/${object}?${params.toString()}`; 
-  console.log('check url ', url);
+  // console.log('check url ', url);
 
   if (urlOnly) return url;
 

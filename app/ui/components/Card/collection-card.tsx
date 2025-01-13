@@ -3,6 +3,7 @@ import { useRef, useEffect } from 'react';
 import clsx from 'clsx';
 import { CardLink } from '@/app/ui/components/Link';
 import { CardProps } from "./without-img"
+import Link from 'next/link';
 
 export default function Card({
     title,
@@ -46,13 +47,6 @@ export default function Card({
                             <div className='absolute h-full w-full top-0 left-0 [background:linear-gradient(173.09deg,_rgba(1,_141,_242,_1),_rgba(237,_255,_164,_1))] opacity-[.5]'></div>
                         </div>
                     </div>
-                    {/* Chips */}
-                    {/*<div className='chips-container absolute top-0 w-full'>
-                        <div className='flex flex-row items-center justify-end pt-[20px] pb-0 pl-0 pr-[20px] gap-[10px] z-[2]'>
-                             Country 
-                            <button type='button' className="chip bg-black text-white">{country}</button>
-                        </div>
-                    </div>*/}
                 </div>
             ) : null}
             {/* MAIN CONTENT */}
@@ -60,7 +54,9 @@ export default function Card({
 
                     {/* Title */}
                     {/*<h1>{title.length > 25 ? `${title.slice(0, 25)}…` : title}</h1>*/}
-                    <h1>{title}</h1>
+                    <Link href={href}>
+                        <h1>{title}</h1>
+                    </Link>
                     {/* Arrow */}
                     <CardLink
                         href={href || '/'}
