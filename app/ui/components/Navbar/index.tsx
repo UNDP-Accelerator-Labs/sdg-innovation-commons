@@ -4,7 +4,7 @@ import NavBar from './mobile'; // Mobile navbar
 import DesktopNavBar from './desktop'; // Desktop navbar
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
-
+import StagingInfo from './staging';
 
 export default function ResponsiveNavBar() {
 
@@ -42,6 +42,9 @@ export default function ResponsiveNavBar() {
       <div className={clsx('navbar hidden lg:block z-[100] fixed w-[100%] top-0', cls)}>
         <DesktopNavBar/>
       </div>
+      
+      {/* Staging Info: Display at the bottom of the screen */}
+      <StagingInfo />
     </>
   );
 }
