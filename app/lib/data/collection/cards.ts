@@ -17,7 +17,7 @@ export default async function Data({
 	);
 	let data: any[] = [];
 	let count: number = 1;
-	if (result.data) {
+	if (result?.data) {
 		data = result.data;
 		count = result.count;
 	} else data = [result];

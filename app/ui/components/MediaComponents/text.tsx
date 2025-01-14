@@ -25,7 +25,7 @@ export default function Txt({
             {!instruction ? null : (
                 <p className={clsx('font-space-mono text-[14px] leading-[20px] mb-[10px]', className)}><b>{instruction}</b></p>
             )}
-            <p ref={ref} className={clsx('mb-[40px]', className)}>{txt}</p>
+            <p ref={ref} className={clsx('mb-[40px]', className)} dangerouslySetInnerHTML={{ __html: txt }} ></p>
             </>
         )
     }

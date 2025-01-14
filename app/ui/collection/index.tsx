@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Navbar from '@/app/ui/components/Navbar';
 import Content from './Content';
-// import Skeleton from './Content/skeleton';
+import { ContentSkeleton } from '@/app/ui/collection/Content/skeleton';
 import Footer from '@/app/ui/components/Footer';
 
 interface Props {
@@ -16,9 +16,9 @@ export default function Collection({
   return (
     <>
       <Navbar />
-      {/*<Suspense fallback={<Skeleton />}>*/}
+      <Suspense fallback={<ContentSkeleton />}>
         <Content id={id} searchParams={searchParams} />
-      {/*</Suspense>*/}
+      </Suspense>
       <Footer />
     </>
   );

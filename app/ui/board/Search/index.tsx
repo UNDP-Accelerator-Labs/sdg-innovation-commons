@@ -90,7 +90,7 @@ export default function Section({
       updateUrl(title);
     }
 
-    if (share?.length && emailRegex.test(share)) {
+    if (share?.length && emailRegex.test(share) && is_contributor) {
       setApproveOpen(true);
     }
   }, [searchParams]);
