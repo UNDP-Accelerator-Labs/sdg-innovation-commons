@@ -96,6 +96,31 @@ export const polishTags = (data: any[]) => {
   }));
 };
 
+export const getCountryList = (post: any, limit: number | undefined) => {
+  if (!limit) limit = 3;
+  let countries =
+    post?.locations?.map((d: any) => d.country) || [];
+  if (!countries.length)
+    countries = [
+      post?.country === 'NUL' || !post?.country
+        ? 'Global'
+        : post?.country,
+    ];
+  else {
+    countries = countries.filter(
+      (value: string, index: number, array: string[]) => {
+        return array.indexOf(value) === index;
+      }
+    );
+    if (countries.length > limit) {
+      const n = countries.length;
+      countries = countries.slice(0, limit);
+      countries.push(`+${n - limit}`);
+    }
+  }
+  return countries;
+}
+
 export type incomingRequestParams = {
   params: Promise<{ slug: string, platform: string, pad: string, board: string, collection: string, space: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

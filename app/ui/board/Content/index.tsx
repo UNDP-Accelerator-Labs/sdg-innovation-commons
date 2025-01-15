@@ -2,7 +2,7 @@ import Card from '@/app/ui/components/Card/with-img';
 import BlogCard from '@/app/ui/components/Card/without-img';
 import boardData from '@/app/lib/data/board';
 import { Pagination } from '@/app/ui/components/Pagination';
-import { formatDate } from '@/app/lib/utils';
+import { formatDate, getCountryList } from '@/app/lib/utils';
 import { is_user_logged_in } from '@/app/lib/session';
 
 import Hero from '../Hero';
@@ -137,15 +137,12 @@ export default async function Section({ id, platform, searchParams }: Props) {
                       color = 'orange';
                       path = 'test';
                     }
+                    const countries = getCountryList(d, 1);
                     return (
                       <Card
                         key={i}
                         id={d?.doc_id || d?.pad_id}
-                        country={
-                          d?.country === 'NUL' || !d?.country
-                            ? 'Global'
-                            : d?.country
-                        }
+                        country={countries}
                         title={d?.title || ''}
                         description={
                           d?.snippets?.length

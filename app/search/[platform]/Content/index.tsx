@@ -5,7 +5,7 @@ import BlogCard from '@/app/ui/components/Card/without-img';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { formatDate, page_limit } from '@/app/lib/utils';
+import { formatDate, page_limit, getCountryList } from '@/app/lib/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -158,15 +158,12 @@ export default function Content({
                       color = 'orange';
                       path = 'test';
                     }
+                    const countries = getCountryList(post);
                     return (
                       <Card
                         key={i}
                         id={post?.doc_id || post?.pad_id}
-                        country={
-                          post?.country === 'NUL' || !post?.country
-                            ? 'Global'
-                            : post?.country
-                        }
+                        country={countries}
                         title={post?.title || ''}
                         description={
                           post?.snippet?.length

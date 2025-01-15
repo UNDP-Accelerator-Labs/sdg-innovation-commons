@@ -7,7 +7,7 @@ import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import platformApi from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { page_limit } from '@/app/lib/utils';
+import { page_limit, getCountryList } from '@/app/lib/utils';
 import { Button } from '@/app/ui/components/Button';
 import DropDown from '@/app/ui/components/DropDown';
 import Filters from '../Filters';
@@ -195,26 +195,7 @@ export default function Section({ searchParams }: SectionProps) {
                 <ImgCardsSkeleton /> // Show Skeleton while loading
               ) : (
                 hits?.map((post: any) => {
-                  let countries =
-                    post?.locations?.map((d: any) => d.country) || [];
-                  if (!countries.length)
-                    countries = [
-                      post?.country === 'NUL' || !post?.country
-                        ? 'Global'
-                        : post?.country,
-                    ];
-                  else {
-                    countries = countries.filter(
-                      (value: string, index: number, array: string[]) => {
-                        return array.indexOf(value) === index;
-                      }
-                    );
-                    if (countries.length > 3) {
-                      const n = countries.length;
-                      countries = countries.slice(0, 3);
-                      countries.push(`+${n - 3}`);
-                    }
-                  }
+                  const countries = getCountryList(post);
                   return (
                     <Card
                       key={post?.doc_id || post?.pad_id}
