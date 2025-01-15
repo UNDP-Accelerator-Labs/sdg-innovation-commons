@@ -158,7 +158,7 @@ export default function Content({
                       color = 'orange';
                       path = 'test';
                     }
-                    const countries = getCountryList(post);
+                    const countries = getCountryList(post, 3);
                     return (
                       <Card
                         key={i}

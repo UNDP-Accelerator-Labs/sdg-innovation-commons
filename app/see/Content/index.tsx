@@ -195,7 +195,7 @@ export default function Section({ searchParams }: SectionProps) {
                 <ImgCardsSkeleton /> // Show Skeleton while loading
               ) : (
                 hits?.map((post: any) => {
-                  const countries = getCountryList(post);
+                  const countries = getCountryList(post, 3);
                   return (
                     <Card
                       key={post?.doc_id || post?.pad_id}
