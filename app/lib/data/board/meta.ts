@@ -31,9 +31,15 @@ export default async function Data({
 	const remainingTagsCount: number = tagsCount - topTags.length;
 
 	const locations: any[] = meta.find((d: any) => d.key === 'countries')?.data || [];
+	const missingLocations: any[] = locations.flat().filter((d: any) => !d.location);
+	let fillMissingLocations: any[] = [];
+	if (missingLocations.length) {
+		fillMissingLocations = await platformApi({ countries: locations.map((d: any) => d.iso3) }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
+	}
+	const allLocations = [...locations.flat().filter((d: any) => d.location !== undefined), ...fillMissingLocations];
 	// COMPUTE THE MAP LAYERS
 	const mapLayers: any[] = [];
-	locations.flat().forEach((d: any) => {
+	allLocations.flat().forEach((d: any) => {
 		// NEED TO HANDLE SITUATIONS WHERE pads FROM ap MAY BE e.g. IN Guatemala AND pads FROM sm ARE ALSO IN Guatemala (NEED TO ADD THE COUNTS)
 		const groupby: string = d?.iso3;
 		if (!mapLayers.find((c: any) => c.iso3 === groupby)) {
@@ -49,6 +55,7 @@ export default async function Data({
 			mapLayers.find((c: any) => c.iso3 === groupby).count += d.count;
 		}
 	});
+
 	// GET THE MAP (IT MAY NEED TO BE GENERATED THE FIRST TIME WHICH COULD TAKE A FEW SECONDS)
 	const locationsCount = mapLayers.length;
 

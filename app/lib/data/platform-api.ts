@@ -48,7 +48,7 @@ export default async function platformApi(
   platform: string,
   object: string,
   urlOnly: boolean = false,
-  method: string = 'GET',
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' = 'GET',
   body: Record<string, any> = {}
 ) {
   let {
@@ -74,7 +74,7 @@ export default async function platformApi(
   if (object === 'pads' && !include_pinboards)
     _kwargs.include_pinboards = 'all';
 
-  if (['blogs', 'insight'].includes(platform)) return await blogsApi(_kwargs);
+  if (!['solution', 'experiment', 'action plan'].includes(platform)) return await blogsApi(_kwargs);
 
   const params = new URLSearchParams();
   if (render) params.set('output', 'csv');

@@ -53,13 +53,11 @@ export default async function blogApi(_kwargs: Props) {
         });
 
         const countryNames: any[] = await platformApi({ }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
-
         data?.forEach((d: any) => {
             d.base = 'blog';
             d.country = countryNames?.find((c: any) => d.iso3 === c.iso3)?.country;
             delete d.html_content;
-            // console.log(d.iso3, d.country)
-        })
+        });
     }
 
     return data;
