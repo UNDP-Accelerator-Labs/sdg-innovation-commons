@@ -1,55 +1,51 @@
 'use server';
+import axios from 'axios';
 import { cookies } from 'next/headers';
 
 export interface Props {
   url: string;
-  method: string;
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE';
   body?: Record<string, any>;
   cache?: Record<string, any>;
 }
 
 export default async function get({ url, method, body, cache }: Props) {
   try {
-    const cookie: any = await cookies();
+    const cookieStore = await cookies();
+    const allCookies = cookieStore.getAll();
+    const cookieHeader = allCookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      cookie: cookie || '',
+      cookie: cookieHeader,
     };
 
-    const response = await fetch(url, {
+    const response = await axios({
+      url,
       method,
-      credentials: 'include',
       headers,
-      ...(method !== 'GET' && { body: JSON.stringify(body) }),
-      ...(cache ? cache : ''),
+      data: method !== 'GET' ? body : undefined,
+      withCredentials: true,
     });
 
-    if (!response.ok) {
-      if (response.status === 400) {
+    return response.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      if (error.response?.status === 400) {
         try {
-          const responseData = await response.json();
+          const responseData = error.response.data;
           if (responseData?.message) {
             return [];
           }
           return responseData;
         } catch {
-          throw new Error(`Error parsing JSON for status 400`);
+          throw new Error('Error parsing JSON for status 400');
         }
       } else {
-        throw new Error(`Error: `);
+        throw new Error(`Error: ${error.message}`);
       }
-    }
-
-    const contentType = response.headers.get('Content-Type');
-    if (contentType && contentType.includes('application/json')) {
-      const responseData = await response.json();
-      return responseData;
     } else {
-      const textResponse = await response.text();
-      return { status: 200, message: 'Success', data: textResponse };
+      throw new Error('An unexpected error occurred');
     }
-  } catch (error) {
-    console.log('Fetch error:', url, error);
-    return null;
   }
 }
