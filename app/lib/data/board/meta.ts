@@ -45,17 +45,16 @@ export default async function Data({
 		if (!mapLayers.find((c: any) => c.iso3 === groupby)) {
 			mapLayers.push({ 
 				iso3: groupby, 
-				count: d?.count, 
+				count: d?.count ?? 0, 
 				lat: d?.location?.lat, 
 				lng: d?.location?.lng,
 				type: 'point',
 				color: '#d2f960',
 			});
 		} else {
-			mapLayers.find((c: any) => c.iso3 === groupby).count += d.count;
+			mapLayers.find((c: any) => c.iso3 === groupby).count += (d.count ?? 1);
 		}
 	});
-
 	// GET THE MAP (IT MAY NEED TO BE GENERATED THE FIRST TIME WHICH COULD TAKE A FEW SECONDS)
 	const locationsCount = mapLayers.length;
 
