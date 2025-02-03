@@ -2,9 +2,12 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 
+# Install corepack and enable it
+RUN corepack enable
+
 # Install dependencies
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN corepack enable && \
+RUN \
     if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
     elif [ -f package-lock.json ]; then npm ci; \
     elif [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
