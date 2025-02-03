@@ -2,8 +2,8 @@
 FROM node:20-alpine AS base
 WORKDIR /app
 
-# Install corepack and enable it
-RUN corepack enable
+ENV NODE_ENV=production
+ENV COREPACK_DEFAULT_TO_LATEST=0
 
 # Install dependencies
 COPY package.json pnpm-lock.yaml* ./
@@ -19,7 +19,6 @@ RUN pnpm run build
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV=production
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
