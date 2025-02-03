@@ -6,9 +6,14 @@ import BoardsButton from '@/app/ui/components/BoardsButton';
 import { Metadata } from 'next';
 import { incomingRequestParams } from '@/app/lib/utils';
 
+const { PROD_ENV } = process.env;
+
 export const metadata: Metadata = {
   title: 'SDG Commons - What We Test',
   description: "Discover wicked development challenges we are curious about and the experiments conducted to learn what works and what doesn't in sustainable development.",
+  ...(PROD_ENV === 'staging' && {
+    robots: 'noindex, nofollow',
+  }),
 }
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {
