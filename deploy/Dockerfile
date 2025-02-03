@@ -1,5 +1,5 @@
 # Base image
-FROM node:18-alpine AS base
+FROM node:20-alpine AS base
 WORKDIR /app
 
 # Install dependencies
@@ -23,7 +23,7 @@ RUN \
     fi
 
 # Production image
-FROM node:18-alpine AS runner
+FROM node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -32,6 +32,10 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Copy built assets and required files
+COPY --from=base /app/public ./public
+COPY --from=base /app/.next ./.next
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/package.json ./package.json
 COPY --from=base /app/public ./public
 COPY --from=base /app/.next ./.next
 COPY --from=base /app/node_modules ./node_modules
