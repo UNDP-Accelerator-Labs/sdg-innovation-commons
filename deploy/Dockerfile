@@ -5,25 +5,18 @@ WORKDIR /app
 # Install corepack and enable it
 RUN corepack enable
 
+# Install corepack and enable it
+RUN corepack enable
+
 # Install dependencies
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-    if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
-    elif [ -f package-lock.json ]; then npm ci; \
-    elif [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
-    else echo "Lockfile not found." && exit 1; \
-    fi
+COPY package.json pnpm-lock.yaml* ./
+RUN pnpm install  
 
 # Copy the rest of the application code
 COPY . .
 
 # Build the project
-RUN \
-    if [ -f yarn.lock ]; then yarn run build; \
-    elif [ -f package-lock.json ]; then npm run build; \
-    elif [ -f pnpm-lock.yaml ]; then pnpm run build; \
-    else echo "Lockfile not found." && exit 1; \
-    fi
+RUN pnpm run build
 
 # Production image
 FROM node:20-alpine AS runner
