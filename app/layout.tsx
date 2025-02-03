@@ -4,9 +4,14 @@ import Script from 'next/script'
 import { headers } from 'next/headers'
 import { SharedStateProvider } from '@/app/ui/components/SharedState/Context';
 
+const { PROD_ENV } = process.env;
+
 export const metadata: Metadata = {
   title: 'SDG Commons',
   description: "The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.",
+  ...(PROD_ENV === 'staging' && {
+    robots: 'noindex, nofollow',
+  }),
 }
 
 

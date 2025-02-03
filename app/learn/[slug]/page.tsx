@@ -6,9 +6,14 @@ import BoardsButton from '@/app/ui/components/BoardsButton';
 import type { Metadata } from 'next';
 import { incomingRequestParams } from '@/app/lib/utils';
 
+const { PROD_ENV } = process.env;
+
 export const metadata: Metadata = {
   title: 'SDG Commons - What We Learn',
   description: "Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.",
+  ...(PROD_ENV === 'staging' && {
+    robots: 'noindex, nofollow',
+  }),
 }
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {

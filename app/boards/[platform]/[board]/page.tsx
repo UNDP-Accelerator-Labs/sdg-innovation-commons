@@ -13,6 +13,8 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { platform, board: id } = await params;
+  const { PROD_ENV } = process.env;
+
   // fetch data
   const data = await boardData({
     id: +id,
@@ -21,13 +23,20 @@ export async function generateMetadata(
   });
   const previousImages = (await parent)?.openGraph?.images || [];
 
-  return {
+  const metadata: Metadata = {
     title: data?.title,
     description: data?.description,
     openGraph: {
       images: [data?.vignette, ...previousImages],
     },
   };
+
+  // Add robots metadata if in staging environment
+  if (PROD_ENV === 'staging') {
+    metadata.robots = 'noindex, nofollow';
+  }
+
+  return metadata;
 }
 
 export default async function Page({
