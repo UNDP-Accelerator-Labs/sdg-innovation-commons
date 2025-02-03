@@ -5,9 +5,12 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV COREPACK_DEFAULT_TO_LATEST=0
 
+RUN npm install -g corepack@latest
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
 # Install dependencies
 COPY package.json pnpm-lock.yaml* ./
-RUN corepack prepare pnpm@latest --activate && pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 # Copy the rest of the application code
 COPY . .
