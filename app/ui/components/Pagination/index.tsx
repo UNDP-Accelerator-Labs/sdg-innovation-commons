@@ -97,8 +97,8 @@ export function Pagination({
 				</button>	
 				<span>…</span>
 				{new Array(3).fill(null).map((d, i) => (
-					<button key={+page - 1 + i} form='search-form' type='submit' value={+page - 1 + i} name='page' className={clsx(+page - 1 + i + 1 === +page ? 'bg-[rgb(255,229,210)]' : '')}>
-							{+page - 1 + i}
+					<button key={+page - 1 + i} form='search-form' type='submit' value={+page - 1 + i} name='page' className={clsx((+page - 1 + i)  === +page ? 'bg-[rgb(255,229,210)]' : '')}>
+						{+page - 1 + i}
 					</button>
 				))}
 				<span>…</span>
