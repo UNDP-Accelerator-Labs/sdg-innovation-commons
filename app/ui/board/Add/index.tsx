@@ -37,7 +37,7 @@ const AddToBoard: FC<Props> = ({
   const router = useRouter();
 
   const { sharedState, setSharedState } = useSharedState();
-  const { session } = sharedState || {};
+  const { session, isLogedIn } = sharedState || {};
 
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [boardId, setBoardId] = useState<number>(0);
@@ -153,6 +153,8 @@ const AddToBoard: FC<Props> = ({
     }
     fetchBoard();
   }, [session]);
+
+  if (!isLogedIn) return null;
 
   return (
     <>

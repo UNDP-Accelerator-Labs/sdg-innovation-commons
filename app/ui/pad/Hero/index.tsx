@@ -41,7 +41,9 @@ export default function Hero({
 		} else labLink = `https://www.undp.org/acceleratorlabs/${lab?.toLowerCase().replace(/\s/g, '-')}`; // FORMAT: undp-algeria-accelerator-lab
 	}
 
-	const { setSharedState } = useSharedState();
+	const { setSharedState, sharedState } = useSharedState();
+  	const { isLogedIn } = sharedState || {};
+
 	const showAddToBoardModal = () => {
 		setSharedState((prevState: any) => ({
 		  ...prevState,
@@ -74,10 +76,11 @@ export default function Hero({
 	        			)
 	        		})}
 	            	</div>
-
+					{!isLogedIn ? null : (
 					<Button onClick={showAddToBoardModal} className="grow-0 border-l-0 mt-5">
 						Add to board
 					</Button>
+					)}
 		        </div>
 		    </div>
 		</div>
