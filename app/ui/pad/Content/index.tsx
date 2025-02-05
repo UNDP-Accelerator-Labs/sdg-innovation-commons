@@ -43,7 +43,7 @@ export default async function Section({
     }
     if (!sdg?.length && source) {
         const { tags: sourceTags } = source;
-        sdg = sourceTags.filter((d: any) => d.type === 'sdgs').map((d: any) => d.key);
+        sdg = sourceTags?.filter((d: any) => d?.type === 'sdgs').map((d: any) => d?.key);
     }
     if (!locations?.length) {
         locations = [{ iso3, country }];

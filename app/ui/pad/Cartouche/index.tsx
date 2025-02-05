@@ -88,7 +88,7 @@ export default async function Cartouche({
 			<div className='sdgs grid grid-cols-2 lg:flex lg:flex-col p-[20px] col-span-2 lg:col-span-1'>
 				<p className='font-space-mono col-span-2 text-[14px] mb-0'><b>SDG(s)</b></p>
 				<p className='col-span-2 text-[14px] mb-[10px]'>Sustainable Development Goal(s)</p>
-				{sdgs.map((d: any, i: number) => {
+				{sdgs?.map((d: any, i: number) => {
 					const color = `sdg${d}`;
 					return (
 						<div key={`sdg-${i}`} className={clsx(color, 'grid col-span-2 md:col-span-1 lg:col-span-1 grid-cols-5 gap-[20px] items-center')}>
