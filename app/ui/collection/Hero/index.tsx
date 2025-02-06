@@ -100,7 +100,7 @@ export default function Hero({
                                         <span>{title}</span>
                                     </span>
                                 </h1>
-                                <p className='mb-[40px]'>{description}</p>
+                                <p className='mb-[40px]' dangerouslySetInnerHTML={{ __html: description }} ></p>
                             </div>
                             <div className='flex flex-wrap flex-row gap-1.5 mb-[20px] mt-[40px]'>
                                 {tags.highlight.map((d: any, i: number) => (
