@@ -5,6 +5,8 @@ export const collection = {
 	creatorName: 'Alberto Cottica',
 	mainImage: '/images/bg-as.jpg',	
 	sections: [
+		{
+			items: [
 				{
 					type: 'list',
 					items: [
@@ -14,7 +16,9 @@ export const collection = {
 						'<b>Agro-ecology</b>. Solutions available to African farmers to grow crops and livestock in balance with nature. Insect protein as feedstock, paper production from grass instead of timber, organic methods to grow palms, etc.' ,
 					]
 				},
-			],
+			]
+		},
+	],
 	highlights: [],
 	boards: [
 		510,
