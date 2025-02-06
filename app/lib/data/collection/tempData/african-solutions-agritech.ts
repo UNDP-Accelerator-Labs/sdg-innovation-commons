@@ -1,11 +1,10 @@
 export const collection = {
 	id: 'african-solutions-agritech',
 	title: 'Grassroots agricultural innovation in Africa',
-	description: 'Research shows that most innovation is not made by companies or university, but by ordinary people trying to improve their lives, help their loved ones, or simply have fun. A [recent study](https://www.undp.org/sites/g/files/zskgke326/files/2023-07/undp_informal_innovation_in_south_africa_final.pdf) estimates one million grassroots innovators – 2.5% of the population – in South Africa alone. This collection looks at the dataset of solutions – related to food and agriculture – mapped by the Accelerator Labs on the African continent. Its goal is to provide intelligence to UNDP\'s plans to incubate thousands of startups with the [Timbuktoo initiative](https://www.undp.org/africa/projects/timbuktoo).',
+	description: 'Research shows that most innovation is not made by companies or university, but by ordinary people trying to improve their lives, help their loved ones, or simply have fun. A <a target="_blank" class="text-blue-500 cursor-pointer"  href="https://www.undp.org/sites/g/files/zskgke326/files/2023-07/undp_informal_innovation_in_south_africa_final.pdf" > recent study </a> estimates one million grassroots innovators – 2.5% of the population – in South Africa alone. This collection looks at the dataset of solutions – related to food and agriculture – mapped by the Accelerator Labs on the African continent. Its goal is to provide intelligence to UNDP\'s plans to incubate thousands of startups with the <a target="_blank" class="text-blue-500 cursor-pointer" href="https://www.undp.org/africa/projects/timbuktoo" > Timbuktoo initiative </a>.',
 	creatorName: 'Alberto Cottica',
-	mainImage: '/images/bg-as.png',	
+	mainImage: '/images/bg-as.jpg',	
 	sections: [
-
 				{
 					type: 'list',
 					items: [
@@ -15,13 +14,11 @@ export const collection = {
 						'<b>Agro-ecology</b>. Solutions available to African farmers to grow crops and livestock in balance with nature. Insect protein as feedstock, paper production from grass instead of timber, organic methods to grow palms, etc.' ,
 					]
 				},
-			]
-		},
-	],
+			],
 	highlights: [],
 	boards: [
 		510,
-		512
+		512,
 		514,
 		511,
 	],
