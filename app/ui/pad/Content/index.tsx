@@ -30,7 +30,7 @@ export default async function Section({
         'pads'
     );
     const [ datum ] = data;
-    let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata, pinboards } = datum;
+    let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata, pinboards } = datum || {};
 
     let lab: string | undefined = undefined;
     const isUNDP: boolean = email.includes('@undp.org');
@@ -120,7 +120,7 @@ export default async function Section({
                     </div>
                     {
                         sections.map((s: any, j: number) => {
-                            const { title, items } = s;
+                            const { title, items } = s || {};
                             return (
                                 <div key={j}>
                                 {!title ? null : (

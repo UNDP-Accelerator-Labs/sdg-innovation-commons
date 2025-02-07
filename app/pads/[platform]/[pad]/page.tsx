@@ -28,7 +28,7 @@ export async function generateMetadata(
     'pads'
   );
   const [datum] = data;
-  let { title, vignette, snippet } = datum;
+  let { title, vignette, snippet } = datum || {};
   const previousImages = (await parent)?.openGraph?.images || [];
 
   const metadata: Metadata = {
@@ -37,6 +37,7 @@ export async function generateMetadata(
     openGraph: {
       images: [vignette, ...previousImages],
     },
+    metadataBase: new URL('https://sdg-innovation-commons.org'),
   };
 
   // Add robots metadata if in staging environment

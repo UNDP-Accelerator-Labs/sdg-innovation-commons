@@ -29,6 +29,7 @@ export async function generateMetadata(
     openGraph: {
       images: [data?.vignette, ...previousImages],
     },
+    metadataBase: new URL('https://sdg-innovation-commons.org'),
   };
 
   // Add robots metadata if in staging environment
