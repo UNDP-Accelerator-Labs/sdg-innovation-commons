@@ -325,7 +325,11 @@ export default function Section({
           <div className="pagination">
             <div className="col-start-2 flex w-full justify-center">
               {!loading ? (
-                <Pagination page={page} totalPages={pages} />
+                <>
+                  {hits.length ? (
+                    <Pagination page={+page} totalPages={pages} />
+                  ) : null}
+                </>
               ) : (
                 <small className="block w-full text-center">
                   Loading pagination
