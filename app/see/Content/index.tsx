@@ -140,7 +140,7 @@ export default function Section({ searchParams }: SectionProps) {
                       </a>
                     </MenuItem>
                   )}
-                  {isLogedIn && search?.length > 0 && (
+                  {isLogedIn && search?.length > 0 && hits.length ? (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"
@@ -152,7 +152,7 @@ export default function Section({ searchParams }: SectionProps) {
                         Add All to Board
                       </div>
                     </MenuItem>
-                  )}
+                  ) : null }
                 </DropDown>
               )}
 
