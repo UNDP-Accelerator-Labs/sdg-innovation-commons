@@ -1,12 +1,16 @@
 export const collection = {
 	id: 'african-solutions-agritech',
 	title: 'Grassroots agricultural innovation in Africa',
-	description: 'Research shows that most innovation is not made by companies or university, but by ordinary people trying to improve their lives, help their loved ones, or simply have fun. A <a target="_blank" class="text-blue-500 cursor-pointer"  href="https://www.undp.org/sites/g/files/zskgke326/files/2023-07/undp_informal_innovation_in_south_africa_final.pdf" > recent study </a> estimates one million grassroots innovators – 2.5% of the population – in South Africa alone. This collection looks at the dataset of solutions – related to food and agriculture – mapped by the Accelerator Labs on the African continent. Its goal is to provide intelligence to UNDP\'s plans to incubate thousands of startups with the <a target="_blank" class="text-blue-500 cursor-pointer" href="https://www.undp.org/africa/projects/timbuktoo" > Timbuktoo initiative </a>.',
+	description: 'This collection looks at the dataset of grassroots innovation (also called "solutions") mapped by the Accelerator Labs on the African continent and related to food and agriculture. Its goal is to provide intelligence to UNDP\'s plans to incubate thousands of startups with the <a target="_blank" class="text-blue-500 cursor-pointer" href="https://www.undp.org/africa/projects/timbuktoo" > Timbuktoo initiative </a>.',
 	creatorName: 'Alberto Cottica',
 	mainImage: '/images/bg-as.jpg',	
 	sections: [
 		{
 			items: [
+				{ 
+					type: 'txt', 
+					txt: 'Research shows that most innovation is not made by companies or university, but by ordinary people trying to improve their lives, help their loved ones, or simply have fun. A <a target="_blank" class="text-blue-500 cursor-pointer"  href="https://www.undp.org/sites/g/files/zskgke326/files/2023-07/undp_informal_innovation_in_south_africa_final.pdf" > recent study </a> estimates one million grassroots innovators – 2.5% of the population – in South Africa alone. Scanning SDG Commons data can give a sense of what grassroots innovators are working on when it comes to inventing, developing, or adopting technology in support of agriculture and food systems in a broader sense. We started by selecting the solutions mapped on the 58 African countries (about 3,000); next, we used a Large Language Model to select those that aligned with the definition of "agritech" used by the Timbuktoo initiative. Finally, we went through about 120 of the solutions most closely aligned with that definition, and created several boards, each one gathering solutions that deployed a specific technological strategy, like "use sensors and actuators to reduce the consumption of scarce agricultural inputs, such as water" or "connect agricultural machines to solar panels to allow for a degree of mechanization even in rural areas where access to energy is problematic." More on the methodology can be found <a target="_blank" class="text-blue-500 cursor-pointer" href=https://github.com/UNDP-Accelerator-Labs/timbuktoo-hub-solutions/blob/main/README.md">here</a>.' 
+				},
 				{
 					type: 'list',
 					items: [
