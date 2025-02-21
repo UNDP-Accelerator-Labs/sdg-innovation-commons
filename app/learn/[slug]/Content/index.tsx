@@ -112,7 +112,7 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
               </Button>
             </div>
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              {isLogedIn && search?.length ? (
+              {isLogedIn && search?.length && hits.length ? (
                 <DropDown>
                   <MenuItem
                     as="button"
@@ -224,7 +224,11 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
             <div className="pagination">
               <div className="col-start-2 flex w-full justify-center">
                 {!loading ? (
-                  <Pagination page={+page} totalPages={pages} />
+                  <>
+                    {hits.length ? (
+                      <Pagination page={+page} totalPages={pages} />
+                    ) : null}
+                  </>
                 ) : (
                   <small className="block w-full text-center">
                     Loading pagination

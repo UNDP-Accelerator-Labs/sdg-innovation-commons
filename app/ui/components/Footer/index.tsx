@@ -1,6 +1,6 @@
 'use client';
 import { Button } from '@/app/ui/components/Button';
-import Link from 'next/link';
+import BoardsButton from '@/app/ui/components/BoardsButton';
 import { redirectToLogin } from '@/app/lib/auth';
 import Mobile from './mobile';
 import Desktop from './desktop';
@@ -50,6 +50,7 @@ export default function Footer() {
         <Mobile className='xl:hidden' />
         {/* Desktop Buttons: Display on medium and larger screens */}
         <Desktop className='hidden xl:block' />
+        <BoardsButton />
       </section>
     </>
   );

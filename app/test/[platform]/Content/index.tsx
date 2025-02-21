@@ -201,7 +201,7 @@ export default function Section({
                       </a>
                     </MenuItem>
                   )}
-                  {isLogedIn && search?.length > 0 && (
+                  {isLogedIn && search?.length && hits.length ? (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"
@@ -213,7 +213,7 @@ export default function Section({
                         Add All to Board
                       </div>
                     </MenuItem>
-                  )}
+                  ) : null }
                 </DropDown>
               ) : null}
 
@@ -325,7 +325,11 @@ export default function Section({
           <div className="pagination">
             <div className="col-start-2 flex w-full justify-center">
               {!loading ? (
-                <Pagination page={page} totalPages={pages} />
+                <>
+                  {hits.length ? (
+                    <Pagination page={+page} totalPages={pages} />
+                  ) : null}
+                </>
               ) : (
                 <small className="block w-full text-center">
                   Loading pagination
