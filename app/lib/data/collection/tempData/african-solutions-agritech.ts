@@ -23,7 +23,7 @@ export const collection = {
 						'<b>Smart and precision agriculture</b>. Solutions that bring a smart component to farming in Africa: irrigation based on soil moisture, observation and monitoring with computer vision tech, and more.',
 						'<b>Agro-ecology</b>. Solutions available to African farmers to grow crops and livestock in balance with nature. Insect protein as feedstock, paper production from grass instead of timber, organic methods to grow palms, and more.' ,
 						'<b>Heirloom and local crops</b>. Solutions based on finding new uses and new markets for local/heirloom crops. Indigenous species are very well adapted to the local climate and soil characteristics, and often require less water, chemical fertilizers and pesticides. Blue chamomile in Morocco, energy drinks from baobab fruit in Zambia, drought-resistant cultivars in Niger, and more.'
-						'<b>Food and produce conservation</b>. Renewable energy-powered dryers and traditional solutions for cooling provide affordable, sustainable alternatives to traditional cold chains. Together with fertilizers production, cold chains are the main source of greenhouse gas emission in food systems.' 
+						'<b>Food and produce conservation</b>. Renewable energy-powered dryers and traditional solutions for cooling provide affordable, sustainable alternatives to fossil-fuel based cold chains. Together with fertilizers production, cold chains are the main source of greenhouse gas emission in food systems.' 
 					]
 				},
 			]
