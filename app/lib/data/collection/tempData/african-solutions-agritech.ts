@@ -18,11 +18,11 @@ export const collection = {
 				{
 					type: 'list',
 					items: [
-						'<b>Small-farm appropriate agricultural machines</b>. Most farms are small, but most machines for agriculture are conceived for large, industrial farms. A collection of simple, cheap machines that smallholder farmers can easily acquire and maintain. Solar pumps for irrigation in off-grid areas, pedal-powered cashew nuts peelers, olives presses, locally built and maintained electric mills...',
+						'<b>Small-farm appropriate agricultural machines</b>. Most farms are small, but most machines for agriculture are conceived for large, industrial farms. A collection of simple, cheap machines that smallholder farmers can easily acquire and maintain. Solar pumps for irrigation in off-grid areas, pedal-powered cashew nuts peelers, olives presses, locally built and maintained electric mills, and more.',
 						'<b>Advanced services to food systems</b>. Innovative services, often tailored for smallholder farmers. Market intelligence, logistics, e-commerce, and so on. Bringing them in line of sight of the farmers is about accelerating the adoption of innovation, rather than its generation.',
-						'<b>Smart and precision agriculture</b>. Solutions that bring a smart component to farming in Africa: irrigation based on soil moisture, observation and monitoring with computer vision tech, etc.',
-						'<b>Agro-ecology</b>. Solutions available to African farmers to grow crops and livestock in balance with nature. Insect protein as feedstock, paper production from grass instead of timber, organic methods to grow palms, etc.' ,
-						'<b>Heirloom and local crops</b>. Solutions based on finding new uses and new markets for local/heirloom crops. Indigenous species are very well adapted to the local climate and soil characteristics, and often require less water, chemical fertilizers and pesticides. Blue chamomile in Morocco, energy drinks from baobab fruit in Zambia, drought-resistant cultivars in Niger...'
+						'<b>Smart and precision agriculture</b>. Solutions that bring a smart component to farming in Africa: irrigation based on soil moisture, observation and monitoring with computer vision tech, and more.',
+						'<b>Agro-ecology</b>. Solutions available to African farmers to grow crops and livestock in balance with nature. Insect protein as feedstock, paper production from grass instead of timber, organic methods to grow palms, and more.' ,
+						'<b>Heirloom and local crops</b>. Solutions based on finding new uses and new markets for local/heirloom crops. Indigenous species are very well adapted to the local climate and soil characteristics, and often require less water, chemical fertilizers and pesticides. Blue chamomile in Morocco, energy drinks from baobab fruit in Zambia, drought-resistant cultivars in Niger, and more.'
 						'<b>Food and produce conservation</b>. Renewable-powered dryers and traditional solutions for cooling provide affordable, sustainable alternatives to traditional cold chains. Together with fertilizers production, cold chains are the main source of greenhouse gas emission in food systems.' 
 					]
 				},
