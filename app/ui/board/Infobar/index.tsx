@@ -25,7 +25,7 @@ export default function Infobar({
 			</div>
 		    <div className='inner w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto'>
 			    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] md:pt-[40px] md:pb-[20px] lg:py-0'>
-			        <div className='c-left col-span-9 lg:col-span-5'>
+			        <div className='c-left col-span-9 lg:col-span-5 z-[150]'>
 		            	<p ref={ref} className='lead font-bold'>{description}</p>
 			        </div>
 			    </div>
