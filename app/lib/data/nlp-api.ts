@@ -38,7 +38,8 @@ export default async function nlpApi(_kwargs: Props) {
         filters: {
             language,
             doc_type,
-            iso3
+            iso3,
+            status : token ? ["public", "preview"] : [ "public"] 
         }
     }
 

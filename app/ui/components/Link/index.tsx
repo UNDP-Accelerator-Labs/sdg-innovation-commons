@@ -16,7 +16,7 @@ export function CardLink({ children, href, className, openInNewTab, ...rest }: P
             className={clsx('w-[40px] h-[40px] block bg-inherit float-right text-right detach', className)}
             target={openInNewTab ? '_blank' : undefined} 
             rel={openInNewTab ? 'noopener noreferrer' : undefined} 
-            prefetch={true}
+            // prefetch={true}
         >
             {/* Background and Border Elements */}
             {/*<div className="absolute h-[84.49%] w-[87.53%] top-[0%] right-[-0.04%] bottom-[15.51%] left-[12.51%] bg-lime-yellow transition-all duration-300 group-hover:top-[15%] group-hover:left-[0.03%]" />

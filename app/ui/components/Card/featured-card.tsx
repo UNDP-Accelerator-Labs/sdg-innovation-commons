@@ -53,7 +53,7 @@ export default function Card({
             <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
                 <div>
                     {/* Title */}
-                    <Link href={href || '/'} prefetch={true} passHref >
+                    <Link href={href || '/'} passHref >
                         <h1>{title}</h1>
                     </Link>
                     {/* Description */}
