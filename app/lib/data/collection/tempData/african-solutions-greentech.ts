@@ -24,7 +24,7 @@ export const collection = {
 					items: [
 						'<b>Green and clean energy</b>. These solutions answer to an unmet need for access to, saving of, and management of, energy in underserved communities. About half of them are aimed at production (often for immediate consumption by solar-powered machines– see below); the rest are mostly to save energy, with a few to transform it (for example alternators) or improve performance and safety.',
 						'<b>Solar-powered machines</b>. "Connecting X to a solar panel" is a technological trope in Africa, where many communities have limited access to robust electric grids. Water pumps, egg incubators, heaters, coolers, respirators... even hearing aids.',
-						'<b>Circular solutions</b>. Innovative services, often tailored for smallholder farmers. Market intelligence, logistics, e-commerce, and so on. Bringing them in line of sight of the farmers is about accelerating the adoption of innovation, rather than its generation.',
+						'<b>Circular solutions</b>. Finding uses for the abundance of waste, especially plastics and organic or domestic waste.',
 						'<b>Biodigesters</b>. In the quest for access to energy, African innovators are experimenting with biodigesters of various types, almost always tailored to the need of the individual household, or of a few households at most. These solutions are appreciated as they transform an environmental bad (pollution from organic waste) into an economic good (energy).',
 						'<b>Clean and efficient cookers</b>. Firewood-powered cooking has long been known as a health hazard and a driver of deforestation. Many grassroots innovators in Africa are prototyping affordable, efficient, smokeless cookers.' ,
 					]
