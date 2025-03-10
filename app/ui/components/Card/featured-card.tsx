@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useEffect } from 'react';
 import clsx from 'clsx';
+import Link from 'next/link';
 import { CardLink } from '@/app/ui/components/Link';
 import { CardProps } from "./without-img"
 
@@ -52,7 +53,9 @@ export default function Card({
             <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
                 <div>
                     {/* Title */}
-                    <h1>{title}</h1>
+                    <Link href={href || '/'} passHref >
+                        <h1>{title}</h1>
+                    </Link>
                     {/* Description */}
                     <p ref={ref}>{description}</p>
                 </div>

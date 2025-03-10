@@ -2,7 +2,6 @@ import Hero from './Hero';
 import Content from './Content';
 import Navbar from '@/app/ui/components/Navbar';
 import Footer from '@/app/ui/components/Footer';
-import BoardsButton from '@/app/ui/components/BoardsButton';
 import { Metadata } from 'next';
 import { incomingRequestParams } from '@/app/lib/utils';
 
@@ -24,7 +23,6 @@ export default async function Page({ params, searchParams }: incomingRequestPara
       <Content searchParams={sParams} />
     </div>
     <Footer />
-    <BoardsButton />
     </>
   );
 }

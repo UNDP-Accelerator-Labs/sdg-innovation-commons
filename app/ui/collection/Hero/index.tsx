@@ -80,7 +80,7 @@ export default function Hero({
             {/* FOR LARGE DISPLAYS */}
             <div className='hidden lg:block'>
                 <div className='absolute right-0 top-0 w-[40%] overflow-hidden h-full'>
-                    <img src={image} className='lg:min-w-[100vw] block min-h-full translate-x-[-10%]' />
+                    <img src={image} className='w-full lg:min-w-[100vw] block min-h-full translate-x-[-10%]' />
                 </div>
                 <div className='folder vertical right-[40%]'>
                     <div className='folder-label'>
