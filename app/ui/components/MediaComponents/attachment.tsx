@@ -1,4 +1,4 @@
-import { CardLink } from '@/app/ui/components/Link';
+import { CardLink } from '@/app/ui/components/Link/card';
 
 interface Props {
     item: any;

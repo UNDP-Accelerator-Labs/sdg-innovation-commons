@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 @tailwind base;
@@ -6,22 +6,22 @@
 @tailwind utilities;
 
 body {
-  @apply text-[16px] leading-[normal] m-0 p-0 font-noto-sans;
+  @apply m-0 p-0 font-noto-sans text-[16px] leading-[normal];
 }
 a {
-  @apply no-underline text-black cursor-pointer ;
+  @apply cursor-pointer text-black no-underline;
 }
 h1 {
-  @apply text-[40px] lg:text-[62px] leading-[50px] lg:leading-[69px] mb-[40px] font-bold;
+  @apply mb-[40px] text-[40px] font-bold leading-[50px] lg:text-[62px] lg:leading-[69px];
 }
 h2 {
-  @apply text-[28px] lg:text-[36px] leading-[38px] lg:leading-[46px] mb-[40px] font-bold;
+  @apply mb-[40px] text-[28px] font-bold leading-[38px] lg:text-[36px] lg:leading-[46px];
 }
 h3 {
-  @apply text-[21px] leading-[28px] lg:text-[22px] lg:leading-[30px] mb-[40px] font-bold;
+  @apply mb-[40px] text-[21px] font-bold leading-[28px] lg:text-[22px] lg:leading-[30px];
 }
 p {
-  @apply text-[18px] leading-[26px] lg:text-[16px] lg:leading-[26px] mt-0 mb-[20px]; 
+  @apply mb-[20px] mt-0 text-[18px] leading-[26px] lg:text-[16px] lg:leading-[26px];
 }
 br {
   content: '';
@@ -29,11 +29,11 @@ br {
   margin-bottom: 10px;
 }
 
-input[type=text],
-input[type=email],
+input[type='text'],
+input[type='email'],
 select,
 textarea {
-  background-color: #FFF;
+  background-color: #fff;
   border: 1px solid #000;
   box-sizing: border-box;
   padding: auto 20px;
@@ -45,26 +45,26 @@ textarea {
   border-width: 0;
 }
 
-
 @layer components {
   .grid-bg {
-  /* SOURCE: https://stackoverflow.com/questions/3540194/how-to-make-a-grid-like-graph-paper-grid-with-just-css */
+    /* SOURCE: https://stackoverflow.com/questions/3540194/how-to-make-a-grid-like-graph-paper-grid-with-just-css */
     background-size: 20px 20px;
-    background-image:
-      linear-gradient(to right, #EAEAEA 1px, transparent 1px),
-      linear-gradient(to bottom, #EAEAEA 1px, transparent 1px);
+    background-image: linear-gradient(to right, #eaeaea 1px, transparent 1px),
+      linear-gradient(to bottom, #eaeaea 1px, transparent 1px);
   }
 
   .grid-background {
-    background-image:
-      linear-gradient(to right, rgba(0, 0, 0, 0.1) 1px, transparent 1px),
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.1) 1px,
+        transparent 1px
+      ),
       linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 1px, transparent 1px);
-    background-size: 30px 30px; 
+    background-size: 30px 30px;
     background-color: white;
   }
 
   .navbar {
-
   }
   .navbar.movein {
     /* display: flex; */
@@ -80,8 +80,8 @@ textarea {
   }
 
   .home-section {
-/*    width: 100%;*/
-/*    min-height: 100vh;*/
+    /*    width: 100%;*/
+    /*    min-height: 100vh;*/
     border-top: 1px solid #000;
     box-sizing: border-box;
   }
@@ -118,11 +118,11 @@ textarea {
     border: 1px solid #000;
     top: 10px;
     left: -10px;
-    background-color: #FFF;
+    background-color: #fff;
   }
   .card {
-/*    width: 300px;*/
-    background-color: #FFF;
+    /*    width: 300px;*/
+    background-color: #fff;
     border: 1px solid #000;
     box-sizing: border-box;
   }
@@ -135,7 +135,9 @@ textarea {
   .card .band {
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
-    font-family: Space Mono, monospace;
+    font-family:
+      Space Mono,
+      monospace;
     padding: 10px 20px;
     box-sizing: border-box;
     font-weight: bold;
@@ -145,7 +147,9 @@ textarea {
     min-height: 30px;
     border-radius: 30px;
     padding: 0 20px;
-    font-family: Space Mono, monospace;
+    font-family:
+      Space Mono,
+      monospace;
     font-weight: bold;
     font-size: 12px;
     text-transform: capitalize;
@@ -161,17 +165,19 @@ textarea {
   }
   .tab {
     padding: 0px 20px 15px 20px;
-    font-family: Space Mono, monospace;
+    font-family:
+      Space Mono,
+      monospace;
     cursor: pointer;
   }
   .tab-line {
     border-bottom: 2px solid #000;
   }
   .tab-line.orange {
-    border-color: #FFBE8D;
+    border-color: #ffbe8d;
   }
   .tab-line.blue {
-    border-color: #81C2F2;
+    border-color: #81c2f2;
   }
   .tab-line.yellow {
     border-color: #d2f960;
@@ -196,7 +202,7 @@ textarea {
     height: 100%;
     background-color: rgb(210, 249, 96);
     z-index: 0;
-    transition: transform .25s;
+    transition: transform 0.25s;
   }
   .detach:hover::before {
     transform: translate(0);
@@ -212,7 +218,7 @@ textarea {
     box-sizing: border-box;
   }
   .post-it {
-    background-color: #EDFFA4;
+    background-color: #edffa4;
     border: 1px solid #000;
     padding: 20px;
     box-sizing: border-box;
@@ -221,7 +227,8 @@ textarea {
   @keyframes animatein-filters-menu {
     from {
       height: 0;
-    } to {
+    }
+    to {
       height: 100%;
     }
   }
@@ -229,8 +236,8 @@ textarea {
     position: relative;
     z-index: 10;
     border: 1px solid #000;
-    background-color: #FFF;
-    animation: animatein-filters-menu .5s;
+    background-color: #fff;
+    animation: animatein-filters-menu 0.5s;
   }
   .filters .inner {
     width: 100%;
@@ -241,7 +248,7 @@ textarea {
     position: relative;
     width: 100%;
   }
-  .filter-group input[type=text] {
+  .filter-group input[type='text'] {
     width: 100%;
     padding: 10px;
   }
@@ -249,16 +256,16 @@ textarea {
     position: absolute;
     width: 100%;
     list-style: none;
-    background-color: #FFF;
+    background-color: #fff;
     border: none;
     margin-top: 0px;
     box-sizing: border-box;
-/*    margin-left: -1px;*/
+    /*    margin-left: -1px;*/
     padding: 0px;
     max-height: 0px;
     overflow: auto;
     z-index: 100;
-    transition: max-height .25s;
+    transition: max-height 0.25s;
 
     border: 1px solid #000;
     border-top: none;
@@ -285,11 +292,15 @@ textarea {
     grid-gap: 20px;
     flex-direction: column;
     margin-top: 60px;
-    font-family: Space Mono, monospace;
+    font-family:
+      Space Mono,
+      monospace;
     line-height: 40px;
   }
   .pagination button {
-    font-family: Space Mono, monospace;
+    font-family:
+      Space Mono,
+      monospace;
     display: inline-block;
     border: 1px solid #000;
     width: 40px;
@@ -300,18 +311,20 @@ textarea {
     cursor: pointer;
   }
   .pagination.green {
-    color: #AFE69D;
+    color: #afe69d;
   }
   .pagination.green button {
-    color: #AFE69D;
+    color: #afe69d;
   }
 
   .stats-cartouche {
-    background-color: #FFF;
+    background-color: #fff;
     border: 1px solid #000;
   }
   .number {
-    font-family: Space Mono, monospace;
+    font-family:
+      Space Mono,
+      monospace;
     font-weight: bold;
   }
   .gradient-img {
@@ -330,8 +343,12 @@ textarea {
     height: 200%;
     top: 0;
     left: 0;
-    background: linear-gradient(173.09deg, rgba(1,141,242,1),rgba(237,255,164,1));
-    opacity: .5;
+    background: linear-gradient(
+      173.09deg,
+      rgba(1, 141, 242, 1),
+      rgba(237, 255, 164, 1)
+    );
+    opacity: 0.5;
   }
 
   .folder.horizontal {
@@ -351,11 +368,13 @@ textarea {
     border-top-left-radius: 10px;
     border-top-right-radius: 5px;
     font-size: 14px;
-    font-family: Space mono, monospace;
+    font-family:
+      Space mono,
+      monospace;
     font-weight: bold;
     border-top: 1px solid #000;
     border-left: 1px solid #000;
-    color: #FFF;
+    color: #fff;
   }
   .folder.horizontal .folder-label span {
     position: relative;
@@ -406,13 +425,13 @@ textarea {
     height: 100%;
     position: absolute;
     bottom: 0px;
-/*    left: 0;*/
+    /*    left: 0;*/
   }
   .folder.vertical .folder-label {
     position: absolute;
     top: 49px;
     left: 0;
-/*    max-width: calc(100% - 40px);*/
+    /*    max-width: calc(100% - 40px);*/
     height: 40px;
     background-color: #000;
     padding: 8px 20px 0 20px;
@@ -421,11 +440,13 @@ textarea {
     border-top-left-radius: 10px;
     border-top-right-radius: 5px;
     font-size: 14px;
-    font-family: Space mono, monospace;
+    font-family:
+      Space mono,
+      monospace;
     font-weight: bold;
     border-top: 1px solid #000;
     border-left: 1px solid #000;
-    color: #FFF;
+    color: #fff;
     transform: rotate(90deg);
     transform-origin: bottom left;
   }
@@ -475,34 +496,34 @@ textarea {
     box-sizing: border-box;
     border-bottom-right-radius: 5px;
   }
-
 }
 
 @layer utilities {
   @keyframes slidein {
     from {
       transform: scaleX(0) skew(-30deg);
-    } to {
+    }
+    to {
       transform: scaleX(1) skew(-30deg);
     }
   }
 
   .slanted-bg {
     position: relative;
-/*    display: inline-block;*/
+    /*    display: inline-block;*/
   }
   .slanted-bg::before {
     content: '';
     position: absolute;
-    left: -.05em;
+    left: -0.05em;
     bottom: 0;
     width: 100%;
     height: 0.5em;
-    background-color: #81C2F2;
+    background-color: #81c2f2;
     z-index: 0;
     transform: scaleX(0) skew(-30deg);
     transform-origin: left;
-    animation: slidein .5s;
+    animation: slidein 0.5s;
     animation-fill-mode: forwards;
   }
   .slanted-bg.full::before {
@@ -516,83 +537,95 @@ textarea {
     z-index: 1;
   }
   .slanted-bg.dark {
-    color: #FFF;
+    color: #fff;
   }
 
   .slanted-bg.yellow::before {
     background-color: #d2f960;
   }
   .slanted-bg.blue::before {
-    background-color: #81C2F2;
+    background-color: #81c2f2;
   }
   .slanted-bg.dark.blue::before {
-    background-color: #0368B1;
+    background-color: #0368b1;
   }
   .slanted-bg.orange::before {
-    background-color: #FFBE8D;
+    background-color: #ffbe8d;
   }
   .slanted-bg.light-yellow::before {
-    background-color: #FFD96F;
+    background-color: #ffd96f;
   }
   .slanted-bg.green::before {
-    background-color: #AFE69D;
+    background-color: #afe69d;
   }
   .slanted-bg.white::before {
-    background-color: #FFF;
+    background-color: #fff;
   }
 
   .sdg1 {
-    color: #E5233B;
+    color: #e5233b;
   }
   .sdg2 {
-    color: #DDA839;
+    color: #dda839;
   }
   .sdg3 {
-    color: #4D9F39;
+    color: #4d9f39;
   }
   .sdg4 {
-    color: #C5182D;
+    color: #c5182d;
   }
   .sdg5 {
-    color: #FF3B21;
+    color: #ff3b21;
   }
   .sdg6 {
-    color: #25BDE2;
+    color: #25bde2;
   }
   .sdg7 {
-    color: #FCC30C;
+    color: #fcc30c;
   }
   .sdg8 {
-    color: #A21842;
+    color: #a21842;
   }
   .sdg9 {
-    color: #FD6924;
+    color: #fd6924;
   }
   .sdg10 {
-    color: #DD1267;
+    color: #dd1267;
   }
   .sdg11 {
-    color: #FD9D25;
+    color: #fd9d25;
   }
   .sdg12 {
-    color: #BE8B2F;
+    color: #be8b2f;
   }
   .sdg13 {
-    color: #3F7E44;
+    color: #3f7e44;
   }
   .sdg14 {
-    color: #0C97D9;
+    color: #0c97d9;
   }
   .sdg15 {
-    color: #56C02A;
+    color: #56c02a;
   }
   .sdg16 {
-    color: #02689D;
+    color: #02689d;
   }
   .sdg17 {
-    color: #18486A;
+    color: #18486a;
   }
 
+  .loader {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-top-color: #3490dc;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+    animation: spin 1s linear infinite;
+  }
 
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
-
