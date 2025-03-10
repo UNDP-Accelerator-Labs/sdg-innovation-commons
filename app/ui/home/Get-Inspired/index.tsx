@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { CardLink } from '@/app/ui/components/Link';
+import { CardLink } from '@/app/ui/components/Link/card';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { useRef } from 'react';

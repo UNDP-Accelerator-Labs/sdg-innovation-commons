@@ -1,8 +1,8 @@
 'use client';
 import { useRef, useEffect } from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
-import { CardLink } from '@/app/ui/components/Link';
+import Link from '@/app/ui/components/Link';
+import { CardLink } from '@/app/ui/components/Link/card';
 import { CardProps } from "./without-img"
 
 export default function Card({
