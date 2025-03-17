@@ -5,12 +5,14 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import FilterGroup from '@/app/ui/components/FilterGroup';
+// import { useRouter } from 'next/router';
 
 interface filtersProps {
 	className?: string;
 	searchParams: any;
 	platform: string;
 	tabs: string[];
+	useNlp?: boolean;
 }
 
 export default function Filters({
@@ -18,7 +20,9 @@ export default function Filters({
 	searchParams,
 	platform,
 	tabs,
+	useNlp = false,
 }: filtersProps) {
+	// const router = useRouter();
 	const { page, search, ...filterParams } = searchParams;
 
 	if (!platform) platform = 'solution';
@@ -38,7 +42,8 @@ export default function Filters({
 		const meta: any[] = await metaData({ 
 		    searchParams, 
 		    platforms: 'solution', // TO DO: NEED TO UPDATE TO checkPlatform WHEN WE KNOW HOW TO GET COUNTRIES FROM nlp API
-		    filters
+		    filters,
+			useNlp,
 		});
 
 	    setHits(meta);
@@ -48,6 +53,17 @@ export default function Filters({
 	useEffect(() => {
 		fetchData();
 	}, []);
+
+	// const removeFilter = ( filterValue: string) => {
+	// 	const filterKey: string = 'countries';
+    //     const updatedFilters = { ...searchParams };
+    //     if (Array.isArray(updatedFilters[filterKey])) {
+    //         updatedFilters[filterKey] = updatedFilters[filterKey].filter((value: string) => value !== filterValue);
+	// 		// Update the URL with the new filters
+	// 		const newQueryParams = new URLSearchParams(updatedFilters).toString();
+	// 		router.push(`${router.pathname}?${newQueryParams}`, undefined, { shallow: true });
+    //     } 
+	// }
 
 	return (
 		<>
@@ -74,6 +90,7 @@ export default function Filters({
 										list={list}
 										loading={loading}
 										activeFilters={activeFilters}
+										// removeFilter={removeFilter}
 									/>
 								);
 							}
