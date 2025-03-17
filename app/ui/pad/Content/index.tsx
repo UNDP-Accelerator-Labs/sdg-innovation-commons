@@ -30,7 +30,7 @@ export default async function Section({
         'pads'
     );
     const [ datum ] = data;
-    let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata, pinboards } = datum || {};
+    let { base, title, ownername, position, email, country, iso3, sections, vignette, locations, rawtags, tags, sdg, source, metadata, pinboards, current_user_engagement, engagement } = datum || {};
 
     let lab: string | undefined = undefined;
     const isUNDP: boolean = email.includes('@undp.org');
@@ -83,7 +83,7 @@ export default async function Section({
         base_color: '#000',
         layers: mapLayers,
     });
-    
+    console.log('check mapFile ', source, platform );
     return (
         <>
         <Hero 
@@ -99,6 +99,8 @@ export default async function Section({
             tagStyleShade={`bg-light-${color}-shade`}
             color={color === 'yellow' ? 'light-yellow' : color}
             pinboards={pinboards}
+            current_user_engagement={current_user_engagement}
+            engagement={engagement}
         />
         <section className='home-section pb-[40px] lg:pb-[80px] pt-[80px] lg:pt-[120px]'>
             <div className='inner mx-auto w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] lg:hidden'>
