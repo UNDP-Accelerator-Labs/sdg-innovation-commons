@@ -40,6 +40,8 @@ export default function Section({ searchParams }: SectionProps) {
   const [objectIdz, setObjectIdz] = useState<number[]>([]);
   const [hrefs, setHref] = useState<string>('');
 
+  const [useNlp, setUseNlp] = useState<boolean>(true);
+
   const platform = 'solution';
 
   async function fetchData(): Promise<void> {
@@ -60,11 +62,13 @@ export default function Section({ searchParams }: SectionProps) {
         platform,
         'pads'
       );
+      setUseNlp(false);
     } else {
       data = await nlpApi({
         ...searchParams,
         ...{ limit: page_limit, doc_type: platform },
       });
+      setUseNlp(true);
     }
 
     const idz: number[] = data?.map((p) => p?.pad_id || p?.doc_id);
@@ -173,6 +177,7 @@ export default function Section({ searchParams }: SectionProps) {
               <Filters
                 className={clsx(filterVisibility ? '' : 'hidden')}
                 searchParams={searchParams}
+                useNlp={useNlp}
               />
             </div>
           </form>

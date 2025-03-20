@@ -9,7 +9,7 @@ export async function pagestats(page: number, platform: string | string[], _kwar
 
 	async function fetchPages() {
 	    if (Array.isArray(platform)) {
-	    	const total = await nlpStatsApi({ doc_type: platform });
+	    	const {doc_count: total } = await nlpStatsApi({ doc_type: platform });
 	    	const pages = Math.ceil(total / page_limit);
 	    	return { total, page, pages };
 	    } else {

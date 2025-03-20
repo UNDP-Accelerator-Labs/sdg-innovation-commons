@@ -9,11 +9,13 @@ import FilterGroup from '@/app/ui/components/FilterGroup';
 interface filtersProps {
 	className?: string;
 	searchParams: any;
+	useNlp?: boolean;
 }
 
 export default function Filters({
 	className,
-	searchParams
+	searchParams,
+	useNlp = false,
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
@@ -32,7 +34,8 @@ export default function Filters({
 		const meta: any[] = await metaData({ 
 		    searchParams, 
 		    platforms: [platform], 
-		    filters
+		    filters,
+			useNlp,
 		});
 
 	    setHits(meta);

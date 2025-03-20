@@ -43,7 +43,8 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
   const [searchQuery, setSearchQuery] = useState(search || '');
 
   const [objectIdz, setObjectIdz] = useState<number[]>([]);
-
+  const [useNlp, setUseNlp] = useState<boolean>(true);
+  
   // Fetch data on component mount
   useEffect(() => {
     async function fetchData() {
@@ -65,6 +66,8 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
         ...searchParams,
         ...{ limit: page_limit, doc_type },
       });
+      setUseNlp(true);
+
       setHits(data);
 
       const idz: number[] = data?.map((p: any) => p?.doc_id);
@@ -148,6 +151,7 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
                 searchParams={searchParams}
                 platform={docType}
                 tabs={tabs}
+                useNlp={useNlp}
               />
             </div>
           </form>

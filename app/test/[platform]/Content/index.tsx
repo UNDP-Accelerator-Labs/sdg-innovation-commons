@@ -5,7 +5,7 @@ import { MenuItem } from '@headlessui/react';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import platformApi, { pin } from '@/app/lib/data/platform-api';
+import platformApi, { getRegion } from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { page_limit } from '@/app/lib/utils';
 import clsx from 'clsx';
@@ -57,6 +57,8 @@ export default function Section({
   const [objectIdz, setObjectIdz] = useState<number[]>([]);
   const [allObjectIdz, setAllObjectIdz] = useState<any>();
 
+  const [useNlp, setUseNlp] = useState<boolean>(true);
+
   const handleAddAllToBoard = (e: any) => {
     e.preventDefault();
     setSharedState((prevState: any) => ({
@@ -89,7 +91,7 @@ export default function Section({
             !(Array.isArray(value) && value.length === 0)
         )?.length > 0;
 
-    if (!hasFilters && !search && platform !== 'all') {
+    if (!hasFilters && !search && platform !== 'all') { // Search without filters ==> Use platformApi
       const { total, pages: totalPages }: PageStatsResponse = await pagestats(
         page,
         platform,
@@ -103,14 +105,32 @@ export default function Section({
       );
       setAllObjectIdz(null);
       setallowDownLoad(true);
-    } else {
+      setUseNlp(false);
+    } else { // Search using NLP
       console.log('look for search term ', search);
       let doc_type: string[];
       if (platform === 'all') doc_type = tabs.slice(1);
       else doc_type = [platform];
       if (searchParams.countries) searchParams.iso3 = searchParams.countries;
 
-      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
+      // Ensure searchParams.countries is an array
+      const countriesArray = Array.isArray(searchParams.countries)
+        ? searchParams.countries
+        : searchParams.countries
+          ? [searchParams.countries]
+          : [];
+
+      if (searchParams.regions) {
+        const countries = await getRegion(searchParams.regions);
+        searchParams.iso3 = [
+          ...countries.map((c: any) => c.iso3),
+          ...countriesArray,
+        ];
+      } else {
+        searchParams.iso3 = countriesArray;
+      }
+
+      const { total, pages: totalPages }: any = await pagestats(
         page,
         doc_type,
         3
@@ -121,6 +141,8 @@ export default function Section({
         ...searchParams,
         ...{ limit: page_limit, doc_type },
       });
+
+      setUseNlp(true);
 
       const sorted_keys: Record<string, number[]> = {};
 
@@ -134,11 +156,12 @@ export default function Section({
       setAllObjectIdz(sorted_keys);
 
       setallowDownLoad(true);
-    }
+    } // End of search using NLP
 
     const idz: number[] = data?.map((p) => p?.pad_id || p?.doc_id);
     setObjectIdz(idz);
 
+    //GET download link
     const baseUrl = await platformApi(
       { render: true, action: 'download' },
       platform,
@@ -148,10 +171,9 @@ export default function Section({
     const params = new URLSearchParams();
     idz.forEach((id) => params.append('pads', id.toString()));
     const url = `${baseUrl}&${params.toString()}`;
+
     setHref(url);
-
     setHits(data);
-
     setLoading(false);
   }
 
@@ -213,7 +235,7 @@ export default function Section({
                         Add All to Board
                       </div>
                     </MenuItem>
-                  ) : null }
+                  ) : null}
                 </DropDown>
               ) : null}
 
@@ -236,6 +258,7 @@ export default function Section({
                 searchParams={searchParams}
                 platform={platform}
                 tabs={tabs}
+                useNlp={useNlp}
               />
             </div>
           </form>

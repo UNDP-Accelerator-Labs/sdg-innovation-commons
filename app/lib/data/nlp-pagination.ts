@@ -27,15 +27,16 @@ export default async function statsApi(_kwargs: Props) {
         filters: {
             language,
             doc_type,
-            iso3
+            iso3,
+            status : token ? ["public", "preview"] : [ "public"] 
         }
     }
 
-    let { doc_count: hits } = await get({
+    let { doc_count, fields : field } = await get({
         url: `${NLP_URL}/${token ? 'stat_embed' : 'stats'}`,
         method: 'POST',
         body,
     });
 
-    return hits;
+    return { doc_count, field, iso3: field?.iso3 ? Object.keys(field?.iso3) : [] };
 }

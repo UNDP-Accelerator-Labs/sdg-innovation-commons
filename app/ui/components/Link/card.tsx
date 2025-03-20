@@ -1,4 +1,6 @@
-import Link from 'next/link';
+'use client';
+import clsx from 'clsx';
+import Link from '@/app/ui/components/Link';
 import { useState } from 'react';
 import Loading from '@/app/ui/components/Loading';
 
@@ -8,14 +10,12 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     openInNewTab?: boolean;
     passHref?: boolean;
     className?: string;
-    scroll?: boolean;
 }
 
-export default function DefaultLink({ children, href, className, openInNewTab, scroll, ...rest }: Props) {
+export function CardLink({ children, href, className, openInNewTab, ...rest }: Props) {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleClick = () => {
-        if(openInNewTab) return;
         setIsLoading(true);
     };
     return (
@@ -24,14 +24,18 @@ export default function DefaultLink({ children, href, className, openInNewTab, s
             <Link 
                 href={href} 
                 passHref 
-                className={className}
+                className={clsx('w-[40px] h-[40px] block bg-inherit float-right text-right detach', className)}
                 target={openInNewTab ? '_blank' : undefined} 
                 rel={openInNewTab ? 'noopener noreferrer' : undefined} 
                 onClick={handleClick}
-                scroll={scroll}
                 // prefetch={true}
                 {...rest}
             >
+                <img
+                    className="relative w-[30px] max-w-full overflow-hidden max-h-full z-[2]"
+                    alt="Arrow Icon"
+                    src="/images/Arrow.svg"
+                />
                 {children}
             </Link>
         </>
