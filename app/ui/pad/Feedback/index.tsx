@@ -72,8 +72,8 @@ export default function Feedback({
   if (!isLogedIn) return null;
 
   return (
-    <div className="inner mx-auto bg-gray-100 py-5 px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 font-space-mono">
-      <div className="section-content">
+    <div className="inner mx-auto bg-gray-100 py-5 px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 ">
+      <div className="section-content pl-8">
         <h5 className="text-lg font-semibold">What do you think about this content?</h5>
         <div className="flex flex-col gap-3 sm:flex-row sm:gap-5">
           {[
@@ -110,7 +110,7 @@ export default function Feedback({
 
         {/* Show engagement statistics to owner and admin only */}
         {session?.rights >= 3 || session?.username === ownername ? (
-          <div className="mt-5 pt-5 text-sm">
+          <div className="mt-5 text-sm">
             <h4>Engagement Statistics (visible only to content owner and admin)</h4>
             <ul className="mx-0">
               <li>{getEngagementCount('useful') || 0} found this useful.</li>
