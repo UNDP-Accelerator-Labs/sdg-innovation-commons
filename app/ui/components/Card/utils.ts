@@ -1,5 +1,5 @@
-type EngagementType = 'like' | 'dislike';
-type ActionType = 'delete' | 'insert';
+export type EngagementType = 'like' | 'dislike' | 'useful' | 'interesting' | 'no_opinion';
+export type ActionType = 'delete' | 'insert';
 
 export const engage = async (
     action: ActionType,
@@ -31,6 +31,9 @@ export const engage = async (
                     setIsDisliked(false);
                     setDislikeCounts(dislikeCounts - 1);
                 }
+            }
+            else if(['useful', 'interesting', 'no_opinion'].includes(type)){
+                // do nothing
             }
         } else {
             console.error('Unexpected response status:', data?.status);
