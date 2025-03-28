@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import FilterGroup from '@/app/ui/components/FilterGroup';
-// import { useRouter } from 'next/router';
 
 interface filtersProps {
 	className?: string;
@@ -22,7 +21,6 @@ export default function Filters({
 	tabs,
 	useNlp = false,
 }: filtersProps) {
-	// const router = useRouter();
 	const { page, search, ...filterParams } = searchParams;
 
 	if (!platform) platform = 'solution';

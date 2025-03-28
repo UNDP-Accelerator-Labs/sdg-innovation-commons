@@ -118,9 +118,6 @@ export default async function metaData(_kwargs: Props) {
       }
     })
 
-	// if(regionFilters.length)
-	// 	countries = countries?.filter((d: any) => regionFilters.includes(d.undp_region) );
-
     regions = regions
       .filter((a: any) => a.name)
       .sort((a: any, b: any) => a.name?.localeCompare(b.name));
