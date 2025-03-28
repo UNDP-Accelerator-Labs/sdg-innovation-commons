@@ -24,8 +24,8 @@ export default function Filters({
 	const { page, search, ...filterParams } = searchParams;
 
 	let filters: string[] = []
-	if (platform === 'all') filters = ['countries', 'regions']
-	else filters = ['countries', 'regions', 'thematic areas', 'sdgs', 'methods', 'datasources'];
+	if (platform === 'all') filters = ['countries',]
+	else filters = ['countries', 'thematic areas', 'sdgs', 'methods', 'datasources'];
 	const space = 'published';
 	
 	const [hits, setHits] = useState<any[]>([]);
@@ -36,7 +36,7 @@ export default function Filters({
 	    setLoading(true);
 
 	    const checkPlatform = platform === tabs[0] ? tabs.slice(1) : platform;
-console.log('useNlp', useNlp)
+
 	    // GET THE METADATA
 	    const meta: any[] = await metaData({ 
 	        searchParams, 
