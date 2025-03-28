@@ -54,17 +54,6 @@ export default function Filters({
 		fetchData();
 	}, []);
 
-	// const removeFilter = ( filterValue: string) => {
-	// 	const filterKey: string = 'countries';
-    //     const updatedFilters = { ...searchParams };
-    //     if (Array.isArray(updatedFilters[filterKey])) {
-    //         updatedFilters[filterKey] = updatedFilters[filterKey].filter((value: string) => value !== filterValue);
-	// 		// Update the URL with the new filters
-	// 		const newQueryParams = new URLSearchParams(updatedFilters).toString();
-	// 		router.push(`${router.pathname}?${newQueryParams}`, undefined, { shallow: true });
-    //     } 
-	// }
-
 	return (
 		<>
 			<section className={clsx('filters lg:pl-[-20px]', className)}>
