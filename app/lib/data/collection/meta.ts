@@ -56,7 +56,7 @@ export default async function Data({
 	// GET THE MAP (IT MAY NEED TO BE GENERATED THE FIRST TIME WHICH COULD TAKE A FEW SECONDS)
 	// GET THE MAP
 	const { status, file: mapFile } = await woldMap({
-		platform: 'solution', // IT DOES NOT MATTER WHICH PLATFORM HERE
+		platform: 'experiment', // IT DOES NOT MATTER WHICH PLATFORM HERE
 		projsize: 1440 * .75,
 		base_color: '#000',
 		layers: mapLayers,

@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
+import Link from '@/app/ui/components/Link';
 import { pin } from '@/app/lib/data/platform-api';
 import { Button } from '@/app/ui/components/Button';
 import { handleBoard, removeFromBoardApi } from './utils';
@@ -129,7 +129,7 @@ export default function Card({
       )}
     >
       {/* BAND WITH SOURCE NAME */}
-      <Link href={href} passHref target={'_blank'} rel={'noopener noreferrer'}>
+      <Link href={href} passHref openInNewTab={openInNewTab}>
         <div
           className={clsx(
             'band flex w-full justify-between !border-t-0 lg:text-[14px]',
@@ -151,8 +151,7 @@ export default function Card({
           <Link
             href={href}
             passHref
-            target={'_blank'}
-            rel={'noopener noreferrer'}
+            openInNewTab={openInNewTab}
           >
             <h1>{title.replace(/\&amp;/g, '&')}</h1>
             <p>{description.replace(/\&amp;/g, '&')}</p>

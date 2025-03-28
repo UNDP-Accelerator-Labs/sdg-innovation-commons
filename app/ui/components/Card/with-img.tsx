@@ -1,7 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import Link from 'next/link';
+import Link from '@/app/ui/components/Link';
 import { usePathname } from 'next/navigation';
 import platformApi, { engageApi, pin } from '@/app/lib/data/platform-api';
 import { Button } from '@/app/ui/components/Button';

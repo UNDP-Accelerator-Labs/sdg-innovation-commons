@@ -99,7 +99,7 @@ async function getCountryNames (data: any) {
         return self.indexOf(value) === index;
     });
 
-    const countryNames: any[] = await platformApi({ }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
+    const countryNames: any[] = await platformApi({ }, 'experiment', 'countries'); // HERE experiment IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
     data.forEach((d: any) => {
         d.country = countryNames?.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
     });

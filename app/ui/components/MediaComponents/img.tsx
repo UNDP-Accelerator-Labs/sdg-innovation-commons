@@ -20,7 +20,7 @@ export default function Img({
                 <p className='font-space-mono text-[14px] leading-[20px] mb-[10px]'><b>{instruction}</b></p>
             )}
             <div className='w-full border-[1px] border-solid mb-[40px] overflow-hidden'>
-                <img src={`${base}/${src}`} alt='Image' className='h-full max-h-[60vh] block m-auto' />
+                <img src={ base ? `${base}/${src}` : src} alt='Image' className='h-full max-h-[60vh] block m-auto' />
             </div>
             </>
         )

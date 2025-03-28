@@ -11,6 +11,7 @@ interface filtersProps {
 	searchParams: any;
 	platform: string;
 	tabs: string[];
+	useNlp?: boolean;
 }
 
 export default function Filters({
@@ -18,6 +19,7 @@ export default function Filters({
 	searchParams,
 	platform,
 	tabs,
+	useNlp = false,
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
@@ -38,7 +40,8 @@ export default function Filters({
 		const meta: any[] = await metaData({ 
 		    searchParams, 
 		    platforms: 'solution', // TO DO: NEED TO UPDATE TO checkPlatform WHEN WE KNOW HOW TO GET COUNTRIES FROM nlp API
-		    filters
+		    filters,
+			useNlp,
 		});
 
 	    setHits(meta);
@@ -74,6 +77,7 @@ export default function Filters({
 										list={list}
 										loading={loading}
 										activeFilters={activeFilters}
+										// removeFilter={removeFilter}
 									/>
 								);
 							}

@@ -11,18 +11,20 @@ interface filtersProps {
 	searchParams: any;
 	platform: string;
 	tabs: string[];
+	useNlp?: boolean;
 }
 
 export default function Filters({
 	className,
 	searchParams,
 	platform,
-	tabs
+	tabs,
+	useNlp = false,
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
 	let filters: string[] = []
-	if (platform === 'all') filters = ['countries']
+	if (platform === 'all') filters = ['countries',]
 	else filters = ['countries', 'thematic areas', 'sdgs', 'methods', 'datasources'];
 	const space = 'published';
 	
@@ -39,7 +41,8 @@ export default function Filters({
 	    const meta: any[] = await metaData({ 
 	        searchParams, 
 	        platforms: checkPlatform, 
-	        filters
+	        filters,
+			useNlp,
 	    });
 	    setHits(meta);
 	    setLoading(false);
@@ -74,6 +77,7 @@ export default function Filters({
 									list={list}
 									loading={loading}
 									activeFilters={activeFilters}
+									searchParams={searchParams}
 								/>
 							);
 						}

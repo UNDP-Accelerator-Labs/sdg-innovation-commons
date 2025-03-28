@@ -188,7 +188,7 @@ export async function updatePinboard(
   description: string
 ) {
   const base_url: string | undefined = commonsPlatform.find(
-    (p) => p.key === 'solution'
+    (p) => p.key === 'experiment'
   )?.url;
 
   const url = `${base_url}/save/pinboard`;
@@ -203,5 +203,25 @@ export async function updatePinboard(
     method: 'POST',
     body,
   });
+  return data;
+}
+
+
+export async function getRegion(region: string | string[]) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'experiment'
+  )?.url;
+
+  let _region = Array.isArray(region) ? region : [region];
+
+  const regions = Array.isArray(region) ? region.map(r => `regions=${r}`).join('&') : `regions=${region}`;
+  const url = `${base_url}/apis/fetch/countries?${regions}`;
+  let data = await get({
+    url,
+    method: 'GET',
+  });
+
+  data = data.filter((d: any) => _region.includes(d?.undp_region))
+
   return data;
 }

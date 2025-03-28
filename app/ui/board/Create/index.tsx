@@ -35,7 +35,7 @@ export default function Create({ isOpen, onClose }: Props) {
     try {
       const response = await platformApi(
         { output: 'create' },
-        'solution',
+        'experiment',
         'pinboard',
         false,
         'POST',
