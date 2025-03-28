@@ -21,7 +21,7 @@ export default async function Data({
     // LOAD BOARD
     const boardData: any = await platformApi(
         { ...searchParams, ...{ pinboard: id, limit: page_limit }, ...databases },
-        'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
+        'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
         'pinboards'
     );
     const pages = Math.ceil(boardData?.total / page_limit) ?? 1;

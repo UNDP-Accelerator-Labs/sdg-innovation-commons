@@ -12,7 +12,7 @@ export default async function Data({
 }: Props) {
 	let result = await platformApi(
 	    { ...searchParams, ...{ limit: page_limit, pinboard: boards } },
-	    'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
+	    'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
 	    'pinboards'
 	);
 	let data: any[] = [];

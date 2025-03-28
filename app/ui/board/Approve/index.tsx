@@ -37,7 +37,7 @@ export default function Approve({ isOpen, onClose, id, user, title }: Props) {
     try {
       const response = await platformApi(
         { output: 'decide' },
-        'solution',
+        'experiment',
         'pinboard',
         false,
         'POST',

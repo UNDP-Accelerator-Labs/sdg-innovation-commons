@@ -26,7 +26,7 @@ export default function Home() {
     async function fetchData() {
       const { data: board, count: board_count } = await platformApi(
         { space : session?.rights >= 3 ? 'all' : 'private' },
-        "solution",
+        "experiment",
         "pinboards"
       );
       setBoards(board);

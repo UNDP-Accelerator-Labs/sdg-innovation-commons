@@ -43,7 +43,7 @@ export default function Section({ searchParams }: Props) {
     setLoading(true);
     const { data, count } = await platformApi(
       { ...searchParams, ...{ limit: page_limit, space: _space, databases } },
-      'solution', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
+      'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
     );
     const pages = Math.ceil(count / page_limit);

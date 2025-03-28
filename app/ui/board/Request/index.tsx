@@ -31,7 +31,7 @@ export default function Request({ isOpen, onClose, id }: Props) {
     try {
       const response = await platformApi(
         { output: 'request' },
-        'solution',
+        'experiment',
         'pinboard',
         false,
         'POST',
