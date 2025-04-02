@@ -3,7 +3,7 @@ export const collection = {
 	title: 'Justice Innovation',
 	description: 'This collection looks at the dataset of grassroots innovation (also called "solutions") mapped by the Accelerator Labs on the African continent and related to food and agriculture.',
 	creatorName: 'Jeremy Boy',
-	mainImage: '/images/bg-as.jpg',	
+	mainImage: '/images/access_justice.jpeg',	
 	sections: [
 		{
 			items: [
