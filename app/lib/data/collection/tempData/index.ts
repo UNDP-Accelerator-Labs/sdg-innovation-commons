@@ -4,6 +4,7 @@ import { collection as digitalFinancialInclusion } from './digital-financial-inc
 import { collection as sustainableTourism } from './sustainable-tourism';
 import { collection as africanAgritech } from './african-solutions-agritech';
 import { collection as africanGreentech } from './african-solutions-greentech';
+import { collection as justice } from './justice';
 
 export const collection = [
 	circularEcnomy,
@@ -12,4 +13,5 @@ export const collection = [
 	sustainableTourism,
 	africanAgritech,
 	africanGreentech,
+	justice,
 ]
