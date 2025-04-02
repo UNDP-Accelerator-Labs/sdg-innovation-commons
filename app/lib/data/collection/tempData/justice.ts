@@ -1,7 +1,7 @@
 export const collection = {
 	id: 'justice',
 	title: 'Justice Innovation',
-	description: 'This collection looks at the dataset of grassroots innovation (also called "solutions") mapped by the Accelerator Labs on the African continent and related to food and agriculture.',
+	description: 'In this collection, you will find a non-exhaustive list of examples of what UNDP sees, tests, and learns about attempts at innovating access to justice around the world.',
 	creatorName: 'Jeremy Boy',
 	mainImage: '/images/access_justice.jpeg',	
 	sections: [
@@ -29,6 +29,10 @@ export const collection = {
 						'<b>Innovations in Justice Transformation:</b> What new approaches are being tested to drive systemic change?' ,
 						'<b>Digitalization and E-Justice:</b> How can technology be used to improve access to justice, transparency, and efficiency?',
 					]
+				},
+				{
+					type: 'txt',
+					txt: 'Join us on this journey towards a more just and equitable world.'
 				},
 			]
 		},
