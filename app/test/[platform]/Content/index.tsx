@@ -15,6 +15,8 @@ import { Button } from '@/app/ui/components/Button';
 import Filters from '../Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
+import ResultsInfo from '@/app/ui/components/ResultInfo';
+
 
 export interface PageStatsResponse {
   total: number;
@@ -58,6 +60,7 @@ export default function Section({
   const [allObjectIdz, setAllObjectIdz] = useState<any>();
 
   const [useNlp, setUseNlp] = useState<boolean>(true);
+  const [total, setTotal] = useState<number>(0);
 
   const handleAddAllToBoard = (e: any) => {
     e.preventDefault();
@@ -106,6 +109,7 @@ export default function Section({
       setAllObjectIdz(null);
       setallowDownLoad(true);
       setUseNlp(false);
+      setTotal(total);
     } else { // Search using NLP
       console.log('look for search term ', search);
       let doc_type: string[];
@@ -133,7 +137,9 @@ export default function Section({
       const { total, pages: totalPages }: any = await pagestats(
         page,
         doc_type,
-        3
+        {
+          ...searchParams,
+        }
       );
       setPages(totalPages);
 
@@ -143,6 +149,7 @@ export default function Section({
       });
 
       setUseNlp(true);
+      setTotal(total);
 
       const sorted_keys: Record<string, number[]> = {};
 
@@ -273,6 +280,8 @@ export default function Section({
               </>
             ) : null}
           </p>
+
+          <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
 
           {/* Display tabs */}
           <nav className="tabs items-end">

@@ -18,9 +18,10 @@ export function CardLink({ children, href, className, openInNewTab, ...rest }: P
     const handleClick = () => {
         setIsLoading(true);
     };
+
     return (
         <>
-            <Loading isLoading={isLoading} />
+            <Loading isLoading={isLoading && !openInNewTab} />
             <Link 
                 href={href} 
                 passHref 

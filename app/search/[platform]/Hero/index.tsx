@@ -18,7 +18,7 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
   const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
   const { sharedState, setSharedState } = useSharedState();
-  const { isLogedIn } = sharedState || {};
+  const { isLogedIn, session } = sharedState || {};
   const { objectIdz, allObjectIdz } = sharedState?.searchData || {};
 
   const handleAddAllToBoard = (e: any) => {
@@ -123,6 +123,17 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
               />
             </div>
           </form>
+          <p className="lead mt-[-40px] mb-[20px]">
+            Pin interesting blogs, publications, news, and press releases on a
+            board by clicking “Add to board”. You can create new boards or add
+            to existing ones.
+            {isLogedIn && session?.pinboards?.length ? (
+              <>
+                Customize your boards by clicking on “My boards” at the bottom
+                right.
+              </>
+            ) : null}
+          </p>
         </div>
       </section>
     </>
