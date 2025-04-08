@@ -15,6 +15,7 @@ import { Button } from '@/app/ui/components/Button';
 import Filters from '../Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
+import ResultsInfo from '@/app/ui/components/ResultInfo';
 
 export interface PageStatsResponse {
   total: number;
@@ -44,11 +45,13 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
 
   const [objectIdz, setObjectIdz] = useState<number[]>([]);
   const [useNlp, setUseNlp] = useState<boolean>(true);
+  const [total, setTotal] = useState<number>(0);
   
   // Fetch data on component mount
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
+      if (searchParams.countries) searchParams.iso3 = searchParams.countries;
 
       let doc_type: string[];
       if (docType === 'all') doc_type = tabs.slice(1);
@@ -57,11 +60,14 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
       const { total, pages: totalPages }: PageStatsResponse = await pagestats(
         page,
         doc_type,
-        3
+        {
+          ...searchParams,
+        }
       );
       setPages(totalPages);
+      setTotal(total);
 
-      if (searchParams.countries) searchParams.iso3 = searchParams.countries;
+     
       const data = await nlpApi({
         ...searchParams,
         ...{ limit: page_limit, doc_type },
@@ -155,8 +161,8 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
               />
             </div>
           </form>
-
-          <p className="lead mb-[40px]">
+ 
+          <p className="lead mb-[20px]">
             Pin interesting blogs, publications, news, and press releases on a
             board by clicking “Add to board”. You can create new boards or add
             to existing ones.
@@ -167,6 +173,8 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
               </>
             ) : null}
           </p>
+          {/* Display results info */}
+          <ResultsInfo total={ hits.length ? total : 0} searchQuery={searchQuery} useNlp={useNlp} />
 
           {/* Display tabs */}
           <nav className="tabs flex-wrap items-end">

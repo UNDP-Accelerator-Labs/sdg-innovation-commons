@@ -12,6 +12,8 @@ import { Button } from '@/app/ui/components/Button';
 import DropDown from '@/app/ui/components/DropDown';
 import Filters from '../Filters';
 import clsx from 'clsx';
+import ResultsInfo from '@/app/ui/components/ResultInfo';
+
 
 export interface PageStatsResponse {
   total: number;
@@ -41,6 +43,7 @@ export default function Section({ searchParams }: SectionProps) {
   const [hrefs, setHref] = useState<string>('');
 
   const [useNlp, setUseNlp] = useState<boolean>(true);
+  const [total, setTotal] = useState<number>(0);
 
   const platform = 'solution';
 
@@ -53,6 +56,7 @@ export default function Section({ searchParams }: SectionProps) {
       searchParams
     );
     setPages(totalPages);
+    setTotal(total);
 
     let data: any[];
 
@@ -182,7 +186,7 @@ export default function Section({ searchParams }: SectionProps) {
             </div>
           </form>
 
-          <p className="lead mb-[40px]">
+          <p className="lead mb-[20px]">
             Pin interesting solutions notes on a board by clicking “Add to
             board”. You can create new boards or add to existing ones.
             {isLogedIn && session?.pinboards?.length ? (
@@ -192,6 +196,8 @@ export default function Section({ searchParams }: SectionProps) {
               </>
             ) : null}
           </p>
+
+           <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
 
           <div className="section-content">
             {/* Display Cards */}

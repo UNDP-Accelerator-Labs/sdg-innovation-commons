@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { PageStatsResponse, SectionProps } from '@/app/test/[platform]/Content';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import ResultsInfo from '@/app/ui/components/ResultInfo';
 
 export default function Content({
   searchParams,
@@ -35,6 +36,7 @@ export default function Content({
 
   // Manage the active tab and data
   const [docType, setDocType] = useState<string>(initialTab);
+  const [total, setTotal] = useState<number>(0);
 
   async function fetchData(): Promise<void> {
     setLoading(true);
@@ -48,9 +50,12 @@ export default function Content({
     const { total, pages: totalPages }: PageStatsResponse = await pagestats(
       page,
       doc_type,
-      3
+      {
+        ...searchParams,
+      }
     );
     setPages(totalPages);
+    setTotal(total);
 
     data = await nlpApi({
       ...searchParams,
@@ -92,6 +97,13 @@ export default function Content({
 
   return (
     <>
+      {/* Display results info */}
+      <section className="home-section !border-t-0 py-0">
+        <div className="inner xxl:px-[80px] xxl:w-[1440px] mx-auto w-[375px] px-[20px] md:w-[744px] lg:w-[992px] lg:px-[80px] xl:w-[1200px] xl:px-[40px]">
+          <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={true} />
+        </div>
+      </section>
+
       <section className="lg:home-section !border-t-0 lg:pb-[80px]">
         <div className="inner xxl:px-[80px] xxl:w-[1440px] mx-auto w-[375px] px-[20px] md:w-[744px] lg:w-[992px] lg:px-[80px] xl:w-[1200px] xl:px-[40px]">
           {/* Display tabs */}
@@ -195,7 +207,7 @@ export default function Content({
             <div className="col-start-2 flex w-full justify-center">
               {!loading ? (
                 <>
-                { hits.length ? <Pagination page={+page} totalPages={pages} /> : null }
+                  {hits.length ? <Pagination page={+page} totalPages={pages} /> : null}
                 </>
               ) : (
                 <small className="block w-full text-center">

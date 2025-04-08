@@ -20,7 +20,7 @@ export default function DefaultLink({ children, href, className, openInNewTab, s
     };
     return (
         <>
-            <Loading isLoading={isLoading} />
+            <Loading isLoading={isLoading && !openInNewTab} />
             <Link 
                 href={href} 
                 passHref 

@@ -2,14 +2,13 @@ import clsx from 'clsx';
 import statsApi from '@/app/lib/data/platform-pagination';
 import nlpStatsApi from '@/app/lib/data/nlp-pagination';
 import { page_limit } from '@/app/lib/utils';
-import Link from 'next/link';
 
 export async function pagestats(page: number, platform: string | string[], _kwargs: any) {
 	let status: number = 3;
-
+	let { limit, offset, search, language, iso3 } = _kwargs;
 	async function fetchPages() {
 	    if (Array.isArray(platform)) {
-	    	const {doc_count: total } = await nlpStatsApi({ doc_type: platform });
+	    	const {doc_count: total } = await nlpStatsApi({ doc_type: platform, iso3, language, }) || {};
 	    	const pages = Math.ceil(total / page_limit);
 	    	return { total, page, pages };
 	    } else {
