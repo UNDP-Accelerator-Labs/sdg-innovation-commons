@@ -1,3 +1,5 @@
+import DOMPurify from 'isomorphic-dompurify';
+
 interface ResultsInfoProps {
     total: number;
     searchQuery: string;
@@ -11,7 +13,7 @@ interface ResultsInfoProps {
         {searchQuery && (
           <span
             dangerouslySetInnerHTML={{
-              __html: `for <strong>${searchQuery}</strong>`,
+              __html: DOMPurify.sanitize(`for <strong>${searchQuery}</strong>`),
             }}
           />
         )}

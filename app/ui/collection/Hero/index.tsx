@@ -5,7 +5,7 @@ import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/featured-card';
 import clsx from 'clsx';
-// import Filters from '../Filters';
+import DOMPurify from 'isomorphic-dompurify';
 
 
 interface Props {
@@ -100,7 +100,7 @@ export default function Hero({
                                         <span>{title}</span>
                                     </span>
                                 </h1>
-                                <p className='mb-[40px]' dangerouslySetInnerHTML={{ __html: description }} ></p>
+                                <p className='mb-[40px]' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }} ></p>
                             </div>
                             <div className='flex flex-wrap flex-row gap-1.5 mb-[20px] mt-[40px]'>
                                 {tags.highlight.map((d: any, i: number) => (

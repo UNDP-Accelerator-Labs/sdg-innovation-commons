@@ -127,3 +127,32 @@ export type incomingRequestParams = {
 }
 
 export const shimmer = 'before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent';
+
+export const URLsToLinks = function (str = '') {
+  // INSPIRED BY https://stackoverflow.com/questions/49634850/convert-plain-text-links-to-clickable-links
+  // URLs starting with http://, https://, or ftp://
+  const replacePattern1 =
+    /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
+  
+  if (typeof str !== 'string') return str;
+  else {
+	  str = str.valueOf().replace(
+	    replacePattern1,
+	    '<a class="text-blue-500 cursor-pointer" href="$1" target="_blank">$1</a>',
+	  );
+
+	  // URLs starting with "www." (without // before it, or it'd re-link the ones done above).
+	  const replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
+	  str = str.replace(
+	    replacePattern2,
+	    '$1<a class="text-blue-500 cursor-pointer" href="http://$2" target="_blank">$2</a>',
+	  );
+
+	  // Change email addresses to mailto:: links.
+	  const replacePattern3 =
+	    /(([a-zA-Z0-9\-\_\.])+@[a-zA-Z\_]+?(\.[a-zA-Z]{2,6})+)/gim;
+	  str = str.replace(replacePattern3, '<a class="text-blue-500 cursor-pointer" href="mailto:$1">$1</a>');
+
+	  return str;
+	}
+};

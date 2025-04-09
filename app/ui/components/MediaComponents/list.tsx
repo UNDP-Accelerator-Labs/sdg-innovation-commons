@@ -1,6 +1,6 @@
 'use client';
 import clsx from 'clsx';
-import { useRef, useEffect } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface Props {
     item: any;
@@ -20,7 +20,7 @@ export default function List({
         )}
         <ul className='mb-[40px] mt-0'>
             {items.map((d: string, i: number) =>  (
-                <li key={i} className={clsx('mb-[10px]', className)} dangerouslySetInnerHTML={{ __html: d }} />
+                <li key={i} className={clsx('mb-[10px]', className)} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(d) }} />
             ))}
         </ul>
         </>

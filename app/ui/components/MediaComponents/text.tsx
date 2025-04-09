@@ -1,6 +1,7 @@
 'use client';
 import clsx from 'clsx';
 import { useRef, useEffect } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 
 interface Props {
     item: any;
@@ -25,7 +26,7 @@ export default function Txt({
             {!instruction ? null : (
                 <p className={clsx('font-space-mono text-[14px] leading-[20px] mb-[10px]', className)}><b>{instruction}</b></p>
             )}
-            <p ref={ref} className={clsx('mb-[40px]', className)} dangerouslySetInnerHTML={{ __html: txt }} ></p>
+            <p ref={ref} className={clsx('mb-[40px]', className)} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(txt) }} ></p>
             </>
         )
     }
