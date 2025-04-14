@@ -48,10 +48,9 @@ export default async function Section({ id, platform }: Props) {
     current_user_engagement,
     engagement,
   } = datum || {};
-
   let lab: string | undefined = undefined;
-  const isUNDP: boolean = email.includes('@undp.org');
-  const isLabber: boolean = position.includes('Head of');
+  const isUNDP: boolean = email?.includes('@undp.org');
+  const isLabber: boolean = position?.includes('Head of');
   if (isUNDP && isLabber) lab = `UNDP ${country} Accelerator Lab`;
 
   if (!tags?.length && source) {
@@ -152,7 +151,7 @@ export default async function Section({ id, platform }: Props) {
             <div className={clsx('p-3', `bg-light-${color}`)}>
               <Disclaimer platform={base} />
             </div>
-            {sections.map((s: any, j: number) => {
+            {sections?.map((s: any, j: number) => {
               const { title, items } = s || {};
               return (
                 <div key={j}>

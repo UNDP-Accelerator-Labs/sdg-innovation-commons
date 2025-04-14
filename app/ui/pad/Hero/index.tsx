@@ -40,7 +40,7 @@ export default function Hero({
 	engagement,
 }: Props) {
 	if (padtype === 'solution') padtype = 'solution note';
-	padtype = `${padtype.slice(0, 1).toUpperCase()}${padtype.substring(1)}`;
+	padtype = `${padtype?.slice(0, 1).toUpperCase()}${padtype?.substring(1)}`;
 	let labLink: string = '';
 	if (lab) {
 		if (lab.includes('Global')) {
@@ -163,7 +163,7 @@ export default function Hero({
 							</a>
 						)}
 						<div className="mb-[20px] mt-[40px] flex flex-row flex-wrap gap-1.5">
-							{tags.map((d: any, i: number) => {
+							{tags?.map((d: any, i: number) => {
 								return (
 									<button className={clsx('chip', tagStyleShade)} key={i}>
 										{d}
