@@ -101,7 +101,17 @@ async function getCountryNames (data: any) {
 
     const countryNames: any[] = await platformApi({ }, 'experiment', 'countries'); // HERE experiment IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
     data.forEach((d: any) => {
-        d.country = countryNames?.find((c: any) => d.meta.iso3.includes(c.iso3))?.country;
+        const matchingCountries = countryNames?.filter((c: any) => d.meta.iso3?.includes(c.iso3));
+    if (matchingCountries?.length) {
+        // Check for entries without sub_iso3 first
+        const countryWithoutSubIso3 = matchingCountries.find((c: any) => !c.sub_iso3);
+        if (countryWithoutSubIso3) {
+            d.country = countryWithoutSubIso3?.country;
+        } else {
+            // Use the first entry with sub_iso3 if all have sub_iso3
+            d.country = matchingCountries[0]?.country;
+        }
+    }
     });
 
     return data;
