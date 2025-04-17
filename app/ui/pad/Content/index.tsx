@@ -56,14 +56,14 @@ export default async function Section({ id, platform }: Props) {
   if (!tags?.length && source) {
     const { tags: sourceTags } = source;
     tags = sourceTags
-      .filter((d: any) => d.type === 'thematic_areas')
-      .map((d: any) => d.name);
+      ?.filter((d: any) => d.type === 'thematic_areas')
+      ?.map((d: any) => d.name);
   }
   if (!sdg?.length && source) {
     const { tags: sourceTags } = source;
     sdg = sourceTags
       ?.filter((d: any) => d?.type === 'sdgs')
-      .map((d: any) => d?.key);
+      ?.map((d: any) => d?.key);
   }
   if (!locations?.length) {
     locations = [{ iso3, country }];
@@ -71,32 +71,32 @@ export default async function Section({ id, platform }: Props) {
 
   let datasources: string[] = rawtags
     ?.filter((d: any) => d.type === 'datasources')
-    .map((d: any) => d.name);
+    ?.map((d: any) => d.name);
   let methods: string[] = rawtags
     ?.filter((d: any) => d.type === 'methods')
-    .map((d: any) => d.name);
+    ?.map((d: any) => d.name);
   if (!datasources?.length && typeof source === 'object') {
     const { tags: sourceTags } = source;
     datasources = sourceTags
-      ?.filter((d: any) => d.type === 'datasources')
-      .map((d: any) => d.name);
+      ?.filter((d: any) => d?.type === 'datasources')
+      ?.map((d: any) => d.name);
   }
   if (!methods?.length && typeof source === 'object') {
     const { tags: sourceTags } = source;
     methods = sourceTags
       ?.filter((d: any) => d.type === 'methods')
-      .map((d: any) => d.name);
+      ?.map((d: any) => d.name);
   }
 
   let scaling: string[] = [];
   let cost: string[] = [];
   if (metadata?.length) {
     scaling = metadata
-      .filter((d: any) => d.name === 'scaling')
-      .map((d: any) => d.value);
+      ?.filter((d: any) => d.name === 'scaling')
+      ?.map((d: any) => d.value);
     cost = metadata
-      .filter((d: any) => d.name === 'total_cost')
-      .map((d: any) => d.value);
+      ?.filter((d: any) => d.name === 'total_cost')
+      ?.map((d: any) => d.value);
   }
 
   let color: string = 'green';
@@ -105,7 +105,7 @@ export default async function Section({ id, platform }: Props) {
 
   const imgBase = vignette?.split('/uploads/')[0];
 
-  const mapLayers = locations.map((d: any) => {
+  const mapLayers = locations?.map((d: any) => {
     return { ...d, ...{ type: 'point', color: '#d2f960', count: 1 } };
   });
   const { status, file: mapFile } = await woldMap({
