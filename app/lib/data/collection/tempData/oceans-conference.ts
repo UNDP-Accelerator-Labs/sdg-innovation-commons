@@ -29,7 +29,7 @@ export const collection = {
 				},
 				{
 					type: 'txt',
-					txt: 'The diagram below shows how these patterns support the panels in which the Oceans Conference is organized. The names of the panels have been shortened; their non-shortened list is <a href="https://sdgs.un.org/sites/default/files/2024-11/USG%20Letter%20to%20ECESA%20Plus_UNOC%202025_24-01789.pdf">here</a>.'
+					txt: 'The diagram below shows how these patterns support the panels in which the Oceans Conference is organized. The names of the panels have been shortened; their non-shortened list is <a href="https://sdgs.un.org/sites/default/files/2024-11/USG%20Letter%20to%20ECESA%20Plus_UNOC%202025_24-01789.pdf">here</a>. An interactive version of the diagram is visible <a href="https://public.flourish.studio/visualisation/22764683/">here</a>.'
 				},
 				{
 					type: 'img',
