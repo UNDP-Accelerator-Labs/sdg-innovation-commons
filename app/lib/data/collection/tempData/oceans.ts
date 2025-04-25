@@ -33,7 +33,7 @@ export const collection = {
 				},
 				{
 					type: 'img',
-					src: '/images/oceans-conference-sankey.png'
+					src: '/images/ocean-conference-sankey.png'
 				}
 			]
 		},
