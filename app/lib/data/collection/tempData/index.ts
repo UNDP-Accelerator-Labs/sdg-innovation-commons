@@ -5,7 +5,7 @@ import { collection as sustainableTourism } from './sustainable-tourism';
 import { collection as africanAgritech } from './african-solutions-agritech';
 import { collection as africanGreentech } from './african-solutions-greentech';
 import { collection as justice } from './justice';
-import { collection as oceans} from './oceans-conference';
+import { collection as oceansConference} from './oceans-conference';
 
 export const collection = [
 	circularEcnomy,
