@@ -1,6 +1,5 @@
 'use client';
 import clsx from 'clsx';
-import { useRef, useEffect } from 'react';
 import DOMPurify from 'isomorphic-dompurify';
 
 interface Props {
@@ -13,21 +12,31 @@ export default function Txt({
     className,
 }: Props) {
     const { instruction, txt } = item;
-    const ref = useRef<HTMLDivElement>(null);
 
     if (!txt?.length && !instruction?.length) return null;
-    else {
-        useEffect(() => {
-            if (ref.current) ref.current.innerHTML = txt ? txt.replace(/\n+/g, '<br/>') : null;
-        }, [ref]);
 
-        return (
-            <>
+    // Sanitize the text content
+    let sanitizedTxt = DOMPurify.sanitize(txt);
+
+    // Add required class to all <a> tags using a regular expression
+    sanitizedTxt = sanitizedTxt.replace(
+        /<a\s+/g,
+        '<a target="_blank" class="text-blue-500 cursor-pointer" '
+    );
+
+    return (
+        <>
             {!instruction ? null : (
-                <p className={clsx('font-space-mono text-[14px] leading-[20px] mb-[10px]', className)}><b>{instruction}</b></p>
+                <p className={clsx('font-space-mono text-[14px] leading-[20px] mb-[10px]', className)}>
+                    <b>{instruction}</b>
+                </p>
             )}
-            <p ref={ref} className={clsx('mb-[40px]', className)} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(txt) }} ></p>
-            </>
-        )
-    }
+            <div
+                className={clsx('mb-[40px]', className)}
+                dangerouslySetInnerHTML={{
+                    __html: sanitizedTxt,
+                }}
+            ></div>
+        </>
+    );
 }
