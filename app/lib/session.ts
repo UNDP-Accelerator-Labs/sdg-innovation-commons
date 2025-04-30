@@ -3,6 +3,7 @@ import { cookies } from 'next/headers';
 import get from '@/app/lib/data/get';
 import { commonsPlatform, baseHost, base_url as issuer } from '@/app/lib/utils';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import { randomUUID } from 'crypto';
 
 interface TokenPayload {
   uuid?: string;
@@ -11,13 +12,15 @@ interface TokenPayload {
   pinboards?: any;
 }
 const TOKEN_EXPIRATION_MS = 2 * 60 * 60 * 1000; //2 hrs
+const { NODE_ENV } = process.env;
+const isLocalhost = NODE_ENV === 'development' || NODE_ENV === 'test';
 
 export default async function getSession() {
   try {
     const cookieStore = await cookies();
     const s_id: string | null = await get_session_id();
 
-    if (!s_id) {
+    if (!s_id && !isLocalhost) {
       cookieStore.delete('x-platform-rev');
       console.log('No session ID found, returning null.');
       return null;
@@ -34,18 +37,33 @@ export default async function getSession() {
       method: 'GET',
     });
 
-    if (!session?.uuid) {
+    if (!session?.uuid && !isLocalhost) {
       cookieStore.delete('x-platform-rev');
       console.log('Session UUID not found, returning null.');
       return null;
     }
     // Generate tokens for session
-    const name = await getToken({
-      uuid: session?.uuid,
-      username: session.username,
-      rights: session.rights,
-      pinboards: session?.pinboards,
-    });
+    let name: string | null = null;
+    const localsession =
+    {
+      uuid: randomUUID(),
+      username: 'localtest',
+      rights: 3,
+      pinboards: [],
+    }
+
+    if (isLocalhost) {
+      name = await getToken({
+        ...localsession
+      });
+    } else {
+      name = await getToken({
+        uuid: session?.uuid,
+        username: session.username,
+        rights: session.rights,
+        pinboards: session?.pinboards,
+      });
+    }
 
     // Set cookies
     const cookieOptions = {
@@ -57,6 +75,9 @@ export default async function getSession() {
     };
 
     cookieStore.set('x-platform-rev', name, cookieOptions);
+    if (isLocalhost) {
+      return localsession;
+    }
     return session;
   } catch (error) {
     console.error('Error in getSession:', error);
@@ -100,6 +121,9 @@ export const is_user_logged_in = async () => {
   const s_id: string | null = await get_session_id();
   if (name && typeof name === 'object' && 'username' in name && s_id) {
     return !!name.username;
+  }
+  else if (isLocalhost) {
+    return true;
   }
   return false;
 };

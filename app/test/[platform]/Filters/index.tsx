@@ -25,7 +25,7 @@ export default function Filters({
 
 	let filters: string[] = []
 	if (platform === 'all') filters = ['countries',]
-	else filters = ['countries', 'thematic areas', 'sdgs', 'methods', 'datasources'];
+	else filters = ['countries', 'regions', 'thematic areas', 'sdgs', 'methods', 'datasources'];
 	const space = 'published';
 	
 	const [hits, setHits] = useState<any[]>([]);
@@ -69,7 +69,6 @@ export default function Filters({
 						if (loading) return('Loading')
 						else {
 							const list = hits?.find((h: any) => h.key === d)?.data?.filter((tag: any) => tag.name?.length) || [];
-							
 							return (
 								<FilterGroup
 									key={i}

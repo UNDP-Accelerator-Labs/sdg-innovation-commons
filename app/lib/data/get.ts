@@ -42,7 +42,7 @@ export default async function get({ url, method, body, cache }: Props) {
           throw new Error('Error parsing JSON for status 400');
         }
       } else {
-        throw new Error(`Error: ${error.message}`);
+        throw new Error(`Error: ${error?.message}`);
       }
     } else {
       throw new Error('An unexpected error occurred');

@@ -25,7 +25,7 @@ interface SectionProps {
 }
 
 export default function Section({ searchParams }: SectionProps) {
-  const { page, search } = searchParams;
+  const { page, search, thematic_areas, sdgs, countries } = searchParams;
 
   const { sharedState, setSharedState } = useSharedState();
   const { isLogedIn, session } = sharedState || {};
@@ -60,7 +60,7 @@ export default function Section({ searchParams }: SectionProps) {
 
     let data: any[];
 
-    if (!search) {
+    if (!search || hasFilterParams()) {
       data = await platformApi(
         { ...searchParams, ...{ limit: page_limit } },
         platform,
@@ -103,6 +103,11 @@ export default function Section({ searchParams }: SectionProps) {
     }));
   };
 
+  function hasFilterParams(): boolean {
+    const keysToCheck = ['thematic_areas', 'sdgs', 'countries', 'regions'];
+    return keysToCheck.some((key) => key in searchParams && searchParams[key]);
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -132,7 +137,7 @@ export default function Section({ searchParams }: SectionProps) {
               </Button>
             </div>
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              {(hrefs?.length > 0 || (isLogedIn && search?.length > 0)) && (
+              {(hrefs?.length > 0 || (isLogedIn && search?.length > 0 )) && (
                 <DropDown>
                   {hrefs?.length > 0 && (
                     <MenuItem
@@ -148,7 +153,7 @@ export default function Section({ searchParams }: SectionProps) {
                       </a>
                     </MenuItem>
                   )}
-                  {isLogedIn && search?.length > 0 && hits.length ? (
+                  {isLogedIn && (search?.length > 0 || hasFilterParams()) && hits.length ? (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"

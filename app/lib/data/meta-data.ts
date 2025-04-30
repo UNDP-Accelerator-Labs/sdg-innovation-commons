@@ -12,7 +12,7 @@ interface Props {
 
 export default async function metaData(_kwargs: Props) {
   let { filters, space, platforms, searchParams, useNlp } = _kwargs;
-  if (!filters) filters = ['countries', 'thematic areas', 'sdgs'];
+  if (!filters) filters = ['countries', 'regions', 'thematic areas', 'sdgs'];
   if (!platforms) platforms = ['solution'];
   else if (!Array.isArray(platforms)) platforms = [platforms];
 
@@ -144,11 +144,18 @@ export default async function metaData(_kwargs: Props) {
     });
   }
 
-  if (regions.length) {
-    data.push({
+  if (regions?.length) {
+    data = data || []; 
+    const regionsData = {
       key: 'regions',
       data: regions,
-    });
+    };
+    const existingIndex = data.findIndex((item: any) => item.key === 'regions');
+    if (existingIndex !== -1) {
+        data[existingIndex] = regionsData; 
+    } else {
+        data.push(regionsData); 
+    }
   }
 
   return data;
