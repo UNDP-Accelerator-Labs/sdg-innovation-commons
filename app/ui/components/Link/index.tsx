@@ -14,10 +14,14 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 export default function DefaultLink({ children, href, className, openInNewTab, scroll, ...rest }: Props) {
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleClick = () => {
-        if(openInNewTab) return;
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        // Check if Ctrl (or Cmd on Mac) or Shift is pressed
+        if (event.ctrlKey || event.metaKey || event.shiftKey || openInNewTab) {
+            return; 
+        }
         setIsLoading(true);
     };
+
     return (
         <>
             <Loading isLoading={isLoading && !openInNewTab} />
@@ -29,7 +33,6 @@ export default function DefaultLink({ children, href, className, openInNewTab, s
                 rel={openInNewTab ? 'noopener noreferrer' : undefined} 
                 onClick={handleClick}
                 scroll={scroll}
-                // prefetch={true}
                 {...rest}
             >
                 {children}
