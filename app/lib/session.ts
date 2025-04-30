@@ -12,7 +12,7 @@ interface TokenPayload {
   pinboards?: any;
 }
 const TOKEN_EXPIRATION_MS = 2 * 60 * 60 * 1000; //2 hrs
-const { NODE_ENV } = process.env;
+const { NODE_ENV, APP_SESSION_KEY } = process.env;
 const isLocalhost = NODE_ENV === 'development' || NODE_ENV === 'test';
 
 export default async function getSession() {
@@ -21,7 +21,7 @@ export default async function getSession() {
     const s_id: string | null = await get_session_id();
 
     if (!s_id && !isLocalhost) {
-      cookieStore.delete('x-platform-rev');
+      cookieStore.delete(APP_SESSION_KEY as string);
       console.log('No session ID found, returning null.');
       return null;
     }
@@ -38,7 +38,7 @@ export default async function getSession() {
     });
 
     if (!session?.uuid && !isLocalhost) {
-      cookieStore.delete('x-platform-rev');
+      cookieStore.delete(APP_SESSION_KEY as string);
       console.log('Session UUID not found, returning null.');
       return null;
     }
@@ -74,7 +74,7 @@ export default async function getSession() {
       path: '/',
     };
 
-    cookieStore.set('x-platform-rev', name, cookieOptions);
+    cookieStore.set(APP_SESSION_KEY as string, name, cookieOptions);
     if (isLocalhost) {
       return localsession;
     }
@@ -109,7 +109,7 @@ export const session_token = async () => {
 };
 
 export const session_name = async () => {
-  const token: string | undefined = (await cookies()).get('x-platform-rev')
+  const token: string | undefined = (await cookies()).get(APP_SESSION_KEY as string)
     ?.value as string;
   if (!token) return null;
   const name = verifyToken(token);
