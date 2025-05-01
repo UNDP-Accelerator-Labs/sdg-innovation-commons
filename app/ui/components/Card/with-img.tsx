@@ -7,6 +7,8 @@ import platformApi, { engageApi, pin } from '@/app/lib/data/platform-api';
 import { Button } from '@/app/ui/components/Button';
 import { engage, handleBoard, removeFromBoardApi } from './utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import DropDown from '@/app/ui/components/DropDown';
+import { MenuItem } from '@headlessui/react';
 
 export interface BoardInfo {
   boards?: any[];
@@ -117,8 +119,9 @@ export default function Card({
     );
   };
 
-  const handleBoardFn = (action: ActionType) => {
+  const handleBoardFn = (action: ActionType, triggerAddToBoard: boolean = false) => {
     if (!isLogedIn) return showNotification();
+    if (triggerAddToBoard) return showAddToBoardModal();
     return handleBoard(
       removeFromBoard as boolean,
       showAddToBoardModal,
@@ -164,7 +167,7 @@ export default function Card({
       },
     }));
   };
-  
+
   useEffect(() => {
     const fetchHref = async () => {
       const url = await platformApi(
@@ -378,7 +381,7 @@ export default function Card({
                   />
                 </svg>
               </button>
-              <p className="mb-0 font-space-mono">
+              <p className="mb-0 font-space-mono px-1">
                 <b>{dislikeCounts}</b>
               </p>
             </div>
@@ -418,7 +421,10 @@ export default function Card({
                 </svg>
               </a>
             </div>
-            {isDisabled ? (
+
+            {/* Button for adding to board */}
+            {/* If the user is logged in and not on the board page, show the button */}
+            {(isDisabled || removeFromBoard) ? (
               ''
             ) : (
               <Button
@@ -434,6 +440,44 @@ export default function Card({
               >
                 {removeFromBoard ? 'Remove from' : 'Add to'} Board
               </Button>
+            )}
+
+            {/* Dropdown for adding to board */}
+            {/* If the user is logged in and on the board page, show the dropdown */}
+            {(isLogedIn && removeFromBoard) ? (
+              <div className="flex cursor-pointer items-end justify-items-end">
+                <DropDown className='!max-h-[40px] grow-0 border-l-0 !text-[14px] !px-[10px] w-[60%] lg:w-[80%]' height='!h-[43px]'>
+                  <MenuItem
+                    as="button"
+                    className="w-full bg-white text-start hover:bg-lime-yellow"
+                  >
+                    <div
+                      className="block border-none bg-inherit p-4 text-base text-inherit focus:bg-gray-100 focus:text-gray-900 focus:outline-none"
+                      onClick={() =>
+                        handleBoardFn('insert', true)
+                      }
+                    >
+                      Add to new board
+                    </div>
+                  </MenuItem>
+
+                  <MenuItem
+                    as="button"
+                    className="w-full bg-white text-start hover:bg-lime-yellow"
+                  >
+                    <div
+                      className="block border-none bg-inherit p-4 text-base text-inherit focus:bg-gray-100 focus:text-gray-900 focus:outline-none"
+                      onClick={() =>
+                        handleBoardFn('delete')
+                      }
+                    >
+                      Remove from this board
+                    </div>
+                  </MenuItem>
+                </DropDown>
+              </div>
+            ) : (
+              ''
             )}
           </div>
         </div>
