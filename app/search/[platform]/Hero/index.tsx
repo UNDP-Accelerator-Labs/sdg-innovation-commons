@@ -34,6 +34,11 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
     }));
   };
 
+  function hasFilterParams(): boolean {
+    const keysToCheck = ['countries'];
+    return keysToCheck.some((key) => key in searchParams && searchParams[key]);
+  }
+
   return (
     <>
       <section className="lg:home-section relative !border-t-0">
@@ -84,7 +89,7 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
             </div>
 
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              {isLogedIn && search?.length && objectIdz.length ? (
+              {isLogedIn && (search?.length || hasFilterParams()) && objectIdz.length ? (
                 <DropDown>
                   <MenuItem
                     as="button"

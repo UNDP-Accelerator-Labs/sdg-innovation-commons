@@ -19,7 +19,7 @@ export default function Filters({
 }: filtersProps) {
 	const { page, search, ...filterParams } = searchParams;
 
-	const filters = ['countries', 'thematic areas', 'sdgs'];
+	const filters = ['countries', 'regions', 'thematic areas', 'sdgs'];
 	const platform = 'solution';
 	const space = 'published';
 	

@@ -80,21 +80,7 @@ export default function Section({
 
     let data: any[];
 
-    let updatedFilterParams = { ...filterParams };
-    if (updatedFilterParams?.page) delete updatedFilterParams['page'];
-    if (updatedFilterParams?.search) delete updatedFilterParams['search'];
-    const hasFilters =
-      Object.values(updatedFilterParams)
-        ?.flat()
-        .filter(
-          (value) =>
-            value !== undefined &&
-            value !== null &&
-            value !== '' &&
-            !(Array.isArray(value) && value.length === 0)
-        )?.length > 0;
-
-    if (!hasFilters && !search && platform !== 'all') { // Search without filters ==> Use platformApi
+    if (hasFilterParams() && platform !== 'all') { // Search with filters ==> Use platformApi
       const { total, pages: totalPages }: PageStatsResponse = await pagestats(
         page,
         platform,
@@ -110,8 +96,10 @@ export default function Section({
       setallowDownLoad(true);
       setUseNlp(false);
       setTotal(total);
+
+      console.log('using platform api ', hits);
     } else { // Search using NLP
-      console.log('look for search term ', search);
+      console.log('using nlp api', search);
       let doc_type: string[];
       if (platform === 'all') doc_type = tabs.slice(1);
       else doc_type = [platform];
@@ -184,6 +172,11 @@ export default function Section({
     setLoading(false);
   }
 
+  function hasFilterParams(): boolean {
+    const keysToCheck = ['countries', 'regions', 'thematic_areas', 'sdgs', 'methods', 'datasources'];
+    return keysToCheck.some((key) => key in searchParams && searchParams[key]);
+  }
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -214,7 +207,7 @@ export default function Section({
             </div>
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
               {(allowDownLoad && hrefs?.length > 0) ||
-              (isLogedIn && search?.length > 0 && platform !== 'all') ? (
+              (isLogedIn && (search?.length || hasFilterParams()) && platform !== 'all') ? (
                 <DropDown>
                   {allowDownLoad && hrefs?.length > 0 && (
                     <MenuItem
@@ -230,7 +223,7 @@ export default function Section({
                       </a>
                     </MenuItem>
                   )}
-                  {isLogedIn && search?.length && hits.length ? (
+                  {isLogedIn && (search?.length || hasFilterParams()) && hits.length ? (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"

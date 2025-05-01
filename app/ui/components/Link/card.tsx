@@ -15,7 +15,11 @@ interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 export function CardLink({ children, href, className, openInNewTab, ...rest }: Props) {
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleClick = () => {
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+        // Check if Ctrl (or Cmd on Mac) or Shift is pressed
+        if (event.ctrlKey || event.metaKey || event.shiftKey || openInNewTab) {
+            return; 
+        }
         setIsLoading(true);
     };
 
