@@ -34,7 +34,7 @@ export default async function Data({
 	const missingLocations: any[] = locations.flat().filter((d: any) => !d.location);
 	let fillMissingLocations: any[] = [];
 	if (missingLocations.length) {
-		fillMissingLocations = await platformApi({ countries: locations.map((d: any) => d.iso3) }, 'solution', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
+		fillMissingLocations = await platformApi({ countries: locations.map((d: any) => d.iso3) }, 'experiment', 'countries'); // HERE solution IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
 	}
 	const allLocations = [...locations.flat().filter((d: any) => d.location !== undefined), ...fillMissingLocations];
 	// COMPUTE THE MAP LAYERS

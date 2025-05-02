@@ -8,8 +8,7 @@ import { handleBoard, removeFromBoardApi } from './utils';
 import { BoardInfo } from './with-img';
 import { usePathname } from 'next/navigation';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import DropDown from '@/app/ui/components/DropDown';
-import { MenuItem } from '@headlessui/react';
+import { CardOptions } from './commons';
 
 export interface CardProps {
   id: number;
@@ -143,12 +142,7 @@ export default function Card({
           <span>{date}</span>
         </div>
       </Link>
-      {/* METADATA */}
-      {/*<div className="flex flex-row items-start justify-between">
-        <b className="relative text-undp-blue  font-space-mono">{country}</b>
-        <b className="relative font-space-mono">{date}</b>
-      </div>*/}
-      {/* MAIN CONTENT */}
+      
       <div className="content flex grow flex-col justify-between px-[20px] py-[20px]">
         <div>
           <Link
@@ -162,19 +156,6 @@ export default function Card({
         </div>
         {/* TYPE INFO */}
         <div className="mt-[20px] flex flex-row justify-between">
-          {/*<div className="flex flex-row gap-[20px]">
-            {tagArr?.map((tag, index) => (
-              <button
-                key={index}
-                className={clsx(
-                  "chip capitalize",
-                  tagStyle || "bg-light-blue"
-                )}
-                onClick={onButtonClick}
-              >{tag}
-              </button>
-            ))}
-          </div>*/}
           <button type="button" className="chip bg-black text-white">
             {country}
           </button>
@@ -200,37 +181,10 @@ export default function Card({
           {/* Dropdown for adding to board */}
           {/* If the user is logged in and on the board page, show the dropdown */}
           {(isLogedIn && removeFromBoard) ? (
-            <div className="flex cursor-pointer items-end justify-items-end">
-              <DropDown className='!max-h-[40px] grow-0 border-l-0 !text-[14px] !px-[10px] w-[60%] lg:w-[80%] ' height='!h-[43px]'>
-                <MenuItem
-                  as="button"
-                  className="w-full bg-white text-start hover:bg-lime-yellow"
-                >
-                  <div
-                    className="block border-none bg-inherit p-4 text-base text-inherit focus:bg-gray-100 focus:text-gray-900 focus:outline-none"
-                    onClick={() =>
-                      handleBoardFn('insert', true)
-                    }
-                  >
-                    Add to new board
-                  </div>
-                </MenuItem>
-
-                <MenuItem
-                  as="button"
-                  className="w-full bg-white text-start hover:bg-lime-yellow"
-                >
-                  <div
-                    className="block border-none bg-inherit p-4 text-base text-inherit focus:bg-gray-100 focus:text-gray-900 focus:outline-none"
-                    onClick={() =>
-                      handleBoardFn('delete')
-                    }
-                  >
-                    Remove from this board
-                  </div>
-                </MenuItem>
-              </DropDown>
-            </div>
+            <CardOptions
+              onAddToNewBoard={() => handleBoardFn('insert', true)}
+              onRemoveFromBoard={() => handleBoardFn('delete')}
+            />
           ) : (
             ''
           )}

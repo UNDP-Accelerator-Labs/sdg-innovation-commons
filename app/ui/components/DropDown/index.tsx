@@ -6,13 +6,13 @@ import clsx from 'clsx';
 interface Props extends React.HTMLAttributes<HTMLElement> {
     children: React.ReactNode;
     className?: string;
-    height?: string;
+    secondaryClassName?: string;
 }
 
 export default function DropDown({ children, className, ...rest }: Props) {
     return (
         <Menu as="div" className={clsx("relative inline-block text-left", className)}>
-            <div className={clsx('h-[60px] font-bold font-space-mono text-[18px] px-[40px] detach', rest?.height)}>
+            <div className={clsx('h-[60px] font-bold font-space-mono text-[18px] px-[40px] detach', rest?.secondaryClassName)}>
                 <span className='relative z-[2]'>
                     <MenuButton className="inline-flex w-full justify-center gap-x-1.5 bg-inherit  px-3 py-5 text-inherit ">
                         Options
