@@ -47,7 +47,7 @@ export default async function getSession() {
     const localsession =
     {
       uuid: randomUUID(),
-      username: 'localtest',
+      username: 'localuser',
       rights: 3,
       pinboards: [],
     }

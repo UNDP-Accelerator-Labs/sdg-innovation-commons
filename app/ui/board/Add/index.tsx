@@ -40,7 +40,7 @@ const AddToBoard: FC<Props> = ({
   const { session, isLogedIn } = sharedState || {};
 
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [boardId, setBoardId] = useState<number>(0);
+  const [selectedBoardIds, setSelectedBoardIds] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [collections, setCollections] = useState<Collection[]>([]);
@@ -53,6 +53,14 @@ const AddToBoard: FC<Props> = ({
     setSearchTerm(e.target.value);
   };
 
+  const handleBoardSelection = (boardId: number) => {
+    setSelectedBoardIds((prevSelected) =>
+      prevSelected.includes(boardId)
+        ? prevSelected.filter((id) => id !== boardId) // Deselect if already selected
+        : [...prevSelected, boardId] // Add to selection if not already selected
+    );
+  };
+
   let source = platform;
   if (['news', 'blog', 'publications', 'press release'].includes(platform)) {
     source = 'blog';
@@ -63,12 +71,20 @@ const AddToBoard: FC<Props> = ({
   const pinApi = async (action: ActionType) => {
     try {
       if (allObjectIdz && Object.keys(allObjectIdz).length > 0) {
-        const apiPromises = Object.entries(allObjectIdz).map(([key, ids]) => {
+        const apiPromises = Object.entries(allObjectIdz).flatMap(([key, ids]) => {
           let _source = key;
           if (['news', 'blog', 'publications', 'press release'].includes(key)) {
             _source = 'blog';
           }
-          return pin(_source, action, boardId, ids, searchTerm);
+
+          // Handle case where selectedBoardIds is empty but searchTerm exists. Create a new board.
+          if (selectedBoardIds.length === 0 && searchTerm) {
+            return [pin(_source, action, 0, ids, searchTerm)];
+          }
+
+          return selectedBoardIds.map((boardId) =>
+            pin(_source, action, boardId, ids, searchTerm)
+          );
         });
 
         const results = await Promise.all(apiPromises);
@@ -87,31 +103,40 @@ const AddToBoard: FC<Props> = ({
             },
           }));
 
-          // Redirect if needed
-          if (!boardId && searchTerm)
+          if (!selectedBoardIds.length && searchTerm)
             return router.push(`/boards/all/${results[0]?.board_id}`);
         } else {
           console.error('One or more API calls failed:', results);
           throw new Error('Some API calls failed');
         }
       } else {
-        const data = await pin(source, action, boardId, id, searchTerm);
-        if (data?.status === 200) {
+        const apiPromises =
+          selectedBoardIds.length === 0 && searchTerm
+            ? [pin(source, action, 0, id, searchTerm)] // Create a new board
+            : selectedBoardIds.map((boardId) =>
+                pin(source, action, boardId, id, searchTerm)
+              );
+
+        const results = await Promise.all(apiPromises);
+
+        const allSuccess = results.every((data) => data?.status === 200);
+
+        if (allSuccess) {
           setSharedState((prevState: any) => ({
             ...prevState,
             addToBoard: null,
             notification: {
               showNotification: true,
               message: '',
-              submessage: 'Successfully added card to board.',
+              submessage: 'Successfully added card(s) to board(s).',
               messageType: 'success',
             },
           }));
 
-          if (!boardId && searchTerm)
-            return router.push(`/boards/all/${data?.board_id}`);
+          if (!selectedBoardIds.length && searchTerm)
+            return router.push(`/boards/all/${results[0]?.board_id}`);
         } else {
-          console.error('Unexpected response status:', data?.status);
+          console.error('Unexpected response status:', results);
           throw new Error();
         }
       }
@@ -123,7 +148,7 @@ const AddToBoard: FC<Props> = ({
         notification: {
           showNotification: true,
           message: '',
-          submessage: 'Error occurred while adding items to board.',
+          submessage: 'Error occurred while adding items to board(s).',
           messageType: 'warning',
         },
       }));
@@ -207,13 +232,13 @@ const AddToBoard: FC<Props> = ({
                     <div key={index} className="my-1 flex items-center">
                       <input
                         id={item.name}
-                        type="radio"
+                        type="checkbox"
                         className="border-1 mr-2 border-solid hover:border-light-blue disabled:checked:text-gray-500"
                         disabled={activeBoard}
                         name={activeBoard ? item.name : 'boardSelection'}
                         value={item.id}
-                        onChange={() => setBoardId(item.id)}
-                        checked={activeBoard || boardId === item.id}
+                        onChange={() => handleBoardSelection(item.id)}
+                        checked={activeBoard || selectedBoardIds.includes(item.id)}
                       />
                       <label
                         className={clsx(
@@ -240,12 +265,12 @@ const AddToBoard: FC<Props> = ({
         <div className="mt-4 text-center">
           <Button
             type="button"
-            disabled={boardId === 0 && filteredCollections.length > 0}
+            disabled={selectedBoardIds.length === 0 && filteredCollections.length > 0}
             onClick={() => pinApi('insert')}
             className="w-full grow-0 border-l-0"
           >
-            {filteredCollections.length > 0
-              ? 'Add to Board'
+            {(filteredCollections.length > 0 || selectedBoardIds.length > 0)
+              ? 'Add to Selected Boards'
               : 'Create New Board'}
           </Button>
         </div>

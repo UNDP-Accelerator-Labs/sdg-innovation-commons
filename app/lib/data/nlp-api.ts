@@ -3,6 +3,7 @@ import { NLP_URL, commonsPlatform, polishTags, page_limit } from '@/app/lib/util
 import get from './get';
 import platformApi from './platform-api';
 import { session_token } from '@/app/lib/session';
+import blogApi from './blogs-api';
 
 export interface Props {
     page?: number | undefined;
@@ -93,26 +94,50 @@ export default async function nlpApi(_kwargs: Props) {
     } else return [];
 }
 
-async function getCountryNames (data: any) {
-    const countries = data.map((d: any) => d.meta.iso3).flat()
-    .filter((value: any, index: number, self: any) => {
-        return self.indexOf(value) === index;
-    });
+async function getCountryNames(data: any[]): Promise<any[]> {
+  try {
+    // Extract unique ISO3 country codes and document IDs
+    const countries = data
+      .map((d: any) => d.meta?.iso3)
+      .flat()
+      .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
 
-    const countryNames: any[] = await platformApi({ }, 'experiment', 'countries'); // HERE experiment IS USED BY DEFAULT SINCE THE API CALLS THE MAIN DB SHARED BY ALL PLATFORMS
+    const ids = data.filter((d:any)=> d.base === 'blog').map((d: any) => d.doc_id).flat();
+
+    // Fetch country names and articles in parallel
+    const [countryNames, articles] = await Promise.all([
+      platformApi({}, 'experiment', 'countries'), // Fetch country data
+      blogApi({ pads: ids }), // Fetch articles
+    ]);
+
+    // Process each data entry
     data.forEach((d: any) => {
-        const matchingCountries = countryNames?.filter((c: any) => d.meta.iso3?.includes(c.iso3));
-    if (matchingCountries?.length) {
+      // Match countries based on ISO3 codes
+      const matchingCountries = countryNames?.filter((c: any) => d.meta?.iso3?.includes(c.iso3));
+
+      if (matchingCountries?.length) {
         // Check for entries without sub_iso3 first
         const countryWithoutSubIso3 = matchingCountries.find((c: any) => !c.sub_iso3);
         if (countryWithoutSubIso3) {
-            d.country = countryWithoutSubIso3?.country;
+          d.country = countryWithoutSubIso3.country;
         } else {
-            // Use the first entry with sub_iso3 if all have sub_iso3
-            d.country = matchingCountries[0]?.country;
+          // Use the first entry with sub_iso3 if all have sub_iso3
+          d.country = matchingCountries[0]?.country;
         }
-    }
+      }
+
+      // Match articles based on document ID
+      if (articles?.length) {
+        const matchingArticle = articles.find((c: any) => d.doc_id === c.id && d.base === 'blog');
+        if (matchingArticle) {
+          d.pinboards = matchingArticle.pinboards;
+        }
+      }
     });
 
     return data;
+  } catch (error) {
+    console.error('Error in getCountryNames:', error);
+    throw new Error('Failed to fetch country names or articles');
+  }
 }

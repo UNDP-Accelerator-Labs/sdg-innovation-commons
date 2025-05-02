@@ -8,6 +8,7 @@ import { handleBoard, removeFromBoardApi } from './utils';
 import { BoardInfo } from './with-img';
 import { usePathname } from 'next/navigation';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { CardOptions } from './commons';
 
 export interface CardProps {
   id: number;
@@ -63,8 +64,9 @@ export default function Card({
 
   type ActionType = 'delete' | 'insert';
 
-  const handleBoardFn = (action: ActionType) => {
+  const handleBoardFn = (action: ActionType, triggerAddToBoard: boolean = false) => {
     if (!isLogedIn) return showNotification();
+    if (triggerAddToBoard) return showAddToBoardModal();
     return handleBoard(
       removeFromBoard as boolean,
       showAddToBoardModal,
@@ -140,12 +142,7 @@ export default function Card({
           <span>{date}</span>
         </div>
       </Link>
-      {/* METADATA */}
-      {/*<div className="flex flex-row items-start justify-between">
-        <b className="relative text-undp-blue  font-space-mono">{country}</b>
-        <b className="relative font-space-mono">{date}</b>
-      </div>*/}
-      {/* MAIN CONTENT */}
+      
       <div className="content flex grow flex-col justify-between px-[20px] py-[20px]">
         <div>
           <Link
@@ -159,24 +156,13 @@ export default function Card({
         </div>
         {/* TYPE INFO */}
         <div className="mt-[20px] flex flex-row justify-between">
-          {/*<div className="flex flex-row gap-[20px]">
-            {tagArr?.map((tag, index) => (
-              <button
-                key={index}
-                className={clsx(
-                  "chip capitalize",
-                  tagStyle || "bg-light-blue"
-                )}
-                onClick={onButtonClick}
-              >{tag}
-              </button>
-            ))}
-          </div>*/}
           <button type="button" className="chip bg-black text-white">
             {country}
           </button>
 
-          {isDisabled ? (
+          {/* Button for adding to board */}
+          {/* If the user is logged in and not on the board page, show the button */}
+          {(isDisabled || removeFromBoard) ? (
             ''
           ) : (
             <Button
@@ -189,6 +175,18 @@ export default function Card({
             >
               {removeFromBoard ? 'Remove from' : 'Add to'} Board
             </Button>
+          )}
+
+
+          {/* Dropdown for adding to board */}
+          {/* If the user is logged in and on the board page, show the dropdown */}
+          {(isLogedIn && removeFromBoard) ? (
+            <CardOptions
+              onAddToNewBoard={() => handleBoardFn('insert', true)}
+              onRemoveFromBoard={() => handleBoardFn('delete')}
+            />
+          ) : (
+            ''
           )}
         </div>
       </div>
