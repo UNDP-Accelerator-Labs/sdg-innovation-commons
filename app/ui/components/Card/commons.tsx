@@ -18,7 +18,7 @@ export const CardOptions: React.FC<CardOptionsProps> = ({
   return (
     <div className={clsx('relative', className)}>
       <Menu as="div" className="relative inline-block text-left">
-        <div className="h-[40px] font-bold font-space-mono text-[18px] px-[40px] detach">
+        <div className="h-[40px] font-bold font-space-mono text-[14px] px-[40px] detach">
           <span className="relative z-[2]">
             <MenuButton className="inline-flex bg-inherit text-inherit font-bold font-space-mono">
               Options
