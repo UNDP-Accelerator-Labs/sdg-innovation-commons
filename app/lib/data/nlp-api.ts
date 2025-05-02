@@ -102,7 +102,7 @@ async function getCountryNames(data: any[]): Promise<any[]> {
       .flat()
       .filter((value: any, index: number, self: any) => self.indexOf(value) === index);
 
-    const ids = data.map((d: any) => d.doc_id).flat();
+    const ids = data.filter((d:any)=> d.base === 'blog').map((d: any) => d.doc_id).flat();
 
     // Fetch country names and articles in parallel
     const [countryNames, articles] = await Promise.all([
@@ -128,7 +128,7 @@ async function getCountryNames(data: any[]): Promise<any[]> {
 
       // Match articles based on document ID
       if (articles?.length) {
-        const matchingArticle = articles.find((c: any) => d.doc_id === c.id);
+        const matchingArticle = articles.find((c: any) => d.doc_id === c.id && d.base === 'blog');
         if (matchingArticle) {
           d.pinboards = matchingArticle.pinboards;
         }
