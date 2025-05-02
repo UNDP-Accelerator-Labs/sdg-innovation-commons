@@ -74,7 +74,25 @@ export default async function Data({
 			map: mapFile,
 		},
 		sdgs: {
-			highlight: sdgs.sort((a: any, b: any) => b.count - a.count).slice(0, 3).map((d: any) => d.key),
+			//Highlight the SDGs that are in the middle of the distribution 
+			// and have a count greater than 0
+			highlight: (() => {
+				const sortedSdgs = sdgs.sort((a: any, b: any) => a.count - b.count);
+				const midIndex = Math.floor(sortedSdgs.length / 2);
+			  
+				const median =
+				  sortedSdgs.length % 2 === 0
+					? (sortedSdgs[midIndex - 1].count + sortedSdgs[midIndex].count) / 2
+					: sortedSdgs[midIndex].count;
+			  
+				const range = median * 0.5;
+			  
+				const relevantSdgs = sortedSdgs.filter(
+				  (d: any) => d.count >= median - range && d.count <= median + range
+				);
+			  
+				return relevantSdgs.map((d: any) => d.key);
+			  })(),
 			count: sdgs.length,
 		}
 	}
