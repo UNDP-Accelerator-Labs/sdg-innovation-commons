@@ -9,7 +9,11 @@ export const collection = {
 			items: [
 			{ 
 				type: 'txt', 
-				txt: 'AccLabs are currently operating in 70% of countries identified as crisis settings, representing a significant presence in fragile environments. Notably, 23% of all AccLab capacity is embedded in crisis-affected countries, with half of them located in Africa and the Middle East. This distribution underscores the growing recognition that innovation is not a luxury, but a necessity in fragile contexts where conventional approaches break down.'
+				txt: 'Accelerator Labs are currently operating in 70% of countries identified as crisis settings, representing a significant presence in fragile environments. Notably, 23% of all AccLab capacity is embedded in crisis-affected countries, with half of them located in Africa and the Middle East. This distribution underscores the growing recognition that innovation is not a luxury, but a necessity in fragile contexts where conventional approaches break down.'
+				},
+				{
+					type: 'img',
+					src: '/images/crisis_countries_2025.png'
 				},
 				{
 					type: 'txt', 
@@ -21,7 +25,7 @@ export const collection = {
 				},
 				{
 					type: 'txt', 
-					txt: 'This research document explores how R&D is applied in crisis settings by the AccLabs, and is organized around six thematic clusters that reflect both the priorities of local communities and the broader development challenges accelerated by crisis. All thematic areas explored in this research are interconnected threads woven into the broader pursuit of resilience and adaptive development in crisis-affected settings. Whether addressing energy innovation, urban systems, social cohesion, or digital inclusion, these themes reflect how the Accelerator Labs navigate the complexities of fragile environments. Crucially, each thematic focus stems from a foundational shift: promoting a culture of Research and Development (R&D) that embraces experimentation, grassroots intelligence, and learning-by-doing.' 
+					txt: 'This research document explores how R&D is applied in crisis settings by the Accelerator Labs, and is organized around six thematic clusters that reflect both the priorities of local communities and the broader development challenges accelerated by crisis. All thematic areas explored in this research are interconnected threads woven into the broader pursuit of resilience and adaptive development in crisis-affected settings. Whether addressing energy innovation, urban systems, social cohesion, or digital inclusion, these themes reflect how the Accelerator Labs navigate the complexities of fragile environments. Crucially, each thematic focus stems from a foundational shift: promoting a culture of Research and Development (R&D) that embraces experimentation, grassroots intelligence, and learning-by-doing.' 
 				},
 				{
 					type: 'txt',
