@@ -28,10 +28,6 @@ export const collection = {
 					txt: 'This research document explores how R&D is applied in crisis settings by the Accelerator Labs, and is organized around six thematic clusters that reflect both the priorities of local communities and the broader development challenges accelerated by crisis. All thematic areas explored in this research are interconnected threads woven into the broader pursuit of resilience and adaptive development in crisis-affected settings. Whether addressing energy innovation, urban systems, social cohesion, or digital inclusion, these themes reflect how the Accelerator Labs navigate the complexities of fragile environments. Crucially, each thematic focus stems from a foundational shift: promoting a culture of Research and Development (R&D) that embraces experimentation, grassroots intelligence, and learning-by-doing.' 
 				},
 				{
-					type: 'txt',
-					txt: 'The diagram below shows how these patterns support the panels in which the Oceans Conference is organized. The names of the panels have been shortened; their non-shortened list is <a href="https://sdgs.un.org/sites/default/files/2024-11/USG%20Letter%20to%20ECESA%20Plus_UNOC%202025_24-01789.pdf">here</a>. An interactive version of the diagram is visible <a href="https://public.flourish.studio/visualisation/22764683/">here</a>.'
-				},
-				{
 					type: 'img',
 					src: '/images/innovation_crisis_diagram.png'
 				},
