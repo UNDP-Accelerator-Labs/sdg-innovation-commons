@@ -64,6 +64,7 @@ export default function FilterGroup({
             id={inputId}
             checked={opt.checked || null}
             onChange={(e) => {
+              // Keep the dropdown open when an option is selected
               (e.target?.parentNode as HTMLElement)?.classList?.toggle(
                 'active'
               );
@@ -79,8 +80,19 @@ export default function FilterGroup({
 
   return (
     <>
-      <div className="filter-group" tabIndex={0}>
-        <div onFocus={(e) => setFocus(true)} onBlur={(e) => setFocus(false)}>
+      <div
+        className="filter-group"
+        tabIndex={0}
+        onBlur={(e) => {
+          // Close dropdown only if focus moves outside the filter group
+          if (!e.currentTarget.contains(e.relatedTarget)) {
+            setFocus(false);
+          }
+        }}
+      >
+        <div
+          onFocus={() => setFocus(true)}
+        >
           <input
             type="text"
             placeholder={placeholder}
@@ -88,25 +100,22 @@ export default function FilterGroup({
               setSearchValue((e.target as HTMLInputElement)?.value)
             }
           />
-          <menu className={clsx(focus ? 'open' : '')}>{options}</menu>
+          <menu className={clsx(focus ? 'open' : '')}>
+            {options}
+          </menu>
         </div>
         {activeFilters?.length ? (
-          <div
-            className="active-filters flex flex-row gap-1.5 p-[20px]"
-            onFocus={(e) => setFocus(false)}
-          >
+          <div className="active-filters flex flex-row gap-1.5 p-[20px]">
             {activeFilters?.map((d: any, i: number) => {
               return (
                 <button
                   key={i}
                   className="chip square mr-2 flex items-center bg-posted-yellow"
-                  onFocus={(e) => setFocus(false)}
                 >
                   <span className="flex-grow">{d}</span>
                   <span
                     className="ml-2 cursor-pointer rounded bg-black px-2 text-white"
                     onClick={(e: any) => {
-                      setFocus(false);
                       e.stopPropagation();
                       e.preventDefault();
                       const form = e.target.closest('form');
