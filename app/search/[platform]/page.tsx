@@ -9,7 +9,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   platform = decodeURI(platform);
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
-  const tabs = ['all', 'solution', 'experiment', 'action plan', 'blog', 'publications',];
+  const tabs = ['all', 'solution', 'experiment', 'action plan', 'blog', 'publications', ] //'news', "press release"];
 
   return (
     <>
