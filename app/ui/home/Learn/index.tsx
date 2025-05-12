@@ -21,7 +21,7 @@ export default function Section({ boards, isLogedIn}: Props) {
             setLoading(true);
 
             const data = await nlpApi(
-                { limit: 4, doc_type: ['blog', 'publications', 'news'], search: defaultSearch('learn') }
+                { limit: 4, doc_type: ['blog', 'publications'], search: defaultSearch('learn') }
             );
 
             setHits(data);

@@ -129,7 +129,7 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
             </div>
           </form>
           <p className="lead mt-[-40px] mb-[20px]">
-            Pin interesting blogs, publications, news, and press releases on a
+            Pin interesting blogs and publications on a
             board by clicking “Add to board”. You can create new boards or add
             to existing ones.
             {isLogedIn && session?.pinboards?.length ? (
