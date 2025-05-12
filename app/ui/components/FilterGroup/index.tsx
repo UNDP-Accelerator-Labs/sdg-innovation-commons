@@ -64,7 +64,6 @@ export default function FilterGroup({
             id={inputId}
             checked={opt.checked || null}
             onChange={(e) => {
-              // Keep the dropdown open when an option is selected
               (e.target?.parentNode as HTMLElement)?.classList?.toggle(
                 'active'
               );
@@ -84,7 +83,6 @@ export default function FilterGroup({
         className="filter-group"
         tabIndex={0}
         onBlur={(e) => {
-          // Close dropdown only if focus moves outside the filter group
           if (!e.currentTarget.contains(e.relatedTarget)) {
             setFocus(false);
           }
