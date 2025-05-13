@@ -168,7 +168,7 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
           </form>
  
           <p className="lead mb-[20px]">
-            Pin interesting blogs, publications, news, and press releases on a
+            Pin interesting blogs and publications on a
             board by clicking “Add to board”. You can create new boards or add
             to existing ones.
             {isLogedIn && session?.pinboards?.length ? (

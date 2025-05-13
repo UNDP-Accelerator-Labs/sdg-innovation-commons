@@ -18,7 +18,7 @@ export const CardOptions: React.FC<CardOptionsProps> = ({
   return (
     <div className={clsx('relative', className)}>
       <Menu as="div" className="relative inline-block text-left">
-        <div className="h-[40px] font-bold font-space-mono text-[14px] px-[40px] detach">
+        <div className="h-[40px] font-bold font-space-mono text-[12px] md:text-[14px] !px-0 md:!px-[20px] detach">
           <span className="relative z-[2]">
             <MenuButton className="inline-flex bg-inherit text-inherit font-bold font-space-mono">
               Options
@@ -30,13 +30,13 @@ export const CardOptions: React.FC<CardOptionsProps> = ({
         <MenuItems
           transition
           className={clsx(
-            'absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none',
-            'overflow-hidden max-w-full'
+            'absolute z-50 mt-2 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black/5 transition focus:outline-none',
+            'overflow-hidden'
           )}
           style={{
-            maxWidth: 'calc(100vw - 20px)', // Prevent overflow on smaller screens
-            right: 'auto', // Adjust positioning dynamically
-            left: 'auto',
+            width: '100%', 
+            right: '0', 
+            left: '0', 
           }}
         >
           <div className="py-1">
