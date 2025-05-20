@@ -1,13 +1,14 @@
 import Link from 'next/link';
 import { Button } from '@/app/ui/components/Button';
 import renderComponents from '@/app/ui/components/MediaComponents';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi, { addComment} from '@/app/lib/data/platform-api';
 import woldMap from '@/app/lib/data/world-map';
 import Hero from '../Hero';
 import Cartouche from '../Cartouche';
 import Disclaimer from '../Disclamer';
 import Feedback from '../Feedback';
 import clsx from 'clsx';
+import CommentSection from './CommentSection';
 
 interface Props {
   id: number;
@@ -47,7 +48,9 @@ export default async function Section({ id, platform }: Props) {
     pinboards,
     current_user_engagement,
     engagement,
+    comments,
   } = datum || {};
+
   let lab: string | undefined = undefined;
   const isUNDP: boolean = email?.includes('@undp.org');
   const isLabber: boolean = position?.includes('Head of');
@@ -204,6 +207,8 @@ export default async function Section({ id, platform }: Props) {
             </div>
           )}
         </div>
+
+        <CommentSection platform={platform} padId={id} comments={comments || []} />
       </section>
       <Feedback
         id={id}

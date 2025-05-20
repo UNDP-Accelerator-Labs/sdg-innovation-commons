@@ -34,6 +34,7 @@ export interface Props {
   include_source?: boolean;
   include_engagement?: boolean;
   include_comments?: boolean;
+  anonymize_comments?: boolean;
   platform?: string;
   pseudonymize?: boolean;
   render?: boolean;
@@ -57,6 +58,7 @@ export default async function platformApi(
     include_tags,
     include_locations,
     include_engagement,
+    include_comments,
     include_pinboards,
     action,
     render,
@@ -69,6 +71,10 @@ export default async function platformApi(
   if (pinboard) _kwargs.space = 'pinned';
   if (object === 'pads' && !include_tags) _kwargs.include_tags = true;
   if (object === 'pads' && !include_locations) _kwargs.include_locations = true;
+  if (object === 'pads' && !include_comments) {
+    _kwargs.include_comments = true;
+    _kwargs.anonymize_comments = false;
+  }
   if (object === 'pads' && !include_engagement)
     _kwargs.include_engagement = true;
   if (object === 'pads' && !include_pinboards)
@@ -223,5 +229,35 @@ export async function getRegion(region: string | string[]) {
 
   data = data.filter((d: any) => _region.includes(d?.undp_region))
 
+  return data;
+}
+
+
+
+export async function addComment(
+  platform: string,
+  message: string,
+  id: number,
+  source: number|string|undefined,
+) {
+  if(!message || !platform) return;
+
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === platform
+  )?.url;
+
+  const url = `${base_url}/comment`;
+  const body = {
+    object: 'pad',
+    id,
+    message,
+    source,
+  };
+
+  const data = await get({
+    url,
+    method: 'POST',
+    body,
+  });
   return data;
 }
