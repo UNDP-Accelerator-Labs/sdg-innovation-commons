@@ -4,6 +4,7 @@ import List from './list';
 import Img from './img';
 import Checklist from './checklist';
 import Attachment from './attachment';
+import Link from './link';
 
 export default function renderComponents (items: any[], item: any, i: number, imgBase?: string) {
     const { type } = item;
@@ -20,4 +21,5 @@ export default function renderComponents (items: any[], item: any, i: number, im
     }
 
     if (type === 'attachment') return (<Attachment key={i} item={item} />)
+    if (type === 'link') return (<Link key={i} item={item} />)
 }

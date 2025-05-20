@@ -43,6 +43,21 @@ export const collection = {
 				}
 
 			]
+		},
+		{
+			title: 'Related Links',
+			items: [
+				{
+					type: 'link',
+					title: 'Digital Financial Inclusion Toolkit',
+					url: 'https://undp-accelerator-labs.github.io/Financial-inclusion-toolkit/'
+				},
+				{
+					type: 'link',
+					title: 'Next Practices: A Digital Financial Inclusion R&D Agenda',
+					url: 'https://www.undp.org/acceleratorlabs/publications/next-practices-digital-financial-inclusion'
+				},
+			]
 		}
 	],
 	highlights: [],
