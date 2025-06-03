@@ -35,7 +35,7 @@ export default function Footer() {
               </p>*/}
               
                 <Button>
-                  <Link href='/register'>Get Involve</Link>
+                  <Link href='/register'>Get Involved</Link>
                 </Button>
               
             </div>
