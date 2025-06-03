@@ -6,6 +6,7 @@ import Mobile from './mobile';
 import Desktop from './desktop';
 import { usePathname } from 'next/navigation';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import Link from 'next/link';
 
 export default function Footer() {
   const currPath: string = usePathname();
@@ -32,14 +33,10 @@ export default function Footer() {
               {/*<p className='font-space-mono'>
                 <b>Signup for our Platform</b>
               </p>*/}
-              {!isLogedIn && (
-                <Button onClick={(e) => {
-                  e.preventDefault()
-                  redirectToLogin(currPath)
-                }}>
-                  Sign In
+              
+                <Button>
+                  <Link href='/register'>Get Involve</Link>
                 </Button>
-              )}
               
             </div>
           </div>

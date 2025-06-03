@@ -7,7 +7,8 @@ export async function redirectToLogin(pathname: string) {
   const url: string | undefined = commonsPlatform.find((p: any) => p.key === 'login')?.url
   const app_name = 'SDG Commons'
   const host = await getCurrentUrl(pathname)
-  return redirect(`${url}/login?app=${encodeURIComponent(app_name)}&origin=${host}`)
+  // return redirect(`${url}/login?app=${encodeURIComponent(app_name)}&origin=${host}`)
+  return redirect(`/login`)
 }
 
 

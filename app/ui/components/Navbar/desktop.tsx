@@ -2,25 +2,35 @@
 import Link from 'next/link';
 import clsx from 'clsx';
 import { navItems } from './navlink';
-import { usePathname } from 'next/navigation';
+import { usePathname, redirect } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import Loading from '@/app/ui/components/Loading';
+import { useState } from 'react';
 
 export default function DesktopNavBar() {
   const currPath: string = usePathname();
   const currPathSplit: string[] = usePathname().split('/').filter((d: string) => d?.length).map((d: string) => decodeURI(d));
-  const contentType = new Map()
+  const contentType = new Map();
   contentType.set('test', ['action plan', 'experiment']);
   contentType.set('see', ['solution']);
 
   const { sharedState } = useSharedState();
+  const username = sharedState?.session?.username || null;
 
-  const loginRedirect = (e:any)=>{
-      e.preventDefault()
-      redirectToLogin(currPath)
-  }
+  const [loading, setLoading] = useState(false);
+
+  const loginRedirect = (e: any) => {
+    e.preventDefault();
+    if (username) {
+      setLoading(true);
+      return redirect('/profile');
+    }
+    redirectToLogin(currPath);
+  };
 
   return (
+    <>
     <div className='w-full relative bg-white pt-[10px] pb-[10px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid'>
       <div className='inner relative px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] w-[375] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px] mx-auto box-border'>
         {/* Logo */}
@@ -46,7 +56,7 @@ export default function DesktopNavBar() {
                   this is to highlight the right section when reading a pad
                 */ 
                 active = content?.some((d: string) => currPathSplit.includes(d)) || false;
-              } else active = currHref[0] === currPathSplit[0]
+              } else active = currHref[0] === currPathSplit[0];
               const { prefix, title, suffix } = link;
 
               return (
@@ -66,27 +76,22 @@ export default function DesktopNavBar() {
                   </span>
                 </Link>
                 </ div>
-              )
+              );
             })}
             <Link href={'/search/all'}>
               <img className="w-[30px] relative h-[30px] object-cover" alt="Search" src="/images/search.svg" />
             </Link>
 
-            {/* Translate icon */}
-            {/* <img className="w-[31.8px] relative h-[29px] object-cover" alt="Google Translate" src="/images/gtranslate.svg" /> */}
-
             {/* Login button */}
-            {sharedState?.session?.username ? <>
+            {username ? (
               <button onClick={loginRedirect} className='cursor-pointer bg-lime-yellow h-[60px] px-[40px] font-bold font-space-mono text-[14px]'>
-                  {/*Welcome {sharedState?.session?.username?.length > 12 ? sharedState?.session?.username.split(' ')[0] : sharedState?.session?.username || ''}*/}
-                  Welcome {sharedState?.session?.username?.split(' ')[0]}
+                Welcome {username.split(' ')[0]}
               </button>
-            </>
-            : <>
+            ) : (
               <button onClick={loginRedirect} className='cursor-pointer bg-lime-yellow h-[60px] px-[40px] font-bold font-space-mono text-[18px]'>
-                  Login
+                Login
               </button>
-            </>}
+            )}
           </div>
         </div>
 
@@ -97,6 +102,8 @@ export default function DesktopNavBar() {
           src="/images/Vector 31.svg"
         />*/}
       </div>
+      <Loading isLoading={loading} />
     </div>
+    </>
   );
 }

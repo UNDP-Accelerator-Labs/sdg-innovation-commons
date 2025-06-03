@@ -20,7 +20,7 @@ export default async function getSession() {
     const cookieStore = await cookies();
     const s_id: string | null = await get_session_id();
 
-    if (!s_id && !isLocalhost) {
+    if (!s_id) {
       cookieStore.delete(APP_SESSION_KEY as string);
       console.log('No session ID found, returning null.');
       return null;
@@ -37,33 +37,19 @@ export default async function getSession() {
       method: 'GET',
     });
 
-    if (!session?.uuid && !isLocalhost) {
+    if (!session?.uuid) {
       cookieStore.delete(APP_SESSION_KEY as string);
       console.log('Session UUID not found, returning null.');
       return null;
     }
     // Generate tokens for session
     let name: string | null = null;
-    const localsession =
-    {
-      uuid: randomUUID(),
-      username: 'localuser',
-      rights: 3,
-      pinboards: [],
-    }
-
-    if (isLocalhost) {
-      name = await getToken({
-        ...localsession
-      });
-    } else {
-      name = await getToken({
-        uuid: session?.uuid,
-        username: session.username,
-        rights: session.rights,
-        pinboards: session?.pinboards,
-      });
-    }
+    name = await getToken({
+      uuid: session?.uuid,
+      username: session.username,
+      rights: session.rights,
+      pinboards: session?.pinboards,
+    });
 
     // Set cookies
     const cookieOptions = {
@@ -75,9 +61,6 @@ export default async function getSession() {
     };
 
     cookieStore.set(APP_SESSION_KEY as string, name, cookieOptions);
-    if (isLocalhost) {
-      return localsession;
-    }
     return session;
   } catch (error) {
     console.error('Error in getSession:', error);
@@ -121,9 +104,6 @@ export const is_user_logged_in = async () => {
   const s_id: string | null = await get_session_id();
   if (name && typeof name === 'object' && 'username' in name && s_id) {
     return !!name.username;
-  }
-  else if (isLocalhost) {
-    return true;
   }
   return false;
 };
