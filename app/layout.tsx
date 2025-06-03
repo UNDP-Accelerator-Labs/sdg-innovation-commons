@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import Script from 'next/script'
 import { headers } from 'next/headers'
 import { SharedStateProvider } from '@/app/ui/components/SharedState/Context';
+import getSession from '@/app/lib/session';
 
 const { PROD_ENV } = process.env;
 
@@ -26,11 +27,11 @@ export default async function RootLayout({
   const excludedSubdomains = ['staging', 'localhost'];
   const subdomain = host.split('.')[0];
   const isProd = !excludedSubdomains.includes(subdomain);
-
+  const session = await getSession();
 
   return (
     <html lang="en">
-      <meta property="og:image" content="<generated>" />
+      {/* <meta property="og:image" content="<generated>" />
       <meta property="og:image:type" content="<generated>" />
       <meta property="og:image:width" content="<generated>" />
       <meta property="og:image:height" content="<generated>" />
@@ -40,7 +41,7 @@ export default async function RootLayout({
       <meta name="twitter:image:type" content="<generated>" />
       <meta name="twitter:image:width" content="<generated>" />
       <meta name="twitter:image:height" content="<generated>" />
-      <meta name="twitter:image:alt" content="<generated>" />
+      <meta name="twitter:image:alt" content="<generated>" /> */}
 
       {isProduction && isProd && (
         <Script
@@ -51,7 +52,7 @@ export default async function RootLayout({
         />
       )}
       <body>
-        <SharedStateProvider>
+        <SharedStateProvider session={session}>
           {children}
         </SharedStateProvider>
       </body>

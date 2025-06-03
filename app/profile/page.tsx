@@ -3,10 +3,10 @@ import ProfileContent from "@/app/ui/components/Profile";
 import Footer from "@/app/ui/components/Footer";
 import platformApi, { getContributorInfo } from "@/app/lib/data/platform-api";
 import { redirect, unauthorized } from "next/navigation";
-import { session_name } from "@/app/lib/session";
+import getSession from "@/app/lib/session";
 
 export default async function ProfilePage() {
-    const { uuid, username } = await session_name() || {};
+    const { uuid, username } = await getSession();
     if (!uuid || !username)  return unauthorized();
 
   // Fetch country names and profile data in parallel

@@ -19,7 +19,7 @@ const SharedStateContext = createContext<SharedStateContextType | undefined>(
   undefined
 );
 
-export function SharedStateProvider({ children }: { children: ReactNode }) {
+export function SharedStateProvider({ children, session }: { children: ReactNode, session?: any  }) {
   const [sharedState, setSharedState] = useState<any>(null);
 
   const addToBoard = sharedState?.addToBoard || {};
@@ -36,21 +36,17 @@ export function SharedStateProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    async function fetchData() {
-      const data = await getSession();
       let isValidUser = false;
-      if (data && typeof data === 'object' && 'username' in data) {
+      if (session && typeof session === 'object' && 'username' in session) {
         isValidUser = true
       }
       setSharedState((prevState: any) => ({
         ...prevState,
         isLogedIn: isValidUser,
-        session: data,
+        session: session,
       }));
-    }
 
-    fetchData();
-  }, []);
+  }, [session]);
 
   return (
     <SharedStateContext.Provider value={{ sharedState, setSharedState }}>

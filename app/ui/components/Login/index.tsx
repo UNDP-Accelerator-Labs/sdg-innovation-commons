@@ -6,20 +6,28 @@ import { Button } from '@/app/ui/components/Button';
 import { useRouter } from 'next/navigation';
 import { loginUser, initiateSSO } from '@/app/lib/data/platform-api';
 import { base_url } from '@/app/lib/utils';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [activeTab, setActiveTab] = useState("email")
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const { sharedState } = useSharedState();
+  const uuid = sharedState?.session?.uuid || null;
+
   const router = useRouter();
 
   //TODO: Fix the issue with the login form not being able to redirect to the last visited page
   useEffect(() => {
-    console.log("LoginForm mounted ", window.location.href);
+    if(uuid) {
+      router.push('/profile'); // Redirect to login if uuid is not available
+      return;
+    }
     // Store the current page URL in localStorage
     localStorage.setItem('lastVisitedPage', window.location.href);
-  }, []);
+  }, [uuid]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

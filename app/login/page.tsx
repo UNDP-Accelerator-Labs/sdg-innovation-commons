@@ -1,15 +1,8 @@
 import Link from "next/link";
 import LoginForm from "@/app/ui/components/Login";
 import Navigation from "@/app/ui/components/Navbar";
-import { session_name } from "@/app/lib/session";
-import { redirect } from "next/navigation";
 
 export default async function LoginPage() {
-    const { uuid, username } = await session_name() || {};
-    if (uuid || username) {
-        // If the user is already logged in, redirect to the profile page
-        return redirect("/profile");
-    }
   return (
     <div className="min-h-screen bg-white bg-grid-pattern relative overflow-hidden grid-bg">
       {/* Navigation */}

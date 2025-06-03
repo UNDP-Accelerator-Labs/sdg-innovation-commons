@@ -278,7 +278,7 @@ export async function loginUser(email: string, password: string, originalUrl: st
     throw new Error("Platform base URL not found.");
   }
 
-  const url = `${LOCAL_BASE_URL}/login`;
+  const url = `${base_url}/login`;
   const body = {
     username: email,
     password,
@@ -303,7 +303,7 @@ export async function resetPassword(email: string) {
     throw new Error("Platform base URL not found.");
   }
 
-  const url = `${LOCAL_BASE_URL}/forget-password`;
+  const url = `${base_url}/forget-password`;
   const body = {
     email,
     fromBase: true,
@@ -327,7 +327,7 @@ export async function updatePassword(newPassword: string, confirmPassword: strin
     throw new Error("Platform base URL not found.");
   }
 
-  const url = `${LOCAL_BASE_URL}/reset-password`;
+  const url = `${base_url}/reset-password`;
   const body = {
     password: newPassword,
     confirmPassword,
@@ -353,7 +353,7 @@ export async function validateToken(token: string) {
     throw new Error("Platform base URL not found.");
   }
 
-  const url = `${LOCAL_BASE_URL}/reset/${token}?originalUrl=${baseHost}`;
+  const url = `${base_url}/reset/${token}?originalUrl=${baseHost}`;
   const data = await get({
     url,
     method: "GET",
@@ -371,7 +371,7 @@ export async function initiateSSO(originalUrl: string) {
       throw new Error("Platform base URL not found.");
     }
 
-    const url = `${LOCAL_BASE_URL}/sso-inits?is_api_call=true&host_redirect_url=${encodeURIComponent(originalUrl)}&host_redirect_failed_auth_url=${encodeURIComponent(hostUrl)}/login`;
+    const url = `${base_url}/sso-inits?is_api_call=true&host_redirect_url=${encodeURIComponent(originalUrl)}&host_redirect_failed_auth_url=${encodeURIComponent(hostUrl)}/login`;
     const data = await get({
       url,
       method: 'GET',
@@ -405,7 +405,7 @@ export async function registerContributor(forms: Record<string, any>) {
     throw new Error('No admin emails provided.');
   }
 
-  const url = `${LOCAL_BASE_URL}/save/contributor`;
+  const url = `${base_url}/save/contributor`;
   const body = {
     ...forms,
     fromBaseHost: true,
@@ -482,7 +482,7 @@ export async function logoutCurrentSession() {
     throw new Error("Platform base URL not found.");
   }
 
-  const url = `${LOCAL_BASE_URL}/logout/current`;
+  const url = `${base_url}/logout/current`;
 
   const data = await get({
     url,
@@ -504,7 +504,7 @@ export async function getContributorInfo(uuid: string) {
     throw new Error("Platform base URL not found.");
   }
 
-  const url = `${LOCAL_BASE_URL}/en/view/contributor?is_api_call=true&id=${uuid}`;
+  const url = `${base_url}/en/view/contributor?is_api_call=true&id=${uuid}`;
 
   const resp = await get({
     url,
@@ -548,7 +548,7 @@ export async function updatedProfile(forms: Record<string, any>) {
   }
   if ((new_password && currentPassword) || currentPassword) {
     const checkCurrentPassword = await get({
-      url: `${LOCAL_BASE_URL}/check/password`,
+      url: `${base_url}/check/password`,
       method: 'POST',
       body: {
         password: currentPassword,
@@ -565,7 +565,7 @@ export async function updatedProfile(forms: Record<string, any>) {
     }
   }
 
-  const url = `${LOCAL_BASE_URL}/save/contributor`;
+  const url = `${base_url}/save/contributor`;
 
   const body = {
     ...forms,
@@ -595,7 +595,7 @@ export async function confirmEmail(token: string) {
   if (!base_url) {
     throw new Error("Platform base URL not found.");
   }
-  const url = `${LOCAL_BASE_URL}/confirm-email/${token}?is_api_call=true`;
+  const url = `${base_url}/confirm-email/${token}?is_api_call=true`;
 
   const resp = await get({
     url,
@@ -615,7 +615,7 @@ export async function deleteAccount(uuid: string, password: string) {
 
   // Validate the user's password
   const validatePasswordResponse = await get({
-    url: `${LOCAL_BASE_URL}/check/password`,
+    url: `${base_url}/check/password`,
     method: 'POST',
     body: {
       password,
@@ -631,7 +631,7 @@ export async function deleteAccount(uuid: string, password: string) {
   }
 
   // Execute the delete API call
-  const url = `${LOCAL_BASE_URL}/delete/contributors?id=${uuid}&is_api_call=true&anonymize=true`;
+  const url = `${base_url}/delete/contributors?id=${uuid}&is_api_call=true&anonymize=true`;
 
   const deleteResponse = await get({
     url,
