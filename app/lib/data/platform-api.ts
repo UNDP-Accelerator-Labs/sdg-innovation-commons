@@ -5,8 +5,15 @@ import {
   extractSDGNumbers,
   polishTags,
   LOCAL_BASE_URL,
+  baseHost,
+  base_url as hostUrl,
 } from '@/app/lib/utils';
 import get from './get';
+import nodemailer from 'nodemailer';
+
+
+//Environment variables
+const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
 
 export interface Props {
   space?: string;
@@ -260,4 +267,491 @@ export async function addComment(
     body,
   });
   return data;
+}
+
+export async function loginUser(email: string, password: string, originalUrl: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  const url = `${base_url}/login`;
+  const body = {
+    username: email,
+    password,
+    originalUrl,
+    is_api_call: true
+  };
+
+  const data = await get({
+    url,
+    method: 'POST',
+    body,
+  });
+  return data;
+}
+
+export async function resetPassword(email: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  const url = `${base_url}/forget-password`;
+  const body = {
+    email,
+    fromBase: true,
+  };
+
+  const data = await get({
+    url,
+    method: 'POST',
+    body,
+  });
+
+  return data;
+}
+
+export async function updatePassword(newPassword: string, confirmPassword: string, token: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  const url = `${base_url}/reset-password`;
+  const body = {
+    password: newPassword,
+    confirmPassword,
+    token, 
+    is_api_call: true,
+  };
+
+  const data = await get({
+    url,
+    method: 'POST',
+    body,
+  });
+
+  return data;
+}
+
+export async function validateToken(token: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === "login"
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  const url = `${base_url}/reset/${token}?originalUrl=${baseHost}`;
+  const data = await get({
+    url,
+    method: "GET",
+  });
+  return data;
+}
+
+export async function initiateSSO(originalUrl: string) {
+  try {
+    const base_url: string | undefined = commonsPlatform.find(
+      (p) => p.key === "login"
+    )?.url;
+  
+    if (!base_url) {
+      throw new Error("Platform base URL not found.");
+    }
+
+    const url = `${base_url}/sso-inits?is_api_call=true&host_redirect_url=${encodeURIComponent(originalUrl)}&host_redirect_failed_auth_url=${encodeURIComponent(hostUrl)}/login`;
+    const data = await get({
+      url,
+      method: 'GET',
+    });
+
+    return data;
+  } catch (error) {
+    console.error('Error initiating SSO:', error);
+    throw error;
+  }
+}
+
+export async function registerContributor(forms: Record<string, any>) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
+    throw new Error('SMTP or email environment variables are not defined.');
+  }
+
+  const adminEmails = ADMIN_EMAILS
+    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+    : [];
+
+  if (adminEmails.length === 0) {
+    throw new Error('No admin emails provided.');
+  }
+
+  const url = `${base_url}/save/contributor`;
+  const body = {
+    ...forms,
+    fromBaseHost: true,
+  };
+
+  try {
+    const data = await get({
+      url,
+      method: 'POST',
+      body,
+    });
+
+    if (data?.status === 200) {
+      const to = adminEmails[0];
+      const cc = adminEmails.length > 1 ? adminEmails.slice(1).join(';') : '';
+
+      const transporter = nodemailer.createTransport({
+        host: SMTP_HOST,
+        port: Number(SMTP_PORT),
+        service: SMTP_SERVICE,
+        auth: {
+          user: SMTP_USER,
+          pass: SMTP_PASS,
+        },
+      });
+
+      const mailOptions = {
+        from: `SDG Commons <${SMTP_USER}>`,
+        to,
+        cc,
+        subject: `New Contributor Registration: ${forms.new_name || 'N/A'}`,
+        text: `
+          Dear Admin(s),
+
+          A new contributor has registered on the platform. Below are the details:
+
+          Name: ${forms.new_name || 'N/A'}  
+          Email: ${forms.email || 'N/A'}  
+          Organization: ${forms.organization || 'N/A'}  
+          Role: ${forms.role || 'N/A'}  
+          Country: ${forms.country || 'N/A'}  
+          Position: ${forms.position || 'N/A'}  
+
+          Please review the registration and take the necessary actions.
+
+          Best regards,  
+          SDG Commons Platform
+        `,
+      };
+
+      // Send email to admin
+      try {
+        // if (NODE_ENV === 'production') {
+          await transporter.sendMail(mailOptions);
+        // }
+      } catch (emailError) {
+        console.error('Error sending email to admin:', emailError);
+      }
+    }
+
+    return data;
+  } catch (error) {
+    console.error('Error registering contributor:', error);
+    throw error;
+  }
+}
+
+export async function logoutCurrentSession() {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  const url = `${base_url}/logout/current`;
+
+  const data = await get({
+    url,
+    method: 'POST',
+    body: {
+      fromHostBase: true
+    },
+  });
+
+  return data;
+}
+
+export async function getContributorInfo(uuid: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  const url = `${base_url}/en/view/contributor?is_api_call=true&id=${uuid}`;
+
+  const resp = await get({
+    url,
+    method: 'GET',
+  });
+
+  const { data, status } = resp || {};
+  if (status === 200 && data?.data) {
+    return {
+      status,
+      ...data.data,
+    };
+  } else {
+    return {
+      status: status || 500,
+      message: data?.message || 'Failed to fetch contributor info',
+    };
+  }
+}
+
+
+export async function updatedProfile(forms: Record<string, any>) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  if (!forms?.id)  throw new Error("UUID and ID are required for updating profile.");
+
+  //Check if current password. If new password is provided, current password is required
+  // Check if cuurent password is correct
+  const {new_password, currentPassword } = forms;
+  if (new_password && !currentPassword) {
+    return {
+      status: 400,
+      message: 'Current password is required to update profile.',
+    };
+  }
+  if ((new_password && currentPassword) || currentPassword) {
+    const checkCurrentPassword = await get({
+      url: `${base_url}/check/password`,
+      method: 'POST',
+      body: {
+        password: currentPassword,
+        id: forms.id, 
+      },
+    });
+
+    // If the status is not 200, it means the current password is incorrect or not provided
+    if (checkCurrentPassword?.status !== 200) {
+      return {
+        status: 400,
+        message: 'Current password is required to update profile.',
+      };
+    }
+  }
+
+  const url = `${base_url}/save/contributor`;
+
+  const body = {
+    ...forms,
+    fromBaseHost: true,
+  };
+
+  try {
+    const data = await get({
+      url,
+      method: 'POST',
+      body,
+    });
+
+    return data;
+  } catch (error) {
+    console.error('Error registering contributor:', error);
+    throw error;
+  }
+}
+
+
+export async function confirmEmail(token: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+  const url = `${base_url}/confirm-email/${token}?is_api_call=true`;
+
+  const resp = await get({
+    url,
+    method: 'GET',
+  });
+  return resp;
+}
+
+export async function deleteAccount(uuid: string, password: string, email: string) {
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === 'login'
+  )?.url;
+
+  if (!base_url) {
+    throw new Error("Platform base URL not found.");
+  }
+
+  // Validate the user's password
+  const validatePasswordResponse = await get({
+    url: `${base_url}/check/password`,
+    method: 'POST',
+    body: {
+      password,
+      id: uuid,
+    },
+  });
+
+  if (validatePasswordResponse?.status !== 200) {
+    return {
+      status: 400,
+      message: 'Incorrect password. Please try again.',
+    };
+  }
+
+  // Execute the delete API call
+  const url = `${base_url}/delete/contributors?id=${uuid}&is_api_call=true&anonymize=true`;
+
+  const deleteResponse = await get({
+    url,
+    method: 'GET',
+  });
+
+  if (deleteResponse?.status === 200) {
+    if (email) {
+      await notifyAccountDeletion(email);
+    }
+  }
+
+  return deleteResponse;
+}
+
+export async function notifyAccountDeletion(email: string) {
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
+    throw new Error('SMTP environment variables are not defined.');
+  }
+
+  const adminEmails = ADMIN_EMAILS
+    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+    : [];
+
+  if (adminEmails.length === 0) {
+    throw new Error('No admin emails provided.');
+  }
+
+  const adminContact = adminEmails[0];
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT),
+    service: SMTP_SERVICE,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `SDG Commons <${SMTP_USER}>`,
+    to: email,
+    subject: 'Account Deletion Notification',
+    text: `
+      Dear User,
+
+      Your account has been successfully deleted from the SDG Commons platform. Your contributions may remain in anonymized form unless you explicitly request their removal. If you wish to remove your contributions, please contact the administrator at ${adminContact}.
+
+      Best regards,
+      SDG Commons Platform
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return {
+      status: 200,
+      message: 'Notification email sent successfully.',
+    };
+  } catch (error) {
+    console.error('Error sending account deletion notification email:', error);
+    return {
+      status: 500,
+      message: 'Failed to send notification email.',
+      error,
+    };
+  }
+}
+
+export async function sendContactContributorEmail(
+  contributorEmail: string,
+  senderEmail: string,
+  senderName: string,
+  message: string
+) {
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_SERVICE) {
+    throw new Error('SMTP environment variables are not defined.');
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT),
+    service: SMTP_SERVICE,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `SDG Commons <${SMTP_USER}>`,
+    to: contributorEmail,
+    subject: `Message from ${senderName}`,
+    text: `
+      Dear Contributor,
+
+      You have received a message from ${senderName} (${senderEmail}). Below is the message:
+
+      "${message}"
+
+      Please feel free to respond directly to the sender.
+
+      Best regards,
+      SDG Commons Platform
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return {
+      status: 200,
+      message: 'Email sent successfully.',
+    };
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return {
+      status: 500,
+      message: 'Failed to send email.',
+      error,
+    };
+  }
 }

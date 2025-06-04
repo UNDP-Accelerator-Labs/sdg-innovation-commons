@@ -24,9 +24,9 @@ export default async function get({ url, method, body, cache }: Props) {
     };
 
     // Add x-access-token if running in localhost
-    if (isLocalhost && JWT_TOKEN) {
-      headers['x-access-token'] = JWT_TOKEN;
-    }
+    // if (isLocalhost && JWT_TOKEN && !url.includes('/login')) {
+    //   headers['x-access-token'] = JWT_TOKEN;
+    // }
 
     const response = await axios({
       url,
@@ -35,15 +35,15 @@ export default async function get({ url, method, body, cache }: Props) {
       data: method !== 'GET' ? body : undefined,
       withCredentials: true,
     });
-
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      if (error.response?.status === 400) {
+      if ([400, 401, 404, 403].includes(error.response?.status as number)) {
         try {
-          const responseData = error.response.data;
+          const responseData = error?.response?.data;
           if (responseData?.message) {
-            return [];
+            // return [];
+            return responseData
           }
           return responseData;
         } catch {

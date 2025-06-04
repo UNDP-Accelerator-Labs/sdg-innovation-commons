@@ -22,6 +22,7 @@
     "jose": "^5.9.6",
     "jsdom": "^26.0.0",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.511.0",
     "next": "15.2.1",
     "next-auth": "5.0.0-beta.19",
     "next-session": "^4.0.5",

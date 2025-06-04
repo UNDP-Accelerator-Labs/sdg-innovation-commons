@@ -628,4 +628,18 @@ textarea {
       transform: rotate(360deg);
     }
   }
+
+  @keyframes pulse-slow {
+    0%,
+    100% {
+      opacity: 0.8;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 }

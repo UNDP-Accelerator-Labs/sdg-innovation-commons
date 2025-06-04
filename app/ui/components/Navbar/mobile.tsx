@@ -1,14 +1,16 @@
 "use client";
 import { useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { usePathname, redirect } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
 import NavLink from "./navlink";
 import Link from 'next/link';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import Loading from '@/app/ui/components/Loading';
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { sharedState } = useSharedState();
+  const [loading, setLoading] = useState(false);
 
   // Function to toggle the menu open/close state
   const toggleMenu = () => {
@@ -18,10 +20,15 @@ export default function NavBar() {
   const currPath = usePathname();
   const loginRedirect = (e:any)=>{
       e.preventDefault()
+      if (sharedState?.session?.username) {
+        setLoading(true);
+        return redirect('/profile');
+      };
       redirectToLogin(currPath)
   }
-  
+
   return (
+    <>
     <div className='w-full relative bg-white py-[20px] box-border text-center text-base text-black font-noto-sans border-b-[1px] border-black border-solid z-10'>
       <div className='inner relative w-full mx-auto px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px] box-border flex flex-row items-center justify-between'>
           <Link href='/'>
@@ -82,5 +89,7 @@ export default function NavBar() {
         </div>
       )}
     </div>
+    <Loading isLoading={loading} />
+        </>
   );
 }
