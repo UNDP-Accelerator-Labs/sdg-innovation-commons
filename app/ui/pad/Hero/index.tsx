@@ -153,9 +153,12 @@ export default function Hero({
 						</span>
 						<h2>{title}</h2>
 						<p className="lead mb-[10px]">
-							<Link href={`/profile/${contributor_id}`}>
+							<Link
+								href={`/profile/${contributor_id}`}
+								className="hover:text-blue-800 underline font-bold"
+							>
 								<b>Posted by {owner}</b>
-							</Link> 
+							</Link>
 						</p>
 						{lab === undefined ? null : (
 							<a
