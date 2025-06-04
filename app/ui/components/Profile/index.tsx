@@ -267,7 +267,8 @@ export default function ProfileContent({
     try {
       const response = await deleteAccount(
         user?.uuid || '',
-        deleteAccountPassword
+        deleteAccountPassword,
+        email,
       );
       if (response?.status === 200) {
         setDeleteAccountError('Your account has been successfully deleted.');

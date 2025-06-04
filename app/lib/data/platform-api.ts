@@ -604,7 +604,7 @@ export async function confirmEmail(token: string) {
   return resp;
 }
 
-export async function deleteAccount(uuid: string, password: string) {
+export async function deleteAccount(uuid: string, password: string, email: string) {
   const base_url: string | undefined = commonsPlatform.find(
     (p) => p.key === 'login'
   )?.url;
@@ -637,7 +637,69 @@ export async function deleteAccount(uuid: string, password: string) {
     url,
     method: 'GET',
   });
+
+  if (deleteResponse?.status === 200) {
+    if (email) {
+      await notifyAccountDeletion(email);
+    }
+  }
+
   return deleteResponse;
+}
+
+export async function notifyAccountDeletion(email: string) {
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
+    throw new Error('SMTP environment variables are not defined.');
+  }
+
+  const adminEmails = ADMIN_EMAILS
+    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+    : [];
+
+  if (adminEmails.length === 0) {
+    throw new Error('No admin emails provided.');
+  }
+
+  const adminContact = adminEmails[0];
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT),
+    service: SMTP_SERVICE,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `SDG Commons <${SMTP_USER}>`,
+    to: email,
+    subject: 'Account Deletion Notification',
+    text: `
+      Dear User,
+
+      Your account has been successfully deleted from the SDG Commons platform. Your contributions may remain in anonymized form unless you explicitly request their removal. If you wish to remove your contributions, please contact the administrator at ${adminContact}.
+
+      Best regards,
+      SDG Commons Platform
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return {
+      status: 200,
+      message: 'Notification email sent successfully.',
+    };
+  } catch (error) {
+    console.error('Error sending account deletion notification email:', error);
+    return {
+      status: 500,
+      message: 'Failed to send notification email.',
+      error,
+    };
+  }
 }
 
 export async function sendContactContributorEmail(
