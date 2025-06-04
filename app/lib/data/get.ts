@@ -35,11 +35,10 @@ export default async function get({ url, method, body, cache }: Props) {
       data: method !== 'GET' ? body : undefined,
       withCredentials: true,
     });
-
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      if ([400, 401, 404].includes(error.response?.status as number)) {
+      if ([400, 401, 404, 403].includes(error.response?.status as number)) {
         try {
           const responseData = error?.response?.data;
           if (responseData?.message) {

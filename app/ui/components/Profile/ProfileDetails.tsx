@@ -29,6 +29,7 @@ interface ProfileDetailsProps {
   filteredCountries: any[];
   setEditForm: (value: any) => void;
   countryError: string;
+  personalView?: boolean;
 }
 
 const ProfileDetails: React.FC<ProfileDetailsProps> = ({
@@ -43,6 +44,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   filteredCountries = [],
   setEditForm,
   countryError,
+  personalView,
 }) => (
   <div className="bg-white border border-black border-solid p-6">
     <h3 className="text-xl font-bold mb-6 font-space-mono">Profile Information</h3>
@@ -55,13 +57,13 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
             <span className="text-lg">{user.name}</span>
           </div>
         </div>
-        <div>
+        {personalView && (<div>
           <label className="text-sm font-bold font-space-mono text-gray-600">Email</label>
           <div className="flex items-center space-x-2 mt-1">
             <Mail className="h-4 w-4 text-gray-400" />
             <span className="text-lg">{user.email}</span>
           </div>
-        </div>
+        </div>)}
         <div>
           <label className="text-sm font-bold font-space-mono text-gray-600">Country</label>
           <div className="flex items-center space-x-2 mt-1">
@@ -77,8 +79,9 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
           </div>
         </div>
       </div>
-    ) : (
-      <form className="space-y-6">
+    ) : (<>
+      {personalView && (
+        <form className="space-y-6">
         <div>
           <label htmlFor="fullName" className="text-sm font-bold font-space-mono">
             Full Name
@@ -144,7 +147,8 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
             className="w-full border border-black p-2 mt-1"
           />
         </div>
-      </form>
+      </form>)}
+      </>
     )}
   </div>
 );

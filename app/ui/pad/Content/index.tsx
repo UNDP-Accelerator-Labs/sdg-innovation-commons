@@ -28,6 +28,7 @@ export default async function Section({ id, platform }: Props) {
     platform,
     'pads'
   );
+
   const [datum] = data;
   let {
     base,
@@ -49,6 +50,7 @@ export default async function Section({ id, platform }: Props) {
     current_user_engagement,
     engagement,
     comments,
+    contributor_id,
   } = datum || {};
 
   let lab: string | undefined = undefined;
@@ -135,6 +137,7 @@ export default async function Section({ id, platform }: Props) {
         pinboards={pinboards}
         current_user_engagement={current_user_engagement}
         engagement={engagement}
+        contributor_id={contributor_id}
       />
       <section className="home-section pb-[40px] pt-[80px] lg:pb-[80px] lg:pt-[120px]">
         <div className="inner xxl:w-[1440px] mx-auto w-[375px] md:w-[744px] lg:hidden lg:w-[992px] xl:w-[1200px]">

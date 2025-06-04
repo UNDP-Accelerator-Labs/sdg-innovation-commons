@@ -19,6 +19,7 @@ interface ProfileCardProps {
   handleSave: () => void;
   handleCancel: () => void;
   setShowLogoutConfirm: (value: boolean) => void;
+  personalView?: boolean;
 }
 
 const defaultProfileImage = (
@@ -40,6 +41,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   handleSave,
   handleCancel,
   setShowLogoutConfirm,
+  personalView,
 }) => (
   <div className="bg-white border border-black border-solid p-6 text-center">
     <div className="mb-4">
@@ -56,13 +58,15 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     <h2 className="text-xl font-bold mb-1">{user?.name || "N/A"}</h2>
     <p className="text-gray-600 mb-2">{user?.position || "N/A"}</p>
     <p className="text-sm text-gray-500 mb-4">{user?.country || "N/A"}</p>
-    <div className="space-y-2 text-sm text-gray-600">
+
+    { personalView && (<div className="space-y-2 text-sm text-gray-600">
       <div className="flex items-center justify-center space-x-2">
         <Calendar className="h-4 w-4" />
         <span>Joined {user?.created_at ? new Date(user.created_at).toLocaleDateString() : "N/A"}</span>
       </div>
-    </div>
-    <div className="mt-6 space-y-2">
+    </div>)}
+
+    {personalView && (<div className="mt-6 space-y-2">
       {!isEditing ? (
         <button onClick={handleEdit} className="w-full detach py-2 px-4 relative z-10 text-black font-bold">
           <span className="relative z-10 flex items-center justify-center space-x-2">
@@ -98,7 +102,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
           <span>Logout</span>
         </span>
       </button>
-    </div>
+    </div>)}
   </div>
 );
 

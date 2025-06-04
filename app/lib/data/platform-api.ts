@@ -639,3 +639,57 @@ export async function deleteAccount(uuid: string, password: string) {
   });
   return deleteResponse;
 }
+
+export async function sendContactContributorEmail(
+  contributorEmail: string,
+  senderEmail: string,
+  senderName: string,
+  message: string
+) {
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_SERVICE) {
+    throw new Error('SMTP environment variables are not defined.');
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: Number(SMTP_PORT),
+    service: SMTP_SERVICE,
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `SDG Commons <${SMTP_USER}>`,
+    to: contributorEmail,
+    subject: `Message from ${senderName}`,
+    text: `
+      Dear Contributor,
+
+      You have received a message from ${senderName} (${senderEmail}). Below is the message:
+
+      "${message}"
+
+      Please feel free to respond directly to the sender.
+
+      Best regards,
+      SDG Commons Platform
+    `,
+  };
+
+  try {
+    await transporter.sendMail(mailOptions);
+    return {
+      status: 200,
+      message: 'Email sent successfully.',
+    };
+  } catch (error) {
+    console.error('Error sending email:', error);
+    return {
+      status: 500,
+      message: 'Failed to send email.',
+      error,
+    };
+  }
+}

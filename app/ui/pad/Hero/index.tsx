@@ -5,6 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { engage } from '@/app/ui/components/Card/utils';
 import platformApi, { engageApi } from '@/app/lib/data/platform-api';
+import Link from '@/app/ui/components/Link'
 
 interface Props {
 	id: number;
@@ -21,6 +22,7 @@ interface Props {
 	pinboards?: any[];
 	current_user_engagement?: any[];
 	engagement?: any[];
+	contributor_id?: string;
 }
 
 export default function Hero({
@@ -38,6 +40,7 @@ export default function Hero({
 	pinboards = [],
 	current_user_engagement,
 	engagement,
+	contributor_id
 }: Props) {
 	if (padtype === 'solution') padtype = 'solution note';
 	padtype = `${padtype?.slice(0, 1).toUpperCase()}${padtype?.substring(1)}`;
@@ -150,7 +153,9 @@ export default function Hero({
 						</span>
 						<h2>{title}</h2>
 						<p className="lead mb-[10px]">
-							<b>Posted by {owner}</b>
+							<Link href={`/profile/${contributor_id}`}>
+								<b>Posted by {owner}</b>
+							</Link> 
 						</p>
 						{lab === undefined ? null : (
 							<a

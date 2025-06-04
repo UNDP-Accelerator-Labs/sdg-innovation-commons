@@ -9,7 +9,9 @@ import {
   logoutCurrentSession,
   updatedProfile,
   deleteAccount,
+  sendContactContributorEmail
 } from '@/app/lib/data/platform-api';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 interface Country {
   country: string;
@@ -72,6 +74,13 @@ export default function ProfileContent({
   const [isLoading, setIsLoading] = useState(!profileData);
   const [errorMessage, setErrorMessage] = useState('');
   const [showUpdateWarning, setShowUpdateWarning] = useState(false);
+  const [showContactContributorModal, setShowContactContributorModal] = useState(false);
+  const [contactContributorForm, setContactContributorForm] = useState({
+    message: '',
+  });
+
+  const { sharedState } = useSharedState();
+  const { uuid, email, username } = sharedState?.session || {};
 
   useEffect(() => {
     if (!profileData) {
@@ -91,12 +100,13 @@ export default function ProfileContent({
     );
   }, [searchTerm, countries]);
 
+  const personalView = uuid === profileData?.uuid
+
   const handleSave = async () => {
     if (!editForm?.country) {
       setCountryError('Country is required.');
       return;
     }
-
     // Ensure only ISO3 codes are sent
     const iso3Code = editForm?.country?.length > 3
      ? countries.find((country) => country.country === editForm?.country)
@@ -275,6 +285,37 @@ export default function ProfileContent({
     }
   };
 
+  const handleContactContributorSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage('');
+
+    try {
+      const response = await sendContactContributorEmail(
+        profileData?.email as string, // Contributor's email
+        email, // Sender's email
+        username, // Sender's name
+        contactContributorForm.message // Message content
+      );
+
+      if (response.status === 200) {
+        setErrorMessage('Message sent successfully!');
+        setTimeout(() => {
+          setShowContactContributorModal(false);
+          setContactContributorForm({ message: '' });
+          setErrorMessage('');
+        }, 2000); // Close modal after 2 seconds
+      } else {
+        setErrorMessage(response.message || 'Failed to send message.');
+      }
+    } catch (error) {
+      setErrorMessage('An error occurred while sending the message.');
+      console.error('Error sending message:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (isLoading) {
     return <ProfileSkeleton />;
   }
@@ -283,14 +324,14 @@ export default function ProfileContent({
     <div className="mx-auto max-w-6xl">
       <div className="mb-8">
         <h1 className="text-4xl mb-2 font-bold">
-          My{' '}
+          {personalView && ( <>My{' '} </>)}
           <span className="slanted-bg blue">
             <span>Profile</span>
           </span>
         </h1>
-        <p className="text-gray-600">
+        {personalView && (<p className="text-gray-600">
           Manage your account settings and preferences
-        </p>
+        </p>)}
       </div>
       {showUpdateWarning && (
         <div className="mb-4 rounded border border-yellow-400 bg-yellow-100 px-4 py-3 text-yellow-700">
@@ -321,6 +362,7 @@ export default function ProfileContent({
               setShowUpdateWarning(false); // Hide warning when canceling edit
             }}
             setShowLogoutConfirm={setShowLogoutConfirm}
+            personalView={personalView} 
           />
         </div>
         <div className="lg:col-span-2">
@@ -339,10 +381,11 @@ export default function ProfileContent({
             filteredCountries={filteredCountries}
             setEditForm={setEditForm}
             countryError={countryError}
+            personalView={personalView}
           />
         </div>
       </div>
-      <div className="mt-6 border border-solid border-black bg-white p-6">
+      {personalView && (<div className="mt-6 border border-solid border-black bg-white p-6">
         <h3 className="mb-6 font-space-mono text-xl font-bold">
           Account Settings
         </h3>
@@ -375,10 +418,37 @@ export default function ProfileContent({
             </p>
           </button>
         </div>
-      </div>
+      </div>)}
+
+
+      {!personalView && (
+        <div className="mt-6 border border-solid border-black bg-white p-6">
+          <h3 className="mb-6 font-space-mono text-xl font-bold">Get in Touch</h3>
+          <div className="space-y-4">
+            <button
+              onClick={() => uuid && setShowContactContributorModal(true)}
+              disabled={!uuid}
+              className={`block w-full border border-solid border-gray-300 p-4 text-left transition-colors ${
+                uuid
+                  ? 'hover:border-[#0072bc] hover:bg-gray-50'
+                  : 'cursor-not-allowed'
+              }`}
+            >
+              <h4 className="font-bold">Contact Contributor</h4>
+              <p className="text-sm text-gray-600">
+                {uuid
+                  ? 'Have a question or want to collaborate? Reach out directly to the contributor.'
+                  : 'Please log in to send a message to the contributor.'}
+              </p>
+            </button>
+          </div>
+        </div>
+      )}
+
+
       <ProfileModals
         userUuid={user?.uuid || ''}
-        showPasswordChange={showPasswordChange}
+        showPasswordChange={personalView && showPasswordChange}
         setShowPasswordChange={setShowPasswordChange}
         passwordForm={passwordForm}
         setPasswordForm={setPasswordForm}
@@ -386,25 +456,30 @@ export default function ProfileContent({
         isSubmitting={isSubmitting}
         errorMessage={errorMessage}
         setErrorMessage={setErrorMessage}
-        showChangeEmailModal={showChangeEmailModal}
+        showChangeEmailModal={personalView && showChangeEmailModal}
         setShowChangeEmailModal={setShowChangeEmailModal}
         newEmail={newEmail}
         setNewEmail={setNewEmail}
-        currentPassword={currentPassword} // Pass currentPassword to ProfileModals
+        currentPassword={currentPassword}
         setCurrentPassword={setCurrentPassword}
         handleEmailChangeSubmit={handleEmailChangeSubmit}
-        emailErrorMessage={emailErrorMessage} // Pass emailErrorMessage to ProfileModals
+        emailErrorMessage={emailErrorMessage}
         setEmailErrorMessage={setEmailErrorMessage}
-        showDeleteAccountConfirm={showDeleteAccountConfirm}
+        showDeleteAccountConfirm={personalView && showDeleteAccountConfirm}
         setShowDeleteAccountConfirm={setShowDeleteAccountConfirm}
         deleteAccountPassword={deleteAccountPassword}
         setDeleteAccountPassword={setDeleteAccountPassword}
         deleteAccountError={deleteAccountError}
         setDeleteAccountError={setDeleteAccountError}
         handleDeleteAccount={handleDeleteAccount}
-        showLogoutConfirm={showLogoutConfirm}
+        showLogoutConfirm={personalView && showLogoutConfirm}
         setShowLogoutConfirm={setShowLogoutConfirm}
         handleLogout={handleLogout}
+        showContactContributorModal={!personalView && showContactContributorModal}
+        setShowContactContributorModal={setShowContactContributorModal}
+        contactContributorForm={contactContributorForm}
+        setContactContributorForm={setContactContributorForm}
+        handleContactContributorSubmit={handleContactContributorSubmit}
       />
     </div>
   );
