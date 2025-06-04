@@ -347,8 +347,8 @@ export default function ProfileContent({
           <p>{errorMessage}</p>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-        <div className="lg:col-span-1">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:h-full">
+        <div className="lg:col-span-1 flex flex-col">
           <ProfileCard
             user={user!}
             isEditing={isEditing}
@@ -366,7 +366,7 @@ export default function ProfileContent({
             personalView={personalView} 
           />
         </div>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 flex flex-col">
           <ProfileDetails
             user={user!}
             isEditing={isEditing}
