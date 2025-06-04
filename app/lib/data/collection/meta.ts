@@ -24,11 +24,13 @@ export default async function Data({
 		platforms: platforms,
 		filters: ['thematic areas', 'sdgs', 'countries'],
 	});
+
 	const tags: any[] = meta.find((d: any) => d.key === 'thematic areas')?.data;
 	const tagsCount: number = tags.length ?? 0;
 	const topTags: any[] = tags.sort((a: any, b: any) => b.count - a.count).slice(0, 3);
 	const remainingTagsCount: number = tagsCount - topTags.length;
 	let sdgs: any[] = meta.find((d: any) => d.key === 'sdgs')?.data;
+
 	sdgs = sdgs.filter((d: any) => d.count > 0);
 	sdgs.forEach((d: any, i: number) => {
 		d.key = i + 1;
@@ -77,23 +79,23 @@ export default async function Data({
 			//Highlight the SDGs that are in the middle of the distribution 
 			// and have a count greater than 0
 			highlight: (() => {
-				const sortedSdgs = sdgs.sort((a: any, b: any) => a.count - b.count);
-				const midIndex = Math.floor(sortedSdgs.length / 2);
+				const sortedSdgs = sdgs.sort((a: any, b: any) => a?.count - b?.count);
+				const midIndex = Math.floor(sortedSdgs?.length / 2);
 			  
 				const median =
 				  sortedSdgs.length % 2 === 0
-					? (sortedSdgs[midIndex - 1].count + sortedSdgs[midIndex].count) / 2
-					: sortedSdgs[midIndex].count;
+					? (sortedSdgs[midIndex - 1]?.count + sortedSdgs[midIndex]?.count) / 2
+					: sortedSdgs[midIndex]?.count;
 			  
 				const range = median * 0.5;
 			  
 				const relevantSdgs = sortedSdgs.filter(
-				  (d: any) => d.count >= median - range && d.count <= median + range
+				  (d: any) => d?.count >= median - range && d?.count <= median + range
 				);
 			  
 				return relevantSdgs.map((d: any) => d.key);
 			  })(),
-			count: sdgs.length,
+			count: sdgs?.length,
 		}
 	}
 }

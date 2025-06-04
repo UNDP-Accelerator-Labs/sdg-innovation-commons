@@ -38,7 +38,7 @@ export default async function Data({
     tabs?.unshift('all');
 
     const { title, description, total: padsCount, pads, contributors, creator, status, is_contributor, total }: { title: string, description: string, total: number, contributors: number, creator: any, pads: any[], status: number, is_contributor : boolean, } = boardData || {};
-    const { name: creatorName, isUNDP, country }: { name: string, isUNDP: boolean, country: string | undefined } = creator || {};
+    const { name: creatorName, isUNDP, country, id: contributor_uuid }: { name: string, isUNDP: boolean, country: string | undefined, id: string|undefined } = creator || {};
 
     // DETERMINE WHETHER THE BOARD IS ATTRIBUTABLE TO AN ACCELERATOR LAB
     let lab: string | undefined = undefined;
@@ -60,6 +60,7 @@ export default async function Data({
         contributors,
         status,
         is_contributor,
+        contributor_uuid,
         lab: {
             name: lab,
             link: labLink,

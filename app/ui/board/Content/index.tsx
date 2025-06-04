@@ -25,7 +25,6 @@ export default async function Section({ id, platform, searchParams }: Props) {
     {},
     is_user_logged_in(),
   ]);
-
   const {
     title,
     description,
@@ -43,6 +42,7 @@ export default async function Section({ id, platform, searchParams }: Props) {
     vignette,
     status,
     is_contributor,
+    contributor_uuid,
   } = boardDataResult || {};
 
   return (
@@ -56,6 +56,7 @@ export default async function Section({ id, platform, searchParams }: Props) {
         padsCount={pads?.count}
         locations={locations}
         tags={tags}
+        contributor_uuid={contributor_uuid}
       />
 
       {description?.length > 0 && (

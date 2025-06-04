@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import platformApi from '@/app/lib/data/platform-api';
 import metaData from '@/app/lib/data/meta-data';
 import woldMap from '@/app/lib/data/world-map';
+import Link from 'next/link'
 
 interface Props {
 	title: string;
@@ -12,6 +13,7 @@ interface Props {
 	padsCount?: number;
 	locations?: any;
 	tags?: any;
+	contributor_uuid?: string;
 }
 
 export default async function Hero({
@@ -23,6 +25,7 @@ export default async function Hero({
 	padsCount,
 	locations,
 	tags,
+	contributor_uuid,
 }: Props) {
 	return (
 	  	<>
@@ -35,7 +38,9 @@ export default async function Hero({
 								<span>{title}</span>
 							</span>
 						</h1>
+						<Link href={`/profile/${contributor_uuid}`} className="hover:text-blue-800 underline font-bold">
 						<p className='lead mb-[10px]'><b>Curated by {creator}</b></p>
+						</Link>
 						{lab === undefined ? null : (
 							<a href={lab.link} target='_blank' rel='noopener noreferrer' className='underline'>{lab.name}</a>
 						)}
