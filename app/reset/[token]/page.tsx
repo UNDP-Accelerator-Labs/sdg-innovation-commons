@@ -4,7 +4,7 @@ import Navigation from "@/app/ui/components/Navbar";
 import { validateToken } from "@/app/lib/data/platform-api";
 
 interface ResetPasswordPageProps {
-  params: { token: string };
+  params:Promise<{ token: string }>
 }
 
 export default async function ResetPasswordPage({ params }: ResetPasswordPageProps) {
