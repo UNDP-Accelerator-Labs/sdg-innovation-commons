@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { addComment } from '@/app/lib/data/platform-api';
+import { addComment, deleteComment } from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { Button } from '@/app/ui/components/Button';
 import { useState } from 'react';
@@ -14,6 +14,8 @@ interface Comment {
   message_id: number;
   response_to_message_id: number | null;
   replies: Comment[];
+  user_id?: string;
+  rights?: number;
 }
 
 interface CommentSectionProps {
@@ -28,7 +30,8 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [showAllReplies, setShowAllReplies] = useState<{ [key: number]: boolean }>({});
   const { sharedState } = useSharedState();
-  const { isLogedIn } = sharedState || {};
+  const { isLogedIn, session } = sharedState || {};
+  const { rights, uuid } = session || {};
 
   const handleCommentSubmit = async (newComment: string, parentId: number | null = null) => {
     try {
@@ -43,6 +46,15 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
       router.refresh();
     } catch (error) {
       console.error('Failed to submit comment:', error);
+    }
+  };
+
+  const handleDeleteComment = async (messageId: number) => {
+    try {
+      await deleteComment(platform, messageId);
+      router.refresh();
+    } catch (error) {
+      console.error('Failed to delete comment:', error);
     }
   };
 
@@ -88,6 +100,14 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
               onClick={() => setReplyingTo(replyingTo === comment.message_id ? null : comment.message_id)}
             >
               Reply
+            </button>
+          )}
+          {(isLogedIn && (uuid === comment.user_id)) && (
+            <button
+              className="text-sm text-red-500 hover:underline border-none bg-transparent cursor-pointer"
+              onClick={() => handleDeleteComment(comment.message_id)}
+            >
+              Delete
             </button>
           )}
           {replyingTo === comment.message_id && (

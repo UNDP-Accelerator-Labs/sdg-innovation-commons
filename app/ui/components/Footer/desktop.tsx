@@ -68,19 +68,20 @@ export default function DesktopMediaLinks({ className }: { className?: string })
               <li className='mb-[10px]'><Link href="https://www.undp.org/accountability/audit/social-and-environmental-compliance-review-and-stakeholder-response-mechanism" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Submit social environment complaint</Link></li>
               <li className='mb-[10px]'><Link href="https://www.undp.org/scam-alert" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Scam Alert</Link></li>
               <li className='mb-[10px]'><Link href="https://www.undp.org/copyright-terms-use" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Terms of Use</Link></li>
+              <li className='mb-[10px]'><Link href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/wiki" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>SDG Commons Wiki</Link></li>
             </ul>
           </div>
           <div className='w-full flex justify-between mb-[20px]'>
             <Link href='https://x.com/UNDPAccLabs?prefetchTimestamp=1728383203979' target='_blank' rel='noopener noreferrer'>
               <img
-                className="w-[50px] w-[45.6px] relative h-[50px] h-[45.6px]"
+                className="w-[45.6px] relative  h-[45.6px]"
                 alt=""
                 src="/images/Group 244.svg"
               />
             </Link>
             <Link href='https://www.linkedin.com/company/undp-accelerator-labs/' target='_blank' rel='noopener noreferrer'>
               <img
-                className="w-[50px] w-[45.6px] relative h-[50px] h-[45.6px]"
+                className="w-[45.6px] relative h-[45.6px]"
                 alt=""
                 src="/images/Group 243.svg"
               />
@@ -94,7 +95,7 @@ export default function DesktopMediaLinks({ className }: { className?: string })
             </Link>
             <Link href='https://www.instagram.com/acceleratorlabs/' target='_blank' rel='noopener noreferrer'>
               <img
-                className="w-[50px] w-[45.6px] relative h-[50px] h-[45.6px]"
+                className="w-[45.6px] relative h-[50px] h-[45.6px]"
                 alt=""
                 src="/images/Group 242.svg"
               />

@@ -16,7 +16,7 @@ import Filters from '../Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
-
+import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
 
 export interface PageStatsResponse {
   total: number;
@@ -275,7 +275,10 @@ export default function Section({
           </p>
 
           <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
-
+          {!isLogedIn && (
+            <RestrictionNotice />
+          )}
+          
           {/* Display tabs */}
           <nav className="tabs items-end">
             {tabs.map((d, i) => {

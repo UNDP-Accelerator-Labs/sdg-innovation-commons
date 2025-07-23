@@ -13,7 +13,7 @@ import DropDown from '@/app/ui/components/DropDown';
 import Filters from '../Filters';
 import clsx from 'clsx';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
-
+import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
 
 export interface PageStatsResponse {
   total: number;
@@ -203,6 +203,11 @@ export default function Section({ searchParams }: SectionProps) {
           </p>
 
            <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
+
+           {/* {!isLogedIn && (
+              <RestrictionNotice />
+            )} */}
+
 
           <div className="section-content">
             {/* Display Cards */}
