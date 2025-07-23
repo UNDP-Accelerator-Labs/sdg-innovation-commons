@@ -246,6 +246,7 @@ export async function addComment(
   message: string,
   id: number,
   source: number|string|undefined,
+  action: string = 'add'
 ) {
   if(!message || !platform) return;
 
@@ -259,6 +260,31 @@ export async function addComment(
     id,
     message,
     source,
+    action,
+  };
+
+  const data = await get({
+    url,
+    method: 'POST',
+    body,
+  });
+  return data;
+}
+
+export async function deleteComment(
+  platform: string,
+  id: number,
+) {
+  if(!platform) return;
+
+  const base_url: string | undefined = commonsPlatform.find(
+    (p) => p.key === platform
+  )?.url;
+
+  const url = `${base_url}/comment`;
+  const body = {
+    comment_id: id,
+    action: 'delete',
   };
 
   const data = await get({
@@ -436,22 +462,23 @@ export async function registerContributor(forms: Record<string, any>) {
         from: `SDG Commons <${SMTP_USER}>`,
         to,
         cc,
-        subject: `New Contributor Registration: ${forms.new_name || 'N/A'}`,
+        subject: `FYI: New Contributor Self-Registration – ${forms.new_name || 'N/A'}`,
         text: `
           Dear Admin(s),
 
-          A new contributor has registered on the platform. Below are the details:
+          This is an automated notification for your information only. A new user has registered themselves as a contributor on the SDG Commons platform. The registrant is likely external to your organization.
 
-          Name: ${forms.new_name || 'N/A'}  
-          Email: ${forms.email || 'N/A'}  
-          Organization: ${forms.organization || 'N/A'}  
-          Role: ${forms.role || 'N/A'}  
-          Country: ${forms.country || 'N/A'}  
-          Position: ${forms.position || 'N/A'}  
+          Registration details:
+          Name: ${forms.new_name || 'N/A'}
+          Email: ${forms.email || 'N/A'}
+          Organization: ${forms.organization || 'N/A'}
+          Role: ${forms.role || 'N/A'}
+          Country: ${forms.country || 'N/A'}
+          Position: ${forms.position || 'N/A'}
 
-          Please review the registration and take the necessary actions.
+          No action is required on your part at this time.
 
-          Best regards,  
+          Best regards,
           SDG Commons Platform
         `,
       };

@@ -25,7 +25,7 @@ export default function GlobalError({
                         <img className="w-[721px] absolute !m-[0] top-[-208px] left-[-170.5px] rounded-101xl h-[729px] z-[1]" alt="" src="/images/Vector 36.svg" />
                         <div className="w-[682px] flex flex-col items-start justify-start z-[3] text-left text-base">
                             <div className="w-[682px] flex flex-col items-center justify-center">
-                                <Button onClick={() => reset()}>
+                                <Button onClick={() => window.location.reload()}>
                                     Try again
                                 </Button>
                             </div>

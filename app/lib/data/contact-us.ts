@@ -92,27 +92,27 @@ export async function createContact(prevState: ContactState, formData: FormData)
     from: `SDG Commons <${SMTP_USER}>`,
     to,
     cc,
-    subject: `Contact Form Submission from ${name} ${surname}`,
+    subject: `New Contact Us Form Submission from ${name} ${surname}`,
     text: `
-        Dear Admin,
+      Hello Admin,
 
-        You have received a new contact form submission on the platform. Below are the details:
+      This is an automated notification to inform you that a user has submitted a Contact Us form on the SDG Commons platform. Please find the submission details below:
 
-        Name: ${name} ${surname}  
-        Email: ${email}  
-        Organization: ${org || 'N/A'}  
-        Reason for Contact: ${reason}  
-        Message:  
-        ${message}
+      Name: ${name} ${surname}
+      Email: ${email}
+      Organization: ${org || 'N/A'}
+      Reason for Contact: ${reason}
+      Submission Date: ${date}
+      Message:
+      ${message}
 
-        Submission Date: ${date}
 
-        Please review the submission and take the necessary actions.
+      Kindly review this submission and take any necessary action.
 
-        Best regards,  
-        SDG Commons Platform
-            `,
-    };
+      Thank you,
+      SDG Commons Platform
+    `,
+  };
 
     const mailOptions2 = {
       from: `SDG Commons <${SMTP_USER}>`,

@@ -75,6 +75,8 @@ export default function DesktopMediaLinks({ className }: { className?: string })
               <li className='mb-[10px]'><Link href="https://www.undp.org/accountability/audit/social-and-environmental-compliance-review-and-stakeholder-response-mechanism" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Submit social environment complaint</Link></li>
               <li className='mb-[10px]'><Link href="https://www.undp.org/scam-alert" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Scam Alert</Link></li>
               <li className='mb-[10px]'><Link href="https://www.undp.org/copyright-terms-use" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Terms of Use</Link></li>
+              <li className='mb-[10px]'><Link href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/wiki" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>SDG Commons Wiki</Link></li>
+              
               </ul>
             </div>
             <div className='w-full flex justify-between mb-[20px]'>

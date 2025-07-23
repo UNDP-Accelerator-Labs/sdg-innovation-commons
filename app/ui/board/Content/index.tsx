@@ -10,6 +10,8 @@ import Infobar from '../Infobar';
 import Search from '../Search';
 import Tabs from '../Tabs';
 
+import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
+
 interface Props {
   id?: number;
   platform: string;
@@ -91,6 +93,11 @@ export default async function Section({ id, platform, searchParams }: Props) {
             platform={platform}
             total={total}
           />
+
+          {!isLogedIn && (
+            <RestrictionNotice />
+          )}
+
           {/* Display tabs */}
           <Tabs id={id} tabs={tabs} platform={platform} />
           <div className="section-content">
