@@ -204,9 +204,9 @@ export default function Section({ searchParams }: SectionProps) {
 
            <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
 
-           {/* {!isLogedIn && (
+           {!isLogedIn && (
               <RestrictionNotice />
-            )} */}
+            )}
 
 
           <div className="section-content">
