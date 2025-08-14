@@ -50,14 +50,6 @@ export default function Section({ searchParams }: SectionProps) {
   async function fetchData(): Promise<void> {
     setLoading(true);
 
-    const { total, pages: totalPages }: PageStatsResponse = await pagestats(
-      page,
-      platform,
-      searchParams
-    );
-    setPages(totalPages);
-    setTotal(total);
-
     let data: any[];
 
     if (!search || hasFilterParams()) {
@@ -67,11 +59,28 @@ export default function Section({ searchParams }: SectionProps) {
         'pads'
       );
       setUseNlp(false);
+
+      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
+        page,
+        platform,
+        searchParams
+      );
+      setPages(totalPages);
+      setTotal(total);
     } else {
       data = await nlpApi({
         ...searchParams,
         ...{ limit: page_limit, doc_type: platform },
       });
+
+      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
+        page,
+        [platform],
+        searchParams
+      );
+      setPages(totalPages);
+      setTotal(total);
+
       setUseNlp(true);
     }
 
@@ -137,7 +146,7 @@ export default function Section({ searchParams }: SectionProps) {
               </Button>
             </div>
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              {(hrefs?.length > 0 || (isLogedIn && search?.length > 0 )) && (
+              {(hrefs?.length > 0 || (isLogedIn && search?.length > 0)) && (
                 <DropDown>
                   {hrefs?.length > 0 && (
                     <MenuItem
@@ -165,7 +174,7 @@ export default function Section({ searchParams }: SectionProps) {
                         Add All to Board
                       </div>
                     </MenuItem>
-                  ) : null }
+                  ) : null}
                 </DropDown>
               )}
 
@@ -202,11 +211,11 @@ export default function Section({ searchParams }: SectionProps) {
             ) : null}
           </p>
 
-           <ResultsInfo total={ hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
+          <ResultsInfo total={hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
 
-           {!isLogedIn && (
-              <RestrictionNotice />
-            )}
+          {!isLogedIn && (
+            <RestrictionNotice />
+          )}
 
 
           <div className="section-content">
