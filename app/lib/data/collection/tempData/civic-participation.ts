@@ -3,8 +3,7 @@ export const collection = {
 	title: 'The edge of civic participation',
 	description: 'Civic participation is both a human right and an enabler of collective intelligence, which in turns favours better governance. Therefore, it has both an intrinsic and an instrumental value. As of late 2025, UNDP examined the work of the Accelerator Labs network that involved innovative forms of civic participation over the period 2019-2025. This examination resulted in a publication, <a href = "url.to.be.added">The Edge of Participation</a>. This metaboard gives the reader access to the raw data for that publication: the documentation of the various experiences from the Labs.',
 	creatorName: 'Alberto Cottica',
-	mainImage: '/images/bg-fs.jpg',
-	// replace the image
+	mainImage: '/images/undp-demo.jpg',
 	sections: [
 		{
 			title: 'Civic engagement as an enabler of collective intelligence',
@@ -36,8 +35,7 @@ export const collection = {
 				},
 				{
 					type: 'img',
-					src: '/images/oceans-conference-sankey.png' 
-					// replace the above with the real image
+					src: '/images/edge-participation-diagram.jpeg' 
 				}
 			]
 		},
