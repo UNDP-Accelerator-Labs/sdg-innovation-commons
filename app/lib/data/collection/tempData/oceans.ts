@@ -1,5 +1,5 @@
 export const collection = {
-	id: 'oceans-conference',
+	id: 'oceans',
 	title: 'Oceans-based sustainable development',
 	description: 'Through its R&D practice, UNDP is exploring new pathways to development that builds on the oceans\' bounty, while preserving their environmental balance and their beauty. Photo: Glenn Crouch on flickr.com.',
 	creatorName: 'Alberto Cottica',
