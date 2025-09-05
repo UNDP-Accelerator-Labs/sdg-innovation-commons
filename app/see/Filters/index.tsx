@@ -44,7 +44,7 @@ export default function Filters({
 
 	useEffect(() => {
 		fetchData();
-	}, []);
+	}, [useNlp]);
 
 	return (
 		<>
