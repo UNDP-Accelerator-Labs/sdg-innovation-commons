@@ -71,14 +71,14 @@ export default async function metaData(_kwargs: Props) {
   }
 
   if (filters.some((d: string) => d === 'countries')) {
-    if (useNlp) {
-      const { iso3 } = await nlpStats({ fields: ['iso3'] });
-      countries = await platformApi(
-        { countries: iso3 },
-        'solution',
-        'countries'
-      );
-    } else {
+    // if (useNlp) {
+    //   const { iso3 } = await nlpStats({ fields: ['iso3'] });
+    //   countries = await platformApi(
+    //     { countries: iso3 },
+    //     'solution',
+    //     'countries'
+    //   );
+    // } else {
       countries = await Promise.all(
         platforms.map((d: any) => {
           return platformApi(
@@ -96,7 +96,7 @@ export default async function metaData(_kwargs: Props) {
             self.findIndex((d: any) => d?.iso3 === value?.iso3) === index
           );
         });
-    }
+    // }
 
     countries?.forEach((d: any) => {
       d.id = d?.iso3;
