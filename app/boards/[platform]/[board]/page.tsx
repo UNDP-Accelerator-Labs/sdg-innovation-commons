@@ -21,21 +21,31 @@ export async function generateMetadata(
     platform,
     searchParams: await searchParams,
   });
+
+  const metadataBase = new URL('https://sdg-innovation-commons.org');
   const previousImages = (await parent)?.openGraph?.images || [];
+
+  // point to a dynamic OG generator endpoint with encoded text
+  const ogImageUrl = new URL(
+    `/api/og?title=${encodeURIComponent(data?.title || '')}&subtitle=${encodeURIComponent(data?.description || '')}`,
+    metadataBase
+  ).toString();
 
   const metadata: Metadata = {
     title: data?.title,
     description: data?.description,
     openGraph: {
-      images: [data?.vignette, ...previousImages],
+      images: [ogImageUrl, ...(previousImages as string[])],
     },
-    metadataBase: new URL('https://sdg-innovation-commons.org'),
+    twitter: {
+      // Next Metadata supports twitter object
+      card: 'summary_large_image',
+      images: [ogImageUrl],
+    },
+    metadataBase,
   };
 
-  // Add robots metadata if in staging environment
-  if (PROD_ENV === 'staging') {
-    metadata.robots = 'noindex, nofollow';
-  }
+  if (PROD_ENV === 'staging') metadata.robots = 'noindex, nofollow';
 
   return metadata;
 }

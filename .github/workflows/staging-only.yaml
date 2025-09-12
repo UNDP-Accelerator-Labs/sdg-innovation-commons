@@ -43,7 +43,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Fetch tags
-        run: git fetch --prune --unshallow --tags
+        run: git fetch --prune --unshallow --tags --force
 
       - name: Set env
         run: echo "IMAGE_TAG=$(make -s name)" >> $GITHUB_ENV

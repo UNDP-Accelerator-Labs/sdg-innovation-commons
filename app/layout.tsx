@@ -10,11 +10,25 @@ const { PROD_ENV } = process.env;
 export const metadata: Metadata = {
   title: 'SDG Commons',
   description: "The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.",
+  metadataBase: new URL('https://sdg-innovation-commons.org'),
+  openGraph: {
+    images: [
+      {
+        url: 'https://sdg-innovation-commons.org/static/og-default.png',
+        alt: 'SDG Commons — insights, data and next practices',
+        width: 1200,
+        height: 630,
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['https://sdg-innovation-commons.org/static/og-default.png'],
+  },
   ...(PROD_ENV === 'staging' && {
     robots: 'noindex, nofollow',
   }),
 }
-
 
 export default async function RootLayout({
   children,
@@ -31,18 +45,6 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      {/* <meta property="og:image" content="<generated>" />
-      <meta property="og:image:type" content="<generated>" />
-      <meta property="og:image:width" content="<generated>" />
-      <meta property="og:image:height" content="<generated>" />
-      <meta property="og:image:alt" content="<generated>" />
-
-      <meta name="twitter:image" content="<generated>" />
-      <meta name="twitter:image:type" content="<generated>" />
-      <meta name="twitter:image:width" content="<generated>" />
-      <meta name="twitter:image:height" content="<generated>" />
-      <meta name="twitter:image:alt" content="<generated>" /> */}
-
       {isProduction && isProd && (
         <Script
           nonce={nonce}
