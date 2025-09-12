@@ -21,7 +21,7 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
-  const tabs: string[] = ['all', 'blog', 'publications',] //'news', 'press release'];
+  const tabs: string[] = ['all', 'blog', 'publications', 'DRA', 'AILA'] //'news', 'press release'];
 
   return (
     <>
