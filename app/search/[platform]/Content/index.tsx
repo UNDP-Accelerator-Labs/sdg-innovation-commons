@@ -149,7 +149,7 @@ export default function Content({
     params.delete('doc_type');
     pushUrlWith(params);
   };
-console.log('hits in content', hits);
+
   return (
     <>
       <section className="home-section !border-t-0 py-0">
