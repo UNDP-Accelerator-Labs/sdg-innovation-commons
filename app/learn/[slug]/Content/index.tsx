@@ -16,6 +16,7 @@ import Filters from '../Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
+import CustomTooltip from '@/app/ui/components/Tooltip';
 
 export interface PageStatsResponse {
   total: number;
@@ -100,6 +101,11 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
     const keysToCheck = ['countries'];
     return keysToCheck.some((key) => key in searchParams && searchParams[key]);
   }
+
+  const tooltipMap: Record<string, string> = {
+    DRA: "DRA — Digital Readiness Assessment. DRA is a practical and rapid diagnostic tool developed by UNDP, enabling governments to evaluate and enhance their country’s preparedness for digital transformation. Using a survey format, DRA generates insights that allow governments to develop a comprehensive understanding of their digital strengths and opportunities.",
+    AILA: "AILA — Artificial Intelligence Landscape Assessment. AILA is a comprehensive framework created by UNDP to assist countries in responsibly and effectively harnessing the potential of AI. AILA focuses on three foundational pillars; Government as an enabler of AI, Government as a user of AI, Ethical AI",
+  };
 
   return (
     <>
@@ -187,6 +193,14 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
               let txt: string = '';
               if (d === 'all') txt = 'all items';
               else txt = d;
+
+              const label = `${txt}${txt.slice(-1) === 's' ? '' : 's'}`;
+              const link = (
+                <Link scroll={false} key={i} href={`/learn/${d}?${windowParams.toString()}`}>
+                  {label}
+                </Link>
+              );
+
               return (
                 <div
                   key={i}
@@ -195,9 +209,13 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
                     docType === d ? 'font-bold' : 'yellow'
                   )}
                 >
-                  <Link href={`/learn/${d}?${windowParams.toString()}`}>
-                    {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
-                  </Link>
+                  {tooltipMap[d] ? (
+                    <CustomTooltip content={tooltipMap[d]} placement="top" trigger="hover">
+                      {link}
+                    </CustomTooltip>
+                  ) : (
+                    link
+                  )}
                 </div>
               );
             })}
