@@ -1,0 +1,9 @@
+.DS_Store
+*.sublime-*
+.env.local
+.next/
+Ahoy/
+app/
+next-env.d.ts
+node_modules/
+notes/
