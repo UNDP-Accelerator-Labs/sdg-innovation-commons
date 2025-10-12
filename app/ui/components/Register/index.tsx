@@ -19,7 +19,8 @@ interface RegisterFormProps {
     organization: "",
     role: "",
     country: "",
-    position: "", 
+    position: "",
+    website: "", // Honeypot field
   })
   const [acceptTerms, setAcceptTerms] = useState(false)
   const [newsletter, setNewsletter] = useState(true)
@@ -30,6 +31,7 @@ interface RegisterFormProps {
   const [countryError, setCountryError] = useState<string | null>(null);
   const [formMessage, setFormMessage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formLoadTime] = useState<number>(Date.now());
 
   const filteredCountries = countries.filter((country) =>
     country.country.toLowerCase().includes(searchTerm.toLowerCase())
@@ -110,6 +112,7 @@ interface RegisterFormProps {
             new_email: formData.email, 
             new_position: formData.position, 
             new_password: formData.password,
+            formLoadTime: formLoadTime,
          };
 
         const response = await registerContributor({ ...data });
@@ -132,6 +135,25 @@ interface RegisterFormProps {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Honeypot field - hidden from users but visible to bots */}
+      <input
+        type='text'
+        name='website'
+        tabIndex={-1}
+        autoComplete='off'
+        style={{
+          position: 'absolute',
+          left: '-9999px',
+          width: '1px',
+          height: '1px',
+          overflow: 'hidden'
+        }}
+        aria-hidden='true'
+        onChange={(e) => {
+          // If a bot fills this, add it to formData
+          setFormData((prev) => ({ ...prev, website: e.target.value }));
+        }}
+      />
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <label htmlFor="firstName" className="text-sm font-bold font-space-mono">

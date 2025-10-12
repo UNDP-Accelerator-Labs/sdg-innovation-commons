@@ -411,6 +411,31 @@ export async function initiateSSO(originalUrl: string) {
 }
 
 export async function registerContributor(forms: Record<string, any>) {
+  // Anti-bot protection: Check honeypot field
+  if (forms.website && forms.website !== '') {
+    console.warn('Bot detected: honeypot field filled');
+    return {
+      status: 400,
+      message: 'Registration failed. Please try again.',
+    };
+  }
+
+  // Anti-bot protection: Time-based validation (minimum 5 seconds for registration)
+  if (forms.formLoadTime) {
+    const loadTime = parseInt(forms.formLoadTime, 10);
+    const currentTime = Date.now();
+    const timeDiff = currentTime - loadTime;
+    
+    // If form submitted in less than 5 seconds, likely a bot
+    if (timeDiff < 5000) {
+      console.warn('Bot detected: form submitted too quickly');
+      return {
+        status: 400,
+        message: 'Registration failed. Please try again.',
+      };
+    }
+  }
+
   const base_url: string | undefined = commonsPlatform.find(
     (p) => p.key === 'login'
   )?.url;

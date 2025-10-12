@@ -31,6 +31,10 @@ const ContactSchema = z.object({
   reason: z.string().min(1, 'Please select your reason for contact.'),
   message: z.string().min(1, 'Please provide your message.'),
   date: z.string().optional(), // Optional as it is automatically generated
+  // Honeypot field - should be empty for legitimate users
+  website: z.string().optional(),
+  // Timestamp for time-based validation
+  formLoadTime: z.string().optional(),
 });
 
 export type ContactState = {
@@ -47,11 +51,42 @@ export type ContactState = {
   message?: string | null;
 };
 
-const CreateContact = ContactSchema.omit({ date: true });
+const CreateContact = ContactSchema.omit({ date: true, website: true, formLoadTime: true });
 
 export async function createContact(prevState: ContactState, formData: FormData): Promise<ContactState> {
 
   let newState: ContactState = { ...prevState, isSubmited: false };
+
+  // Anti-bot protection: Check honeypot field
+  const honeypot = formData.get('website');
+  if (honeypot && honeypot !== '') {
+    console.warn('Bot detected: honeypot field filled');
+    return {
+      ...newState,
+      isSubmited: false,
+      success: false,
+      message: 'Error: Failed to submit message.',
+    };
+  }
+
+  // Anti-bot protection: Time-based validation (minimum 3 seconds)
+  const formLoadTime = formData.get('formLoadTime');
+  if (formLoadTime) {
+    const loadTime = parseInt(formLoadTime as string, 10);
+    const currentTime = Date.now();
+    const timeDiff = currentTime - loadTime;
+    
+    // If form submitted in less than 3 seconds, likely a bot
+    if (timeDiff < 3000) {
+      console.warn('Bot detected: form submitted too quickly');
+      return {
+        ...newState,
+        isSubmited: false,
+        success: false,
+        message: 'Error: Failed to submit message.',
+      };
+    }
+  }
 
   // Validate form using Zod
   const validatedFields = CreateContact.safeParse({
