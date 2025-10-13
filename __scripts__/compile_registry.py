@@ -13,7 +13,7 @@ from pprint import pprint
 syspath.append(join(dirname(__file__), '..'))
 from __registries__ import registries
 
-# basepath = './__pages__/'
+# basepath = './pages/'
 
 # # Get base path from CLI arg or env var (e.g., from GitHub Actions)
 # basePath = (
@@ -267,7 +267,7 @@ def copyTemplate (dirname):
 def compileRegistry (structure, **kwargs):
 	generate_subregistries = kwargs.get('generate_subregistries', False)
 	
-	basepath = './__pages__/'
+	basepath = './pages/'
 	title = structure['title']
 	safe_title = makeSafe(title)
 	registries_dir = './registries'

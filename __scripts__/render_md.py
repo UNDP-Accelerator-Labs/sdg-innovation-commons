@@ -280,7 +280,7 @@ def render (file):
 if __name__ == '__main__':
   # checkImgPath('0aca7f5f-cd51-48f7-8303-07f70039f563.png', 2025)
   in_dirname = f'./__pages_test__/json/{platforms[platform_id]}'
-  out_dirname = './__pages__/'
+  out_dirname = './pages/'
   files = [join(in_dirname, f) for f in listdir(in_dirname) if isfile(join(in_dirname, f)) and f != '.DS_Store']
   
   for f in files:
