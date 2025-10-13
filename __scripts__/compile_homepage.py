@@ -3,7 +3,7 @@ from os.path import join, dirname, exists
 from shutil import copy
 
 syspath.append(join(dirname(__file__)))
-from compile_registry import generateFile, makeSafe
+from compile_registry import generateFile, makeSafe, copyTemplate
 
 syspath.append(join(dirname(__file__), '..'))
 from __registries__ import registries
@@ -32,7 +32,8 @@ def compileHome (registries):
   generateFile(readme, 'The SDG Commons', content)
   # Generate the html file
   try:
-    copy('./template.html', join(registries_dir, 'index.html'))
+    copyTemplate(registries_dir)
+    # copy('./template.html', join(registries_dir, 'index.html'))
   except:
     print('an error occurred when trying to copy the template.html')
 
