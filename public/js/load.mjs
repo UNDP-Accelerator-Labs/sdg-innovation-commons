@@ -1,5 +1,3 @@
-import { parseMetadata } from "./parsers.mjs";
-
 import { 
   getTranscript, 
   transcript as renderTranscript,
@@ -7,8 +5,8 @@ import {
   footnote as renderFootnote 
 } from "./render.mjs";
 import { renderMenu } from "./menu.mjs";
-import { parseIntervals } from "./parsers.mjs";
 import { activateScrollTop } from "./widgets.mjs";
+// import { fixInternalLinks } from "./helpers.mjs";
 
 async function onLoad() {
   const params = new URLSearchParams(document.location.search);
@@ -16,7 +14,7 @@ async function onLoad() {
   
   // let footnotes = null;
   if (doc) { // This is a document page
-  	const source = `/__pages__/${doc}`;
+  	const source = `../../__pages__/${doc}`;
     console.log("loading transcript");
     const { transcript, usedSource } = await getTranscript(source);
     renderTranscript(transcript, usedSource);

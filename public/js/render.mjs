@@ -11,17 +11,19 @@ import {
 } from "./parsers.mjs";
 
 function fetchTranscript(path) {
-  return fetch(fixInternalLinks(decodeURI(path))).then(async (res) => {
+  return fetch(decodeURI(path)).then(async (res) => {
     if (res.ok) return res.text();
     else throw new Error("Could not find file.");
   });
   // WE DO NOT USE CATCH HERE AS WE NEED TO CHECK FOR THE ERROR IN THE getTranscript FUNCTION
 }
 
-const isLocal =
-  window.location.hostname === "localhost" ||
-  window.location.hostname === "127.0.0.1";
-const basePath = isLocal ? "" : "/RnD-Archive";
+
+// THIS IS NOT USED
+// const isLocal =
+//   window.location.hostname === "localhost" ||
+//   window.location.hostname === "127.0.0.1";
+// const basePath = isLocal ? "" : "/RnD-Archive";
 
 export const getTranscript = async function (path) {
   let transcript = "";
