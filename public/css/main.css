@@ -1,0 +1,418 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	font-family: Helvetica, sans-serif;
+}
+h1, h2, h3, h4 {
+	margin: 1em 0 .5em 0;
+}
+h2 {
+	text-transform: capitalize;
+}
+a {
+	/*word-break: break-all;*/
+}
+p {
+	margin: 0 0 1em 0;
+}
+ul, ol {
+	padding-left: 1em;
+	margin: 0 0 .5em 0;
+}
+li:not(.level) {
+	margin-bottom: .5em;
+}
+code {
+	background-color: rgba(33,33,33,.1);
+}
+blockquote {
+	font-family: monospace;
+	font-weight: bold;
+	font-size: 1.15em;
+}
+blockquote > p {
+	margin-top: 2em;
+}
+img {
+	margin: 2em auto;
+	display: block;
+	max-width: 100%;
+}
+.hide {
+	display: none;
+}
+nav#head {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 80px;
+	padding: 20px 80px;
+	background-color: #FFF;
+	color: #000;
+	border-bottom: 1px solid #000;
+	box-sizing: border-box;
+	z-index: 10;
+	transform: translateY(0px);
+	transition: transform 0.5s ease-out;
+	display: flex;
+	align-items: center;
+}
+nav#head.moveout {
+	transform: translateY(-80px);
+}
+nav#head h3 {
+	margin: 0;
+}
+nav#head menu {
+	list-style: none;
+	display: flex;
+	justify-content: space-around;
+}
+nav#head menu li a {
+	color: #000;
+	text-transform: capitalize;
+}
+a.edit-link {
+	display: block;
+	font-size: 14px;
+	color: #000;
+	font-style: italic;
+	margin-bottom: 2em;
+}
+.grid-bg {
+	background-size: 20px 20px;
+	background-image: linear-gradient(90deg, #eaeaea 1px, transparent 0), linear-gradient(180deg, #eaeaea 1px, transparent 0);
+}
+main {
+	background-size: 20px 20px;
+	background-image: linear-gradient(90deg, #eaeaea 1px, transparent 0), linear-gradient(180deg, #eaeaea 1px, transparent 0);
+}
+section {
+	width: 100%;
+	box-sizing: border-box;
+}
+section > .inner {
+	width: 496px;
+	padding: 0px 40px 120px 40px;
+	box-sizing: border-box;
+	margin: auto;
+}
+section.title {
+	padding-top: 120px;
+	padding-bottom: 0px;
+}
+p.contributors {
+	margin: 1em 0 .5em 0;
+	font-weight: bold;
+	text-decoration: underline;
+}
+section.content {
+	padding-top: 20px;
+	background-color: #FFF;
+	border-top: 1px solid #000;
+}
+section.content > .inner {
+	display: grid;
+	grid-template-columns: repeat(9, 1fr);
+	grid-gap: 1em;
+}
+div.transcript {
+	grid-column: span 5;
+}
+div.cartouche {
+	grid-column-start: 7;
+	grid-column-end: 10;
+	max-height: 80vh;
+	position: sticky;
+	top: 10vh;
+}
+div.cartouche > div.inner {
+	overflow: auto;
+	height: 100%;
+	background:
+	  /* Shadow covers */
+	  linear-gradient(white 30%, rgba(255,255,255,0)),
+	  linear-gradient(rgba(255,255,255,0), white 70%) 0 100%,
+	  
+	  /* Shadows */
+	  linear-gradient(rgba(55,55,55,.15) 0, rgba(55,55,55,.15)),
+	  linear-gradient(rgba(55,55,55,.15) 0, rgba(55,55,55,.15) 100%) 0 100%;
+	background-repeat: no-repeat;
+	background-color: #FFF;
+	background-size: 100% 30px, 100% 30px, 100% 5px, 100% 5px;
+	
+	/* Opera doesn't support this in the shorthand */
+	background-attachment: local, local, scroll, scroll;
+	/* Credit for the background shadow solution: https://stackoverflow.com/questions/9333379/check-if-an-elements-content-is-overflowing */
+}
+
+div.cartouche div.c-section {
+	border: 1px solid #000;
+	padding: 10px 20px;
+}
+div.cartouche div.c-section.year, 
+div.cartouche div.c-section.type {
+	display: flex;
+	gap: 1em;
+}
+div.cartouche div.c-section .canvas {
+	width: 100%;
+	height: 150px;
+	/*border-bottom: 1px solid #eaeaea;*/
+	margin-bottom: 15px;
+}
+.canvas path.landmass {
+	fill: #eaeaea;
+}
+div.cartouche div.c-section:not(:last-child) {
+	border-bottom: none;
+	padding: 10px 20px;
+}
+div.cartouche div.c-section h3 {
+	margin-top: .5em;
+}
+menu.registry {
+	/*border-top: 1px solid #000;*/
+	margin-top: 40px;
+}
+menu.registry li {
+	list-style: none;
+}
+menu.registry li a {
+	font-family: monospace;
+	font-weight: bold;
+	color: rgb(156,163,175);
+	text-decoration: none;
+	text-transform: capitalize;
+}
+menu.registry li a:hover {
+	text-decoration: underline;
+}
+h1 {
+	font-size: 3em;
+}
+section.title h1 {
+	margin-top: .25em;
+	margin-bottom: .25em;
+}
+div.annotated-paragraph div.chips {
+	border-top: 1px solid #000;
+	margin-top: 1em;
+}
+button.chip {
+	font-family: monospace;
+	position: relative;
+	background-color: transparent;
+	border: none;
+	color: #FFF;
+	padding: 2px 8px 2px 4px;
+	margin: 0 0 4px 2px;
+	top: -1px;
+	cursor: pointer;
+	text-transform: capitalize;
+	text-align: left;
+}
+button.chip:not(:first-child) {
+	padding-left: 8px;
+}
+button.chip::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #000;
+	transform: skew(-15deg);
+	z-index: 0;
+}
+button.chip:first-child::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: -3px;
+	width: 8px;
+	height: 100%;
+	background-color: #000;
+	z-index: 0;
+}
+button.chip label {
+	position: relative;
+	z-index: 2;
+	cursor: pointer;
+}
+button.chip label a {
+	color: #FFF;
+}
+button.breadcrumb {
+	color: #FFF;
+}
+button.breadcrumb:not(:first-child) {
+	margin-left: -1px;
+	padding-left: 8px !important;
+}
+button.breadcrumb::before {
+	background-color: #FFF;
+	border: 1px solid #000;
+}
+button.breadcrumb:first-child::after {
+	width: 10px;
+	background-color: #FFF;
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+button.breadcrumb:not(:first-child)::after {
+	display: none;
+}
+button.breadcrumb label a {
+	color: #000;
+}
+div.tags {
+	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: row;
+	gap: .5em;
+	margin: .5em 0;
+}
+button.tag {
+  min-height: 30px;
+  border-radius: 30px;
+  padding: 5px 20px;
+  font-size: 12px;
+  text-transform: capitalize;
+  /*background-color: rgb(210,249,96);*/
+  /*border: none;*/
+  background-color: #FFF;
+  border: 1px solid #000;
+  outline: none;
+  font-family: monospace;
+	position: relative;
+	text-align: left;
+	box-sizing: border-box;
+}
+button.tag label a {
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+}
+button.tag.locations {
+	background-color: #000;
+}
+button.tag.locations label a {
+	color: #FFF;
+}
+@keyframes blink {
+	from {
+		background-color: rgba(33,33,33,.1);
+	} to {
+		background-color: rgba(33,33,33,.0);
+	}
+}
+.blink {
+	animation: blink 3s;
+}
+svg {
+	width: 100%;
+	height: 100%;
+}
+div.multicol {
+	margin-bottom: 3em;
+}
+div.multicol > div {
+	word-break: break-word;
+}
+button#back-to-top {
+	position: fixed;
+	right: 1em;
+	bottom: 1em;
+	border: 1px solid #000;
+	background-color: #FFF;
+	width: 2em;
+	height: 2em;
+	border-radius: 2em;
+	font-size: 2em;
+	z-index: 1000;
+	cursor: pointer;
+}
+
+/* SM */
+@media (min-width: 640px) {
+	section > .inner {
+	/*	w-[375px] md:w-[744px] lg:w-[992px] xl:w-[1200px] xxl:w-[1440px]*/
+		width: 620px;
+	}
+}
+@media (min-width: 768px) {
+	section > .inner {
+		width: 744px;
+	}
+	div.multicol {
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: repeat(2, 1fr);
+		margin-bottom: 3em;
+	}
+}
+@media (min-width: 1024px) {
+	section > .inner {
+		width: 992px;
+	}
+	div.annotated-paragraph {
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: repeat(6, 1fr);
+	}
+	div.annotated-paragraph p {
+		grid-column: span 4 / span 4;
+	}
+	div.annotated-paragraph div.chips {
+		grid-column: span 2 / span 2;
+		border-top: 0px !important;
+		border-left: 1px solid #000;
+		display: flex;
+		justify-content: center;
+		align-items: flex-start;
+		flex-direction: column;
+		margin-top: 0 !important;
+	}
+	button.chip:not(:first-child) {
+		padding-left: 4px;
+	}
+	button.chip:not(:first-child)::after {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -3px;
+		width: 8px;
+		height: 100%;
+		background-color: #000;
+		z-index: 0;
+	}
+	div.multicol {
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: repeat(3, 1fr);
+		margin-bottom: 3em;
+	}
+}
+@media (min-width: 1280px) {
+	section > .inner {
+		width: 1200px;
+	}
+}
+@media (min-width: 1536px) {
+	section > .inner {
+		width: 1440px;
+	}
+	div.multicol {
+		display: grid;
+		grid-gap: 20px;
+		grid-template-columns: repeat(4, 1fr);
+		margin-bottom: 3em;
+	}
+}

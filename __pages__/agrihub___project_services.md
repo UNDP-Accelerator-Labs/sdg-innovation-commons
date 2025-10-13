@@ -1,0 +1,75 @@
+# AGRIHUB | PROJECT SERVICES
+
+[[focal_point:salome.nakazwe@undp.org]]
+
+[[year:2025]]
+
+[[type:solution]]
+
+[[sdgs:3. Good health and well-being]]
+[[sdgs:4. Quality education]]
+[[sdgs:8. Decent work and economic growth]]
+[[thematic_areas:economic empowerment]]
+[[thematic_areas:empowerment]]
+[[thematic_areas:farming]]
+[[thematic_areas:households]]
+[[thematic_areas:agricultural]]
+[[country:Zambia]]
+[[latlng:-13.460110018365599,27.7742123347968]]
+[[gender:male]]
+
+> Title of the innovation
+
+AGRIHUB | PROJECT SERVICES
+
+> Images
+
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2025_02/blobs/solutions/8e414e1c-d88e-4c28-829b-d3ae8d9a1e1a.png)
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2025_01/blobs/solutions/db2d57f5-15ac-4a8e-9581-e04989b3aa9f.png)
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2025_02/blobs/solutions/0207eb66-d1d7-4f1a-ac4a-c519b6c25b34.png)
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2025_01/blobs/solutions/eb4b400c-4d40-4849-81b8-dc63cd656d5c.png)
+
+
+> Brief description of the innovation
+
+AGRIHUB IS BOTH AN ONLINE DIGITAL AGRI-BUSINESS SCHOOL AND AN AGRO-PROCESSING CENTRE AND INTEGRATES BOTH FORWARD AND BACKWARD ACTIVITIES OF A NEW CASTOR SEED VALUE CHAIN  OUT-GROWER ECONOMIC EMPOWERMENT PROGRAMME AT KANAKANTAPA AGRICULTURAL VILLAGE. IT HAS 25 HOUSEHOLDS IN THE OUTGROWER SCHEME (2020 / 2021 SEASON) AND HAS 17,000 HOUSEHOLDS FOR 2021 / 2022 FARMING SEASON. THE PROCESSING OF CASTOR SEED INTO CRUDE OIL ADDS GREATER ECONOMIC VALUE TO THESE HOUSEHOLDS AND ZAMBIA.
+
+> Do you have a prototype for your innovation?
+
+- yes
+
+> Commercial Viability of the Innovation
+
+THE CASTOR SEED IS A CLIMATE SMART FARMING SOLUTION. THIS POTENTIAL AGRI-BUSINESS DRAWS ITS VIABILITY FROM THE EXPORT OF CRUDE OIL. THE BUSINESS HAS FOCUS ON HOUSEHOLDS IN RURAL ECONOMIES. ALREADY 25 SUCH HOUSEHOLDS PARTNERED WITH US AND FOR 2021 / 2022 FARMING SEASON, OVER 17,000 HAVE JOINED.  THIS BUSINESS MODEL IS PROJECTED TO TRANSFORM HOUSEHOLDS INTO MODEL FAMILY AGRI-BUSINESSES BY 2030 THEREBY POWERING A PLANNED 7 MILLION OUT OF EXTREME POVERTY - CHANGING FROM USD 1.90 / PERSON / DAY TO USD 4.81 / PERSON / DAY SUSTAINABLY BY 2030
+
+> Technical Feasibility
+
+AN INTEGRATED AGRIBUSINESS ENVIRONMENT WHERE ONLINE DIGITAL AGRIBUSINESS SCHOOL IS ALIGNED WITH AGRI-PROCESSING WORKING IN PARTNERSHIP WITH AGRO SUPPLIERS, DEMONSTRATION PLOT, LOGISTICS HUB, BACKWARD AND FORWARD INTEGRATION TO LINK SMALL SCALE PRODUCERS (SSP) TO EXPORT MARKETS; AND SSPS AND HOUSEHOLDS ARE TRANSFORMED INTO MODEL FAMILY AGRI-BUSINESSES AND SCALABLE TO ALL 10 PROVINCES IN ZAMBIA AND REACHING A TARGET OF 7 MILLION POOR HOUSEHOLDS. THE PLAN IS TO MOVE FROM THE CURRENT 25 HOUSEHOLDS TO 17,000 (2021/ 2022 SEASON) BY 2022 TO 7MILLION BY 2030. IT IS FEASIBLE (WE ARE ALREADY DOING IT), IT IS VIABLE AND SCALABLE
+
+> Anticipated Social Impact
+
+INTEGRATING ONLINE DIGITAL AGRIBUSINESS SCHOOL WITH AN OUT-GROWER ECONOMIC EMPOWERMENT PROGRAMME WITH A FOCUS ON HOUSEHOLDS IN RURAL ECONOMIES HAS POTENCY TO LIFT A GREATER NUMBER OF HOUSEHOLDS OUT OF EXTREME POVERTY AND HUNGER. WE HAVE STARTED AND ARE GROWING - HELP US REACH MORE HOUSEHOLDS AS QUICKLY AS POSSIBLE.
+
+> Additional image(s)
+
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2025_02/blobs/solutions/7a7db413-fdef-41a6-9b05-4cd435cfffac.png)
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2025_01/blobs/solutions/c9650750-9bed-4772-b1cd-2a8eac65ab08.png)
+
+
+> Name of the Innovator
+
+PATRICK MITI
+
+> Age
+
+- above 50
+
+> Note
+
+Thematic area tags generated using: Maarten Grootendorst, KeyBERT: Minimal keyword extraction with BERT. 2020, https://doi.org/10.5281/zenodo.4461265.

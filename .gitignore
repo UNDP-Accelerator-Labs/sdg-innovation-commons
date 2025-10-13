@@ -7,3 +7,7 @@ app/
 next-env.d.ts
 node_modules/
 notes/
+dep.*
+__pycache__/
+*.env
+__pages_test__/

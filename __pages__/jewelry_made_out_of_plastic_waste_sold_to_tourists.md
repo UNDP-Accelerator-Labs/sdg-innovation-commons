@@ -1,0 +1,27 @@
+# JEWELRY MADE OUT OF PLASTIC WASTE SOLD TO TOURISTS
+
+[[focal_point:mohseen.dean@undp.org]]
+
+[[year:2022]]
+
+[[type:solution]]
+
+[[sdgs:11. Sustainable cities and communities]]
+[[sdgs:12. Responsible consumption and production]]
+[[sdgs:14. Life below water]]
+[[sdgs:15. Life on land]]
+[[thematic_areas:plastic waste management]]
+[[thematic_areas:recycle waste plastic]]
+[[thematic_areas:single use plastic]]
+[[thematic_areas:income generation]]
+[[country:Fiji]]
+[[latlng:-17.44756195212767,163.40786559316325]]
+[[country:Fiji]]
+[[latlng:-17.44756195212767,163.40786559316325]]
+
+
+![Missing alt text](https://undp-accelerator-labs.github.io/Archive_SDG_Commons_2022/blobs/solutions/b8df31facd5242620e81f230a0ecee77.png)
+
+
+Local Fijian artist creates jewelry out of plastic waste and sells this to international visitors/ tourists. Innovative way of ‘shipping plastic waste off the island’.  Source: Facebook
+[https://www.facebook.com/Oceania.ex/photos/bc.AbpcjTngIwxjlD1hJkIXi5_t7AaSZ8DazIisFz8_1lsIiHG6ACYEYUXH-X4tV-y1lSMqdAuW_qDUhpYOjdOgg79M3-P7hOfgeIFxBlH2GHx5VUGGR41hCQfglGVN51Jp0lIH-GpDW7gASTrRBhfafDsP/2289339381343822/?opaqueCursor=AboLbqggf5ilc_7sJjbBH0g2c5b5fOied58i3Z9Ms3vxtzShpGsJOl5TvV9pM2tJRfJRN3BLgtnCHDYUhuh1Mb8u5g8JMw8VkzsBGrWnwy2NVCBkMvll44RvPUV52WmACxT0Ey1NUNtGp5kB9G_NmNmTz3G9Oy0pXUEfNpT4dQo3Rmq7x6PfPov9WWYTlkHcAn4I1frMVeOzsD27xDGVXahqoUQtvLsNyDSc9Oz7-2t6qTcX7Q8xK2fIcXGxndbf2V2qMYn-FDPEu9nGie8P7U8xPL9P63AU5UF84sqWy_HPCWmVn1B79u2QKAh1Heb1WqE3PIgveM_tUBaTWlD_EVSQ73jpbOGWeGXjWTALDigRM17KEp_jJL4yDeZMXCBZcZc7zApsRzTrK_IcmiAQJgFbin-zLUgNwmHHrOek-bKrC4R6FC6cUbMzblk17QrdgkXBLg9EHHbYkZSQ4ZizgI3rnkST2EGDChbyGllwHIY5SrT94on0vfJyjYWQisLwvW108BXrE25B1KS8uKmlet5K-wNHeSi8luO67Rg3yUYAQvb_lyz2WK4gFz6Lu-clo9DTLN3rsYnSFtgqKlX20OQqkJvvWbZCOJYdGMQL4xEYWg](https://www.facebook.com/Oceania.ex/photos/bc.AbpcjTngIwxjlD1hJkIXi5_t7AaSZ8DazIisFz8_1lsIiHG6ACYEYUXH-X4tV-y1lSMqdAuW_qDUhpYOjdOgg79M3-P7hOfgeIFxBlH2GHx5VUGGR41hCQfglGVN51Jp0lIH-GpDW7gASTrRBhfafDsP/2289339381343822/?opaqueCursor=AboLbqggf5ilc_7sJjbBH0g2c5b5fOied58i3Z9Ms3vxtzShpGsJOl5TvV9pM2tJRfJRN3BLgtnCHDYUhuh1Mb8u5g8JMw8VkzsBGrWnwy2NVCBkMvll44RvPUV52WmACxT0Ey1NUNtGp5kB9G_NmNmTz3G9Oy0pXUEfNpT4dQo3Rmq7x6PfPov9WWYTlkHcAn4I1frMVeOzsD27xDGVXahqoUQtvLsNyDSc9Oz7-2t6qTcX7Q8xK2fIcXGxndbf2V2qMYn-FDPEu9nGie8P7U8xPL9P63AU5UF84sqWy_HPCWmVn1B79u2QKAh1Heb1WqE3PIgveM_tUBaTWlD_EVSQ73jpbOGWeGXjWTALDigRM17KEp_jJL4yDeZMXCBZcZc7zApsRzTrK_IcmiAQJgFbin-zLUgNwmHHrOek-bKrC4R6FC6cUbMzblk17QrdgkXBLg9EHHbYkZSQ4ZizgI3rnkST2EGDChbyGllwHIY5SrT94on0vfJyjYWQisLwvW108BXrE25B1KS8uKmlet5K-wNHeSi8luO67Rg3yUYAQvb_lyz2WK4gFz6Lu-clo9DTLN3rsYnSFtgqKlX20OQqkJvvWbZCOJYdGMQL4xEYWg)
