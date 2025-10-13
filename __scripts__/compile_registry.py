@@ -255,6 +255,15 @@ def generateFile (readme, title, content):
 		pipe.write(content)
 		print(f'{title} file written')
 
+def copyTemplate (dirname):
+	content = open('./template.html', 'r').read()
+	relative_path = ''.join(['../' for x in range(len(dirname.split('/')) - 1)])
+	content = re.sub(r'\{relative_path\}\/', relative_path, content, flags = re.MULTILINE)
+
+	with open(join(dirname, 'index.html'), 'w') as pipe:
+		pipe.write(content)
+		print(f'template copied')
+
 def compileRegistry (structure, **kwargs):
 	generate_subregistries = kwargs.get('generate_subregistries', False)
 	
@@ -283,7 +292,7 @@ def compileRegistry (structure, **kwargs):
 	generateFile(readme, title, content)
 	# Generate the html file
 	try:
-		copy('./template.html', join(dirname, 'index.html'))
+		copyTemplate(dirname)
 	except:
 		print('an error occurred when trying to copy the template.html')
 
@@ -316,7 +325,7 @@ def compileRegistry (structure, **kwargs):
 				generateFile(readme, subtitle, subcontent)
 				# Generate the html file
 				try:
-					copy('./template.html', join(subdirname, 'index.html'))
+					copyTemplate(subdirname)
 				except:
 					print('an error occurred when trying to copy the template.html')
 
