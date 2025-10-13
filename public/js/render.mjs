@@ -11,7 +11,7 @@ import {
 } from "./parsers.mjs";
 
 function fetchTranscript(path) {
-  return fetch(decodeURI(path)).then(async (res) => {
+  return fetch(fixInternalLinks(decodeURI(path))).then(async (res) => {
     if (res.ok) return res.text();
     else throw new Error("Could not find file.");
   });
