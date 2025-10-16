@@ -7,6 +7,7 @@ import Link from 'next/link';
 
 export default function Contact() {
     const [loading, setLoading] = useState<boolean>(false);
+    const [formLoadTime] = useState<number>(Date.now());
 
     const initialState: ContactState = { message: null, errors: {}, isSubmited: false };
     const [state, formAction] = useActionState(createContact, initialState);
@@ -54,6 +55,27 @@ export default function Contact() {
 
                         {/* Form */}
                         <form action={handleForm} className='lg:grid lg:grid-cols-2 lg:gap-[20px]'>
+                            {/* Honeypot field - hidden from users but visible to bots */}
+                            <input
+                                type='text'
+                                name='website'
+                                tabIndex={-1}
+                                autoComplete='off'
+                                style={{
+                                    position: 'absolute',
+                                    left: '-9999px',
+                                    width: '1px',
+                                    height: '1px',
+                                    overflow: 'hidden'
+                                }}
+                                aria-hidden='true'
+                            />
+                            {/* Hidden field for time-based validation */}
+                            <input
+                                type='hidden'
+                                name='formLoadTime'
+                                value={formLoadTime}
+                            />
                             {/* Name Input and Error */}
                             <div className='mb-[20px] lg:mb-0'>
                                 <input
