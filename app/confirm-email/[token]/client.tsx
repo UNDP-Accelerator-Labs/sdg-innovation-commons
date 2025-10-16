@@ -6,7 +6,7 @@ import Navigation from '@/app/ui/components/Navbar';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { CheckCircle, XCircle, Loader2, Mail } from 'lucide-react';
-import { confirmEmail } from '@/app/lib/data/platform-api';
+import { confirmEmail, registerContributor } from '@/app/lib/data/platform-api';
 import Footer from '@/app/ui/components/Footer';
 
 export default function ConfirmEmailClient({ token }: { token: string }) {
@@ -14,6 +14,10 @@ export default function ConfirmEmailClient({ token }: { token: string }) {
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
   const [message, setMessage] = useState<string>("")
 
+  // Check if new_user query param is present
+  const urlParams = new URLSearchParams(window.location.search);
+  const new_user = urlParams.get('new_user') === 'true';
+  
   useEffect(() => {
     const verifyEmail = async () => {
       console.log('Verifying email with token:', token);
@@ -24,7 +28,7 @@ export default function ConfirmEmailClient({ token }: { token: string }) {
       }
 
       try {
-        const response = await confirmEmail(token);
+        const response = new_user ? await registerContributor(token) : await confirmEmail(token);
 
         if (response?.status === 200) {
           setStatus('success');

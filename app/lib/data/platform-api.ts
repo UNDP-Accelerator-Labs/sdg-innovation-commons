@@ -10,7 +10,7 @@ import {
 } from '@/app/lib/utils';
 import get from './get';
 import nodemailer from 'nodemailer';
-
+import jwt from 'jsonwebtoken';
 
 //Environment variables
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
@@ -410,7 +410,7 @@ export async function initiateSSO(originalUrl: string) {
   }
 }
 
-export async function registerContributor(forms: Record<string, any>) {
+export async function confirmEmailAccountBeforeRegistration(forms: Record<string, any>) {
   // Anti-bot protection: Check honeypot field
   if (forms.website && forms.website !== '') {
     console.warn('Bot detected: honeypot field filled');
@@ -425,8 +425,6 @@ export async function registerContributor(forms: Record<string, any>) {
     const loadTime = parseInt(forms.formLoadTime, 10);
     const currentTime = Date.now();
     const timeDiff = currentTime - loadTime;
-    
-    // If form submitted in less than 5 seconds, likely a bot
     if (timeDiff < 5000) {
       console.warn('Bot detected: form submitted too quickly');
       return {
@@ -435,6 +433,104 @@ export async function registerContributor(forms: Record<string, any>) {
       };
     }
   }
+  const safeForms = { ...forms };
+
+  if (!process.env.APP_SECRET) {
+    throw new Error('APP_SECRET not configured');
+  }
+
+  const token = jwt.sign(
+    { forms: safeForms },
+    process.env.APP_SECRET as string,
+    {
+      audience: 'sdgcommons:known',
+      issuer: baseHost?.slice(1) || undefined,
+      expiresIn: '24h', // link validity aligned with UI
+    }
+  );
+
+  //send email to user with confirmation link
+  if (!SMTP_HOST && !SMTP_SERVICE) {
+    throw new Error('SMTP_HOST or SMTP_SERVICE must be defined.');
+  }
+  if (!SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
+    throw new Error('SMTP_PORT / SMTP_USER / SMTP_PASS are not defined.');
+  }
+
+  const transportOptions: any = SMTP_SERVICE
+    ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
+    : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
+
+  const transporter = nodemailer.createTransport(transportOptions);
+
+  const confirmationLink = process.env.NODE_ENV === 'production'
+    ? `https://sdg-innovation-commons.org/confirm-email/${token}?new_user=true`
+    : `${LOCAL_BASE_URL}/confirm-email/${token}?new_user=true`;
+
+  const mailOptions = {
+    from: `SDG Commons <${SMTP_USER}>`,
+    to: forms.email,
+    subject: 'Please confirm your email for SDG Commons registration',
+    text: `
+      Dear ${forms.new_name || 'User'},
+
+      Thank you for registering as a contributor on the SDG Commons platform. Please confirm your email address by clicking the link below. The link is valid for 24 hours.
+
+      ${confirmationLink}
+
+      Best regards,
+      SDG Commons Platform
+    `,
+  };
+
+  try {
+    if (NODE_ENV === 'production') {
+      await transporter.sendMail(mailOptions);
+    } else {
+      // Avoid sending in dev — log link so QA/dev can click it
+      console.log('Dev mode - confirm link:', confirmationLink);
+    }
+  } catch (error) {
+    console.error('Error sending email to user:', error);
+  }
+  return {
+    status: 200,
+    message: 'A confirmation email has been sent to your email address. Please check your inbox.',
+  };
+}
+
+export async function registerContributor(token:string) {
+  if (!token) {
+    return {
+      status: 400,
+      message: 'Invalid or missing token.',
+    };
+  }
+
+  let decoded: any;
+  try {
+    if (!process.env.APP_SECRET) {
+      throw new Error('APP_SECRET not configured');
+    }
+    decoded = jwt.verify(token, process.env.APP_SECRET as string, {
+      audience: 'sdgcommons:known',
+      issuer: baseHost?.slice(1) || undefined,
+    }) as any;
+  } catch (error) {
+    console.error('Error verifying token:', error);
+    return {
+      status: 400,
+      message: 'Invalid or expired token.',
+    };
+  }
+
+  if (!decoded || typeof decoded !== 'object' || !decoded.forms) {
+    return {
+      status: 400,
+      message: 'Invalid token payload.',
+    };
+  }
+  const forms = decoded.forms;
 
   const base_url: string | undefined = commonsPlatform.find(
     (p) => p.key === 'login'
@@ -444,8 +540,8 @@ export async function registerContributor(forms: Record<string, any>) {
     throw new Error("Platform base URL not found.");
   }
 
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
-    throw new Error('SMTP or email environment variables are not defined.');
+  if (!SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS) {
+    throw new Error('SMTP_USER / SMTP_PASS / ADMIN_EMAILS are required.');
   }
 
   const adminEmails = ADMIN_EMAILS
@@ -470,18 +566,14 @@ export async function registerContributor(forms: Record<string, any>) {
     });
 
     if (data?.status === 200) {
-      const to = adminEmails[0];
-      const cc = adminEmails.length > 1 ? adminEmails.slice(1).join(';') : '';
+      const to = adminEmails; // array is OK for nodemailer
+      const cc = adminEmails.length > 1 ? adminEmails.slice(1) : undefined;
 
-      const transporter = nodemailer.createTransport({
-        host: SMTP_HOST,
-        port: Number(SMTP_PORT),
-        service: SMTP_SERVICE,
-        auth: {
-          user: SMTP_USER,
-          pass: SMTP_PASS,
-        },
-      });
+      const transportOptions: any = SMTP_SERVICE
+        ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
+        : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
+
+      const transporter = nodemailer.createTransport(transportOptions);
 
       const mailOptions = {
         from: `SDG Commons <${SMTP_USER}>`,
@@ -491,7 +583,7 @@ export async function registerContributor(forms: Record<string, any>) {
         text: `
           Dear Admin(s),
 
-          This is an automated notification for your information only. A new user has registered themselves as a contributor on the SDG Commons platform. The registrant is likely external to your organization.
+          This is an automated notification for your information only. A new user has registered themselves as a contributor on the SDG Commons platform.
 
           Registration details:
           Name: ${forms.new_name || 'N/A'}
@@ -508,11 +600,12 @@ export async function registerContributor(forms: Record<string, any>) {
         `,
       };
 
-      // Send email to admin
       try {
-        // if (NODE_ENV === 'production') {
+        if (NODE_ENV === 'production') {
           await transporter.sendMail(mailOptions);
-        // }
+        } else {
+          console.log('Dev mode - admin notification suppressed', { mailOptions });
+        }
       } catch (emailError) {
         console.error('Error sending email to admin:', emailError);
       }

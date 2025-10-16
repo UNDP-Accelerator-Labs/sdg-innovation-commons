@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { Button } from '@/app/ui/components/Button';
-import { registerContributor } from "@/app/lib/data/platform-api";
+import { confirmEmailAccountBeforeRegistration, registerContributor } from "@/app/lib/data/platform-api";
 
 interface RegisterFormProps {
     countries: any[];
@@ -115,7 +115,7 @@ interface RegisterFormProps {
             formLoadTime: formLoadTime,
          };
 
-        const response = await registerContributor({ ...data });
+        const response = await confirmEmailAccountBeforeRegistration({ ...data });
         if (response?.status === 200) {
             setFormMessage(`${response.message}`);
             window.location.href = "/login"; // Redirect to login after successful registration
