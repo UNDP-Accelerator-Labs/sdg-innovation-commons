@@ -2,9 +2,9 @@ import urllib.request
 from pprint import pprint
 import json
 from os.path import join, exists
-from os import makedirs
+from os import makedirs, getenv
 
-token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1dWlkIjoiNDVlMThiYzMtODgwNS00NWUxLThjNTQtYjM1NmJjZWU0OTEyIiwicmlnaHRzIjozLCJpYXQiOjE3NTkyMzg0NjIsImF1ZCI6InVzZXI6a25vd24iLCJpc3MiOiJzZGctaW5ub3ZhdGlvbi1jb21tb25zLm9yZyJ9.gGEP_cr9yKn_nJu6Vo6FSSBibadY7wNlR68NhAPZu3w'
+token = getenv['API_KEY']
 platforms = [
 	'solutions',
 	'learningplans',
