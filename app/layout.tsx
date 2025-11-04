@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   openGraph: {
     images: [
       {
-        url: 'https://sdg-innovation-commons.org/static/og-default.png',
+        url: 'https://sdg-innovation-commons.org/images/undp-logo.svg',
         alt: 'SDG Commons — insights, data and next practices',
         width: 1200,
         height: 630,
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://sdg-innovation-commons.org/static/og-default.png'],
+    images: ['https://sdg-innovation-commons.org/images/undp-logo.svg'],
   },
   ...(PROD_ENV === 'staging' && {
     robots: 'noindex, nofollow',

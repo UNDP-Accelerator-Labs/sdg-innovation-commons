@@ -9,25 +9,24 @@ export default async function Page({ params, searchParams }: incomingRequestPara
   platform = decodeURI(platform);
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
-
-  const tabs = ['all', 'what-we-see', 'what-we-test', 'what-we-learn'];
+  const tabs = ['all', 'solution', 'experiment', 'action plan', 'blog', 'publications', ] //'news', "press release"];
 
   return (
     <>
-      <Navbar />
-      <div className='grid-bg'>
-        <Hero 
-          searchParams={sParams} 
-          platform={platform}
-          tabs={tabs}
-        />
-        <Content 
-          searchParams={sParams} 
-          platform={platform}
-          tabs={tabs}  
-        />
-      </div>
-      <Footer />
+    <Navbar />
+    <div className='grid-bg'>
+      <Hero 
+        searchParams={sParams} 
+        platform={platform}
+        tabs={tabs}
+      />
+      <Content 
+        searchParams={sParams} 
+        platform={platform}
+        tabs={tabs}  
+      />
+    </div>
+    <Footer />
     </>
   );
 }

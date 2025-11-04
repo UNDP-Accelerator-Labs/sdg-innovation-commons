@@ -5,7 +5,7 @@ import { MenuItem } from '@headlessui/react';
 import clsx from 'clsx';
 import { SectionProps } from '@/app/test/[platform]/Content';
 import { Button } from '@/app/ui/components/Button';
-import Filters from '@/app/search/[platform]/Filters';
+import Filters from '@/app/test/[platform]/Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
 
