@@ -86,7 +86,7 @@
 { "name": "North Korea", "iso3": "PRK", "su_a3": "PRK", "continent": "Asia" },
 { "name": "Zanzibar", "iso3": "TZA", "su_a3": "TZZ", "continent": "Africa" },
 { "name": "China", "iso3": "CHN", "su_a3": "CHI", "continent": "Asia" },
-{ "name": "eSwatini", "iso3": "SWZ", "su_a3": "SWZ", "continent": "Africa" },
+{ "name": "Eswatini", "iso3": "SWZ", "su_a3": "SWZ", "continent": "Africa" },
 { "name": "Brunei", "iso3": "BRN", "su_a3": "BRN", "continent": "Asia" },
 { "name": "Monaco", "iso3": "MCO", "su_a3": "MCO", "continent": "Europe" },
 { "name": "Mozambique", "iso3": "MOZ", "su_a3": "MOZ", "continent": "Africa" },
