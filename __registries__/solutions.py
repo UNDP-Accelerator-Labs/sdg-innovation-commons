@@ -1,7 +1,7 @@
 tree = {
 	'title': 'What we saw',
 	'ordered_keys': [
-		'type',
+		{ 'key': 'type', 'value': ['solution'] },
 		'year',
 		'alphabetical',
 	]

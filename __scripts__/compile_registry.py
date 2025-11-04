@@ -65,13 +65,34 @@ def setListItems (file, structure):
 	title = getTitle(text)
 	
 	trees = []
-	for i, k in enumerate(structure['ordered_keys']):
+	for i, d in enumerate(structure['ordered_keys']):
+		if isinstance(d, dict):
+			k = d['key']
+			"""
+			TO DO: If this is the case, it means we are filtering a given metadata item,
+			and on the main index/ registry page, we do not need to navigate to
+			other items of the same metadata (because there is only one). For example,
+			if this is to filter only solutions, then we do not need solutions as 
+			a section in the index/ registry page.
+			"""
+		else:
+			k = d
+		
 		if k != 'alphabetical':
-			md_tags = re.findall(fr'\[\[{k}:[\w\s\d\.,]*\]\]', text)
+			if isinstance(d, dict):
+				v = d['value'][0]
+				"""
+				TO DO: In the regex line below, find a way to iterate over d['value'].
+				Probably something like this:
+					re.findall(fr'\[\[{k}:[{'|'.join(v)}]\]\]', text)
+				"""
+				md_tags = re.findall(fr'\[\[{k}:{v}\]\]', text)
+			else:
+				md_tags = re.findall(fr'\[\[{k}:[\w\s\d\.,]*\]\]', text)
 			md_tag_values = [re.sub(r'[\[\]]*', '', t).replace(f'{k}:', '') for t in md_tags]
 		else:
 			md_tag_values = [title[:1].upper()]
-	
+
 		md_tag_values = list(set(md_tag_values))
 		md_tag_values.sort()
 		# Maybe this only needs to be a set (unique values) as there are duplicates
@@ -106,8 +127,20 @@ def filterRelevantFiles (basepath, structure):
 	relevantFiles = []
 	for f in files:
 		text = getText(join(basepath, f))
-		for k in structure['ordered_keys']:
-			pattern = re.compile(fr'\[\[{k}:[\w\s\d\.]+\]\]', re.MULTILINE)
+		for d in structure['ordered_keys']:
+			if isinstance(d, dict):
+				k = d['key']
+				v = d['value'][0]
+				"""
+				TO DO: In the regex line below, find a way to iterate over d['value'].
+				Probably something like this:
+					re.findall(fr'\[\[{k}:[{'|'.join(v)}]\]\]', text)
+				"""
+				pattern = re.compile(fr'\[\[{k}:{v}\]\]', re.MULTILINE)
+			else:
+				k = d
+				pattern = re.compile(fr'\[\[{k}:[\w\s\d\.]+\]\]', re.MULTILINE)
+			
 			if pattern.search(text):
 				if f not in [_f for (_f,_t) in relevantFiles]:
 					relevantFiles.append((f, text))

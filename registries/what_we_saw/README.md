@@ -8209,1031 +8209,7 @@
 
 </div>
 
-## Experiment
-
-### 2021
-
-<div class="multicol">
-
-
-<div>
-
-
-#### N
-- [nudging citizens to use public transport through gakyid ride app](./?doc=nudging_citizens_to_use_public_transport_through_gakyid_ride_app.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### L
-- [laboratorio de residuos](./?doc=laboratorio_de_residuos.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### E
-- [embedding a culture of public sector innovation for improved service delivery](./?doc=embedding_a_culture_of_public_sector_innovation_for_improved_service_delivery.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### C
-- [collaboration and systems change - a living lab prototype](./?doc=collaboration_and_systems_change___a_living_lab_prototype.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### B
-- [behavioral insight- a nudge towards circular economy](./?doc=behavioral_insight__a_nudge_towards_circular_economy.md)
-
-
-</div>
-
-
-</div>
-
-### 2022
-
-<div class="multicol">
-
-
-<div>
-
-
-#### G
-- [gamification for raising awareness and skills development about solid waste management among youth ](./?doc=gamification_for_raising_awareness_and_skills_development_about_solid_waste_management_among_youth.md)
-- [gamifying digital skills learning (balatech)](./?doc=gamifying_digital_skills_learning__balatech_.md)
-- [gender based violence: dialogue session within schools](./?doc=gender_based_violence__dialogue_session_within_schools.md)
-- [generating evidence during a crisis: setting standards for re-usable cloth masks in zambia](./?doc=generating_evidence_during_a_crisis__setting_standards_for_re_usable_cloth_masks_in_zambia.md)
-- [geoai to regulate air pollution](./?doc=geoai_to_regulate_air_pollution.md)
-- [going against local agricultural practices: growing crops using hydroponics techniques](./?doc=going_against_local_agricultural_practices__growing_crops_using_hydroponics_techniques.md)
-- [green aral sea initiative](./?doc=green_aral_sea_initiative.md)
-- [green islands (drones)](./?doc=green_islands__drones_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### C
-- [can social cohesion and incentives influence our decision to separate waste?](./?doc=can_social_cohesion_and_incentives_influence_our_decision_to_separate_waste_.md)
-- [changing behaviour: lessons in community waste management in ghana](./?doc=changing_behaviour__lessons_in_community_waste_management_in_ghana.md)
-- [citizen science inventories for marine litter and microplastics](./?doc=citizen_science_inventories_for_marine_litter_and_microplastics.md)
-- [citizens feedback platform](./?doc=citizens_feedback_platform.md)
-- [clean air heroes innovation challenge](./?doc=clean_air_heroes_innovation_challenge.md)
-- [collecting waste with a compactor truck](./?doc=collecting_waste_with_a_compactor_truck.md)
-- [collective intelligence using twitter posts from volunteers](./?doc=collective_intelligence_using_twitter_posts_from_volunteers.md)
-- [commercializing waste from public spaces to reduce its accumulation](./?doc=commercializing_waste_from_public_spaces_to_reduce_its_accumulation.md)
-- [community based waste recycling model](./?doc=community_based_waste_recycling_model.md)
-- [community health digital platform - bophelo-ka-mosebeletsi (bkm) mobile application](./?doc=community_health_digital_platform___bophelo_ka_mosebeletsi__bkm__mobile_application.md)
-- [community safari](./?doc=community_safari.md)
-- [community waste management](./?doc=community_waste_management.md)
-- [community-based tourism (cbt)](./?doc=community_based_tourism__cbt_.md)
-- [community-led transformation of urban public spaces  ](./?doc=community_led_transformation_of_urban_public_spaces.md)
-- [comparing messages with empathy vs responsibility](./?doc=comparing_messages_with_empathy_vs_responsibility.md)
-- [connecting the youth with skills, employment and entrepreneurship](./?doc=connecting_the_youth_with_skills__employment_and_entrepreneurship.md)
-- [contrasting dppd to other priorization methodologies for waste management](./?doc=contrasting_dppd_to_other_priorization_methodologies_for_waste_management.md)
-- [covid champions and vaccination rates](./?doc=covid_champions_and_vaccination_rates.md)
-- [crowd-mapping skopje’s drinking fountains for sustainable water management](./?doc=crowd_mapping_skopje_s_drinking_fountains_for_sustainable_water_management.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### H
-- [hackathon reinventa turismo](./?doc=hackathon_reinventa_turismo.md)
-- [hand washing practice into a behavioral norm - beyond covid](./?doc=hand_washing_practice_into_a_behavioral_norm___beyond_covid.md)
-- [hasan darwish](./?doc=hasan_darwish.md)
-- [hatching our eggs at home- exploring means to end the  day-old chick challenge ](./?doc=hatching_our_eggs_at_home__exploring_means_to_end_the__day_old_chick_challenge.md)
-- [heat officers, a policy innovation experiment [learning for our country office and cities]](./?doc=heat_officers__a_policy_innovation_experiment__learning_for_our_country_office_and_cities_.md)
-- [household waste segregation behavior for proper solid waste management ](./?doc=household_waste_segregation_behavior_for_proper_solid_waste_management.md)
-- [how to make a web portal which assists in startup development: a serbian experience](./?doc=how_to_make_a_web_portal_which_assists_in_startup_development__a_serbian_experience.md)
-- [hydroponics in informal settlements in fiji](./?doc=hydroponics_in_informal_settlements_in_fiji.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### R
-- [rct: nudging pet waste separation at source](./?doc=rct__nudging_pet_waste_separation_at_source.md)
-- [re-purposing food supply chains during times of disaster](./?doc=re_purposing_food_supply_chains_during_times_of_disaster.md)
-- [re-thinking public space through academia](./?doc=re_thinking_public_space_through_academia.md)
-- [real-time statistics through digital support systems](./?doc=real_time_statistics_through_digital_support_systems.md)
-- [reducing the use of single-use plastic bags in the supermarkets](./?doc=reducing_the_use_of_single_use_plastic_bags_in_the_supermarkets.md)
-- [reducing waste collection fee to incentivize classification](./?doc=reducing_waste_collection_fee_to_incentivize_classification.md)
-- [responsive local governance models through social innovation platform](./?doc=responsive_local_governance_models_through_social_innovation_platform.md)
-- [rice husks to cooking fuel: a grassroots experimenter's journey](./?doc=rice_husks_to_cooking_fuel__a_grassroots_experimenter_s_journey.md)
-- [rural municipal recycling pilot](./?doc=rural_municipal_recycling_pilot.md)
-- [rêver l'avenir: moi avant, moi maintenant et moi dans 15 ans](./?doc=r_ver_l_avenir__moi_avant__moi_maintenant_et_moi_dans_15_ans.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### A
-- [a chatbot to engage bystanders of violence agains women](./?doc=a_chatbot_to_engage_bystanders_of_violence_agains_women.md)
-- [a waste recovery system to generate income for the local government](./?doc=a_waste_recovery_system_to_generate_income_for_the_local_government.md)
-- [accessibility of websites and applications](./?doc=accessibility_of_websites_and_applications.md)
-- [advancing experimental practices](./?doc=advancing_experimental_practices.md)
-- [agri waste to energy](./?doc=agri_waste_to_energy.md)
-- [agroprocessing experiment ](./?doc=agroprocessing_experiment.md)
-- [air quality monitoring system](./?doc=air_quality_monitoring_system.md)
-- [an organic waste recovery system to generate income for the local government](./?doc=an_organic_waste_recovery_system_to_generate_income_for_the_local_government.md)
-- [analyzing open ended responses from an online survey](./?doc=analyzing_open_ended_responses_from_an_online_survey.md)
-- [articulation of actors in the route of formalization](./?doc=articulation_of_actors_in_the_route_of_formalization.md)
-- [assessing access to waste collection services](./?doc=assessing_access_to_waste_collection_services.md)
-- [assessment of digital skills and knowledge of vulnerable groups](./?doc=assessment_of_digital_skills_and_knowledge_of_vulnerable_groups.md)
-- [augmented development](./?doc=augmented_development.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### P
-- [pals with disabilities ](./?doc=pals_with_disabilities.md)
-- [participation in decision making and supporting public policy [experiment #4]](./?doc=participation_in_decision_making_and_supporting_public_policy__experiment__4_.md)
-- [participatory energy efficiency audits in households](./?doc=participatory_energy_efficiency_audits_in_households.md)
-- [participatory remodelation of the notary service, ministry of justice](./?doc=participatory_remodelation_of_the_notary_service__ministry_of_justice.md)
-- [paula mosera](./?doc=paula_mosera.md)
-- [period poverty, the transition from cloth cut-outs to washable pads ](./?doc=period_poverty__the_transition_from_cloth_cut_outs_to_washable_pads.md)
-- [phynuch thong](./?doc=phynuch_thong.md)
-- [pierre antoine](./?doc=pierre_antoine.md)
-- [piloting rapid ethnographic research for sustainable water management in north macedonia](./?doc=piloting_rapid_ethnographic_research_for_sustainable_water_management_in_north_macedonia.md)
-- [plastics circular economy](./?doc=plastics_circular_economy.md)
-- [pointing out a shared effort to increase feeling of inclusion [experiment 3]](./?doc=pointing_out_a_shared_effort_to_increase_feeling_of_inclusion__experiment_3_.md)
-- [portfolio of interventions to facilitate citizen engagement and co-creation](./?doc=portfolio_of_interventions_to_facilitate_citizen_engagement_and_co_creation.md)
-- [portfolio sensemaking for undp samoa mco - expand, deepen and connect portfolio](./?doc=portfolio_sensemaking_for_undp_samoa_mco___expand__deepen_and_connect_portfolio.md)
-- [positive deviance powered best practice on climate resilience](./?doc=positive_deviance_powered_best_practice_on_climate_resilience.md)
-- [promoting youth entrepreneurship in rural areas ](./?doc=promoting_youth_entrepreneurship_in_rural_areas.md)
-- [protecting water points by designing thinking & innovation](./?doc=protecting_water_points_by_designing_thinking___innovation.md)
-- [prototyping a new generation of eco-friendly wastebaskets  - a light urban intervention](./?doc=prototyping_a_new_generation_of_eco_friendly_wastebaskets____a_light_urban_intervention.md)
-- [prototyping a public service: learning about digital services promoters as a mechanism for digital…](./?doc=prototyping_a_public_service__learning_about_digital_services_promoters_as_a_mechanism_for_digital_.md)
-- [prototyping and demonstrations: water innovations for improved water quality and quantity](./?doc=prototyping_and_demonstrations__water_innovations_for_improved_water_quality_and_quantity.md)
-- [prototyping plastic bricks and constructing a demonstration unit](./?doc=prototyping_plastic_bricks_and_constructing_a_demonstration_unit.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### S
-- [safe markets, safe communities: establishing safe model markets in the covid 19 context](./?doc=safe_markets__safe_communities__establishing_safe_model_markets_in_the_covid_19_context.md)
-- [scaling of the “con vos” network](./?doc=scaling_of_the__con_vos__network.md)
-- [screening of the entrepreneurial process and integration with job offer](./?doc=screening_of_the_entrepreneurial_process_and_integration_with_job_offer.md)
-- [sensemaking of the cpd](./?doc=sensemaking_of_the_cpd.md)
-- [smart tour guide for improving tourist satisfaction and informal employment](./?doc=smart_tour_guide_for_improving_tourist_satisfaction_and_informal_employment.md)
-- [smart white cane](./?doc=smart_white_cane.md)
-- [social norms: learning about food security and family economy decisions](./?doc=social_norms__learning_about_food_security_and_family_economy_decisions.md)
-- [social protection: woman waste pickers ](./?doc=social_protection__woman_waste_pickers.md)
-- [social protection: youth informal employment](./?doc=social_protection__youth_informal_employment.md)
-- [solar drying to reduce food waste: inclusive business](./?doc=solar_drying_to_reduce_food_waste__inclusive_business.md)
-- [solutions clinic with bmw foundation herbert quandt](./?doc=solutions_clinic_with_bmw_foundation_herbert_quandt.md)
-- [spatial design interventions in housing for change in behaviors related to gender norms - house 1](./?doc=spatial_design_interventions_in_housing_for_change_in_behaviors_related_to_gender_norms___house_1.md)
-- [spatial design interventions in housing for change in behaviors related to gender norms - house 2 ](./?doc=spatial_design_interventions_in_housing_for_change_in_behaviors_related_to_gender_norms___house_2.md)
-- [spatial design interventions in housing for change in behaviors related to gender norms - house 3 ](./?doc=spatial_design_interventions_in_housing_for_change_in_behaviors_related_to_gender_norms___house_3.md)
-- [strengthening birth registration system in samoa through digital solutions](./?doc=strengthening_birth_registration_system_in_samoa_through_digital_solutions.md)
-- [strengthening the use of local innovations in the development minerals sector ](./?doc=strengthening_the_use_of_local_innovations_in_the_development_minerals_sector.md)
-- [structured reflection and working out loud for improved agility and learning](./?doc=structured_reflection_and_working_out_loud_for_improved_agility_and_learning.md)
-- [student led platform for skill development ](./?doc=student_led_platform_for_skill_development.md)
-- [system design for climate finance ](./?doc=system_design_for_climate_finance.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### I
-- [identifying best practices for working with indigenous groups](./?doc=identifying_best_practices_for_working_with_indigenous_groups.md)
-- [imagetronism, when images help building digital sense](./?doc=imagetronism__when_images_help_building_digital_sense.md)
-- [impact evaluation of "mi barrio sin residuos"](./?doc=impact_evaluation_of__mi_barrio_sin_residuos_.md)
-- [improving feelings and attitudes thowards covid-vaccine through "covid-champions"](./?doc=improving_feelings_and_attitudes_thowards_covid_vaccine_through__covid_champions_.md)
-- [incentive system for recruitment of covid-champions](./?doc=incentive_system_for_recruitment_of_covid_champions.md)
-- [incidence of free internet in public spaces connectivity on the possibility of increasing micro an…](./?doc=incidence_of_free_internet_in_public_spaces_connectivity_on_the_possibility_of_increasing_micro_an_.md)
-- [increasing climate literacy among youth](./?doc=increasing_climate_literacy_among_youth.md)
-- [informal employment in blue tourism](./?doc=informal_employment_in_blue_tourism.md)
-- [information system for the integral solid waste management](./?doc=information_system_for_the_integral_solid_waste_management.md)
-- [institutional school farm](./?doc=institutional_school_farm.md)
-- [integrated service delivery ](./?doc=integrated_service_delivery.md)
-- [integrating foresight tools for anticipatory gov models](./?doc=integrating_foresight_tools_for_anticipatory_gov_models.md)
-- [integrating gender, equality, social inclusion in projects ](./?doc=integrating_gender__equality__social_inclusion_in_projects.md)
-- [interviews with campaign implementers in guatemala](./?doc=interviews_with_campaign_implementers_in_guatemala.md)
-- [iot based smart irrigation](./?doc=iot_based_smart_irrigation.md)
-- [istammer web app at https://app.istammergh.org/](./?doc=istammer_web_app_at_https_app_istammergh_org.md)
-- [iterative discovery of waste collection](./?doc=iterative_discovery_of_waste_collection.md)
-- [ivr and sms for behavioral change communication and training   ](./?doc=ivr_and_sms_for_behavioral_change_communication_and_training.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### T
-- [taking the "digital pulse" of local businesses](./?doc=taking_the__digital_pulse__of_local_businesses.md)
-- [testing a framework for assessing cultural change](./?doc=testing_a_framework_for_assessing_cultural_change.md)
-- [testing a volunteer-driven crowdsourcing approach to tackle online misinformation using the health…](./?doc=testing_a_volunteer_driven_crowdsourcing_approach_to_tackle_online_misinformation_using_the_health_.md)
-- [testing different engagement methods to promote the functionalities of a digital platform.](./?doc=testing_different_engagement_methods_to_promote_the_functionalities_of_a_digital_platform_.md)
-- [testing the functionality of form{`r} to run online survey experiments](./?doc=testing_the_functionality_of_form__r__to_run_online_survey_experiments.md)
-- [testing with "short term guide" a play book to career guidance and counseling ](./?doc=testing_with__short_term_guide__a_play_book_to_career_guidance_and_counseling.md)
-- [text mining the performance evaluation system](./?doc=text_mining_the_performance_evaluation_system.md)
-- [the role of free internet access to revitalize public spaces through social networks](./?doc=the_role_of_free_internet_access_to_revitalize_public_spaces_through_social_networks.md)
-- [the role of young change-makers in society ](./?doc=the_role_of_young_change_makers_in_society.md)
-- [traditional knowledge - salt making](./?doc=traditional_knowledge___salt_making.md)
-- [training for waste collection](./?doc=training_for_waste_collection.md)
-- [transforming of public spaces through](./?doc=transforming_of_public_spaces_through.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### U
-- [unraveling the big bet: tackling depopulation in serbia through a data challenge](./?doc=unraveling_the_big_bet__tackling_depopulation_in_serbia_through_a_data_challenge.md)
-- [urban innovation challenge](./?doc=urban_innovation_challenge.md)
-- [use of dppd to identify places with potential solutions to waste management](./?doc=use_of_dppd_to_identify_places_with_potential_solutions_to_waste_management.md)
-- [using ai (decision-trees) to assess vulnerability to climate change](./?doc=using_ai__decision_trees__to_assess_vulnerability_to_climate_change.md)
-- [using dppd to identify adequate waste management practices](./?doc=using_dppd_to_identify_adequate_waste_management_practices.md)
-- [using dppd to identify greater indigenous political participation](./?doc=using_dppd_to_identify_greater_indigenous_political_participation.md)
-- [using online sales techniques for the belgradegets.digital campaign](./?doc=using_online_sales_techniques_for_the_belgradegets_digital_campaign.md)
-- [using open software to analyze big-data within municipalities](./?doc=using_open_software_to_analyze_big_data_within_municipalities.md)
-- [using practical demonstrations to reduce the learning curve [experiment #1]](./?doc=using_practical_demonstrations_to_reduce_the_learning_curve__experiment__1_.md)
-- [using sensemaking to synthesize knowledge](./?doc=using_sensemaking_to_synthesize_knowledge.md)
-- [using twitter data to understand patterns in conversation](./?doc=using_twitter_data_to_understand_patterns_in_conversation.md)
-- [using unvs for data collection across three islands](./?doc=using_unvs_for_data_collection_across_three_islands.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### M
-- [managing water smartly ](./?doc=managing_water_smartly.md)
-- [mapathon of natural & artificial lakes in greater jakarta area](./?doc=mapathon_of_natural___artificial_lakes_in_greater_jakarta_area.md)
-- [mapping solutions with volunteers](./?doc=mapping_solutions_with_volunteers.md)
-- [mapping tourist's mind for youth employment](./?doc=mapping_tourist_s_mind_for_youth_employment.md)
-- [marine litter: behavioral insights experiment in social media](./?doc=marine_litter__behavioral_insights_experiment_in_social_media.md)
-- [market space for climate-resilient crops](./?doc=market_space_for_climate_resilient_crops.md)
-- [mobile justice](./?doc=mobile_justice.md)
-- [moulin solaire](./?doc=moulin_solaire.md)
-- [moustapha sahirou yacouba](./?doc=moustapha_sahirou_yacouba.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### L
-- [learning about the effectiveness of digital baskets as tools for bridging the digital divide](./?doc=learning_about_the_effectiveness_of_digital_baskets_as_tools_for_bridging_the_digital_divide.md)
-- [learning about the informal sector in north macedonia through data sentiment analysis and direct e…](./?doc=learning_about_the_informal_sector_in_north_macedonia_through_data_sentiment_analysis_and_direct_e_.md)
-- [leveraging community data for effective merl ](./?doc=leveraging_community_data_for_effective_merl.md)
-- [local convergence: testing new approaches in participatory planning for covid19 recovery](./?doc=local_convergence__testing_new_approaches_in_participatory_planning_for_covid19_recovery.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### O
-- [omar agodim](./?doc=omar_agodim.md)
-- [online public service portal re-design (cpii & rff)](./?doc=online_public_service_portal_re_design__cpii___rff_.md)
-- [online public service portal re-design (cpii &amp; rff)](./?doc=online_public_service_portal_re_design__cpii__amp__rff_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### Y
-- [youth unemployment; honey processing experiment](./?doc=youth_unemployment__honey_processing_experiment.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### D
-- [dany vinh](./?doc=dany_vinh.md)
-- [david tan](./?doc=david_tan.md)
-- [designing the "community of practices" of stem women (design stage)](./?doc=designing_the__community_of_practices__of_stem_women__design_stage_.md)
-- [digitalization and data innovation in informality for policy](./?doc=digitalization_and_data_innovation_in_informality_for_policy.md)
-- [dématérialisation des actes d'état civil](./?doc=d_mat_rialisation_des_actes_d__tat_civil.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### B
-- [bangkok accessibility journey](./?doc=bangkok_accessibility_journey.md)
-- [berna mugema](./?doc=berna_mugema.md)
-- [biomimicry global design challenge ](./?doc=biomimicry_global_design_challenge.md)
-- [blue digital](./?doc=blue_digital.md)
-- [bridging the digital divide through digital support systems](./?doc=bridging_the_digital_divide_through_digital_support_systems.md)
-- [bridging the digital divide to unlock trade barriers for women and youth](./?doc=bridging_the_digital_divide_to_unlock_trade_barriers_for_women_and_youth.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### V
-- [vc zoom rct: testing video tutorials and virtual training effectiveness for digital financial incl…](./?doc=vc_zoom_rct__testing_video_tutorials_and_virtual_training_effectiveness_for_digital_financial_incl_.md)
-- [ventanilla única empresarial asistida](./?doc=ventanilla__nica_empresarial_asistida.md)
-- [virtual gis map for pwd](./?doc=virtual_gis_map_for_pwd.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### N
-- [neuza buque](./?doc=neuza_buque.md)
-- [nudging behavior change for climate-resilient food consumption](./?doc=nudging_behavior_change_for_climate_resilient_food_consumption.md)
-- [nudging through storytelling - behavioral insights on public space](./?doc=nudging_through_storytelling___behavioral_insights_on_public_space.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### F
-- [financing of the business formalization process](./?doc=financing_of_the_business_formalization_process.md)
-- [food stamps for a local fair as strategy for a food security social program](./?doc=food_stamps_for_a_local_fair_as_strategy_for_a_food_security_social_program.md)
-- [food system heroes innovation challenge](./?doc=food_system_heroes_innovation_challenge.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### W
-- [waste bin experiment in erdenet city](./?doc=waste_bin_experiment_in_erdenet_city.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### “
-- [“preservamos”(wepreserve): conoce, mapea y protege tu río o lago](./?doc=_preservamos__wepreserve___conoce__mapea_y_protege_tu_r_o_o_lago.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### E
-- [eco-conscious kofi and ama](./?doc=eco_conscious_kofi_and_ama.md)
-- [empowering msmes entrepreneurs with financial literacy](./?doc=empowering_msmes_entrepreneurs_with_financial_literacy.md)
-- [enhancing access to e-commerce for informal market vendors in kisumu](./?doc=enhancing_access_to_e_commerce_for_informal_market_vendors_in_kisumu.md)
-- [exchange of knowledge for the realization of sustainable companies](./?doc=exchange_of_knowledge_for_the_realization_of_sustainable_companies.md)
-- [experimental survey](./?doc=experimental_survey.md)
-- [experimenting with bio-waste in the city of skopje](./?doc=experimenting_with_bio_waste_in_the_city_of_skopje.md)
-- [exploitation intégrée du fourrage](./?doc=exploitation_int_gr_e_du_fourrage.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### J
-- [job assist office](./?doc=job_assist_office.md)
-- [julio fernandes pinto](./?doc=julio_fernandes_pinto.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### K
-- [kunzang wangmo ](./?doc=kunzang_wangmo.md)
-
-
-</div>
-
-
-</div>
-
-### 2023
-
-<div class="multicol">
-
-
-<div>
-
-
-#### 3
-- [3d building blocks](./?doc=3d_building_blocks.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### W
-- [walking together towards formalization: evaluation of an advising service pilot for domestic work …](./?doc=walking_together_towards_formalization__evaluation_of_an_advising_service_pilot_for_domestic_work__.md)
-- [workflow and transparency in the notary, ministry of justice guinea bissau](./?doc=workflow_and_transparency_in_the_notary__ministry_of_justice_guinea_bissau.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### “
-- [“back yard” solar power automated aquaponics system for persons with disabilities](./?doc=_back_yard__solar_power_automated_aquaponics_system_for_persons_with_disabilities.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### R
-- [red con vos - fray mamerto esquiú](./?doc=red_con_vos___fray_mamerto_esqui_.md)
-- [returning point - ](./?doc=returning_point____building_bridges_between_serbia_and_its_diaspora.md)
-- [returning point podcast - new way of re/connecting with serbian diaspora and returnees ](./?doc=returning_point_podcast___new_way_of_reconnecting_with_serbian_diaspora_and_returnees.md)
-- [returning point “dijaspora srbija” viber group](./?doc=returning_point__dijaspora_srbija__viber_group.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### U
-- [unlocking efficiency: enhancing civil register processing through biometric digitization](./?doc=unlocking_efficiency__enhancing_civil_register_processing_through_biometric_digitization.md)
-- [using dried leaves to curb soil erosion](./?doc=using_dried_leaves_to_curb_soil_erosion.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### E
-- [economic participation of the bissau-guinean diaspora for development of the country](./?doc=economic_participation_of_the_bissau_guinean_diaspora_for_development_of_the_country.md)
-- [experimentation on safe street seafood production for accelerating blue economy opportunity](./?doc=experimentation_on_safe_street_seafood_production_for_accelerating_blue_economy_opportunity.md)
-- [experimenting with 'signals scanning'](./?doc=experimenting_with__signals_scanning_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### H
-- [how the access to information and facilitated reflection on social security impacts knowledge and …](./?doc=how_the_access_to_information_and_facilitated_reflection_on_social_security_impacts_knowledge_and__.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### S
-- [sea turtle hatching for conservation and restoration of biodiversity at saint martin's in banglade…](./?doc=sea_turtle_hatching_for_conservation_and_restoration_of_biodiversity_at_saint_martin_s_in_banglade_.md)
-- [stimulate informal economy promoting safe dry fish for blue economy](./?doc=stimulate_informal_economy_promoting_safe_dry_fish_for_blue_economy.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### P
-- [physical spaces breaking silos and increasing wellbeing in the country office  ](./?doc=physical_spaces_breaking_silos_and_increasing_wellbeing_in_the_country_office.md)
-- [positive deviations in primary health care](./?doc=positive_deviations_in_primary_health_care.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### I
-- [irrigation system with hygrometer](./?doc=irrigation_system_with_hygrometer.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### F
-- [flexible manufacturing: testing an intervention to increase productivity of a garments cluster](./?doc=flexible_manufacturing__testing_an_intervention_to_increase_productivity_of_a_garments_cluster.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### T
-- [tavarandu: juego de bienes públicos para medir la confianza en la gobernanza participativa](./?doc=tavarandu__juego_de_bienes_p_blicos_para_medir_la_confianza_en_la_gobernanza_participativa.md)
-- [the circular economy- the gold in our garbage a pilot in the city of bukavu in drc](./?doc=the_circular_economy__the_gold_in_our_garbage_a_pilot_in_the_city_of_bukavu_in_drc.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### G
-- [godfather system for public space maintenance](./?doc=godfather_system_for_public_space_maintenance.md)
-- [guarnibot: a chatbot for emergency assistance](./?doc=guarnibot__a_chatbot_for_emergency_assistance.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### D
-- [dominica - using 360 footage & street view mapping for visibility of community tourism sites](./?doc=dominica___using_360_footage___street_view_mapping_for_visibility_of_community_tourism_sites.md)
-
-
-</div>
-
-
-</div>
-
-### 2024
-
-<div class="multicol">
-
-
-<div>
-
-
-#### 3
-- [3 days, 3 minutes, 360 degrees challenge ](./?doc=3_days__3_minutes__360_degrees_challenge.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### S
-- [satellite identification of environmental mining liabilities](./?doc=satellite_identification_of_environmental_mining_liabilities.md)
-- [scaling the practices &amp; strategies of outperforming rangeland communities in somalia ](./?doc=scaling_the_practices__amp__strategies_of_outperforming_rangeland_communities_in_somalia.md)
-- [science and culture sdg:](./?doc=science_and_culture_sdg_.md)
-- [signage for the separation of recyclable materials](./?doc=signage_for_the_separation_of_recyclable_materials.md)
-- [smart trashcan](./?doc=smart_trashcan.md)
-- [smart waste (data in action)](./?doc=smart_waste__data_in_action_.md)
-- [social records for the public works land expropriation management system](./?doc=social_records_for_the_public_works_land_expropriation_management_system.md)
-- [solar powered automated system for monitoring aquaponics systems](./?doc=solar_powered_automated_system_for_monitoring_aquaponics_systems.md)
-- [stress testing policies to promote dialogue](./?doc=stress_testing_policies_to_promote_dialogue.md)
-- [survey-based experiments to local farmers understanding of climate change information](./?doc=survey_based_experiments_to_local_farmers_understanding_of_climate_change_information.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### F
-- [fab lab](./?doc=fab_lab.md)
-- [flood data viewer](./?doc=flood_data_viewer.md)
-- [fog harvesters: securing water for chuquisaca's future](./?doc=fog_harvesters__securing_water_for_chuquisaca_s_future.md)
-- [forecasting scenarios of polarization](./?doc=forecasting_scenarios_of_polarization.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### D
-- [digital inclusion and future skills pilot ](./?doc=digital_inclusion_and_future_skills_pilot.md)
-- [digital solutions for food markets](./?doc=digital_solutions_for_food_markets.md)
-- [digital transformation: piloting of remote remand](./?doc=digital_transformation__piloting_of_remote_remand.md)
-- [digitalization of the offer of products from public markets](./?doc=digitalization_of_the_offer_of_products_from_public_markets.md)
-- [digitization of correspondence in the tax challenge authority (ait)](./?doc=digitization_of_correspondence_in_the_tax_challenge_authority__ait_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### L
-- [latinoamérica 2050](./?doc=latinoam_rica_2050.md)
-- [los efectos de los pares y las características a nivel individual en las decisiones financieras en…](./?doc=los_efectos_de_los_pares_y_las_caracter_sticas_a_nivel_individual_en_las_decisiones_financieras_en_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### A
-- [agro innovatec in reverse](./?doc=agro_innovatec_in_reverse.md)
-- [agro innovatec](./?doc=agro_innovatec.md)
-- [ai-driven participatory urban planning: intergenerational co-design of public spaces in panama](./?doc=ai_driven_participatory_urban_planning__intergenerational_co_design_of_public_spaces_in_panama.md)
-- [ai: argentine intelligence](./?doc=ai__argentine_intelligence.md)
-- [assessing the effect of free internet in public spaces on visitors](./?doc=assessing_the_effect_of_free_internet_in_public_spaces_on_visitors.md)
-- [assessment of local revenue management information system](./?doc=assessment_of_local_revenue_management_information_system.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### V
-- [vacunas: acceso y desinformación](./?doc=vacunas__acceso_y_desinformaci_n.md)
-- [vannaroith sok](./?doc=vannaroith_sok.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### E
-- [ecodataton](./?doc=ecodataton.md)
-- [educational innovation i+e](./?doc=educational_innovation_i_e.md)
-- [electric motorbike delivery policy experimentation for delivery workers in hue city](./?doc=electric_motorbike_delivery_policy_experimentation_for_delivery_workers_in_hue_city.md)
-- [engaging women in stem through real-time feedback: using interactive tools to enhance audience eng…](./?doc=engaging_women_in_stem_through_real_time_feedback__using_interactive_tools_to_enhance_audience_eng_.md)
-- [experiment: smart gardens that recycle grey water and bio-waste](./?doc=experiment__smart_gardens_that_recycle_grey_water_and_bio_waste.md)
-- [experimenting on seaweed cultivation in the western cape](./?doc=experimenting_on_seaweed_cultivation_in_the_western_cape.md)
-- [experimenting with 'crowdsourcing' ideas for advancing the sdgs in north macedonia](./?doc=experimenting_with__crowdsourcing__ideas_for_advancing_the_sdgs_in_north_macedonia.md)
-- [experimenting with chat in career counselling](./?doc=experimenting_with_chat_in_career_counselling.md)
-- [exploring the gender digital divide in semi-rural areas](./?doc=exploring_the_gender_digital_divide_in_semi_rural_areas.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### C
-- [cerco verde](./?doc=cerco_verde.md)
-- [circular economy for organic food waste in public markets](./?doc=circular_economy_for_organic_food_waste_in_public_markets.md)
-- [circular economy secondhand market experiment](./?doc=circular_economy_secondhand_market_experiment.md)
-- [citizen lab: mobile data "let's talk waste panama"](./?doc=citizen_lab__mobile_data__let_s_talk_waste_panama_.md)
-- [citizen reporting system - map your disaster](./?doc=citizen_reporting_system___map_your_disaster.md)
-- [climate change scenario planning with artificial intelligence](./?doc=climate_change_scenario_planning_with_artificial_intelligence.md)
-- [collective intelligence experiment on the just energy transition in south africa](./?doc=collective_intelligence_experiment_on_the_just_energy_transition_in_south_africa.md)
-- [collective intelligence for climate action](./?doc=collective_intelligence_for_climate_action.md)
-- [community emergency plan for floods](./?doc=community_emergency_plan_for_floods.md)
-- [creando: an online community for migrant entrepreneurs ](./?doc=creando__an_online_community_for_migrant_entrepreneurs.md)
-- [creating a safe space for dialogue and engagement: "her journey, her story: women shaping tech" ev…](./?doc=creating_a_safe_space_for_dialogue_and_engagement___her_journey__her_story__women_shaping_tech__ev_.md)
-- [crowd funding experimentation ](./?doc=crowd_funding_experimentation.md)
-- [cuenta simple: opening doors to foreign investors in paraguay](./?doc=cuenta_simple__opening_doors_to_foreign_investors_in_paraguay.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### U
-- [utilising the al ghada plant shrub in conservation and tourism](./?doc=utilising_the_al_ghada_plant_shrub_in_conservation_and_tourism.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### R
-- [registro único de trabajadores (rut)](./?doc=registro__nico_de_trabajadores__rut_.md)
-- [reveal madaba: an open-air exhibition experiment](./?doc=reveal_madaba__an_open_air_exhibition_experiment.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### T
-- [tavarandu, the training of municipal team for participatory governance](./?doc=tavarandu__the_training_of_municipal_team_for_participatory_governance.md)
-- [the tavarandú hackathon: civictech training program for citizen participation](./?doc=the_tavarand__hackathon__civictech_training_program_for_citizen_participation.md)
-- [trash to treasure](./?doc=trash_to_treasure.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### I
-- [identifying effects of polarization on public officials](./?doc=identifying_effects_of_polarization_on_public_officials.md)
-- [immediate alert and response system (sari)](./?doc=immediate_alert_and_response_system__sari_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### N
-- [night time economy in da nang](./?doc=night_time_economy_in_da_nang.md)
-- [no waste fest](./?doc=no_waste_fest.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### O
-- [ocean innovation challenge](./?doc=ocean_innovation_challenge.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### P
-- [pilot digital skills training for persons with disabilities (dom)](./?doc=pilot_digital_skills_training_for_persons_with_disabilities__dom_.md)
-- [pilot: accelerator lab value in south africa](./?doc=pilot__accelerator_lab_value_in_south_africa.md)
-- [pilot: future skills platform for online, digital skilling](./?doc=pilot__future_skills_platform_for_online__digital_skilling.md)
-- [pilot: television white space  technology for low cost internet in township and rural communities](./?doc=pilot__television_white_space__technology_for_low_cost_internet_in_township_and_rural_communities.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### H
-- [hechakuaa: the citizen lab to collaborate and create collectively](./?doc=hechakuaa__the_citizen_lab_to_collaborate_and_create_collectively.md)
-- [hydroponic agriculture technology experimentation](./?doc=hydroponic_agriculture_technology_experimentation.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### B
-- [behavioural study for the indonesian interfaith waste charity movement](./?doc=behavioural_study_for_the_indonesian_interfaith_waste_charity_movement.md)
-- [blockchain solution for food systems](./?doc=blockchain_solution_for_food_systems.md)
-- [bono fácil: bringing benefits closer to mothers](./?doc=bono_f_cil__bringing_benefits_closer_to_mothers.md)
-- [breaking barriers_un gender group](./?doc=breaking_barriers_un_gender_group.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### M
-- [metropolitan observatory](./?doc=metropolitan_observatory.md)
-- [mi barrio](./?doc=mi_barrio.md)
-- [mineral flow: streamlining mining control through digital innovation](./?doc=mineral_flow__streamlining_mining_control_through_digital_innovation.md)
-- [monthly memo's](./?doc=monthly_memo_s.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### G
-- [growing rice, barley, and crayfish in barbados](./?doc=growing_rice__barley__and_crayfish_in_barbados.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### J
-- [jamila mohammed](./?doc=jamila_mohammed.md)
-
-
-</div>
-
-
-</div>
-
-### 2025
-
-<div class="multicol">
-
-
-<div>
-
-
-#### S
-- [sol en casa (sec) - jujuy](./?doc=sol_en_casa__sec____jujuy.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### D
-- [disability for peace](./?doc=disability_for_peace.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### L
-- [leveraging community action for sustainable e-waste management in zugdidi, georgia](./?doc=leveraging_community_action_for_sustainable_e_waste_management_in_zugdidi__georgia.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### U
-- [unpaid care, disability and gender transformative approach](./?doc=unpaid_care__disability_and_gender_transformative_approach.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### A
-- [a place for your voice: first steps toward a citizen request center](./?doc=a_place_for_your_voice__first_steps_toward_a_citizen_request_center.md)
-
-
-</div>
-
-
-</div>
-
-## Learningplan
+## Undefined type
 
 ### 2021
 
@@ -9275,6 +8251,19 @@
 <div>
 
 
+#### N
+- [natural based solutions for compost and fodder](./?doc=natural_based_solutions_for_compost_and_fodder.md)
+- [navigating informality in food supply chains](./?doc=navigating_informality_in_food_supply_chains.md)
+- [nudging citizens to use public transport through gakyid ride app](./?doc=nudging_citizens_to_use_public_transport_through_gakyid_ride_app.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### C
 - [carbon offsetting in citizens' hands](./?doc=carbon_offsetting_in_citizens__hands.md)
 - [challenging the gendered nature of unpaid care work through behavioral insi…](./?doc=challenging_the_gendered_nature_of_unpaid_care_work_through_behavioral_insi_.md)
@@ -9285,6 +8274,7 @@
 - [climate-resilient food supply chain in the face of small farmers vulnerabil…](./?doc=climate_resilient_food_supply_chain_in_the_face_of_small_farmers_vulnerabil_.md)
 - [closing: rural economic inclusion](./?doc=closing__rural_economic_inclusion.md)
 - [coastal belt iga opportunities for poverty reduction in bangladesh - blue e…](./?doc=coastal_belt_iga_opportunities_for_poverty_reduction_in_bangladesh___blue_e_.md)
+- [collaboration and systems change - a living lab prototype](./?doc=collaboration_and_systems_change___a_living_lab_prototype.md)
 - [combining artificial intelligence and satellite data to disrupt  the touris…](./?doc=combining_artificial_intelligence_and_satellite_data_to_disrupt__the_touris_.md)
 - [community well-being through leisure and recreation](./?doc=community_well_being_through_leisure_and_recreation.md)
 - [connect local micro, small and medium enterprises in the tourism sector for…](./?doc=connect_local_micro__small_and_medium_enterprises_in_the_tourism_sector_for_.md)
@@ -9304,6 +8294,7 @@
 #### L
 - [la changement climatique](./?doc=la_changement_climatique.md)
 - [la résilience informelle](./?doc=la_r_silience_informelle.md)
+- [laboratorio de residuos](./?doc=laboratorio_de_residuos.md)
 - [learning "glocally" about solid waste management and resilience to climate change](./?doc=learning__glocally__about_solid_waste_management_and_resilience_to_climate_change.md)
 - [learning to implement environmental public policy](./?doc=learning_to_implement_environmental_public_policy.md)
 - [lutter contre la déforestation à travers l'utilisation de la dronotique, la…](./?doc=lutter_contre_la_d_forestation___travers_l_utilisation_de_la_dronotique__la_.md)
@@ -9528,6 +8519,7 @@
 - [ecosystem building for sdg ](./?doc=ecosystem_building_for_sdg.md)
 - [elegant grasshopper as a pesticide  ](./?doc=elegant_grasshopper_as_a_pesticide.md)
 - [embedding a culture of innovation to strengthen governance and public service delivery in namibia](./?doc=embedding_a_culture_of_innovation_to_strengthen_governance_and_public_service_delivery_in_namibia.md)
+- [embedding a culture of public sector innovation for improved service delivery](./?doc=embedding_a_culture_of_public_sector_innovation_for_improved_service_delivery.md)
 - [employment formalization](./?doc=employment_formalization.md)
 - [empower and inspire local governments and communities to increase their dig…](./?doc=empower_and_inspire_local_governments_and_communities_to_increase_their_dig_.md)
 - [energy effeciency ](./?doc=energy_effeciency.md)
@@ -9554,6 +8546,7 @@
 
 #### B
 - [barrio intercambia: promoting local connection and social ties (closing form)](./?doc=barrio_intercambia__promoting_local_connection_and_social_ties__closing_form_.md)
+- [behavioral insight- a nudge towards circular economy](./?doc=behavioral_insight__a_nudge_towards_circular_economy.md)
 - [behaviorally informed rct to increase uptake of e-service in 5 municipaliti…](./?doc=behaviorally_informed_rct_to_increase_uptake_of_e_service_in_5_municipaliti_.md)
 - [behavioural insights for youth entrepreneurship](./?doc=behavioural_insights_for_youth_entrepreneurship.md)
 - [bi data play ](./?doc=bi_data_play.md)
@@ -9663,18 +8656,6 @@
 </div>
 
 
-
-<div>
-
-
-#### N
-- [natural based solutions for compost and fodder](./?doc=natural_based_solutions_for_compost_and_fodder.md)
-- [navigating informality in food supply chains](./?doc=navigating_informality_in_food_supply_chains.md)
-
-
-</div>
-
-
 </div>
 
 ### 2022
@@ -9708,49 +8689,20 @@
 <div>
 
 
-#### ·
-- [·         the majority of the users of the mobile unit did not use the just…](./?doc=__________the_majority_of_the_users_of_the_mobile_unit_did_not_use_the_just_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### E
-- [embedding public innovation for continuity of critical government functions](./?doc=embedding_public_innovation_for_continuity_of_critical_government_functions.md)
-- [empower and inspire local governments and communities to increase their digital capabilities](./?doc=empower_and_inspire_local_governments_and_communities_to_increase_their_digital_capabilities.md)
-- [enabling innovation ecosystem in iraq](./?doc=enabling_innovation_ecosystem_in_iraq.md)
-- [energy efficiency and electricity consumption](./?doc=energy_efficiency_and_electricity_consumption.md)
-- [engaging citizens and institutions in core national development processes.](./?doc=engaging_citizens_and_institutions_in_core_national_development_processes_.md)
-- [engaging with unusual partners](./?doc=engaging_with_unusual_partners.md)
-- [enhancing samoa's birth registration system](./?doc=enhancing_samoa_s_birth_registration_system.md)
-- [establishing a biohacking lab in north macedonia, open to the public,](./?doc=establishing_a_biohacking_lab_in_north_macedonia__open_to_the_public_.md)
-- [everyday heroes: civic networks, crisis response and public service delivery during the covid-19 p…](./?doc=everyday_heroes__civic_networks__crisis_response_and_public_service_delivery_during_the_covid_19_p_.md)
-- [experimenting inclusive and innovative collaboration within internal hubs ](./?doc=experimenting_inclusive_and_innovative_collaboration_within_internal_hubs.md)
-- [experimenting user centric service rating tool ](./?doc=experimenting_user_centric_service_rating_tool.md)
-- [exploration of data loss and possible recovery mechanisms through digitizat…](./?doc=exploration_of_data_loss_and_possible_recovery_mechanisms_through_digitizat_.md)
-- [explore the potential of gis tools for innovating and accelerate the achievement of sdgs](./?doc=explore_the_potential_of_gis_tools_for_innovating_and_accelerate_the_achievement_of_sdgs.md)
-- [exploring tackling food waste in the kingdom of saudi arabia: understanding the ecosystem](./?doc=exploring_tackling_food_waste_in_the_kingdom_of_saudi_arabia__understanding_the_ecosystem.md)
-- [exploring the benefits of free internet in public spaces ](./?doc=exploring_the_benefits_of_free_internet_in_public_spaces.md)
-- [exploring the climate - security nexus using an innovation lens](./?doc=exploring_the_climate___security_nexus_using_an_innovation_lens.md)
-- [exploring why social impact business led by vulnerable group have limited …](./?doc=exploring_why_social_impact_business_led_by_vulnerable_group_have_limited__.md)
-- [expérimenter la solution tii-vussé pour l'amélioration de l'accès à l'eau p…](./?doc=exp_rimenter_la_solution_tii_vuss__pour_l_am_lioration_de_l_acc_s___l_eau_p_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### O
-- [ocean-based economy and sids challenges in cabo verde](./?doc=ocean_based_economy_and_sids_challenges_in_cabo_verde.md)
-- [on-going management of implementation modality  ](./?doc=on_going_management_of_implementation_modality.md)
-- [our exploration of the informal waste management system uncovered some inte…](./?doc=our_exploration_of_the_informal_waste_management_system_uncovered_some_inte_.md)
+#### G
+- [gamification for raising awareness and skills development about solid waste management among youth ](./?doc=gamification_for_raising_awareness_and_skills_development_about_solid_waste_management_among_youth.md)
+- [gamifying digital skills learning (balatech)](./?doc=gamifying_digital_skills_learning__balatech_.md)
+- [gcp and bi data play](./?doc=gcp_and_bi_data_play.md)
+- [gender based violence: dialogue session within schools](./?doc=gender_based_violence__dialogue_session_within_schools.md)
+- [generating evidence during a crisis: setting standards for re-usable cloth masks in zambia](./?doc=generating_evidence_during_a_crisis__setting_standards_for_re_usable_cloth_masks_in_zambia.md)
+- [geoai platform for targeting air pollution hotspots](./?doc=geoai_platform_for_targeting_air_pollution_hotspots.md)
+- [geoai to regulate air pollution](./?doc=geoai_to_regulate_air_pollution.md)
+- [getting a balance: how to work with partners and remain independent](./?doc=getting_a_balance__how_to_work_with_partners_and_remain_independent.md)
+- [going against local agricultural practices: growing crops using hydroponics techniques](./?doc=going_against_local_agricultural_practices__growing_crops_using_hydroponics_techniques.md)
+- [green aral sea initiative](./?doc=green_aral_sea_initiative.md)
+- [green entrepreneruship week ](./?doc=green_entrepreneruship_week.md)
+- [green islands (drones)](./?doc=green_islands__drones_.md)
+- [green public procurement in bosnia and herzegovina pilot learnings ](./?doc=green_public_procurement_in_bosnia_and_herzegovina_pilot_learnings.md)
 
 
 </div>
@@ -9762,16 +8714,21 @@
 
 #### C
 - [call umida - safe spaces for protecting women and children from street hara…](./?doc=call_umida___safe_spaces_for_protecting_women_and_children_from_street_hara_.md)
+- [can social cohesion and incentives influence our decision to separate waste?](./?doc=can_social_cohesion_and_incentives_influence_our_decision_to_separate_waste_.md)
 - [capacities for innovation in the public sector](./?doc=capacities_for_innovation_in_the_public_sector.md)
 - [career counseling and guidance ](./?doc=career_counseling_and_guidance.md)
 - [case for evidence based reporting building on beneficiary narratives from b…](./?doc=case_for_evidence_based_reporting_building_on_beneficiary_narratives_from_b_.md)
 - [challenge](./?doc=challenge.md)
+- [changing behaviour: lessons in community waste management in ghana](./?doc=changing_behaviour__lessons_in_community_waste_management_in_ghana.md)
 - [circular economy](./?doc=circular_economy.md)
 - [citizen science for air quality monitoring](./?doc=citizen_science_for_air_quality_monitoring.md)
 - [citizen science for citizen intangible heritage ](./?doc=citizen_science_for_citizen_intangible_heritage.md)
+- [citizen science inventories for marine litter and microplastics](./?doc=citizen_science_inventories_for_marine_litter_and_microplastics.md)
 - [citizen science](./?doc=citizen_science.md)
 - [citizens feedback app for project monitoring and data management](./?doc=citizens_feedback_app_for_project_monitoring_and_data_management.md)
+- [citizens feedback platform](./?doc=citizens_feedback_platform.md)
 - [civic networks, crisis response and public service delivery during the covi…](./?doc=civic_networks__crisis_response_and_public_service_delivery_during_the_covi_.md)
+- [clean air heroes innovation challenge](./?doc=clean_air_heroes_innovation_challenge.md)
 - [clean air heroes youth innovation challenge ](./?doc=clean_air_heroes_youth_innovation_challenge.md)
 - [clean air heroes youth x local stakeholders to tackle air pollution at community level](./?doc=clean_air_heroes_youth_x_local_stakeholders_to_tackle_air_pollution_at_community_level.md)
 - [climate change and energy experimentation programme](./?doc=climate_change_and_energy_experimentation_programme.md)
@@ -9791,15 +8748,140 @@
 - [closing: innovation environment in iraq - youth and unemployment](./?doc=closing__innovation_environment_in_iraq___youth_and_unemployment.md)
 - [closing: promoting circular economy in philippine cities](./?doc=closing__promoting_circular_economy_in_philippine_cities.md)
 - [closing: youth & urban mobility](./?doc=closing__youth___urban_mobility.md)
+- [collecting waste with a compactor truck](./?doc=collecting_waste_with_a_compactor_truck.md)
 - [collective intelligence for circular economy &amp; solid waste management](./?doc=collective_intelligence_for_circular_economy__amp__solid_waste_management.md)
 - [collective intelligence for improved solid waste management in santo domingo este](./?doc=collective_intelligence_for_improved_solid_waste_management_in_santo_domingo_este.md)
+- [collective intelligence using twitter posts from volunteers](./?doc=collective_intelligence_using_twitter_posts_from_volunteers.md)
+- [commercializing waste from public spaces to reduce its accumulation](./?doc=commercializing_waste_from_public_spaces_to_reduce_its_accumulation.md)
 - [communities are aware of climate change and in this sense they are developi…](./?doc=communities_are_aware_of_climate_change_and_in_this_sense_they_are_developi_.md)
+- [community based waste recycling model](./?doc=community_based_waste_recycling_model.md)
+- [community health digital platform - bophelo-ka-mosebeletsi (bkm) mobile application](./?doc=community_health_digital_platform___bophelo_ka_mosebeletsi__bkm__mobile_application.md)
+- [community safari](./?doc=community_safari.md)
 - [community waste management system](./?doc=community_waste_management_system.md)
+- [community waste management](./?doc=community_waste_management.md)
+- [community-based tourism (cbt)](./?doc=community_based_tourism__cbt_.md)
+- [community-led transformation of urban public spaces  ](./?doc=community_led_transformation_of_urban_public_spaces.md)
+- [comparing messages with empathy vs responsibility](./?doc=comparing_messages_with_empathy_vs_responsibility.md)
 - [comprendre comment une ville peut-elle innover pour assurer la mobilité avec une explosion exponen…](./?doc=comprendre_comment_une_ville_peut_elle_innover_pour_assurer_la_mobilit__avec_une_explosion_exponen_.md)
 - [connecting local micro, small and medium enterprises in the tourism sector ](./?doc=connecting_local_micro__small_and_medium_enterprises_in_the_tourism_sector.md)
+- [connecting the youth with skills, employment and entrepreneurship](./?doc=connecting_the_youth_with_skills__employment_and_entrepreneurship.md)
+- [contrasting dppd to other priorization methodologies for waste management](./?doc=contrasting_dppd_to_other_priorization_methodologies_for_waste_management.md)
 - [countering fragmentation with the organizing power of business toward a value-based economy in the…](./?doc=countering_fragmentation_with_the_organizing_power_of_business_toward_a_value_based_economy_in_the_.md)
+- [covid champions and vaccination rates](./?doc=covid_champions_and_vaccination_rates.md)
 - [create a mind set with in the community that waste is wealth](./?doc=create_a_mind_set_with_in_the_community_that_waste_is_wealth.md)
 - [creating a hands-on experience for government officials to learn about social innovation](./?doc=creating_a_hands_on_experience_for_government_officials_to_learn_about_social_innovation.md)
+- [crowd-mapping skopje’s drinking fountains for sustainable water management](./?doc=crowd_mapping_skopje_s_drinking_fountains_for_sustainable_water_management.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### ·
+- [·         the majority of the users of the mobile unit did not use the just…](./?doc=__________the_majority_of_the_users_of_the_mobile_unit_did_not_use_the_just_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### E
+- [eco-conscious kofi and ama](./?doc=eco_conscious_kofi_and_ama.md)
+- [embedding public innovation for continuity of critical government functions](./?doc=embedding_public_innovation_for_continuity_of_critical_government_functions.md)
+- [empower and inspire local governments and communities to increase their digital capabilities](./?doc=empower_and_inspire_local_governments_and_communities_to_increase_their_digital_capabilities.md)
+- [empowering msmes entrepreneurs with financial literacy](./?doc=empowering_msmes_entrepreneurs_with_financial_literacy.md)
+- [enabling innovation ecosystem in iraq](./?doc=enabling_innovation_ecosystem_in_iraq.md)
+- [energy efficiency and electricity consumption](./?doc=energy_efficiency_and_electricity_consumption.md)
+- [engaging citizens and institutions in core national development processes.](./?doc=engaging_citizens_and_institutions_in_core_national_development_processes_.md)
+- [engaging with unusual partners](./?doc=engaging_with_unusual_partners.md)
+- [enhancing access to e-commerce for informal market vendors in kisumu](./?doc=enhancing_access_to_e_commerce_for_informal_market_vendors_in_kisumu.md)
+- [enhancing samoa's birth registration system](./?doc=enhancing_samoa_s_birth_registration_system.md)
+- [establishing a biohacking lab in north macedonia, open to the public,](./?doc=establishing_a_biohacking_lab_in_north_macedonia__open_to_the_public_.md)
+- [everyday heroes: civic networks, crisis response and public service delivery during the covid-19 p…](./?doc=everyday_heroes__civic_networks__crisis_response_and_public_service_delivery_during_the_covid_19_p_.md)
+- [exchange of knowledge for the realization of sustainable companies](./?doc=exchange_of_knowledge_for_the_realization_of_sustainable_companies.md)
+- [experimental survey](./?doc=experimental_survey.md)
+- [experimenting inclusive and innovative collaboration within internal hubs ](./?doc=experimenting_inclusive_and_innovative_collaboration_within_internal_hubs.md)
+- [experimenting user centric service rating tool ](./?doc=experimenting_user_centric_service_rating_tool.md)
+- [experimenting with bio-waste in the city of skopje](./?doc=experimenting_with_bio_waste_in_the_city_of_skopje.md)
+- [exploitation intégrée du fourrage](./?doc=exploitation_int_gr_e_du_fourrage.md)
+- [exploration of data loss and possible recovery mechanisms through digitizat…](./?doc=exploration_of_data_loss_and_possible_recovery_mechanisms_through_digitizat_.md)
+- [explore the potential of gis tools for innovating and accelerate the achievement of sdgs](./?doc=explore_the_potential_of_gis_tools_for_innovating_and_accelerate_the_achievement_of_sdgs.md)
+- [exploring tackling food waste in the kingdom of saudi arabia: understanding the ecosystem](./?doc=exploring_tackling_food_waste_in_the_kingdom_of_saudi_arabia__understanding_the_ecosystem.md)
+- [exploring the benefits of free internet in public spaces ](./?doc=exploring_the_benefits_of_free_internet_in_public_spaces.md)
+- [exploring the climate - security nexus using an innovation lens](./?doc=exploring_the_climate___security_nexus_using_an_innovation_lens.md)
+- [exploring why social impact business led by vulnerable group have limited …](./?doc=exploring_why_social_impact_business_led_by_vulnerable_group_have_limited__.md)
+- [expérimenter la solution tii-vussé pour l'amélioration de l'accès à l'eau p…](./?doc=exp_rimenter_la_solution_tii_vuss__pour_l_am_lioration_de_l_acc_s___l_eau_p_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### H
+- [hackathon reinventa turismo](./?doc=hackathon_reinventa_turismo.md)
+- [hand washing practice into a behavioral norm - beyond covid](./?doc=hand_washing_practice_into_a_behavioral_norm___beyond_covid.md)
+- [harnessing the opportunity of waste management as a resource to bring waste under control in mauri…](./?doc=harnessing_the_opportunity_of_waste_management_as_a_resource_to_bring_waste_under_control_in_mauri_.md)
+- [hasan darwish](./?doc=hasan_darwish.md)
+- [hatching our eggs at home- exploring means to end the  day-old chick challenge ](./?doc=hatching_our_eggs_at_home__exploring_means_to_end_the__day_old_chick_challenge.md)
+- [heat officers, a policy innovation experiment [learning for our country office and cities]](./?doc=heat_officers__a_policy_innovation_experiment__learning_for_our_country_office_and_cities_.md)
+- [household waste segregation behavior for proper solid waste management ](./?doc=household_waste_segregation_behavior_for_proper_solid_waste_management.md)
+- [how better is the national exams secured in guinea?](./?doc=how_better_is_the_national_exams_secured_in_guinea_.md)
+- [how might we work across labs,  country offices and the sadc region to impl…](./?doc=how_might_we_work_across_labs___country_offices_and_the_sadc_region_to_impl_.md)
+- [how to make a web portal which assists in startup development: a serbian experience](./?doc=how_to_make_a_web_portal_which_assists_in_startup_development__a_serbian_experience.md)
+- [hydroponics in informal settlements in fiji](./?doc=hydroponics_in_informal_settlements_in_fiji.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### O
+- [ocean-based economy and sids challenges in cabo verde](./?doc=ocean_based_economy_and_sids_challenges_in_cabo_verde.md)
+- [omar agodim](./?doc=omar_agodim.md)
+- [on-going management of implementation modality  ](./?doc=on_going_management_of_implementation_modality.md)
+- [online public service portal re-design (cpii & rff)](./?doc=online_public_service_portal_re_design__cpii___rff_.md)
+- [online public service portal re-design (cpii &amp; rff)](./?doc=online_public_service_portal_re_design__cpii__amp__rff_.md)
+- [our exploration of the informal waste management system uncovered some inte…](./?doc=our_exploration_of_the_informal_waste_management_system_uncovered_some_inte_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### R
+- [rct: nudging pet waste separation at source](./?doc=rct__nudging_pet_waste_separation_at_source.md)
+- [re-imagine social contract  in iraq](./?doc=re_imagine_social_contract__in_iraq.md)
+- [re-purposing food supply chains during times of disaster](./?doc=re_purposing_food_supply_chains_during_times_of_disaster.md)
+- [re-thinking public space through academia](./?doc=re_thinking_public_space_through_academia.md)
+- [real-time statistics through digital support systems](./?doc=real_time_statistics_through_digital_support_systems.md)
+- [redefining ethics and accountability through the induction and orientation programme for namibia's…](./?doc=redefining_ethics_and_accountability_through_the_induction_and_orientation_programme_for_namibia_s_.md)
+- [reducing gender violence:  justice operators and schools](./?doc=reducing_gender_violence___justice_operators_and_schools.md)
+- [reducing single-use plastic usage in hotel catering (currently used as quarantine centers)](./?doc=reducing_single_use_plastic_usage_in_hotel_catering__currently_used_as_quarantine_centers_.md)
+- [reducing single-use plastic usage in hotel catering (currently used as quar…](./?doc=reducing_single_use_plastic_usage_in_hotel_catering__currently_used_as_quar_.md)
+- [reducing the use of single-use plastic bags in the supermarkets](./?doc=reducing_the_use_of_single_use_plastic_bags_in_the_supermarkets.md)
+- [reducing waste collection fee to incentivize classification](./?doc=reducing_waste_collection_fee_to_incentivize_classification.md)
+- [reinventing public space through co-creation  ](./?doc=reinventing_public_space_through_co_creation.md)
+- [responsive local governance models through social innovation platform](./?doc=responsive_local_governance_models_through_social_innovation_platform.md)
+- [reverse shop - closing form](./?doc=reverse_shop___closing_form.md)
+- [rice husks to cooking fuel: a grassroots experimenter's journey](./?doc=rice_husks_to_cooking_fuel__a_grassroots_experimenter_s_journey.md)
+- [right to the city: co-created space for social cohesion](./?doc=right_to_the_city__co_created_space_for_social_cohesion.md)
+- [rural municipal recycling pilot](./?doc=rural_municipal_recycling_pilot.md)
+- [rêver l'avenir: moi avant, moi maintenant et moi dans 15 ans](./?doc=r_ver_l_avenir__moi_avant__moi_maintenant_et_moi_dans_15_ans.md)
 
 
 </div>
@@ -9810,8 +8892,11 @@
 
 
 #### D
+- [dany vinh](./?doc=dany_vinh.md)
+- [david tan](./?doc=david_tan.md)
 - [depopulation portfolio closing 2021](./?doc=depopulation_portfolio_closing_2021.md)
 - [depopulation portfolio operationalisation](./?doc=depopulation_portfolio_operationalisation.md)
+- [designing the "community of practices" of stem women (design stage)](./?doc=designing_the__community_of_practices__of_stem_women__design_stage_.md)
 - [development of the open innovation platform](./?doc=development_of_the_open_innovation_platform.md)
 - [digital aides: trying to bridge the digital divide through formal and infor…](./?doc=digital_aides__trying_to_bridge_the_digital_divide_through_formal_and_infor_.md)
 - [digital literacy experiments](./?doc=digital_literacy_experiments.md)
@@ -9819,9 +8904,49 @@
 - [digital neighborhood learnings](./?doc=digital_neighborhood_learnings.md)
 - [digital platform piloted - krishicoopbazaar](./?doc=digital_platform_piloted___krishicoopbazaar.md)
 - [digital transformation in the thai government](./?doc=digital_transformation_in_the_thai_government.md)
+- [digitalization and data innovation in informality for policy](./?doc=digitalization_and_data_innovation_in_informality_for_policy.md)
 - [digitally enabled livelihoods portfolio](./?doc=digitally_enabled_livelihoods_portfolio.md)
 - [drone for the islands : leaving no island behind ](./?doc=drone_for_the_islands___leaving_no_island_behind.md)
 - [drone for the islands: leaving no island behind ](./?doc=drone_for_the_islands__leaving_no_island_behind.md)
+- [dématérialisation des actes d'état civil](./?doc=d_mat_rialisation_des_actes_d__tat_civil.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### A
+- [a chatbot to engage bystanders of violence agains women](./?doc=a_chatbot_to_engage_bystanders_of_violence_agains_women.md)
+- [a hands-on participatory approach in awareness raising for energy efficienc…](./?doc=a_hands_on_participatory_approach_in_awareness_raising_for_energy_efficienc_.md)
+- [a waste recovery system to generate income for the local government](./?doc=a_waste_recovery_system_to_generate_income_for_the_local_government.md)
+- [a.     the challenge of single use diapers can not be dealt with in isolati…](./?doc=a______the_challenge_of_single_use_diapers_can_not_be_dealt_with_in_isolati_.md)
+- [abc innovation challenge](./?doc=abc_innovation_challenge.md)
+- [accelerating access to market through an integrated approach for informal sector](./?doc=accelerating_access_to_market_through_an_integrated_approach_for_informal_sector.md)
+- [accelerating business formalization in colombia](./?doc=accelerating_business_formalization_in_colombia.md)
+- [accessibility of websites and applications](./?doc=accessibility_of_websites_and_applications.md)
+- [action learning plan closing](./?doc=action_learning_plan_closing.md)
+- [action plan 2022 - digitalization](./?doc=action_plan_2022___digitalization.md)
+- [addressing access challenges into the job market and entrepreneurship for young graduates. ](./?doc=addressing_access_challenges_into_the_job_market_and_entrepreneurship_for_young_graduates_.md)
+- [advancing an inclusive and circular economy in belarus extended](./?doc=advancing_an_inclusive_and_circular_economy_in_belarus_extended.md)
+- [advancing an inclusive and circular economy in belarus](./?doc=advancing_an_inclusive_and_circular_economy_in_belarus.md)
+- [advancing experimental practices](./?doc=advancing_experimental_practices.md)
+- [agri waste to energy](./?doc=agri_waste_to_energy.md)
+- [agro-library to promote sustainable food production](./?doc=agro_library_to_promote_sustainable_food_production.md)
+- [agroprocessing experiment ](./?doc=agroprocessing_experiment.md)
+- [ai and human capital gap – venezuela migrant crisis](./?doc=ai_and_human_capital_gap___venezuela_migrant_crisis.md)
+- [air quality monitoring system](./?doc=air_quality_monitoring_system.md)
+- [allympic - sports for all](./?doc=allympic___sports_for_all.md)
+- [an organic waste recovery system to generate income for the local government](./?doc=an_organic_waste_recovery_system_to_generate_income_for_the_local_government.md)
+- [analyse de la mobilité et de la planification spatiale urbaine par la méthode de la déviance posit…](./?doc=analyse_de_la_mobilit__et_de_la_planification_spatiale_urbaine_par_la_m_thode_de_la_d_viance_posit_.md)
+- [analyzing open ended responses from an online survey](./?doc=analyzing_open_ended_responses_from_an_online_survey.md)
+- [anticipatory governance in the pacific context](./?doc=anticipatory_governance_in_the_pacific_context.md)
+- [articulation of actors in the route of formalization](./?doc=articulation_of_actors_in_the_route_of_formalization.md)
+- [assessing access to waste collection services](./?doc=assessing_access_to_waste_collection_services.md)
+- [assessment of digital skills and knowledge of vulnerable groups](./?doc=assessment_of_digital_skills_and_knowledge_of_vulnerable_groups.md)
+- [augmented development](./?doc=augmented_development.md)
 
 
 </div>
@@ -9835,10 +8960,17 @@
 - [tackling food waste in the kingdom of saudi arabia: interventions](./?doc=tackling_food_waste_in_the_kingdom_of_saudi_arabia__interventions.md)
 - [tactic urbanism](./?doc=tactic_urbanism.md)
 - [tactical urbanism to enhance municipal capacity for participatory design an…](./?doc=tactical_urbanism_to_enhance_municipal_capacity_for_participatory_design_an_.md)
+- [taking the "digital pulse" of local businesses](./?doc=taking_the__digital_pulse__of_local_businesses.md)
 - [territories that heal](./?doc=territories_that_heal.md)
 - [test waste transportation prototypes of better designed door to door solid …](./?doc=test_waste_transportation_prototypes_of_better_designed_door_to_door_solid__.md)
+- [testing a framework for assessing cultural change](./?doc=testing_a_framework_for_assessing_cultural_change.md)
+- [testing a volunteer-driven crowdsourcing approach to tackle online misinformation using the health…](./?doc=testing_a_volunteer_driven_crowdsourcing_approach_to_tackle_online_misinformation_using_the_health_.md)
 - [testing and embedding innovative monitoring, evaluation, reporting, and lea…](./?doc=testing_and_embedding_innovative_monitoring__evaluation__reporting__and_lea_.md)
+- [testing different engagement methods to promote the functionalities of a digital platform.](./?doc=testing_different_engagement_methods_to_promote_the_functionalities_of_a_digital_platform_.md)
 - [testing the development of a local certification scheme for agro-processed …](./?doc=testing_the_development_of_a_local_certification_scheme_for_agro_processed__.md)
+- [testing the functionality of form{`r} to run online survey experiments](./?doc=testing_the_functionality_of_form__r__to_run_online_survey_experiments.md)
+- [testing with "short term guide" a play book to career guidance and counseling ](./?doc=testing_with__short_term_guide__a_play_book_to_career_guidance_and_counseling.md)
+- [text mining the performance evaluation system](./?doc=text_mining_the_performance_evaluation_system.md)
 - [textile waste](./?doc=textile_waste.md)
 - [the control and management of single use diapers in eswatini](./?doc=the_control_and_management_of_single_use_diapers_in_eswatini.md)
 - [the findings from the analysis of the situation with biowaste processing in…](./?doc=the_findings_from_the_analysis_of_the_situation_with_biowaste_processing_in_.md)
@@ -9846,15 +8978,20 @@
 - [the innovator's journey: a systemic approach to supporting the innovator's path to scale](./?doc=the_innovator_s_journey__a_systemic_approach_to_supporting_the_innovator_s_path_to_scale.md)
 - [the last stretch of the last mile: universal energy access in dos aguas](./?doc=the_last_stretch_of_the_last_mile__universal_energy_access_in_dos_aguas.md)
 - [the pandemic triggered an unprecedented demand for digital technology solut…](./?doc=the_pandemic_triggered_an_unprecedented_demand_for_digital_technology_solut_.md)
+- [the role of free internet access to revitalize public spaces through social networks](./?doc=the_role_of_free_internet_access_to_revitalize_public_spaces_through_social_networks.md)
+- [the role of young change-makers in society ](./?doc=the_role_of_young_change_makers_in_society.md)
 - [the san felipe neri market as a lab for circular economy in panama](./?doc=the_san_felipe_neri_market_as_a_lab_for_circular_economy_in_panama.md)
 - [the socioeconomic climate in trinidad and tobago is primed for work in gbv …](./?doc=the_socioeconomic_climate_in_trinidad_and_tobago_is_primed_for_work_in_gbv__.md)
 - [there are many unemployed youth in the country, but also many job opportuni…](./?doc=there_are_many_unemployed_youth_in_the_country__but_also_many_job_opportuni_.md)
 - [thinkia: citizen lab](./?doc=thinkia__citizen_lab.md)
 - [this area was not pursued due to funding constraints. ](./?doc=this_area_was_not_pursued_due_to_funding_constraints_.md)
 - [tourism in madaba through ](./?doc=tourism_in_madaba_through.md)
+- [traditional knowledge - salt making](./?doc=traditional_knowledge___salt_making.md)
 - [traditional women dyers of bazin](./?doc=traditional_women_dyers_of_bazin.md)
+- [training for waste collection](./?doc=training_for_waste_collection.md)
 - [transformative gender inclusion opportunities in crisis ](./?doc=transformative_gender_inclusion_opportunities_in_crisis.md)
 - [transformative innovation for the health care system in mauritania](./?doc=transformative_innovation_for_the_health_care_system_in_mauritania.md)
+- [transforming of public spaces through](./?doc=transforming_of_public_spaces_through.md)
 - [transparency, social dialogue, and citizen participation: closing form](./?doc=transparency__social_dialogue__and_citizen_participation__closing_form.md)
 
 
@@ -9868,23 +9005,42 @@
 #### S
 - [safe at home: technological tools to enhance agency for witnesses of gender violence (part 1).](./?doc=safe_at_home__technological_tools_to_enhance_agency_for_witnesses_of_gender_violence__part_1__.md)
 - [safe at home: technological tools to enhance agency for witnesses of gender…](./?doc=safe_at_home__technological_tools_to_enhance_agency_for_witnesses_of_gender_.md)
+- [safe markets, safe communities: establishing safe model markets in the covid 19 context](./?doc=safe_markets__safe_communities__establishing_safe_model_markets_in_the_covid_19_context.md)
+- [scaling of the “con vos” network](./?doc=scaling_of_the__con_vos__network.md)
 - [scaling up and testing workable solutions for food packaging waste](./?doc=scaling_up_and_testing_workable_solutions_for_food_packaging_waste.md)
+- [screening of the entrepreneurial process and integration with job offer](./?doc=screening_of_the_entrepreneurial_process_and_integration_with_job_offer.md)
+- [sensemaking of the cpd](./?doc=sensemaking_of_the_cpd.md)
 - [sensing the portfolio approach: the case of san miguelito](./?doc=sensing_the_portfolio_approach__the_case_of_san_miguelito.md)
 - [skills foresight study](./?doc=skills_foresight_study.md)
 - [smart erdenet: waste collection experiment](./?doc=smart_erdenet__waste_collection_experiment.md)
+- [smart tour guide for improving tourist satisfaction and informal employment](./?doc=smart_tour_guide_for_improving_tourist_satisfaction_and_informal_employment.md)
+- [smart white cane](./?doc=smart_white_cane.md)
 - [sme growth and resilience with the focus on the ecommerce in serbia ](./?doc=sme_growth_and_resilience_with_the_focus_on_the_ecommerce_in_serbia.md)
 - [sme portfolio closing 2021](./?doc=sme_portfolio_closing_2021.md)
 - [social impact businesses led by vulnerable groups such as women, ethnic min…](./?doc=social_impact_businesses_led_by_vulnerable_groups_such_as_women__ethnic_min_.md)
 - [social innovation platforms (sips) on maldives future of work:](./?doc=social_innovation_platforms__sips__on_maldives_future_of_work_.md)
 - [social listening experiment (failed) ](./?doc=social_listening_experiment__failed_.md)
+- [social norms: learning about food security and family economy decisions](./?doc=social_norms__learning_about_food_security_and_family_economy_decisions.md)
+- [social protection: woman waste pickers ](./?doc=social_protection__woman_waste_pickers.md)
+- [social protection: youth informal employment](./?doc=social_protection__youth_informal_employment.md)
+- [solar drying to reduce food waste: inclusive business](./?doc=solar_drying_to_reduce_food_waste__inclusive_business.md)
 - [solid waste management](./?doc=solid_waste_management.md)
+- [solutions clinic with bmw foundation herbert quandt](./?doc=solutions_clinic_with_bmw_foundation_herbert_quandt.md)
+- [spatial design interventions in housing for change in behaviors related to gender norms - house 1](./?doc=spatial_design_interventions_in_housing_for_change_in_behaviors_related_to_gender_norms___house_1.md)
+- [spatial design interventions in housing for change in behaviors related to gender norms - house 2 ](./?doc=spatial_design_interventions_in_housing_for_change_in_behaviors_related_to_gender_norms___house_2.md)
+- [spatial design interventions in housing for change in behaviors related to gender norms - house 3 ](./?doc=spatial_design_interventions_in_housing_for_change_in_behaviors_related_to_gender_norms___house_3.md)
+- [strengthening birth registration system in samoa through digital solutions](./?doc=strengthening_birth_registration_system_in_samoa_through_digital_solutions.md)
 - [strengthening local participation in the development mineral value chain by…](./?doc=strengthening_local_participation_in_the_development_mineral_value_chain_by_.md)
+- [strengthening the use of local innovations in the development minerals sector ](./?doc=strengthening_the_use_of_local_innovations_in_the_development_minerals_sector.md)
+- [structured reflection and working out loud for improved agility and learning](./?doc=structured_reflection_and_working_out_loud_for_improved_agility_and_learning.md)
+- [student led platform for skill development ](./?doc=student_led_platform_for_skill_development.md)
 - [sudan digital inclusion ](./?doc=sudan_digital_inclusion.md)
 - [support newly established country office's programme pillars with innovatio…](./?doc=support_newly_established_country_office_s_programme_pillars_with_innovatio_.md)
 - [supporting inclusivity of green and circular growth in the conditions of crisis](./?doc=supporting_inclusivity_of_green_and_circular_growth_in_the_conditions_of_crisis.md)
 - [surfacing sustainable blue economy innovations ](./?doc=surfacing_sustainable_blue_economy_innovations.md)
 - [sustainable community-based tourism](./?doc=sustainable_community_based_tourism.md)
 - [sustainable urban portfolio: promoting citizen engagement and participatory planning](./?doc=sustainable_urban_portfolio__promoting_citizen_engagement_and_participatory_planning.md)
+- [system design for climate finance ](./?doc=system_design_for_climate_finance.md)
 
 
 </div>
@@ -9897,8 +9053,11 @@
 #### F
 - [financial equity towards inclusive informal economies](./?doc=financial_equity_towards_inclusive_informal_economies.md)
 - [financial inclusion and gender](./?doc=financial_inclusion_and_gender.md)
+- [financing of the business formalization process](./?doc=financing_of_the_business_formalization_process.md)
 - [finding positive deviants among pastoral communities in somalia.](./?doc=finding_positive_deviants_among_pastoral_communities_in_somalia_.md)
 - [flooding is a very complex issue involving several factors: physic…](./?doc=flooding_is_a_very_complex_issue_involving_several_factors__physic_.md)
+- [food stamps for a local fair as strategy for a food security social program](./?doc=food_stamps_for_a_local_fair_as_strategy_for_a_food_security_social_program.md)
+- [food system heroes innovation challenge](./?doc=food_system_heroes_innovation_challenge.md)
 - [food system heroes youth innovation challenge](./?doc=food_system_heroes_youth_innovation_challenge.md)
 - [formalizing is easy, but continuity through compliance is not verified in practice ](./?doc=formalizing_is_easy__but_continuity_through_compliance_is_not_verified_in_practice.md)
 - [fostering msme development for inclusive and resilient economy in the state of palestine](./?doc=fostering_msme_development_for_inclusive_and_resilient_economy_in_the_state_of_palestine.md)
@@ -9918,56 +9077,60 @@
 <div>
 
 
+#### P
+- [pacific plastics challenge](./?doc=pacific_plastics_challenge.md)
+- [pals with disabilities ](./?doc=pals_with_disabilities.md)
+- [participation in decision making and supporting public policy [experiment #4]](./?doc=participation_in_decision_making_and_supporting_public_policy__experiment__4_.md)
+- [participatory energy efficiency audits in households](./?doc=participatory_energy_efficiency_audits_in_households.md)
+- [participatory remodelation of the notary service, ministry of justice](./?doc=participatory_remodelation_of_the_notary_service__ministry_of_justice.md)
+- [paula mosera](./?doc=paula_mosera.md)
+- [period poverty, the transition from cloth cut-outs to washable pads ](./?doc=period_poverty__the_transition_from_cloth_cut_outs_to_washable_pads.md)
+- [phynuch thong](./?doc=phynuch_thong.md)
+- [pierre antoine](./?doc=pierre_antoine.md)
+- [piloting rapid ethnographic research for sustainable water management in north macedonia](./?doc=piloting_rapid_ethnographic_research_for_sustainable_water_management_in_north_macedonia.md)
+- [piloting remote remand in eswatini courts](./?doc=piloting_remote_remand_in_eswatini_courts.md)
+- [plastic waste is not a trash (experiment)](./?doc=plastic_waste_is_not_a_trash__experiment_.md)
+- [plastic waste separation ](./?doc=plastic_waste_separation.md)
+- [plastics circular economy](./?doc=plastics_circular_economy.md)
+- [pointing out a shared effort to increase feeling of inclusion [experiment 3]](./?doc=pointing_out_a_shared_effort_to_increase_feeling_of_inclusion__experiment_3_.md)
+- [portfolio approach closing 2021](./?doc=portfolio_approach_closing_2021.md)
+- [portfolio of interventions to facilitate citizen engagement and co-creation](./?doc=portfolio_of_interventions_to_facilitate_citizen_engagement_and_co_creation.md)
+- [portfolio sensemaking for undp samoa mco - expand, deepen and connect portfolio](./?doc=portfolio_sensemaking_for_undp_samoa_mco___expand__deepen_and_connect_portfolio.md)
+- [positive deviance powered best practice on climate resilience](./?doc=positive_deviance_powered_best_practice_on_climate_resilience.md)
+- [produce price and volume](./?doc=produce_price_and_volume.md)
+- [promoting a common language on social innovation in viet nam - unpacking acclab knowledge and prac…](./?doc=promoting_a_common_language_on_social_innovation_in_viet_nam___unpacking_acclab_knowledge_and_prac_.md)
+- [promoting practices from the ground and developing monitoring capacity to implement waste manageme…](./?doc=promoting_practices_from_the_ground_and_developing_monitoring_capacity_to_implement_waste_manageme_.md)
+- [promoting youth entrepreneurship in rural areas ](./?doc=promoting_youth_entrepreneurship_in_rural_areas.md)
+- [proof ](./?doc=proof.md)
+- [protecting water points by designing thinking & innovation](./?doc=protecting_water_points_by_designing_thinking___innovation.md)
+- [prototyping a new generation of eco-friendly wastebaskets  - a light urban intervention](./?doc=prototyping_a_new_generation_of_eco_friendly_wastebaskets____a_light_urban_intervention.md)
+- [prototyping a public service: learning about digital services promoters as a mechanism for digital…](./?doc=prototyping_a_public_service__learning_about_digital_services_promoters_as_a_mechanism_for_digital_.md)
+- [prototyping and demonstrations: water innovations for improved water quality and quantity](./?doc=prototyping_and_demonstrations__water_innovations_for_improved_water_quality_and_quantity.md)
+- [prototyping plastic bricks and constructing a demonstration unit](./?doc=prototyping_plastic_bricks_and_constructing_a_demonstration_unit.md)
+- [public-sector innovation ](./?doc=public_sector_innovation.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### L
 - [l'emballages ! l'appel aux secours des unités de transformation locale du moringa par les organisa…](./?doc=l_emballages___l_appel_aux_secours_des_unit_s_de_transformation_locale_du_moringa_par_les_organisa_.md)
+- [learning about the effectiveness of digital baskets as tools for bridging the digital divide](./?doc=learning_about_the_effectiveness_of_digital_baskets_as_tools_for_bridging_the_digital_divide.md)
+- [learning about the informal sector in north macedonia through data sentiment analysis and direct e…](./?doc=learning_about_the_informal_sector_in_north_macedonia_through_data_sentiment_analysis_and_direct_e_.md)
 - [learning to implement environmental public policy (closing)](./?doc=learning_to_implement_environmental_public_policy__closing_.md)
 - [legal design to improve violence survivors’ access to justice](./?doc=legal_design_to_improve_violence_survivors__access_to_justice.md)
 - [les conflits communautaires tirent leurs origines de l'insuffisance des ter…](./?doc=les_conflits_communautaires_tirent_leurs_origines_de_l_insuffisance_des_ter_.md)
 - [les idées principales générés au cours du cycle d'apprentissage sont:](./?doc=les_id_es_principales_g_n_r_s_au_cours_du_cycle_d_apprentissage_sont_.md)
+- [leveraging community data for effective merl ](./?doc=leveraging_community_data_for_effective_merl.md)
 - [leveraging local solutions & innovations to inform experiments under the sids offer](./?doc=leveraging_local_solutions___innovations_to_inform_experiments_under_the_sids_offer.md)
 - [leveraging local solutions &amp; innovations to inform experiments under the sids offer](./?doc=leveraging_local_solutions__amp__innovations_to_inform_experiments_under_the_sids_offer.md)
 - [lnob: accessibility assessment for pwd](./?doc=lnob__accessibility_assessment_for_pwd.md)
+- [local convergence: testing new approaches in participatory planning for covid19 recovery](./?doc=local_convergence__testing_new_approaches_in_participatory_planning_for_covid19_recovery.md)
 - [locals governments and business rely on outdated maps](./?doc=locals_governments_and_business_rely_on_outdated_maps.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### A
-- [a hands-on participatory approach in awareness raising for energy efficienc…](./?doc=a_hands_on_participatory_approach_in_awareness_raising_for_energy_efficienc_.md)
-- [a.     the challenge of single use diapers can not be dealt with in isolati…](./?doc=a______the_challenge_of_single_use_diapers_can_not_be_dealt_with_in_isolati_.md)
-- [abc innovation challenge](./?doc=abc_innovation_challenge.md)
-- [accelerating access to market through an integrated approach for informal sector](./?doc=accelerating_access_to_market_through_an_integrated_approach_for_informal_sector.md)
-- [accelerating business formalization in colombia](./?doc=accelerating_business_formalization_in_colombia.md)
-- [action learning plan closing](./?doc=action_learning_plan_closing.md)
-- [action plan 2022 - digitalization](./?doc=action_plan_2022___digitalization.md)
-- [addressing access challenges into the job market and entrepreneurship for young graduates. ](./?doc=addressing_access_challenges_into_the_job_market_and_entrepreneurship_for_young_graduates_.md)
-- [advancing an inclusive and circular economy in belarus extended](./?doc=advancing_an_inclusive_and_circular_economy_in_belarus_extended.md)
-- [advancing an inclusive and circular economy in belarus](./?doc=advancing_an_inclusive_and_circular_economy_in_belarus.md)
-- [agro-library to promote sustainable food production](./?doc=agro_library_to_promote_sustainable_food_production.md)
-- [ai and human capital gap – venezuela migrant crisis](./?doc=ai_and_human_capital_gap___venezuela_migrant_crisis.md)
-- [allympic - sports for all](./?doc=allympic___sports_for_all.md)
-- [analyse de la mobilité et de la planification spatiale urbaine par la méthode de la déviance posit…](./?doc=analyse_de_la_mobilit__et_de_la_planification_spatiale_urbaine_par_la_m_thode_de_la_d_viance_posit_.md)
-- [anticipatory governance in the pacific context](./?doc=anticipatory_governance_in_the_pacific_context.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### G
-- [gcp and bi data play](./?doc=gcp_and_bi_data_play.md)
-- [geoai platform for targeting air pollution hotspots](./?doc=geoai_platform_for_targeting_air_pollution_hotspots.md)
-- [getting a balance: how to work with partners and remain independent](./?doc=getting_a_balance__how_to_work_with_partners_and_remain_independent.md)
-- [green entrepreneruship week ](./?doc=green_entrepreneruship_week.md)
-- [green public procurement in bosnia and herzegovina pilot learnings ](./?doc=green_public_procurement_in_bosnia_and_herzegovina_pilot_learnings.md)
 
 
 </div>
@@ -9979,7 +9142,10 @@
 
 #### N
 - [nature-based solutions for agri-inputs (fodder and fertilizers)  ](./?doc=nature_based_solutions_for_agri_inputs__fodder_and_fertilizers_.md)
+- [neuza buque](./?doc=neuza_buque.md)
 - [new vision formulated, undp supportive framework discussed](./?doc=new_vision_formulated__undp_supportive_framework_discussed.md)
+- [nudging behavior change for climate-resilient food consumption](./?doc=nudging_behavior_change_for_climate_resilient_food_consumption.md)
+- [nudging through storytelling - behavioral insights on public space](./?doc=nudging_through_storytelling___behavioral_insights_on_public_space.md)
 
 
 </div>
@@ -9990,15 +9156,33 @@
 
 
 #### I
+- [identifying best practices for working with indigenous groups](./?doc=identifying_best_practices_for_working_with_indigenous_groups.md)
+- [imagetronism, when images help building digital sense](./?doc=imagetronism__when_images_help_building_digital_sense.md)
+- [impact evaluation of "mi barrio sin residuos"](./?doc=impact_evaluation_of__mi_barrio_sin_residuos_.md)
 - [improve students' learning outcome in times of covid](./?doc=improve_students__learning_outcome_in_times_of_covid.md)
+- [improving feelings and attitudes thowards covid-vaccine through "covid-champions"](./?doc=improving_feelings_and_attitudes_thowards_covid_vaccine_through__covid_champions_.md)
 - [improving the milk supply chain in the crossborder menaka region of mali](./?doc=improving_the_milk_supply_chain_in_the_crossborder_menaka_region_of_mali.md)
+- [incentive system for recruitment of covid-champions](./?doc=incentive_system_for_recruitment_of_covid_champions.md)
+- [incidence of free internet in public spaces connectivity on the possibility of increasing micro an…](./?doc=incidence_of_free_internet_in_public_spaces_connectivity_on_the_possibility_of_increasing_micro_an_.md)
 - [inclusive development in ukraine: employment, urban transformation and long-term policies. ](./?doc=inclusive_development_in_ukraine__employment__urban_transformation_and_long_term_policies_.md)
+- [increasing climate literacy among youth](./?doc=increasing_climate_literacy_among_youth.md)
 - [infodemic ](./?doc=infodemic.md)
+- [informal employment in blue tourism](./?doc=informal_employment_in_blue_tourism.md)
 - [informal work and employment formalizacion ](./?doc=informal_work_and_employment_formalizacion.md)
 - [informality and circular economy initiative can trigger positive impact on youth employment and cl…](./?doc=informality_and_circular_economy_initiative_can_trigger_positive_impact_on_youth_employment_and_cl_.md)
+- [information system for the integral solid waste management](./?doc=information_system_for_the_integral_solid_waste_management.md)
 - [innovation in public service delivery](./?doc=innovation_in_public_service_delivery.md)
 - [inspired by undp’s climate promise on one hand and the traditional connecti…](./?doc=inspired_by_undp_s_climate_promise_on_one_hand_and_the_traditional_connecti_.md)
+- [institutional school farm](./?doc=institutional_school_farm.md)
+- [integrated service delivery ](./?doc=integrated_service_delivery.md)
+- [integrating foresight tools for anticipatory gov models](./?doc=integrating_foresight_tools_for_anticipatory_gov_models.md)
+- [integrating gender, equality, social inclusion in projects ](./?doc=integrating_gender__equality__social_inclusion_in_projects.md)
+- [interviews with campaign implementers in guatemala](./?doc=interviews_with_campaign_implementers_in_guatemala.md)
 - [inventory of the banking sector and more specifically of microfinance insti…](./?doc=inventory_of_the_banking_sector_and_more_specifically_of_microfinance_insti_.md)
+- [iot based smart irrigation](./?doc=iot_based_smart_irrigation.md)
+- [istammer web app at https://app.istammergh.org/](./?doc=istammer_web_app_at_https_app_istammergh_org.md)
+- [iterative discovery of waste collection](./?doc=iterative_discovery_of_waste_collection.md)
+- [ivr and sms for behavioral change communication and training   ](./?doc=ivr_and_sms_for_behavioral_change_communication_and_training.md)
 
 
 </div>
@@ -10009,14 +9193,20 @@
 
 
 #### B
+- [bangkok accessibility journey](./?doc=bangkok_accessibility_journey.md)
 - [bangkok and all the parts of thailand still lack of proper accessibility fo…](./?doc=bangkok_and_all_the_parts_of_thailand_still_lack_of_proper_accessibility_fo_.md)
 - [bangladesh lab developed the ‘youth employment accelerator program initiati…](./?doc=bangladesh_lab_developed_the__youth_employment_accelerator_program_initiati_.md)
 - [behavior insights - increase women's access to their hlp rights ](./?doc=behavior_insights___increase_women_s_access_to_their_hlp_rights.md)
+- [berna mugema](./?doc=berna_mugema.md)
 - [beyond air quality: data innovation, participatory governance, and green finance](./?doc=beyond_air_quality__data_innovation__participatory_governance__and_green_finance.md)
+- [biomimicry global design challenge ](./?doc=biomimicry_global_design_challenge.md)
 - [biowaste as an entry point for private sector engagement  ](./?doc=biowaste_as_an_entry_point_for_private_sector_engagement.md)
+- [blue digital](./?doc=blue_digital.md)
 - [blue economy is a wide and highly potential area in bangladesh for employme…](./?doc=blue_economy_is_a_wide_and_highly_potential_area_in_bangladesh_for_employme_.md)
 - [bluedigital 2021](./?doc=bluedigital_2021.md)
 - [bluedigital pivot](./?doc=bluedigital_pivot.md)
+- [bridging the digital divide through digital support systems](./?doc=bridging_the_digital_divide_through_digital_support_systems.md)
+- [bridging the digital divide to unlock trade barriers for women and youth](./?doc=bridging_the_digital_divide_to_unlock_trade_barriers_for_women_and_youth.md)
 - [bridging the financing gap for women and youth cross border traders](./?doc=bridging_the_financing_gap_for_women_and_youth_cross_border_traders.md)
 - [building back greener: circular economy, food waste and innovation ecosystems](./?doc=building_back_greener__circular_economy__food_waste_and_innovation_ecosystems.md)
 - [building faster together- how an ecosystem approach can accelerate youth development. ](./?doc=building_faster_together__how_an_ecosystem_approach_can_accelerate_youth_development_.md)
@@ -10032,6 +9222,7 @@
 
 #### W
 - [waste and air quality issues are interconnected ](./?doc=waste_and_air_quality_issues_are_interconnected.md)
+- [waste bin experiment in erdenet city](./?doc=waste_bin_experiment_in_erdenet_city.md)
 - [waste management-open burning study](./?doc=waste_management_open_burning_study.md)
 - [wastex lab: scaling pro-poor enterprises in solid waste management](./?doc=wastex_lab__scaling_pro_poor_enterprises_in_solid_waste_management.md)
 - [water scarcity](./?doc=water_scarcity.md)
@@ -10051,17 +9242,49 @@
 <div>
 
 
-#### P
-- [pacific plastics challenge](./?doc=pacific_plastics_challenge.md)
-- [piloting remote remand in eswatini courts](./?doc=piloting_remote_remand_in_eswatini_courts.md)
-- [plastic waste is not a trash (experiment)](./?doc=plastic_waste_is_not_a_trash__experiment_.md)
-- [plastic waste separation ](./?doc=plastic_waste_separation.md)
-- [portfolio approach closing 2021](./?doc=portfolio_approach_closing_2021.md)
-- [produce price and volume](./?doc=produce_price_and_volume.md)
-- [promoting a common language on social innovation in viet nam - unpacking acclab knowledge and prac…](./?doc=promoting_a_common_language_on_social_innovation_in_viet_nam___unpacking_acclab_knowledge_and_prac_.md)
-- [promoting practices from the ground and developing monitoring capacity to implement waste manageme…](./?doc=promoting_practices_from_the_ground_and_developing_monitoring_capacity_to_implement_waste_manageme_.md)
-- [proof ](./?doc=proof.md)
-- [public-sector innovation ](./?doc=public_sector_innovation.md)
+#### U
+- [understanding the informal sector in north macedonia](./?doc=understanding_the_informal_sector_in_north_macedonia.md)
+- [une plateforme digitale pour la promotion de la participation citoyenne des jeunes : djam bissi](./?doc=une_plateforme_digitale_pour_la_promotion_de_la_participation_citoyenne_des_jeunes___djam_bissi.md)
+- [unraveling the big bet: tackling depopulation in serbia through a data challenge](./?doc=unraveling_the_big_bet__tackling_depopulation_in_serbia_through_a_data_challenge.md)
+- [urban big data](./?doc=urban_big_data.md)
+- [urban innovation challenge](./?doc=urban_innovation_challenge.md)
+- [urban transformation of public spaces in bosnia and herzegovina](./?doc=urban_transformation_of_public_spaces_in_bosnia_and_herzegovina.md)
+- [use of dppd to identify places with potential solutions to waste management](./?doc=use_of_dppd_to_identify_places_with_potential_solutions_to_waste_management.md)
+- [using ai (decision-trees) to assess vulnerability to climate change](./?doc=using_ai__decision_trees__to_assess_vulnerability_to_climate_change.md)
+- [using citizen-generated data to improve solid waste management](./?doc=using_citizen_generated_data_to_improve_solid_waste_management.md)
+- [using dppd to identify adequate waste management practices](./?doc=using_dppd_to_identify_adequate_waste_management_practices.md)
+- [using dppd to identify greater indigenous political participation](./?doc=using_dppd_to_identify_greater_indigenous_political_participation.md)
+- [using online sales techniques for the belgradegets.digital campaign](./?doc=using_online_sales_techniques_for_the_belgradegets_digital_campaign.md)
+- [using open software to analyze big-data within municipalities](./?doc=using_open_software_to_analyze_big_data_within_municipalities.md)
+- [using practical demonstrations to reduce the learning curve [experiment #1]](./?doc=using_practical_demonstrations_to_reduce_the_learning_curve__experiment__1_.md)
+- [using sensemaking to synthesize knowledge](./?doc=using_sensemaking_to_synthesize_knowledge.md)
+- [using twitter data to understand patterns in conversation](./?doc=using_twitter_data_to_understand_patterns_in_conversation.md)
+- [using unvs for data collection across three islands](./?doc=using_unvs_for_data_collection_across_three_islands.md)
+- [utilisationdes big data ](./?doc=utilisationdes_big_data.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### M
+- [managing water smartly ](./?doc=managing_water_smartly.md)
+- [mapathon of natural & artificial lakes in greater jakarta area](./?doc=mapathon_of_natural___artificial_lakes_in_greater_jakarta_area.md)
+- [mapping digital inclusion - closing form](./?doc=mapping_digital_inclusion___closing_form.md)
+- [mapping solutions with volunteers](./?doc=mapping_solutions_with_volunteers.md)
+- [mapping tourist's mind for youth employment](./?doc=mapping_tourist_s_mind_for_youth_employment.md)
+- [marine litter: behavioral insights experiment in social media](./?doc=marine_litter__behavioral_insights_experiment_in_social_media.md)
+- [market space for climate-resilient crops](./?doc=market_space_for_climate_resilient_crops.md)
+- [mi barrio (digital neighborhood)](./?doc=mi_barrio__digital_neighborhood_.md)
+- [mobile justice](./?doc=mobile_justice.md)
+- [moulin solaire](./?doc=moulin_solaire.md)
+- [moustapha sahirou yacouba](./?doc=moustapha_sahirou_yacouba.md)
+- [moving innovative start-ups towards real impact & sustainability](./?doc=moving_innovative_start_ups_towards_real_impact___sustainability.md)
+- [municipality observatory ](./?doc=municipality_observatory.md)
+- [museum of georgian inventions  - mapping the energy solutions ](./?doc=museum_of_georgian_inventions____mapping_the_energy_solutions.md)
 
 
 </div>
@@ -10090,31 +9313,9 @@
 <div>
 
 
-#### R
-- [re-imagine social contract  in iraq](./?doc=re_imagine_social_contract__in_iraq.md)
-- [redefining ethics and accountability through the induction and orientation programme for namibia's…](./?doc=redefining_ethics_and_accountability_through_the_induction_and_orientation_programme_for_namibia_s_.md)
-- [reducing gender violence:  justice operators and schools](./?doc=reducing_gender_violence___justice_operators_and_schools.md)
-- [reducing single-use plastic usage in hotel catering (currently used as quarantine centers)](./?doc=reducing_single_use_plastic_usage_in_hotel_catering__currently_used_as_quarantine_centers_.md)
-- [reducing single-use plastic usage in hotel catering (currently used as quar…](./?doc=reducing_single_use_plastic_usage_in_hotel_catering__currently_used_as_quar_.md)
-- [reinventing public space through co-creation  ](./?doc=reinventing_public_space_through_co_creation.md)
-- [reverse shop - closing form](./?doc=reverse_shop___closing_form.md)
-- [right to the city: co-created space for social cohesion](./?doc=right_to_the_city__co_created_space_for_social_cohesion.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### U
-- [understanding the informal sector in north macedonia](./?doc=understanding_the_informal_sector_in_north_macedonia.md)
-- [une plateforme digitale pour la promotion de la participation citoyenne des jeunes : djam bissi](./?doc=une_plateforme_digitale_pour_la_promotion_de_la_participation_citoyenne_des_jeunes___djam_bissi.md)
-- [urban big data](./?doc=urban_big_data.md)
-- [urban transformation of public spaces in bosnia and herzegovina](./?doc=urban_transformation_of_public_spaces_in_bosnia_and_herzegovina.md)
-- [using citizen-generated data to improve solid waste management](./?doc=using_citizen_generated_data_to_improve_solid_waste_management.md)
-- [utilisationdes big data ](./?doc=utilisationdes_big_data.md)
+#### Y
+- [youth unemployment in laos ](./?doc=youth_unemployment_in_laos.md)
+- [youth unemployment; honey processing experiment](./?doc=youth_unemployment__honey_processing_experiment.md)
 
 
 </div>
@@ -10126,6 +9327,9 @@
 
 #### V
 - [vaccines, access, and misinformation ](./?doc=vaccines__access__and_misinformation.md)
+- [vc zoom rct: testing video tutorials and virtual training effectiveness for digital financial incl…](./?doc=vc_zoom_rct__testing_video_tutorials_and_virtual_training_effectiveness_for_digital_financial_incl_.md)
+- [ventanilla única empresarial asistida](./?doc=ventanilla__nica_empresarial_asistida.md)
+- [virtual gis map for pwd](./?doc=virtual_gis_map_for_pwd.md)
 
 
 </div>
@@ -10146,10 +9350,8 @@
 <div>
 
 
-#### H
-- [harnessing the opportunity of waste management as a resource to bring waste under control in mauri…](./?doc=harnessing_the_opportunity_of_waste_management_as_a_resource_to_bring_waste_under_control_in_mauri_.md)
-- [how better is the national exams secured in guinea?](./?doc=how_better_is_the_national_exams_secured_in_guinea_.md)
-- [how might we work across labs,  country offices and the sadc region to impl…](./?doc=how_might_we_work_across_labs___country_offices_and_the_sadc_region_to_impl_.md)
+#### “
+- [“preservamos”(wepreserve): conoce, mapea y protege tu río o lago](./?doc=_preservamos__wepreserve___conoce__mapea_y_protege_tu_r_o_o_lago.md)
 
 
 </div>
@@ -10159,12 +9361,9 @@
 <div>
 
 
-#### M
-- [mapping digital inclusion - closing form](./?doc=mapping_digital_inclusion___closing_form.md)
-- [mi barrio (digital neighborhood)](./?doc=mi_barrio__digital_neighborhood_.md)
-- [moving innovative start-ups towards real impact & sustainability](./?doc=moving_innovative_start_ups_towards_real_impact___sustainability.md)
-- [municipality observatory ](./?doc=municipality_observatory.md)
-- [museum of georgian inventions  - mapping the energy solutions ](./?doc=museum_of_georgian_inventions____mapping_the_energy_solutions.md)
+#### J
+- [job assist office](./?doc=job_assist_office.md)
+- [julio fernandes pinto](./?doc=julio_fernandes_pinto.md)
 
 
 </div>
@@ -10185,30 +9384,20 @@
 <div>
 
 
-#### [
-- [[re]designing public policy-making in north macedonia [#nds]](./?doc=_re_designing_public_policy_making_in_north_macedonia___nds_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### Y
-- [youth unemployment in laos ](./?doc=youth_unemployment_in_laos.md)
-
-
-</div>
-
-
-
-<div>
-
-
 #### K
 - [kenya climate security pilot project in tana river county](./?doc=kenya_climate_security_pilot_project_in_tana_river_county.md)
+- [kunzang wangmo ](./?doc=kunzang_wangmo.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### [
+- [[re]designing public policy-making in north macedonia [#nds]](./?doc=_re_designing_public_policy_making_in_north_macedonia___nds_.md)
 
 
 </div>
@@ -10269,6 +9458,7 @@
 
 #### 3
 - [3. exploring creative placemaking as an innovative approach to local development](./?doc=3__exploring_creative_placemaking_as_an_innovative_approach_to_local_development.md)
+- [3d building blocks](./?doc=3d_building_blocks.md)
 
 
 </div>
@@ -10368,6 +9558,33 @@
 <div>
 
 
+#### W
+- [walking together towards formalization: evaluation of an advising service pilot for domestic work …](./?doc=walking_together_towards_formalization__evaluation_of_an_advising_service_pilot_for_domestic_work__.md)
+- [waste banks](./?doc=waste_banks.md)
+- [waste management in the capital city of dili](./?doc=waste_management_in_the_capital_city_of_dili.md)
+- [waste management in the village of metbassta](./?doc=waste_management_in_the_village_of_metbassta.md)
+- [water security: harnessing data for climate resilience in kenya](./?doc=water_security__harnessing_data_for_climate_resilience_in_kenya.md)
+- [wayfinding instead of (just) service delivery ](./?doc=wayfinding_instead_of__just__service_delivery.md)
+- [wayfinding instead of service delivery ](./?doc=wayfinding_instead_of_service_delivery.md)
+- [we generated many learnings about the confluence of climate change/transiti…](./?doc=we_generated_many_learnings_about_the_confluence_of_climate_changetransiti_.md)
+- [we had to cut short the frontier challenge due to ](./?doc=we_had_to_cut_short_the_frontier_challenge_due_to.md)
+- [what can we learn from startups competitions?](./?doc=what_can_we_learn_from_startups_competitions_.md)
+- [while the needs in the earthquake-affected region change every day, housing…](./?doc=while_the_needs_in_the_earthquake_affected_region_change_every_day__housing_.md)
+- [wildlife heroes, cross border innovation challenge to combat illegal wildlife trade](./?doc=wildlife_heroes__cross_border_innovation_challenge_to_combat_illegal_wildlife_trade.md)
+- [women's political participation and the results of experimenting with "common" practice. ](./?doc=women_s_political_participation_and_the_results_of_experimenting_with__common__practice_.md)
+- [women's political participation as "common practice" to break "social norms" ](./?doc=women_s_political_participation_as__common_practice__to_break__social_norms_.md)
+- [women’s csos are very active in this field but they have limited capacity a…](./?doc=women_s_csos_are_very_active_in_this_field_but_they_have_limited_capacity_a_.md)
+- [workflow and transparency in the notary, ministry of justice guinea bissau](./?doc=workflow_and_transparency_in_the_notary__ministry_of_justice_guinea_bissau.md)
+- [working on ease of doing business for informal economy entities and workers across borders.](./?doc=working_on_ease_of_doing_business_for_informal_economy_entities_and_workers_across_borders_.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### I
 - [impact of digital technology on the future of work for youth ](./?doc=impact_of_digital_technology_on_the_future_of_work_for_youth.md)
 - [implementing the enabling co programme: digitalization innovation and smart cities (disc) programme](./?doc=implementing_the_enabling_co_programme__digitalization_innovation_and_smart_cities__disc__programme.md)
@@ -10393,6 +9610,7 @@
 - [innovative strategies for supporting workers in mauritania's informal econo…](./?doc=innovative_strategies_for_supporting_workers_in_mauritania_s_informal_econo_.md)
 - [innover dans la prevention de l'extremisme violent pour des solutions durables](./?doc=innover_dans_la_prevention_de_l_extremisme_violent_pour_des_solutions_durables.md)
 - [introducing a learning revolution for the public service of namibia](./?doc=introducing_a_learning_revolution_for_the_public_service_of_namibia.md)
+- [irrigation system with hygrometer](./?doc=irrigation_system_with_hygrometer.md)
 
 
 </div>
@@ -10412,10 +9630,12 @@
 - [generating knowledge on the euphrates rechallenge](./?doc=generating_knowledge_on_the_euphrates_rechallenge.md)
 - [geoai platform to regulate air pollution](./?doc=geoai_platform_to_regulate_air_pollution.md)
 - [girls and women in stem education and profession report/findings](./?doc=girls_and_women_in_stem_education_and_profession_reportfindings.md)
+- [godfather system for public space maintenance](./?doc=godfather_system_for_public_space_maintenance.md)
 - [grant management platform](./?doc=grant_management_platform.md)
 - [green energy for rural enterprise and food security](./?doc=green_energy_for_rural_enterprise_and_food_security.md)
 - [green entrepreneurship week ](./?doc=green_entrepreneurship_week.md)
 - [growing number of women in stem fields and helping them to advance througho…](./?doc=growing_number_of_women_in_stem_fields_and_helping_them_to_advance_througho_.md)
+- [guarnibot: a chatbot for emergency assistance](./?doc=guarnibot__a_chatbot_for_emergency_assistance.md)
 
 
 </div>
@@ -10427,6 +9647,7 @@
 
 #### E
 - [ecological mining in bolivia: a satellite and smart approach to identify environmental liabilities](./?doc=ecological_mining_in_bolivia__a_satellite_and_smart_approach_to_identify_environmental_liabilities.md)
+- [economic participation of the bissau-guinean diaspora for development of the country](./?doc=economic_participation_of_the_bissau_guinean_diaspora_for_development_of_the_country.md)
 - [economic participation of the bissau-guinean diaspora for development of th…](./?doc=economic_participation_of_the_bissau_guinean_diaspora_for_development_of_th_.md)
 - [ecosystem support](./?doc=ecosystem_support.md)
 - [education digitalization and solutions for other key development challenges](./?doc=education_digitalization_and_solutions_for_other_key_development_challenges.md)
@@ -10453,8 +9674,10 @@
 - [experiment a resilient, affordable, and replicable data management system a…](./?doc=experiment_a_resilient__affordable__and_replicable_data_management_system_a_.md)
 - [experiment of nature based solution:  bio-control technology against striga…](./?doc=experiment_of_nature_based_solution___bio_control_technology_against_striga_.md)
 - [experimentation of innovative financial tool:  ](./?doc=experimentation_of_innovative_financial_tool_.md)
+- [experimentation on safe street seafood production for accelerating blue economy opportunity](./?doc=experimentation_on_safe_street_seafood_production_for_accelerating_blue_economy_opportunity.md)
 - [experimenting the use educational robots to enhance speech therapy for children with special needs…](./?doc=experimenting_the_use_educational_robots_to_enhance_speech_therapy_for_children_with_special_needs_.md)
 - [experimenting ways to reduce solid waste at el tunco beach.](./?doc=experimenting_ways_to_reduce_solid_waste_at_el_tunco_beach_.md)
+- [experimenting with 'signals scanning'](./?doc=experimenting_with__signals_scanning_.md)
 - [experimenting with inclusive and innovative collaboration within internal hubs ](./?doc=experimenting_with_inclusive_and_innovative_collaboration_within_internal_hubs.md)
 - [experimenting with portfolio approach on resolving issue of air pollution in kazakhstan ](./?doc=experimenting_with_portfolio_approach_on_resolving_issue_of_air_pollution_in_kazakhstan.md)
 - [experimenting with portfolio approach through designing empowerment of wome…](./?doc=experimenting_with_portfolio_approach_through_designing_empowerment_of_wome_.md)
@@ -10504,31 +9727,6 @@
 <div>
 
 
-#### W
-- [waste banks](./?doc=waste_banks.md)
-- [waste management in the capital city of dili](./?doc=waste_management_in_the_capital_city_of_dili.md)
-- [waste management in the village of metbassta](./?doc=waste_management_in_the_village_of_metbassta.md)
-- [water security: harnessing data for climate resilience in kenya](./?doc=water_security__harnessing_data_for_climate_resilience_in_kenya.md)
-- [wayfinding instead of (just) service delivery ](./?doc=wayfinding_instead_of__just__service_delivery.md)
-- [wayfinding instead of service delivery ](./?doc=wayfinding_instead_of_service_delivery.md)
-- [we generated many learnings about the confluence of climate change/transiti…](./?doc=we_generated_many_learnings_about_the_confluence_of_climate_changetransiti_.md)
-- [we had to cut short the frontier challenge due to ](./?doc=we_had_to_cut_short_the_frontier_challenge_due_to.md)
-- [what can we learn from startups competitions?](./?doc=what_can_we_learn_from_startups_competitions_.md)
-- [while the needs in the earthquake-affected region change every day, housing…](./?doc=while_the_needs_in_the_earthquake_affected_region_change_every_day__housing_.md)
-- [wildlife heroes, cross border innovation challenge to combat illegal wildlife trade](./?doc=wildlife_heroes__cross_border_innovation_challenge_to_combat_illegal_wildlife_trade.md)
-- [women's political participation and the results of experimenting with "common" practice. ](./?doc=women_s_political_participation_and_the_results_of_experimenting_with__common__practice_.md)
-- [women's political participation as "common practice" to break "social norms" ](./?doc=women_s_political_participation_as__common_practice__to_break__social_norms_.md)
-- [women’s csos are very active in this field but they have limited capacity a…](./?doc=women_s_csos_are_very_active_in_this_field_but_they_have_limited_capacity_a_.md)
-- [working on ease of doing business for informal economy entities and workers across borders.](./?doc=working_on_ease_of_doing_business_for_informal_economy_entities_and_workers_across_borders_.md)
-
-
-</div>
-
-
-
-<div>
-
-
 #### D
 - [data innovation for development ](./?doc=data_innovation_for_development.md)
 - [data-driven evidence to inform decision-making on climate and governance](./?doc=data_driven_evidence_to_inform_decision_making_on_climate_and_governance.md)
@@ -10557,6 +9755,7 @@
 - [disaster risk management: the role of innovation & technology to tackle the challenge](./?doc=disaster_risk_management__the_role_of_innovation___technology_to_tackle_the_challenge.md)
 - [diseñar y probar productos climáticos para mejorar la toma de decisiones locales en respuesta al c…](./?doc=dise_ar_y_probar_productos_clim_ticos_para_mejorar_la_toma_de_decisiones_locales_en_respuesta_al_c_.md)
 - [documenting tourist attraction sites and development of a national photoban…](./?doc=documenting_tourist_attraction_sites_and_development_of_a_national_photoban_.md)
+- [dominica - using 360 footage & street view mapping for visibility of community tourism sites](./?doc=dominica___using_360_footage___street_view_mapping_for_visibility_of_community_tourism_sites.md)
 - [dppd pilot: a scale up plan](./?doc=dppd_pilot__a_scale_up_plan.md)
 - [dppd rollout in north macedonia - citizen-centered financial management at local level](./?doc=dppd_rollout_in_north_macedonia___citizen_centered_financial_management_at_local_level.md)
 - [driving inclusion of women in stem through digital skills](./?doc=driving_inclusion_of_women_in_stem_through_digital_skills.md)
@@ -10576,6 +9775,7 @@
 - [sdg innovation and entrepreneurship hub (sieh)](./?doc=sdg_innovation_and_entrepreneurship_hub__sieh_.md)
 - [sdg localisation in municipality of oecusse](./?doc=sdg_localisation_in_municipality_of_oecusse.md)
 - [sdg localization in municipality of oecusse](./?doc=sdg_localization_in_municipality_of_oecusse.md)
+- [sea turtle hatching for conservation and restoration of biodiversity at saint martin's in banglade…](./?doc=sea_turtle_hatching_for_conservation_and_restoration_of_biodiversity_at_saint_martin_s_in_banglade_.md)
 - [sea turtle hatching for conservation and restoration of biodiversity at sai…](./?doc=sea_turtle_hatching_for_conservation_and_restoration_of_biodiversity_at_sai_.md)
 - [sensemaking on ecosystem: infectious healthcare waste management and solid waste management in chi…](./?doc=sensemaking_on_ecosystem__infectious_healthcare_waste_management_and_solid_waste_management_in_chi_.md)
 - [series i of public service innovation: fostering foresight in public service?](./?doc=series_i_of_public_service_innovation__fostering_foresight_in_public_service_.md)
@@ -10592,6 +9792,7 @@
 - [socio-economic integration model for amputee rehabilitation](./?doc=socio_economic_integration_model_for_amputee_rehabilitation.md)
 - [solid waste management: a spatial mapping of the disposal sites in the capi…](./?doc=solid_waste_management__a_spatial_mapping_of_the_disposal_sites_in_the_capi_.md)
 - [startup ecosystem remains young in lao pdr but there is room for improveme…](./?doc=startup_ecosystem_remains_young_in_lao_pdr_but_there_is_room_for_improveme_.md)
+- [stimulate informal economy promoting safe dry fish for blue economy](./?doc=stimulate_informal_economy_promoting_safe_dry_fish_for_blue_economy.md)
 - [strategic ecosystem innovation for women's economic empowerment](./?doc=strategic_ecosystem_innovation_for_women_s_economic_empowerment.md)
 - [strengthening community of practice of creators and innovators in kyrgyzstan](./?doc=strengthening_community_of_practice_of_creators_and_innovators_in_kyrgyzstan.md)
 - [strengthening local participation in the development mineral value chain](./?doc=strengthening_local_participation_in_the_development_mineral_value_chain.md)
@@ -10692,6 +9893,7 @@
 - [find innovative mobile solutions with solar energy for small street/ informal businesses carried o…](./?doc=find_innovative_mobile_solutions_with_solar_energy_for_small_street_informal_businesses_carried_o_.md)
 - [find innovative mobile solutions with solar energy for small street/ inform…](./?doc=find_innovative_mobile_solutions_with_solar_energy_for_small_street_inform_.md)
 - [firstly it is important for such a project to ensure that we have the right…](./?doc=firstly_it_is_important_for_such_a_project_to_ensure_that_we_have_the_right_.md)
+- [flexible manufacturing: testing an intervention to increase productivity of a garments cluster](./?doc=flexible_manufacturing__testing_an_intervention_to_increase_productivity_of_a_garments_cluster.md)
 - [follow up: ai and human capital gap – venezuela migrant crisis](./?doc=follow_up__ai_and_human_capital_gap___venezuela_migrant_crisis.md)
 - [follow up: augmented development](./?doc=follow_up__augmented_development.md)
 - [foresight for health reform](./?doc=foresight_for_health_reform.md)
@@ -10737,11 +9939,13 @@
 
 #### U
 - [uic - prototyping of winning innovations (result)](./?doc=uic___prototyping_of_winning_innovations__result_.md)
+- [unlocking efficiency: enhancing civil register processing through biometric digitization](./?doc=unlocking_efficiency__enhancing_civil_register_processing_through_biometric_digitization.md)
 - [upskilling bangladeshi youth in emerging technologies](./?doc=upskilling_bangladeshi_youth_in_emerging_technologies.md)
 - [urban innovation challenge — prototyping of winning innovations](./?doc=urban_innovation_challenge___prototyping_of_winning_innovations.md)
 - [urban transformation alp closing](./?doc=urban_transformation_alp_closing.md)
 - [use of unmanned aerial vehicles (drones) in data collection and processing for assisted natural re…](./?doc=use_of_unmanned_aerial_vehicles__drones__in_data_collection_and_processing_for_assisted_natural_re_.md)
 - [using collective intelligence to map invasive alien species impacting samoa…](./?doc=using_collective_intelligence_to_map_invasive_alien_species_impacting_samoa_.md)
+- [using dried leaves to curb soil erosion](./?doc=using_dried_leaves_to_curb_soil_erosion.md)
 - [using the youth as catalyst of sdgs data ](./?doc=using_the_youth_as_catalyst_of_sdgs_data.md)
 
 
@@ -10771,6 +9975,7 @@
 - [participatory mapping for cca and drr in maldives](./?doc=participatory_mapping_for_cca_and_drr_in_maldives.md)
 - [partnership between undp and societe generale bank to support inclusive ent…](./?doc=partnership_between_undp_and_societe_generale_bank_to_support_inclusive_ent_.md)
 - [peacebuilding through community-level innovation](./?doc=peacebuilding_through_community_level_innovation.md)
+- [physical spaces breaking silos and increasing wellbeing in the country office  ](./?doc=physical_spaces_breaking_silos_and_increasing_wellbeing_in_the_country_office.md)
 - [pilot action for debris monitoring with parafoil drone](./?doc=pilot_action_for_debris_monitoring_with_parafoil_drone.md)
 - [piloting novel food rescue models in bosnia and herzegovina ](./?doc=piloting_novel_food_rescue_models_in_bosnia_and_herzegovina.md)
 - [plastic waste circularity towards the zero waste bhutan. ](./?doc=plastic_waste_circularity_towards_the_zero_waste_bhutan_.md)
@@ -10780,6 +9985,7 @@
 - [portfolio of experiments of a community-based solid waste management approa…](./?doc=portfolio_of_experiments_of_a_community_based_solid_waste_management_approa_.md)
 - [portfolio of experiments on how to perform consultations with indigenous communities.  ](./?doc=portfolio_of_experiments_on_how_to_perform_consultations_with_indigenous_communities_.md)
 - [portfolio: sustainable natural resource user groups’ livelihoods and enviro…](./?doc=portfolio__sustainable_natural_resource_user_groups__livelihoods_and_enviro_.md)
+- [positive deviations in primary health care](./?doc=positive_deviations_in_primary_health_care.md)
 - [progress on upskilling bangladeshi youth in emerging technologies](./?doc=progress_on_upskilling_bangladeshi_youth_in_emerging_technologies.md)
 - [promoting practices from ground and developing monitoring capacity for waste management](./?doc=promoting_practices_from_ground_and_developing_monitoring_capacity_for_waste_management.md)
 - [promoting role of women in green sectors](./?doc=promoting_role_of_women_in_green_sectors.md)
@@ -10800,6 +10006,7 @@
 #### R
 - [recyclage des dechets plastiques par l'economie circulaire](./?doc=recyclage_des_dechets_plastiques_par_l_economie_circulaire.md)
 - [recyclage des déchets plastics](./?doc=recyclage_des_d_chets_plastics.md)
+- [red con vos - fray mamerto esquiú](./?doc=red_con_vos___fray_mamerto_esqui_.md)
 - [reducing gender violence: justice operators and schools](./?doc=reducing_gender_violence__justice_operators_and_schools.md)
 - [reduction of plastic ](./?doc=reduction_of_plastic.md)
 - [refexion on how can generative ai contribute to improving quality education and research to impact…](./?doc=refexion_on_how_can_generative_ai_contribute_to_improving_quality_education_and_research_to_impact_.md)
@@ -10808,6 +10015,9 @@
 - [reimagining new capital city: inclusive and anticipative nusantara](./?doc=reimagining_new_capital_city__inclusive_and_anticipative_nusantara.md)
 - [reinventing access to justice in guinea-bissau](./?doc=reinventing_access_to_justice_in_guinea_bissau.md)
 - [rethinking social cohesion](./?doc=rethinking_social_cohesion.md)
+- [returning point - ](./?doc=returning_point____building_bridges_between_serbia_and_its_diaspora.md)
+- [returning point podcast - new way of re/connecting with serbian diaspora and returnees ](./?doc=returning_point_podcast___new_way_of_reconnecting_with_serbian_diaspora_and_returnees.md)
+- [returning point “dijaspora srbija” viber group](./?doc=returning_point__dijaspora_srbija__viber_group.md)
 - [reused water in and around kairouan's great mosque](./?doc=reused_water_in_and_around_kairouan_s_great_mosque.md)
 - [rural resilience](./?doc=rural_resilience.md)
 
@@ -10824,6 +10034,7 @@
 - [tackling food waste in the kingdom of saudi arabia: interventions (pending)](./?doc=tackling_food_waste_in_the_kingdom_of_saudi_arabia__interventions__pending_.md)
 - [tackling sub-national systems challenges through portfolio approach](./?doc=tackling_sub_national_systems_challenges_through_portfolio_approach.md)
 - [tactical urbanism practices are rarely adopted by local governments in turk…](./?doc=tactical_urbanism_practices_are_rarely_adopted_by_local_governments_in_turk_.md)
+- [tavarandu: juego de bienes públicos para medir la confianza en la gobernanza participativa](./?doc=tavarandu__juego_de_bienes_p_blicos_para_medir_la_confianza_en_la_gobernanza_participativa.md)
 - [telemedicine](./?doc=telemedicine.md)
 - [territories that heal:minga](./?doc=territories_that_heal_minga.md)
 - [test waste transportation prototypes of the better-designed door-to-door solid waste collection ](./?doc=test_waste_transportation_prototypes_of_the_better_designed_door_to_door_solid_waste_collection.md)
@@ -10831,6 +10042,7 @@
 - [the 5 top key insights are as follows:](./?doc=the_5_top_key_insights_are_as_follows_.md)
 - [the accelerator lab singled out the data element for exploration to underst…](./?doc=the_accelerator_lab_singled_out_the_data_element_for_exploration_to_underst_.md)
 - [the air pollution while discussed through the lenses of public healthcare a…](./?doc=the_air_pollution_while_discussed_through_the_lenses_of_public_healthcare_a_.md)
+- [the circular economy- the gold in our garbage a pilot in the city of bukavu in drc](./?doc=the_circular_economy__the_gold_in_our_garbage_a_pilot_in_the_city_of_bukavu_in_drc.md)
 - [the climate security programme](./?doc=the_climate_security_programme.md)
 - [the key insights generated from this learning challenge are listed below:](./?doc=the_key_insights_generated_from_this_learning_challenge_are_listed_below_.md)
 - [the new way of young african works : supporting the innovative solutions to create sustainable job…](./?doc=the_new_way_of_young_african_works___supporting_the_innovative_solutions_to_create_sustainable_job_.md)
@@ -10862,10 +10074,24 @@
 - [harvesting insights: unveiling agricultural dynamics through innovation, data, and collaborative p…](./?doc=harvesting_insights__unveiling_agricultural_dynamics_through_innovation__data__and_collaborative_p_.md)
 - [how can we leverage digital tools to create more opportunities for the informal craft sector?](./?doc=how_can_we_leverage_digital_tools_to_create_more_opportunities_for_the_informal_craft_sector_.md)
 - [how might we work across labs,  country offices and the sadc region to implement the afcfta?](./?doc=how_might_we_work_across_labs___country_offices_and_the_sadc_region_to_implement_the_afcfta_.md)
+- [how the access to information and facilitated reflection on social security impacts knowledge and …](./?doc=how_the_access_to_information_and_facilitated_reflection_on_social_security_impacts_knowledge_and__.md)
 - [hulhumale liveability index](./?doc=hulhumale_liveability_index.md)
 - [human-centered design fostering justice digitization in drc](./?doc=human_centered_design_fostering_justice_digitization_in_drc.md)
 - [human-centered design to foster digital transformation in the justice sector…](./?doc=human_centered_design_to_foster_digital_transformation_in_the_justice_sector_.md)
 - [human-focused digital development for belarus (closing)](./?doc=human_focused_digital_development_for_belarus__closing_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### “
+- [“act green challenge”](./?doc=_act_green_challenge_.md)
+- [“back yard” solar power automated aquaponics system for persons with disabilities](./?doc=_back_yard__solar_power_automated_aquaponics_system_for_persons_with_disabilities.md)
+- [“empresa excelência” initiative (companies of excellency) recognizes…](./?doc=_empresa_excel_ncia__initiative__companies_of_excellency__recognizes_.md)
 
 
 </div>
@@ -10946,18 +10172,6 @@
 <div>
 
 
-#### “
-- [“act green challenge”](./?doc=_act_green_challenge_.md)
-- [“empresa excelência” initiative (companies of excellency) recognizes…](./?doc=_empresa_excel_ncia__initiative__companies_of_excellency__recognizes_.md)
-
-
-</div>
-
-
-
-<div>
-
-
 #### N
 - [no data regulation and protection protocols had been in place](./?doc=no_data_regulation_and_protection_protocols_had_been_in_place.md)
 
@@ -11008,7 +10222,22 @@
 <div>
 
 
+#### 3
+- [3 days, 3 minutes, 360 degrees challenge ](./?doc=3_days__3_minutes__360_degrees_challenge.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### F
+- [fab lab](./?doc=fab_lab.md)
+- [flood data viewer](./?doc=flood_data_viewer.md)
+- [fog harvesters: securing water for chuquisaca's future](./?doc=fog_harvesters__securing_water_for_chuquisaca_s_future.md)
+- [forecasting scenarios of polarization](./?doc=forecasting_scenarios_of_polarization.md)
 - [forward: economic participation of the bissau-guinean diaspora for development of the country](./?doc=forward__economic_participation_of_the_bissau_guinean_diaspora_for_development_of_the_country.md)
 - [forwarding: reinventing access to justice in guinea-bissau](./?doc=forwarding__reinventing_access_to_justice_in_guinea_bissau.md)
 - [fostering innovation ecosystems in public universities](./?doc=fostering_innovation_ecosystems_in_public_universities.md)
@@ -11028,13 +10257,19 @@
 - [capacities for innovation in the public and social sector](./?doc=capacities_for_innovation_in_the_public_and_social_sector.md)
 - [carbon monitoring and offset feasibility study - closing](./?doc=carbon_monitoring_and_offset_feasibility_study___closing.md)
 - [care work and socioeconomic inclusion of women in cambodia](./?doc=care_work_and_socioeconomic_inclusion_of_women_in_cambodia.md)
+- [cerco verde](./?doc=cerco_verde.md)
 - [ci to map samoa's biodiversity](./?doc=ci_to_map_samoa_s_biodiversity.md)
+- [circular economy for organic food waste in public markets](./?doc=circular_economy_for_organic_food_waste_in_public_markets.md)
+- [circular economy secondhand market experiment](./?doc=circular_economy_secondhand_market_experiment.md)
+- [citizen lab: mobile data "let's talk waste panama"](./?doc=citizen_lab__mobile_data__let_s_talk_waste_panama_.md)
 - [citizen participation](./?doc=citizen_participation.md)
+- [citizen reporting system - map your disaster](./?doc=citizen_reporting_system___map_your_disaster.md)
 - [civic education and localization of laws and policies](./?doc=civic_education_and_localization_of_laws_and_policies.md)
 - [clean air without border: crossing boundaries to collaborate for clean air in thailand and lao pdr](./?doc=clean_air_without_border__crossing_boundaries_to_collaborate_for_clean_air_in_thailand_and_lao_pdr.md)
 - [clean air without border](./?doc=clean_air_without_border.md)
 - [clean construction system application in gaziantep](./?doc=clean_construction_system_application_in_gaziantep.md)
 - [climate and demographic foresight report publication and diffusion of insights](./?doc=climate_and_demographic_foresight_report_publication_and_diffusion_of_insights.md)
+- [climate change scenario planning with artificial intelligence](./?doc=climate_change_scenario_planning_with_artificial_intelligence.md)
 - [closing form - innovative financial instruments for development ](./?doc=closing_form___innovative_financial_instruments_for_development.md)
 - [closing: community hubs for economic and climate resilience as a model- enhancing iraq](./?doc=closing__community_hubs_for_economic_and_climate_resilience_as_a_model__enhancing_iraq.md)
 - [closing: reinventing public space through co-creation](./?doc=closing__reinventing_public_space_through_co_creation.md)
@@ -11043,13 +10278,20 @@
 - [co-laboratory for women's economic empowermet - learnings](./?doc=co_laboratory_for_women_s_economic_empowermet___learnings.md)
 - [co-laboratory of solutions for women's economic empowerment](./?doc=co_laboratory_of_solutions_for_women_s_economic_empowerment.md)
 - [codesigning information integrity protocols through multi-stakeholder approach](./?doc=codesigning_information_integrity_protocols_through_multi_stakeholder_approach.md)
+- [collective intelligence experiment on the just energy transition in south africa](./?doc=collective_intelligence_experiment_on_the_just_energy_transition_in_south_africa.md)
+- [collective intelligence for climate action](./?doc=collective_intelligence_for_climate_action.md)
 - [collective intelligence, communities, and the just energy transition ](./?doc=collective_intelligence__communities__and_the_just_energy_transition.md)
 - [collective solution ](./?doc=collective_solution.md)
+- [community emergency plan for floods](./?doc=community_emergency_plan_for_floods.md)
 - [community engagement is essential for the success of circular economy progr…](./?doc=community_engagement_is_essential_for_the_success_of_circular_economy_progr_.md)
 - [community hubs for economic and climate resilience as a model: enhancing iraq](./?doc=community_hubs_for_economic_and_climate_resilience_as_a_model__enhancing_iraq.md)
 - [complex connections: learning from individuals experiencing homelessness](./?doc=complex_connections__learning_from_individuals_experiencing_homelessness.md)
+- [creando: an online community for migrant entrepreneurs ](./?doc=creando__an_online_community_for_migrant_entrepreneurs.md)
+- [creating a safe space for dialogue and engagement: "her journey, her story: women shaping tech" ev…](./?doc=creating_a_safe_space_for_dialogue_and_engagement___her_journey__her_story__women_shaping_tech__ev_.md)
 - [crisis ready](./?doc=crisis_ready.md)
+- [crowd funding experimentation ](./?doc=crowd_funding_experimentation.md)
 - [crowdfunding for gender based violence survivors](./?doc=crowdfunding_for_gender_based_violence_survivors.md)
+- [cuenta simple: opening doors to foreign investors in paraguay](./?doc=cuenta_simple__opening_doors_to_foreign_investors_in_paraguay.md)
 
 
 </div>
@@ -11060,6 +10302,8 @@
 
 
 #### I
+- [identifying effects of polarization on public officials](./?doc=identifying_effects_of_polarization_on_public_officials.md)
+- [immediate alert and response system (sari)](./?doc=immediate_alert_and_response_system__sari_.md)
 - [improving urban resilience in bissau and bijágos via waste management](./?doc=improving_urban_resilience_in_bissau_and_bij_gos_via_waste_management.md)
 - [increasing access to learningtools and equipment on a remote island using 3d printing](./?doc=increasing_access_to_learningtools_and_equipment_on_a_remote_island_using_3d_printing.md)
 - [increasing the effectiveness of participants who engage in dialogues for development (closing)](./?doc=increasing_the_effectiveness_of_participants_who_engage_in_dialogues_for_development__closing_.md)
@@ -11080,10 +10324,53 @@
 <div>
 
 
+#### S
+- [samsung solve for tomorrow challenge - cook islands](./?doc=samsung_solve_for_tomorrow_challenge___cook_islands.md)
+- [satellite identification of environmental mining liabilities](./?doc=satellite_identification_of_environmental_mining_liabilities.md)
+- [scaling circular solutions ](./?doc=scaling_circular_solutions.md)
+- [scaling the practices &amp; strategies of outperforming rangeland communities in somalia ](./?doc=scaling_the_practices__amp__strategies_of_outperforming_rangeland_communities_in_somalia.md)
+- [science and culture sdg:](./?doc=science_and_culture_sdg_.md)
+- [sedaya (community empowerment hub): exploring micro equity financing for micro enterprises](./?doc=sedaya__community_empowerment_hub___exploring_micro_equity_financing_for_micro_enterprises.md)
+- [she lab - sustainability laboratory for young women](./?doc=she_lab___sustainability_laboratory_for_young_women.md)
+- [signage for the separation of recyclable materials](./?doc=signage_for_the_separation_of_recyclable_materials.md)
+- [smart solar dryer phase 2 scale up - closing](./?doc=smart_solar_dryer_phase_2_scale_up___closing.md)
+- [smart trashcan](./?doc=smart_trashcan.md)
+- [smart waste (data in action)](./?doc=smart_waste__data_in_action_.md)
+- [social cohesion in migrant host communities in the emberá-wounaan territory](./?doc=social_cohesion_in_migrant_host_communities_in_the_ember__wounaan_territory.md)
+- [social entrepreneurship alliance](./?doc=social_entrepreneurship_alliance.md)
+- [social entrepreneurship for improving territorial brand of chernobyl-affected districts](./?doc=social_entrepreneurship_for_improving_territorial_brand_of_chernobyl_affected_districts.md)
+- [social records for the public works land expropriation management system](./?doc=social_records_for_the_public_works_land_expropriation_management_system.md)
+- [solar kitchens - cooking with the right energy!](./?doc=solar_kitchens___cooking_with_the_right_energy_.md)
+- [solar powered automated system for monitoring aquaponics systems](./?doc=solar_powered_automated_system_for_monitoring_aquaponics_systems.md)
+- [solid waste management system in coastal areas](./?doc=solid_waste_management_system_in_coastal_areas.md)
+- [solutions catalogue to empower people to tackle air pollution](./?doc=solutions_catalogue_to_empower_people_to_tackle_air_pollution.md)
+- [solutions](./?doc=solutions.md)
+- [songkhla for all: growing a human-centred portfolio on inclusive tourism development](./?doc=songkhla_for_all__growing_a_human_centred_portfolio_on_inclusive_tourism_development.md)
+- [strengthening the entrepreneurial ecosystem in trinidad and tobago](./?doc=strengthening_the_entrepreneurial_ecosystem_in_trinidad_and_tobago.md)
+- [strengthening trade and supply chain for the informal vendors across zambia and namibia for the af…](./?doc=strengthening_trade_and_supply_chain_for_the_informal_vendors_across_zambia_and_namibia_for_the_af_.md)
+- [stress testing policies to promote dialogue](./?doc=stress_testing_policies_to_promote_dialogue.md)
+- [survey-based experiments to local farmers understanding of climate change information](./?doc=survey_based_experiments_to_local_farmers_understanding_of_climate_change_information.md)
+- [sustainable transformation of municipal markets in panama: circular economy and zero waste](./?doc=sustainable_transformation_of_municipal_markets_in_panama__circular_economy_and_zero_waste.md)
+- [sustaining and deepening innovation in circular economy portfolio through local governments](./?doc=sustaining_and_deepening_innovation_in_circular_economy_portfolio_through_local_governments.md)
+- [syria's climate foresight](./?doc=syria_s_climate_foresight.md)
+- [syrian local solutions platform](./?doc=syrian_local_solutions_platform.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### P
 - [participation, trust, and social capital](./?doc=participation__trust__and_social_capital.md)
 - [participatory mapping for social cohesion](./?doc=participatory_mapping_for_social_cohesion.md)
+- [pilot digital skills training for persons with disabilities (dom)](./?doc=pilot_digital_skills_training_for_persons_with_disabilities__dom_.md)
 - [pilot project: community empowerment hub](./?doc=pilot_project__community_empowerment_hub.md)
+- [pilot: accelerator lab value in south africa](./?doc=pilot__accelerator_lab_value_in_south_africa.md)
+- [pilot: future skills platform for online, digital skilling](./?doc=pilot__future_skills_platform_for_online__digital_skilling.md)
+- [pilot: television white space  technology for low cost internet in township and rural communities](./?doc=pilot__television_white_space__technology_for_low_cost_internet_in_township_and_rural_communities.md)
 - [piloting international network of sustainable](./?doc=piloting_international_network_of_sustainable.md)
 - [policy briefs](./?doc=policy_briefs.md)
 - [portfolio of experiments of a community-based solid waste management approach in los tres brazos, …](./?doc=portfolio_of_experiments_of_a_community_based_solid_waste_management_approach_in_los_tres_brazos___.md)
@@ -11120,13 +10407,19 @@
 - [addressing the stem leaky pipeline: integrating gender equality in it management](./?doc=addressing_the_stem_leaky_pipeline__integrating_gender_equality_in_it_management.md)
 - [advancing food system resilience ](./?doc=advancing_food_system_resilience.md)
 - [advancing local governance transformation in bosnia and herzegovina](./?doc=advancing_local_governance_transformation_in_bosnia_and_herzegovina.md)
+- [agro innovatec in reverse](./?doc=agro_innovatec_in_reverse.md)
+- [agro innovatec](./?doc=agro_innovatec.md)
 - [ai for tourism in zanzibar](./?doc=ai_for_tourism_in_zanzibar.md)
 - [ai readiness and data-driven innovation](./?doc=ai_readiness_and_data_driven_innovation.md)
 - [ai readiness](./?doc=ai_readiness.md)
 - [ai trainings for capacity building in the co](./?doc=ai_trainings_for_capacity_building_in_the_co.md)
+- [ai-driven participatory urban planning: intergenerational co-design of public spaces in panama](./?doc=ai_driven_participatory_urban_planning__intergenerational_co_design_of_public_spaces_in_panama.md)
+- [ai: argentine intelligence](./?doc=ai__argentine_intelligence.md)
 - [alternative credit scoring for digital financial inclusion](./?doc=alternative_credit_scoring_for_digital_financial_inclusion.md)
 - [alternative to fenthion for the control of quelea birds](./?doc=alternative_to_fenthion_for_the_control_of_quelea_birds.md)
 - [assessing ai readiness and integrating ethical ai practices in vietnam's pu…](./?doc=assessing_ai_readiness_and_integrating_ethical_ai_practices_in_vietnam_s_pu_.md)
+- [assessing the effect of free internet in public spaces on visitors](./?doc=assessing_the_effect_of_free_internet_in_public_spaces_on_visitors.md)
+- [assessment of local revenue management information system](./?doc=assessment_of_local_revenue_management_information_system.md)
 
 
 </div>
@@ -11138,15 +10431,24 @@
 
 #### E
 - [earthquake games](./?doc=earthquake_games.md)
+- [ecodataton](./?doc=ecodataton.md)
+- [educational innovation i+e](./?doc=educational_innovation_i_e.md)
+- [electric motorbike delivery policy experimentation for delivery workers in hue city](./?doc=electric_motorbike_delivery_policy_experimentation_for_delivery_workers_in_hue_city.md)
 - [empowering rural resilience through nusantara green village initiative](./?doc=empowering_rural_resilience_through_nusantara_green_village_initiative.md)
+- [engaging women in stem through real-time feedback: using interactive tools to enhance audience eng…](./?doc=engaging_women_in_stem_through_real_time_feedback__using_interactive_tools_to_enhance_audience_eng_.md)
 - [enhancing data collection capacity using drones for disaster risk reduction…](./?doc=enhancing_data_collection_capacity_using_drones_for_disaster_risk_reduction_.md)
 - [enhancing pwds inclusion in somalia through citizen driven advocacy and action](./?doc=enhancing_pwds_inclusion_in_somalia_through_citizen_driven_advocacy_and_action.md)
 - [enhancing the hill paddy industry in sabah](./?doc=enhancing_the_hill_paddy_industry_in_sabah.md)
+- [experiment: smart gardens that recycle grey water and bio-waste](./?doc=experiment__smart_gardens_that_recycle_grey_water_and_bio_waste.md)
+- [experimenting on seaweed cultivation in the western cape](./?doc=experimenting_on_seaweed_cultivation_in_the_western_cape.md)
 - [experimenting the use educational robots  for speechtherapy](./?doc=experimenting_the_use_educational_robots__for_speechtherapy.md)
+- [experimenting with 'crowdsourcing' ideas for advancing the sdgs in north macedonia](./?doc=experimenting_with__crowdsourcing__ideas_for_advancing_the_sdgs_in_north_macedonia.md)
 - [experimenting with career guidance in jordan](./?doc=experimenting_with_career_guidance_in_jordan.md)
+- [experimenting with chat in career counselling](./?doc=experimenting_with_chat_in_career_counselling.md)
 - [experimenting with creative confidence](./?doc=experimenting_with_creative_confidence.md)
 - [exploring the benefits of rural connectivity](./?doc=exploring_the_benefits_of_rural_connectivity.md)
 - [exploring the establishment](./?doc=exploring_the_establishment.md)
+- [exploring the gender digital divide in semi-rural areas](./?doc=exploring_the_gender_digital_divide_in_semi_rural_areas.md)
 
 
 </div>
@@ -11161,6 +10463,7 @@
 - [governance &amp; prosperity portfolio design](./?doc=governance__amp__prosperity_portfolio_design.md)
 - [green transition - partnership engagement and portfolio activation ](./?doc=green_transition___partnership_engagement_and_portfolio_activation.md)
 - [grounding portfolio approaches at a territorial level](./?doc=grounding_portfolio_approaches_at_a_territorial_level.md)
+- [growing rice, barley, and crayfish in barbados](./?doc=growing_rice__barley__and_crayfish_in_barbados.md)
 
 
 </div>
@@ -11170,26 +10473,21 @@
 <div>
 
 
-#### S
-- [samsung solve for tomorrow challenge - cook islands](./?doc=samsung_solve_for_tomorrow_challenge___cook_islands.md)
-- [scaling circular solutions ](./?doc=scaling_circular_solutions.md)
-- [sedaya (community empowerment hub): exploring micro equity financing for micro enterprises](./?doc=sedaya__community_empowerment_hub___exploring_micro_equity_financing_for_micro_enterprises.md)
-- [she lab - sustainability laboratory for young women](./?doc=she_lab___sustainability_laboratory_for_young_women.md)
-- [smart solar dryer phase 2 scale up - closing](./?doc=smart_solar_dryer_phase_2_scale_up___closing.md)
-- [social cohesion in migrant host communities in the emberá-wounaan territory](./?doc=social_cohesion_in_migrant_host_communities_in_the_ember__wounaan_territory.md)
-- [social entrepreneurship alliance](./?doc=social_entrepreneurship_alliance.md)
-- [social entrepreneurship for improving territorial brand of chernobyl-affected districts](./?doc=social_entrepreneurship_for_improving_territorial_brand_of_chernobyl_affected_districts.md)
-- [solar kitchens - cooking with the right energy!](./?doc=solar_kitchens___cooking_with_the_right_energy_.md)
-- [solid waste management system in coastal areas](./?doc=solid_waste_management_system_in_coastal_areas.md)
-- [solutions catalogue to empower people to tackle air pollution](./?doc=solutions_catalogue_to_empower_people_to_tackle_air_pollution.md)
-- [solutions](./?doc=solutions.md)
-- [songkhla for all: growing a human-centred portfolio on inclusive tourism development](./?doc=songkhla_for_all__growing_a_human_centred_portfolio_on_inclusive_tourism_development.md)
-- [strengthening the entrepreneurial ecosystem in trinidad and tobago](./?doc=strengthening_the_entrepreneurial_ecosystem_in_trinidad_and_tobago.md)
-- [strengthening trade and supply chain for the informal vendors across zambia and namibia for the af…](./?doc=strengthening_trade_and_supply_chain_for_the_informal_vendors_across_zambia_and_namibia_for_the_af_.md)
-- [sustainable transformation of municipal markets in panama: circular economy and zero waste](./?doc=sustainable_transformation_of_municipal_markets_in_panama__circular_economy_and_zero_waste.md)
-- [sustaining and deepening innovation in circular economy portfolio through local governments](./?doc=sustaining_and_deepening_innovation_in_circular_economy_portfolio_through_local_governments.md)
-- [syria's climate foresight](./?doc=syria_s_climate_foresight.md)
-- [syrian local solutions platform](./?doc=syrian_local_solutions_platform.md)
+#### D
+- [data networks for food system transformation](./?doc=data_networks_for_food_system_transformation.md)
+- [de-risking development using digital tools](./?doc=de_risking_development_using_digital_tools.md)
+- [desert forests](./?doc=desert_forests.md)
+- [digital id governance exploration ](./?doc=digital_id_governance_exploration.md)
+- [digital inclusion and future skills pilot ](./?doc=digital_inclusion_and_future_skills_pilot.md)
+- [digital legal identity governance in namibia: creating a whole of society](./?doc=digital_legal_identity_governance_in_namibia__creating_a_whole_of_society.md)
+- [digital nomadism and the future of work: learnings from a case study nomads' destination in the do…](./?doc=digital_nomadism_and_the_future_of_work__learnings_from_a_case_study_nomads__destination_in_the_do_.md)
+- [digital solutions for food markets](./?doc=digital_solutions_for_food_markets.md)
+- [digital transformation of the crvs system in samoa - phase ii completed.](./?doc=digital_transformation_of_the_crvs_system_in_samoa___phase_ii_completed_.md)
+- [digital transformation: piloting of remote remand](./?doc=digital_transformation__piloting_of_remote_remand.md)
+- [digitalization of the offer of products from public markets](./?doc=digitalization_of_the_offer_of_products_from_public_markets.md)
+- [digitization of correspondence in the tax challenge authority (ait)](./?doc=digitization_of_correspondence_in_the_tax_challenge_authority__ait_.md)
+- [disability and elderly care solutions in san martin district, east san salvador](./?doc=disability_and_elderly_care_solutions_in_san_martin_district__east_san_salvador.md)
+- [disability inclusion community of practice ](./?doc=disability_inclusion_community_of_practice.md)
 
 
 </div>
@@ -11200,11 +10498,46 @@
 
 
 #### R
+- [registro único de trabajadores (rut)](./?doc=registro__nico_de_trabajadores__rut_.md)
 - [research and policy experimentation for air quality improvement in viet nam](./?doc=research_and_policy_experimentation_for_air_quality_improvement_in_viet_nam.md)
 - [rethinking social cohesion in panama](./?doc=rethinking_social_cohesion_in_panama.md)
 - [reto de innovación: impulsando los seguros en el turismo comunitario](./?doc=reto_de_innovaci_n__impulsando_los_seguros_en_el_turismo_comunitario.md)
+- [reveal madaba: an open-air exhibition experiment](./?doc=reveal_madaba__an_open_air_exhibition_experiment.md)
 - [revolving fund for community livelihood resilience](./?doc=revolving_fund_for_community_livelihood_resilience.md)
 - [round up financing: fostering resilience through community-based digital financing](./?doc=round_up_financing__fostering_resilience_through_community_based_digital_financing.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### L
+- [latinoamérica 2050](./?doc=latinoam_rica_2050.md)
+- [learnings from codesigning information integrity protocols through multi-stakeholder approach](./?doc=learnings_from_codesigning_information_integrity_protocols_through_multi_stakeholder_approach.md)
+- [learnings on promoting water sustainability with generative ai](./?doc=learnings_on_promoting_water_sustainability_with_generative_ai.md)
+- [lessons learned on using drones for natural resources management. ](./?doc=lessons_learned_on_using_drones_for_natural_resources_management_.md)
+- [leverage data and advanced technology for enhanced crisis risk anticipation and social modelling i…](./?doc=leverage_data_and_advanced_technology_for_enhanced_crisis_risk_anticipation_and_social_modelling_i_.md)
+- [leveraging digital solutions to foster sustainability and circular economy culture in the office ](./?doc=leveraging_digital_solutions_to_foster_sustainability_and_circular_economy_culture_in_the_office.md)
+- [leveraging youth-led solutions to drive socio-economic development. ](./?doc=leveraging_youth_led_solutions_to_drive_socio_economic_development_.md)
+- [leveraging](./?doc=leveraging.md)
+- [los efectos de los pares y las características a nivel individual en las decisiones financieras en…](./?doc=los_efectos_de_los_pares_y_las_caracter_sticas_a_nivel_individual_en_las_decisiones_financieras_en_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### V
+- [vacunas: acceso y desinformación](./?doc=vacunas__acceso_y_desinformaci_n.md)
+- [vannaroith sok](./?doc=vannaroith_sok.md)
+- [visual awareness, digital engagement, community involvement, and partnerships with authorities to …](./?doc=visual_awareness__digital_engagement__community_involvement__and_partnerships_with_authorities_to__.md)
+- [vr pilot for msme caribbean tourism experience, promotion and mental health for persons with disab…](./?doc=vr_pilot_for_msme_caribbean_tourism_experience__promotion_and_mental_health_for_persons_with_disab_.md)
 
 
 </div>
@@ -11226,47 +10559,32 @@
 <div>
 
 
-#### L
-- [learnings from codesigning information integrity protocols through multi-stakeholder approach](./?doc=learnings_from_codesigning_information_integrity_protocols_through_multi_stakeholder_approach.md)
-- [learnings on promoting water sustainability with generative ai](./?doc=learnings_on_promoting_water_sustainability_with_generative_ai.md)
-- [lessons learned on using drones for natural resources management. ](./?doc=lessons_learned_on_using_drones_for_natural_resources_management_.md)
-- [leverage data and advanced technology for enhanced crisis risk anticipation and social modelling i…](./?doc=leverage_data_and_advanced_technology_for_enhanced_crisis_risk_anticipation_and_social_modelling_i_.md)
-- [leveraging digital solutions to foster sustainability and circular economy culture in the office ](./?doc=leveraging_digital_solutions_to_foster_sustainability_and_circular_economy_culture_in_the_office.md)
-- [leveraging youth-led solutions to drive socio-economic development. ](./?doc=leveraging_youth_led_solutions_to_drive_socio_economic_development_.md)
-- [leveraging](./?doc=leveraging.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### D
-- [data networks for food system transformation](./?doc=data_networks_for_food_system_transformation.md)
-- [de-risking development using digital tools](./?doc=de_risking_development_using_digital_tools.md)
-- [desert forests](./?doc=desert_forests.md)
-- [digital id governance exploration ](./?doc=digital_id_governance_exploration.md)
-- [digital legal identity governance in namibia: creating a whole of society](./?doc=digital_legal_identity_governance_in_namibia__creating_a_whole_of_society.md)
-- [digital nomadism and the future of work: learnings from a case study nomads' destination in the do…](./?doc=digital_nomadism_and_the_future_of_work__learnings_from_a_case_study_nomads__destination_in_the_do_.md)
-- [digital transformation of the crvs system in samoa - phase ii completed.](./?doc=digital_transformation_of_the_crvs_system_in_samoa___phase_ii_completed_.md)
-- [disability and elderly care solutions in san martin district, east san salvador](./?doc=disability_and_elderly_care_solutions_in_san_martin_district__east_san_salvador.md)
-- [disability inclusion community of practice ](./?doc=disability_inclusion_community_of_practice.md)
-
-
-</div>
-
-
-
-<div>
-
-
 #### M
 - [making undp bangladesh an ai-savvy country office](./?doc=making_undp_bangladesh_an_ai_savvy_country_office.md)
 - [malaysia accelerator lab innovation toolkit 2024](./?doc=malaysia_accelerator_lab_innovation_toolkit_2024.md)
+- [metropolitan observatory](./?doc=metropolitan_observatory.md)
+- [mi barrio](./?doc=mi_barrio.md)
+- [mineral flow: streamlining mining control through digital innovation](./?doc=mineral_flow__streamlining_mining_control_through_digital_innovation.md)
 - [mise en place d'une plateforme collaborative virtuelle des  acteurs de l'innovation](./?doc=mise_en_place_d_une_plateforme_collaborative_virtuelle_des__acteurs_de_l_innovation.md)
 - [missing title](./?doc=missing_title.md)
+- [monthly memo's](./?doc=monthly_memo_s.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### U
+- [udigital](./?doc=udigital.md)
+- [uncovering new perspectives to mitigate gender based violence.](./?doc=uncovering_new_perspectives_to_mitigate_gender_based_violence_.md)
+- [undp- youth employment portfolio: unraveling and tackling iraq's employment…](./?doc=undp__youth_employment_portfolio__unraveling_and_tackling_iraq_s_employment_.md)
+- [urban innovation bootcamp for local cities in ghana: key takeaways](./?doc=urban_innovation_bootcamp_for_local_cities_in_ghana__key_takeaways.md)
+- [urban waste behaviours](./?doc=urban_waste_behaviours.md)
+- [using multi-media and community engagement approaches to increase participation of women and youth…](./?doc=using_multi_media_and_community_engagement_approaches_to_increase_participation_of_women_and_youth_.md)
+- [utilising the al ghada plant shrub in conservation and tourism](./?doc=utilising_the_al_ghada_plant_shrub_in_conservation_and_tourism.md)
 
 
 </div>
@@ -11279,15 +10597,18 @@
 #### T
 - [tackling flood in kampala city especially the high-density neighbourhoods/slums](./?doc=tackling_flood_in_kampala_city_especially_the_high_density_neighbourhoodsslums.md)
 - [tackling flooding in kampala city especially the high-density neighborhoods/slum areas](./?doc=tackling_flooding_in_kampala_city_especially_the_high_density_neighborhoodsslum_areas.md)
+- [tavarandu, the training of municipal team for participatory governance](./?doc=tavarandu__the_training_of_municipal_team_for_participatory_governance.md)
 - [the future of small island: unveiling the potential of sustainable tourism …](./?doc=the_future_of_small_island__unveiling_the_potential_of_sustainable_tourism__.md)
 - [the future of small islands: unveiling the potential of sustainable tourism and informal economy i…](./?doc=the_future_of_small_islands__unveiling_the_potential_of_sustainable_tourism_and_informal_economy_i_.md)
 - [the green entrepreneurship week-second edition](./?doc=the_green_entrepreneurship_week_second_edition.md)
+- [the tavarandú hackathon: civictech training program for citizen participation](./?doc=the_tavarand__hackathon__civictech_training_program_for_citizen_participation.md)
 - [the waste banks project](./?doc=the_waste_banks_project.md)
 - [top key insights generated through this learning challenge are:](./?doc=top_key_insights_generated_through_this_learning_challenge_are_.md)
 - [transformer l'agriculture avec l'irrigation innovante au niger.](./?doc=transformer_l_agriculture_avec_l_irrigation_innovante_au_niger_.md)
 - [transforming publicly funded r&amp;d into innovative start-ups](./?doc=transforming_publicly_funded_r_amp_d_into_innovative_start_ups.md)
 - [transforming the public sector through innovation and digital transformation](./?doc=transforming_the_public_sector_through_innovation_and_digital_transformation.md)
 - [transport innovation challenge](./?doc=transport_innovation_challenge.md)
+- [trash to treasure](./?doc=trash_to_treasure.md)
 - [tunisia innovation network](./?doc=tunisia_innovation_network.md)
 
 
@@ -11299,9 +10620,13 @@
 
 
 #### B
+- [behavioural study for the indonesian interfaith waste charity movement](./?doc=behavioural_study_for_the_indonesian_interfaith_waste_charity_movement.md)
 - [biowaste and circularity ](./?doc=biowaste_and_circularity.md)
 - [biowaste resource for the private and public sector](./?doc=biowaste_resource_for_the_private_and_public_sector.md)
+- [blockchain solution for food systems](./?doc=blockchain_solution_for_food_systems.md)
+- [bono fácil: bringing benefits closer to mothers](./?doc=bono_f_cil__bringing_benefits_closer_to_mothers.md)
 - [bootcamp de  mapeo de soluciones : ¿ cuál podría ser el ciclo de implementación para el desarrollo…](./?doc=bootcamp_de__mapeo_de_soluciones_____cu_l_podr_a_ser_el_ciclo_de_implementaci_n_para_el_desarrollo_.md)
+- [breaking barriers_un gender group](./?doc=breaking_barriers_un_gender_group.md)
 - [bridging indigenous information systems with digital technology in the amazon - learnings](./?doc=bridging_indigenous_information_systems_with_digital_technology_in_the_amazon___learnings.md)
 - [bridging indigenous information systems with digital technology in the amazon](./?doc=bridging_indigenous_information_systems_with_digital_technology_in_the_amazon.md)
 
@@ -11314,6 +10639,7 @@
 
 
 #### O
+- [ocean innovation challenge](./?doc=ocean_innovation_challenge.md)
 - [opening q1 2024 - renewable energy.](./?doc=opening_q1_2024___renewable_energy_.md)
 - [opening q1 2024 – artificial intelligence](./?doc=opening_q1_2024___artificial_intelligence.md)
 - [opening q1 2024 – resilience and climate action](./?doc=opening_q1_2024___resilience_and_climate_action.md)
@@ -11338,22 +10664,6 @@
 <div>
 
 
-#### U
-- [udigital](./?doc=udigital.md)
-- [uncovering new perspectives to mitigate gender based violence.](./?doc=uncovering_new_perspectives_to_mitigate_gender_based_violence_.md)
-- [undp- youth employment portfolio: unraveling and tackling iraq's employment…](./?doc=undp__youth_employment_portfolio__unraveling_and_tackling_iraq_s_employment_.md)
-- [urban innovation bootcamp for local cities in ghana: key takeaways](./?doc=urban_innovation_bootcamp_for_local_cities_in_ghana__key_takeaways.md)
-- [urban waste behaviours](./?doc=urban_waste_behaviours.md)
-- [using multi-media and community engagement approaches to increase participation of women and youth…](./?doc=using_multi_media_and_community_engagement_approaches_to_increase_participation_of_women_and_youth_.md)
-
-
-</div>
-
-
-
-<div>
-
-
 #### Q
 - [q2 2024 – artificial intelligence, data and digitalization ](./?doc=q2_2024___artificial_intelligence__data_and_digitalization.md)
 - [q2-2024: horizon scanning with qualitative and quantitative data](./?doc=q2_2024__horizon_scanning_with_qualitative_and_quantitative_data.md)
@@ -11369,7 +10679,23 @@
 <div>
 
 
+#### N
+- [netxtudo24 – learning networks in elementary schools](./?doc=netxtudo24___learning_networks_in_elementary_schools.md)
+- [night time economy in da nang](./?doc=night_time_economy_in_da_nang.md)
+- [no waste fest](./?doc=no_waste_fest.md)
+- [nomadismo digital: diseño y prueba de herramientas de evaluación de destinos en república dominica…](./?doc=nomadismo_digital__dise_o_y_prueba_de_herramientas_de_evaluaci_n_de_destinos_en_rep_blica_dominica_.md)
+- [nous avons été confrontés à un problème d'inadéquation des équipements de b…](./?doc=nous_avons__t__confront_s___un_probl_me_d_inad_quation_des__quipements_de_b_.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### J
+- [jamila mohammed](./?doc=jamila_mohammed.md)
 - [justice system transformation](./?doc=justice_system_transformation.md)
 
 
@@ -11391,10 +10717,9 @@
 <div>
 
 
-#### N
-- [netxtudo24 – learning networks in elementary schools](./?doc=netxtudo24___learning_networks_in_elementary_schools.md)
-- [nomadismo digital: diseño y prueba de herramientas de evaluación de destinos en república dominica…](./?doc=nomadismo_digital__dise_o_y_prueba_de_herramientas_de_evaluaci_n_de_destinos_en_rep_blica_dominica_.md)
-- [nous avons été confrontés à un problème d'inadéquation des équipements de b…](./?doc=nous_avons__t__confront_s___un_probl_me_d_inad_quation_des__quipements_de_b_.md)
+#### H
+- [hechakuaa: the citizen lab to collaborate and create collectively](./?doc=hechakuaa__the_citizen_lab_to_collaborate_and_create_collectively.md)
+- [hydroponic agriculture technology experimentation](./?doc=hydroponic_agriculture_technology_experimentation.md)
 
 
 </div>
@@ -11406,18 +10731,6 @@
 
 #### Y
 - [youth](./?doc=youth.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### V
-- [visual awareness, digital engagement, community involvement, and partnerships with authorities to …](./?doc=visual_awareness__digital_engagement__community_involvement__and_partnerships_with_authorities_to__.md)
-- [vr pilot for msme caribbean tourism experience, promotion and mental health for persons with disab…](./?doc=vr_pilot_for_msme_caribbean_tourism_experience__promotion_and_mental_health_for_persons_with_disab_.md)
 
 
 </div>
@@ -11467,6 +10780,22 @@
 <div>
 
 
+#### S
+- [scaling and standardizing agro-libraries in türkiye](./?doc=scaling_and_standardizing_agro_libraries_in_t_rkiye.md)
+- [scaling microinsurance for waste pickers](./?doc=scaling_microinsurance_for_waste_pickers.md)
+- [social tension early warning system | horizon 360](./?doc=social_tension_early_warning_system___horizon_360.md)
+- [sol en casa (sec) - jujuy](./?doc=sol_en_casa__sec____jujuy.md)
+- [sustain the “tunisia innovation network”](./?doc=sustain_the__tunisia_innovation_network_.md)
+- [sustainable transformation of municipal markets in panama: circular economy…](./?doc=sustainable_transformation_of_municipal_markets_in_panama__circular_economy_.md)
+
+
+</div>
+
+
+
+<div>
+
+
 #### C
 - [catalyzing change: a five-year roadmap for urban sustainability and innovation](./?doc=catalyzing_change__a_five_year_roadmap_for_urban_sustainability_and_innovation.md)
 - [circular economy investments powered by ai and blockchain](./?doc=circular_economy_investments_powered_by_ai_and_blockchain.md)
@@ -11505,12 +10834,10 @@
 <div>
 
 
-#### S
-- [scaling and standardizing agro-libraries in türkiye](./?doc=scaling_and_standardizing_agro_libraries_in_t_rkiye.md)
-- [scaling microinsurance for waste pickers](./?doc=scaling_microinsurance_for_waste_pickers.md)
-- [social tension early warning system | horizon 360](./?doc=social_tension_early_warning_system___horizon_360.md)
-- [sustain the “tunisia innovation network”](./?doc=sustain_the__tunisia_innovation_network_.md)
-- [sustainable transformation of municipal markets in panama: circular economy…](./?doc=sustainable_transformation_of_municipal_markets_in_panama__circular_economy_.md)
+#### A
+- [a place for your voice: first steps toward a citizen request center](./?doc=a_place_for_your_voice__first_steps_toward_a_citizen_request_center.md)
+- [ai for inclusive voice and participation](./?doc=ai_for_inclusive_voice_and_participation.md)
+- [ai powered rangeland monitoring, reporting and verification system](./?doc=ai_powered_rangeland_monitoring__reporting_and_verification_system.md)
 
 
 </div>
@@ -11520,9 +10847,10 @@
 <div>
 
 
-#### A
-- [ai for inclusive voice and participation](./?doc=ai_for_inclusive_voice_and_participation.md)
-- [ai powered rangeland monitoring, reporting and verification system](./?doc=ai_powered_rangeland_monitoring__reporting_and_verification_system.md)
+#### D
+- [digital agroenergy: sustainable innovation in agri-food development (aida)](./?doc=digital_agroenergy__sustainable_innovation_in_agri_food_development__aida_.md)
+- [digital hate speech in syria](./?doc=digital_hate_speech_in_syria.md)
+- [disability for peace](./?doc=disability_for_peace.md)
 
 
 </div>
@@ -11544,9 +10872,9 @@
 <div>
 
 
-#### E
-- [exploring artificial intelligence in the orange economy: closure](./?doc=exploring_artificial_intelligence_in_the_orange_economy__closure.md)
-- [exploring artificial intelligence in the orange economy](./?doc=exploring_artificial_intelligence_in_the_orange_economy.md)
+#### L
+- [learning by testing: generative ai for agile and anticipatory water planning](./?doc=learning_by_testing__generative_ai_for_agile_and_anticipatory_water_planning.md)
+- [leveraging community action for sustainable e-waste management in zugdidi, georgia](./?doc=leveraging_community_action_for_sustainable_e_waste_management_in_zugdidi__georgia.md)
 
 
 </div>
@@ -11556,8 +10884,9 @@
 <div>
 
 
-#### L
-- [learning by testing: generative ai for agile and anticipatory water planning](./?doc=learning_by_testing__generative_ai_for_agile_and_anticipatory_water_planning.md)
+#### E
+- [exploring artificial intelligence in the orange economy: closure](./?doc=exploring_artificial_intelligence_in_the_orange_economy__closure.md)
+- [exploring artificial intelligence in the orange economy](./?doc=exploring_artificial_intelligence_in_the_orange_economy.md)
 
 
 </div>
@@ -11626,20 +10955,9 @@
 <div>
 
 
-#### D
-- [digital agroenergy: sustainable innovation in agri-food development (aida)](./?doc=digital_agroenergy__sustainable_innovation_in_agri_food_development__aida_.md)
-- [digital hate speech in syria](./?doc=digital_hate_speech_in_syria.md)
-
-
-</div>
-
-
-
-<div>
-
-
 #### U
 - [unlocking digital agriculture - what can we learn from the solutions?](./?doc=unlocking_digital_agriculture___what_can_we_learn_from_the_solutions_.md)
+- [unpaid care, disability and gender transformative approach](./?doc=unpaid_care__disability_and_gender_transformative_approach.md)
 
 
 </div>
