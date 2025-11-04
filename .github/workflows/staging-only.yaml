@@ -1,0 +1,55 @@
+name: Deployment
+
+on:
+  push:
+    tags:
+      - 'staging-v*'
+
+jobs:
+  build_pipeline:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags --force
+
+      - name: Docker login
+        uses: azure/docker-login@v2
+        with:
+          login-server: acclabdocker.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Set env
+        run: echo "IMAGE_TAG=$(make -s name)" >> $GITHUB_ENV
+
+      - name: Build docker image
+        run: |
+          make -s build
+
+      - name: Push docker image
+        run: |
+          make -s dockerpush
+
+  deploy_staging_pipeline:
+    name: Deploy Staging
+    needs: build_pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch tags
+        run: git fetch --prune --unshallow --tags --force
+
+      - name: Set env
+        run: echo "IMAGE_TAG=$(make -s name)" >> $GITHUB_ENV
+
+      - uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'staging-sdg-innovation-commons'
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_STAGING }}
+          images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'

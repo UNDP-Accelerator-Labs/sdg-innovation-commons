@@ -29,22 +29,57 @@ export async function generateMetadata(
   );
   const [datum] = data;
   let { title, vignette, snippet } = datum || {};
-  const previousImages = (await parent)?.openGraph?.images || [];
+
+  const metadataBase = new URL('https://sdg-innovation-commons.org');
+  const previousImagesRaw = (await parent)?.openGraph?.images || [];
+
+  // normalize previous images to string[]
+  const previousImages = Array.isArray(previousImagesRaw)
+    ? (previousImagesRaw as string[])
+    : previousImagesRaw
+    ? [String(previousImagesRaw)]
+    : [];
+
+  // make vignette absolute if present
+  const vignetteAbs =
+    vignette && /^https?:\/\//i.test(vignette)
+      ? vignette
+      : vignette
+      ? new URL(vignette, metadataBase).toString()
+      : undefined;
+
+  // build images array and filter falsy
+  const images = [
+    ...(vignetteAbs ? [vignetteAbs] : []),
+    ...previousImages,
+  ].filter(Boolean) as string[];
+
+  // fallback to dynamic OG generator if no image available
+  const fallbackOg = new URL(
+    `/api/og?title=${encodeURIComponent(title || 'SDG Commons')}&subtitle=${encodeURIComponent(snippet || '')}`,
+    metadataBase
+  ).toString();
+
+  if (images.length === 0) images.push(fallbackOg);
 
   const metadata: Metadata = {
-    title,
-    description: snippet,
+    title: title || 'SDG Commons',
+    description: snippet || '',
     openGraph: {
-      images: [vignette, ...previousImages],
+      images,
     },
-    metadataBase: new URL('https://sdg-innovation-commons.org'),
+    twitter: {
+      card: 'summary_large_image',
+      images: images[0] ? [images[0]] : [fallbackOg],
+    },
+    metadataBase,
   };
 
   // Add robots metadata if in staging environment
   if (PROD_ENV === 'staging') {
-    metadata.robots = 'noindex, nofollow';
+    (metadata as any).robots = 'noindex, nofollow';
   }
-  
+
   return metadata;
 }
 
