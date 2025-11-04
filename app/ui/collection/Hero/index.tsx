@@ -60,6 +60,15 @@ export default function Hero({
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
+     // Sanitize the text content
+    let sanitizedDescription = DOMPurify.sanitize(description);
+
+    // Add required class to all <a> tags using a regular expression
+    sanitizedDescription = sanitizedDescription.replace(
+        /<a\s+/g,
+        '<a target="_blank" class="text-blue-500 cursor-pointer" '
+    );
+
     return (
         <>
         <section className='relative home-section pb-[40px] pt-[160px] lg:py-[80px] overflow-hidden min-h-[100vh] h-full lg:flex items-center'>
@@ -100,7 +109,7 @@ export default function Hero({
                                         <span>{title}</span>
                                     </span>
                                 </h1>
-                                <p className='mb-[40px]' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(description) }} ></p>
+                                <p className='mb-[40px]' dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(sanitizedDescription) }} ></p>
                             </div>
                             <div className='flex flex-wrap flex-row gap-1.5 mb-[20px] mt-[40px]'>
                                 {tags.highlight.map((d: any, i: number) => (
