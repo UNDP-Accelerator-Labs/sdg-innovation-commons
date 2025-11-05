@@ -80,13 +80,10 @@ def setListItems (file, structure):
 		
 		if k != 'alphabetical':
 			if isinstance(d, dict):
-				v = d['value'][0]
-				"""
-				TO DO: In the regex line below, find a way to iterate over d['value'].
-				Probably something like this:
-					re.findall(fr'\[\[{k}:[{'|'.join(v)}]\]\]', text)
-				"""
-				md_tags = re.findall(fr'\[\[{k}:{v}\]\]', text)
+				# Handle multiple values in the type definition
+				md_tags = []
+				for v in d['value']:
+					md_tags.extend(re.findall(fr'\[\[{k}:{v}\]\]', text))
 			else:
 				md_tags = re.findall(fr'\[\[{k}:[\w\s\d\.,]*\]\]', text)
 			md_tag_values = [re.sub(r'[\[\]]*', '', t).replace(f'{k}:', '') for t in md_tags]
@@ -120,30 +117,43 @@ def setListItems (file, structure):
 					subtrees.append(f'{tree}|None')
 			trees = subtrees
 
-	return (f'- [{title}](./?doc={filename})', trees)
+	return (f'- [{title}](./?doc={quote(filename)})', trees)
 
 def filterRelevantFiles (basepath, structure):
 	files = [f for f in listdir(basepath) if isfile(join(basepath, f)) and f != '.DS_Store']
 	relevantFiles = []
+	
+	# Find the first dict entry which should contain the type filter
+	type_filter = None
+	for d in structure['ordered_keys']:
+		if isinstance(d, dict):
+			type_filter = d
+			break
+	
+	# If no type filter is found, include all files (fallback to original behavior)
+	if type_filter is None:
+		for f in files:
+			text = getText(join(basepath, f))
+			relevantFiles.append((f, text))
+		return relevantFiles
+	
+	# Filter files based on type definitions
 	for f in files:
 		text = getText(join(basepath, f))
-		for d in structure['ordered_keys']:
-			if isinstance(d, dict):
-				k = d['key']
-				v = d['value'][0]
-				"""
-				TO DO: In the regex line below, find a way to iterate over d['value'].
-				Probably something like this:
-					re.findall(fr'\[\[{k}:[{'|'.join(v)}]\]\]', text)
-				"""
-				pattern = re.compile(fr'\[\[{k}:{v}\]\]', re.MULTILINE)
-			else:
-				k = d
-				pattern = re.compile(fr'\[\[{k}:[\w\s\d\.]+\]\]', re.MULTILINE)
-			
+		file_matches = False
+		
+		# Check if file contains any of the required types
+		k = type_filter['key']
+		for v in type_filter['value']:
+			pattern = re.compile(fr'\[\[{k}:{v}\]\]', re.MULTILINE)
 			if pattern.search(text):
-				if f not in [_f for (_f,_t) in relevantFiles]:
-					relevantFiles.append((f, text))
+				file_matches = True
+				break
+		
+		# Only add file if it matches one of the required types
+		if file_matches:
+			relevantFiles.append((f, text))
+	
 	return relevantFiles
 
 def setSections (items):

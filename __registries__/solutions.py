@@ -1,8 +1,9 @@
 tree = {
-	'title': 'What we saw',
+	'title': 'What We Saw',
 	'ordered_keys': [
 		{ 'key': 'type', 'value': ['solution'] },
-		'year',
-		'alphabetical',
+        'continent',
+		'country',
+		# 'alphabetical',
 	]
 }

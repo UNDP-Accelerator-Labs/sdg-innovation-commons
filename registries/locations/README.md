@@ -2399,6 +2399,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["improving productivity and incomes for women artisanal small-scale miners in zambia through r&d collaboration"](./?doc=Experimenters_ZMB.md)
+- [zambia's informal cross-border traders adapt to covid-19 with digital village saving model](./?doc=SolutionMappers_ZMB.md)
+
+
+</div>
+
+
 </div>
 
 ### Ethiopia
@@ -2454,7 +2466,6 @@
 
 
 #### 2022
-- [[[focal_point:amanuel.tadesse@undp.org]]](./?doc=.md)
 - [across express](./?doc=across_express.md)
 - [amsale barega weldesenbet](./?doc=amsale_barega_weldesenbet.md)
 - [anti striga (weed) biological solution](./?doc=anti_striga__weed__biological_solution.md)
@@ -2522,6 +2533,7 @@
 - [the pandemic triggered an unprecedented demand for digital technology solut…](./?doc=the_pandemic_triggered_an_unprecedented_demand_for_digital_technology_solut_.md)
 - [tikikil stove](./?doc=tikikil_stove.md)
 - [to establish vermin-shed (plant) that produce high quality of soil amendmen…](./?doc=to_establish_vermin_shed__plant__that_produce_high_quality_of_soil_amendmen_.md)
+- [to produce high quality pulp and paper for the production of biodegradable packaging materials ](./?doc=.md)
 - [to produce particleboard using coffee solid waste (coffee parchment) as a r…](./?doc=to_produce_particleboard_using_coffee_solid_waste__coffee_parchment__as_a_r_.md)
 - [to use bagasse, coffee husk and khat for the production of energy (high cal…](./?doc=to_use_bagasse__coffee_husk_and_khat_for_the_production_of_energy__high_cal_.md)
 - [tripways](./?doc=tripways.md)
@@ -2582,6 +2594,17 @@
 - [global network of digital agriculture innovation hubs](./?doc=global_network_of_digital_agriculture_innovation_hubs.md)
 - [the nextgen agroadvisory](./?doc=the_nextgen_agroadvisory.md)
 - [the open forum on agricultural techonology in africa (ofab)](./?doc=the_open_forum_on_agricultural_techonology_in_africa__ofab_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [ethiopia’s innovative nature-based solution for striker weed in cereal crop production](./?doc=Experimenters_ETH.md)
 
 
 </div>
@@ -2671,6 +2694,17 @@
 
 #### 2024
 - [the green entrepreneurship week-second edition](./?doc=the_green_entrepreneurship_week_second_edition.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["unlocking local governance in algeria: the accelerator lab's experimentation approach"](./?doc=Experimenters_DZA.md)
 
 
 </div>
@@ -2872,6 +2906,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["uganda develops national digital transformation road map through undp r&d efforts"](./?doc=Experimenters_UGA.md)
+
+
+</div>
+
+
 </div>
 
 ### Angola
@@ -3015,6 +3060,17 @@
 
 #### 2025
 - [crowdfunding tourism](./?doc=crowdfunding_tourism.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["angola's future of work initiative: mapping partnerships for employment growth"](./?doc=SolutionMappers_AGO.md)
 
 
 </div>
@@ -3221,6 +3277,17 @@
 - [leveraging digital solutions to foster sustainability and circular economy culture in the office ](./?doc=leveraging_digital_solutions_to_foster_sustainability_and_circular_economy_culture_in_the_office.md)
 - [missing title](./?doc=missing_title.md)
 - [zliten rising groundwater levels: a collective intelligence approach](./?doc=zliten_rising_groundwater_levels__a_collective_intelligence_approach.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [libya's emergency response to groundwater surfaces.](./?doc=Experimenters_LBY.md)
 
 
 </div>
@@ -3455,6 +3522,18 @@
 
 #### 2025
 - [management of single use diapers 2.0](./?doc=management_of_single_use_diapers_2_0.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [eswatini harnesses ai for digital inclusion](./?doc=Experimenter_SWZ.md)
+- [eswatini's solutions mapping initiative reduces plastic bag waste.](./?doc=SolutionMappers_SWZ.md)
 
 
 </div>
@@ -3849,6 +3928,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [solutions mapping accelerator labs: empowering youth innovators in sierra leone](./?doc=SolutionMappers_SLE.md)
+
+
+</div>
+
+
 </div>
 
 ### Nigeria
@@ -3931,6 +4021,17 @@
 
 #### 2025
 - [the open forum on agricultural techonology in africa (ofab)](./?doc=the_open_forum_on_agricultural_techonology_in_africa__ofab_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [accelerating innovation hubs in nigeria: jamila mohammed's sdgs acceleration efforts](./?doc=Experimenters_NGA.md)
 
 
 </div>
@@ -4047,6 +4148,18 @@
 - [village chicken layering](./?doc=village_chicken_layering.md)
 - [youth empowerment in agriculture](./?doc=youth_empowerment_in_agriculture.md)
 - [zamappstore](./?doc=zamappstore.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["tanzania: accelerator lab's innovative approach to solid waste management"](./?doc=SolutionMappers_TZA.md)
+- [tanzania's tourism sector builds resilience with ai-powered insights](./?doc=Experimenters_TZA.md)
 
 
 </div>
@@ -4327,6 +4440,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [rwanda's robotics revolution: transforming hospital efficiency through innovation.](./?doc=Explorers_RWA.md)
+
+
+</div>
+
+
 </div>
 
 ### Madagascar
@@ -4600,6 +4724,100 @@
 #### 2025
 - [hi saai: artificial intelligence platform for family farmers](./?doc=hi_saai__artificial_intelligence_platform_for_family_farmers.md)
 - [taat maize compact](./?doc=taat_maize_compact.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [smart agri gardens in rural south africa](./?doc=Experimenters_ZAF.md)
+
+
+</div>
+
+
+</div>
+
+### Somalia
+
+<div class="multicol">
+
+
+<div>
+
+
+#### 2020
+- [heyle bariise technical development](./?doc=heyle_bariise_technical_development.md)
+- [safety4all](./?doc=safety4all.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2021
+- [behavioural insights for youth entrepreneurship](./?doc=behavioural_insights_for_youth_entrepreneurship.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2022
+- [closing first learning cycle: dppd pilot](./?doc=closing_first_learning_cycle__dppd_pilot.md)
+- [closing of learning cycle: behavioural insights for youth enterpraneurship ](./?doc=closing_of_learning_cycle__behavioural_insights_for_youth_enterpraneurship.md)
+- [finding positive deviants among pastoral communities in somalia.](./?doc=finding_positive_deviants_among_pastoral_communities_in_somalia_.md)
+- [quality of education and knowledge management in somalia's innovation ecosy…](./?doc=quality_of_education_and_knowledge_management_in_somalia_s_innovation_ecosy_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2023
+- [dppd pilot: a scale up plan](./?doc=dppd_pilot__a_scale_up_plan.md)
+- [financial inclusion](./?doc=financial_inclusion.md)
+- [quality of education and knowledge](./?doc=quality_of_education_and_knowledge.md)
+- [telemedicine](./?doc=telemedicine.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2024
+- [enhancing pwds inclusion in somalia through citizen driven advocacy and action](./?doc=enhancing_pwds_inclusion_in_somalia_through_citizen_driven_advocacy_and_action.md)
+- [justice system transformation](./?doc=justice_system_transformation.md)
+- [scaling the practices &amp; strategies of outperforming rangeland communities in somalia ](./?doc=scaling_the_practices__amp__strategies_of_outperforming_rangeland_communities_in_somalia.md)
+- [what did we learn from telemedicine?](./?doc=what_did_we_learn_from_telemedicine_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [resilience in somalia through data-driven positive deviance pilot](./?doc=Explorers_SOM.md)
+- [somalia's positive deviance approach to scaling up resilient agricultural practices](./?doc=Experimenters_SOM.md)
 
 
 </div>
@@ -5053,6 +5271,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["empowering street youth in cameroon through solar power mobile kiosk initiative"](./?doc=Experimenters_CMR.md)
+
+
+</div>
+
+
 </div>
 
 ### Namibia
@@ -5125,6 +5354,18 @@
 - [complex connections: learning from individuals experiencing homelessness](./?doc=complex_connections__learning_from_individuals_experiencing_homelessness.md)
 - [digital legal identity governance in namibia: creating a whole of society](./?doc=digital_legal_identity_governance_in_namibia__creating_a_whole_of_society.md)
 - [strengthening trade and supply chain for the informal vendors across zambia and namibia for the af…](./?doc=strengthening_trade_and_supply_chain_for_the_informal_vendors_across_zambia_and_namibia_for_the_af_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["co-creating innovation: a public service toolkit development initiative in namibia"](./?doc=Experimenters_NAM.md)
+- [solutions mapper-namibia-om seed initiative](./?doc=SolutionMappers_NAM.md)
 
 
 </div>
@@ -5243,7 +5484,7 @@
 
 
 #### 2023
-- [- ](./?doc=_.md)
+- [2023 sudan learning plan](./?doc=_.md)
 - [collective intelligence design studio- climate crisis](./?doc=collective_intelligence_design_studio__climate_crisis.md)
 - [cross-border collaboration programme](./?doc=cross_border_collaboration_programme.md)
 - [enterprise recovery in conflict-affect sudan](./?doc=enterprise_recovery_in_conflict_affect_sudan.md)
@@ -5259,6 +5500,17 @@
 
 #### 2025
 - [agri-cab](./?doc=agri_cab.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [sudan's innovative partnership model for food security and employment generates impact.](./?doc=Experimenter_SDN.md)
 
 
 </div>
@@ -5373,6 +5625,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [ghana's digital gateway for msmes: enhancing inclusive business growth](./?doc=Explorers_GHA.md)
+- [solutions mapping for kente weavers in ghana](./?doc=SolutionMappers_GHA.md)
+
+
+</div>
+
+
 </div>
 
 ### Zimbabwe
@@ -5454,6 +5718,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [" mapping innovation in zimbabwe: leveraging technology for sustainable development"](./?doc=Explorers_ZWE.md)
+- [zimbabwe: mapping solutions for women's business continuity amid covid-19](./?doc=SolutionMappers_ZWE.md)
+
+
+</div>
+
+
 </div>
 
 ### South sudan
@@ -5507,9 +5783,21 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [digitalization of traditional sanduk savings initiative in south sudan](./?doc=Experimenters_SSD.md)
+- [digitizing traditional savings schemes in south sudan](./?doc=SolutionMappers_SSD.md)
+
+
 </div>
 
-### Somalia
+
+</div>
+
+### Democratic republic of congo
 
 <div class="multicol">
 
@@ -5517,62 +5805,26 @@
 <div>
 
 
-#### 2020
-- [heyle bariise technical development](./?doc=heyle_bariise_technical_development.md)
-- [safety4all](./?doc=safety4all.md)
+#### Undefined year
+- [democratic republic of congo: fighting corruption through innovative justice administration solutions](./?doc=SolutionMappers_COD.md)
+- [digitalizing justice system for anti corruption in democratic republic of congo.](./?doc=Experimenters_COD.md)
 
 
 </div>
 
 
-
-<div>
-
-
-#### 2021
-- [behavioural insights for youth entrepreneurship](./?doc=behavioural_insights_for_youth_entrepreneurship.md)
-
-
 </div>
 
+### Guinea bissau
+
+<div class="multicol">
 
 
 <div>
 
 
-#### 2022
-- [closing first learning cycle: dppd pilot](./?doc=closing_first_learning_cycle__dppd_pilot.md)
-- [closing of learning cycle: behavioural insights for youth enterpraneurship ](./?doc=closing_of_learning_cycle__behavioural_insights_for_youth_enterpraneurship.md)
-- [finding positive deviants among pastoral communities in somalia.](./?doc=finding_positive_deviants_among_pastoral_communities_in_somalia_.md)
-- [quality of education and knowledge management in somalia's innovation ecosy…](./?doc=quality_of_education_and_knowledge_management_in_somalia_s_innovation_ecosy_.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### 2023
-- [dppd pilot: a scale up plan](./?doc=dppd_pilot__a_scale_up_plan.md)
-- [financial inclusion](./?doc=financial_inclusion.md)
-- [quality of education and knowledge](./?doc=quality_of_education_and_knowledge.md)
-- [telemedicine](./?doc=telemedicine.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### 2024
-- [enhancing pwds inclusion in somalia through citizen driven advocacy and action](./?doc=enhancing_pwds_inclusion_in_somalia_through_citizen_driven_advocacy_and_action.md)
-- [justice system transformation](./?doc=justice_system_transformation.md)
-- [scaling the practices &amp; strategies of outperforming rangeland communities in somalia ](./?doc=scaling_the_practices__amp__strategies_of_outperforming_rangeland_communities_in_somalia.md)
-- [what did we learn from telemedicine?](./?doc=what_did_we_learn_from_telemedicine_.md)
+#### Undefined year
+- [solutions mapping for public spaces in guinea bissau](./?doc=SolutionMappers_GNB.md)
 
 
 </div>
@@ -5727,6 +5979,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [togo innovates: boosting university-industry collaboration for sustainable development](./?doc=Explorers_TGO.md)
+- [togo's digitalization of birth registry through accelerator lab solutions.](./?doc=SolutionMappers_TGO.md)
+
+
+</div>
+
+
 </div>
 
 ### Malawi
@@ -5815,6 +6079,19 @@
 
 #### 2025
 - [the open forum on agricultural techonology in africa (ofab)](./?doc=the_open_forum_on_agricultural_techonology_in_africa__ofab_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [ai for tourism development in malawi](./?doc=Explorers_MWI.md)
+- [changing the narrative around digital education in malawi](./?doc=SolutionMappers_MWI.md)
+- [malawi accelerator lab: developing local innovation solutions for governance challenges](./?doc=Experimenters_MWI.md)
 
 
 </div>
@@ -6009,6 +6286,35 @@
 - [taat maize compact](./?doc=taat_maize_compact.md)
 - [the connected farmer alliance (cfa)](./?doc=the_connected_farmer_alliance__cfa_.md)
 - [the open forum on agricultural techonology in africa (ofab)](./?doc=the_open_forum_on_agricultural_techonology_in_africa__ofab_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [mozambique's youth employment portfolio initiative](./?doc=Explorers_MOZ.md)
+- [solutions mapping in mozambique to improve clean energy adoption](./?doc=SolutionMappers_MOZ.md)
+
+
+</div>
+
+
+</div>
+
+### Gambia
+
+<div class="multicol">
+
+
+<div>
+
+
+#### Undefined year
+- [gambia accelerator lab develops secular economy mapping for waste management innovation.](./?doc=Experimenters_GMB.md)
 
 
 </div>
@@ -6341,6 +6647,18 @@
 
 #### 2025
 - [sustainable transformation of municipal markets in panama: circular economy…](./?doc=sustainable_transformation_of_municipal_markets_in_panama__circular_economy_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["panama's social cohesion initiative: bridging trust and democracy through r&d"](./?doc=Experimenters_PAN.md)
+- [building a network to accelerate change in circular economy in panama](./?doc=SolutionMappers_PAN.md)
 
 
 </div>
@@ -6878,6 +7196,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["addressing polarization in guatemala: a national development report localization effort"](./?doc=Experimenters_GTM.md)
+- ["guatemala's climate challenge: collaborative innovation for sustainable solid waste management"](./?doc=Explorers_GTM.md)
+
+
+</div>
+
+
 </div>
 
 ### Barbados
@@ -7244,85 +7574,14 @@
 </div>
 
 
-</div>
-
-### Canada
-
-<div class="multicol">
-
 
 <div>
 
 
-#### 2020
-- [plastic bag boxes](./?doc=plastic_bag_boxes.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### 2022
-- [deep lake water cooling](./?doc=deep_lake_water_cooling.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### 2023
-- [awnings](./?doc=awnings.md)
-- [berg chilling systems](./?doc=berg_chilling_systems.md)
-- [brise soleil](./?doc=brise_soleil.md)
-- [c40 cities](./?doc=c40_cities.md)
-- [cellulose insulation](./?doc=cellulose_insulation.md)
-- [chimney effect](./?doc=chimney_effect.md)
-- [cooling centers](./?doc=cooling_centers.md)
-- [deep water source cooling](./?doc=deep_water_source_cooling.md)
-- [ensure a functional health system](./?doc=ensure_a_functional_health_system.md)
-- [external shutters](./?doc=external_shutters.md)
-- [geothermal cooling system system in richmond hill, ontario](./?doc=geothermal_cooling_system_system_in_richmond_hill__ontario.md)
-- [ground source cooling system](./?doc=ground_source_cooling_system.md)
-- [ground-coupled heat exchangers](./?doc=ground_coupled_heat_exchangers.md)
-- [hydro place](./?doc=hydro_place.md)
-- [improve communication of heat health-relevant information](./?doc=improve_communication_of_heat_health_relevant_information.md)
-- [isothermal compression](./?doc=isothermal_compression.md)
-- [lake ontario cooling system](./?doc=lake_ontario_cooling_system.md)
-- [overhangs](./?doc=overhangs.md)
-- [passive chilled beams](./?doc=passive_chilled_beams.md)
-- [porches](./?doc=porches.md)
-- [race to zero global campaign](./?doc=race_to_zero_global_campaign.md)
-- [radiant cooling paint](./?doc=radiant_cooling_paint.md)
-- [roof pond](./?doc=roof_pond.md)
-- [roof sprinklers](./?doc=roof_sprinklers.md)
-- [solar shading](./?doc=solar_shading.md)
-- [subsurface earth tubes](./?doc=subsurface_earth_tubes.md)
-- [the global covenant of mayors on climate action](./?doc=the_global_covenant_of_mayors_on_climate_action.md)
-- [trombe wall retrofit](./?doc=trombe_wall_retrofit.md)
-- [vertical green walls](./?doc=vertical_green_walls.md)
-- [water mist fire suppression systems](./?doc=water_mist_fire_suppression_systems.md)
-
-
-</div>
-
-
-
-<div>
-
-
-#### 2024
-- [15-minute city](./?doc=15_minute_city.md)
-- [breathelife](./?doc=breathelife.md)
-- [building suburban bike culture with community bike hubs](./?doc=building_suburban_bike_culture_with_community_bike_hubs.md)
-- [canada greener homes initiative](./?doc=canada_greener_homes_initiative.md)
-- [green roof incentive program and bylaw](./?doc=green_roof_incentive_program_and_bylaw.md)
-- [waste-to-energy (wte) plants](./?doc=waste_to_energy__wte__plants.md)
+#### Undefined year
+- ["unlocking safety for women in mexico city: a data-powered positive deviance approach"](./?doc=Explorers_MEX.md)
+- [accelerating climate action in mexico: leveraging mass consultations and social networks](./?doc=SolutionMappers_MEX.md)
+- [mexico: building indigenous rights through effective consultation](./?doc=Experimenters_MEX.md)
 
 
 </div>
@@ -7441,6 +7700,102 @@
 
 #### 2025
 - [digital agroenergy: sustainable innovation in agri-food development (aida)](./?doc=digital_agroenergy__sustainable_innovation_in_agri_food_development__aida_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [el salvador's innovative public internet initiative: scaling up sustainable development](./?doc=Experimenters_SLV.md)
+- [exploring digital basket innovations in el salvador](./?doc=Explorers_SLV.md)
+
+
+</div>
+
+
+</div>
+
+### Canada
+
+<div class="multicol">
+
+
+<div>
+
+
+#### 2020
+- [plastic bag boxes](./?doc=plastic_bag_boxes.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2022
+- [deep lake water cooling](./?doc=deep_lake_water_cooling.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2023
+- [awnings](./?doc=awnings.md)
+- [berg chilling systems](./?doc=berg_chilling_systems.md)
+- [brise soleil](./?doc=brise_soleil.md)
+- [c40 cities](./?doc=c40_cities.md)
+- [cellulose insulation](./?doc=cellulose_insulation.md)
+- [chimney effect](./?doc=chimney_effect.md)
+- [cooling centers](./?doc=cooling_centers.md)
+- [deep water source cooling](./?doc=deep_water_source_cooling.md)
+- [ensure a functional health system](./?doc=ensure_a_functional_health_system.md)
+- [external shutters](./?doc=external_shutters.md)
+- [geothermal cooling system system in richmond hill, ontario](./?doc=geothermal_cooling_system_system_in_richmond_hill__ontario.md)
+- [ground source cooling system](./?doc=ground_source_cooling_system.md)
+- [ground-coupled heat exchangers](./?doc=ground_coupled_heat_exchangers.md)
+- [hydro place](./?doc=hydro_place.md)
+- [improve communication of heat health-relevant information](./?doc=improve_communication_of_heat_health_relevant_information.md)
+- [isothermal compression](./?doc=isothermal_compression.md)
+- [lake ontario cooling system](./?doc=lake_ontario_cooling_system.md)
+- [overhangs](./?doc=overhangs.md)
+- [passive chilled beams](./?doc=passive_chilled_beams.md)
+- [porches](./?doc=porches.md)
+- [race to zero global campaign](./?doc=race_to_zero_global_campaign.md)
+- [radiant cooling paint](./?doc=radiant_cooling_paint.md)
+- [roof pond](./?doc=roof_pond.md)
+- [roof sprinklers](./?doc=roof_sprinklers.md)
+- [solar shading](./?doc=solar_shading.md)
+- [subsurface earth tubes](./?doc=subsurface_earth_tubes.md)
+- [the global covenant of mayors on climate action](./?doc=the_global_covenant_of_mayors_on_climate_action.md)
+- [trombe wall retrofit](./?doc=trombe_wall_retrofit.md)
+- [vertical green walls](./?doc=vertical_green_walls.md)
+- [water mist fire suppression systems](./?doc=water_mist_fire_suppression_systems.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### 2024
+- [15-minute city](./?doc=15_minute_city.md)
+- [breathelife](./?doc=breathelife.md)
+- [building suburban bike culture with community bike hubs](./?doc=building_suburban_bike_culture_with_community_bike_hubs.md)
+- [canada greener homes initiative](./?doc=canada_greener_homes_initiative.md)
+- [green roof incentive program and bylaw](./?doc=green_roof_incentive_program_and_bylaw.md)
+- [waste-to-energy (wte) plants](./?doc=waste_to_energy__wte__plants.md)
 
 
 </div>
@@ -7792,6 +8147,17 @@
 #### 2023
 - [our journey on digital transformation of the public sector has opened our e…](./?doc=our_journey_on_digital_transformation_of_the_public_sector_has_opened_our_e_.md)
 - [public sector innovation in haiti](./?doc=public_sector_innovation_in_haiti.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [haiti waste management accelerated lab initiative](./?doc=Experimenters_HTI.md)
 
 
 </div>
@@ -8345,6 +8711,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["accelerating sdgs in north macedonia: a crowdsourced approach"](./?doc=Experimenters_MKD.md)
+- [solutions mapping and positive deviance in north macedonia: a case study](./?doc=SolutionMappers_MKD.md)
+
+
+</div>
+
+
 </div>
 
 ### Federation of bosnia and herzegovina
@@ -8625,6 +9003,17 @@
 - [digital farm](./?doc=digital_farm.md)
 - [digital platform mykws](./?doc=digital_platform_mykws.md)
 - [smart watering](./?doc=smart_watering.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [user journey mapping to address women's representation in serbia's ict sector.](./?doc=Experimenters_SRB.md)
 
 
 </div>
@@ -9570,6 +9959,23 @@
 
 </div>
 
+### Bosnia and herzegovina
+
+<div class="multicol">
+
+
+<div>
+
+
+#### Undefined year
+- [solutions mapping in bosnia and herzegovina: enhancing citizen participation in urban planning](./?doc=SolutionMappers_BIH.md)
+
+
+</div>
+
+
+</div>
+
 ## Asia
 
 ### Malaysia
@@ -9986,6 +10392,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["bangladesh accelerator lab: promoting digital financial inclusion through policy advocacy"](./?doc=Explorers_BGD.md)
+- [understanding social protection needs of climate migrants in urban settings in bangladesh.](./?doc=SolutionMappers_BGD.md)
+
+
+</div>
+
+
 </div>
 
 ### Qatar
@@ -10143,6 +10561,18 @@
 - [job fest 2023: bridging the gap between lao pdr's youth and employers](./?doc=job_fest_2023__bridging_the_gap_between_lao_pdr_s_youth_and_employers.md)
 - [lao startup ecosystem exploration](./?doc=lao_startup_ecosystem_exploration.md)
 - [startup ecosystem remains young in lao pdr but there is room for improveme…](./?doc=startup_ecosystem_remains_young_in_lao_pdr_but_there_is_room_for_improveme_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [explorer-laos-jakuna: a national job matching platform](./?doc=Explorers_LAO.md)
+- [laos waste management experimentation initiative](./?doc=Experimenters_LAO.md)
 
 
 </div>
@@ -10351,6 +10781,19 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["scaling climate resilience in iraq: safa al-qoch's community hub initiative"](./?doc=Explorers_IRQ.md)
+- [iraq expands blended learning initiative to enhance higher education skills](./?doc=Experimenters_IRQ.md)
+- [solutions mapping in iraq: uncovering local youth employment challenges](./?doc=SolutionMappers_IRQ.md)
+
+
+</div>
+
+
 </div>
 
 ### Kurdistan region
@@ -10486,6 +10929,17 @@
 - [care work and socioeconomic inclusion of women in cambodia](./?doc=care_work_and_socioeconomic_inclusion_of_women_in_cambodia.md)
 - [kaseapp](./?doc=kaseapp.md)
 - [vannaroith sok](./?doc=vannaroith_sok.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [cambodia accelerator lab: leveraging youth consultation for inclusive development](./?doc=Experimenters_KHM.md)
 
 
 </div>
@@ -10782,6 +11236,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["scaling local convergences in the philippines: a pro-totyping approach to eradicating extreme poverty"](./?doc=Experimenters_PHL.md)
+
+
+</div>
+
+
 </div>
 
 ### Vietnam
@@ -10892,6 +11357,17 @@
 
 #### 2025
 - [finding market-fit service offering for vietnam acclab](./?doc=finding_market_fit_service_offering_for_vietnam_acclab.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["transforming vietnam's last mile delivery service with electric vehicles"](./?doc=Experimenters_VNM.md)
 
 
 </div>
@@ -11393,6 +11869,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [solutions mapping for inclusive tourism in thailand.](./?doc=SolutionMappers_THA.md)
+
+
+</div>
+
+
 </div>
 
 ### Bhutan
@@ -11465,6 +11952,18 @@
 - [ai readiness](./?doc=ai_readiness.md)
 - [crowd funding experimentation ](./?doc=crowd_funding_experimentation.md)
 - [top key insights generated through this learning challenge are:](./?doc=top_key_insights_generated_through_this_learning_challenge_are_.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["bhutan's innovative approach to addressing youth unemployment through ethnographic research and systems thinking"](./?doc=SolutionMappers_BTN.md)
+- [bhutan's highland sustainable fund: harnessing innovation for development](./?doc=Experimenters_BTN.md)
 
 
 </div>
@@ -11910,6 +12409,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [jordan career counseling platform development](./?doc=Experimenters_JOR.md)
+
+
+</div>
+
+
 </div>
 
 ### Kyrgyzstan
@@ -12152,6 +12662,18 @@
 - [bridging the agricultural skills gap](./?doc=bridging_the_agricultural_skills_gap.md)
 - [digital hate speech in syria](./?doc=digital_hate_speech_in_syria.md)
 - [social tension early warning system | horizon 360](./?doc=social_tension_early_warning_system___horizon_360.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [syria launches experiment to support rural entrepreneurs](./?doc=Experimenters_SYR.md)
+- [the euphrates river knowledge flow initiative](./?doc=SolutionMappers_SYR.md)
 
 
 </div>
@@ -12522,6 +13044,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [mongolia: scaling foresight for sustainable livelihoods](./?doc=Explorers_MNG.md)
+
+
+</div>
+
+
 </div>
 
 ### Honshu
@@ -12591,6 +13124,24 @@
 
 #### 2020
 - [bikeshaw](./?doc=bikeshaw.md)
+
+
+</div>
+
+
+</div>
+
+### Timor leste
+
+<div class="multicol">
+
+
+<div>
+
+
+#### Undefined year
+- ["timor leste accelerator lab: innovative solutions for covid-19 challenges and sustainable development"](./?doc=Experimenters_TLS.md)
+- [exploring innovation in timor leste: a collaborative approach to job development](./?doc=Explorers_TLS.md)
 
 
 </div>
@@ -13697,6 +14248,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [argentina's digital inclusion network success story](./?doc=Experimenters_ARG.md)
+- [solutions mapping for sustainable development in argentina](./?doc=SolutionMappers_ARG.md)
+
+
+</div>
+
+
 </div>
 
 ### Paraguay
@@ -13851,6 +14414,18 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- ["paraguay's garment industry transformation: monica rios' learning loop initiative"](./?doc=Explorers_PRY.md)
+- [mapping paraguay's response to the covid-19 pandemic.](./?doc=Experimenters_PRY.md)
+
+
+</div>
+
+
 </div>
 
 ### Bolivia
@@ -13958,6 +14533,18 @@
 - [uyway](./?doc=uyway.md)
 - [visibility and dignity of women recyclers](./?doc=visibility_and_dignity_of_women_recyclers.md)
 - [women at the wheel](./?doc=women_at_the_wheel.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- [bolivia scales participatory governance through digital platforms](./?doc=Experimenters_BOL.md)
+- [solutions mapping in bolivia for women's empowerment and financial inclusion](./?doc=SolutionMappers_BOL.md)
 
 
 </div>
@@ -14156,6 +14743,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [life helmets: a colombian innovation response to covid-19 isolation](./?doc=Experimenters_COL.md)
+
+
+</div>
+
+
 </div>
 
 ### Ecuador
@@ -14346,6 +14944,17 @@
 </div>
 
 
+
+<div>
+
+
+#### Undefined year
+- [medicinal plant guardians: ecuador's solution mapping journey](./?doc=SolutionMappers_ECU.md)
+
+
+</div>
+
+
 </div>
 
 ### Uruguay
@@ -14501,6 +15110,17 @@
 
 #### 2025
 - [ai for inclusive voice and participation](./?doc=ai_for_inclusive_voice_and_participation.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["empowering migrant entrepreneurs in peru: a journey of belonging and resilience"](./?doc=SolutionMappers_PER.md)
 
 
 </div>
@@ -14805,6 +15425,207 @@
 - [sustainable alternative mechanisms to develop everyone equitably](./?doc=sustainable_alternative_mechanisms_to_develop_everyone_equitably.md)
 - [xag agricultural drones](./?doc=xag_agricultural_drones.md)
 - [–êgromon](./?doc=__gromon.md)
+
+
+</div>
+
+
+
+<div>
+
+
+#### Undefined year
+- ["buy in" means agreeing to a tangible commitment](./?doc=Agreeing%20to%20a%20tangible%20commitment.md)
+- [8 elements (or steps) for policy innovation](./?doc=8%20Elements%20%28or%20Steps%29%20for%20Policy%20Innovation.md)
+- [a_b testing](./?doc=A_B%20testing.md)
+- [accessibility of knowledge](./?doc=Accessibility%20of%20knowledge.md)
+- [active listening](./?doc=Active%20listening.md)
+- [adaptability](./?doc=Adaptability%20copy.md)
+- [adaptability](./?doc=Cultural%20adaptability.md)
+- [adaptability](./?doc=Time%20management%20and%20adaptability.md)
+- [agility](./?doc=Agility.md)
+- [always be proactive, never be afraid of failure](./?doc=Always%20be%20proactive%20never%20be%20afraid%20of%20failure.md)
+- [analytical skills](./?doc=Analytical%20skills.md)
+- [arcgis](./?doc=ArcGIS.md)
+- [asset mapping - nothing for us, without us](./?doc=Asset%20mapping.md)
+- [based on petition, get the message to the right person](./?doc=Based%20on%20petition%20get%20the%20message%20to%20the%20right%20person.md)
+- [beyond borders](./?doc=Beyond%20borders.md)
+- [bridges](./?doc=Building%20bridges.md)
+- [build momentum](./?doc=Using%20high%20level%20meetings%20to%20build%20momentum.md)
+- [building bonds inside team](./?doc=Building%20bonds%20inside%20the%20team.md)
+- [business dev.](./?doc=Business%20development%20skill.md)
+- [care about the people the same amount you care about the solutions](./?doc=Care%20about%20the%20people%20the%20same%20amount%20you%20care%20about%20the%20solutions.md)
+- [citizen science and gamification using digital platform to crowdsource solutions](./?doc=Citizen%20science%20and%20gamification%20using%20digital%20platform%20to%20crowdsource%20solutions.md)
+- [citizen science and gamification using digital platform to crowdsource solutions](./?doc=Citizen%20science.md)
+- [co-creation](./?doc=Co-creation.md)
+- [co-design](./?doc=Co-design.md)
+- [collaboration](./?doc=Collaboration.md)
+- [collecting and analyzing data maps](./?doc=Collecting%20and%20analyzing%20data%20maps.md)
+- [collective intelligence, video, visibility was key success, "press advisor"](./?doc=Videos.md)
+- [collective intelligence](./?doc=Collective%20intelligence%20for%20the%20analysis%20of%20emerging%20signals.md)
+- [common grounding](./?doc=Common%20grounding.md)
+- [communicate through human stories](./?doc=Communicate%20through%20human%20stories.md)
+- [communication, delegation, emotional development](./?doc=Delegation.md)
+- [communication](./?doc=Focusing%20on%20communication%20strategy.md)
+- [community building](./?doc=Community%20building.md)
+- [conceptual branding](./?doc=Conceptual%20branding.md)
+- [conceptualizing skill](./?doc=Conceptualizing%20skill.md)
+- [continuous learning](./?doc=Continuous%20learning.md)
+- [continuous learning](./?doc=Quick%20and%20continuous%20learning.md)
+- [convening actors](./?doc=Convening%20actors.md)
+- [create evidence](./?doc=Create%20evidence.md)
+- [creating space for emerging themes](./?doc=Creating%20space%20for%20emerging%20themes.md)
+- [creativity](./?doc=Creativity.md)
+- [critical thinking](./?doc=Critical%20thinking.md)
+- [crowd-mapping](./?doc=Crowd-mapping.md)
+- [curiosity](./?doc=Curiosity.md)
+- [data collection](./?doc=Data%20collection.md)
+- [data management](./?doc=Data%20management.md)
+- [data power positive deviance (for sustainable livestock farming)](./?doc=Data%20Powered%20Positive%20Deviance.md)
+- [data sharing](./?doc=Data%20sharing.md)
+- [de-risking the intervention by promoting an incremental approach through r&amp;d](./?doc=De-risking%20the%20intervention%20by%20promoting%20an%20incremental%20approach%20trough%20R%26D.md)
+- [deep listening](./?doc=Deep%20listening%20to%20map%20beyond%20the%20intangible.md)
+- [defining problems](./?doc=Defining%20problems.md)
+- [design lens: biomimicry meets design thinking](./?doc=Design%20lens.md)
+- [design thinking](./?doc=Design%20thinking.md)
+- [design](./?doc=Design.md)
+- [designing the pipelines](./?doc=Desiging%20the%20pipelines.md)
+- [desk review analysis](./?doc=Desk%20review%20analysis.md)
+- [desk review analysis](./?doc=Literature%20review%20and%20desk%20research.md)
+- [diffusing intelligence insight](./?doc=Diffusion%20of%20intelligence%20insight.md)
+- [digital skills](./?doc=Digital%20skills.md)
+- [digitalize data collected  in the field](./?doc=Digitise%20data%20collected%20in%20the%20field.md)
+- [disruptiveness](./?doc=Disruptiveness.md)
+- [diversity](./?doc=Diversity.md)
+- [diversity](./?doc=Inclusivity%20and%20diversity.md)
+- [do no harm](./?doc=Do%20no%20harm.md)
+- [ecosystem mapping](./?doc=Working%20with%20ecosystems.md)
+- [egap](./?doc=EGAP%20Pre-analysis%20plans.md)
+- [embed innovation and systems thinking in "governing" documents, development strategies, etc.](./?doc=Systems%20thinking.md)
+- [empathy](./?doc=Empathy.md)
+- [ethnographic design thinking](./?doc=Ethnographic%20design%20thinking.md)
+- [ethnography](./?doc=Ethnography.md)
+- [even when the lab is not there (or undp) things should continue - we have t…](./?doc=Even%20when%20the%20Lab%20is%20not%20there%20things%20should%20continue.md)
+- [expand through other voices](./?doc=Expand%20through%20other%20voices.md)
+- [facilitation](./?doc=Facilitation%20skills.md)
+- [finding allies](./?doc=Allies%20and%20champions.md)
+- [finding new alternatives](./?doc=Finding%20new%20alternatives.md)
+- [flexibility, adaptability](./?doc=Flexibility%20and%20adaptability.md)
+- [flourish - data vizualization tool](./?doc=Flourish%20data%20visualization%20tool.md)
+- [focus to creating a precedent](./?doc=Focus%20to%20creating%20a%20precedent.md)
+- [focusing on the value added](./?doc=Focusing%20on%20the%20value%20added.md)
+- [foresight](./?doc=Foresight.md)
+- [frugality](./?doc=Frugality.md)
+- [future thinking](./?doc=Future%20thinking%20for%20human%20mobility.md)
+- [futures wheel](./?doc=Futures%20and%20Foresight.md)
+- [gaining leverage and traction for solutions](./?doc=Gaining%20leverage%20and%20traction%20for%20solutions.md)
+- [gamification for financial education](./?doc=Gamification.md)
+- [geographic information system (gis)](./?doc=GIS%20systems.md)
+- [getting in there (positioning the lab in undp prodoc)](./?doc=Getting%20in%20there.md)
+- [give the space to others to shine](./?doc=Give%20the%20space%20to%20others%20to%20shine.md)
+- [hackathon](./?doc=Hacktahon.md)
+- [have good references for your technical work](./?doc=Have%20good%20references%20for%20your%20technical%20work.md)
+- [horizon scanning](./?doc=Horizon%20scanning.md)
+- [how might we (hmw)](./?doc=How%20might%20we.md)
+- [human centered design (hcd) workshop](./?doc=Human%20centered%20design%20to%20engage%20people.md)
+- [human centering and adaptability: less of me, more of them](./?doc=Human%20centering%20and%20adaptability.md)
+- [human-centered design](./?doc=Human%20centered%20design.md)
+- [hustle your gig](./?doc=Hustle%20your%20gig.md)
+- [imagination](./?doc=Imagination.md)
+- [immersion](./?doc=Immersion%20and%20engagemen.md)
+- [inclusivity](./?doc=Inclusivity.md)
+- [information management](./?doc=Information%20management.md)
+- [ingenuity](./?doc=Ingenuity.md)
+- [innovation challenge](./?doc=Innovation%20challenge.md)
+- [innovation management](./?doc=Innovation%20management.md)
+- [it's not personal. don't take no for an answer](./?doc=It%27s%20not%20personal.md)
+- [jane walks](./?doc=Jane%20walks.md)
+- [kahoot](./?doc=Kahoot.md)
+- [key informant interviews](./?doc=Conducting%20interviews.md)
+- [key informant interviews](./?doc=Key%20informant%20interviews.md)
+- [know the culture](./?doc=Know%20the%20culture.md)
+- [knowledge sharing](./?doc=Sharing%20knowledge.md)
+- [kobotoolbox](./?doc=KoboToolbox%20for%20quality%20data%20collection%20and%20analysis%20in%20challenging%20settings.md)
+- [leadership](./?doc=Leadership.md)
+- [leadership](./?doc=Transformative%20leadership%20skills%20and%20decision%20making.md)
+- [learning questions heuristics](./?doc=Learning%20questions%20heuristics.md)
+- [leveraging technologies](./?doc=Leveraging%20technologies.md)
+- [live in community](./?doc=Community%20immersion.md)
+- [live in community](./?doc=Undertanding%20the%20community.md)
+- [make them realize](./?doc=Make%20them%20realize.md)
+- [making insights actionable](./?doc=Making%20insights%20actionable.md)
+- [manage expectations](./?doc=Manage%20expectations.md)
+- [matchmaking](./?doc=Mathcmaking.md)
+- [mediation](./?doc=Mediation.md)
+- [miro](./?doc=Miro.md)
+- [narrative analysis](./?doc=Narrative%20analysis.md)
+- [negotiation](./?doc=Communication%20skills.md)
+- [negotiation](./?doc=Negotiation.md)
+- [nesta's collective intelligence design playbook](./?doc=NESTA%20Collective%20Intelligence%20Design%20Playbook.md)
+- [nesta’s diy toolkit](./?doc=NESTA%20DIY%20Toolkit.md)
+- [never deplete social capital, always increase social capital.](./?doc=Always%20increase%20social%20capital.md)
+- [odk (open data kit) is a powerful open-source software platform that enable…](./?doc=Open%20Data%20Kit.md)
+- [one foot on the door](./?doc=One%20foot%20on%20the%20door.md)
+- [open data](./?doc=Be%20open%20by%20default.md)
+- [open data](./?doc=Open%20data.md)
+- [openstreet map](./?doc=Openstreet%20map.md)
+- [opportunity framing](./?doc=Opportunity%20framing.md)
+- [osf registry of experiments](./?doc=OSF%20registry%20of%20epxeriments.md)
+- [overcoming resistance](./?doc=Overcoming%20resistance.md)
+- [overcoming resistance](./?doc=Working%20with%20resistance.md)
+- [participatory action research (par)](./?doc=Participatory%20action%20research.md)
+- [participatory air quality monitoring](./?doc=Participatory%20monitoring%20evaluation%20reflection%20%26%20learning.md)
+- [partnership coordination](./?doc=Partnerhsip%20coordination.md)
+- [partnership](./?doc=Patnership.md)
+- [people management](./?doc=People%20management.md)
+- [personas](./?doc=Personas.md)
+- [persuasion](./?doc=Persuasion.md)
+- [pitch for impact](./?doc=Pitch%20for%20impact.md)
+- [pitching skill](./?doc=Pitching%20skill.md)
+- [play don't preach](./?doc=Play%20do%20not%20preach.md)
+- [portfolio approach cpd](./?doc=Portfolio%20approach%20CPD.md)
+- [portfolio](./?doc=Portfolio%20approach.md)
+- [power calculator](./?doc=Power%20calculator.md)
+- [pre-post-testing](./?doc=Pre-post-testing.md)
+- [problem solving skill](./?doc=Problem%20solving%20skill.md)
+- [proof of concept](./?doc=Proof%20of%20concept.md)
+- [prototyping](./?doc=Prototyping.md)
+- [public narrative](./?doc=Public%20narrative.md)
+- [quasi experimental design processes](./?doc=Quasi%20expermental%20design%20processes.md)
+- [rcts](./?doc=RCTs.md)
+- [reaching unreachable communities-unusual beneficiaries](./?doc=Reaching%20unreachable%20communities.md)
+- [recognize and promote agency: enable agency, the greatest choice for the greatest number.](./?doc=Recognize%20and%20promote%20agency.md)
+- [recognize local expertise: nothing for us, without us](./?doc=Recognize%20local%20expertise.md)
+- [resilience](./?doc=Resilience.md)
+- [scenario analysis](./?doc=Scenario%20building.md)
+- [self-awareness](./?doc=Self-awareness.md)
+- [sell de-risk](./?doc=Sell%20De-risk.md)
+- [service blueprint](./?doc=Service%20blueprint.md)
+- [setting up the first block of the pyramid](./?doc=Setting%20up%20the%20first%20block%20of%20the%20pyramid.md)
+- [share your value upfront, not budget](./?doc=Share%20your%20value%20upfront.md)
+- [signals mapping](./?doc=Signals%20mapping.md)
+- [simulation, role play, games](./?doc=Simulation%20role%20play%20and%20games.md)
+- [solving operational logistic](./?doc=Solving%20operational%20logistics.md)
+- [status of relationships analysis](./?doc=Status%20of%20relationships%20analysis.md)
+- [storyboarding](./?doc=Storyboarding.md)
+- [storytelling](./?doc=Storytelling%20for%20social%20engineering.md)
+- [system grid](./?doc=System%20grids.md)
+- [system mapping](./?doc=Systems%20analysis.md)
+- [system mapping](./?doc=Systems%20mapping.md)
+- [systems leadership](./?doc=Systems%20leadership.md)
+- [this inventory is about how you can use experiments to solve public and soc…](./?doc=The%20Experimenters%20Inventory.md)
+- [tools for developing hypotheses](./?doc=Tools%20for%20developing%20hypotheses.md)
+- [transparency](./?doc=Prioritize%20transparency%20in%20methods%20and%20openness%20in%20sharing%20data%20and%20results.md)
+- [transparency](./?doc=Transparency%20and%20Honesty.md)
+- [trust](./?doc=Trust.md)
+- [urbanist ai](./?doc=Urbanist%20AI.md)
+- [user centered-design (for digital solutions)](./?doc=User%20centered-design.md)
+- [user journey](./?doc=User%20journey%20mapping.md)
+- [visual thinking](./?doc=Visual%20thinking.md)
+- [volunteering and taking initiatives](./?doc=Volunteering%20and%20taking%20initiatives.md)
+- [well being](./?doc=Well%20being.md)
+- [writing](./?doc=Writing.md)
+- [xlsform template](./?doc=XLSForm%20template.md)
 
 
 </div>

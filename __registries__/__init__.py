@@ -3,10 +3,9 @@ from .sdgs import tree as sdg_tree
 from .tags import tree as tag_tree
 from .years import tree as year_tree
 from .solutions import tree as solutions_tree
-"""
-TO DO: Import stories, elements, learningplans, etc.
-And add to registries list below.
-"""
+from .elements import tree as elements_tree
+from .stories import tree as stories_tree
+from .experiments import tree as experiments_tree
 
 registries = [
   locations_tree,
@@ -14,6 +13,9 @@ registries = [
   tag_tree,
   year_tree,
   solutions_tree,
+  elements_tree,
+  stories_tree,
+  experiments_tree,
 ]
 
 __all__ = [
