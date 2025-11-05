@@ -57,7 +57,12 @@ export const getTranscript = async function (path) {
   const pagesMatch = String(path).match(/pages\/(.+)$/);
   if (pagesMatch) {
     const file = pagesMatch[1];
-    const absolutePages = `${window.location.origin}/pages/${file}`; // absolute URL to pages
+    // On GitHub Pages the site can be served under a repo subpath (e.g. /<repo>/).
+    // Derive first path segment and include it so absolute URL points to the deployed repo root.
+    const firstSegment =
+      window.location.pathname.split("/").filter(Boolean)[0] || "";
+    const prefix = firstSegment ? `/${firstSegment}` : "";
+    const absolutePages = `${window.location.origin}${prefix}/pages/${file}`; // absolute URL to pages on deployed site
     try {
       transcript = await tryFetch(absolutePages);
       usedSource = `/pages/${file}`;
@@ -353,7 +358,7 @@ export const transcript = function (text, source) {
     .addElems(
       "button",
       "tag",
-      thematic_areas.map((c) => {
+      (thematic_areas || []).map((c) => {
         return { key: "thematic_areas", value: c };
       })
     )
