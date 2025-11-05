@@ -109,7 +109,7 @@ def setListItems (file, structure):
 							continent = getContinent(tag)
 							if continent is not None:
 								if len(split_tree) > 1:
-									tree = f'{'|'.join(split_tree[:-1])}|{continent}'
+									tree = '|'.join(split_tree[:-1]) + '|' + continent
 								else:
 									tree = continent
 						subtrees.append(f'{tree}|{tag}')
@@ -269,14 +269,15 @@ def traverseSections (sections, **kwargs):
 
 		if title is not None:
 			if generate_subregistries == True:
-				content = content + f'\n{''.join(['#'] * (iterator + 2))} [{title.capitalize()}](./{subpath})\n'
+				hashes = '#' * (iterator + 2)
+				content = content + f"\n{hashes} [{title.capitalize()}](./{subpath})\n"
 			else:
-				content = content + f'\n{''.join(['#'] * (iterator + 2))} {title.capitalize()}\n'
+				content = content + f"\n{'#' * (iterator + 2)} {title.capitalize()}\n"
 
 		items = s.get('items', [])
 		items.sort()
 		if len(items) > 0:
-			content = content + f'{'\n'.join(items)}\n'
+			content = content + '\n'.join(items) + '\n'
 		if len(s['sections']) > 0 and n_subsection != 0: 
 			content = content + traverseSections(s['sections'], generate_subregistries=generate_subregistries, iterator=iterator+1, path=subpath)
 		if n_subsection == 1:
