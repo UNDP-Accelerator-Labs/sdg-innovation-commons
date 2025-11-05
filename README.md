@@ -2,6 +2,8 @@
 
 This repository contains the UNDP Accelerator Labs R&D Archive site: markdown pages, generation scripts and a small client-side renderer that displays project documentation and audio waveforms.
 
+**Live archive:** https://undp-accelerator-labs.github.io/sdg-innovation-commons/registries/
+
 This project consists of:
 
 - `pages/` — generated and hand-written markdown pages served by the frontend.
