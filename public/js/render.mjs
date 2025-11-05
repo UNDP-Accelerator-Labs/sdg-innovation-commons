@@ -8,7 +8,19 @@ import {
   parseMetadata,
   parseTimestamps,
   convertStringToSeconds,
+  parseIntervals,
 } from "./parsers.mjs";
+
+import {
+  setupAudio,
+  getAudio,
+  filterAudioData,
+  normalizeAudioData,
+  audioElement,
+  playAudio,
+} from "./audio.mjs";
+
+import { visualizeAudio } from "./visualization.mjs";
 
 function fetchTranscript(path) {
   return fetch(decodeURI(path)).then(async (res) => {
@@ -17,7 +29,6 @@ function fetchTranscript(path) {
   });
   // WE DO NOT USE CATCH HERE AS WE NEED TO CHECK FOR THE ERROR IN THE getTranscript FUNCTION
 }
-
 
 // THIS IS NOT USED
 // const isLocal =
@@ -28,105 +39,277 @@ function fetchTranscript(path) {
 export const getTranscript = async function (path) {
   let transcript = "";
   let usedSource = path;
+
+  // Helper to attempt fetch and return text or throw
+  const tryFetch = async (p) => {
+    try {
+      const res = await fetch(decodeURI(p));
+      if (res.ok) return res.text();
+      throw new Error(`Could not find file at ${p}`);
+    } catch (e) {
+      throw e;
+    }
+  };
+
+  // If the path appears to reference something in the pages folder, normalize to the
+  // server-root absolute /pages/<file> path first — this avoids producing
+  // /registries/pages/... when client-side helpers prepend the current registry path.
+  const pagesMatch = String(path).match(/pages\/(.+)$/);
+  if (pagesMatch) {
+    const file = pagesMatch[1];
+    const absolutePages = `${window.location.origin}/pages/${file}`; // absolute URL to pages
+    try {
+      transcript = await tryFetch(absolutePages);
+      usedSource = `/pages/${file}`;
+      return { transcript, usedSource };
+    } catch (err) {
+      // fall through to other fallbacks
+      // try relative paths as last resort
+    }
+  }
+
   try {
-    transcript = await fetchTranscript(path);
+    transcript = await tryFetch(path);
   } catch (err) {
+    // If the path started with './', try one level up as before
     if (path.startsWith("./")) {
       try {
-	      const upPath = path.replace(/^(.)?\//, "../");
-	      transcript = await fetchTranscript(upPath);
-	      usedSource = upPath;
-	    } catch (err) {
-	    	console.log(err);
-	    }
+        const upPath = path.replace(/^(.)?\//, "../");
+        transcript = await tryFetch(upPath);
+        usedSource = upPath;
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      // If the first fetch failed and the path was a plain filename (e.g., README.md),
+      // try fetching from the current directory and from the server root pages folder
+      try {
+        // try current directory
+        transcript = await tryFetch(path);
+      } catch (e1) {
+        try {
+          // last resort: check root /pages/
+          const file = path.replace(/^.*\//, "");
+          const abs = `${window.location.origin}/pages/${file}`;
+          transcript = await tryFetch(abs);
+          usedSource = `/pages/${file}`;
+        } catch (e2) {
+          console.log(e2);
+        }
+      }
     }
   }
   return { transcript, usedSource };
 };
 export const transcript = function (text, source) {
-  const alltags = [...(new Set([...text.matchAll(tagLookup)].map(d => {
-    return d[0].replace(/[\[\]]/g, '').split(':')[0];
-  })) || [])];
+  // Build metadata tag list only from tags that include a ':' and whose key contains a letter
+  // This avoids treating timestamp-only tags like [[00:19]] as metadata keys.
+  const alltags = [
+    ...(new Set(
+      [...text.matchAll(tagLookup)]
+        .map((d) => d[0].replace(/[\[\]]/g, ""))
+        .filter((token) => {
+          if (!token.includes(":")) return false;
+          const key = token.split(":")[0];
+          // only treat as metadata when the key contains at least one letter (avoid numeric timestamps)
+          return /[A-Za-z]/.test(key);
+        })
+        .map((token) => token.split(":")[0])
+    ) || []),
+  ];
 
   const { text: parsed_text, ...metadata } = parseMetadata(text, alltags);
   let html = marked.parse(parsed_text);
-  const { 
-    thematic_areas, 
-    sdgs, 
-    continent, 
-    country, 
-    latlng, 
-    gender, 
-    year, 
-    focal_point, 
+
+  // Replace timestamp markers like [[00:19]] inside the rendered HTML with jump buttons
+  // so users can click to jump to that time in the audio (consistent with transcript.mjs)
+  const timestamps = parseTimestamps(html);
+  if (timestamps?.length) {
+    for (let i = 0; i < timestamps.length; i++) {
+      const ts = timestamps[i];
+      const str = ts[0];
+      const sec = convertStringToSeconds(ts[0]);
+      html = html.replace(
+        str,
+        `<button class='play'>&#9205;</button><button class='jump-to-ts' id='ts-${sec}' data-ts='${sec}'><label>${str.replace(/[[\]]*/g, "")}</label></button>&nbsp;`
+      );
+    }
+  }
+
+  const {
+    thematic_areas,
+    sdgs,
+    continent,
+    country,
+    latlng,
+    gender,
+    year,
+    focal_point,
     ...othertags
   } = metadata || {};
 
-  // The content needs to be set before the title section because h1 is moved out of it below
   const content = d3.select("section.content > div.inner");
   const transcript = content.addElem("div", "transcript").html(html);
+
+  // If there's an audio tag in the metadata, set up audio UI and visualization (non-blocking)
+  if (metadata?.audio && metadata.audio.length) {
+    try {
+      const rawAudio = metadata.audio[0];
+      // Avoid mangling absolute URLs (fixInternalLinks is for internal paths)
+      const audioUrl = /^https?:\/\//.test(rawAudio)
+        ? rawAudio
+        : fixInternalLinks(rawAudio);
+
+      // create the audio controls and svg immediately
+      setupAudio();
+
+      // create or select the audio element and then decode the audio buffer
+      audioElement(audioUrl).then(([audioEl, duration]) => {
+        try {
+          const audioCtx = new (window.AudioContext ||
+            window.webkitAudioContext)();
+          getAudio(audioUrl, audioCtx).then((audioBuffer) => {
+            try {
+              const audioData = normalizeAudioData(
+                filterAudioData(audioBuffer)
+              );
+              const intervals = parseIntervals(text, audioBuffer.duration);
+              visualizeAudio(
+                audioData,
+                audioEl,
+                audioBuffer.duration,
+                intervals
+              );
+            } catch (e) {
+              console.log("error while preparing audio visualization", e);
+            }
+          });
+        } catch (e) {
+          console.log("audio decoding/setup failed", e);
+        }
+      });
+    } catch (e) {
+      console.log("audio setup error", e);
+    }
+  }
 
   // Add target blank to all hyperlinks
   transcript.selectAll("a").attr("target", "_blank");
 
-  const cartouche = content.addElems("div", "cartouche").addElem("div", "inner")
-  const c_sections = cartouche.addElems("div", "c-section", d => {
+  const cartouche = content
+    .addElems("div", "cartouche")
+    .addElem("div", "inner");
+
+  // Build cartouche data synchronously to avoid ReferenceError inside d3 callbacks
+  const cartoucheData = (function () {
     const obj = [];
-    if (country?.length > 0 || latlng?.length > 0) obj.push({ key: 'Locations', locations: latlng, values: [...(new Set(country) || [])] });
-    if (sdgs?.length > 0) obj.push({ key: 'SDGs', values: [...(new Set(sdgs) || [])].sort((a, b) => parseInt(a.match(/\d+/) || 0) - parseInt(b.match(/\d+/) || 0)) });
-    if (gender?.length > 0) obj.push({ key: 'Gender of the innovator', values: [...(new Set(gender) || [])] });
-    if (year?.length > 0) obj.push({ key: 'Year', values: [...(new Set(year) || [])] });
+    if ((country && country.length > 0) || (latlng && latlng.length > 0)) {
+      obj.push({
+        key: "Locations",
+        locations: latlng,
+        values: [...(new Set(country || []) || [])],
+      });
+    }
+    if ((sdgs || []).length > 0) {
+      obj.push({
+        key: "SDGs",
+        values: [...(new Set(sdgs || []) || [])].sort(
+          (a, b) =>
+            parseInt(a.match(/\d+/) || 0) - parseInt(b.match(/\d+/) || 0)
+        ),
+      });
+    }
+    if ((gender || []).length > 0)
+      obj.push({
+        key: "Gender of the innovator",
+        values: [...(new Set(gender || []) || [])],
+      });
+    if ((year || []).length > 0)
+      obj.push({ key: "Year", values: [...(new Set(year || []) || [])] });
+
     for (let k in othertags) {
-      obj.push({ key: capitalize(k), values: [...(new Set(othertags[k]) || [])] });
+      const kl = k.toLowerCase();
+      if (["audio"].includes(kl)) continue; // skip raw audio
+      const values = [...new Set(othertags[k] || [])];
+      const filtered = values.filter((v) => {
+        if (v === null || v === undefined) return false;
+        const s = String(v).trim();
+        if (!s.length) return false;
+        // skip pure digits or mm:ss timestamp-like tokens
+        if (/^\d+$/.test(s)) return false;
+        if (/^\d+[:.]\d+$/.test(s)) return false;
+        // skip urls
+        if (/^https?:\/\//.test(s)) return false;
+        return true;
+      });
+      if (filtered.length) {
+        // displayKey: map ai/ai_summary to 'AI Summary', otherwise capitalize
+        const displayKey =
+          kl === "ai_summary" || kl === "ai" ? "AI Summary" : capitalize(k);
+        obj.push({ key: displayKey, values: filtered });
+      }
     }
     return obj;
-  }).each(function (d) {
-    d3.select(this).classed(makeSafe(d.key), true);
-  });
-  c_sections.addElems("h3", null, d => d.key !== 'Locations' ? [d] : []).html(d => d.key.replace(/_/g, ' '));
-  c_sections.each(async function (d) {
-    const sel = d3.select(this);
-    const { key, locations } = d || {};
+  })();
 
-    if (key === 'Locations' && locations?.length > 0) {
-      // Add a map
-      const canvas = sel.addElems('div', 'canvas');
-      const { width, height, svg } = setupSVG(canvas, 'map');
-
-      const landmass = await d3.json(fixInternalLinks('/public/data/topo/landmass.topojson'));
-      const geolandmass = topojson.feature(landmass, landmass.objects.landmass);
-
-      const points = turf.featureCollection(locations.map(c => {
-        return turf.point(c.split(',').map(b => parseFloat(b)).reverse());
-      }));
-
-      const proj = d3.geoNaturalEarth1()
-      .fitExtent([
-        [10, 10],
-        [width - 10, height - 10]
-      ], geolandmass);
-
-      const path = d3.geoPath(proj);
-
-      svg.addElems('path', 'landmass', [geolandmass])
-        .attr('d', path);
-      svg.addElems('path', 'buffer', [points])
-        .attr('d', path)
-        .style('fill', '#000');      
-    }
-  });
-  c_sections.addElems("div", "tags", d => [d.values.map(c => { return { key: d.key, value: c } })])
-    .addElems("button", "tag", d => d)
+  const c_sections = cartouche
+    .addElems("div", "c-section", cartoucheData)
     .each(function (d) {
-      d3.select(this).classed(d.key.toLowerCase(), true);
-    }).addElem("label")
-    .addElem("a")
-    // TO DO: MAKE LINKS WORK
-    // .attr("href", (d) => `${basePath}/elements/${d.key}/?doc=${d.value}`) // TO DO: REPLACE THIS
-    .html((d) => {
-      if (d.value.length > 30) return `${d.value.slice(0, 30)}…`;
-      else return d.value;
+      d3.select(this).classed(makeSafe(d.key), true);
     });
+
+  c_sections
+    .addElems("h3", null, (d) => (d.key !== "Locations" ? [d] : []))
+    .html((d) => d.key.replace(/_/g, " "));
+
+  c_sections
+    .addElems("div", "tags", (d) => [
+      d.values.map((c) => ({ key: d.key, value: c })),
+    ])
+    .addElems("button", "tag", (d) => d)
+    .each(function (d) {
+      const btn = d3.select(this);
+      // always add a class derived from the metadata key
+      btn.classed(d.key.toLowerCase(), true);
+      // use a special class for AI summary entries, otherwise keep the normal 'tag' class
+      const normalizedKey = String(d.key).replace(/\s+/g, "_").toLowerCase();
+      if (normalizedKey === "ai_summary") {
+        btn.classed("tag_ai_summary", true).classed("tag", false);
+      } else {
+        btn.classed("tag", true).classed("tag_ai_summary", false);
+      }
+    })
+    .addElem("label")
+    .each(function (d) {
+      const container = d3.select(this);
+      const normalizedKey = String(d.key).replace(/\s+/g, "_").toLowerCase();
+      const value = d.value;
+      const text =
+        normalizedKey === "ai_summary"
+          ? value
+          : value.length > 30
+            ? `${value.slice(0, 30)}…`
+            : value;
+      if (
+        ["tactics", "principles", "tools", "skills"].includes(normalizedKey)
+      ) {
+        container
+          .addElem("a")
+          .attr("href", () =>
+            fixInternalLinks(`/what_we_used/?doc=${encodeURIComponent(value)}`)
+          )
+          .html(text);
+      } else {
+        container.addElem("span").html(text);
+      }
+    });
+
+  // Attach click handlers to timestamp buttons (jump to audio)
+  d3.selectAll("button.jump-to-ts").on("click", function () {
+    let { ts } = this.dataset;
+    ts = parseFloat(ts * 100); // convert seconds to centiseconds
+    if (typeof playAudio === "function") playAudio(ts);
+  });
 
   const url = new URL(document.location);
   let path = url.pathname.split("/").filter((d) => d.length);
@@ -139,37 +322,49 @@ export const transcript = function (text, source) {
     .attr("href", (d, i) => `/${path.slice(0, i + 1).join("/")}`)
     .html((d) => d);
   transcript.select("h1").moveTo(titleSection.node());
-  
+
   // Add credit for original documentation
-  titleSection.addElems("p", "contributors", [[...(new Set(focal_point) || [])]])
-  .html(d => {
-    return `Documented by ${d.join(', ')}`
-  });
+  titleSection
+    .addElems("p", "contributors", [[...(new Set(focal_point) || [])]])
+    .html((d) => {
+      return `Documented by ${d.join(", ")}`;
+    });
 
   // Add a link to edit the file directly in Github
   titleSection
     .addElem("a", "edit-link")
     .attr("href", (_) => {
-      const moveup = source.match(/\.\.\//g)?.length;
-      let gitpath = path;
-      if (moveup) gitpath = path.slice(0, moveup * -1);
-      // TO DO: REPLACE THIS URL
-      return `https://github.com/UNDP-Accelerator-Labs/RnD-Archive/edit/main/${source.replace(
-        "../",
-        ""
+      // `source` is provided by getTranscript and may be like '/pages/File.md', 'README.md', '../pages/File.md', etc.
+      // Normalize it to a repository-relative path and point to the correct repo.
+      let src = String(source || "");
+      // remove any parent-directory references and leading slashes
+      src = src.replace(/\.\.\//g, "").replace(/^\//, "");
+      // Fallback: if empty, point to repo root README
+      if (!src) src = "README.md";
+      return `https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/edit/gh-pages/${encodeURIComponent(
+        src
       )}`;
     })
     .attr("target", "_blank")
     .html("Edit this page");
 
-  const chips = titleSection.addElems("div", "tags")
-    .addElems("button", "tag", thematic_areas.map(c => { return { key: 'thematic_areas', value: c } }))
-      .each(function (d) {
-        d3.select(this).classed(d.key, true);
+  const chips = titleSection
+    .addElems("div", "tags")
+    .addElems(
+      "button",
+      "tag",
+      thematic_areas.map((c) => {
+        return { key: "thematic_areas", value: c };
       })
+    )
+    .each(function (d) {
+      d3.select(this).classed(d.key, true);
+    })
     .addElem("label")
     .addElem("a")
-    .attr("href", d => fixInternalLinks(`/registries/${d.key}/${makeSafe(d.value)}`))
+    .attr("href", (d) =>
+      fixInternalLinks(`/registries/${d.key}/${makeSafe(d.value)}`)
+    )
     .html((d) => {
       if (d.value.length > 30) return `${d.value.slice(0, 30)}…`;
       else return d.value;
@@ -213,24 +408,28 @@ export const transcript = function (text, source) {
   });
   */
 };
-export const registry = function (text, source) { 
+export const registry = function (text, source) {
   let html = marked.parse(text);
   // The content needs to be set before the title section because h1 is moved out of it below
   const content = d3.select("section.content > div.inner");
   const transcript = content.addElem("div", "transcript").html(html);
 
-  const levels = transcript.selectAll("h2")
-  .each(function () {
+  const levels = transcript.selectAll("h2").each(function () {
     d3.select(this).attr("id", makeSafe(this.textContent.trim()));
   });
 
-  const cartouche = content.addElems("div", "cartouche")
-  .addElems("menu", "registry")
-  .addElems("li", "level", [...levels.nodes()].map(d => d.textContent.trim()))
-  .addElems("a")
-    .attr("href", d => `#${makeSafe(d)}`)
-  .html(d => d);
-  
+  const cartouche = content
+    .addElems("div", "cartouche")
+    .addElems("menu", "registry")
+    .addElems(
+      "li",
+      "level",
+      [...levels.nodes()].map((d) => d.textContent.trim())
+    )
+    .addElems("a")
+    .attr("href", (d) => `#${makeSafe(d)}`)
+    .html((d) => d);
+
   const url = new URL(document.location);
   let path = url.pathname.split("/").filter((d) => d.length);
 
@@ -242,27 +441,28 @@ export const registry = function (text, source) {
     .attr("href", (d, i) => `/${path.slice(0, i + 1).join("/")}`)
     .html((d) => d);
   transcript.select("h1").moveTo(titleSection.node());
-  
+
   // Add a link to edit the file directly in Github
   titleSection
     .addElem("a", "edit-link")
     .attr("href", (_) => {
-      const moveup = source.match(/\.\.\//g)?.length;
-      let gitpath = path;
-      if (moveup) gitpath = path.slice(0, moveup * -1);
-      // TO DO: REPLACE THIS URL
-      return `https://github.com/UNDP-Accelerator-Labs/RnD-Archive/edit/main/${source.replace(
-        "../",
-        ""
+      // `source` is provided by getTranscript and may be like '/pages/File.md', 'README.md', '../pages/File.md', etc.
+      // Normalize it to a repository-relative path and point to the correct repo.
+      let src = String(source || "");
+      // remove any parent-directory references and leading slashes
+      src = src.replace(/\.\.\//g, "").replace(/^\//, "");
+      // Fallback: if empty, point to repo root README
+      if (!src) src = "README.md";
+      return `https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/edit/gh-pages/${encodeURIComponent(
+        src
       )}`;
-    }).attr("target", "_blank")
+    })
+    .attr("target", "_blank")
     .html("Edit this page");
 
-  transcript.selectAll("h2")
-  .each(function () {
+  transcript.selectAll("h2").each(function () {
     const txt = this.textContent.trim();
   });
-
 
   /*
   transcript.selectAll("p").each(function () {
@@ -304,8 +504,9 @@ export const registry = function (text, source) {
 };
 
 export const footnote = function (text, source) {
-	const html = marked.parse(text);
-	const transcript = d3.select("section.content")
-	.addElem("div", "footnote")
-	.html(html);
-}
+  const html = marked.parse(text);
+  const transcript = d3
+    .select("section.content")
+    .addElem("div", "footnote")
+    .html(html);
+};

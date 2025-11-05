@@ -7,7 +7,13 @@
 
 - [Thematic areas](./thematic_areas)
 
-- [What we saw](./what_we_saw)
+- [What We Did](./what_we_did)
+
+- [What We Saw](./what_we_saw)
+
+- [What We Tested](./what_we_tested)
+
+- [What We Used](./what_we_used)
 
 - [Years](./years)
 

@@ -1,4 +1,4 @@
-import { chunk, zip } from './helpers.mjs';
+import { chunk, zip } from "./helpers.mjs";
 
 // REGEX LOOKUP [[]]
 export const tagLookup = /\[\[[\w:.\-\/\d\s…&\(\)\"'_,@%~#=]*\]\]/g;
@@ -7,7 +7,6 @@ const typeLookup = /\[\[type:[\w:.\-\/\d\s…&\(\)\"'_,@%~#=]*\]\]/g;
 export const parseMetadata = function (text, metafields) {
   if (!Array.isArray(metafields)) metafields = [metafields];
   // Return ids with hyperlinks
-
   let matches = [...text.matchAll(tagLookup)].filter((d) => {
     return metafields.some((c) => d[0].replace(/[\[\]]/g, "").startsWith(c));
   });
