@@ -1,18 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
+    <!-- Map dependencies -->
+    <script src="https://unpkg.com/topojson-client@3" type="module"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@7/turf.min.js"></script>
+    <!--  -->
     <script type="module" src="/public/js/load.mjs"></script>
     <link rel="stylesheet" type="text/css" href="/public/css/main.css" />
   </head>
 
   <body>
     <nav id="head">
-      <menu> </menu>
+      <h3>The SDG Commons</h3>
+      <menu></menu>
     </nav>
 
-    <main>
-      <section class="title"></section>
-      <section class="content"></section>
+    <main class="grid-bg">
+      <section class="title grid-bg">
+        <div class="inner"></div>
+      </section>
+      <section class="content">
+        <div class="inner"></div>
+      </section>
     </main>
+    <button id="back-to-top" class="hide">&#8607;</button>
   </body>
 </html>
