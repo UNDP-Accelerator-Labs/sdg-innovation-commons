@@ -4,572 +4,7 @@
 
 ## Story
 
-### North america
-
-#### El salvador
-
-<div class="multicol">
-
-
-<div>
-
-
-##### E
-- [el salvador's innovative public internet initiative: scaling up sustainable development](./?doc=Experimenters_SLV.md)
-- [exploring digital basket innovations in el salvador](./?doc=Explorers_SLV.md)
-
-
-</div>
-
-
-</div>
-
-#### Mexico
-
-<div class="multicol">
-
-
-<div>
-
-
-##### M
-- [mexico: building indigenous rights through effective consultation](./?doc=Experimenters_MEX.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### A
-- [accelerating climate action in mexico: leveraging mass consultations and social networks](./?doc=SolutionMappers_MEX.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### "
-- ["unlocking safety for women in mexico city: a data-powered positive deviance approach"](./?doc=Explorers_MEX.md)
-
-
-</div>
-
-
-</div>
-
-#### Haiti
-
-<div class="multicol">
-
-
-<div>
-
-
-##### H
-- [haiti waste management accelerated lab initiative](./?doc=Experimenters_HTI.md)
-
-
-</div>
-
-
-</div>
-
-#### Guatemala
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["addressing polarization in guatemala: a national development report localization effort"](./?doc=Experimenters_GTM.md)
-- ["guatemala's climate challenge: collaborative innovation for sustainable solid waste management"](./?doc=Explorers_GTM.md)
-
-
-</div>
-
-
-</div>
-
-#### Panama
-
-<div class="multicol">
-
-
-<div>
-
-
-##### B
-- [building a network to accelerate change in circular economy in panama](./?doc=SolutionMappers_PAN.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### "
-- ["panama's social cohesion initiative: bridging trust and democracy through r&d"](./?doc=Experimenters_PAN.md)
-
-
-</div>
-
-
-</div>
-
-### Asia
-
-#### Bangladesh
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["bangladesh accelerator lab: promoting digital financial inclusion through policy advocacy"](./?doc=Explorers_BGD.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### U
-- [understanding social protection needs of climate migrants in urban settings in bangladesh.](./?doc=SolutionMappers_BGD.md)
-
-
-</div>
-
-
-</div>
-
-#### Cambodia
-
-<div class="multicol">
-
-
-<div>
-
-
-##### C
-- [cambodia accelerator lab: leveraging youth consultation for inclusive development](./?doc=Experimenters_KHM.md)
-
-
-</div>
-
-
-</div>
-
-#### Iraq
-
-<div class="multicol">
-
-
-<div>
-
-
-##### I
-- [iraq expands blended learning initiative to enhance higher education skills](./?doc=Experimenters_IRQ.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### S
-- [solutions mapping in iraq: uncovering local youth employment challenges](./?doc=SolutionMappers_IRQ.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### "
-- ["scaling climate resilience in iraq: safa al-qoch's community hub initiative"](./?doc=Explorers_IRQ.md)
-
-
-</div>
-
-
-</div>
-
-#### Timor leste
-
-<div class="multicol">
-
-
-<div>
-
-
-##### E
-- [exploring innovation in timor leste: a collaborative approach to job development](./?doc=Explorers_TLS.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### "
-- ["timor leste accelerator lab: innovative solutions for covid-19 challenges and sustainable development"](./?doc=Experimenters_TLS.md)
-
-
-</div>
-
-
-</div>
-
-#### Laos
-
-<div class="multicol">
-
-
-<div>
-
-
-##### L
-- [laos waste management experimentation initiative](./?doc=Experimenters_LAO.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### E
-- [explorer-laos-jakuna: a national job matching platform](./?doc=Explorers_LAO.md)
-
-
-</div>
-
-
-</div>
-
-#### Bhutan
-
-<div class="multicol">
-
-
-<div>
-
-
-##### B
-- [bhutan's highland sustainable fund: harnessing innovation for development](./?doc=Experimenters_BTN.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### "
-- ["bhutan's innovative approach to addressing youth unemployment through ethnographic research and systems thinking"](./?doc=SolutionMappers_BTN.md)
-
-
-</div>
-
-
-</div>
-
-#### Thailand
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [solutions mapping for inclusive tourism in thailand.](./?doc=SolutionMappers_THA.md)
-
-
-</div>
-
-
-</div>
-
-#### Vietnam
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["transforming vietnam's last mile delivery service with electric vehicles"](./?doc=Experimenters_VNM.md)
-
-
-</div>
-
-
-</div>
-
-#### Syria
-
-<div class="multicol">
-
-
-<div>
-
-
-##### T
-- [the euphrates river knowledge flow initiative](./?doc=SolutionMappers_SYR.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### S
-- [syria launches experiment to support rural entrepreneurs](./?doc=Experimenters_SYR.md)
-
-
-</div>
-
-
-</div>
-
-#### Mongolia
-
-<div class="multicol">
-
-
-<div>
-
-
-##### M
-- [mongolia: scaling foresight for sustainable livelihoods](./?doc=Explorers_MNG.md)
-
-
-</div>
-
-
-</div>
-
-#### Jordan
-
-<div class="multicol">
-
-
-<div>
-
-
-##### J
-- [jordan career counseling platform development](./?doc=Experimenters_JOR.md)
-
-
-</div>
-
-
-</div>
-
-#### Philippines
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["scaling local convergences in the philippines: a pro-totyping approach to eradicating extreme poverty"](./?doc=Experimenters_PHL.md)
-
-
-</div>
-
-
-</div>
-
 ### Africa
-
-#### Somalia
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [somalia's positive deviance approach to scaling up resilient agricultural practices](./?doc=Experimenters_SOM.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### R
-- [resilience in somalia through data-driven positive deviance pilot](./?doc=Explorers_SOM.md)
-
-
-</div>
-
-
-</div>
-
-#### Eswatini
-
-<div class="multicol">
-
-
-<div>
-
-
-##### E
-- [eswatini harnesses ai for digital inclusion](./?doc=Experimenter_SWZ.md)
-- [eswatini's solutions mapping initiative reduces plastic bag waste.](./?doc=SolutionMappers_SWZ.md)
-
-
-</div>
-
-
-</div>
-
-#### Democratic republic of congo
-
-<div class="multicol">
-
-
-<div>
-
-
-##### D
-- [democratic republic of congo: fighting corruption through innovative justice administration solutions](./?doc=SolutionMappers_COD.md)
-- [digitalizing justice system for anti corruption in democratic republic of congo.](./?doc=Experimenters_COD.md)
-
-
-</div>
-
-
-</div>
-
-#### Guinea bissau
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [solutions mapping for public spaces in guinea bissau](./?doc=SolutionMappers_GNB.md)
-
-
-</div>
-
-
-</div>
-
-#### Uganda
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["uganda develops national digital transformation road map through undp r&d efforts"](./?doc=Experimenters_UGA.md)
-
-
-</div>
-
-
-</div>
-
-#### Namibia
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [solutions mapper-namibia-om seed initiative](./?doc=SolutionMappers_NAM.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### "
-- ["co-creating innovation: a public service toolkit development initiative in namibia"](./?doc=Experimenters_NAM.md)
-
-
-</div>
-
-
-</div>
-
-#### Ethiopia
-
-<div class="multicol">
-
-
-<div>
-
-
-##### E
-- [ethiopia’s innovative nature-based solution for striker weed in cereal crop production](./?doc=Experimenters_ETH.md)
-
-
-</div>
-
-
-</div>
-
-#### South africa
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [smart agri gardens in rural south africa](./?doc=Experimenters_ZAF.md)
-
-
-</div>
-
-
-</div>
 
 #### Angola
 
@@ -588,180 +23,9 @@
 
 </div>
 
-#### South sudan
-
-<div class="multicol">
-
-
-<div>
-
-
-##### D
-- [digitalization of traditional sanduk savings initiative in south sudan](./?doc=Experimenters_SSD.md)
-- [digitizing traditional savings schemes in south sudan](./?doc=SolutionMappers_SSD.md)
-
-
-</div>
-
-
-</div>
-
-#### Zimbabwe
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- [" mapping innovation in zimbabwe: leveraging technology for sustainable development"](./?doc=Explorers_ZWE.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### Z
-- [zimbabwe: mapping solutions for women's business continuity amid covid-19](./?doc=SolutionMappers_ZWE.md)
-
-
-</div>
-
-
-</div>
-
-#### Togo
-
-<div class="multicol">
-
-
-<div>
-
-
-##### T
-- [togo innovates: boosting university-industry collaboration for sustainable development](./?doc=Explorers_TGO.md)
-- [togo's digitalization of birth registry through accelerator lab solutions.](./?doc=SolutionMappers_TGO.md)
-
-
-</div>
-
-
-</div>
-
-#### Libya
-
-<div class="multicol">
-
-
-<div>
-
-
-##### L
-- [libya's emergency response to groundwater surfaces.](./?doc=Experimenters_LBY.md)
-
-
-</div>
-
-
-</div>
-
-#### Cameroon
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["empowering street youth in cameroon through solar power mobile kiosk initiative"](./?doc=Experimenters_CMR.md)
-
-
-</div>
-
-
-</div>
-
-#### Gambia
-
-<div class="multicol">
-
-
-<div>
-
-
-##### G
-- [gambia accelerator lab develops secular economy mapping for waste management innovation.](./?doc=Experimenters_GMB.md)
-
-
-</div>
-
-
-</div>
-
-#### Mozambique
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [solutions mapping in mozambique to improve clean energy adoption](./?doc=SolutionMappers_MOZ.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### M
-- [mozambique's youth employment portfolio initiative](./?doc=Explorers_MOZ.md)
-
-
-</div>
-
-
-</div>
-
-#### Algeria
-
-<div class="multicol">
-
-
-<div>
-
-
-##### "
-- ["unlocking local governance in algeria: the accelerator lab's experimentation approach"](./?doc=Experimenters_DZA.md)
-
-
-</div>
-
-
-</div>
-
 #### Ghana
 
 <div class="multicol">
-
-
-<div>
-
-
-##### G
-- [ghana's digital gateway for msmes: enhancing inclusive business growth](./?doc=Explorers_GHA.md)
-
-
-</div>
-
 
 
 <div>
@@ -774,9 +38,20 @@
 </div>
 
 
+
+<div>
+
+
+##### G
+- [ghana's digital gateway for msmes: enhancing inclusive business growth](./?doc=Explorers_GHA.md)
+
+
 </div>
 
-#### Malawi
+
+</div>
+
+#### Sudan
 
 <div class="multicol">
 
@@ -784,30 +59,8 @@
 <div>
 
 
-##### A
-- [ai for tourism development in malawi](./?doc=Explorers_MWI.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### M
-- [malawi accelerator lab: developing local innovation solutions for governance challenges](./?doc=Experimenters_MWI.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### C
-- [changing the narrative around digital education in malawi](./?doc=SolutionMappers_MWI.md)
+##### S
+- [sudan's innovative partnership model for food security and employment generates impact.](./?doc=Experimenter_SDN.md)
 
 
 </div>
@@ -843,7 +96,171 @@
 
 </div>
 
-#### Rwanda
+#### Malawi
+
+<div class="multicol">
+
+
+<div>
+
+
+##### M
+- [malawi accelerator lab: developing local innovation solutions for governance challenges](./?doc=Experimenters_MWI.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### C
+- [changing the narrative around digital education in malawi](./?doc=SolutionMappers_MWI.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### A
+- [ai for tourism development in malawi](./?doc=Explorers_MWI.md)
+
+
+</div>
+
+
+</div>
+
+#### Cameroon
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["empowering street youth in cameroon through solar power mobile kiosk initiative"](./?doc=Experimenters_CMR.md)
+
+
+</div>
+
+
+</div>
+
+#### Ethiopia
+
+<div class="multicol">
+
+
+<div>
+
+
+##### E
+- [ethiopia’s innovative nature-based solution for striker weed in cereal crop production](./?doc=Experimenters_ETH.md)
+
+
+</div>
+
+
+</div>
+
+#### Democratic republic of congo
+
+<div class="multicol">
+
+
+<div>
+
+
+##### D
+- [democratic republic of congo: fighting corruption through innovative justice administration solutions](./?doc=SolutionMappers_COD.md)
+- [digitalizing justice system for anti corruption in democratic republic of congo.](./?doc=Experimenters_COD.md)
+
+
+</div>
+
+
+</div>
+
+#### Namibia
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [solutions mapper-namibia-om seed initiative](./?doc=SolutionMappers_NAM.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### "
+- ["co-creating innovation: a public service toolkit development initiative in namibia"](./?doc=Experimenters_NAM.md)
+
+
+</div>
+
+
+</div>
+
+#### Zimbabwe
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- [" mapping innovation in zimbabwe: leveraging technology for sustainable development"](./?doc=Explorers_ZWE.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### Z
+- [zimbabwe: mapping solutions for women's business continuity amid covid-19](./?doc=SolutionMappers_ZWE.md)
+
+
+</div>
+
+
+</div>
+
+#### South africa
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [smart agri gardens in rural south africa](./?doc=Experimenters_ZAF.md)
+
+
+</div>
+
+
+</div>
+
+#### Somalia
 
 <div class="multicol">
 
@@ -852,7 +269,53 @@
 
 
 ##### R
-- [rwanda's robotics revolution: transforming hospital efficiency through innovation.](./?doc=Explorers_RWA.md)
+- [resilience in somalia through data-driven positive deviance pilot](./?doc=Explorers_SOM.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### S
+- [somalia's positive deviance approach to scaling up resilient agricultural practices](./?doc=Experimenters_SOM.md)
+
+
+</div>
+
+
+</div>
+
+#### Togo
+
+<div class="multicol">
+
+
+<div>
+
+
+##### T
+- [togo innovates: boosting university-industry collaboration for sustainable development](./?doc=Explorers_TGO.md)
+- [togo's digitalization of birth registry through accelerator lab solutions.](./?doc=SolutionMappers_TGO.md)
+
+
+</div>
+
+
+</div>
+
+#### Gambia
+
+<div class="multicol">
+
+
+<div>
+
+
+##### G
+- [gambia accelerator lab develops secular economy mapping for waste management innovation.](./?doc=Experimenters_GMB.md)
 
 
 </div>
@@ -888,7 +351,7 @@
 
 </div>
 
-#### Sudan
+#### South sudan
 
 <div class="multicol">
 
@@ -896,25 +359,9 @@
 <div>
 
 
-##### S
-- [sudan's innovative partnership model for food security and employment generates impact.](./?doc=Experimenter_SDN.md)
-
-
-</div>
-
-
-</div>
-
-#### Sierra leone
-
-<div class="multicol">
-
-
-<div>
-
-
-##### S
-- [solutions mapping accelerator labs: empowering youth innovators in sierra leone](./?doc=SolutionMappers_SLE.md)
+##### D
+- [digitalization of traditional sanduk savings initiative in south sudan](./?doc=Experimenters_SSD.md)
+- [digitizing traditional savings schemes in south sudan](./?doc=SolutionMappers_SSD.md)
 
 
 </div>
@@ -939,7 +386,466 @@
 
 </div>
 
+#### Mozambique
+
+<div class="multicol">
+
+
+<div>
+
+
+##### M
+- [mozambique's youth employment portfolio initiative](./?doc=Explorers_MOZ.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### S
+- [solutions mapping in mozambique to improve clean energy adoption](./?doc=SolutionMappers_MOZ.md)
+
+
+</div>
+
+
+</div>
+
+#### Eswatini
+
+<div class="multicol">
+
+
+<div>
+
+
+##### E
+- [eswatini harnesses ai for digital inclusion](./?doc=Experimenter_SWZ.md)
+- [eswatini's solutions mapping initiative reduces plastic bag waste.](./?doc=SolutionMappers_SWZ.md)
+
+
+</div>
+
+
+</div>
+
+#### Guinea bissau
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [solutions mapping for public spaces in guinea bissau](./?doc=SolutionMappers_GNB.md)
+
+
+</div>
+
+
+</div>
+
+#### Sierra leone
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [solutions mapping accelerator labs: empowering youth innovators in sierra leone](./?doc=SolutionMappers_SLE.md)
+
+
+</div>
+
+
+</div>
+
+#### Uganda
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["uganda develops national digital transformation road map through undp r&d efforts"](./?doc=Experimenters_UGA.md)
+
+
+</div>
+
+
+</div>
+
+#### Libya
+
+<div class="multicol">
+
+
+<div>
+
+
+##### L
+- [libya's emergency response to groundwater surfaces.](./?doc=Experimenters_LBY.md)
+
+
+</div>
+
+
+</div>
+
+#### Rwanda
+
+<div class="multicol">
+
+
+<div>
+
+
+##### R
+- [rwanda's robotics revolution: transforming hospital efficiency through innovation.](./?doc=Explorers_RWA.md)
+
+
+</div>
+
+
+</div>
+
+#### Algeria
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["unlocking local governance in algeria: the accelerator lab's experimentation approach"](./?doc=Experimenters_DZA.md)
+
+
+</div>
+
+
+</div>
+
+### Asia
+
+#### Laos
+
+<div class="multicol">
+
+
+<div>
+
+
+##### L
+- [laos waste management experimentation initiative](./?doc=Experimenters_LAO.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### E
+- [explorer-laos-jakuna: a national job matching platform](./?doc=Explorers_LAO.md)
+
+
+</div>
+
+
+</div>
+
+#### Bangladesh
+
+<div class="multicol">
+
+
+<div>
+
+
+##### U
+- [understanding social protection needs of climate migrants in urban settings in bangladesh.](./?doc=SolutionMappers_BGD.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### "
+- ["bangladesh accelerator lab: promoting digital financial inclusion through policy advocacy"](./?doc=Explorers_BGD.md)
+
+
+</div>
+
+
+</div>
+
+#### Bhutan
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["bhutan's innovative approach to addressing youth unemployment through ethnographic research and systems thinking"](./?doc=SolutionMappers_BTN.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### B
+- [bhutan's highland sustainable fund: harnessing innovation for development](./?doc=Experimenters_BTN.md)
+
+
+</div>
+
+
+</div>
+
+#### Iraq
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [solutions mapping in iraq: uncovering local youth employment challenges](./?doc=SolutionMappers_IRQ.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### I
+- [iraq expands blended learning initiative to enhance higher education skills](./?doc=Experimenters_IRQ.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### "
+- ["scaling climate resilience in iraq: safa al-qoch's community hub initiative"](./?doc=Explorers_IRQ.md)
+
+
+</div>
+
+
+</div>
+
+#### Jordan
+
+<div class="multicol">
+
+
+<div>
+
+
+##### J
+- [jordan career counseling platform development](./?doc=Experimenters_JOR.md)
+
+
+</div>
+
+
+</div>
+
+#### Thailand
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [solutions mapping for inclusive tourism in thailand.](./?doc=SolutionMappers_THA.md)
+
+
+</div>
+
+
+</div>
+
+#### Timor leste
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["timor leste accelerator lab: innovative solutions for covid-19 challenges and sustainable development"](./?doc=Experimenters_TLS.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### E
+- [exploring innovation in timor leste: a collaborative approach to job development](./?doc=Explorers_TLS.md)
+
+
+</div>
+
+
+</div>
+
+#### Mongolia
+
+<div class="multicol">
+
+
+<div>
+
+
+##### M
+- [mongolia: scaling foresight for sustainable livelihoods](./?doc=Explorers_MNG.md)
+
+
+</div>
+
+
+</div>
+
+#### Syria
+
+<div class="multicol">
+
+
+<div>
+
+
+##### S
+- [syria launches experiment to support rural entrepreneurs](./?doc=Experimenters_SYR.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### T
+- [the euphrates river knowledge flow initiative](./?doc=SolutionMappers_SYR.md)
+
+
+</div>
+
+
+</div>
+
+#### Vietnam
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["transforming vietnam's last mile delivery service with electric vehicles"](./?doc=Experimenters_VNM.md)
+
+
+</div>
+
+
+</div>
+
+#### Philippines
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["scaling local convergences in the philippines: a pro-totyping approach to eradicating extreme poverty"](./?doc=Experimenters_PHL.md)
+
+
+</div>
+
+
+</div>
+
+#### Cambodia
+
+<div class="multicol">
+
+
+<div>
+
+
+##### C
+- [cambodia accelerator lab: leveraging youth consultation for inclusive development](./?doc=Experimenters_KHM.md)
+
+
+</div>
+
+
+</div>
+
 ### South america
+
+#### Paraguay
+
+<div class="multicol">
+
+
+<div>
+
+
+##### M
+- [mapping paraguay's response to the covid-19 pandemic.](./?doc=Experimenters_PRY.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### "
+- ["paraguay's garment industry transformation: monica rios' learning loop initiative"](./?doc=Explorers_PRY.md)
+
+
+</div>
+
+
+</div>
 
 #### Ecuador
 
@@ -958,7 +864,7 @@
 
 </div>
 
-#### Paraguay
+#### Colombia
 
 <div class="multicol">
 
@@ -966,19 +872,8 @@
 <div>
 
 
-##### "
-- ["paraguay's garment industry transformation: monica rios' learning loop initiative"](./?doc=Explorers_PRY.md)
-
-
-</div>
-
-
-
-<div>
-
-
-##### M
-- [mapping paraguay's response to the covid-19 pandemic.](./?doc=Experimenters_PRY.md)
+##### L
+- [life helmets: a colombian innovation response to covid-19 isolation](./?doc=Experimenters_COL.md)
 
 
 </div>
@@ -1003,7 +898,7 @@
 
 </div>
 
-#### Colombia
+#### Argentina
 
 <div class="multicol">
 
@@ -1011,8 +906,19 @@
 <div>
 
 
-##### L
-- [life helmets: a colombian innovation response to covid-19 isolation](./?doc=Experimenters_COL.md)
+##### A
+- [argentina's digital inclusion network success story](./?doc=Experimenters_ARG.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### S
+- [solutions mapping for sustainable development in argentina](./?doc=SolutionMappers_ARG.md)
 
 
 </div>
@@ -1048,7 +954,9 @@
 
 </div>
 
-#### Argentina
+### Europe
+
+#### Bosnia and herzegovina
 
 <div class="multicol">
 
@@ -1057,26 +965,30 @@
 
 
 ##### S
-- [solutions mapping for sustainable development in argentina](./?doc=SolutionMappers_ARG.md)
+- [solutions mapping in bosnia and herzegovina: enhancing citizen participation in urban planning](./?doc=SolutionMappers_BIH.md)
 
 
 </div>
 
+
+</div>
+
+#### Serbia
+
+<div class="multicol">
 
 
 <div>
 
 
-##### A
-- [argentina's digital inclusion network success story](./?doc=Experimenters_ARG.md)
+##### U
+- [user journey mapping to address women's representation in serbia's ict sector.](./?doc=Experimenters_SRB.md)
 
 
 </div>
 
 
 </div>
-
-### Europe
 
 #### North macedonia
 
@@ -1106,7 +1018,9 @@
 
 </div>
 
-#### Serbia
+### North america
+
+#### Mexico
 
 <div class="multicol">
 
@@ -1114,8 +1028,30 @@
 <div>
 
 
-##### U
-- [user journey mapping to address women's representation in serbia's ict sector.](./?doc=Experimenters_SRB.md)
+##### A
+- [accelerating climate action in mexico: leveraging mass consultations and social networks](./?doc=SolutionMappers_MEX.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### "
+- ["unlocking safety for women in mexico city: a data-powered positive deviance approach"](./?doc=Explorers_MEX.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### M
+- [mexico: building indigenous rights through effective consultation](./?doc=Experimenters_MEX.md)
 
 
 </div>
@@ -1123,7 +1059,7 @@
 
 </div>
 
-#### Bosnia and herzegovina
+#### El salvador
 
 <div class="multicol">
 
@@ -1131,8 +1067,72 @@
 <div>
 
 
-##### S
-- [solutions mapping in bosnia and herzegovina: enhancing citizen participation in urban planning](./?doc=SolutionMappers_BIH.md)
+##### E
+- [el salvador's innovative public internet initiative: scaling up sustainable development](./?doc=Experimenters_SLV.md)
+- [exploring digital basket innovations in el salvador](./?doc=Explorers_SLV.md)
+
+
+</div>
+
+
+</div>
+
+#### Guatemala
+
+<div class="multicol">
+
+
+<div>
+
+
+##### "
+- ["addressing polarization in guatemala: a national development report localization effort"](./?doc=Experimenters_GTM.md)
+- ["guatemala's climate challenge: collaborative innovation for sustainable solid waste management"](./?doc=Explorers_GTM.md)
+
+
+</div>
+
+
+</div>
+
+#### Haiti
+
+<div class="multicol">
+
+
+<div>
+
+
+##### H
+- [haiti waste management accelerated lab initiative](./?doc=Experimenters_HTI.md)
+
+
+</div>
+
+
+</div>
+
+#### Panama
+
+<div class="multicol">
+
+
+<div>
+
+
+##### B
+- [building a network to accelerate change in circular economy in panama](./?doc=SolutionMappers_PAN.md)
+
+
+</div>
+
+
+
+<div>
+
+
+##### "
+- ["panama's social cohesion initiative: bridging trust and democracy through r&d"](./?doc=Experimenters_PAN.md)
 
 
 </div>
