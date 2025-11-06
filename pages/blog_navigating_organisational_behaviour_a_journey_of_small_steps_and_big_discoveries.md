@@ -1,0 +1,41 @@
+# Navigating Organisational Behaviour: A Journey of Small Steps and Big Discoveries
+
+[[type:blog]]
+
+[[source:https://www.undp.org/jordan/blog/navigating-organisational-behaviour-journey-small-steps-and-big-discoveries]]
+
+[Original article published here](https://www.undp.org/jordan/blog/navigating-organisational-behaviour-journey-small-steps-and-big-discoveries)
+
+
+[[year:2024]]
+
+[[date:NOVEMBER 4, 2024]]
+
+[[continent:Asia]]
+
+[[country:Jordan]]
+
+
+
+Home
+
+Jordan
+
+Navigating Organisational Behaviour: A Journey of Small Steps and Big Discoveries
+
+Navigating Organisational Behaviour: A Journey of Small Steps and Big Discoveries
+November 4, 2024
+
+Group Photo from the Retreat
+In early 2023, as the Jordan Accelerator Lab collaborated on the Portfolio Initiation Framework project, we started noticing a recurring theme; despite ambitious initiatives and well-structured organisational plans, invisible barriers were hindering their realisation. This observation was not confined to our team; it echoed throughout various institutions in Jordan, suggesting that organisational behaviour and how individuals and teams interact might be a roadblock. We pondered whether this was the missing piece behind many institutions’ struggles in fulfilling their impactful visions. To explore this, we conducted an office-wide and LinkedIn poll, asking people about the top issues affecting their lives in Jordan. The overwhelming response pointed to interpersonal behaviours in the workplace. We met with the staff counsellor at the UNDP regional hub in Amman and discussed some ideas. However, despite this clear indication of potential, we hesitated to take action; possibly, it was the sensitivity of the topic or the perception that the Lab was notequipped to address something organisational.
+It was not until earlier this year that the interest grew into action. Our Lab was invited to design and facilitate a retreat for the Environment and Livelihood Pillars (ELP) at UNDP Jordan, which was intended to bring two newly merged teams together, foster connection, and share project updates. This retreat provided a practical setting for us to observe interactions, understand team dynamics, and address issues like role overlap and job uncertainty. As facilitators rather than colleagues, our observations became essential as we helped ELP map out an organisational structure designed to address the prominent challenges discussed in the retreat. Although our initial exploration into organisational behaviour was limited, it laid the groundwork for the Lab’s role in designing the all-country office retreat. It established us as facilitators who can be neutral between the teams with cross-cutting interactions throughout the country office. We were given just one day to develop a proposal for an agenda implementation in three weeks. By then, our team had already attended two and a half retreats and observed that some sessions needed refreshing, as a different approach to conceptualising the retreat might provide a new perspective. We immediately gathered and pulled out an organisational behaviour textbook that Ayah had kept in the office for over a year. Going through the topics, we looked for ways to align them with the resident representative’s goals for the retreat and with insights from our observations and notes, which we kept on file. We agreed that it was crucial to address personal well-being at work while encouraging individuals to take ownership of their well-being—a key factor for achieving positive results in the workplace.
+
+We conceptualised the retreat based on the ecological systems model, which examines the interactions between individuals and their surrounding layers—the individual, the team, and the organisational environment. This retreat focused on the first three layers, where employees have the most control. At the core of this model is the idea that an individual’s actions impact those around them, encouraging each person to take ownership and initiate change. By doing so, everyone contributes to the organisation in their role. However, we also recognised that some factors, such as organisational culture or policies, will inevitably lie beyond an individual’s control. As humans, we often overestimate or underestimate how much our thoughts and emotions shape our behaviours. For this retreat, we aimed to encourage participants to recognise what they can control and influence at work and consider ways they might impact factors beyond their control. We anticipated some discomfort with this introspection, so we made a point of using inclusive language, validating any experiences they chose to share while also gently challenging certain beliefs about their behaviours and team effectiveness. Another challenge was addressing some team members’ disappointment and scepticism, as regional events led to the decision to keep the retreat in Amman rather than in a more distant location. We curated an atmosphere that encouraged participation and open conversation to ease the disappointment and transform it into joyful times. Our agenda made space for team connection, for example, arranging seating in circles rather than a traditional classroom setup to promote interaction and collaboration. Moreover, we added elements of playfulness as empirical evidence suggests that play fosters collaboration and reduces stress. Thus, we ensured our activities included fun energisers and games. We incorporated thoughtful details such as a “Made in Jordan” table featuring local delicacies and a coffee cart from a popular café. We understood that small elements could enormously impact participants’ experience, creating a welcoming environment that eased initial reservations.
+
+Since our activities were grounded in organisational behaviour, we were initially concerned that our approach might be too “scientific” or detached. However, we noticed that the team appreciated the explanations behind certain behaviours and decision-making challenges, particularly around cognitive biases. For example, explaining how the brain uses shortcuts in decision-making resonated with colleagues; it helped clarify that while biases vary among individuals, it is human nature to favour those similar to us or seek information confirming our own ideas. These biases shape how we perceive situations, evaluate colleagues, and solve problems, sometimes hindering productivity, collaboration, and innovation. Recognising and addressing biases can improve objectivity, fairness, and workplace performance. Although curiosity in knowledge and science can sometimes be underestimated or avoided due to fears of complicating discussions, we found that with the proper context and language, these topics sparked curiosity and encouraged ongoing dialogue.
+
+By the end of the retreat, we appreciated how genuine the conversations were and the participants’ openness to small changes in individual behaviour that could lead to broader cultural improvements. However, we also came into the retreat knowing that the retreat alone can only bring lasting change with sustained follow-up. We reminded participants, management, and ourselves that the retreat was just one step in an ongoing journey. In essence, our journey into exploring organisational behaviour was about understanding individual and group dynamics and operationalising these insights to improve workplace outcomes. With that in mind, we devised a set of short to medium-term actions that the office could implement immediately based on the discussions over the two-day retreat. We ensured that we recommended realistic, attainable actions that could keep the momentum going. From focusing on regular team check-ins to fostering more open lines of communication, each recommendation was geared toward improving trust, accountability, and overall people’s well-being. By blending theory with practice, we aspire to enhance our teams’ productivity, community, and well-being. Time spent in the workplace is undeniably significant—an estimated one-third of one’s life—and fostering a positive environment is essential for individual and organisational success.
+
+Contact us if you have a workshop or event with your team that you are designingayah.younis@undp.org
+
+

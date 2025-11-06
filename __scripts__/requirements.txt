@@ -1,0 +1,11 @@
+# Requirements for the __scripts__ generation utilities
+# Pin versions to improve reproducibility in CI/workflows
+Pillow==9.5.0
+beautifulsoup4==4.12.2
+requests==2.31.0
+lxml==4.9.3
+
+# Optional: Ollama Python client. Install only if you use local Ollama integration.
+# The ollama package may not be available via PyPI in some setups; the scripts
+# already fallback to calling the `ollama` CLI when needed.
+ollama

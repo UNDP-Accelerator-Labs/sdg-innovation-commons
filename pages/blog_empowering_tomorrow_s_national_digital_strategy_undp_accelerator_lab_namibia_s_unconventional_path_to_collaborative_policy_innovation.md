@@ -1,0 +1,37 @@
+# Empowering Tomorrow’s National Digital Strategy: UNDP Accelerator Lab Namibia's Unconventional Path to Collaborative Policy Innovation
+
+[[type:blog]]
+
+[[source:https://www.undp.org/namibia/blog/empowering-tomorrows-national-digital-strategy-undp-accelerator-lab-namibias-unconventional-path-collaborative-policy-innovation]]
+
+[Original article published here](https://www.undp.org/namibia/blog/empowering-tomorrows-national-digital-strategy-undp-accelerator-lab-namibias-unconventional-path-collaborative-policy-innovation)
+
+
+[[year:2023]]
+
+[[date:SEPTEMBER 20, 2023]]
+
+[[continent:Africa]]
+
+[[country:Namibia]]
+
+
+
+Home
+
+Namibia
+
+Empowering Tomorrow’s National Digital Strategy: UNDP Accelerator Lab Namibia's Unconventional Path to Collaborative Policy Innovation
+
+Empowering Tomorrow’s National Digital Strategy: UNDP Accelerator Lab Namibia's Unconventional Path to Collaborative Policy Innovation
+September 20, 2023
+
+Author
+
+Yrika Maritz
+
+Head of Experimentation- UNDP Accelerator Labs Namibia
+
+I am privileged to share with you the first part of three blogs on what we have been learning so far on digital transformation. For me, it is a remarkable journey undertaken by the UNDP Accelerator Lab in shaping national policies that are not only visionary but also deeply rooted in the hopes and dreams of every individual. As the head of experimentation, I've witnessed firsthand the transformational power of our collaborative and participatory approaches in enriching the content of the national strategy. Our journey so far has been nothing short of extraordinary, as we've striven to capture the aspirations and desires of everyone we have been consulting during the past stakeholder consultation workshops while being mindful of the glaring inequalities in our country.Imagine crafting a national digital strategy that doesn't just echo the aspirations of a select few but resonates with the dreams of every citizen. Picture a journey where the usual policy-making playbook is tossed aside in favor of a vibrant, inclusive, and sometimes unconventional approach. Welcome to our world where the UNDP Accelerator Lab Namibia, in an unusual collaboration with Impact Tank(link is external), a Social Venture Builder, with the generous funding support of GIZ(link is external), embarked on a consultative and participatory journey alongside our partner, the Ministry of Information and Communications Technology(link is external). Together, we dared to defy conventional workshop approaches to breathe life and meaning into a national strategy that reflects the heart and soul of our nation.Setting the Tone: A Personal ConnectionOur quest for an inclusive national digital strategy began with a simple yet profound principle: that every individual's experience matters. In the headlong rush towards digital transformation, we maintain that digitalization is more about people than it is about technology. We therefore started by engaging with people from all walks of life at public stakeholder consultation sessions. We listened to their stories, their fears, and their hopes regarding digitalization. These projective experiences served as a poignant reminder that policy decisions impact real lives and ought to begin with the beneficiaries of the policy. Finding our “Why”: Crafting Tomorrow TogetherOnce we had these deeply personal experiences in hand, we gathered inputs from the stakeholders for envisioning exercises. It was a humbling experience to see people from diverse backgrounds come together to craft a shared and common purpose. In these sessions, it wasn't about job titles or status; it was about the collective power of imagination. Together, we painted a picture of a digital future that was equitable, inclusive, and accessible to all. A Holistic View: PESTLE Analysis with HeartOur next step was to draw a comprehensive map of the policy landscape. We dug into our toolkit and liberally utilised the PESTLE(link is external) approach, not as a sterile analysis, but as a way to understand the heartbeat of our nation. We recognized that policy-making should be more than just ticking boxes; it should be about addressing the genuine needs and concerns of our people. The World Cafe Method: Wisdom of the CollectiveValidation is the linchpin of our approach. Our four pillars of digital transformation - infrastructure, skills development, regulatory frameworks, and innovation ecosystems - were subjected to the scrutiny of the World Cafe(link is external) method. It was here that the wisdom of the collective was harnessed. We listened to feedback, refined our ideas, and ensured that our pillars were robust and aligned with the aspirations of the Namibian people. From Purpose to Practice: A Framework for InclusivityIn our quest for an inclusive strategy, the "From Purpose to Practice" framework(link is external) became our guiding star. The five P's - Purpose, People, Place, Principles, and Practice - provided a structured way to capture diverse perspectives. Post-it notes became symbols of inclusivity, reminding us that even the smallest idea could make a big difference. Eveline Thomas[1], a nineteen - year old youth activist who is currently out of school and seeking work attended the session out of curiosity mentioned, "I must say, I was pleasantly surprised when I saw how the Accelerator Labs involved us from marginalized communities. It's like they handed us the steering wheel to drive the future together."This sentiment was also echoed by one of the senior technical officials from a private sector organisation who indicated that "I couldn't help but feel both surprised and satisfied with the approach of the Accelerator Lab. They didn't just ask for our opinions coming from the private sector; they embedded our voices into the very heart of their strategy."Addressing Inequality and making a mark in the SDGs: Our Moral ImperativeThroughout this journey, we were acutely aware of the glaring inequalities that plague our country. As the Head of Experimentation, and as part of the design of the learning experience which we used to gather insights, I felt it was also our moral imperative to ensure that our approach addressed these disparities. We actively surfaced insights using empathy in sourcing feedback from marginalized voices, provided them a platform, and ensured that their concerns were integrated into our strategy which is also aligned to our aspirations in making a mark on the SDGs(link is external). In conclusion, the UNDP Accelerator Lab's collaborative and participatory methodology is not just a process; it's a journey of the heart and soul. It's a commitment to capturing the hopes and dreams of everyone, irrespective of their background or circumstances. It's a testament to the power of collective action in shaping a more equitable and inclusive future. Together, let's continue this remarkable journey, knowing that the path we tread today will lead us to a brighter, more promising tomorrow. We walked away from the highlight rewarding sessions with one more testimonial from a Professor from the Namibia University of Science and Technology who said: "It's rare to witness a process that genuinely values our input. The Accelerator Labs' approach was not just inclusive; it was a pleasant surprise that made everyone feel heard and valued."With gratitude and hope. [1] Names have been changed to protect the identity of the individual
+
+

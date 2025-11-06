@@ -1,0 +1,39 @@
+# Feeding the future: How biodiversity and local practices are shaping our food future?
+
+[[type:blog]]
+
+[[source:https://www.undp.org/egypt/blog/feeding-future-how-biodiversity-and-local-practices-are-shaping-our-food-future]]
+
+[Original article published here](https://www.undp.org/egypt/blog/feeding-future-how-biodiversity-and-local-practices-are-shaping-our-food-future)
+
+
+[[year:2024]]
+
+[[date:MAY 22, 2024]]
+
+[[continent:Africa]]
+
+[[country:Egypt]]
+
+
+
+Home
+
+Egypt
+
+Feeding the future: How biodiversity and local practices are shaping our food future?
+
+Feeding the future: How biodiversity and local practices are shaping our food future? The shortcomings of our current food systems – which encompass all aspects of feeding people: growing, harvesting, consuming food and more - urgently call for change. They push us to rediscover the wisdom of traditional food practices and the opportunities that lie in sustainable innovation from farm to fork.
+May 22, 2024
+
+Video Player
+
+Author
+
+Yomna Mohamed
+
+Head of Experimentation, UNDP Accelerator Lab
+
+Transforming our food systems requires consistent action across farms, markets, policies, and behaviors. Central to these efforts is the realization that biodiversity is the cornerstone of resilient food systems. The link between a thriving natural environment and food systems was the theme at the UN Biodiversity Conference (COP15) held in December 2022 in Montreal, Canada. Productive food and agricultural systems rely on rich biodiversity and well-functioning ecosystems. We tried to unfold this story with Fatma and Mona while cooking and contemplating one food delight that every one of us consumes: Pizza! 🍕 In the video, we see how pizza making, like almost any other food choices and recipes today, are intertwined with sustainable development challenges. It shows us how we need to diversify crops and embrace indigenous varieties to avoid a future where we can no longer enjoy a fresh slice. Three intersections with sustainable food systems were particularly highlighted that we can learn from: Re-thinking seasonality. 🌱 “We choose for our recipes the vegetables that are available around the year, to make sure it’s available on consumer demand.” Fatma Food production is extremely vulnerable to exogenous factors. Take, for example, the impact of climate change and how they have altered the seasonality of crops disrupting traditional cycles of planting and harvesting. This does not only challenge the predictability of agriculture production, but it can also severely impact the full supply chains. They could rely on specific crops that are available all year long to sustain supply and predictability. Farmers are left with no choice but to adopt new agronomic practices, ranging from adjusting planting dates, to using greenhouses or modern technologies such as hydroponics and aquaponics to grow their crops. Empowering community and culture. 👨🏽‍🌾 “We try to introduce the value of our locally planted vegetables through the food recipes we serve.” Fatma Introducing a variety of locally sourced ingredients into recipes enriches cultural representation and empowers local communities. When businesses and consumers prioritize local produce, they support small holder farmers, stimulate job creation within local communities, and reduce carbon footprint for the value chain. Additionally, every culture's unique ingredients, and cooking techniques leave a lasting impact on the country's culinary traditions and encourage a deeper appreciation for regional flavors. With economic considerations and volatility, consumers are increasingly valuing low-cost, locally produced options, impacting the dynamics of the food industry. Adapting to climate change 🌾 “Because of climate change we started to produce new crops that we didn’t use to plant before, like quinoa for example.” Mona Climate change poses a significant threat to Egypt’s common staple and vegetable production, affecting both quantity and quality of production. For example, it is expected for wheat, our pizza cornerstone, to witness a decline in yield by 10 to 12% as early as 2030. Similar declines are expected for our favorite vegetables due to climate stressors. To lower dependency on vulnerable crops and adapt to environmental shifts, there has been for example a growing trend towards adopting climate-resilient crops(link is external) such as mushrooms and quinoa. These crops, among others, can withstand harsh conditions, such poor soil quality and limited water availability. Biodiversity as a foundation for agriculture resilience Nurturing biodiversity in agricultural practices can offer a resilient solution to the challenges highlighted by Fatma and Mona. By diversifying the types of crops grown, especially with the inclusion of native and varied species that thrive across different seasons/conditions, farmers can reduce dependency on a few types of year-round crops and enhance the stability of food supply chains. This biodiversity not only mitigates the risks from climatic shifts affecting crop seasonality but also enriches the soil, reduces pest outbreaks, and supports local ecosystems. This approach not only helps in maintaining the ecological balance and fight climate change, but also aids in preserving the genetic diversity crucial for food security. Sustainable innovation from farm to fork. Commitment to transformative change for our agri-food systems means moving from funneling solutions into layering of development options. It requires a portfolio of integrated actions to cater for the complexity of the system and the interlinked challenge beforehand. At UNDP, our agri-food portfolio draws on our expertise in climate change(link is external) and biodiversity, our mission on inclusive growth, and the strategic innovation toolbox as an enabler. Previous efforts have developed a journey of learnings and action tackling the different elements of the system. Regulating frameworks was tested for shifting production patterns, a market system approach was used to achieve resilience of small holder farmers and behavioral nudges were explored to influence sustainable consumption patterns of food. To deepen and accelerate impact, we do not substitute solutions, but rather more building blocks into a portfolio that cater to the presented challenges. Those building blocks emerge from learning and engaging with partners and stakeholders. On this front a new cycle of learning and action are in motion for four strategic options They are intended to enable biological diversity when it comes to the food we produce, process, and consume: Innovative regulatory frameworks that facilitate sustainable product innovation and impact investment in the food sector. This would incentivize more research and development that integrate heterogeneous ingredients and experiment with local resilience supply chains. Enabling infrastructure and supporting mechanisms for adaptive agri-solutions such as an inclusive contract farming model. This can, not only promote diversity in crop cultivation but also enable small holder farmers suffering from implications of climate change. Participatory dialogue among various stakeholders within the farm to fork value chain to align efforts, make sense out of current programmes, and catalyze conversations on food biodiversity. Investing in behavioral science to develop awareness and shift to responsible behavior among businesses and consumers when it comes to our food choices and consumption. We are set to initiate a new round of interventions and experiments taking a leap into scalable solutions and inviting partners to join in co-creating and co-investing in a common intent. To partner with us, reach out to yomna.mohamed@undp.org (Head of Experimentation @UNDP Egypt Accelerator Lab).
+
+

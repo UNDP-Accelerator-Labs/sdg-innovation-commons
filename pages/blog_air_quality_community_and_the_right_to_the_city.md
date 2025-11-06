@@ -1,0 +1,48 @@
+# Air quality, community, and the right to the city
+
+[[type:blog]]
+
+[[source:https://www.undp.org/kazakhstan/blog/air-quality-community-and-right-city]]
+
+[Original article published here](https://www.undp.org/kazakhstan/blog/air-quality-community-and-right-city)
+
+
+[[year:2024]]
+
+[[date:OCTOBER 30, 2024]]
+
+[[continent:Asia]]
+
+[[country:Kazakhstan]]
+
+
+
+Home
+
+Kazakhstan
+
+Air Quality, Community, and The Right To The City
+
+Air quality, community, and the right to the city
+October 30, 2024
+
+Air pollution in Almaty. Photo: UNDP Kazakhstan
+
+Author
+
+Yerassyl Kalikhan
+
+Head of Exploration, Accelerator Lab of UNDP Kazakhstan
+
+Everyone has the right to live in cities that are comfortable, accessible, and environmentally clean, where public spaces prioritize human well-being and inclusivity. Indeed, many urban theorists argue that modern city development is overly centered on production, efficiency, and profit, which comes at the expense of livability, community engagement, and environmental balance. One key voice in this movement is Jane Jacobs. In her seminal work, The Death and Life of Great American Cities (1961), she argued that cities should be designed for people, not cars or industries, and that urban spaces should promote interaction, walkability, and vibrant community life. Jacobs critiqued the top-down approach of urban planning, calling for a bottom-up, human-centered design approach. Unfortunately, the ideals espoused by Jacobs and alike often clash with the reality of many urban areas today, which struggle with systemic issues that undermine the quality of urban living. Among these challenges, air pollution stands out as a particularly critical concern. Poor air quality not only jeopardizes residents' health but also exacerbates social inequities and hampers economic growth and investment. This highlights an urgent need for policies and initiatives that reimagine cityscapes, drawing on Jacobs' principles to address these systemic problems and foster a more sustainable and equitable urban future. Addressing systemic urban issues requires a comprehensive and integrative approach that considers the interconnectedness of various urban systems and their impacts on sustainable development. Policymakers must adopt a holistic perspective, encompassing economic, social, and environmental dimensions to identify root causes and implement effective interventions.
+
+Experts discussing pollution in Almaty. Photo: UNDP Kazakhstan
+From symptoms to solutions: tackling air quality issues Air pollution exemplifies a systemic urban issue that demands a multifaceted approach due to its deep interconnections with economic growth, public healthcare, transportation, culture, and inclusive urban development. It made sense for us, hence, to utilize the portfolio approach alongside systems thinking principles to tackle this issue. We aimed to avoid pathways of investing billions in massive 'silver bullet' infrastructural solutions that might work, and instead under City Experiment Fund project sought smaller, 'obvious-not-so-obvious' solutions that could create systemic ripple effects. A compelling example of what we wanted can be seen in Copenhagen, which faced near bankruptcy in 1993 yet prioritized development to tackle the growing issues of air pollution and transportation(link is external). The city opted for the most cost-effective solution: investing in cycling infrastructure. This choice has received strong support from authorities due to its consistent delivery of positive environmental, health, efficiency, and economic benefits.
+
+A walk with an architect in Almaty. Photo: UNDP Kazakhstan
+Green and safe streets in Almaty: small changes, big impact Henri Lefebvre, a French sociologist and philosopher, who expanded the idea of ’the right to the city’ in the 1960s argued that urban spaces belong to everyone who lives in them, not just planners or property developers, and that all residents should have the right to shape them. Sherry Arnstein’s “Ladder of Citizen Participation” (1969) outlined different levels of public involvement in decision-making. She identified that for true co-participation, communities shouldn’t just be consulted—they should be empowered to influence actual outcomes. In that spirit and under methodological process of portfolio approach we conducted co-design sessions with a diverse array of key actors in Almaty. The result of that process was the nested portfolio that we called ‘Green and Safe Streets’. The logic behind ‘Green and Safe Streets’ initiative focuses on reimagining Almaty's transformation to minimize air pollution factors (vehicle exhaust, the energy consumption from the coal-based CHPS, etc.) through pedestrianization, greening urban spaces, enhancing public and alternative transport, and promoting energy-efficient buildings, all in a participatory manner. In the implementation phase, we chose to focus on interconnected clusters of social impact campaigns, demonstrations of urban fabric change through tactical urbanism activities, and the use of digital solutions such as air pollution monitoring to support data-driven policymaking. This approach not only helps to improve air quality, but also creates more comfortable and attractive cities to live in. Green spaces absorb pollutants and partially mitigate the heat island effect, while modernized buildings with energy efficient technologies help to reduce the overall carbon footprint. The benefits of this approach go beyond ecology to aspects of comfort and behavioural change. Increased green space and improved pedestrian and cycling infrastructure makes city streets more convenient and safer for residents, increasing physical activity and reducing car dependency. A convenient and environmentally friendly transport network encourages the use of public transport and alternative modes of travel, which further reduces pollution and pressure on transport systems. Moreover, the development of green streets and energy-efficient buildings contributes to a more vibrant and dynamic urban environment, which in turn stimulates economic activity and attracts investment in sustainable infrastructure. It also shapes citizens' awareness of the environment and sustainable lifestyles, supporting a shift to more sustainable habits. Ultimately, the creation of such urban spaces contributes not only to improving air quality and urban aesthetics, but also to strengthening social cohesion, ensuring sustainable development and enhancing the well-being of the urban community.
+
+Air pollution in Almaty. Photo: UNDP Kazakhstan
+Learning by doing: tactical urbanism in action To date, we conducted tactical urbanism initiatives – if not the first, certainly one of the first in Almaty - at few streets before the planned by the city reconstruction works and at the parking lot, supplemented by public excursion-workshops that involved both the municipal policy-makers and local dwellers to demonstrate that the changes can be gradual and without much interference to other, like car-drivers. The insights from those initiatives were considered and the city agreed to partially or fully consider those changes, and will integrate tactical urbanism principles moving forward. The installation works of air-monitoring devices that would measure the pollution changes before, during, and after the streets’ reconstruction works are still on the works, but the idea is that the monitoring framework and overall guidebook on how to conduct the works that we did will be shared later with the larger public. It is important to communicate the logic of why, when, how, and by whom these activities are done to ensure socialization, knowledge preservation and sustainability of the learnings we had over the course of the project. So, just like in this blog, we tried to conduct our work in the principle of ‘work out loud’, by sharing insights and learnings through the series of communication channels, social media posts, social events, excursions, partner events, and other channels. Funding the future: innovative financing mechanisms for urban change Importantly, we also acknowledge that any proposals for change must take funding considerations into account. Drawing on the innovative spirit of our team, we aimed to present less conventional, yet highly feasible options based on the existing legal and financial infrastructure in Kazakhstan, particularly in Almaty. We explored the issuance of SDG Sukuks, as well as the introduction of the first-ever municipal Green Bonds in the country (and indeed the first in the region of Central Asia). Currently, our primary focus with local partners centers on advancing the latter two initiatives. The quest for success: human-centered urban strategies By adopting an integrated approach to urban sustainability, cities can achieve multiple objectives, fostering resilient, vibrant, and inclusive environments that enhance the quality of life for residents. However, the path to such decisions is not always straightforward. History is full of examples of seemingly ‘obvious’ large-scale infrastructure projects aimed at boosting economic interests that ultimately produced lasting negative outcomes deemed costly mistakes later — something Jane Jacobs would have probably attested to. Municipalities worldwide face the ongoing challenge of identifying more well-thought ‘not-so-obvious’ solutions. While the journeys may differ from city to city: from Almaty to New York to Sydney, human-centered, community-involved, and systems-informed approaches have proven to be effective strategies for uncovering them.
+
+

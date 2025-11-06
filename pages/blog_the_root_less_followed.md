@@ -1,0 +1,46 @@
+# The Root Less Followed
+
+[[type:blog]]
+
+[[source:https://www.undp.org/acceleratorlabs/blog/root-less-followed]]
+
+[Original article published here](https://www.undp.org/acceleratorlabs/blog/root-less-followed)
+
+
+[[year:2021]]
+
+[[date:AUGUST 9, 2021]]
+
+[[country:Null Island]]
+
+
+
+Home
+
+Accelerator Labs
+
+Blog
+
+The Root Less Followed
+
+The Root Less Followed The Hidden Entrepreneurs: How Small-Scale Grassroots Innovators are Contributing to Sustainable Development
+August 9, 2021
+
+The Root Less FollowedThe Hidden Entrepreneurs: How Small-Scale Grassroots Innovators are Contributing to Sustainable Development
+Written by: Amory Gonzalez, Kavita Seshan, Pouria Arasti, David Bernstein, and Dinar Ayu Adeline LSE Capstone Project GroupAs a group of five Master of Public Administration candidates from LSE, the London School of Economics and Political Science, we are excited and thrilled to have partnered with the UNDP Accelerator Labs. A network of 91 Labs throughout 115 countries that accelerate learning(link is external) on sustainable development and provide actionable insights to local stakeholders and governments to drive progress towards the Global Goals.
+The UNDP Accelerator Labs(link is external) approached us with a prospective research project(link is external) to identify policy solutions that promote innovation in developing countries. After deliberation and consultation with prominent academics in the field, such as Eric Von Hippel (link is external)and Adrian Smith(link is external), we decided to focus our project on grassroots innovation(link is external), an understudied area representing inclusive, bottom-up solutions that usually emerge from local actors or communities. At first, we thought this project would be relatively straightforward. However, as we began interviewing in-depth seven UNDP Accelerator Labs teams, four grassroots innovators, one government representative, and four experts in grassroots innovation, we realised that understanding and fostering grassroots innovations require more than just a list of policies.The dark horse of innovationWe started the first month of our project looking into the development of innovation policy over the years. Innovation is believed to be a significant driver of economic growth and welfare, particularly in developing countries(link is external). Governments and private sector actors worldwide continually search for new and effective ways to support and promote innovation, primarily focusing on firm-driven technological innovation. Perhaps we should also note that, historically, more commercial and technological types of innovations have been studied by researchers. And while there is some growing interest from academics in the field of grassroots innovation, much of the research in this area has yet to be fleshed out. This fueled our curiosity even further.
+Grassroots innovation is unique, as it emerges bottom-up from people or communities looking to solve local challenges and meet their immediate needs, often with little regard to monetary gain or commercialisation. The value of grassroots innovation lies less on its size or scope but more on its impact. Our interest in this under-studied area of research resulted in an informed shift of focus from innovation in general to grassroots innovation in particular.
+“If you think about the industrial revolution, that was not one innovation. That was thousands of little adaptations and process innovations put together.” – Eric Von Hippel, American economist, Professor specializing in the nature and economics of distributed and open innovation at MIT
+With a new focus in mind, we conducted desk research into the grassroots innovation network across the globe. A few well-known networks such as The Honey Bee Network(link is external) and Hackerspaces(link is external) were developed in the 1990s and early 2000s and have created thousands of innovations, skills, tools, and even job opportunities. We see the UNDP Accelerator Labs as a grassroots innovation network too, in the way that it captures and supports local solutions and movements(link is external). What’s even more interesting is that the Labs have no limitations on the areas of innovation they explore. For instance, the UNDP Ecuador Accelerator Lab supports many social grassroots innovations(link is external), while the UNDP Ghana Accelerator Lab works on several local technology-related innovations(link is external), and the UNDP Bosnia and Herzegovina Accelerator Lab explores innovation in response to the pandemic(link is external).What did we learn?Amidst the pandemic, we managed to speak virtually with seven different Accelerator Labs in Ecuador, Colombia, Iraq, Kenya, Ghana, Bosnia and Herzegovina and the Philippines. These interviews informed a new perspective on how grassroots innovations emerge in a real-world setting and how context can play a role in development. We heard about a solution created to prevent lions from attacking community livestock from Kenya. In Colombia, community-designed “life helmets''(link is external) protect the agricultural workers from COVID-19 and allow them to continue their essential work. Meanwhile, in the Philippines, grassroots engineers created a “One Pesos Internet”(link is external) to provide affordable internet for the community.
+“One woman with cerebral palsy shared a story of when she was assaulted, and a street dog came to her defence and chased the man away. From this experience, she founded an organisation that places dogs who are trained to defend women who are victims of violence.” – Paulina Jimenez, Head of Solution Mapping UNDP Accelerator Lab Ecuador
+We noticed that grassroots innovation appears to function as a form of entrepreneurship and a means for survival. Our research suggests that grassroots innovations tend to be closely related to the political, social, and economic landscape in which the innovators are situated. In countries where information and communication technology are rapidly developing, like Kenya and Ghana, grassroots innovations are also emerging in start-ups and fintech. In countries struggling to recover after conflict, like Iraq, grassroots innovation has become a medium for young people to gather, share knowledge and restore their country. In countries where the government places a value on inclusive innovation, like the Philippines, being a grassroots innovator is a source of pride.
+
+Moving towards sustainabilityUnderstanding the context is like killing two birds with one stone. First, it helps us identify the enablers of grassroots innovation, for instance, the Philippines’ creative culture or Ghana’s supportive government. The enabler becomes the basis of strength for a community to deal with specific problems that occur. Second, the context allows us to recognise what could be improved through different policies and strategies. Some countries need more inclusive funding for local and small innovators, while others need decentralised support from the local government to ensure the equality of public goods.
+Given the significant impact of both context and policies on the shaping of innovation, we tried to develop a new framework that incorporates both areas. The framework may not have all the answers to creating a sustained innovation ecosystem, but we hope it will help stakeholders realise the role they can play in this process.
+As a result of our work, we are pleased to share our report, “Grassroots Innovation: An Inclusive Path to Development(link is external)”. It includes policy recommendations, a strategic framework and presents case studies from seven countries across the continents.
+In the report, we highlight the importance of psychological and social processes of creativity in innovation. As a collective action and a movement, grassroots innovation drives socially inclusive innovation processes. Our 43 completed survey results validated what we learned from the interview: financial capacity and institutions (39%) and communications and promotional facilities (21%) are the most significant impediments faced by grassroots innovators. With the understanding that grassroots innovation is hyper-contextualized and hence policies can be very difficult to replicate, we provide a set of policy recommendations for three levels: national governments, initiatives and local authorities. We believe our study sets up a foundation for future research on grassroots innovation and we hope policymakers could use it to start supporting local grassroots innovators. We advocate that countries designing innovation policies should recognise grassroots innovation and support them in a way that will allow grassroots innovation to thrive.
+We also hope our report becomes a starting point for the grassroots innovation stakeholders, especially in emerging countries, to learn and better understand the necessary conditions in which the bottom-up innovation ecosystem can emerge and thrive.
+---
+Download the report here(link is external) and please get in touch(link is external) so we can continue the conversation. We are passionate about unleashing the transformative power of grassroot innovations, join us.--- content ---
+
+

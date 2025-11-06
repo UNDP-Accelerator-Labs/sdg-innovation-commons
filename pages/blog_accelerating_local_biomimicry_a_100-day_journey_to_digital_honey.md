@@ -1,0 +1,60 @@
+# Accelerating Local Biomimicry:  A  100-Day Journey to Digital Honey
+
+[[type:blog]]
+
+[[source:https://www.undp.org/acceleratorlabs/blog/accelerating-local-biomimicry-100-day-journey-digital-honey]]
+
+[Original article published here](https://www.undp.org/acceleratorlabs/blog/accelerating-local-biomimicry-100-day-journey-digital-honey)
+
+
+[[year:2021]]
+
+[[date:OCTOBER 11, 2021]]
+
+[[country:Null Island]]
+
+
+
+Home
+
+Accelerator Labs
+
+Blog
+
+Accelerating Local Biomimicry:  A  100-Day Journey to Digital Honey
+
+Accelerating Local Biomimicry:  A  100-Day Journey to Digital Honey  Accelerating Local Biomimicry:  A  100-Day Journey to Digital Honey
+October 11, 2021
+
+Author
+
+Oksana Udovyk
+
+Head of Experimentation, UNDP’s Accelerator Labs
+
+Accelerating Local Biomimicry:  A 100-Day Journey to Digital Honey
+Authors: Hasan Darwish, Head of Experimentation, UNDP Syria Accelerator Lab, Oksana Udovyk, Head of Experimentation, UNDP Ukraine Accelerator Lab and Martin Zelinka, United Nations Volunteer, UNDP Ukraine
+
+Three languages, two countries, one challenge – to find solutions that further the Sustainable Development Goals (SDGs) through inspiration from nature through the process of biomimicry. Syria and Ukraine, the two of us unusual partners, came together on our common interest in biomimicry. Nature, after all, has resolved the most important requirement for sustainability. Namely, making each output into an input in a beautiful showcase of circularity. One organism’s waste is another organism’s food, or even its shelter. How can we learn to use biomimicry to extract these unique properties?
+Biomimicry is the mimicking of physical and biological properties in an attempt to develop bettesolutions to chaotic and complex human problems. It is both a process and a design: from the Kingfisher bird(link is external) whose beak helped design the fastest train in Japan, to the Namibian desert beetle(link is external) whose outer shell helped design water harvesting systems from the air in arid climate, to termite colonies(link is external) whose architecture informs ventilation systems in our homes.
+Learning from nature not only helps us understand the SDGs better, but we can personally begin to see these lessons through the lifecycle of our own local olive tree, honeybee and sour cherry. This becomes especially important as the world heads hopefully to a post-pandemic era. And while we often talk about going back to normal after the COVID-19 crisis, do we want to come back to the “normal” that created this crisis, destroyed ecosystems, changed our climate and fostered inequalities?
+Obviously, we are doing something wrong! COVID-19 gave us a chance to stop and think. It gave us the possibility of creating a different kind of “normal.” However, to do so, we need new mindsets. As Albert Einstein said, “we cannot solve the problem with the same mindset as we created it.” Maybe this is a moment to Ask Nature(link is external) how to solve those problems, using nature’s mindsets. After all, there is no waste in nature. In nature, energy is renewable, and materials are local. This new mindset recognizes that sustainability already exists and has existed for billions of years, and it can be extracted for use in human society through the process of biomimicry.
+Paving Pathways: An Unlikely International Collaboration
+How does one promote development of these new “biomimicry” mindsets? To the advantage of the UNDP Accelerator Labs, others have noticed and applied the hidden potential in nature’s amazing knowledge. Our partner, and a source of inspiration, was Michelle Graves, director of theBiomimicry Global Design Challenge(link is external) at the Biomimicry Institute. We quickly found a common language with her and started by directly testing our initial hypothesis: there are number of local grassroots solutions that by nature use biomimicry, and we just need to identify them and help them shine. Furthermore, the best option to identify them would be a localized version of the Biomimicry Global Design Challenge. We started with this learning experiment in Ukraine in 2020 and made an online Ukrainian Biomimicry Design Challenge. To our disappointment, we found that only a few people knew about the topic or were interested in it. And as hard as it might sound, we learned that organizing a challenge for something that few people are familiar with was not the right approach.
+In 2021, we – the UNDP Ukraine Accelerator Lab and the UNDP Syria Accelerator Lab – joined our efforts. From the first zoom call, there was magic between us: Oksana from Ukraine shared developments from the 2020 experiment and ideas for 2021, and Hasan from Syria quickly produced a number of digital solutions, for example, an open-source learning platform and gamification. The main development was that we decided to act differently in 2021, by first creating fertile soil: a platform where people could learn about biomimicry, a social media space and dedicated zoom calls for people to meet and mingle on the subject of biomimicry. Second, by adding seeds -- meaning finding the right network of partners and inviting participants to the fertile soil. Lastly, after running a challenge, we could collect the harvest – cool new biomimicry innovations.
+Creating fertile soil: Designing a Multi-Language Multi-Region E-Course
+How does one spread awareness about an obscure concept in multiple languages? We did it by developing a gamified online E-Course(link is external) that provides an experiential environment for enthusiasts, by conducting multi-lingual webinars packed with experts, and by providing local and global examples of successful biomimetic projects.
+“It is going to take years and cost a fortune,” critics said. We only had 100 days and minimal resources. Yet, we decided to redefine what is possible using a lean mindset, open-source platforms, and the help of volunteers and our partners. Most of the material for the course was provided by our main partner, the Biomimicry Institute (specifically, its Biomimicry Toolbox(link is external)). The rest – from different organizations in Brazil, Canada, Syria and the USA – were contacted directly during the course’s creation. Dozens of videos, hundreds of pages of text and thousands of words were translated by our volunteers.(link is external) Finally, everything was put nicely together into the E-Course, using an open-source free platform called Odoo,(link is external) which provides fantastic free solutions for making E-Courses.
+We learned early on that it is not enough to post a link to the E-Courses on the UNDP official platforms to reach our potential bio-innovators. Instead, we approached our new partners’ networks: schools, universities, innovations hubs, research institutions, through social media and in biology and nature related groups. As we started getting applicants, we realized that young people from the Junior Academy of Science were the most active. Interesting! We started looking into the details of why this was happening and learned that Ukraine has a long tradition of science and tech development, originating back to Soviet times. Despite the decline of the Ukrainian Academy of Science as an institution right now, the knowledge and skills are still there with youth from the Junior Academy of Science (also created during Soviet times). They are an interesting partner and a source of local innovations, and helped us gather over 500 applications for our E-Course.
+As a result of all of this, we were able to create the E-Course, establish partnerships, run the challenge and pollinate hundreds of social bubbles — all in 100 days!
+Building Buds: Motivating and Gamifying the E-Course Experience
+
+One of the things that made our E-Course unique was the gamification. We used Odoo (an open-source ERP platform with a gamified learning management module), to create leaderboards, badges and experience (XP) points. For example, we made plant-based ranks and animal-based badges (to keep with the ecological theme). Moreover, we used Kahoot(link is external) (a game-based learning platform) during webinars to get real-time feedback from the students of our virtual classroom. Lastly, we ensured that active participants got nature-themed certificates to showcase their skills.
+One of the interesting side effects that made us smile and think was that many participants took the courses in other languages to get more experience points. This was specifically humorous because it showed that our gamification strategy worked, and people really cared about becoming a virtual Tree (in terms of rank) or getting a Tremendous Turtle badge. The experience of the E-Course is best summarized by one person who said that they kept coming back for more knowledge because the content was not only engaging but experiential. They could see it in action as they walked back home from work and reflected upon every tree and bird surrounding them. This was the needed proof that the knowledge we were disseminating was not abstract but applied.  Ripening Reflections: Growing International Ripples from our Digital Beehive
+Despite living in different countries, people face similar challenges — plastic waste, air pollution, rural development and other issues relating to sustainability. Throughout the course, we wondered: “would two societies with different historical backgrounds produce similar, or totally different solutions for the same challenges?” This question is especially relevant since the surrounding environment of each team is unique to their country and the extracted learning from that environment will, of course, be different. In fact, the beauty of biomimicry lies in a Syrian Engineer using insight from an olive tree and complimenting it with the insight of a Ukrainian Linguist using the same process on a cherry tree. The unique combination of the individual, organism, culture and society creates a unique perspective, and this is what we hoped would reveal results to address sustainability challenges.
+Our Ukrainian finalists(link is external) created projects on generating energy from trees,(link is external) getting wax moths to eat waste plastic(link is external), and using biodegradable cords to support plants(link is external) growing in greenhouses. In Syria, we followed a bit of a different approach given it was the first year of being involved and given there was much smaller participation (compared to Ukraine). We gave a local challenge for all interested E-Course participants to work on, and our Syrian team was a semifinalist.
+As part of going the extra mile, we decided to support by helping the winning teams apply for the larger Global Challenge organized by the Biomimicry Institute. We believe that the original solutions invented by our Ukrainian and Syrian teams have the potential to be replicated all around the globe. This proved correct, as one of our teams made it to the final of the International Design Challenge.(link is external)
+On top of everything, we are trying to connect winning teams and ideas to other UNDP programs, for example, introducing the wax moth composter box to the UNDP Organic Waste Programme, and connecting the trees to energy project with the Ministry of Digitalization to bring electricity to remote areas in Ukraine.
+As we embark upon an accelerated biomimicry project, we realize that by being humbled by nature and acknowledging the built-in intelligence in every organism, we can unlock its billion-year-old sustainability secrets. We want to use biomimicry as inspiration to help accelerate achieving the SDGs in Syria and Ukraine. Globally, we endeavor to ensure the SDGs are not yet another paradox: the more we talk about them, the further we go from reaching them. From our side we are simply happy that a digital beehive was created that connected, coordinated and motivated a diverse team of biomimicry bees across three continents, and yes, digital honey was produced! --- content ---
+
+

@@ -11,6 +11,8 @@ This SDG Commons Archive is a light-weight, flexible wiki-like platform. This ar
 
 - [What We Did](./what_we_did)
 
+- [What We Learned](./what_we_learned)
+
 - [What We Saw](./what_we_saw)
 
 - [What We Tested](./what_we_tested)

@@ -1,0 +1,37 @@
+# A solution to find solutions: uniting young minds to tackle climate change
+
+[[type:blog]]
+
+[[source:https://www.undp.org/bangladesh/blog/solution-find-solutions-uniting-young-minds-tackle-climate-change]]
+
+[Original article published here](https://www.undp.org/bangladesh/blog/solution-find-solutions-uniting-young-minds-tackle-climate-change)
+
+
+[[year:2024]]
+
+[[date:JANUARY 1, 2024]]
+
+[[continent:Asia]]
+
+[[country:Bangladesh]]
+
+
+
+Home
+
+Bangladesh
+
+Blogs
+
+A solution to find solutions: uniting young minds to tackle climate change
+
+A solution to find solutions: uniting young minds to tackle climate change Unleashing Young Innovators: Addressing Climate Challenges Through Global Collaboration
+January 1, 2024
+
+Empowering Global Innovation: Our Virtual Workshop on Climate Solutions 🌍💡 ©UNDP Bangladesh
+
+By Sarah Sabin Khan, Head of Solutions Mapping UNDP Bangladesh Accelerator Lab, Wahid Hossain, Co-Director Climate Innovation Challenge, Sherry Xue, Co-Director Climate Innovation Challenge, Wenda Gumulya, Co-Founder and Board Chair Hoshizora Foundation. The UNDP Bangladesh Accelerator Lab has been supporting the Climate Innovation Challenge (CIC), a virtual program uniting young minds worldwide. The program is based partly in Bangladesh, and partly across the globe. The founders (also co-authors of this blog) started with the ambitions to bring students of the global South and global North together to work collaboratively on challenges faced by climate focused organizations, following rounds of curated workshops focused on SDGs, systems and design thinking, impact measurement and project-based learnings conducted by experts and mentors, all on a voluntary basis! The model is a win-win-win. Students across the globe who are passionate about tackling the climate crisis get to work on solutions closer to the impact of the challenge. They get to learn from each other’s lived experiences of studying in top tier universities of different countries. Climate focused organizations get to benefit from the solutions crafted by young and innovative perspectives. All of these exchanges practically involve no monetary transactions and bank on sheer collaborative brilliance! It is such an excellent model that the Accelerator Lab Bangladesh could not miss out on being associated with it. It’s a solution to find solutions. What can be better?In July 2023, the second round of CIC was launched. Compared to the first, CIC 2.0 brought together young minds from more diverse corners of the globe. These people met in a digital space to pool their insights, knowledge, and ingenuity, united by a common goal to fight the climate crisis. Participants thus embarked on a collective journey of coming up with new ideas, creating innovative solutions, and solving problems. The young innovators devised solutions ranging from sustainable energy systems to climate-resilient urban planning. They overcame barriers of distance, time zones and cultures to foster connections for impact. As participants collaborated across screens, continents, and backgrounds, they showcased the potential of collective action to tackle global development challenges. CIC’s mission is to facilitate virtual collaboration among students, enabling them to address real-world challenges head-on. The participants go through a series of workshops conducted by global experts covering topics such as design thinking, project management, and impact measurement. The AccLab conducts a special session on SDGs. Participants are assigned to groups which are tagged with organizations (social businesses, start-ups or NGOs) or “project partners” working in the area of climate change. The groups work on capstone projects that address real-world challenges currently faced by these organizations. Participants apply their own understanding, experience and newly gained knowledge and skills to carve out innovative solutions to the problems. These projects deep drive into a range of topics, from exploring cactus leather as a sustainable alternative for fashion materials, to devising a solar-powered reverse osmosis desalination plant, and formulating disaster prevention strategies, connecting local climate enterprises with Gulf donors and education plans for developing countries. The heart of all solutions crafted during CIC 2.0 lay in their human-centric approach. In the initial fortnight, participants investigate deep into problems, not merely as abstract concepts but as real issues affecting people. Their focus extends to understanding how climate challenges impact beneficiaries directly. Given the multinational composition of the cohort, they also embrace their unique national perspectives, fostering novel discussions and unique points of views that open the boundaries for these solutions. These proposed solutions are embraced by project partners who put them into practice within their organizations. A notable example from CIC 2.0 is one of the project partners, Waterworth Consulting, a woman-owned non-profit management consulting firm committed to planet and social impact. Collaborating with Waterworth, participants were tasked with ideating a bilateral development cooperation concept involving Gulf donor states and South Asian recipient states.Guided by this challenge, student teams divided into researching, designing, and drafting strategic documents. The success of their efforts was evident when Waterworth Consulting extended offers of employment to all participants post CIC 2.0. Together, they now channel their collective energies towards presenting their idea to Gulf donor states. The overarching objective is to provide vital support to grassroots climate-focused organizations in Southeast Asia, especially in countries like Bangladesh.This collaborative journey of CIC exemplifies the power of innovation, teamwork, and cross-border empathy. As everyone involved work tirelessly to turn their shared vision into reality, they reaffirm the potential for united efforts to shape a more sustainable and resilient future. The positive feedback on the program, as highlighted by Genevive Maricle, the Director of Global Development at the National Security Council of The White House in the closing session, stands as a testament to its usefulness: “through engaging with real-world challenges, the program equips participants with a heightened awareness of climate change issues and empowers them to devise innovative solutions. This approach nurtures their understanding of global environmental concerns while honing their ability to think creatively and proactively in the face of complex problems”.The program mirrors UNDP's mission to foster meaningful transformations that benefit both communities and the environment and aligns well with its commitment to empowering youths as agents of change. Innovative platforms like CIC speak of the potential of collaboration, innovation, and youth-driven action and set the stage for a global network of change-makers ready to tackle the pressing climate challenges of our time. Wahid Hossain from Pathfinder and Sherry Xue from Explorate co-lead the CIC with guidance on the design by distinguished figures such as Peter C. Goldmark Jr., former President of the Rockefeller Foundation, and Wenda Gumulya, co-founder and Board Chair of the Hoshizora Foundation.
+
+Join the Climate Solution Revolution: Unite, Innovate, Impact!"
+
+

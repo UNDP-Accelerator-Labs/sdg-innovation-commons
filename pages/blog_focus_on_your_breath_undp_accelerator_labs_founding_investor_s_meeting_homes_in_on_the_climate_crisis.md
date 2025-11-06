@@ -1,0 +1,44 @@
+# Focus on Your Breath: UNDP Accelerator Labs Founding Investor’s Meeting Homes in on the Climate Crisis
+
+[[type:blog]]
+
+[[source:https://www.undp.org/acceleratorlabs/blog/focus-your-breath-undp-accelerator-labs-founding-investors-meeting-homes-climate-crisis]]
+
+[Original article published here](https://www.undp.org/acceleratorlabs/blog/focus-your-breath-undp-accelerator-labs-founding-investors-meeting-homes-climate-crisis)
+
+
+[[year:2021]]
+
+[[date:JULY 19, 2021]]
+
+[[country:Null Island]]
+
+
+
+Home
+
+Accelerator Labs
+
+Blog
+
+Focus on Your Breath: UNDP Accelerator Labs Founding Investor’s Meeting Homes in on the Climate Crisis
+
+Focus on Your Breath: UNDP Accelerator Labs Founding Investor’s Meeting Homes in on the Climate Crisis Focus on Your Breath: UNDP Accelerator Labs Founding Investor’s Meeting Homes in on the Climate Crisis
+July 19, 2021
+
+Author: Amy Bennett, Editor & Resource Mobilization Storyteller, UNDP Accelerator Lab Global Team
+“Take two conscious breaths,” we were instructed during a virtual presentation for UNDP’s Accelerator Lab’s Founder’s Meeting on 17 June. While virtual, we were left to simply imagine everyone breathing together, a valuable reminder of planet earth, the forest and oceans which are the planet’s lungs, in need of protection from the current climate crisis(link is external).
+While Covid-19 took up space in the forefront of our minds this year, the negative effects of the Climate Crisis did not simply melt away. In most cases, both crises collided to create more complex and interwoven challenges.
+For instance, Gemma, a fish vendor in Barbados, was directly affected by the double penalty of Covid-19 and the climate crisis. She lost the face-to-face business she relies on due to Covid-19 and a volcanic eruption, while also witnessing a decrease in the type of fish she usually sells due multiple climate imbalances. On the other side of the globe, in Viet Nam, millions of tons of plastic end up in the same ocean making the need to transition to a model that “designs out waste” more urgent than ever.
+With these and other challenges in mind, the UNDP Accelerator Labs invited its founding investors, the Federal Ministry for Economic Cooperation and Development of Germany and the Qatar Fund for Development, to focus on the climate crisis together. In 2021, fifty per cent of the Labs work on the climate crisis and related issues such as agriculture(link is external), deforestation(link is external), biodiversity(link is external), solid waste management(link is external), disaster risk management(link is external), air pollution(link is external), and circular(link is external), blue(link is external) and green(link is external) economies. Four of them shared the virtual floor to present how they tap into new data sources, combine them with ethnographic insights and build portfolios of small experiments to progressively unpack these large and complex challenges. Have a look at this deep dive by UNDP Barbados Accelerator Lab into the blue space through the lens of ports, beaches and shores!“BlueDIGITAL” (link is external)is a pilot program in UNDP Barbados and the Eastern Caribbean, currently being developed by the Accelerator Lab which focuses on the blue economy. It will allow female fish vendors like Gemma, mentioned above, to become more climate resilient and tap into a digital network that aims to “bring the ocean online.” The Lab presented this game-changing work in progress, where users of the BlueDIGITAL app will have, among other things, the opportunity to identify the type of fish they catch, share information with the government if they choose, and sell their catch online, benefiting from a direct-to-consumer model.
+BlueDIGITAL will be operational from April - December 2021. A phased approach will be applied for introducing BlueDIGITAL at each stage to fisherfolk. The pilot will subsequently aim to expand into additional Eastern Caribbean islands where Blue Economy priorities are present.Meet Darilyn Smart co-founder of Crop Mate as she shares how their solution uses Artificial Intelligence (AI) to provide crop monitoring and advice.In UNDP Trinidad and Tobago – a Multi-country Office that also covers Guyana, Suriname, Aruba, Curaçao and Saint Martin – the newly opened Accelerator Lab is focusing on the supporting local actors of the green economy(link is external) like Darilyn Smart. She invented “Crop Mate” to aid farmers with real-time AI-powered information about their crops. She is receiving support to promote her green innovation to a wider audience as a finalist in the Lab’s Green Innovation Challenge(link is external). The Lab shared this inclusive initiative along with the Innovation Ecosystem Map, an interactive map which characterizes 400 organizations in the green economy, helping grassroots innovators like Darilyn scale her business.
+The UNDP Trinidad and Tobago Accelerator Lab held the Green Innovation Lab Finals virtually on Thursday 24 June 2021. There was an overwhelming response from over 100 applicants to the Challenge, ending with five finalists who will receive financial support to build prototypes, develop unique products through innovation and receive mentorship to enhance business skills.
+The UNDP Accelerator Lab in Ukraine then explained how their country has historically encountered severe air pollution related to the practice of open burning. The Lab works to identify the personas of those who do so – for example, a grandmother who may find emotional release and social possibility through her household tradition of burning organic waste – to reach them in different ways. Through community engagement and applied collective intelligence methods,(link is external) the Lab is addressing the where, when, what and why of the country-wide problem of air pollution(link is external). Results include a social campaign targeted to the health issues of Ukrainian children, a map using satellite data(link is external) to track open burnings, a much richer understanding of the deep cultural reasons of open burning and a range of solutions such an app that helps alert firefighters to local fires.
+These interventions are prototypes of a large-scale programmatic response from UNDP and can be scaled to achieve positive impact on the state level (and beyond). The work has already been shared with Georgia, a country with air pollution problems of a similar nature.
+In Viet Nam, environmental pollution is equally disastrous and has global ramifications too. A huge amount of waste – 1.83 million tons – goes into the ocean yearly. The UNDP Viet Nam Accelerator Lab gave us a snapshot of the portfolio approach (link is external)used to address the need to transition from a linear to a more circular economy and the role played by informal waste pickers in Da Nang,(link is external) the third largest city in Viet Nam. The ambition is to accompany decision-makers at the city and country level to “design out waste,” by keeping products and materials in use, regenerating natural systems and learning dynamically from local efforts.
+Next, the team will use storytelling workshops to share the findings of the study with the informal workers who took part in the route-mapping and interviews. These workshops will bring informal workers who typically operate independently, together with others in the community, including local women’s unions and scrap owners, to develop new collective strategies for economic resilience. This is an important step in collective intelligence design: closing the feedback loop to ensure data and insights empower rather than extract. Looking towards scale, the Lab and wider UNDP team have started working with DNES, a government-run incubator in Da Nang, to establish a new hub for the circular economy(link is external). This initiative will help to stimulate innovation that addresses issues of waste management and recycling more broadly across the country.
+The Climate-focused meeting with these four powerful examples of innovation was the springboard for audience questions related to the success, scalability and influence of the projects underway. The answers are related to how each Lab generates cultural and context-specific actionable intelligence. This intelligence results in a “toolbox” which can then be adjusted and applied by others within the Lab Network and beyond.
+With another deep breath, we logged off with a look forward, toward tested solutions for a systemic approach to a sustainable planet -- to fight, prevent and ultimately reverse the devasting effects of the Climate Crisis.
+Contributors: Nikola Simpson, Head of Exploration, UNDP Barbados Accelerator Lab, Gregory Smith, Head of Exploration, UNDP Trinidad & Tobago UNDP Accelerator Lab, Oleksiy Moskalenko, Head of Solutions Mapping, UNDP Ukraine Accelerator Lab and Nguyen Tuan Luong, Head of Solutions Mapping, UNDP Viet Nam Accelerator Lab.--- content ---
+
+
