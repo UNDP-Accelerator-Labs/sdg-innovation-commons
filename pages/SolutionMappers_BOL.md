@@ -1,5 +1,5 @@
 [[ai_summary:Patricia Choke, head of Solution Mapping at a club in Bolivia, discussed her journey in mapping financial inclusion for women. She identified key principles, including the need for a good environment with many stakeholders and champions to support innovation. After launching a challenge, Patricia's team mapped over 400 solutions and worked with more than 200 institutions, creating a shared vision of the ecosystem and identifying gaps that needed to be addressed. Patricia emphasized the importance of adapting tools and methods to visualize complex information and encouraged others to adopt an ecosystem approach to drive impact.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_BOL.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_BOL.m4a]]
 
 [[continent:South America]]
 [[country:Bolivia]]

@@ -1,5 +1,5 @@
 [[ai_summary:Pattamon Rungchavalnot, head of solution mapping for the Accelerator Lab Thailand, discussed inclusive tourism and community-based tourism for people with disabilities. The lab has worked with local communities to develop accessible tourism infrastructure, such as ramps and digital accessibility tools. Through co-creation approaches, they involve people with disabilities in designing solutions that meet their needs. This approach helps to shift the focus from investment to attitude and mindset, and has led to successful implementations in various locations, including Sukhothai and Wuhan provinces. The lab's experience highlights the importance of communication, convening skills, and adaptability in implementing inclusive tourism projects.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_THA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_THA.m4a]]
 
 [[continent:Asia]]
 [[country:Thailand]]

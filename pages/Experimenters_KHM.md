@@ -1,5 +1,5 @@
 [[ai_summary:Juana Rod., the head of experimentation at the Cambodia Accelerator Lab, conducted a participatory development research activity involving young people. The activity aimed to gather insights from young people's perspectives on development priorities in their communities. Four methods were used: online surveys, boot camps, rapid ethnographic studies, and writing competitions. The study collected diverse stakeholder perspectives, including those from marginalized groups, and provided valuable insights into young people's challenges and aspirations for the future of Cambodia.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_KHM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_KHM.m4a]]
 
 [[continent:Asia]]
 [[country:Cambodia]]

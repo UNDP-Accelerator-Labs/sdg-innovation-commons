@@ -1,5 +1,5 @@
 [[ai_summary:Monica Rios, an explorer from Paraguay, discussed her work on formalization challenges with garment workshops in three cities. She and her team developed a learning loop to improve working conditions and productivity, which involved data analysis, sense-making exercises, and collaboration with various stakeholders, including government ministries, labor unions, private sector companies, and local communities. Monica emphasized the importance of building trust and establishing genuine communication channels with these stakeholders. Her team used inclusive and equitable approaches to guide their work, prioritizing the "do no harm" principle for garment workshops. The learning loop has just ended, and Monica's team is now in the process of monitoring and evaluating its impact, aiming to share findings through reports, blogs, and online events.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_PRY.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_PRY.m4a]]
 
 [[continent:South America]]
 [[country:Paraguay]]

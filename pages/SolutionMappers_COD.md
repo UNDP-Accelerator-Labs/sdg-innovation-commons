@@ -1,5 +1,5 @@
 [[ai_summary:Olivier Bampendi, head of Solution mapping in DRC Accelerator Lab, presented a story about the Boyen de Malamo project. The project aimed to address corruption and improve efficiency in the justice administration by developing solutions for career management, prison management, and justice activities management. After receiving funding from Akbis project, they applied methodologies like Human Centered Design and co-designing to develop software that aligned with legal processes. Once deployed, capacity-building sessions were conducted to train users, who eventually took ownership of the system. The project was made successful through partnerships between government institutions, the Ministry of Justice, and other stakeholders.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_COD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_COD.m4a]]
 
 [[continent:Africa]]
 [[country:Democratic Republic of Congo]]

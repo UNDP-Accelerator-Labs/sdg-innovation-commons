@@ -1,5 +1,5 @@
 [[ai_summary:Pierre Antoine, head of experimentation at the accelerated lab in Haiti, discussed various R&D activities conducted in the country, focusing on waste management. A national survey and workshops with stakeholders, including professors, municipalities, and street vendors, revealed a gap in data, which hindered decision-making and waste removal from streets. The research utilized collective intelligence, inclusive approaches, and mapping tools like Cobo toolbox and Kobo. The outcomes of the R&D journey include bridging gaps in data on waste management, developing a community of practice, and identifying local innovators. Pierre Antoine reflected that if starting again, he would focus on launching a national inventory to identify main inventors in waste management, aiming for quicker results.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_HTI.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_HTI.m4a]]
 
 [[continent:North America]]
 [[country:Haiti]]

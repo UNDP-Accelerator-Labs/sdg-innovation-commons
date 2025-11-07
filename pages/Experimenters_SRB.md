@@ -1,5 +1,5 @@
 [[ai_summary:The UNDP Accelerator Lab in Serbia conducted a research and development (R&D) activity on user journey mapping to explore career paths of women in the ICT sector. The main goal was to understand the barriers that prevent women from advancing their careers in this field, with a focus on identifying obstacles, positive aspects, and negative experiences. The team used user journey mapping as a tool to collect qualitative data from interviews with over 30 women with different profiles in the ICT sector, and created visual representations of their career paths. The R&D activity aimed to provide insights for UNDP and stakeholders to develop interventions and promote social innovation that addresses the low representation of women in the ICT sector.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_SRB.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_SRB.m4a]]
 
 [[continent:Europe]]
 [[country:Serbia]]

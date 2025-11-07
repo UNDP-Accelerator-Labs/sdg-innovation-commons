@@ -1,5 +1,5 @@
 [[ai_summary:Salome Nakazwe, head of solutions mapping at UNDP in Zambia, led an initiative to digitize village saving models for informal cross-border traders affected by COVID-19. The program used digital platforms to improve record keeping, accountability, and transparency, and found that income levels increased and most traders returned to their pre-COVID businesses. To facilitate the diffusion of the solution, a steering committee was formed with key partners from government and the private sector, allowing for easy adoption and scaling. As part of implementing this experiment, Nakazwe developed skills in facilitating digital solutions and capacities building for informal traders.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_ZMB.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_ZMB.m4a]]
 
 [[continent:Africa]]
 [[country:Zambia]]

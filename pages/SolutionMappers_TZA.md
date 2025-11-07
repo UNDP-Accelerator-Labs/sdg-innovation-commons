@@ -1,5 +1,5 @@
 [[ai_summary:Ghati Horombe, head of solutions mapping for UNDP Tanzania's Accelerator Lab programme, discussed the R&D journey on solid waste management. The team used unusual data sources like open data and satellite imageries to map the area, collecting useful data that informed the situation in the Monza region. The impact of their work was significant, with the data set being useful to innovators and the government to understand the composition of solid waste, particularly plastic and organic waste. This success led to collaborations with other organizations, such as UN WTO, and sparked new projects like a circular economy initiative in Zanzibar. Horombe noted that if given another chance, they would engage more with innovators and explore policy implications to create an enabling environment for innovation.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_TZA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_TZA.m4a]]
 
 [[continent:Africa]]
 [[country:Tanzania]]

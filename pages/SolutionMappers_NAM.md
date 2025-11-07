@@ -1,5 +1,5 @@
 [[ai_summary:The Namibian Accelerator Lab conducted an R&D project in 2020 to support informal vendors during the COVID-19 lockdown. They partnered with Jerobium and developed an e-commerce platform called Tambula, which connected customers with vendors in a specific area. The project's first phase focused on uploading vendors onto the platform, while the second phase involved training them on digitalization and operating their own storefronts using entry-level smartphones provided by MTC. The third phase trained them on digital skills for long-term sustainability. Key partners included Old Mutual, the Namibia Informal Sector Organization, MTC, Impact Tank, and the Ministry of Trade. The project successfully scaled and was implemented through strong partnerships, leading to policy changes at the national level, including a new MSN ME and informal sector policy draft and the development of the national digital strategy.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_NAM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_NAM.m4a]]
 
 [[continent:Africa]]
 [[country:Namibia]]

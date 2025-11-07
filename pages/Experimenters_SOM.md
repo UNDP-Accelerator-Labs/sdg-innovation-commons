@@ -1,5 +1,5 @@
 [[ai_summary:Abdullah Hashi, the acting head of experimentation for the Somalia Counter Office UND Backlab, discussed an R&D initiative to scale practices and strategies that outperform trends in communities affected by drought. The initiative aimed to identify local solutions to address recurrent droughts in Somalia's pastoral communities. To achieve this, they used a positive deviance method, combining non-traditional digital sources with traditional data methodologies, including satellite imagery, remote sensing analysis, interviews, and focus group discussions. The pilot took two years to conduct, engaging stakeholders at each step, including government ministries, community members, and villagers. After identifying successful practices in "positive divine" villages, they transferred these solutions to low-performing villages through a Buy-In-Discovery-and-Action-Plan methodology, with positive results, including engagement from government institutions interested in scaling the methodology.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_SOM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_SOM.m4a]]
 
 [[continent:Africa]]
 [[country:Somalia]]

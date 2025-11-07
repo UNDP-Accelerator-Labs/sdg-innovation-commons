@@ -1,5 +1,5 @@
 [[ai_summary:Alexandra Antunez, head of solutions mapping at UNDP Mozambique Accelerator Lab, discussed a project aimed at improving livelihoods through clean energy adoption in Mozambique. The lab mapped the energy system to understand user preferences, barriers, and opportunities for cleaner cooking sources. After conducting community-based research, including a cooking marathon with 300 households, the team developed an improved cook stove for one type of user and explored LPG adoption for another. Overcoming initial challenges, the project has potential to impact SDG achievement, particularly access to affordable energy, and informs future solutions in Mozambique's urban areas.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_MOZ.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_MOZ.m4a]]
 
 [[continent:Africa]]
 [[country:Mozambique]]

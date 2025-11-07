@@ -1,5 +1,5 @@
 [[ai_summary:Tong Atak, Head of Solutions Mapping at the UNDP Africa Borderlands Centre, embarked on a research and development journey to improve access to finance for informal cross-border traders in Warwar, South Sudan. The team used innovative methods, including convening various actors, developing language skills, and creating mobile Sanduk applications, to digitize traditional saving schemes. After piloting the project with 6 groups, they saw significant improvements, such as dropped interest rates from 30% to 15%, and increased access to loans for women traders. The success of the pilot led to the expansion of the mobile Sanduk application across South Sudan, reaching over 1.7 million customers, and it is now being considered as a digital public good to be shared globally. The project's impact was felt personally by individuals who benefited from the initial pilot, and the team believes that even small initiatives can have significant effects when adapted to local contexts.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_SSD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_SSD.m4a]]
 
 [[country:South Sudan]]
 [[type:story]]

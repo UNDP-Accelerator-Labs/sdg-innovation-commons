@@ -1,5 +1,5 @@
 [[ai_summary:Noor Al-Kamoosi, head of experimentation from Control Office Iraq, discussed a blended learning initiative with the Minister of Higher Education and Scientific Research in Iraq. The project aimed to address the gap between professors' skills and digital learning tools, as well as students' skills and online exams. Through engagement with diverse stakeholders, including students, professors, and private sector partners, Noor's team developed updated blended teaching methods curriculum, trained 60 experts, and planned to train 1000 professors over five years. The project has been taken up by the Control Office, with a new unit established to support portfolio management and embed local solutions.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_IRQ.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_IRQ.m4a]]
 
 [[continent:Asia]]
 [[country:Iraq]]

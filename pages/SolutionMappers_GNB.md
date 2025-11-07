@@ -1,5 +1,5 @@
 [[ai_summary:Anna Dju is the head of solutions mapping for the accelerator lab in Guinea Bissau. The R&D story revolves around experimenting with public spaces in the city of Bissau. A behavioral study identified that people mainly use green spaces for economic activities, not leisure. The findings led to a workshop where the team synthesized results and came up with a test to insert amenities into a park to increase community ownership and usage by different groups.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_GNB.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_GNB.m4a]]
 
 [[continent:Africa]]
 [[country:Guinea Bissau]]

@@ -1,5 +1,5 @@
 [[ai_summary:Anibal Cardenas, head of Solutions mapping at Panama Accelerator Lab, shared his R&D journey building a network for accelerating change in circular economy in Panama. He started observing community needs during the pandemic and used participant observation, deep listening, and data-driven approaches to identify pressing issues and solutions. The core of his work is working where the energy is, adapting to the ecosystem's dynamics, and prioritizing community-led initiatives. His journey involved collaborating with various actors, including policymakers, private sector, academia, and community members, to develop collective intelligence spaces and experiments for improving solid waste management.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_PAN.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_PAN.m4a]]
 
 [[continent:North America]]
 [[country:Panama]]

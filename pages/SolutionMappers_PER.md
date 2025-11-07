@@ -1,5 +1,5 @@
 [[ai_summary:Gabriel Lama, head of solutions mapping in Peru, shares a story about creating a sense of belonging among Venezuelans living in Peru, who face societal stigma and punishment. He used design methods, including user profiling and workshops, to engage migrant entrepreneurs and discover their skills and needs. The program involved collaborating with collectives, organizations, and government agencies to create entrepreneurship fairs and content. Through the journey, Lama discovered the importance of sense of belonging and adaptability in social innovation, highlighting the value and resilience of migrant entrepreneurs. The experience also emphasized that everyone has something to give and that we are all part of a single community.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_PER.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_PER.m4a]]
 
 [[continent:South America]]
 [[country:Peru]]

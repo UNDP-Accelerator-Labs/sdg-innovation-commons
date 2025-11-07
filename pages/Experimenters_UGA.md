@@ -1,5 +1,5 @@
 [[ai_summary:Berna Mugema, head of experimentation at the UNDP Uganda office, discussed the development of Uganda's national Digital Transformation Road Map. The road map was created after COVID-19 highlighted the power of digital solutions in transformation and sustainable development. The journey involved various stakeholders from government ministries, development partners, schools, and small medium enterprises. Mugema emphasized the importance of inclusivity and data privacy, ensuring that all segments of society were catered to. The outcome is a national framework guiding digital transformation efforts and informing infrastructure, connectivity, digital skills, cybersecurity, digital services, innovation, and entrepreneurship.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_UGA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_UGA.m4a]]
 
 [[continent:Africa]]
 [[country:Uganda]]

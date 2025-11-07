@@ -1,5 +1,5 @@
 [[ai_summary:Violet Katio, head of exploration for UNDP Zimbabwe, is working on an ecosystem mapping project to understand the tech ecosystem in Zimbabwe and support startups. The initiative involves engaging multiple stakeholders, including institutions, governments, communities, and innovators, through ethnographic work, design thinking, and a persusive approach. Analytical, visionary, and emotional intelligence are key skills required for this role. Although the initiative is still in its early stages, it aims to bring the tech ecosystem together through a WhatsApp group, meet-and-greets, and engagements with innovators and stakeholders. If started over, there's no clear change Violet would make, as progress has been satisfactory so far.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_ZWE.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_ZWE.m4a]]
 
 [[continent:Africa]]
 [[country:Zimbabwe]]

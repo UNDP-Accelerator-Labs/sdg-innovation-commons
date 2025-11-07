@@ -1,5 +1,5 @@
 [[ai_summary:Amaro Ximenes, Head of Exploration in East Timor, discussed a R&D activity focused on implementing a job search and trend analysis application with the government. The project used the Co-creation method, which utilized an open-source platform to develop the app. This approach aims to improve sustainability by allowing the government to manage and maintain the system. Amaro mentioned that data privacy and ethical issues were addressed during development, as the Secretary of State of Youth and Employment coordinated with private sectors and obtained consent from relevant parties. The team employed this method due to previous experiences with ineffective vendor-developed systems and high maintenance costs.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_TLS.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_TLS.m4a]]
 
 [[continent:Asia]]
 [[country:Timor Leste]]

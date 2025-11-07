@@ -1,5 +1,5 @@
 [[ai_summary:Christian Para, head of experimentation at UNDP Paraguay's Accelerator lab, discussed a mapping initiative for responding to the pandemic. The project aimed to understand how people responded to the pandemic and build a map of initiatives. Initially, they used a platform called Ushahidi, which was already personalized by an organization called Frena la Curva or Stop the Curve of the Pandemic. The team worked with various stakeholders, including Habitat for Humanity, local organizations, community networks, and international actors like Frena la Curva. They took a human-centered approach to engage with tech-oriented individuals who were concerned about building from scratch, and this approach helped them gain legitimacy in choosing the Ushahidi platform. The project became a source of intelligence for informing the national strategy on innovation and challenges during the pandemic.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_PRY.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_PRY.m4a]]
 
 [[continent:South America]]
 [[country:Paraguay]]

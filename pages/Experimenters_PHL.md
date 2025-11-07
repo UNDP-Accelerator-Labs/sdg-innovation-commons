@@ -1,5 +1,5 @@
 [[ai_summary:Francis Capistrano, head of experimentation at the Accelerator lab in the Philippines, discussed a participatory R&D activity aimed at expanding local multi-stakeholder convergences to address extreme poverty and other development issues. The activity focused on building local convergences that would engage local governments and other actors in designing and prioritizing anti-poverty actions. Tactics included leveraging institutional positions, focusing on the strengths of local partners, and using data to inform advocacy efforts. The process showed promise in improving the quality and legitimacy of participatory processes. However, lessons learned emphasized the importance of tailoring data products to local needs and avoiding overloading local partners with tools. For future work, Capistrano noted that building upon existing institutional mechanisms could be more effective than creating separate ad hoc initiatives.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_PHL.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_PHL.m4a]]
 
 [[continent:Asia]]
 [[country:Philippines]]

@@ -1,5 +1,5 @@
 [[ai_summary:Jacqueline Aringu, head of experimentation for the South Sudan Accelerator Lab Country Office, discussed an R&D activity to digitize a traditional savings box called Sanduk. The Sanduk was used by communities in rural areas as a tool for savings and social capital management. Aringu's team applied for funding from the African Borderlands Centre and conducted ethnographic studies with local stakeholders. They identified key skills required, including listening, understanding, stakeholder management, and communication. The R&D journey involved co-creating prototypes with community members to validate their needs and develop a digital Sanduk.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_SSD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_SSD.m4a]]
 
 [[country:South Sudan]]
 [[type:story]]

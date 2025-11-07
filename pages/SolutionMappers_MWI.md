@@ -1,5 +1,5 @@
 [[ai_summary:Hazel Namadingo-Shaba, head of Solutions Mapping for UNDP Accelerator Lab in Malawi, shared her lab's story about improving access to quality education in low-income countries like Malawi. The solution is a virtual lab for teaching and learning sciences, particularly in rural areas where infrastructure is limited. The solution evolved from partnership with universities and the Ministry of Education, and is now being implemented in 56 schools across the country since 2021. Critical stakeholders' support, including government agencies, were key drivers in adopting the solution. Opportunities exist for growth in Malawi and potentially other countries, with potential partners like UNICEF interested in expanding the solution's reach.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_MWI.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_MWI.m4a]]
 
 [[continent:Africa]]
 [[country:Malawi]]

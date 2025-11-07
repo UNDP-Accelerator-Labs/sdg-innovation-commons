@@ -1,5 +1,5 @@
 [[ai_summary:Maria Gabriela Gonzalez, the Head of Exploration in ACLA El Salvador, led a recovery project called "Chiquitis" to support women working in the tourism sector during COVID-19. The project aimed to provide digital tools and training, known as "digital helpers," which allowed women to access information and resources more easily. Through ethnographic research, design thinking, and prototyping, the team developed two prototypes: an info booth and digital promoters. The project showed positive results, increasing participants' knowledge of digital tools, financial literacy, and attitudes toward technology.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_SLV.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_SLV.m4a]]
 
 [[continent:North America]]
 [[country:El Salvador]]

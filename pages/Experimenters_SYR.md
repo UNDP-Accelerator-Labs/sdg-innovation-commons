@@ -1,5 +1,5 @@
 [[ai_summary:Mohammed Hanana, Head of Experimentation for Syria, discussed an R&D activity called Rift App, which aimed to support rural entrepreneurs and communities. The project provided seed funds, technical, and business mentoring, but faced challenges in reaching rural youth due to lack of digital literacy and awareness. To address this, the team developed a website with no deadline, used human-centered design, social media, local entrepreneurs, and visualizations. The outcome was over 1,000 applications and training of 300 participants, with 20 still working on their projects. The project's work impacted sustainable development primarily under SDG #8, economic growth and decent work, establishing around 20 new startups and marketing their success stories.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_SYR.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_SYR.m4a]]
 
 [[continent:Asia]]
 [[country:Syria]]

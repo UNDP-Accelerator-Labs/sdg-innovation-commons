@@ -1,5 +1,5 @@
 [[ai_summary:Okalo Fekadu, head of experimentation for Ethiopia's axillary dial-up, discussed an R&D activity focused on developing nature-based solutions for controlling striker weed (Gandra) affecting cereal crops in Ethiopia. The project involves collaboration with the Ethiopian Biotechnology Institute and a Toothpick Project from Kenya to develop laboratory protocols, conduct field experiments, and scale up the technology. A private sector partner was considered but not yet involved. The project aims to enhance production and productivity of cereals like sorghum and maize. Okalo emphasized the importance of government structures and partnership with mandated organizations in facilitating the diffusion and adoption of innovative technologies.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_ETH.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_ETH.m4a]]
 
 [[continent:Africa]]
 [[country:Ethiopia]]

@@ -1,5 +1,5 @@
 [[ai_summary:Talman is the Head of Exploration at Mongolia Country Office UNDP. The organization has been developing a portfolio approach and initiated a futures foresight exercise to analyze signals around sustainable livelihood and finance in Mongolia. A volunteer group of 12 signal scanners from different projects participated in the first phase, and the outcome was feeding new trends and signals for program areas. To catalyze broader change, Talman engaged with policy makers, private sector community, and other actors through workshops and bilateral meetings, framing the new approach as complementary to existing methods. The goal is to advocate for the use of the new tools in different settings while delivering results within a timeline and budget.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_MNG.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_MNG.m4a]]
 
 [[continent:Asia]]
 [[country:Mongolia]]

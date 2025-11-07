@@ -1,5 +1,5 @@
 [[ai_summary:Akinyemi Scott Boyle, also known as Aki, is the head of Solutions Mapping Accelerator Labs and shares his R&D journey focused on ecosystem strengthening for young innovators. He started with a solutions mapping exercise to identify innovative solutions across the country, focusing on youth and their creative practices. To support these innovators, he designed regional hubs and worked with local leaders, universities, and entrepreneurship organizations to provide access to materials, soft skills, and business model development. The goal was to improve livelihoods and create jobs for young people. Looking back, Aki considers focusing more on a specific area and being data-driven in terms of the innovators supported and why. He also notes that the accelerator lab is now partnering with government agencies and development partners, requiring a delicate balance between solution mapping and project management.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_SLE.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_SLE.m4a]]
 
 [[continent:Africa]]
 [[country:Sierra Leone]]

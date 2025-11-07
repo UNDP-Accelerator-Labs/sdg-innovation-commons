@@ -1,5 +1,5 @@
 [[ai_summary:Accelerator Lab Togo's Yem Ahiasti discussed digitalizing birth registry in Togo, which had been attempted before with limited success. They approached the challenge by innovating and testing a solution with local governments and medical facilities. The team faced challenges such as ethics concerns and lack of technical skills, but ultimately found that regulatory sandboxes could facilitate digitalization. Despite initial assumptions being proven wrong, they successfully tested an app in Aniha and its impact was later replicated by another agency in Lome. With new knowledge gained from the experience, Yem Ahiasti aims to apply it to future endeavors with local governments.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_TGO.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_TGO.m4a]]
 
 [[continent:Africa]]
 [[country:Togo]]

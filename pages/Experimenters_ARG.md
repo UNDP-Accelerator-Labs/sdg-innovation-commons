@@ -1,5 +1,5 @@
 [[ai_summary:Lorena Moskovich, head of experimentation at the Argentina Accelerator Lab, discussed an R&D activity involving creating a digital inclusion network. The project aimed to support low-income neighborhoods in Buenos Aires province by providing access to digital services and financial assistance. Sabrina, a local shop owner, played a key role in training and supporting her neighbors, who used her store as a hub for accessing digital services. The project was successful, with increased online transactions, reduced travel time, and improved quality of life for the participants. To facilitate diffusion and adoption, the team employed strategic partnerships, community outreach, and targeted interventions, such as training programs and incentives for shopkeepers.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_ARG.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_ARG.m4a]]
 
 [[continent:South America]]
 [[country:Argentina]]

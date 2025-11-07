@@ -1,5 +1,5 @@
 [[ai_summary:Carlos Estuardo Mazariegos Orellana, the head of exploration at the accelerator lab in Guatemala, discussed an R&D activity focused on tackling solid waste management challenges. He brought together diverse actors, including experts, NGOs, and government teams, to identify potential solutions using emerging technologies like open mapping, citizen science, geographical information systems, and artificial intelligence. The team used a co-creation process, biweekly exchanges with stakeholders, and explored international conferences to gather knowledge and technology. Key principles guiding the R&D work included generating knowledge, providing low-cost solutions, and ensuring adoption and scalability. The project resulted in three key outcomes: a field instrument for collecting information, a methodology for prioritizing municipal interventions, and an artificial intelligence algorithm for identifying potential illegal dump sites using satellite imagery.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_GTM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_GTM.m4a]]
 
 [[continent:North America]]
 [[country:Guatemala]]

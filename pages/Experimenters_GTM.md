@@ -1,5 +1,5 @@
 [[ai_summary:Javier Brolo, Head of experimentation at the Accelerator Lab in Guatemala, shares research on addressing polarization through dialogue and collaboration. A global development report sparked this effort to localize the issue in Guatemala, where political scenarios have become polarized, leading to aggressive discussions among groups with different ideas. Brolo worked with a diverse group of stakeholders, including former politicians, activists, journalists, private sector representatives, academics, and others, using tools like future scenario development and stress testing recommendations. The outcome includes a deeper understanding of what drives polarization and ways to promote dialogue and collaboration, as well as practical recommendations for managing emotions and expectations in high-polarized scenarios. Brolo plans to replicate the exercise, increase institutional capacity, and engage policymakers and communities beyond Guatemala to address the challenge on a broader scale.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_GTM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_GTM.m4a]]
 
 [[continent:North America]]
 [[country:Guatemala]]

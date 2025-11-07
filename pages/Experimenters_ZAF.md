@@ -1,5 +1,5 @@
 [[ai_summary:Tereska Mudley, Head of Experimentation at UNDP South Africa, shared an R&D activity implementing smart Agri gardens in rural communities in KwaZulu-Natal, South Africa, during COVID-19. The project aimed to improve food security and provide income opportunities for households through the production of fruits and vegetables. Key partners included the Institute for Natural Resources and community champions who were involved in designing, testing, and piloting the technology. Prototyping, co-creation, focus groups, and community consultations were used to develop the designs and ensure they were suitable for the communities. The project's outcomes included improved food security, innovation, and social cohesion among communities, which align with the Sustainable Development Goals (SDGs).]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_ZAF.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_ZAF.m4a]]
 
 [[continent:Africa]]
 [[country:South Africa]]

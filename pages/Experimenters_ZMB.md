@@ -1,5 +1,5 @@
 [[ai_summary:The R&D activity aims to improve productivity and incomes of artisanal small-scale miners, mainly women, in Zambia by adding value to their products or improving their production processes. The project involves collaboration with stakeholders, including artisans, innovators, academia, government agencies, and UNDP projects. Ethnographic tools and methods were used to understand the challenges faced by the artisans, while partnerships with academia and government agencies helped bridge gaps in technical skills. Inclusivity and equity were prioritized, ensuring that women-dominated entities had a voice in the design of the experiment. The project has developed a prototype for improving occupational health and safety, testing its impacts on artisanal small-scale miners' productivity and business models, with the goal of scaling up the initiative to other areas.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_ZMB.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_ZMB.m4a]]
 
 [[continent:Africa]]
 [[country:Zambia]]

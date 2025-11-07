@@ -1,5 +1,5 @@
 [[ai_summary:Ardita Zakiri, Head of Solutions Mapping at the Accelerator Lab in North Macedonia, discussed a research project using the "Data Powered Positive Deviance" methodology to improve financial management in municipalities. The team analyzed large data sets and identified successful municipalities that used various tools for accounting, transparency, and planning. The research found correlations between mapped positive deviants and mapped solutions, providing actionable knowledge for other municipalities. The study also highlighted the importance of human capital, such as financial officer capacities, in successful municipalities. The team plans to support municipalities in generating real-time data and sharing existing data to improve financial management.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_MKD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_MKD.m4a]]
 
 [[continent:Europe]]
 [[country:North Macedonia]]

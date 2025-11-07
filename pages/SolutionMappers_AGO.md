@@ -1,5 +1,5 @@
 [[ai_summary:Eneida Lima, a solution mapper from Angola, discussed her work with the UNDP Zimbabwe office. She and her team conducted a situation analysis on employment in Angola, bringing together partners like European Union, World Bank, and ILO to understand the country's challenges and potential entry points for collaboration. They used innovative tactics such as sense making and gamification to engage stakeholders and facilitate discussions. Lima noted that sharing responsibilities among partners is crucial to achieving results, as a single agency or partner may not be able to drive progress without the others. By working together, they aim to overcome Angola's complex employment situation.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_AGO.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_AGO.m4a]]
 
 [[continent:Africa]]
 [[country:Angola]]

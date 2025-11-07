@@ -1,7 +1,7 @@
 [[ai_summary:Here is a summary of the interview transcript in exactly 5 sentences or fewer:
 
 Lazar Popiwanov, Head of Experimentation at UNDP's Accelerator Lab team in North Macedonia, discussed an R&D activity aimed at familiarizing the public with Sustainable Development Goals (SDGs) through innovative ideas. The activity used crowdsourcing to collect articles from interested participants, which were then published and led to a public debate on SDG-related issues. Lazar emphasized the importance of diverse stakeholder perspectives, including civil society organizations, media representatives, and academia, in shaping the publication and its outcomes. The R&D activity led to two main takeaways: the development of an SDG Academy for university students and increased policy maker engagement with UNDP's country office on SDGs-related issues. The results demonstrated that crowdsourcing and public debate can be effective tools for amplifying innovative ideas and informing policy decisions.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_MKD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_MKD.m4a]]
 
 [[continent:Europe]]
 [[country:North Macedonia]]

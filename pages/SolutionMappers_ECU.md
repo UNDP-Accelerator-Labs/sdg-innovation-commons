@@ -1,5 +1,5 @@
 [[ai_summary:Paulina Jimenez, head of solutions mapping from Ecuador's accelerator lab, discussed a project aimed at preserving medicinal plants traded by producers and ragers in wholesale markets. The project involved collaborative workshops and design thinking principles to address issues such as low profit margins for vendors, reliance on middlemen, and climate change impacts. Tools like ethnographic observations and digital mapping were used to understand the market dynamics and ecosystem connections. A deliberation process led to five prototyped solutions, which were implemented with the herbalists. Skills developed during the project included intercultural understanding, empathy, and ecosystem mapping. The project applied principles of "no solution without concern," adapting solutions to accommodate local limitations, and was linked to sustainable development goals (SDGs), specifically environmental protection (SDG 13) and community well-being (SDG 11).]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_ECU.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_ECU.m4a]]
 
 [[continent:South America]]
 [[country:Ecuador]]

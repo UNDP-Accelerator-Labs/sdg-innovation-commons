@@ -1,5 +1,5 @@
 [[ai_summary:Korakot Tanseri is the head of experimentation at the UNDP Lao PDR, and he conducted research on waste management in his country. He identified that many people burn their waste or litter it due to a lack of accessible waste collection services. His team used co-creation techniques with community members, private sector stakeholders, and government officials to develop solutions, including empowering women who manage household waste. The main outcome of the research was the positioning of UNDP as a stakeholder working on waste management and providing grassroots solutions that can be implemented with minimal investment. Better waste management will reduce greenhouse gases, contribute to SDG 13 climate actions, SDG 9 economic development, and SDG 11 sustainable cities and communities.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_LAO.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_LAO.m4a]]
 
 [[continent:Asia]]
 [[country:Laos]]

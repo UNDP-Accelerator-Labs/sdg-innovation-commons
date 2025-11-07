@@ -1,5 +1,5 @@
 [[ai_summary:Gabriella Rios, Head of Exploration at the Accelerator lab in Mexico, shared a project implementing the data-powered positive deviance method to improve safety for women in public spaces. The project was a collaboration between the Accelerator Lab and GISET Data Lab, with support from local partners, including the government and UNDP. The team applied data analysis and qualitative research methods to identify conditions that make public spaces safer for women. Key learnings included the importance of being open to discovering new information and not relying solely on quantitative data, as well as the need for a holistic approach to addressing safety concerns. The project's outcomes were shared with government officials and led to the development of recommendations and interventions aimed at improving safety for women in Mexico City.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_MEX.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_MEX.m4a]]
 
 [[continent:North America]]
 [[country:Mexico]]

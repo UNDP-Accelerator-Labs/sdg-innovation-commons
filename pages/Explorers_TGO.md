@@ -1,5 +1,5 @@
 [[ai_summary:Komi Haoku, Head of Exploration at UNDP Togo, discussed an R&D initiative called U innovation, which aims to bring technology solutions to address development challenges in Togo. The project's goal is to align research skills with market demand and meet national priorities, particularly sustainable development goals. Collaboration with the University of Lome, Ministry of Higher Education, private sector, and other development partners has been crucial to its success. Tools such as data collection and analysis were used to demonstrate a need for innovation, while adaptability was also key in addressing unforeseen challenges. Effective communication and convening skills have enabled Komi Haoku to build relationships with academia, the private sector, and UNDP staff, ultimately securing commitment from the university to acquire equipment for the project.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_TGO.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_TGO.m4a]]
 
 [[continent:Africa]]
 [[country:Togo]]

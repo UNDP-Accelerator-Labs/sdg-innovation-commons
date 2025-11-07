@@ -1,5 +1,5 @@
 [[ai_summary:Sarah Sabin Khan is the solution mapper with the Bangladesh Accelerator Lab. She led an R&D journey focused on understanding the social protection needs of climate migrants in urban settings in Bangladesh. The research aimed to identify the patterns of migration, unique vulnerabilities, and social protection needs of climate migrants. Sarah leveraged existing data from UNDP projects and conducted a tracer survey, household surveys, and analysis with academic partners. She highlighted the importance of understanding people's different layers of vulnerabilities and recognizing that climate migrants have distinct needs. The project aimed to inform urban transformation policies and provide accessible social protection for vulnerable groups. If given a second chance, Sarah would engage more stakeholders, including academia, policymakers, and diverse communities, to amplify advocacy efforts and policy impact.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_BGD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_BGD.m4a]]
 
 [[continent:Asia]]
 [[country:Bangladesh]]

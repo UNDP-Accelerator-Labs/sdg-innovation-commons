@@ -1,5 +1,5 @@
 [[ai_summary:Irfan Anzu, head of exploration at Bangladesh Accelerator Lab, led a project promoting digital financial inclusion in his country. The initiative had five key components and involved media engagement, policy research, capacity building, training for journalists, regional engagement with think tanks, and a closed-door policy dialogue platform to discuss policy reforms. The project used tools such as policy studies and regional studies focusing on marginalized communities to advocate for policies like financial interoperability. Irfan emphasized the importance of reading diverse stakeholders' needs, understanding individual contexts, and not taking credit in policy advocacy. The initiative resulted in the development of a digital transaction platform allowing mobile financial services to be interoperable with banks, as well as increased capacity among journalists on digital financial inclusion.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_BGD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_BGD.m4a]]
 
 [[continent:Asia]]
 [[country:Bangladesh]]

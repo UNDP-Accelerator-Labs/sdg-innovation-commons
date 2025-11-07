@@ -1,5 +1,5 @@
 [[ai_summary:Maurice Rugwamigamo, Head of Exploration and Coordinator of the Xelita Lab in Rwanda, discussed a hunger innovation challenge project aimed at reducing waiting times at hospitals through the use of robotics. The project aims to automate vital sign testing and data feed into the system for quicker patient screening. To develop this concept, Rugwamigamo leveraged generative AI and collective intelligence among team members, while engaging with medical practitioners and stakeholders to gather feedback and buy-in. The project is currently undergoing full-scale experimentation in 10 hospitals to measure its impact, and a proof-of-concept has been developed using robotics that can test patients' vital signs and feed data into the system. Rugwamigamo emphasized the importance of principles such as creativity, ingenuity, inclusivity, equity, and sustainability guiding the R&D approach.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_RWA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_RWA.m4a]]
 
 [[continent:Africa]]
 [[country:Rwanda]]

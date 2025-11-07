@@ -1,11 +1,11 @@
 [[ai_summary:Seth Akumani, Head of Exploration for UNDP Ganas Accelerator Lab, is working on designing a digital gateway for Micro, Small and Medium Enterprises (MSMEs) in Ghana. The country faces significant challenges with MSMEs, including limited access to capital and markets, largely due to informal business practices. To address this issue, the digital gateway aims to provide information on formalization processes, funding opportunities, and market expansion, ultimately improving MSMEs' competitiveness.
 
-Akumani collaborated with the Ghana Enterprise Agency and other stakeholders, including private sector partners and government agencies, to develop the platform. The design process involved research, ethnographic approaches, focus group discussions, and co-creation with key stakeholders. 
+Akumani collaborated with the Ghana Enterprise Agency and other stakeholders, including private sector partners and government agencies, to develop the platform. The design process involved research, ethnographic approaches, focus group discussions, and co-creation with key stakeholders.
 
 The initiative recognizes that MSMEs need digital skills training to effectively utilize the platform's resources. To address this challenge, a holistic approach has been developed, incorporating capacity building for micro, small and medium enterprises.
 
 Akumani expressed gratitude for the joint SDG fund’s catalytic funding of $3 million in July this year, which will support a new holistic approach for the project.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_GHA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_GHA.m4a]]
 
 [[country:Ghana]]
 [[type:story]]

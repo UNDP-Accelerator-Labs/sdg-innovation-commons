@@ -1,5 +1,5 @@
 [[ai_summary:Maria Veronica Moreno, head of solutions mapping at the Accelerator Lab in UNDP Argentina, has mapped citizen science initiatives to foster sustainable development. She deployed low-cost sensors to measure air quality and collaborated with the Ministry of Environment and Buenos Aires government to develop a pilot project during the pandemic. The success inspired a national citizen science policy, which led to the development of platforms for citizens to upload their projects. Moreno emphasized the importance of Co-creative methods, active listening, and storytelling in solution mapping, as well as the need for humility and openness to new opportunities.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_ARG.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_ARG.m4a]]
 
 [[continent:South America]]
 [[country:Argentina]]

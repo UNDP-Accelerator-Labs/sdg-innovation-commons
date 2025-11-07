@@ -1,5 +1,5 @@
 [[ai_summary:Abdul Rahman Al Basir, head of experimentation at Club Libya, discussed an R&D activity to address the emergency response issue of groundwater rising in a coastal city in Libya. The project utilizes satellite imagery and computer vision with machine learning techniques to estimate and monitor water levels in lakes forming due to this issue. The team engaged with local universities, municipalities, and government officials to identify root causes and gather data analytics insights. The outcome of the project includes a collective intelligence workshop to present findings and demonstrate technology's potential, as well as plans for publishing a research paper on using technology in post-crisis settings. Al Basir emphasized the importance of agile decision-making and further research to improve the solution.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_LBY.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_LBY.m4a]]
 
 [[continent:Africa]]
 [[country:Libya]]

@@ -1,5 +1,5 @@
 [[ai_summary:Jamila Mohammed, head of experimentation for the Accelerator Lab in Nigeria, is working to position innovation hubs and accelerators to support Sustainable Development Goals (SDGs) in Nigeria. The country is far behind achieving its SDG targets, and Mohammed's team aims to involve entrepreneurs with the right capacities and platforms. They conducted a systems mapping exercise to identify gaps in development, particularly in the northern regions, where poverty and unemployment are prevalent. Through co-creation, mapping, and stakeholder engagement, they developed a plan and framework for strengthening the innovation ecosystem. The outcome of this journey is a live map of the ecosystem being built with the involvement of stakeholders, including often-neglected groups such as people with disabilities in rural communities.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_NGA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_NGA.m4a]]
 
 [[continent:Africa]]
 [[country:Nigeria]]

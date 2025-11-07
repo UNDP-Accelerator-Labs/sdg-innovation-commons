@@ -1,5 +1,5 @@
 [[ai_summary:Victor Tablas is the head of experimentation at the UNDP in El Salvador. He led an R&D activity involving a public internet connection in a big public space, which was funded by another project and provided free access for a year. The goal was to test the impact of public internet on tourism, but the results showed that it didn't bring more visitors as expected. Instead, the study found that people were more likely to recommend the public space and stayed longer after being informed about its internet connectivity. The findings will inform future development projects in El Salvador and have already been shared with national authorities and international organizations.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_SLV.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_SLV.m4a]]
 
 [[continent:North America]]
 [[country:El Salvador]]

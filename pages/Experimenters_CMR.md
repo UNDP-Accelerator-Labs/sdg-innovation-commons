@@ -1,5 +1,5 @@
 [[ai_summary:Chaufo Sesh Roberto, head of experimentation at the UNDP's country office in Cameroon, discussed a Solar Power Mobile Kiosk Initiative aimed at empowering street youth. The initiative was developed to increase their resilience and integrate them into society by providing them with an income-generating opportunity through catering services. The development process involved collaboration with the government, St. youth, and program colleagues, who provided valuable feedback. The initiative led to a 60% increase in income for the young people during the test period. Roberto emphasized the importance of engaging stakeholders from the beginning to ensure successful implementation and adaptation of innovative solutions like this one.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_CMR.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_CMR.m4a]]
 
 [[continent:Africa]]
 [[country:Cameroon]]

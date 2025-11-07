@@ -1,5 +1,5 @@
 [[ai_summary:Tshering Wangmo, Head of Solution Mapping at the UNDP Bhutan Country Office, discussed a research and development journey focused on addressing youth unemployment in Bhutan. The team used ethnographic research and an iceberg model to gather insights into the issue, which revealed a dual challenge: young people were not willing to take up jobs, while also facing a lack of job opportunities. To address this, the team adopted a systems thinking and design approach, involving government officials and stakeholders in the field research process. The findings showed that mindset issues around policy makers' and parents' perceptions played a significant role in the issue. The team used storytelling, personas, and workshops to communicate the insights with policymakers, including members of Parliament, ultimately leading to increased openness for co-designing solutions with young people themselves.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_BTN.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_BTN.m4a]]
 
 [[continent:Asia]]
 [[country:Bhutan]]

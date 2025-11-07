@@ -1,5 +1,5 @@
 [[ai_summary:Julio Fernandes Pinto, head of experimentation at Timor Leste Accelerator Lab, discussed his journey into R&D starting in 2019 when COVID-19 hit his country. He used a 3D printer to create face seals for front liners, and the lab conducted research online with the UNDP project. The team introduced innovative methods, including co-creation, experimentation, and design thinking, to address challenges in sustainable development. Their work had an impact on policy changes, such as the adoption of horizon scanning method by the government. Pinto emphasizes simplifying R&D methods to make them accessible to more people and promote collective innovation.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_TLS.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_TLS.m4a]]
 
 [[continent:Asia]]
 [[country:Timor Leste]]

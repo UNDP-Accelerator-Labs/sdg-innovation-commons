@@ -1,5 +1,5 @@
 [[ai_summary:Kenda Alzaim is the head of solutions mapping from Syria, and she is working on a platform called the Euphrates River Knowledge Flow Platform. The platform aims to share knowledge and stories about the Euphrates River's challenges, including climate change, conflict, and biodiversity loss, in order to promote sustainable development goals. Kenda and her team used human-centered design thinking to develop the platform, which includes storytelling tools, visualizations, and accessible knowledge. The platform is now available for use by various stakeholders, including local communities, academia, and government officials. Kenda's work aims to address the issue of inaccessible knowledge and promote knowledge sharing in sustainable development.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_SYR.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_SYR.m4a]]
 
 [[continent:Asia]]
 [[country:Syria]]

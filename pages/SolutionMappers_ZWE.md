@@ -1,5 +1,5 @@
 [[ai_summary:Charlene Moyo, head of solutions mapping at UNDP Zimbabwe, discussed a project aimed at supporting cross-border traders affected by COVID-19. The team conducted a community immersion process in Victoria Falls to understand the challenges faced by women traders and gathered insights on the issue of border passes being expensive and unavailable for them to use. To address this, they worked with local stakeholders, including City Council, customs authorities, immigration, and the Ministry of Health, using WhatsApp groups as an effective communication tool. The project's impact was the creation of a report that provided perspective on barriers to trade entry for informal traders, particularly women. Charlene advises building trust before engaging communities and involving male cross-border traders in conversations to address gender-based violence.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_ZWE.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_ZWE.m4a]]
 
 [[continent:Africa]]
 [[country:Zimbabwe]]

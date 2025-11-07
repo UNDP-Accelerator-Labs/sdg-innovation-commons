@@ -1,5 +1,5 @@
 [[ai_summary:Suyapi Mumba, Head of experimentation with Accelerator Lab in Malawi, discussed a research and development activity that supported a local council's challenge with managing revenue information. The council developed its own information system to address the issue, using a solutions mapping approach and tools like NASA's Technology Readiness Assessment Framework. Stakeholder engagement was crucial, involving government departments, academia, and other stakeholders to ensure buy-in and refinement of the system. The project aimed to scale up the impact by facilitating engagement with other councils to learn about the system and adopt it.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_MWI.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_MWI.m4a]]
 
 [[continent:Africa]]
 [[country:Malawi]]

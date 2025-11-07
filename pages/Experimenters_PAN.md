@@ -1,5 +1,5 @@
 [[ai_summary:Betty Chemier, head of experimentation for the AT club in Panama, discussed a social cohesion portfolio supported by the SIU office from Istanbul. The portfolio aimed to understand and address root causes of structural problems in Panama, such as inequalities, through social cohesion. Betty shared experiments using generative AI technologies to design public spaces that foster trust between people and institutions. Outcomes include demand for innovation within the organization, embedding methods into CEO projects, and partnerships with local governments. The work has sparked a change in mindset among staff, promoting systemic thinking and collaboration.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_PAN.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_PAN.m4a]]
 
 [[continent:North America]]
 [[country:Panama]]

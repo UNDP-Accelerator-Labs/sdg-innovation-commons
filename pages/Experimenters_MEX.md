@@ -1,5 +1,5 @@
 [[ai_summary:Luis Cervantes, head of experimentation at the Accelerator Lab Mexico, discussed the importance of indigenous rights in consulting before projects are built in their communities. He emphasized that there is a gap in achieving these rights nationwide, with many communities feeling that their rights have not been respected. The lab aims to build national capacity for respectful consultation and has developed tools such as dialogue and participatory research to address this issue. Cervantes highlighted the need for systemic thinking and approach to tackle problems at the root cause, while also addressing immediate crises.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_MEX.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_MEX.m4a]]
 
 [[continent:North America]]
 [[country:Mexico]]

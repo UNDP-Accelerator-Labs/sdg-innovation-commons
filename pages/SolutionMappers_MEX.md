@@ -1,5 +1,5 @@
 [[ai_summary:Jorge Munguia, Head of solution mapping and accelerator lab at the Mexico country office, has a mind-blowing experience working with diverse actors in his role. He shares two stories about creating waves of work during COVID-19, one involving connecting government officials, NGOs, and young people to map social capital during crisis, and another on national consultations for climate action using massified dialogue methods. Munguia developed communication skills by learning about others' perspectives, asking questions, and finding common ground. He emphasizes the importance of analyzing outputs through visualizing systems approaches, diversity of perspectives, and deep listening.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_MEX.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_MEX.m4a]]
 
 [[continent:North America]]
 [[country:Mexico]]

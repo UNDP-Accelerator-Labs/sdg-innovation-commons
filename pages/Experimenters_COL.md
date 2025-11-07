@@ -1,5 +1,5 @@
 [[ai_summary:Juan David Martin, head of experimentation in Colombia's country office, discussed the development of "Life Helmets" during the COVID-19 pandemic. The project aimed to tackle isolation by isolating only the area where the disease would enter the body. Prototypes were designed and built with the maker community, which included low-tech solutions such as face masks and gloves. The goal was to encourage people to adopt protective behaviors without fully isolating themselves. Martin emphasized the importance of engaging stakeholders through psychological boundaries and open innovation challenges.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_COL.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_COL.m4a]]
 
 [[continent:South America]]
 [[country:Colombia]]

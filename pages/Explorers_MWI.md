@@ -1,5 +1,5 @@
 [[ai_summary:McDonald Nyoni, Head of Exploration at Malawi's accident lab, discussed an R&D activity focused on using AI to improve tourism in Malawi. The government's transition from Vision 2020 to Vision 2063 prompted a new focus on agriculture, tourism, and mining, which led to exploring AI applications in these areas. Nyoni explained that the main issue was not data, but rather relationships between stakeholders, particularly the lack of communication between the private and public sectors. To address this, they used tactics such as engagement meetings, virtual discussions, and hackathons to bring stakeholders together. Effective skills required for this initiative included negotiation, context understanding, cost awareness, and technical knowledge of AI.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_MWI.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_MWI.m4a]]
 
 [[continent:Africa]]
 [[country:Malawi]]

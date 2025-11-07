@@ -1,5 +1,5 @@
 [[ai_summary:Marie Mehndi, head of experimentation at the Gambia Accelerator Lab, aims to map the secular economy ecosystem in The Gambia, focusing on waste management. She plans to conduct a challenge for the youth to develop solutions to address this issue. To ensure diverse stakeholder perspectives, Mehndi plans to engage with the youth ministry, National Environment Agency, and other relevant partners. Effective communication and partnership skills are crucial for the success of this R&D activity. The lab's embeddedness in the country office will facilitate collaboration and support for the project.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_GMB.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_GMB.m4a]]
 
 [[continent:Africa]]
 [[country:Gambia]]

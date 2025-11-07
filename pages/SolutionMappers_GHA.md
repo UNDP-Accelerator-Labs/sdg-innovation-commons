@@ -1,5 +1,5 @@
 [[ai_summary:The Solutions Mapper for the UNDP Accelerator Lab in Ghana, Fatima Farouta, discussed their journey with Kenta Weavers in a border town. The team conducted collective intelligence exercises and realized that digital support was needed to help female traders save money and work together. They identified Kente weaving as a valuable skill and developed an intervention to upgrade the weaving skill set of local weavers. However, they also learned that simply providing training without addressing logistical issues, such as transportation and infrastructure, would not be sufficient for the community's success. The solution involved working closely with local stakeholders, including community organizers, district officers, and local government officials, to create a sustainable ecosystem.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_GHA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_GHA.m4a]]
 
 [[continent:Africa]]
 [[country:Ghana]]

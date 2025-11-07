@@ -1,5 +1,5 @@
 [[ai_summary:Muhammad Abmouli, head of experimentation from Jordan, shared his work on career counseling, which began with an online platform for IT training. He researched and found gaps in learning and getting jobs, particularly among youth. The team developed a chatbot to test its effectiveness, finding that it was well-received by young people due to its convenience. They also identified the need for empathy, creative thinking, and partnership to address the challenge. Although their work is still in its early stages, they hope to make a significant impact on career guidance and support for young people in Jordan.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_JOR.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_JOR.m4a]]
 
 [[continent:Asia]]
 [[country:Jordan]]

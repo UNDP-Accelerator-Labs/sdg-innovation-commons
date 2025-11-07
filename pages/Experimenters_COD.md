@@ -1,6 +1,6 @@
 [[ai_summary:Tatiana Lukama Binda from the Democratic Republic of Congo discussed a project to digitalize the justice system, which aims to improve access to justice and streamline court processes. The development process involved collaboration with government partners and stakeholders through co-creation and human-centered design methods. A pilot program was tested in three provinces before scaling up to six more provinces, collecting data on case processing times and user acceptance. The outcome of the project highlighted the importance of involving users in the decision-making process. The team plans to improve their approach by securing policy changes to support the use of the system nationwide.]]
 
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_COD.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_COD.m4a]]
 
 [[continent:Africa]]
 [[country:Democratic Republic of Congo]]

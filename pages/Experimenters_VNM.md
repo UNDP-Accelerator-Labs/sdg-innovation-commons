@@ -1,5 +1,5 @@
 [[ai_summary:Giang, head of experimentation at UNDP Vietnam, discussed an R&D activity aimed at transforming fossil fuel motorbikes into electric vehicles for daily goods delivery in ancient cities in Vietnam. The experiment involved collaborating with local partners, including a People's Committee and Research Institute under the government, to develop tools and methods that catered to shippers' needs. Key principles guiding the project included putting beneficiaries at the center of design, adapting and changing as needed, and ensuring inclusivity through diverse stakeholder mapping and engagement. The experiment ultimately led to improved CO2 emissions, economic benefits, and increased public trust in UNDP's work, as well as enhanced city reputation among tourists. To improve future endeavors, Giang would prioritize spending more time on consultation with stakeholders and government partners to ensure quality and timing of the project.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_VNM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_VNM.m4a]]
 
 [[continent:Asia]]
 [[country:Vietnam]]

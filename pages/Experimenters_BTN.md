@@ -1,5 +1,5 @@
 [[ai_summary:The Bhutan Highlands Sustainable Fund was initiated as a response to the needs of local farmers, particularly those affected by cattle attacks from wild animals. The fund aims to provide targeted support through various tools and methods, including digital solutions, small grants, and innovative financing schemes. A crowdfunding campaign was launched to raise funds for the initiative, which has received significant interest and donations. To facilitate adoption and diffusion of the R&D outcomes, key strategies employed include relationship-building with partners, effective communication, and training government officials in foresight and strategic governance. The country office plans to roll out these initiatives further, including training parliamentarians, to increase their impact.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_BTN.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_BTN.m4a]]
 
 [[continent:Asia]]
 [[country:Bhutan]]

@@ -1,5 +1,5 @@
 [[ai_summary:Hassan Al-Rubaiey is the head of solutions mapping at the UNDB Accelerator Lab Iraq, which involves working closely with local communities to find effective solutions to pressing issues. He used artificial intelligence and design thinking methods to simulate the minds of 710 young people from different backgrounds, collecting data on their current situation and categorizing them into two groups: those exposed to local solutions and those not exposed. The findings suggested that intangible solutions are needed to address youth employment in Iraq, taking a long-term approach. The project developed a portfolio approach for designing interventions and highlighted the importance of considering surrounding environments in development work.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_IRQ.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_IRQ.m4a]]
 
 [[continent:Asia]]
 [[country:Iraq]]

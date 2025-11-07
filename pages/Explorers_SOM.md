@@ -1,5 +1,5 @@
 [[ai_summary:Hadan Ahmed Abdullahi is the Head of Exploration in Accelerator Lab Somalia. He shared a research and development pilot project called the positive deviance pilot, which analyzed data from 2015 to 2020 to find communities that were resilient to droughts. The project used big data analysis, satellite imagery, and qualitative methods to understand the factors contributing to resilience. Flexible principles guided the research, including adapting to gaps in data and being open-minded to diverse perspectives. The project found that community governance and self-organization played a crucial role in achieving resilience.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_SOM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_SOM.m4a]]
 
 [[continent:Africa]]
 [[country:Somalia]]

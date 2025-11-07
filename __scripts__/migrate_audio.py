@@ -56,14 +56,29 @@ for base in SCAN_DIRS:
             if not filename:
                 # fallback: create a safe filename from netloc + hash
                 filename = parsed.netloc.replace('.', '_') + '.audio'
-            local_path = os.path.join(AUDIO_DIR, filename)
-            local_webpath = f'/public/media/audio/{filename}'
+
+            # If the URL path contains certain platform segments, download into
+            # a matching subdirectory (Experimenters, Explorers, SolutionMappers)
+            path = parsed.path or ''
+            subdir = None
+            for key in ('Experimenters', 'Explorers', 'SolutionMappers'):
+                if f'/{key}/' in path:
+                    subdir = key
+                    break
+
+            if subdir:
+                dest_dir = os.path.join(AUDIO_DIR, subdir)
+                os.makedirs(dest_dir, exist_ok=True)
+                local_path = os.path.join(dest_dir, filename)
+                local_webpath = f'/public/media/audio/{subdir}/{filename}'
+            else:
+                local_path = os.path.join(AUDIO_DIR, filename)
+                local_webpath = f'/public/media/audio/{filename}'
+
             if os.path.exists(local_path):
                 summary['skipped_existing'] += 1
-                # replace remote url with local webpath in the markdown
-                new_tag = f'[[audio:{local_webpath}]]'
-                text = text.replace(f'[[audio:{url}]]', new_tag)
-                updated = True
+                # File already exists locally; do not modify the markdown reference yet.
+                # We only record that the audio was present and continue to next match.
                 continue
             # download
             try:
@@ -75,10 +90,9 @@ for base in SCAN_DIRS:
                         if chunk:
                             out.write(chunk)
                 summary['downloaded'] += 1
-                # replace reference in markdown
-                new_tag = f'[[audio:{local_webpath}]]'
-                text = text.replace(f'[[audio:{url}]]', new_tag)
-                updated = True
+                # Audio downloaded. Do not update the markdown references yet.
+                # We leave the original [[audio:...]] tag in place for now.
+                print('Downloaded to', local_path)
             except Exception as e:
                 print('Failed to download', url, 'error:', e)
         if updated:

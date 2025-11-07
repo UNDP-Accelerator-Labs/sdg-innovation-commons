@@ -1,5 +1,5 @@
 [[ai_summary:Amina Omicevic, Head of Solutions Mapping in Bosnia and Herzegovina, led an R&D project on urban transformation in one city, enhancing citizen participation in urban planning. The methodology involved mapping issues, developing a collective intelligence platform, and visualization techniques to simplify the design process for public space intervention. Skills required included developing a new methodology from scratch and facilitation skills, as well as humility to incorporate unexpected information. The initiative was catalyzed by a willing local government, and it diffused through policy and international recognition. A key learning is that preparation for administrative hurdles can help mitigate challenges during the journey.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_BIH.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_BIH.m4a]]
 
 [[continent:Europe]]
 [[country:Bosnia and Herzegovina]]

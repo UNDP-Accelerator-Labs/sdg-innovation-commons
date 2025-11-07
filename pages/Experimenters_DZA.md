@@ -1,5 +1,5 @@
 [[ai_summary:Hanane Kaouane, head of experimentation at the Accelerator Lab, UNDP Algeria, discussed a local governance pilot program supported by the European Union. The project aimed to develop local economies and was implemented in five communities. Stakeholders included NGOs, government officials, local communities, and experts on local economic development. To engage stakeholders, Kaouane's team used empathy, active listening, and human stories, which led to increased motivation and democratic participation among community members.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_DZA.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_DZA.m4a]]
 
 [[continent:Africa]]
 [[country:Algeria]]

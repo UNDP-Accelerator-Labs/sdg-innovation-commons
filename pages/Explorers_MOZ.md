@@ -1,5 +1,5 @@
 [[ai_summary:Julieta Massango, Head of Exploration at UNDP in Mozambique, discusses the portfolio approach to addressing youth employment challenges. She highlights the importance of peer-to-peer engagement, emotional intelligence, and clear communication with the government. Julieta's team involves a diverse group of 30 people from different areas, including data analysis, mapping, and procurement expertise. The goal is to create a sustainable foundation that can be replicated in other provinces, and to showcase the benefits of coordination between UNDP and the private sector. Julieta reflects on using this approach from the start of her work at UNDP and believes it could lead to faster problem-solving and more effective solutions.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_MOZ.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_MOZ.m4a]]
 
 [[continent:Africa]]
 [[country:Mozambique]]

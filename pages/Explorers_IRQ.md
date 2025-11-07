@@ -1,5 +1,5 @@
 [[ai_summary:Safa Al-Qoch, Head of Exploration for Acclab Iraq, discussed her initiative, SU Community and Climate Hub, a project scaled from an existing youth center to support climate change and social contract issues in southern Iraq. The project was shaped by local community input, including Bahalum Local Organization, which recommended focusing on community and climate change while highlighting youth unemployment as a priority. Safa employed tools like sense-making, design thinking, and system thinking to collect insights and analyze research for the UNDP portfolio approach. She emphasized brain flexibility, building shared visions with partners, trust, ownership, effective communication, and bridging between stakeholders in her R&D journey.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_IRQ.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_IRQ.m4a]]
 
 [[continent:Asia]]
 [[country:Iraq]]

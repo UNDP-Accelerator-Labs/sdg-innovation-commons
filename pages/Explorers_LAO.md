@@ -3,7 +3,7 @@
 Tong emphasized the importance of inclusivity, transparency, and being open-minded during the R&D journey. He highlighted the need for effective communication with stakeholders, particularly technical personnel. The platform's development involved multiple sectors, including private employers and job seekers. Tong noted that starting the project was complex but believed it would have a long-term impact on labor market information systems in Laos.
 
 Throughout the process, Tong encountered various challenges but said he did not regret the outcome, which has already received positive feedback from stakeholders.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Explorers/Explorers_LAO.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Explorers/Explorers_LAO.m4a]]
 
 [[continent:Asia]]
 [[country:Laos]]

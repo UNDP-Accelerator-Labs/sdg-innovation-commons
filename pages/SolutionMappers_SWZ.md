@@ -1,5 +1,5 @@
 [[ai_summary:Nontobeko Mlangeni, from Eswatini, founded a research and development lab with a focus on reducing plastic bag use. The lab started working with informal sector businesses during COVID-19 to develop digital platforms for continued operation. A new experiment called Patasako aimed to reduce serious plastic bags in the environment, starting with ethnographic surveys of consumers' shopping habits. The lab partnered with five retailers and implemented a partial ban on single-use plastic bags from Friday to Sunday, finding a 60% reduction in distributed plastic bags over two years. Behavioral insights were crucial for designing targeted messages, and user journeys helped understand consumer decision-making, leading to the development of a successful campaign.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/SolutionMappers/SolutionMappers_SWZ.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/SolutionMappers/SolutionMappers_SWZ.m4a]]
 
 [[continent:Africa]]
 [[country:Eswatini]]

@@ -1,5 +1,5 @@
 [[ai_summary:Yrica Moritz, Head of Experimentation at Accelerated Lab Namibia. Accelerator Lab Namibia partnered with the Office of the Prime Minister to develop a Public Service Innovation Champions toolkit. The initiative aimed to address SDG 16 and 17's focus on governance and building strong institutions by leveraging partnerships for goals. The team worked with various stakeholders, including the secretary to the Cabinet, Department of Public Service Reform, and Learning and Development offices across ministries and agencies.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_NAM.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_NAM.m4a]]
 
 [[continent:Africa]]
 [[country:Namibia]]

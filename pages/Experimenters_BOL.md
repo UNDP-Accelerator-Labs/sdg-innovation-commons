@@ -1,5 +1,5 @@
 [[ai_summary:The UNDP Bolivia Head of Experimentation, Diego Suarez, discussed his background as an architect with a master's degree in digital architecture. He created respirators for the pandemic and realized the need to work with people, leading him to join the accelerator lab. Suarez worked on experiments, including the MI Barrio project, which empowered citizens to take information and make decisions. He noted that working at the community level is different from the municipality, where he had to convince officials to adopt the platform. The platform is designed for each neighborhood to be tailored to their specific needs, allowing citizens to have more control over information and planning.]]
-[[audio:https://acclabplatforms.blob.core.windows.net/rndarchive/Experimenters/Experimenters_BOL.m4a]]
+[[audio:https://undp-accelerator-labs.github.io/Archive_Codification_Fests_Interview_Audio/Experimenters/Experimenters_BOL.m4a]]
 
 [[continent:South America]]
 [[country:Bolivia]]
