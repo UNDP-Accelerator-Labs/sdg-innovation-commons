@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/drcongo/blog/la-digitalisation-et-odd-la-jeunesse-au-service-de-lagenda-2030)
 
 
-[[date:20 DÉCEMBRE 2022]]
+[[year:2022]]
+
+[[date:2022-12-20T00:00:00.000Z]]
 
 [[country:Democratic Republic of Congo]]
 

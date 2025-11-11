@@ -11,9 +11,9 @@ Farming remains the backbone of...
 [Original article published here](https://www.undp.org/eswatini/blog/universal-access-quality-standards-all)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:December 23, 2022]]
+[[date:2022-12-23T00:00:00.000Z]]
 
 [[continent:Africa]]
 

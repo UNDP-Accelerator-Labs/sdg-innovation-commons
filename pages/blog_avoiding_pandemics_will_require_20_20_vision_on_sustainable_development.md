@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:MAY 14, 2020]]
+[[date:2020-05-14T00:00:00.000Z]]
 
 [[continent:Europe]]
 

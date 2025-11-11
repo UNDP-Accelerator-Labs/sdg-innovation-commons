@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/anal%C3%ADtica-de-datos-para-mejorar-la-deliberaci%C3%B3n-p%C3%BAblica-en-colombia)
 
 
-[[date:13 DE DICIEMBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-12-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

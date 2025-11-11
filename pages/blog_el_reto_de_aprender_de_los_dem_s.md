@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/el-reto-de-aprender-de-los-demas)
 
 
-[[date:13 DE MARZO DE 2023]]
+[[year:2023]]
+
+[[date:2023-03-13T00:00:00.000Z]]
 
 [[continent:North America]]
 

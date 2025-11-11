@@ -11,9 +11,9 @@ O NOSSO...
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/como-competicao-de-empreendedorismo-do-laboratorio-de-aceleracao-mudou-forma-como-os-empreendedores-trabalham-na-guine-bissau)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:March 23, 2022]]
+[[date:2022-03-23T00:00:00.000Z]]
 
 [[continent:Africa]]
 

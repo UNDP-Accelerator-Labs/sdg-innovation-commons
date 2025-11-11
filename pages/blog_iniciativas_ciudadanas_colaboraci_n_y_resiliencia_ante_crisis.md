@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/iniciativas-ciudadanas-colaboracion-y-resiliencia-ante-crisis)
 
 
+[[year:2021]]
+
 [[date:15 DE DICIEMBRE DE 2021]]
 
 [[continent:North America]]

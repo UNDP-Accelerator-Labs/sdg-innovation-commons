@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/aprendizaje-para-el-desarrollo-principios-y-tensiones-que-enriquecen-la-practica)
 
 
+[[year:2024]]
+
 [[date:22 DE NOVIEMBRE DE 2024]]
 
 [[continent:South America]]

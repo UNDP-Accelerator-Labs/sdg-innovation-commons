@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/covid-19-lecons-pour-la-digitalisation-au-niger)
 
 
+[[year:2020]]
+
 [[date:27 AOÛT 2020]]
 
 [[continent:Africa]]

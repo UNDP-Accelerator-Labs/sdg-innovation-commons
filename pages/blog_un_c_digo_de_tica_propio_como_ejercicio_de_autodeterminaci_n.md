@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/un-codigo-de-etica-propio-como-ejercicio-de-autodeterminacion)
 
 
+[[year:2024]]
+
 [[date:12 DE SEPTIEMBRE DE 2024]]
 
 [[continent:South America]]

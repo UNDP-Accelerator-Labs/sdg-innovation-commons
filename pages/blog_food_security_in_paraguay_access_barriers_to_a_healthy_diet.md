@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/food-security-paraguay-access-barriers-healthy-diet)
 
 
-[[date:11 DE ABRIL DE 2022]]
+[[year:2022]]
+
+[[date:2022-04-11T00:00:00.000Z]]
 
 [[continent:South America]]
 

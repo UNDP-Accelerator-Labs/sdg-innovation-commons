@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/la-ia-generativa-en-los-servicios-publicos-para-impulsar-las-oportunidades-de-desarrollo-de-las-personas)
 
 
+[[year:2024]]
+
 [[date:29 DE JULIO DE 2024]]
 
 [[continent:North America]]

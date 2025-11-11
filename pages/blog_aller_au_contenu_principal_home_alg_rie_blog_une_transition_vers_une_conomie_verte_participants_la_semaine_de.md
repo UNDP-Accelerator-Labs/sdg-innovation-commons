@@ -12,9 +12,9 @@ Participants à la Semaine de...
 [Original article published here](https://www.undp.org/fr/algeria/blog/une-transition-vers-une-economie-verte)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:March 1, 2023]]
+[[date:2023-03-01T00:00:00.000Z]]
 
 [[continent:Africa]]
 

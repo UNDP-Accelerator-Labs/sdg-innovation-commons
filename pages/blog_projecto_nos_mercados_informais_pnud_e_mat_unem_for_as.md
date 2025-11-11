@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/projecto-nos-mercados-informais-pnud-e-mat-unem-forcas)
 
 
+[[year:2020]]
+
 [[date:24 DE MAY DE 2020]]
 
 [[continent:Africa]]

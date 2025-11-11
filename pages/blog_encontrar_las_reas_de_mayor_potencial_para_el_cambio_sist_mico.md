@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/encontrar-las-areas-de-mayor-potencial-para-el-cambio-sistemico)
 
 
+[[year:2024]]
+
 [[date:30 DE SEPTIEMBRE DE 2024]]
 
 [[country:United States]]

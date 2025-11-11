@@ -11,9 +11,9 @@ NUESTRO...
 [Original article published here](https://www.undp.org/es/paraguay/blog/busqueda-tava)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:August 28, 2023]]
+[[date:2023-08-28T00:00:00.000Z]]
 
 [[continent:South America]]
 

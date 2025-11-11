@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/mali/blog/lintelligence-collective-au-service-du-developpement-durable)
 
 
-[[date:3 JUILLET 2022]]
+[[year:2022]]
+
+[[date:2022-07-03T00:00:00.000Z]]
 
 [[continent:Africa]]
 

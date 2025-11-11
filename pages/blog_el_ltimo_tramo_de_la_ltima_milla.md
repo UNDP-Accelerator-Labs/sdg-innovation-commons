@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/panama/blog/el-ultimo-tramo-de-la-ultima-milla)
 
 
+[[year:2022]]
+
 [[date:23 DE MAYO DE 2022]]
 
 [[continent:North America]]

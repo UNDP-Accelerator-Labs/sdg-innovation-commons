@@ -9,7 +9,7 @@
 
 [[year:2019]]
 
-[[date:19 DECEMBER 2019]]
+[[date:2019-12-19T00:00:00.000Z]]
 
 [[country:Bosnia and Herzegovina]]
 

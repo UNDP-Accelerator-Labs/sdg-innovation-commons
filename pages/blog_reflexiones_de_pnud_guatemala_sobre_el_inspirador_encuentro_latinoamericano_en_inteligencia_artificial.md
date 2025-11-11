@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/reflexiones-de-pnud-guatemala-sobre-el-inspirador-encuentro-latinoamericano-en-inteligencia-artificial)
 
 
-[[date:21 DE ABRIL DE 2023]]
+[[year:2023]]
+
+[[date:2023-04-21T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:AUGUST 9, 2022]]
+[[date:2022-08-09T00:00:00.000Z]]
 
 [[country:Timor Leste]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/inteligencia-colectiva-na-resposta-covid-19)
 
 
+[[year:2020]]
+
 [[date:23 DE MAY DE 2020]]
 
 [[continent:Africa]]

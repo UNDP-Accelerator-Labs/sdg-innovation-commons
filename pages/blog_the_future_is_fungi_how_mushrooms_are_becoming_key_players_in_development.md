@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/future-fungi-how-mushrooms-are-becoming-key-players-development)
 
 
+[[year:2024]]
+
 [[date:1 DE OCTUBRE DE 2024]]
 
 [[continent:South America]]

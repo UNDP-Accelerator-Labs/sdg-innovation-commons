@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/philippines/publications/circular-economy-city-rapid-ethnographic-research-circular-economy-philippine-urban-setting)
 
 
-[[year:2021]]
+[[year:2022]]
 
-[[date:FEBRUARY 28, 2022]]
+[[date:2022-02-28T00:00:00.000Z]]
 
 [[continent:Asia]]
 

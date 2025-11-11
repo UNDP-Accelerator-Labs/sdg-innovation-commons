@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/primera-hackathon-de-encarnacion)
 
 
-[[date:13 DE ABRIL DE 2023]]
+[[year:2023]]
+
+[[date:2023-04-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

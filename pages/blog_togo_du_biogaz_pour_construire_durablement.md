@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/togo-du-biogaz-pour-construire-durablement)
 
 
-[[date:26 MAI 2020]]
+[[year:2020]]
+
+[[date:2020-05-26T00:00:00.000Z]]
 
 [[continent:Africa]]
 

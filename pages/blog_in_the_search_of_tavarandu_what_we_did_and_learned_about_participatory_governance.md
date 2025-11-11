@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/search-tavarandu)
 
 
-[[date:18 DE SEPTIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-09-18T00:00:00.000Z]]
 
 [[continent:South America]]
 

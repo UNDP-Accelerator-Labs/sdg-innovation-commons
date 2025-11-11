@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/inteligencia-artificial-mas-que-algoritmos-un-dilema-regulatorio-en-evolucion)
 
 
+[[year:2024]]
+
 [[date:4 DE JUNIO DE 2024]]
 
 [[continent:South America]]

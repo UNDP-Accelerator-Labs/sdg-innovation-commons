@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/una-solucion-simple-para-un-problema-complejo-ciencia-ciudadana-conciencia-y-politicas-ambientales)
 
 
-[[date:19 DE OCTUBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-10-19T00:00:00.000Z]]
 
 [[continent:South America]]
 

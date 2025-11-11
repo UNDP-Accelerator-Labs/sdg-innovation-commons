@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/relying-new-sources-data-municipal-level-road-full-behavioral-ambushes)
 
 
-[[date:7 FÉVRIER 2023]]
+[[year:2023]]
+
+[[date:2023-02-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

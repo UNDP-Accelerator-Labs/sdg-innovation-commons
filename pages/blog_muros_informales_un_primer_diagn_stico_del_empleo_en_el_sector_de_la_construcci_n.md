@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/muros-informales-un-primer-diagn%C3%B3stico-del-empleo-en-el-sector-de-la-construcci%C3%B3n)
 
 
-[[date:27 DE ABRIL DE 2021]]
+[[year:2021]]
+
+[[date:2021-04-27T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/drcongo/blog/etude-de-cas-de-la-situation-des-inondations-kinshasa-analyse-des-donnees-pour-lelaboration-des-politiques-publiques)
 
 
-[[date:1 AVRIL 2023]]
+[[year:2023]]
+
+[[date:2023-04-01T00:00:00.000Z]]
 
 [[country:Democratic Republic of Congo]]
 

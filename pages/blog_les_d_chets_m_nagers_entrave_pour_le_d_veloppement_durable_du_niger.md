@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/les-dechets-menagers-entrave-pour-le-developpement-durable-du-niger)
 
 
-[[date:10 MAI 2021]]
+[[year:2021]]
+
+[[date:2021-05-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

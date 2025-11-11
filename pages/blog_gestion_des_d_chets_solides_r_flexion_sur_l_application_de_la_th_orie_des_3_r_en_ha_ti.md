@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/haiti/blog/gestion-des-d%C3%A9chets-solides-r%C3%A9flexion-sur-l%E2%80%99application-de-la-th%C3%A9orie-des-3-r-en-ha%C3%AFti)
 
 
-[[date:27 DÉCEMBRE 2021]]
+[[year:2021]]
+
+[[date:2021-12-27T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/sowing-future-city-trees-our-partners)
 
 
-[[date:24 DE AGOSTO DE 2021]]
+[[year:2021]]
+
+[[date:2021-08-24T00:00:00.000Z]]
 
 [[continent:North America]]
 

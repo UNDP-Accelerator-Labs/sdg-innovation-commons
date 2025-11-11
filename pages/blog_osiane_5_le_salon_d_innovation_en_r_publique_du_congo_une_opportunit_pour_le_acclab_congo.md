@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/osiane-5-le-salon-dinnovation-en-republique-du-congo-une-opportunite-pour-le-acclab-congo)
 
 
+[[year:2021]]
+
 [[date:24 MAI 2021]]
 
 [[country:Democratic Republic of Congo]]

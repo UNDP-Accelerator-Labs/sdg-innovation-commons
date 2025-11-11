@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/desaf%C3%ADos-en-ciberseguridad-di%C3%A1logo-con-mujeres-internautas-de-la-econom%C3%ADa-informal)
 
 
-[[date:29 DE JULIO DE 2020]]
+[[year:2020]]
+
+[[date:2020-07-29T00:00:00.000Z]]
 
 [[continent:South America]]
 

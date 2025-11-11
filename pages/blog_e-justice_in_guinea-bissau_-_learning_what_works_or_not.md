@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/guinea-bissau/blog/e-justice-guinea-bissau-learning-what-works-or-not)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:March 9, 2023]]
+[[date:2023-03-09T00:00:00.000Z]]
 
 [[continent:Africa]]
 

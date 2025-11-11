@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:JUNE 24, 2020]]
+[[date:2020-06-24T00:00:00.000Z]]
 
 [[continent:Asia]]
 

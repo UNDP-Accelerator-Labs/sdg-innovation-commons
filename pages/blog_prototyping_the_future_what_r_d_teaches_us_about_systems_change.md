@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:Jul 21, 2025]]
+[[date:2025-07-21T00:00:00.000Z]]
 
 [[continent:Africa]]
 

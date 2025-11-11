@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/panama/blog/demasiado-pequeno-para-fallar-lecciones-de-pequenas-empresas-sobre-el-reciclaje-en-tonosi)
 
 
+[[year:2021]]
+
 [[date:12 DE OCTUBRE DE 2021]]
 
 [[continent:North America]]

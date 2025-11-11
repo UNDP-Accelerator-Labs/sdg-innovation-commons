@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/aprendiendo-acelerar-soluciones-locales)
 
 
-[[date:9 DE FEBRERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-02-09T00:00:00.000Z]]
 
 [[continent:North America]]
 

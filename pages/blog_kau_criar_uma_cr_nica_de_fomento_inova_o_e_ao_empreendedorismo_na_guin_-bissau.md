@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/kau-criar-uma-cronica-de-fomento-inovacao-e-ao-empreendedorismo-na-guine-bissau)
 
 
+[[year:2023]]
+
 [[date:18 DE DECEMBER DE 2023]]
 
 [[continent:Africa]]

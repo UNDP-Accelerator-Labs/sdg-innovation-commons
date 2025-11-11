@@ -12,9 +12,9 @@ A blog...
 [Original article published here](https://www.undp.org/azerbaijan/blog/towards-smart-cities-notes-baku%E2%80%99s-underground)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:February 4, 2020]]
+[[date:2020-02-04T00:00:00.000Z]]
 
 [[continent:Asia]]
 

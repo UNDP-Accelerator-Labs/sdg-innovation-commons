@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/africa/waca/blog/au-sahel-le-tournant-du-digital)
 
 
+[[year:2024]]
+
 [[date:9 AOÛT 2024]]
 
 [[continent:Asia]]

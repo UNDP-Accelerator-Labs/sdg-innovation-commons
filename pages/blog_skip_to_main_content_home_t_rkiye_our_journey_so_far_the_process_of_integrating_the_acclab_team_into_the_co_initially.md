@@ -11,9 +11,9 @@ The process of integrating the AccLab team into the CO initially...
 [Original article published here](https://www.undp.org/turkiye/blog/our-journey-so-far)
 
 
-[[year:1970]]
+[[year:2019]]
 
-[[date:November 1, 2019]]
+[[date:2019-11-01T00:00:00.000Z]]
 
 [[continent:Asia]]
 

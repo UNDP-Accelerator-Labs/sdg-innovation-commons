@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/et-si-lavenir-alimentaire-du-sahel-residait-dans-les-fruits-de-ses-especes-indigenes)
 
 
-[[date:6 MAI 2021]]
+[[year:2021]]
+
+[[date:2021-05-06T00:00:00.000Z]]
 
 [[continent:Africa]]
 

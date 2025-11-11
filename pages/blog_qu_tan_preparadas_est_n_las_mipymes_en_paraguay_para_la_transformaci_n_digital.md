@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/que-tan-preparadas-estan-las-mipymes-en-paraguay-para-la-transformacion-digital)
 
 
+[[year:2025]]
+
 [[date:1 DE ABRIL DE 2025]]
 
 [[continent:South America]]

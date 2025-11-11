@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/ciencia-ciudadana-construyendo-soluciones-colectivas)
 
 
-[[date:5 DE JULIO DE 2021]]
+[[year:2021]]
+
+[[date:2021-07-05T00:00:00.000Z]]
 
 [[continent:North America]]
 

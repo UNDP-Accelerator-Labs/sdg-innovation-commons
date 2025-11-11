@@ -10,9 +10,9 @@ THE JOURNEY OF A 6-MONTH YOUTH ENTREPRENEURSHIP TRAINING: RETHINKING INNOVATION.
 [Original article published here](https://www.undp.org/sierra-leone/blog/journey-6-month-youth-entrepreneurship-training-rethinking-innovation-through-coaching-mentorship-and-beyond)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:February 24, 2021]]
+[[date:2021-02-24T00:00:00.000Z]]
 
 [[continent:Africa]]
 

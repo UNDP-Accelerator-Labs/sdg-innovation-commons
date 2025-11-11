@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/generando-capacidades-escalando-soluciones-desde-corazon-pnud)
 
 
+[[year:2024]]
+
 [[date:30 DE DICIEMBRE DE 2024]]
 
 [[continent:South America]]

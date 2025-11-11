@@ -11,9 +11,9 @@ USING CROWD MAPPING AND MOBILE SURVEY TO UNRAVEL "UNFREQUENTED" TOURIST...
 [Original article published here](https://www.undp.org/tanzania/blog/using-crowd-mapping-and-mobile-survey-unravel-unfrequented-tourist-attractions)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:July 26, 2022]]
+[[date:2022-07-26T00:00:00.000Z]]
 
 [[continent:Africa]]
 

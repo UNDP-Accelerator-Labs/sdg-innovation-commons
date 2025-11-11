@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/que-aprendimos-con-el-mapeo-de-las-mipymes-de-encarnacion-y-san-lorenzo)
 
 
-[[date:16 DE JUNIO DE 2023]]
+[[year:2023]]
+
+[[date:2023-06-16T00:00:00.000Z]]
 
 [[continent:South America]]
 

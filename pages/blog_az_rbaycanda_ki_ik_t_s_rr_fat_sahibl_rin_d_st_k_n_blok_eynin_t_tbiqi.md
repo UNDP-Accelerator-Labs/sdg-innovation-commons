@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:9 JUNE 2022]]
+[[date:2022-06-09T00:00:00.000Z]]
 
 [[continent:Asia]]
 

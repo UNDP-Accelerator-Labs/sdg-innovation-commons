@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/ky/kyrgyzstan/blog/emgek-choyrosunun-tatyktuu-kelechegin-kamsyz-kyluu-uchun-buuopnyn-kyrgyzstandagy-okulchulugu-stem-tarmagynda-ayaldardyn)
 
 
-[[date:2023-Ж., 11-FEBRUARY]]
+[[year:2023]]
+
+[[date:2023-02-11T00:00:00.000Z]]
 
 [[continent:Asia]]
 

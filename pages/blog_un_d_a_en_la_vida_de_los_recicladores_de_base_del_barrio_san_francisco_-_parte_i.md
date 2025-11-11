@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/un-d%C3%ADa-en-la-vida-de-los-recicladores-de-base-del-barrio-san-francisco-parte-i)
 
 
-[[date:13 DE JULIO DE 2021]]
+[[year:2021]]
+
+[[date:2021-07-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

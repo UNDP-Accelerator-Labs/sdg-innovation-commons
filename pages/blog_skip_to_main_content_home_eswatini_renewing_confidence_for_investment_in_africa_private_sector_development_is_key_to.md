@@ -11,9 +11,9 @@ Private sector development is key to...
 [Original article published here](https://www.undp.org/eswatini/blog/renewing-confidence-investment-africa)
 
 
-[[year:1970]]
+[[year:2019]]
 
-[[date:December 23, 2019]]
+[[date:2019-12-23T00:00:00.000Z]]
 
 [[continent:Africa]]
 

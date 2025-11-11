@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/guinea-bissau/publications/guinea-bissau-covid-19-pandemic-socio-economic-response-plan)
 
 
-[[year:2021]]
+[[year:2022]]
 
-[[date:JANUARY 12, 2022]]
+[[date:2022-01-12T00:00:00.000Z]]
 
 [[continent:Africa]]
 

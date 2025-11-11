@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/retour-sur-le-fonit-un-cadre-favorable-une-approche-didentification-des-solutions-innovantes-et-potentiellement-partenarial)
 
 
-[[date:1 MAI 2022]]
+[[year:2022]]
+
+[[date:2022-05-01T00:00:00.000Z]]
 
 [[continent:Africa]]
 

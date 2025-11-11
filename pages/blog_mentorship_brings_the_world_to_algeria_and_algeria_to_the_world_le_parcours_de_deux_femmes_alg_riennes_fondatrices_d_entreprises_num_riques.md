@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/mentorship-brings-world-algeria-and-algeria-world-le-parcours-de-deux-femmes-alg%C3%A9riennes-fondatrices-d%E2%80%99entreprises-num%C3%A9riques)
 
 
-[[date:28 FÉVRIER 2022]]
+[[year:2022]]
+
+[[date:2022-02-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

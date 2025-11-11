@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:JUNE 26, 2024]]
+[[date:2024-06-26T00:00:00.000Z]]
 
 [[country:Timor Leste]]
 

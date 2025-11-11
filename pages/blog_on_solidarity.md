@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:MARCH 15, 2023]]
+[[date:2023-03-15T00:00:00.000Z]]
 
 [[continent:Europe]]
 

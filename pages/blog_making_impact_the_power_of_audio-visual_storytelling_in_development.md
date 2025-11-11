@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:APRIL 24, 2025]]
+[[date:2025-04-24T00:00:00.000Z]]
 
 [[continent:North America]]
 

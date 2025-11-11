@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:20 FÉVRIER 2023]]
+[[date:2023-02-20T00:00:00.000Z]]
 
 [[continent:Africa]]
 

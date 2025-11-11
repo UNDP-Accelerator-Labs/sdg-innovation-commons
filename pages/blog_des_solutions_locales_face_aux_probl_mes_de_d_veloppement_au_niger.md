@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/des-solutions-locales-face-aux-problemes-de-developpement-au-niger)
 
 
-[[date:10 MAI 2021]]
+[[year:2021]]
+
+[[date:2021-05-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

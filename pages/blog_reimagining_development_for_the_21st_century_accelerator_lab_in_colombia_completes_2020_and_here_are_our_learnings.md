@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/reimagining-development-21st-century-accelerator-lab-colombia-completes-2020-and-here-are-our-learnings)
 
 
-[[date:15 DE ENERO DE 2021]]
+[[year:2021]]
+
+[[date:2021-01-15T00:00:00.000Z]]
 
 [[continent:South America]]
 

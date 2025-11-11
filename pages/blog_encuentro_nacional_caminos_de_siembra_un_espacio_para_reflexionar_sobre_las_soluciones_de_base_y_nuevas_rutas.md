@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/encuentro-nacional-caminos-de-siembra-un-espacio-para-reflexionar-sobre-las-soluciones-de-base-y-nuevas-rutas)
 
 
+[[year:2024]]
+
 [[date:13 DE SEPTIEMBRE DE 2024]]
 
 [[continent:North America]]

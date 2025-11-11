@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/chapter-1-how-can-%E2%80%98deep-demo%E2%80%99-products-help-us-better-learn-about-development-challenges)
 
 
-[[date:18 MAI 2021]]
+[[year:2021]]
+
+[[date:2021-05-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

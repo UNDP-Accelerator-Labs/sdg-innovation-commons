@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/reflections-undp-guatemala-uplifting-latin-american-meetings-artificial-intelligence)
 
 
+[[year:2023]]
+
 [[date:27 DE ABRIL DE 2023]]
 
 [[country:United States]]

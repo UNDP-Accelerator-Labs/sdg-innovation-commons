@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/kk/kazakhstan/blog/innovaciyalardy-engizu-ushin-strategiyalyk-zhosparlau-kuzhatyn-kalay-buzyp-kiruge-bolady)
 
 
+[[year:2021]]
+
 [[date:2021 Ж. 13 SEPTEMBER]]
 
 [[continent:Asia]]

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/e-se-revolucao-na-digitalizacao-da-funcao-publica-comecasse-no-tribunal-de-contas)
 
 
+[[year:2025]]
+
 [[date:25 DE ABRIL DE 2025]]
 
 [[continent:Africa]]

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/un-enfoque-de-plataforma-para-el-pnud)
 
 
-[[date:3 DE AGOSTO DE 2020]]
+[[year:2020]]
+
+[[date:2020-08-03T00:00:00.000Z]]
 
 [[continent:South America]]
 

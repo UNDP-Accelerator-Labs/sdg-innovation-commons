@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:JANUARY 24, 2022]]
+[[date:2022-01-24T00:00:00.000Z]]
 
 [[continent:Africa]]
 

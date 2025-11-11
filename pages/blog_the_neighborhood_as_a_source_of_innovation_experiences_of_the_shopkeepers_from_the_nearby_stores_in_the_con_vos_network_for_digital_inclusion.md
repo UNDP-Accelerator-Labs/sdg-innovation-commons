@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/neighborhood-source-innovation-experiences-shopkeepers-nearby-stores-con-vos-network-digital-inclusion)
 
 
+[[year:2024]]
+
 [[date:24 DE SEPTIEMBRE DE 2024]]
 
 [[continent:South America]]

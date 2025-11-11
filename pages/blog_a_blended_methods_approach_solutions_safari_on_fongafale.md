@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:APRIL 19, 2020]]
+[[date:2020-04-19T00:00:00.000Z]]
 
 [[continent:Oceania]]
 

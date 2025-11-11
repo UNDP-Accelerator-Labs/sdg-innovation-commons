@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/cuando-la-tradicion-germina-innovacion)
 
 
-[[date:7 DE ENERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-01-07T00:00:00.000Z]]
 
 [[continent:South America]]
 

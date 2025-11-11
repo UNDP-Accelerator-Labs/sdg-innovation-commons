@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/youth-and-sustainable-development-what-future-are-we-willing-build-together)
 
 
+[[year:2024]]
+
 [[date:3 DE OCTUBRE DE 2024]]
 
 [[continent:South America]]

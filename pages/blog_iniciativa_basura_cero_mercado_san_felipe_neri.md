@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/publications/iniciativa-basura-cero-mercado-san-felipe-neri)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:29 DE JUNIO DE 2022]]
+[[date:2022-06-29T00:00:00.000Z]]
 
 [[continent:North America]]
 

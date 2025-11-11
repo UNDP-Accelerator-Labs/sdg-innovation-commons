@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/construyendo-una-red-de-mini-laboratorios-con-voluntarias-y-voluntarios-para-acelerar-el-desarrollo-sostenible)
 
 
-[[date:18 DE AGOSTO DE 2021]]
+[[year:2021]]
+
+[[date:2021-08-18T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/les-%C2%AB-b%C3%A9b%C3%A9s-noirs-%C2%BB-au-congo-brazzaville-et-si-l%E2%80%99-abordait-le-probl%C3%A8me-autrement)
 
 
-[[date:28 DÉCEMBRE 2021]]
+[[year:2021]]
+
+[[date:2021-12-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

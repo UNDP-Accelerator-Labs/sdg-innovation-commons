@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/aprendizaje-para-el-desarrollo-que-funciona-y-que-no)
 
 
+[[year:2020]]
+
 [[date:24 DE ENERO DE 2020]]
 
 [[continent:South America]]

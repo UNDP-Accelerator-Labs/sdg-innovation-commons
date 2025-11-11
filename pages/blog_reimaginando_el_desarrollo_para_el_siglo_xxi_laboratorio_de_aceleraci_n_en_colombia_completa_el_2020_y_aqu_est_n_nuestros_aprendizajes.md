@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/reimaginando-el-desarrollo-para-el-siglo-xxi-laboratorio-de-aceleracion-en-colombia-completa-el-2020-y-aqui-estan-nuestros-aprendizajes)
 
 
+[[year:2021]]
+
 [[date:20 DE ENERO DE 2021]]
 
 [[continent:South America]]

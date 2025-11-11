@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/caminos-de-siembra-mapeo-de-soluciones-de-base-como-herramienta-para-adaptacion-al-cambio-climatico)
 
 
-[[date:22 DE DICIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-12-22T00:00:00.000Z]]
 
 [[continent:North America]]
 

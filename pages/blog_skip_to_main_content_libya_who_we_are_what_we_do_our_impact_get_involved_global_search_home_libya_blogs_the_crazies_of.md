@@ -18,9 +18,9 @@ THE CRAZIES OF...
 [Original article published here](https://www.undp.org/libya/blog/crazies-today-will-be-genius-tomorrow)
 
 
-[[year:1970]]
+[[year:2019]]
 
-[[date:October 29, 2019]]
+[[date:2019-10-29T00:00:00.000Z]]
 
 [[continent:Africa]]
 

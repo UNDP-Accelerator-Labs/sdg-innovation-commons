@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/we-are-creating-champions-le-parcours-dun-createur-du-changement-laccelerator-lab-du-pnud-en-algerie)
 
 
+[[year:2021]]
+
 [[date:10 JUIN 2021]]
 
 [[continent:Africa]]

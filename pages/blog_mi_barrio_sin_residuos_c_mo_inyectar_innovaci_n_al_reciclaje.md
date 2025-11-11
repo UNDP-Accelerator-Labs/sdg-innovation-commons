@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/mi-barrio-sin-residuos-c%C3%B3mo-inyectar-innovaci%C3%B3n-al-reciclaje)
 
 
-[[date:6 DE ENERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-01-06T00:00:00.000Z]]
 
 [[continent:South America]]
 

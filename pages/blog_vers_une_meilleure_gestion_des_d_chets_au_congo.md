@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/vers-une-meilleure-gestion-des-dechets-au-congo)
 
 
+[[year:2020]]
+
 [[date:6 DÉCEMBRE 2020]]
 
 [[country:Democratic Republic of Congo]]

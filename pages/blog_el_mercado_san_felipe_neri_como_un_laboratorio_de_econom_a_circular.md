@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/el-mercado-san-felipe-neri-como-un-laboratorio-de-economia-circular)
 
 
-[[date:8 DE MARZO DE 2023]]
+[[year:2023]]
+
+[[date:2023-03-08T00:00:00.000Z]]
 
 [[continent:North America]]
 

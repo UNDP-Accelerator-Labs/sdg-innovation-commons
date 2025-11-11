@@ -11,9 +11,9 @@ Fatima from Sfera in Rural Aleppo maintaining the ceiling...
 [Original article published here](https://www.undp.org/syria/blog/her-right-own-and-control)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:December 19, 2022]]
+[[date:2022-12-19T00:00:00.000Z]]
 
 [[continent:Asia]]
 

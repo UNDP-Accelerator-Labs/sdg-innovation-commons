@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/coronackathon-des-solutions-innovantes-pour-lutter-contre-la-covid-19)
 
 
-[[date:27 AOÛT 2020]]
+[[year:2020]]
+
+[[date:2020-08-27T00:00:00.000Z]]
 
 [[continent:Africa]]
 

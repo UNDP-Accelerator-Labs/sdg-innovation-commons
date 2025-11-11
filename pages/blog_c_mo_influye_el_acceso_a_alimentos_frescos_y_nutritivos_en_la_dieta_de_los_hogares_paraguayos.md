@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/seguridadalimentaria)
 
 
-[[date:7 DE JULIO DE 2023]]
+[[year:2023]]
+
+[[date:2023-07-07T00:00:00.000Z]]
 
 [[continent:South America]]
 

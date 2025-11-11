@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:30 DE JUNIO DE 2022]]
+[[date:2022-06-30T00:00:00.000Z]]
 
 [[continent:South America]]
 

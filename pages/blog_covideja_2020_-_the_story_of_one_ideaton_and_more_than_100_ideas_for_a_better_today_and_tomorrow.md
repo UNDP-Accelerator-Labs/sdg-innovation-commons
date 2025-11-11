@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:JUNE 22, 2020]]
+[[date:2020-06-22T00:00:00.000Z]]
 
 [[country:Bosnia and Herzegovina]]
 

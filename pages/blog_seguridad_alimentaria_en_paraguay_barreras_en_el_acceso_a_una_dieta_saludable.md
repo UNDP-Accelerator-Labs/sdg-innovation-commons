@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/seguridad-alimentaria-en-paraguay-barreras-en-el-acceso-una-dieta-saludable)
 
 
-[[date:11 DE ABRIL DE 2022]]
+[[year:2022]]
+
+[[date:2022-04-11T00:00:00.000Z]]
 
 [[continent:South America]]
 

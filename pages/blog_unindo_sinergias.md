@@ -7,6 +7,8 @@
 [Original article published here](https://www.gw.undp.org/content/guinea_bissau/pt/home/blog/unindo-sinergias.html)
 
 
+[[year:2021]]
+
 [[date:29 DE JANUARY DE 2021]]
 
 [[continent:North America]]

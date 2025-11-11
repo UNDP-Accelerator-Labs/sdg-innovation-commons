@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/blue-season-just-got-blues-can-blue-jellyfish-change-policies-environmental-protection-mediterranean)
 
 
-[[date:7 AOÛT 2020]]
+[[year:2020]]
+
+[[date:2020-08-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

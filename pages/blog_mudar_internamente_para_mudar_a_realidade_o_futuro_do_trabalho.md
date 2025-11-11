@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/mudar-internamente-para-mudar-realidade-o-futuro-do-trabalho)
 
 
-[[date:13 DE SEPTEMBER DE 2022]]
+[[year:2022]]
+
+[[date:2022-09-13T00:00:00.000Z]]
 
 [[continent:Africa]]
 

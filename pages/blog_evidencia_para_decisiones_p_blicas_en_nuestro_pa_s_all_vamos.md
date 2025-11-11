@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/evidencia-para-decisiones-publicas-en-nuestro-pais-alla-vamos)
 
 
-[[date:10 DE ENERO DE 2020]]
+[[year:2020]]
+
+[[date:2020-01-10T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:JULY 29, 2021]]
+[[date:2021-07-29T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/no-firmanta-licoes-sobre-nao-deixar-ninguem-para-tras)
 
 
-[[date:4 DE NOVEMBER DE 2023]]
+[[year:2023]]
+
+[[date:2023-11-04T00:00:00.000Z]]
 
 [[continent:Africa]]
 

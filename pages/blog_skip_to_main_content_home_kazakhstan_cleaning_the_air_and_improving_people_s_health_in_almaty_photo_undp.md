@@ -11,9 +11,9 @@ Photo: UNDP...
 [Original article published here](https://www.undp.org/kazakhstan/blog/cleaning-air-and-improving-peoples-health-almaty)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:September 5, 2022]]
+[[date:2022-09-05T00:00:00.000Z]]
 
 [[continent:Asia]]
 

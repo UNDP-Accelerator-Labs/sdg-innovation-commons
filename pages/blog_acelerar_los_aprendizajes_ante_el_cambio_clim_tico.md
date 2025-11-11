@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/acelerar-los-aprendizajes-ante-el-cambio-climatico)
 
 
+[[year:2021]]
+
 [[date:12 DE NOVIEMBRE DE 2021]]
 
 [[continent:South America]]

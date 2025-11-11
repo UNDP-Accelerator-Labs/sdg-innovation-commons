@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/el-componente-humano-sumando-mejoras-laborales-los-avances-productivos-en-los-clusteres-de-confeccion)
 
 
+[[year:2024]]
+
 [[date:30 DE SEPTIEMBRE DE 2024]]
 
 [[continent:South America]]

@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:APRIL 15, 2025]]
+[[date:2025-03-27T15:45:00.000Z]]
 
 [[country:Null Island]]
 

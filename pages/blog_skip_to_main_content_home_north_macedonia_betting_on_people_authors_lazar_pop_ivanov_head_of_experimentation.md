@@ -13,9 +13,9 @@ Head of Experimentation,...
 [Original article published here](https://www.undp.org/north-macedonia/blog/betting-people)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:May 5, 2023]]
+[[date:2023-05-05T00:00:00.000Z]]
 
 [[continent:Europe]]
 

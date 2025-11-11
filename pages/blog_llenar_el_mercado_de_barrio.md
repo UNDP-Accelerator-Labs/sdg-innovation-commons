@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/llenar-el-mercado-de-barrio)
 
 
-[[date:22 DE NOVIEMBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-11-22T00:00:00.000Z]]
 
 [[continent:North America]]
 

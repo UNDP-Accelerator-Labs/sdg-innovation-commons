@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/ajustense-los-cinturones-bitacora-del-viaje-acelerado-del-acclab-en-su-1er-ano)
 
 
-[[date:23 DE SEPTIEMBRE DE 2020]]
+[[year:2020]]
+
+[[date:2020-09-23T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/por-que-las-limpiezas-de-playas-son-una-tragedia-sisifea)
 
 
-[[date:3 DE MARZO DE 2022]]
+[[year:2022]]
+
+[[date:2022-03-03T00:00:00.000Z]]
 
 [[continent:North America]]
 

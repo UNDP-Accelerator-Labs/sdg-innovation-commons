@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/jovens-angolanos-na-linha-de-frente-resposta-da-covid-19-e-se-dissermos-que-eles-tem-o-ngunzo)
 
 
-[[date:22 DE APRIL DE 2020]]
+[[year:2020]]
+
+[[date:2020-04-22T00:00:00.000Z]]
 
 [[continent:Africa]]
 

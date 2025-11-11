@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/we-are-creating-champions-journey-change-maker-undp-algeria-accelerator-lab)
 
 
-[[date:8 JUIN 2021]]
+[[year:2021]]
+
+[[date:2021-06-08T00:00:00.000Z]]
 
 [[continent:Africa]]
 

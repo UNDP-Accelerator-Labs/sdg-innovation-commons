@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:23. JANUARY 2020.]]
+[[date:2020-01-23T00:00:00.000Z]]
 
 [[continent:Europe]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/conectando-con-nuevas-capacidades-una-canasta-basica-digital-parte-2)
 
 
-[[date:25 DE JULIO DE 2022]]
+[[year:2022]]
+
+[[date:2022-07-25T00:00:00.000Z]]
 
 [[continent:North America]]
 

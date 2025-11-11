@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/perceber-o-accelerator-lab-o-nosso-papel-e-sess%C3%A3o-de-indu%C3%A7%C3%A3o)
 
 
-[[date:5 DE NOVEMBER DE 2020]]
+[[year:2020]]
+
+[[date:2020-11-05T00:00:00.000Z]]
 
 [[continent:Africa]]
 

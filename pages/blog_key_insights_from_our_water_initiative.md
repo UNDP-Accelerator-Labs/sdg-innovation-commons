@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:SEPTEMBER 12, 2022]]
+[[date:2022-09-12T00:00:00.000Z]]
 
 [[continent:Europe]]
 

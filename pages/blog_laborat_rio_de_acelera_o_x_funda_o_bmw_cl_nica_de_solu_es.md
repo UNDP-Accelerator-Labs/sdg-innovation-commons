@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/laboratorio-de-aceleracao-x-fundacao-bmw-clinica-de-solucoes)
 
 
-[[date:28 DE FEBRUARY DE 2022]]
+[[year:2022]]
+
+[[date:2022-02-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

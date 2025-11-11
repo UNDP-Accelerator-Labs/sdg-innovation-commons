@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/reinventando-espaco-publico-atraves-da-cocriacao)
 
 
-[[date:12 DE SEPTEMBER DE 2022]]
+[[year:2022]]
+
+[[date:2022-09-12T00:00:00.000Z]]
 
 [[continent:Africa]]
 

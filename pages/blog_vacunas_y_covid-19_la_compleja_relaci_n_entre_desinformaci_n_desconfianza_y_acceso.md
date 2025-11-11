@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/vacunas-y-covid-19-la-compleja-relacion-entre-desinformacion-desconfianza-y-acceso)
 
 
-[[date:20 DE AGOSTO DE 2020]]
+[[year:2020]]
+
+[[date:2020-08-20T00:00:00.000Z]]
 
 [[continent:South America]]
 

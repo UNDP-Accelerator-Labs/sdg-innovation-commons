@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:NOVEMBER 25, 2021]]
+[[date:2021-11-25T00:00:00.000Z]]
 
 [[country:Null Island]]
 

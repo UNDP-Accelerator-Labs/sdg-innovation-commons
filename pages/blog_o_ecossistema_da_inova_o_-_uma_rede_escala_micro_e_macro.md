@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/o-ecossistema-da-inova%C3%A7%C3%A3o-uma-rede-%C3%A0-escala-micro-e-macro)
 
 
-[[date:18 DE DECEMBER DE 2020]]
+[[year:2020]]
+
+[[date:2020-12-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

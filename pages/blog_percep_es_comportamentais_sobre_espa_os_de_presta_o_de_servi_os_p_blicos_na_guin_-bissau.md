@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/percepcoes-comportamentais-sobre-espacos-de-prestacao-de-servicos-publicos-na-guine-bissau)
 
 
-[[date:18 DE AUGUST DE 2022]]
+[[year:2022]]
+
+[[date:2022-08-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

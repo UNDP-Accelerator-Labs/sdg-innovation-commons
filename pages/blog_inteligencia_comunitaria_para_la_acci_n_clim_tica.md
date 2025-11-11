@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/inteligencia-comunitaria-para-la-accion-climatica)
 
 
-[[date:5 DE SEPTIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-09-05T00:00:00.000Z]]
 
 [[continent:South America]]
 

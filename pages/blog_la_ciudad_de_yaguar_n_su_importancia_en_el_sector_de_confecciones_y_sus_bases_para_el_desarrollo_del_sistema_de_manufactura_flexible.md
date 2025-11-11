@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/la-ciudad-de-yaguar%C3%B3n-su-importancia-en-el-sector-de-confecciones-y-sus-bases-para-el-desarrollo-del-sistema-de-manufactura-flexible)
 
 
-[[date:19 DE ABRIL DE 2022]]
+[[year:2022]]
+
+[[date:2022-04-19T00:00:00.000Z]]
 
 [[continent:South America]]
 

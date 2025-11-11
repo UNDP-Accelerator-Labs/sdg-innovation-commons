@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/vers-une-r%C3%A9duction-de-la-p%C3%A9nibilit%C3%A9-du-travail-de-la-femme-congolaise)
 
 
-[[date:28 FÉVRIER 2021]]
+[[year:2021]]
+
+[[date:2021-02-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/un-experimento-del-laboratorio-con-el-potencial-para-identificar-y-atender-posibles-grietas-en-las-pol%C3%ADticas-p%C3%BAblicas)
 
 
-[[date:16 DE DICIEMBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-12-16T00:00:00.000Z]]
 
 [[continent:North America]]
 

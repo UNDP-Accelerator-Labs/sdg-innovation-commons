@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/comprendre-linformalite-plaidoyer-pour-une-perspective-emique)
 
 
-[[date:30 AOÛT 2021]]
+[[year:2021]]
+
+[[date:2021-08-30T00:00:00.000Z]]
 
 [[continent:Africa]]
 

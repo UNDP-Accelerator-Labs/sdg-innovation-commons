@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/loin-de-mercator-et-de-la-topographie-des-innovations-baignent-dans-une-nouvelle-base-de-donnees-au-acclab-congo)
 
 
-[[date:13 AOÛT 2021]]
+[[year:2021]]
+
+[[date:2021-08-13T00:00:00.000Z]]
 
 [[continent:Africa]]
 

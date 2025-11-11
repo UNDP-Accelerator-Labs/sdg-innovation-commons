@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:SEPTEMBER 18, 2024]]
+[[date:2024-09-18T00:00:00.000Z]]
 
 [[continent:Asia]]
 

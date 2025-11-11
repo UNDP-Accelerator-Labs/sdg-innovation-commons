@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:MARCH 27, 2024]]
+[[date:2024-03-27T00:00:00.000Z]]
 
 [[continent:Africa]]
 

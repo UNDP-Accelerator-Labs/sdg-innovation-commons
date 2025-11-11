@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/problematizacion-del-derecho-la-consulta-indigena-en-mexico)
 
 
-[[date:7 DE DICIEMBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-12-07T00:00:00.000Z]]
 
 [[continent:North America]]
 

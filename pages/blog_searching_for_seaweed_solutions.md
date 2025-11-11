@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/south-africa/blog/searching-seaweed-solutions)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:March 16, 2023]]
+[[date:2023-03-16T00:00:00.000Z]]
 
 [[continent:Africa]]
 

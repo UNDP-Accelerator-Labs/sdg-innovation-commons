@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:20. JANUARY 2022.]]
+[[date:2022-01-20T00:00:00.000Z]]
 
 [[continent:Europe]]
 

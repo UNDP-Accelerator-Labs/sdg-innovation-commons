@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/blog/integrar-las-innovaciones-comunitarias)
 
 
+[[year:2021]]
+
 [[date:12 DE FEBRERO DE 2021]]
 
 [[continent:Asia]]

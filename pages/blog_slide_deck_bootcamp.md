@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/namibia/publications/slide-deck-bootcamp)
 
 
-[[year:2021]]
+[[year:2022]]
 
-[[date:OCTOBER 31, 2022]]
+[[date:2022-10-31T00:00:00.000Z]]
 
 [[continent:Africa]]
 

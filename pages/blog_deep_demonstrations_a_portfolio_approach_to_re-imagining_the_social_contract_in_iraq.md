@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:DECEMBER 31, 2022]]
+[[date:2022-12-31T00:00:00.000Z]]
 
 [[continent:Asia]]
 

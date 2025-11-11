@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/identificando-espacios-publicos-mas-seguros-para-las-mujeres-en-ciudad-de-mexico)
 
 
+[[year:2021]]
+
 [[date:27 DE MAYO DE 2021]]
 
 [[continent:Africa]]

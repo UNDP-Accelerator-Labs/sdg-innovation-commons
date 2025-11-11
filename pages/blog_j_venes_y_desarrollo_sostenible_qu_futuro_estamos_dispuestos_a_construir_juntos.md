@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/jovenes-y-desarrollo-sostenible-que-futuro-estamos-dispuestos-construir-juntos)
 
 
+[[year:2024]]
+
 [[date:3 DE OCTUBRE DE 2024]]
 
 [[country:United States]]

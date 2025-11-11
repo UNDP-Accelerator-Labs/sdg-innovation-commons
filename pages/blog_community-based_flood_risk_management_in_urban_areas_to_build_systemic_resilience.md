@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/indonesia/publications/community-based-flood-risk-management-urban-areas-build-systemic-resilience)
 
 
-[[year:2021]]
+[[year:2022]]
 
-[[date:FEBRUARY 14, 2022]]
+[[date:2022-02-14T00:00:00.000Z]]
 
 [[continent:Asia]]
 

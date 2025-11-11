@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/south-africa/blog/model-circular-and-sustainable-food-production-localisation-and-replication)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:December 8, 2021]]
+[[date:2021-12-08T00:00:00.000Z]]
 
 [[continent:Africa]]
 

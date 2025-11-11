@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/ciencia-ciudadana-ambiental-en-argentina-el-mapeo-como-puesta-en-valor)
 
 
-[[date:7 DE DICIEMBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-12-07T00:00:00.000Z]]
 
 [[continent:South America]]
 

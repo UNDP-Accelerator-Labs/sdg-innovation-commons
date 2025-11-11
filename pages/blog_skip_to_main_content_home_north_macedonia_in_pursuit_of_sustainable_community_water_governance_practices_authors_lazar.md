@@ -12,9 +12,9 @@ LAZAR...
 [Original article published here](https://www.undp.org/north-macedonia/blog/pursuit-sustainable-community-water-governance-practices)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:November 1, 2022]]
+[[date:2022-11-01T00:00:00.000Z]]
 
 [[continent:Europe]]
 

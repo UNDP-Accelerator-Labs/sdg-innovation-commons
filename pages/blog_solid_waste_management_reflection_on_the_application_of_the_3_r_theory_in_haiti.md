@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/haiti/blog/solid-waste-management-reflection-application-3-r-theory-haiti)
 
 
-[[date:27 DÉCEMBRE 2021]]
+[[year:2021]]
+
+[[date:2021-12-27T00:00:00.000Z]]
 
 [[continent:North America]]
 

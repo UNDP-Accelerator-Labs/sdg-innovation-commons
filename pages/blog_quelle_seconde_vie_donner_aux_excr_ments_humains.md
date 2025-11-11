@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/quelle-seconde-vie-donner-aux-excrements-humains)
 
 
-[[date:19 AOÛT 2020]]
+[[year:2020]]
+
+[[date:2020-08-19T00:00:00.000Z]]
 
 [[continent:Africa]]
 

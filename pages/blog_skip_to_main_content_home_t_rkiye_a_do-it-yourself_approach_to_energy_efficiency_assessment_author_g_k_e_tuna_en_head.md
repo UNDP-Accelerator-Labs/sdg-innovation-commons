@@ -13,9 +13,9 @@ en: Head...
 [Original article published here](https://www.undp.org/turkiye/blog/do-it-yourself-approach-energy-efficiency-assessment)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:August 16, 2022]]
+[[date:2022-08-16T00:00:00.000Z]]
 
 [[continent:Asia]]
 

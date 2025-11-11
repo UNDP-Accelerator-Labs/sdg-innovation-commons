@@ -11,9 +11,9 @@ Small- and medium-sized...
 [Original article published here](https://www.undp.org/belarus/blog/building-smes-business-resilience-5-areas-support)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:August 16, 2022]]
+[[date:2022-08-16T00:00:00.000Z]]
 
 [[continent:Europe]]
 

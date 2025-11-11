@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/exploracion-el-camino-para-elegir-la-solucion-entre-alternativas)
 
 
+[[year:2021]]
+
 [[date:8 DE NOVIEMBRE DE 2021]]
 
 [[continent:North America]]

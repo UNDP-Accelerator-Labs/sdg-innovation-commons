@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/o-lan%C3%A7amento-do-laborat%C3%B3rio-de-acelera%C3%A7%C3%A3o-da-guin%C3%A9-bissau)
 
 
-[[date:31 DE DECEMBER DE 2020]]
+[[year:2020]]
+
+[[date:2020-12-31T00:00:00.000Z]]
 
 [[continent:Africa]]
 

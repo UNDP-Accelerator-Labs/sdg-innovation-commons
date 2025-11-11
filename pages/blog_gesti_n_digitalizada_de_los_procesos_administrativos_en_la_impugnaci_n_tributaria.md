@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/gestion-digitalizada-de-los-procesos-administrativos-en-la-impugnacion-tributaria)
 
 
-[[date:4 DE AGOSTO DE 2022]]
+[[year:2022]]
+
+[[date:2022-08-04T00:00:00.000Z]]
 
 [[continent:South America]]
 

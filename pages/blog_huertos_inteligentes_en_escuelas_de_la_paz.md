@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/huertos-inteligentes-en-escuelas-de-la-paz)
 
 
+[[year:2024]]
+
 [[date:1 DE OCTUBRE DE 2024]]
 
 [[continent:South America]]

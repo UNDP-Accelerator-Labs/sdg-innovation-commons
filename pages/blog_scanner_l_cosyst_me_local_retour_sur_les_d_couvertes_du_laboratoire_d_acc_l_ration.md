@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/drcongo/blog/scanner-lecosysteme-local-retour-sur-les-decouvertes-du-laboratoire-dacceleration)
 
 
+[[year:2024]]
+
 [[date:17 MAI 2024]]
 
 [[continent:Africa]]

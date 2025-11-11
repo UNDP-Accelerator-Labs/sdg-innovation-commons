@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/laboratorio-de-aceleracion-en-mexico-una-reflexion-colectiva-dos-anos-de-preguntar-para-aprender)
 
 
-[[date:20 DE OCTUBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-10-20T00:00:00.000Z]]
 
 [[continent:North America]]
 

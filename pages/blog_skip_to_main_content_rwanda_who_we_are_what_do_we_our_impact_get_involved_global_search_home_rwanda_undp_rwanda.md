@@ -17,9 +17,9 @@ UNDP RWANDA...
 [Original article published here](https://www.undp.org/rwanda/blog/undp-rwanda-launches-3d-computer-aided-orthotics-and-prosthetics)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:November 26, 2022]]
+[[date:2022-11-26T00:00:00.000Z]]
 
 [[continent:Africa]]
 

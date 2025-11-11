@@ -14,9 +14,9 @@ Head of Solutions...
 [Original article published here](https://www.undp.org/sr/serbia/blog/depopulacija-o-%C4%8Demu-se-u-stvari-radi)
 
 
-[[year:1970]]
+[[year:2019]]
 
-[[date:December 31, 2019]]
+[[date:2019-12-31T00:00:00.000Z]]
 
 [[continent:Europe]]
 

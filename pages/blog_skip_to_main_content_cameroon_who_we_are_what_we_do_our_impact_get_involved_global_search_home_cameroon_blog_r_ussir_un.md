@@ -18,9 +18,9 @@ RÉUSSIR UN...
 [Original article published here](https://www.undp.org/cameroon/blog/reussir-un-atelier-de-planification-quels-outils-et-approches-innovantes-adopter)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:May 15, 2023]]
+[[date:2023-05-15T00:00:00.000Z]]
 
 [[continent:Africa]]
 

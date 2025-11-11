@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/una-pr%C3%A1ctica-milenaria-defendida-por-mujeres-valientes-la-preservaci%C3%B3n-de-semillas-nativas)
 
 
-[[date:19 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-19T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/navegando-las-posibilidades-de-la-ia-generativa-para-el-desarrollo-sostenible)
 
 
+[[year:2024]]
+
 [[date:4 DE ABRIL DE 2024]]
 
 [[country:United States]]

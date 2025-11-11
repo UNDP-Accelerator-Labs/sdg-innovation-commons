@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/innovadorespublicos)
 
 
-[[date:23 DE AGOSTO DE 2022]]
+[[year:2022]]
+
+[[date:2022-08-23T00:00:00.000Z]]
 
 [[continent:South America]]
 

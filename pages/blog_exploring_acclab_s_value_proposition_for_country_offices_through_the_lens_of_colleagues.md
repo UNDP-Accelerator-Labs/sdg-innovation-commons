@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/exploring-acclabs-value-proposition-country-offices-through-lens-colleagues)
 
 
-[[date:25 DE FEBRUARY DE 2024]]
+[[year:2024]]
+
+[[date:2024-02-25T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/trabajo-dom%C3%A9stico-remunerado-desaf%C3%ADos-y-aprendizajes-para-paraguay)
 
 
-[[date:13 DE OCTUBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-10-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

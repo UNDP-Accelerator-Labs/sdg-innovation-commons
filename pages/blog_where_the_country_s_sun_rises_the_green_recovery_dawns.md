@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/where-countrys-sun-rises-green-recovery-dawns)
 
 
+[[year:2021]]
+
 [[date:4 DE AGOSTO DE 2021]]
 
 [[continent:South America]]

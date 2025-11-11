@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/covid-19-des-conversations-radio-pour-influer-les-politiques-de-developpement)
 
 
-[[date:19 FÉVRIER 2021]]
+[[year:2021]]
+
+[[date:2021-02-19T00:00:00.000Z]]
 
 [[continent:Africa]]
 

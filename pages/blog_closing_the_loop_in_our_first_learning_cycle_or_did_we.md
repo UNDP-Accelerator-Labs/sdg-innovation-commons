@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:MARCH 23, 2021]]
+[[date:2021-03-23T00:00:00.000Z]]
 
 [[continent:Oceania]]
 

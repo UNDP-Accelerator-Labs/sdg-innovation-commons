@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/semilla-r%C3%B3ga-y-el-activismo-de-las-mujeres-que-permea)
 
 
-[[date:17 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-17T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/black-babies-congo-brazzaville-how-about-approaching-issue-differently)
 
 
+[[year:2021]]
+
 [[date:28 DÉCEMBRE 2021]]
 
 [[continent:Africa]]

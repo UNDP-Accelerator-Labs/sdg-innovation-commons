@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/burkina-faso/blog/ecolat-ou-les-toilettes-mobiles-pour-tous-et-partout)
 
 
-[[date:21 DÉCEMBRE 2021]]
+[[year:2021]]
+
+[[date:2021-12-21T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/senegal/blog/le-baobab-symbole-de-force-de-resilience-et-de-croissance)
 
 
-[[date:11 AVRIL 2023]]
+[[year:2023]]
+
+[[date:2023-04-11T00:00:00.000Z]]
 
 [[continent:Africa]]
 

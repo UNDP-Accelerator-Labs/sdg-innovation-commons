@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/violence-basee-sur-le-genre-en-tunisie-comment-les-victimes-parcourent-elles-un-chemin-seme-dembuches)
 
 
+[[year:2022]]
+
 [[date:20 MAI 2022]]
 
 [[continent:Africa]]

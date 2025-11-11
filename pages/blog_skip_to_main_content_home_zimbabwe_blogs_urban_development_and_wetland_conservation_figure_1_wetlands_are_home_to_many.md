@@ -12,9 +12,9 @@ Figure 1: Wetlands are home to many...
 [Original article published here](https://www.undp.org/zimbabwe/blog/urban-development-and-wetland-conservation)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:June 10, 2020]]
+[[date:2020-06-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

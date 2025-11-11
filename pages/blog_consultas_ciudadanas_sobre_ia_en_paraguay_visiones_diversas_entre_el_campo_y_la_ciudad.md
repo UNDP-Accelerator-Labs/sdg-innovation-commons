@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/consultas-ciudadanas-sobre-ia-en-paraguay-visiones-diversas-entre-el-campo-y-la-ciudad)
 
 
+[[year:2024]]
+
 [[date:3 DE JUNIO DE 2024]]
 
 [[country:United States]]

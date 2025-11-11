@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/solutions-mapping)
 
 
-[[date:2 DE AUGUST DE 2021]]
+[[year:2021]]
+
+[[date:2021-08-02T00:00:00.000Z]]
 
 [[continent:Africa]]
 

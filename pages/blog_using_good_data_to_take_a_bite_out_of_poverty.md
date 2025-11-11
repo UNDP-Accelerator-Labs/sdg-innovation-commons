@@ -9,7 +9,7 @@
 
 [[year:2019]]
 
-[[date:DECEMBER 17, 2019]]
+[[date:2019-12-17T00:00:00.000Z]]
 
 [[continent:Africa]]
 

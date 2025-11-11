@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/senegal/blog/accelerator-lab-immersion-dans-la-problematique-des-inondations-au-senegal)
 
 
-[[date:20 MAI 2021]]
+[[year:2021]]
+
+[[date:2021-05-20T00:00:00.000Z]]
 
 [[continent:Africa]]
 

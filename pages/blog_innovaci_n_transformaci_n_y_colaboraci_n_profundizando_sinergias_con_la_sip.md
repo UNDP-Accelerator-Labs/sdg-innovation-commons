@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/innovacion-transformacion-y-colaboracion-profundizando-sinergias-con-la-sip)
 
 
+[[year:2024]]
+
 [[date:11 DE OCTUBRE DE 2024]]
 
 [[continent:North America]]

@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:13 MARS 2020]]
+[[date:2020-03-13T00:00:00.000Z]]
 
 [[continent:Africa]]
 

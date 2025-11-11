@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/algiers-innovation-days-2021-un-exemple-original-dintelligence-collective)
 
 
+[[year:2021]]
+
 [[date:25 MAI 2021]]
 
 [[continent:Africa]]

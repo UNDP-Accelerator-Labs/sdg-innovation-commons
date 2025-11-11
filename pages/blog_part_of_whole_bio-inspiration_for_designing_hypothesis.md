@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/part-whole-bio-inspiration-designing-hypothesis)
 
 
-[[date:7 DÉCEMBRE 2020]]
+[[year:2020]]
+
+[[date:2020-12-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

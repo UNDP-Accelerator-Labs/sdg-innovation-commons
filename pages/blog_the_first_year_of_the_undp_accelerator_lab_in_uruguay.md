@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/first-year-undp-accelerator-lab-uruguay)
 
 
+[[year:2022]]
+
 [[date:11 DE MARZO DE 2022]]
 
 [[continent:South America]]

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/ask-therefore-solvewith-others)
 
 
+[[year:2023]]
+
 [[date:13 DE FEBRERO DE 2023]]
 
 [[continent:South America]]

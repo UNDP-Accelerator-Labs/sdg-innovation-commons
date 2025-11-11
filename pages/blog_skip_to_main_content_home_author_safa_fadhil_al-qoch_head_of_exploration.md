@@ -14,9 +14,9 @@ Head of Exploration
 [Original article published here](https://www.undp.org/ku/iraq/blog/%D8%AF%DB%86%D8%B2%DB%8C%D9%86%DB%95%D9%88%DB%95%DB%8C-%D8%AF%D8%A7%D9%87%DB%8E%D9%86%D8%A7%D9%86-%D9%84%DB%95-%D8%B9%DB%8E%D8%B1%D8%A7%D9%82%D8%AF%D8%A7)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:March 12, 2020]]
+[[date:2020-03-12T00:00:00.000Z]]
 
 [[continent:Asia]]
 

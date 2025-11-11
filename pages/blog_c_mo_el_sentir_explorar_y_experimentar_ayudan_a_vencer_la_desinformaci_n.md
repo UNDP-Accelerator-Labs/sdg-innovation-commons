@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/como-el-sentir-explorar-y-experimentar-ayudan-vencer-la-desinformacion)
 
 
-[[date:13 DE ABRIL DE 2021]]
+[[year:2021]]
+
+[[date:2021-04-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

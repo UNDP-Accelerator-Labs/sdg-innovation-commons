@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/what-we-talk-about-when-we-talk-about-exploration)
 
 
+[[year:2020]]
+
 [[date:21 DE ENERO DE 2020]]
 
 [[continent:South America]]

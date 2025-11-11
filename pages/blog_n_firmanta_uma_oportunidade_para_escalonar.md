@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/no-firmanta-uma-oportunidade-para-escalonar)
 
 
-[[date:16 DE JUNE DE 2023]]
+[[year:2023]]
+
+[[date:2023-06-16T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/aumentar-o-envolvimento-dos-cidadaos-nas-campanhas-de-vacinacao-covid-19-na-guine-bissau-atraves-da-aceleracao)
 
 
-[[date:7 DE FEBRUARY DE 2022]]
+[[year:2022]]
+
+[[date:2022-02-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

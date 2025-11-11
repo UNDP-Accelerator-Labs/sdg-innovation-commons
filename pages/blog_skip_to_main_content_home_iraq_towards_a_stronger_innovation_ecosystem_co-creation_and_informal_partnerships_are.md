@@ -10,9 +10,9 @@ TOWARDS A STRONGER INNOVATION ECOSYSTEM: CO-CREATION AND INFORMAL PARTNERSHIPS A
 [Original article published here](https://www.undp.org/iraq/blog/towards-stronger-innovation-iraq)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:June 27, 2023]]
+[[date:2023-06-27T00:00:00.000Z]]
 
 [[continent:Asia]]
 

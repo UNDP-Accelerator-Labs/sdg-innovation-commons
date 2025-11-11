@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/le-parcours-de-deux-femmes-algeriennes-fondatrices-dentreprises-numeriques)
 
 
+[[year:2022]]
+
 [[date:28 FÉVRIER 2022]]
 
 [[continent:Africa]]

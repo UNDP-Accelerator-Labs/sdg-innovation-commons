@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:NOVEMBER 10, 2020]]
+[[date:2020-11-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

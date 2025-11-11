@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:JUNE 27, 2025]]
+[[date:2025-06-27T00:00:00.000Z]]
 
 [[continent:Europe]]
 

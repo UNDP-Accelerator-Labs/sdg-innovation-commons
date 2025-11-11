@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/flores-en-el-aire-rutas-de-memoria-injusticia-y-respuesta-comunitaria-frente-feminicidios-en-cuenca-y-portoviejo)
 
 
-[[date:17 DE ENERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-01-17T00:00:00.000Z]]
 
 [[continent:South America]]
 

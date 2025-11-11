@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/resiliencia-sabiduria-tradicional-y-datos-aprendizajes-locales-para-la-adaptacion-al-cambio-climatico)
 
 
-[[date:5 DE DICIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-12-05T00:00:00.000Z]]
 
 [[continent:North America]]
 

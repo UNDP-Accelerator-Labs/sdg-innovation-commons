@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/innovar-para-expandir-los-futuros-posibles-y-deseables)
 
 
-[[date:9 DE FEBRERO DE 2021]]
+[[year:2021]]
+
+[[date:2021-02-09T00:00:00.000Z]]
 
 [[continent:South America]]
 

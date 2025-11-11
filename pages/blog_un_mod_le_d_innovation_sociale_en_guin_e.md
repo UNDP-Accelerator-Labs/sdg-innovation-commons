@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/un-modele-dinnovation-sociale-en-guinee)
 
 
-[[date:25 FÉVRIER 2023]]
+[[year:2023]]
+
+[[date:2023-02-25T00:00:00.000Z]]
 
 [[continent:Africa]]
 

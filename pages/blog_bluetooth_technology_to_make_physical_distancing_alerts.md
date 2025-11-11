@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/benin/blog/bluetooth-technology-make-physical-distancing-alerts)
 
 
-[[date:28 AOÛT 2020]]
+[[year:2020]]
+
+[[date:2020-08-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

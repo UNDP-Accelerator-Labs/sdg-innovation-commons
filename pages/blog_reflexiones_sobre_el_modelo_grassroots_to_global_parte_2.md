@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/reflexiones-sobre-el-modelo-grassroots-global-parte-2)
 
 
-[[date:15 DE JULIO DE 2022]]
+[[year:2022]]
+
+[[date:2022-07-15T00:00:00.000Z]]
 
 [[continent:North America]]
 

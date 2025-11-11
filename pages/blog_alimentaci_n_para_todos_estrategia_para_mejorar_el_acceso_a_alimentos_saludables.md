@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/alimentacion-para-todos-estrategia-para-mejorar-el-acceso-alimentos-saludables)
 
 
+[[year:2022]]
+
 [[date:10 DE MAYO DE 2022]]
 
 [[continent:South America]]

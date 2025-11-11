@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/moiru-what-we-learned-integrating-community-participation-and-social-innovation)
 
 
+[[year:2021]]
+
 [[date:21 DE ABRIL DE 2021]]
 
 [[continent:South America]]

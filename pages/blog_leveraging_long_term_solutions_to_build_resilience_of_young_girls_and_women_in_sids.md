@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/mauritius-seychelles/blog/leveraging-long-term-solutions-build-resilience-young-girls-and-women-sids)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:October 11, 2022]]
+[[date:2022-10-11T00:00:00.000Z]]
 
 [[continent:Seven seas (open ocean)]]
 

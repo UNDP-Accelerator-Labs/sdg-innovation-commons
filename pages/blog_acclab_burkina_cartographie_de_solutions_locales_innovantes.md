@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/burkina-faso/blog/acclab-burkina-cartographie-de-solutions-locales-innovantes)
 
 
-[[date:23 DÉCEMBRE 2020]]
+[[year:2020]]
+
+[[date:2020-12-23T00:00:00.000Z]]
 
 [[continent:Africa]]
 

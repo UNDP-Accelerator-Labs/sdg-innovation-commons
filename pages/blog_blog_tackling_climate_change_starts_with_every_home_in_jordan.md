@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:FEBRUARY 6, 2020]]
+[[date:2020-02-06T00:00:00.000Z]]
 
 [[continent:Asia]]
 

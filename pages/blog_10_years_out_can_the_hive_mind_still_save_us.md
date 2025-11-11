@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:NOVEMBER 26, 2020]]
+[[date:2020-11-26T00:00:00.000Z]]
 
 [[country:Null Island]]
 

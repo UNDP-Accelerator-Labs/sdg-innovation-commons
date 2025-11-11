@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:AUGUST 25, 2025]]
+[[date:2025-08-25T00:00:00.000Z]]
 
 [[continent:South America]]
 

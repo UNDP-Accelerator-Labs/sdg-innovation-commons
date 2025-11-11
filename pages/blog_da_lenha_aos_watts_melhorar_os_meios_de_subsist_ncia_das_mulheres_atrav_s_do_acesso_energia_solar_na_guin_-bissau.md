@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/da-lenha-aos-watts-melhorar-os-meios-de-subsistencia-das-mulheres-atraves-do-acesso-energia-solar-na-guine-bissau)
 
 
+[[year:2025]]
+
 [[date:11 DE ABRIL DE 2025]]
 
 [[continent:Africa]]

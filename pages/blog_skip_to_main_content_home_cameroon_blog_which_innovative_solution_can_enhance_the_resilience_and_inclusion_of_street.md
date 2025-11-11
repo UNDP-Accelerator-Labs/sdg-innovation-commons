@@ -11,9 +11,9 @@ WHICH INNOVATIVE SOLUTION CAN ENHANCE THE RESILIENCE AND INCLUSION OF STREET...
 [Original article published here](https://www.undp.org/cameroon/blog/which-innovative-solution-can-enhance-resilience-and-inclusion-street-youths-and-women-running-small-street-businesses)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:May 17, 2023]]
+[[date:2023-05-17T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/guatemala/blog/hopping-learning-cycle-express)
 
 
-[[date:11 DE MARZO DE 2021]]
+[[year:2021]]
+
+[[date:2021-03-11T00:00:00.000Z]]
 
 [[continent:North America]]
 

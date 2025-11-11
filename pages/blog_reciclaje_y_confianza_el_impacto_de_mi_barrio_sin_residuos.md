@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/impactoMBSR)
 
 
-[[date:19 DE OCTUBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-10-19T00:00:00.000Z]]
 
 [[continent:South America]]
 

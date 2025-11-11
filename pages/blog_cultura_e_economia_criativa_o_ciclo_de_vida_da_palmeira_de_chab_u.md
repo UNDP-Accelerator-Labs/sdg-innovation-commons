@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/cultura-e-economia-criativa-o-ciclo-de-vida-da-palmeira-de-chabeu)
 
 
+[[year:2021]]
+
 [[date:22 DE APRIL DE 2021]]
 
 [[continent:Africa]]

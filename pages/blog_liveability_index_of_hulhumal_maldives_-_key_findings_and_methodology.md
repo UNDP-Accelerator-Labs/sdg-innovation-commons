@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:JUNE 27, 2024]]
+[[date:2024-06-27T00:00:00.000Z]]
 
 [[continent:Seven seas (open ocean)]]
 

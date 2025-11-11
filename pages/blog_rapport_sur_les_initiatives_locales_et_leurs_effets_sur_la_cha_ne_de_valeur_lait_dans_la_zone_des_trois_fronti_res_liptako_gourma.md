@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/fr/mali/publications/rapport-sur-les-initiatives-locales-et-leurs-effets-sur-la-chaine-de-valeur-lait-dans-la-zone-des-trois-frontieres-liptako-gourma)
 
 
-[[year:2022]]
+[[year:2023]]
 
-[[date:7 JUIN 2023]]
+[[date:2023-06-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

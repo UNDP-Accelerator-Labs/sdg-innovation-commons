@@ -11,9 +11,9 @@ University of...
 [Original article published here](https://www.undp.org/rwanda/blog/driving-rwandas-development-through-digital-innovation-universities)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:July 27, 2023]]
+[[date:2023-07-27T00:00:00.000Z]]
 
 [[continent:Africa]]
 

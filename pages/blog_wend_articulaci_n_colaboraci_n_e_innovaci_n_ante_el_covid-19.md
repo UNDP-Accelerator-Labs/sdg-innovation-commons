@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/wend%C3%A1-articulaci%C3%B3n-colaboraci%C3%B3n-e-innovaci%C3%B3n-ante-el-covid-19)
 
 
-[[date:17 DE AGOSTO DE 2020]]
+[[year:2020]]
+
+[[date:2020-08-17T00:00:00.000Z]]
 
 [[continent:South America]]
 

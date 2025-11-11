@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/sumar-esfuerzos-para-multiplicar-lo-que-esta-bien-el-segundo-ano-del-co-lab-en-numeros)
 
 
-[[date:3 DE MAYO DE 2022]]
+[[year:2022]]
+
+[[date:2022-05-03T00:00:00.000Z]]
 
 [[continent:South America]]
 

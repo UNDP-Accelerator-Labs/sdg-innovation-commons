@@ -7,6 +7,8 @@
 [Original article published here](https://www.ar.undp.org/content/argentina/es/home/blog/2021/AccLabBlog1.html)
 
 
+[[year:2021]]
+
 [[date:18 DE ENERO DE 2021]]
 
 [[continent:South America]]

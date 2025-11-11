@@ -17,6 +17,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from datetime import datetime
 import subprocess
+import glob
 
 PAGES_DIR = '../pages'
 API_DEFAULT = "https://blogapi.sdg-innovation-commons.org/blogs"
@@ -56,6 +57,53 @@ def safe_filename(s):
     if not s:
         s = 'untitled'
     return s
+
+
+def remove_existing_pages_for_item(item, title=None):
+    """If a generated page file for this item exists in PAGES_DIR, delete it.
+    This helps keep the pages/ archive consistent when we decide to skip items
+    (for example due to an old year). The function looks for the common
+    filename patterns we generate: blog_<safe-title>.md, blog_<id>.md and
+    fallback blog_missing_<domain>_*.md. It is best-effort and will silently
+    continue if nothing is found.
+    """
+    try:
+        if not os.path.exists(PAGES_DIR):
+            return
+        patterns = []
+        # exact title-based filename
+        if title and title.strip():
+            patterns.append(join(PAGES_DIR, f"blog_{safe_filename(title)}.md"))
+        # id-based filename
+        if item.get('id'):
+            patterns.append(join(PAGES_DIR, f"blog_{str(item.get('id'))}.md"))
+            # also match any files containing the id (older naming variants)
+            patterns.append(join(PAGES_DIR, f"blog_*{str(item.get('id'))}*.md"))
+        # domain-based fallback pattern
+        try:
+            domain = urlparse(item.get('url', '') or '').hostname or ''
+        except Exception:
+            domain = ''
+        if domain:
+            patterns.append(join(PAGES_DIR, f"blog_missing_{safe_filename(domain)}_*.md"))
+
+        # Use glob to resolve patterns and remove matching files
+        removed = False
+        for pat in patterns:
+            for fp in glob.glob(pat):
+                try:
+                    os.remove(fp)
+                    print(f"Removed stale page for skipped item: {fp}")
+                    removed = True
+                except Exception:
+                    # ignore deletion errors
+                    pass
+        if not removed:
+            # No file found to remove; nothing to do
+            return
+    except Exception:
+        # best-effort only
+        return
 
 
 def call_ollama(model, prompt, timeout=20):
@@ -164,6 +212,44 @@ def clean_html_to_markdown(html):
     return cleaned
 
 
+def convert_to_iso(date_input):
+    """Try to convert various date representations into an ISO datetime string.
+    Returns an ISO string (YYYY-MM-DDTHH:MM:SS) or a YYYY string when only year is found,
+    or None if conversion fails.
+    """
+    if not date_input:
+        return None
+    s = str(date_input).strip()
+    # If it already looks like an ISO date, normalize and return
+    if re.match(r'^\d{4}-\d{2}-\d{2}', s):
+        try:
+            return datetime.fromisoformat(s.replace('Z', '')).isoformat()
+        except Exception:
+            pass
+    # Try dateutil if available for robust parsing
+    try:
+        from dateutil import parser as dateutil_parser  # type: ignore
+        dt = dateutil_parser.parse(s)
+        return dt.isoformat()
+    except Exception:
+        pass
+    # Try common human-readable formats (month name, day, year)
+    common_formats = ['%B %d, %Y', '%b %d, %Y', '%d %B %Y', '%d %b %Y', '%Y']
+    for fmt in common_formats:
+        try:
+            # Title-case month names to improve matching of ALL-CAPS strings
+            candidate = s.title() if '%B' in fmt or '%b' in fmt else s
+            dt = datetime.strptime(candidate, fmt)
+            return dt.isoformat()
+        except Exception:
+            pass
+    # Last resort: extract a 4-digit year
+    m = re.search(r'(\d{4})', s)
+    if m:
+        return m.group(1)
+    return None
+
+
 def compose_markdown(item, title, insight=None):
     lines = []
     lines.append(f"# {title}\n")
@@ -176,17 +262,32 @@ def compose_markdown(item, title, insight=None):
         lines.append(f"[[source:{source}]]\n")
         lines.append(f"[Original article published here]({source})\n\n")
 
-    date_str = item.get('posted_date_str') or item.get('date') or item.get('posted_date')
-    if date_str:
-        try:
-            year = None
-            if item.get('posted_date'):
-                year = datetime.fromisoformat(item.get('posted_date').replace('Z', '')) .year
-        except Exception:
-            year = None
-        if year:
-            lines.append(f"[[year:{year}]]\n")
-        clean_date = re.sub('\n', ' ', date_str)
+    # Determine a display date and extract a year robustly.
+    raw_date = item.get('parsed_date') or item.get('posted_date') or item.get('posted_date_str') or item.get('date')
+    clean_date = re.sub('\n', ' ', raw_date) if raw_date else ''
+    iso_date = convert_to_iso(raw_date) if raw_date else None
+    year = None
+    # If convert_to_iso returned a full ISO datetime, extract year; if it returned just a year string, use it
+    try:
+        if iso_date and re.match(r'^\d{4}-', iso_date):
+            year = datetime.fromisoformat(iso_date.split('T')[0]).year
+        elif iso_date and re.match(r'^\d{4}$', iso_date):
+            year = int(iso_date)
+    except Exception:
+        year = None
+
+    # Final fallback: extract four-digit year from the cleaned human date
+    if not year and clean_date:
+        m = re.search(r'(\d{4})', clean_date)
+        if m:
+            try:
+                year = int(m.group(1))
+            except Exception:
+                year = None
+
+    if year:
+        lines.append(f"[[year:{year}]]\n")
+    if clean_date:
         lines.append(f"[[date:{clean_date}]]\n")
 
     # Add continent tag (if lookup available) and country tag when present
@@ -389,10 +490,105 @@ def get_continent(country_name):
     return None
 
 
+def extract_year_from_item(item):
+    """Return year integer extracted from item date fields, or None if not found."""
+    raw_date = item.get('parsed_date') or item.get('posted_date') or item.get('posted_date_str') or item.get('date')
+    if not raw_date:
+        return None
+    # normalize
+    try:
+        iso = convert_to_iso(raw_date)
+    except Exception:
+        iso = None
+    year = None
+    try:
+        if iso and re.match(r'^\d{4}-', str(iso)):
+            year = int(str(iso).split('-')[0])
+        elif iso and re.match(r'^\d{4}$', str(iso)):
+            year = int(str(iso))
+    except Exception:
+        year = None
+    if not year:
+        # fallback to finding a 4-digit year in the raw date text
+        m = re.search(r'(\d{4})', str(raw_date))
+        if m:
+            try:
+                year = int(m.group(1))
+            except Exception:
+                year = None
+    return year
+
+
+def _pages_dir_abs():
+    # Resolve pages dir relative to repository root so deletion works no matter CWD
+    try:
+        return abspath(join(_repo_root, PAGES_DIR))
+    except Exception:
+        return abspath(PAGES_DIR)
+
+
+def remove_existing_generated_files_for_item(item):
+    """Remove any previously-generated markdown files that likely correspond to this item.
+    This checks several filename patterns used by this script:
+    - blog_<safe-title>.md
+    - blog_<id>.md
+    - blog_missing_<domain>_*.md
+    Also performs a loose glob search for filenames containing the numeric id.
+    """
+    pages_abs = _pages_dir_abs()
+    candidates = []
+    try:
+        title = (item.get('title') or '').strip()
+    except Exception:
+        title = ''
+    if title:
+        candidates.append(join(pages_abs, f"blog_{safe_filename(title)}.md"))
+
+    if item.get('id'):
+        candidates.append(join(pages_abs, f"blog_{str(item.get('id'))}.md"))
+        # loose match: any file containing the id
+        candidates.extend(glob.glob(join(pages_abs, f"*{str(item.get('id'))}*.md")))
+
+    # domain-based fallback
+    try:
+        domain = urlparse(item.get('url', '') or '').hostname or ''
+    except Exception:
+        domain = ''
+    if domain:
+        candidates.extend(glob.glob(join(pages_abs, f"blog_missing_{safe_filename(domain)}_*.md")))
+
+    # Also look for files whose basename contains a safe-title substring
+    if title:
+        candidates.extend(glob.glob(join(pages_abs, f"*{safe_filename(title)}*.md")))
+
+    deleted_any = False
+    for path in set(candidates):
+        try:
+            if os.path.exists(path):
+                os.remove(path)
+                print('Removed stale generated page:', path)
+                deleted_any = True
+        except Exception as e:
+            print('Failed to remove', path, '->', e)
+    return deleted_any
+
+
 def process_results(results, ollama_model=None):
     """Process a list of API items and write markdown files for each."""
     ensure_pages_dir()
     for item in results:
+        # Skip entries with dates before 2018
+        y = extract_year_from_item(item)
+        if y is not None and y < 2018:
+            print(f"Skipping item id={item.get('id') or '?'} because year {y} < 2018")
+            # Attempt to remove any previously-generated page for this item so stale files don't remain
+            try:
+                removed = remove_existing_generated_files_for_item(item)
+                if not removed:
+                    print('No existing generated file found for skipped item; nothing to delete.')
+            except Exception as e:
+                print('Error while attempting to remove stale generated files for item:', e)
+            continue
         title = item.get('title')
         if title and title.strip():
             title = title.strip()

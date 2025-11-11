@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/cameroon/blog/les-drones-et-lintelligence-artificielle-peuvent-ils-ameliorer-les-revenus-des-planteurs-de-cacao-camerounais)
 
 
+[[year:2021]]
+
 [[date:14 MAI 2021]]
 
 [[continent:Africa]]

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/de-los-indices-internacionales-las-calles-de-tierra-cuales-son-los-desafios-de-la-inclusion-financiera-en-las-villas)
 
 
-[[date:31 DE MARZO DE 2020]]
+[[year:2020]]
+
+[[date:2020-03-31T00:00:00.000Z]]
 
 [[continent:South America]]
 

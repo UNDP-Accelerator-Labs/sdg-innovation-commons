@@ -18,9 +18,9 @@ FROM...
 [Original article published here](https://www.undp.org/ukraine/blog/community-safari-composing-kyivs-zhytniy-market-turns-eco-friendly)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:June 15, 2020]]
+[[date:2020-06-15T00:00:00.000Z]]
 
 [[continent:Europe]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/benin/blog/le-lave-main-automatique-une-solution-efficace-pour-lutter-contre-la-propagation-du-covid-19)
 
 
-[[date:14 MAI 2020]]
+[[year:2020]]
+
+[[date:2020-05-14T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:28 DE SEPTIEMBRE DE 2021]]
+[[date:2021-09-28T00:00:00.000Z]]
 
 [[continent:South America]]
 

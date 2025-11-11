@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/caminando-junto-las-hierbateras-de-los-prototipos-su-implementacion/Ecuador)
 
 
-[[date:22 DE MAYO DE 2023]]
+[[year:2023]]
+
+[[date:2023-05-22T00:00:00.000Z]]
 
 [[continent:South America]]
 

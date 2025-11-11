@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:MAY 29, 2023]]
+[[date:2023-05-29T00:00:00.000Z]]
 
 [[continent:Asia]]
 

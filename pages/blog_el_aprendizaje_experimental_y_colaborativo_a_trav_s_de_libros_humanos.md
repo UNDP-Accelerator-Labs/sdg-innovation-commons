@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/el-aprendizaje-experimental-y-colaborativo-trav%C3%A9s-de-libros-humanos)
 
 
-[[date:27 DE FEBRERO DE 2020]]
+[[year:2020]]
+
+[[date:2020-02-27T00:00:00.000Z]]
 
 [[continent:South America]]
 

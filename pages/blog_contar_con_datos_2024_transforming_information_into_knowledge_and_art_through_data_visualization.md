@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/contar-con-datos-2024-transforming-information-knowledge-and-art-through-data-visualization)
 
 
+[[year:2024]]
+
 [[date:28 DE AGOSTO DE 2024]]
 
 [[continent:South America]]

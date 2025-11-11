@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:OCTOBER 16, 2020]]
+[[date:2020-10-16T00:00:00.000Z]]
 
 [[continent:Europe]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/penser-lacceleration)
 
 
-[[date:24 FÉVRIER 2022]]
+[[year:2022]]
+
+[[date:2022-02-24T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/publications/informe-nacional-sobre-desarrollo-humano-paraguay-2020-desarrollo-humano-y-energ%C3%ADa)
 
 
-[[date:2 DE DICIEMBRE DE 2020]]
+[[year:2020]]
+
+[[date:2020-12-02T00:00:00.000Z]]
 
 [[continent:South America]]
 

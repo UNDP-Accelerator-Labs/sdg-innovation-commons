@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/como-o-acesso-energia-solar-pode-capacitar-economicamente-mulheres-na-guine-bissau)
 
 
+[[year:2024]]
+
 [[date:9 DE AUGUST DE 2024]]
 
 [[continent:Africa]]

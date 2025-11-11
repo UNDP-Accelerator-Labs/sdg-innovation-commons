@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/publications/documento-programa-pa%C3%ADs-paraguay-2020-2024)
 
 
-[[date:28 DE OCTUBRE DE 2020]]
+[[year:2020]]
+
+[[date:2020-10-28T00:00:00.000Z]]
 
 [[continent:South America]]
 

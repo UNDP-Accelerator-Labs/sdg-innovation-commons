@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/burkina-faso/blog/cest-quoi-donc-une-solution-locale-innovante)
 
 
-[[date:29 FÉVRIER 2020]]
+[[year:2020]]
+
+[[date:2020-02-29T00:00:00.000Z]]
 
 [[continent:Africa]]
 

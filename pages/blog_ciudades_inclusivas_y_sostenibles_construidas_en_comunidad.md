@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/ciudades-inclusivas-y-sostenibles-construidas-en-comunidad)
 
 
-[[date:13 DE ENERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-01-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

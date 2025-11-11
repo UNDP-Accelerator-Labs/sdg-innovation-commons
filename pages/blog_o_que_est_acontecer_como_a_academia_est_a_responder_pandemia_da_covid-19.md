@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/o-que-esta-acontecer-como-academia-esta-responder-pandemia-da-covid-19)
 
 
+[[year:2020]]
+
 [[date:22 DE SEPTEMBER DE 2020]]
 
 [[continent:Africa]]

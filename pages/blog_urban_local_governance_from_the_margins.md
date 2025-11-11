@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/dominican-republic/blog/urban-local-governance-margins)
 
 
+[[year:2022]]
+
 [[date:16 DE SEPTIEMBRE DE 2022]]
 
 [[continent:North America]]

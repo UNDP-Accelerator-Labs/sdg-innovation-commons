@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/mapeamento-de-solucoes)
 
 
+[[year:2021]]
+
 [[date:2 DE AUGUST DE 2021]]
 
 [[continent:Africa]]

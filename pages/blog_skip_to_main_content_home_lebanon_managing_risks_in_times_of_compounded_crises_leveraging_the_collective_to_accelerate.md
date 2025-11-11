@@ -10,9 +10,9 @@ MANAGING RISKS IN TIMES OF COMPOUNDED CRISES: LEVERAGING THE COLLECTIVE TO ACCEL
 [Original article published here](https://www.undp.org/lebanon/blog/managing-risks-times-compounded-crises-leveraging-collective-accelerate-solutions)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:April 6, 2020]]
+[[date:2020-04-06T00:00:00.000Z]]
 
 [[continent:Asia]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/energia-y-desarrollo-de-paraguay-para-el-mundo)
 
 
+[[year:2024]]
+
 [[date:11 DE OCTUBRE DE 2024]]
 
 [[continent:South America]]

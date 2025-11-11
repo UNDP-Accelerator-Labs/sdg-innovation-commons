@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/haiti/blog/lintelligence-collective-ses-avantages-dans-le-developpement-dhaiti)
 
 
+[[year:2022]]
+
 [[date:24 FÉVRIER 2022]]
 
 [[continent:North America]]

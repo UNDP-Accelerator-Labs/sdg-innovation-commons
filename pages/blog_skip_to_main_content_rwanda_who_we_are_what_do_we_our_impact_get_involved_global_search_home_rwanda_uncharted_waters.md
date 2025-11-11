@@ -17,9 +17,9 @@ UNCHARTED WATERS:...
 [Original article published here](https://www.undp.org/rwanda/blog/uncharted-waters-navigating-todays-challenges-power-experimentation)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:January 18, 2023]]
+[[date:2023-01-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/innovaci%C3%B3n-p%C3%BAblica-desde-adentro-el-nuevo-laboratorio-participativo-para-la-formalizaci%C3%B3n-del-empleo-del-ministerio-del-trabajo)
 
 
-[[date:29 DE JULIO DE 2020]]
+[[year:2020]]
+
+[[date:2020-07-29T00:00:00.000Z]]
 
 [[continent:South America]]
 

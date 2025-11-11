@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/informal-markets-project-undp-covid-19-response-partnership-ministry-administration-territory)
 
 
-[[date:24 DE MAY DE 2020]]
+[[year:2020]]
+
+[[date:2020-05-24T00:00:00.000Z]]
 
 [[continent:Africa]]
 

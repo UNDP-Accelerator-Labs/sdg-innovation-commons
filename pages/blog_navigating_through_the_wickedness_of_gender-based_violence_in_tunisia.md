@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/navigating-through-wickedness-gender-based-violence-tunisia)
 
 
-[[date:9 MAI 2022]]
+[[year:2022]]
+
+[[date:2022-05-09T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/se-empieza-por-casa-las-primeras-semanas-del-lab-en-argentina)
 
 
-[[date:19 DE NOVIEMBRE DE 2019]]
+[[year:2019]]
+
+[[date:2019-11-19T00:00:00.000Z]]
 
 [[continent:South America]]
 

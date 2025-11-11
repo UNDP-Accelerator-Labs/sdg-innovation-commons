@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/uzbekistan/publications/improving-approaches-measuring-poverty-and-income-inequality-uzbekistan)
 
 
-[[date:APRIL 24, 2019]]
+[[year:2019]]
+
+[[date:2019-04-24T00:00:00.000Z]]
 
 [[continent:Asia]]
 

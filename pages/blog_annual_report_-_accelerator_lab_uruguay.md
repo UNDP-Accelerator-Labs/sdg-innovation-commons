@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:2 DE MARZO DE 2022]]
+[[date:2022-03-02T00:00:00.000Z]]
 
 [[continent:South America]]
 

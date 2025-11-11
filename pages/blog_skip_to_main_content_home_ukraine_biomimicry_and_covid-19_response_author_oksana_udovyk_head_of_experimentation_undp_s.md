@@ -13,9 +13,9 @@ Head of Experimentation, UNDP’s...
 [Original article published here](https://www.undp.org/ukraine/blog/biomimicry-and-covid-19-response)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:May 13, 2020]]
+[[date:2020-05-13T00:00:00.000Z]]
 
 [[continent:Europe]]
 

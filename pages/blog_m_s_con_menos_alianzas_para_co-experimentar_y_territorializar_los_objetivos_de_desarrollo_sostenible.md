@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/mas-con-menos-alianzas-para-co-experimentar-y-territorializar-los-objetivos-de-desarrollo-sostenible)
 
 
-[[date:21 DE FEBRERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-02-21T00:00:00.000Z]]
 
 [[continent:South America]]
 

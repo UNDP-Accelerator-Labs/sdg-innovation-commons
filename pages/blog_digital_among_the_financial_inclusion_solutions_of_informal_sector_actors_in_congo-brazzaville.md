@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/digital-among-financial-inclusion-solutions-informal-sector-actors-congo-brazzaville)
 
 
-[[date:28 DÉCEMBRE 2021]]
+[[year:2021]]
+
+[[date:2021-12-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

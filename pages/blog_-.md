@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/kk/kazakhstan/blog/bau-bakshaly-kalaga-taudyn-taza-saf-auasy-kayta-oralady)
 
 
-[[date:2023 Ж. 6 SEPTEMBER]]
+[[year:2023]]
+
+[[date:2023-09-06T00:00:00.000Z]]
 
 [[continent:Asia]]
 

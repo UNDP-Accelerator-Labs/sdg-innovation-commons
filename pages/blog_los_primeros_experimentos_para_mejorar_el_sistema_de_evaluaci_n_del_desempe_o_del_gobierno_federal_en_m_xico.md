@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/los-primeros-experimentos-para-mejorar-el-sistema-de-evaluaci%C3%B3n-del-desempe%C3%B1o-del-gobierno-federal-en-m%C3%A9xico)
 
 
-[[date:22 DE JUNIO DE 2020]]
+[[year:2020]]
+
+[[date:2020-06-22T00:00:00.000Z]]
 
 [[continent:North America]]
 

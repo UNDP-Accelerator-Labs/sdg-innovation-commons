@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/el-salvador/blog/conectando-con-nuevas-capacidades)
 
 
-[[date:21 DE JUNIO DE 2022]]
+[[year:2022]]
+
+[[date:2022-06-21T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/gamificacion-para-educacion-financiera)
 
 
-[[date:18 DE ENERO DE 2023]]
+[[year:2023]]
+
+[[date:2023-01-18T00:00:00.000Z]]
 
 [[continent:South America]]
 

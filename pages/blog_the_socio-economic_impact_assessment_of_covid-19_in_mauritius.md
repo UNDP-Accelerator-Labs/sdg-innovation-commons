@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:MARCH 2, 2021]]
+[[date:2021-03-02T00:00:00.000Z]]
 
 [[continent:Seven seas (open ocean)]]
 

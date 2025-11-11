@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/jordan/publications/undp-human-development-report-2020)
 
 
-[[year:2020]]
+[[year:2021]]
 
-[[date:JANUARY 4, 2021]]
+[[date:2021-01-04T00:00:00.000Z]]
 
 [[continent:Asia]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/succes-du-lancement-de-laccelerator-labs-niger-nombreux-soutiens-et-partenaires-mobilises)
 
 
+[[year:2020]]
+
 [[date:21 AOÛT 2020]]
 
 [[country:United States]]

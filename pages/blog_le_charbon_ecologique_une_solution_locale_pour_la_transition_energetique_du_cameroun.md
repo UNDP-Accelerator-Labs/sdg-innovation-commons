@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/cameroon/blog/le-charbon-ecologique-une-solution-locale-pour-la-transition-energetique-du-cameroun)
 
 
-[[date:27 DÉCEMBRE 2022]]
+[[year:2022]]
+
+[[date:2022-12-27T00:00:00.000Z]]
 
 [[continent:Africa]]
 

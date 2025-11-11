@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:MARCH 21, 2024]]
+[[date:2024-03-21T00:00:00.000Z]]
 
 [[country:Null Island]]
 

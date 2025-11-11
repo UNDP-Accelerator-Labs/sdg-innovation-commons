@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/por-una-inteligencia-artificial-generativa-con-y-para-las-personas)
 
 
+[[year:2024]]
+
 [[date:2 DE ABRIL DE 2024]]
 
 [[continent:North America]]

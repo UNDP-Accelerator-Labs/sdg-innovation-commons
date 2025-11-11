@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/tr/turkiye/blog/surdurulebilirlik-icin-bir-maceraya-atiliyoruz)
 
 
+[[year:2022]]
+
 [[date:26 TEMMUZ 2022]]
 
 [[continent:Asia]]

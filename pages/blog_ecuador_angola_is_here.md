@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/ecuador-angola-here)
 
 
-[[date:18 DE NOVEMBER DE 2019]]
+[[year:2019]]
+
+[[date:2019-11-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

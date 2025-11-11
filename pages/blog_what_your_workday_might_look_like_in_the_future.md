@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:MAY 27, 2021]]
+[[date:2021-05-27T00:00:00.000Z]]
 
 [[continent:Europe]]
 

@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/kenya/blog/leveraging-opportunities-forged-covid-19-crisis-deliver-long-term-change)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:April 15, 2020]]
+[[date:2020-04-15T00:00:00.000Z]]
 
 [[continent:Africa]]
 

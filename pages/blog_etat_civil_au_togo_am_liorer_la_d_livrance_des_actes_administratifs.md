@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/etat-civil-au-togo-ameliorer-la-delivrance-des-actes-administratifs)
 
 
-[[date:2 JUIN 2020]]
+[[year:2020]]
+
+[[date:2020-06-02T00:00:00.000Z]]
 
 [[continent:Africa]]
 

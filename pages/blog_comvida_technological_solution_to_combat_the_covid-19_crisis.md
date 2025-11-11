@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:APRIL 15, 2020]]
+[[date:2020-04-15T00:00:00.000Z]]
 
 [[country:Null Island]]
 

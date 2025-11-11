@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:MAY 13, 2020]]
+[[date:2020-05-13T00:00:00.000Z]]
 
 [[country:Timor Leste]]
 

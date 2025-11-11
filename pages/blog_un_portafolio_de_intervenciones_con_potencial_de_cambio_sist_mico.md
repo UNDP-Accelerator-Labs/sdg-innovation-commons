@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/un-portafolio-de-intervenciones-con-potencial-de-cambio-sistemico)
 
 
+[[year:2024]]
+
 [[date:30 DE SEPTIEMBRE DE 2024]]
 
 [[country:United States]]

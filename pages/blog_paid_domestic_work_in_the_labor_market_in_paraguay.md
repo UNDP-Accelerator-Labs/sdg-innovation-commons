@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/publications/workingpaper06)
 
 
+[[year:2022]]
+
 [[date:9 DE AGOSTO DE 2022]]
 
 [[continent:South America]]

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/angola-no-equador-experi%C3%AAncia)
 
 
-[[date:5 DE NOVEMBER DE 2019]]
+[[year:2019]]
+
+[[date:2019-11-05T00:00:00.000Z]]
 
 [[continent:Africa]]
 

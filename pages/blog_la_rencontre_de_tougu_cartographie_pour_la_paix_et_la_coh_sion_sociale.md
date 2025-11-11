@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/la-rencontre-de-tougue-cartographie-pour-la-paix-et-la-cohesion-sociale)
 
 
-[[date:4 DÉCEMBRE 2023]]
+[[year:2023]]
+
+[[date:2023-12-04T00:00:00.000Z]]
 
 [[continent:Africa]]
 

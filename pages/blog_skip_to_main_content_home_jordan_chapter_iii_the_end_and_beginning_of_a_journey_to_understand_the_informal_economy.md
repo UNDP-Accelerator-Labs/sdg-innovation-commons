@@ -10,9 +10,9 @@ CHAPTER III: THE END (AND BEGINNING) OF A JOURNEY TO UNDERSTAND THE INFORMAL ECO
 [Original article published here](https://www.undp.org/jordan/blog/chapter-iii-end-and-beginning-journey-understand-informal-economy-jordan)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:November 23, 2022]]
+[[date:2022-11-23T00:00:00.000Z]]
 
 [[continent:Asia]]
 

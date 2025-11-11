@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/drcongo/blog/une-eplucheuse-de-manioc-au-service-de-la-securite-alimentaire-en-rdc-0)
 
 
+[[year:2020]]
+
 [[date:28 FÉVRIER 2020]]
 
 [[country:Democratic Republic of Congo]]

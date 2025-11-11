@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:22 JUIN 2022]]
+[[date:2022-06-22T00:00:00.000Z]]
 
 [[continent:North America]]
 

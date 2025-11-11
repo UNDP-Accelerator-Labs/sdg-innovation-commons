@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/blog/moi-boursiere-du-pnud-pour-les-jeunes-dirigeantes-africaines-afywl)
 
 
+[[year:2025]]
+
 [[date:5 FÉVRIER 2025]]
 
 [[country:United States]]

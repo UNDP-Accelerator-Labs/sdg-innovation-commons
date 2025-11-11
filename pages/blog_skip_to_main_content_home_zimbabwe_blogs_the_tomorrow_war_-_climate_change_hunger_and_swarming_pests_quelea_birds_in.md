@@ -12,9 +12,9 @@ Quelea birds in...
 [Original article published here](https://www.undp.org/zimbabwe/blog/tomorrow-war-climate-change-hunger-and-swarming-pests)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:September 29, 2022]]
+[[date:2022-09-29T00:00:00.000Z]]
 
 [[continent:Africa]]
 

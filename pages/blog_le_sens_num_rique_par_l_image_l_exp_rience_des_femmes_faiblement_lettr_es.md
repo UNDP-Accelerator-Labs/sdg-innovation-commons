@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:1 MARS 2021]]
+[[date:2021-03-01T00:00:00.000Z]]
 
 [[continent:Africa]]
 

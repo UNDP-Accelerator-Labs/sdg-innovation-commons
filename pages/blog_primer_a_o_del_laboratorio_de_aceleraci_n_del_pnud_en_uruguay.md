@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/primer-ano-del-laboratorio-de-aceleracion-del-pnud-en-uruguay)
 
 
-[[date:11 DE MARZO DE 2022]]
+[[year:2022]]
+
+[[date:2022-03-11T00:00:00.000Z]]
 
 [[continent:South America]]
 

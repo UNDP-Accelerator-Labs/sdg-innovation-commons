@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:JUNE 6, 2021]]
+[[date:2021-06-06T00:00:00.000Z]]
 
 [[continent:Asia]]
 

@@ -13,9 +13,9 @@ UNDP...
 [Original article published here](https://www.undp.org/ukraine/blog/five-pillars-building-forward-better-after-covid-19)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:September 2, 2020]]
+[[date:2020-09-02T00:00:00.000Z]]
 
 [[continent:Europe]]
 

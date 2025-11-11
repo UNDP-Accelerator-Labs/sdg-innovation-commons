@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/une-%C2%AB-caravane-de-l%E2%80%99innovation-%C2%BB-en-tourn%C3%A9e-au-congo)
 
 
-[[date:12 FÉVRIER 2020]]
+[[year:2020]]
+
+[[date:2020-02-12T00:00:00.000Z]]
 
 [[continent:Africa]]
 

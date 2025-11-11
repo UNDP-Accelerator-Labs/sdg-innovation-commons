@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:1 MARS 2022]]
+[[date:2022-03-01T00:00:00.000Z]]
 
 [[continent:North America]]
 

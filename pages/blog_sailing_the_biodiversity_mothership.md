@@ -9,7 +9,7 @@
 
 [[year:2019]]
 
-[[date:MAY 9, 2019]]
+[[date:2019-05-09T00:00:00.000Z]]
 
 [[continent:Asia]]
 

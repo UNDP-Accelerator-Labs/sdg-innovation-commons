@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/lancement-accelerator-lab-tunisie-quand-lart-rime-avec-activisme-et-engagement)
 
 
-[[date:9 DÉCEMBRE 2019]]
+[[year:2019]]
+
+[[date:2019-12-09T00:00:00.000Z]]
 
 [[continent:Africa]]
 

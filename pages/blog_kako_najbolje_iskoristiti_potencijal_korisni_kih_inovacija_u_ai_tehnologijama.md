@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:2. OCTOBER 2023.]]
+[[date:2023-10-02T00:00:00.000Z]]
 
 [[continent:Europe]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/validar-con-las-personas-el-entendimiento-del-problema)
 
 
+[[year:2024]]
+
 [[date:4 DE SEPTIEMBRE DE 2024]]
 
 [[continent:North America]]

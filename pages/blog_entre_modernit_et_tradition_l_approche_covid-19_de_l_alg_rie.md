@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/entre-modernite-et-tradition-lapproche-covid-19-de-lalgerie)
 
 
+[[year:2020]]
+
 [[date:15 JUIN 2020]]
 
 [[continent:Africa]]

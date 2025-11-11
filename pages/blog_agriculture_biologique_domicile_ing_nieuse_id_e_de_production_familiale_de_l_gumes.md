@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/burkina-faso/blog/agriculture-biologique-domicile-ingenieuse-idee-de-production-familiale-de-legumes)
 
 
-[[date:7 AVRIL 2021]]
+[[year:2021]]
+
+[[date:2021-04-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

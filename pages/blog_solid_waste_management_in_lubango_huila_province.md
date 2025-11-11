@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/solid-waste-management-lubango-huila-province)
 
 
-[[date:7 DE MAY DE 2020]]
+[[year:2020]]
+
+[[date:2020-05-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:JUNE 4, 2024]]
+[[date:2024-06-04T00:00:00.000Z]]
 
 [[continent:North America]]
 

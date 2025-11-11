@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/digitalizacion-de-las-mipymes-paraguayas-sinergias-institucionales-para-el-desarrollo)
 
 
+[[year:2025]]
+
 [[date:15 DE ABRIL DE 2025]]
 
 [[continent:South America]]

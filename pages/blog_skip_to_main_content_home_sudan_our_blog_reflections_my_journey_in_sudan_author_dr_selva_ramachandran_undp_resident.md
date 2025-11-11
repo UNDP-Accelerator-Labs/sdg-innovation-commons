@@ -14,9 +14,9 @@ UNDP Resident...
 [Original article published here](https://www.undp.org/sudan/blog/reflections-my-journey-sudan)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:September 28, 2020]]
+[[date:2020-09-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

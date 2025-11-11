@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/construyendo-juntos-el-futuro)
 
 
-[[date:15 DE ENERO DE 2024]]
+[[year:2024]]
+
+[[date:2024-01-15T00:00:00.000Z]]
 
 [[continent:South America]]
 

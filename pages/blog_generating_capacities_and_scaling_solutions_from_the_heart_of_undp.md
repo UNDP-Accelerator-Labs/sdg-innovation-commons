@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/generating-capacities-scaling-solutions-heart-undp)
 
 
+[[year:2024]]
+
 [[date:30 DE DICIEMBRE DE 2024]]
 
 [[continent:South America]]

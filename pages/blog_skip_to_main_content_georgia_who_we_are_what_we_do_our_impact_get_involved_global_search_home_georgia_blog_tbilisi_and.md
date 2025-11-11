@@ -18,9 +18,9 @@ TBILISI AND...
 [Original article published here](https://www.undp.org/georgia/blog/tbilisi-and-batumi-hubs-household-waste-recycling-boost-clean-environment)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:October 27, 2021]]
+[[date:2021-10-27T00:00:00.000Z]]
 
 [[continent:Asia]]
 

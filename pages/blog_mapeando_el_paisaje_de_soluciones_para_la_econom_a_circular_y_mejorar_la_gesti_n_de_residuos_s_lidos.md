@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/mapeando-el-paisaje-de-soluciones-para-la-economia-circular-y-mejorar-la-gestion-de-residuos-solidos)
 
 
-[[date:1 DE MARZO DE 2023]]
+[[year:2023]]
+
+[[date:2023-03-01T00:00:00.000Z]]
 
 [[continent:North America]]
 

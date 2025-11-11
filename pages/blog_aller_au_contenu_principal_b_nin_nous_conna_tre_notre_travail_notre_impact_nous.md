@@ -12,9 +12,9 @@ NOUS...
 [Original article published here](https://www.undp.org/fr/benin/blog/le-pnud-la-rencontre-de-lecosysteme-du-numerique-et-de-linnovation-au-benin)
 
 
-[[year:1970]]
+[[year:2019]]
 
-[[date:July 3, 2019]]
+[[date:2019-07-03T00:00:00.000Z]]
 
 [[continent:Africa]]
 

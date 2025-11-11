@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/women-entrepreneurs-southern-tunisia-sanas-journey)
 
 
-[[date:9 FÉVRIER 2022]]
+[[year:2022]]
+
+[[date:2022-02-09T00:00:00.000Z]]
 
 [[continent:Africa]]
 

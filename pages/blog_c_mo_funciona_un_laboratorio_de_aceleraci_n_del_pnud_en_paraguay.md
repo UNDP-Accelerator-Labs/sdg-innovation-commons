@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/como-funciona-un-laboratorio-de-aceleracion-del-pnud-en-paraguay)
 
 
+[[year:2020]]
+
 [[date:15 DE JUNIO DE 2020]]
 
 [[continent:South America]]

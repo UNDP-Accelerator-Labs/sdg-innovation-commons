@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:MAY 16, 2022]]
+[[date:2022-05-16T00:00:00.000Z]]
 
 [[country:Null Island]]
 

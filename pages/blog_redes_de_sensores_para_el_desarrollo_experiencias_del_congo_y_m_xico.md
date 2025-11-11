@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/redes-de-sensores-para-el-desarrollo-experiencias-del-congo-y-mexico)
 
 
+[[year:2020]]
+
 [[date:13 DE OCTUBRE DE 2020]]
 
 [[continent:North America]]

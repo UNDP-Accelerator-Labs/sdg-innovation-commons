@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/publications/bosques-protectores-de-cauces-h%C3%ADdricos-protecci%C3%B3n-del-agua-y-la-biodiversidad)
 
 
-[[year:2021]]
+[[year:2020]]
 
-[[date:1 DE DICIEMBRE DE 2020]]
+[[date:2020-12-01T00:00:00.000Z]]
 
 [[continent:South America]]
 

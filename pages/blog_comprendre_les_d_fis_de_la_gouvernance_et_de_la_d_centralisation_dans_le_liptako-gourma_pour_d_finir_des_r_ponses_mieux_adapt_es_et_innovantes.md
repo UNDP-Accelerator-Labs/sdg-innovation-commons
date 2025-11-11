@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/comprendre-les-defis-de-la-gouvernance-et-de-la-decentralisation-dans-le-liptako-gourma-pour-definir-des-reponses-mieux-adaptees-et)
 
 
-[[date:21 AOÛT 2020]]
+[[year:2020]]
+
+[[date:2020-08-21T00:00:00.000Z]]
 
 [[continent:Africa]]
 

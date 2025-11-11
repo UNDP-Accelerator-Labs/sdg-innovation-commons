@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:JUNE 5, 2024]]
+[[date:2024-06-05T00:00:00.000Z]]
 
 [[country:United States]]
 

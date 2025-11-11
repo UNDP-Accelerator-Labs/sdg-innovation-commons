@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/diary-explorer)
 
 
-[[date:19 FÉVRIER 2021]]
+[[year:2021]]
+
+[[date:2021-02-19T00:00:00.000Z]]
 
 [[continent:Africa]]
 

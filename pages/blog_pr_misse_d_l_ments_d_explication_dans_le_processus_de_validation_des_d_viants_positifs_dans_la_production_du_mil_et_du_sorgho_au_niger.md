@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/niger/blog/pr%C3%A9misse-d%E2%80%99%C3%A9l%C3%A9ments-d%E2%80%99explication-dans-le-processus-de-validation-des-d%C3%A9viants-positifs-dans-la-production-du-mil-et-du-sorgho-au-niger)
 
 
-[[date:19 AOÛT 2021]]
+[[year:2021]]
+
+[[date:2021-08-19T00:00:00.000Z]]
 
 [[continent:Africa]]
 

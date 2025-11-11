@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:DECEMBER 3, 2021]]
+[[date:2021-12-03T00:00:00.000Z]]
 
 [[country:Bosnia and Herzegovina]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/blog_innovacion_sector_publico_MoviGob)
 
 
+[[year:2024]]
+
 [[date:29 DE ENERO DE 2024]]
 
 [[continent:North America]]

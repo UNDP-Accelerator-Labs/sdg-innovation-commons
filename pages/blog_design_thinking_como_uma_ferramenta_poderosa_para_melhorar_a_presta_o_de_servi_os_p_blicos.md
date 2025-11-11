@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/design-thinking-como-uma-ferramenta-poderosa-para-melhorar-prestacao-de-servicos-publicos)
 
 
-[[date:18 DE AUGUST DE 2022]]
+[[year:2022]]
+
+[[date:2022-08-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

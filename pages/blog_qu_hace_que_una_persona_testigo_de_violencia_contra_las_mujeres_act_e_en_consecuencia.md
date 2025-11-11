@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/que-hace-que-una-persona-testigo-de-violencia-contra-las-mujeres-actue-en-consecuencia)
 
 
+[[year:2022]]
+
 [[date:8 DE NOVIEMBRE DE 2022]]
 
 [[continent:South America]]

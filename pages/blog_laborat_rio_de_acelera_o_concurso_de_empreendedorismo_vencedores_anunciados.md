@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/guinea-bissau/blog/laborat%C3%B3rio-de-acelera%C3%A7%C3%A3o-concurso-de-empreendedorismo-vencedores-anunciados)
 
 
-[[date:15 DE JUNE DE 2021]]
+[[year:2021]]
+
+[[date:2021-06-15T00:00:00.000Z]]
 
 [[continent:Africa]]
 

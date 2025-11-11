@@ -12,9 +12,9 @@ AIZHAN...
 [Original article published here](https://www.undp.org/kazakhstan/blog/how-%E2%80%98hack%E2%80%99-your-strategy-document-introduce-innovation)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:September 13, 2021]]
+[[date:2021-09-13T00:00:00.000Z]]
 
 [[continent:Asia]]
 

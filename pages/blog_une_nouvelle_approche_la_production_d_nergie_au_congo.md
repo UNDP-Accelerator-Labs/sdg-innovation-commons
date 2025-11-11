@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:17 NOVEMBRE 2020]]
+[[date:2020-11-17T00:00:00.000Z]]
 
 [[country:Democratic Republic of Congo]]
 

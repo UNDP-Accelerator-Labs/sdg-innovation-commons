@@ -10,9 +10,9 @@ HOW LIVING WALLS IN CITIES CAN PROTECT FROM NOISE AND DUST: AN EXPERIMENT FROM P
 [Original article published here](https://www.undp.org/ukraine/blog/how-living-walls-cities-can-protect-noise-and-dust-experiment-podil-district-kyiv)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:July 22, 2020]]
+[[date:2020-07-22T00:00:00.000Z]]
 
 [[continent:Europe]]
 

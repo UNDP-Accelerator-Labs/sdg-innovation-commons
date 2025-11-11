@@ -12,9 +12,9 @@ How does...
 [Original article published here](https://www.undp.org/zimbabwe/blog/navigating-informality-patterns-categorization-street-vending)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:March 10, 2020]]
+[[date:2020-03-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

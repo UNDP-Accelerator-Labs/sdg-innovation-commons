@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/drcongo/blog/linclusion-et-linnovation-le-parcours-dune-volontaire-des-nations-unies)
 
 
-[[date:8 AVRIL 2022]]
+[[year:2022]]
+
+[[date:2022-04-08T00:00:00.000Z]]
 
 [[country:Democratic Republic of Congo]]
 

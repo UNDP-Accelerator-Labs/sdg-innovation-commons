@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/comit%C3%A9-de-productores-mbokaja-poty-de-reuniones-bajo-el-mangal-al-empoderamiento-de-todo-un-distrito)
 
 
-[[date:21 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-21T00:00:00.000Z]]
 
 [[continent:South America]]
 

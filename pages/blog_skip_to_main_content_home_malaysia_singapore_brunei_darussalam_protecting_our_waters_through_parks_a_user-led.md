@@ -10,9 +10,9 @@ PROTECTING OUR WATERS THROUGH PARKS: A USER-LED...
 [Original article published here](https://www.undp.org/malaysia/blog/protecting-our-waters-through-parks-user-led-design-experience)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:April 22, 2020]]
+[[date:2020-04-22T00:00:00.000Z]]
 
 [[continent:Asia]]
 

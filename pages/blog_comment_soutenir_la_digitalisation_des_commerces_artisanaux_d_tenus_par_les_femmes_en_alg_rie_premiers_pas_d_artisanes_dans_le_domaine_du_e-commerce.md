@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/algeria/blog/comment-soutenir-la-digitalisation-des-commerces-artisanaux-detenus-par-les-femmes-en-algerie-premiers-pas-dartisanes-dans-le-domaine-0)
 
 
-[[date:18 FÉVRIER 2024]]
+[[year:2024]]
+
+[[date:2024-02-18T00:00:00.000Z]]
 
 [[continent:Africa]]
 

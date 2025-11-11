@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/gest%C3%A3o-de-res%C3%ADduos-s%C3%B3lidos-em-lubango-prov%C3%ADncia-da-huila)
 
 
-[[date:7 DE MAY DE 2020]]
+[[year:2020]]
+
+[[date:2020-05-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

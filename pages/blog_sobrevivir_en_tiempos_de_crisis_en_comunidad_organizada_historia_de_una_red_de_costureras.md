@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/%E2%80%9Csobrevivir-en-tiempos-de-crisis-en-comunidad-organizada%E2%80%9D-historia-de-una-red-de-costureras)
 
 
-[[date:11 DE JULIO DE 2020]]
+[[year:2020]]
+
+[[date:2020-07-11T00:00:00.000Z]]
 
 [[continent:South America]]
 

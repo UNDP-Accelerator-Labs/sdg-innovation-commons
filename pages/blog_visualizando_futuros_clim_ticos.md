@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/panama/blog/visualizando-futuros-climaticos)
 
 
+[[year:2024]]
+
 [[date:31 DE MAYO DE 2024]]
 
 [[country:United States]]

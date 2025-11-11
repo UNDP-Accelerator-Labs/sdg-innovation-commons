@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/otros-mapas-de-nuestros-barrios-una-experiencia-de-cartograf%C3%ADa-social-con-j%C3%B3venes)
 
 
-[[date:31 DE OCTUBRE DE 2020]]
+[[year:2020]]
+
+[[date:2020-10-31T00:00:00.000Z]]
 
 [[continent:South America]]
 

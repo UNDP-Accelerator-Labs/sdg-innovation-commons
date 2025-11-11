@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/tunisia/blog/citizen-led-social-safety-nets-what-can-governments-learn-social-solidarity-initiatives-covid-19)
 
 
-[[date:20 JUILLET 2020]]
+[[year:2020]]
+
+[[date:2020-07-20T00:00:00.000Z]]
 
 [[continent:Africa]]
 

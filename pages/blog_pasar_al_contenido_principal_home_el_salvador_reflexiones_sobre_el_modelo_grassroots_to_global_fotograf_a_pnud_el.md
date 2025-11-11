@@ -11,9 +11,9 @@ Fotografía: PNUD El...
 [Original article published here](https://www.undp.org/es/el-salvador/blog/reflexiones-sobre-el-modelo-grassroots-global)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:January 23, 2023]]
+[[date:2023-01-23T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/sumergi%C3%A9ndonos-virtualmente-en-la-gesti%C3%B3n-de-residuos-s%C3%B3lidos-en-tonos%C3%AD-%C2%BFqu%C3%A9-encontramos)
 
 
-[[date:31 DE MARZO DE 2021]]
+[[year:2021]]
+
+[[date:2021-03-31T00:00:00.000Z]]
 
 [[continent:North America]]
 

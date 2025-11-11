@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/au-congo-le-charbon-%C3%A9cologique-%C3%A0-base-d%E2%80%99ordures-m%C3%A9nag%C3%A8res-est-lanc%C3%A9)
 
 
-[[date:28 JUIN 2021]]
+[[year:2021]]
+
+[[date:2021-06-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

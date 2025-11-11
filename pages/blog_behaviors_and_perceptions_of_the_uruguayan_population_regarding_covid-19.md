@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/behaviors-and-perceptions-uruguayan-population-regarding-covid-19)
 
 
-[[date:12 DE MARZO DE 2021]]
+[[year:2021]]
+
+[[date:2021-03-12T00:00:00.000Z]]
 
 [[continent:South America]]
 

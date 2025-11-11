@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/innovation-solutions-across-acceleration-labs)
 
 
-[[date:15 DE MARZO DE 2021]]
+[[year:2021]]
+
+[[date:2021-03-15T00:00:00.000Z]]
 
 [[continent:South America]]
 

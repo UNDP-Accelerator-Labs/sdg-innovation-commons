@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/mauritius-seychelles/blog/designing-future-tourism-expanding-access-small-operators-new-market-segments-existing-ict-infrastructure)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:June 22, 2022]]
+[[date:2022-06-22T00:00:00.000Z]]
 
 [[continent:Seven seas (open ocean)]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/design-diversification-et-marketing-des-produits-kente-aidez-les-tisserands-dagbozume-prosperer)
 
 
-[[date:8 FÉVRIER 2023]]
+[[year:2023]]
+
+[[date:2023-02-08T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:MARCH 3, 2023]]
+[[date:2023-03-03T00:00:00.000Z]]
 
 [[continent:Oceania]]
 

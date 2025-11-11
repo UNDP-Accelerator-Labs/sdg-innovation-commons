@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:NOVEMBER 5, 2021]]
+[[date:2021-11-05T00:00:00.000Z]]
 
 [[continent:Europe]]
 

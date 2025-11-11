@@ -11,9 +11,9 @@ Photo...
 [Original article published here](https://www.undp.org/egypt/blog/sustainable-tourism-model-transforms-economic-development-egypt-case-study)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:September 12, 2022]]
+[[date:2022-09-12T00:00:00.000Z]]
 
 [[continent:Africa]]
 

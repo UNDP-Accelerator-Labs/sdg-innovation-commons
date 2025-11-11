@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/fr/chad/publications/mode%CC%80le-d%E2%80%99investissement-pour-la-lutte-antitabac-au-tchad)
 
 
-[[year:2020]]
+[[year:2021]]
 
-[[date:10 FÉVRIER 2021]]
+[[date:2021-02-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

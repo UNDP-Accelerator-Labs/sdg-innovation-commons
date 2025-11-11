@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/le-defi-de-la-pre-collecte-des-dechets-ratoma)
 
 
-[[date:22 AVRIL 2021]]
+[[year:2021]]
+
+[[date:2021-04-22T00:00:00.000Z]]
 
 [[continent:Africa]]
 

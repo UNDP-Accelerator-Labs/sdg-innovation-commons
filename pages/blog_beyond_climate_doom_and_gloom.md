@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/barbados/blog/beyond-climate-doom-and-gloom)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:February 13, 2023]]
+[[date:2023-02-13T00:00:00.000Z]]
 
 [[continent:North America]]
 

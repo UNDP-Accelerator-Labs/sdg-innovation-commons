@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/de-mochilazo-con-pnud-en-busqueda-de-nuevas-rutas-de-soluciones-colaborativas-para-el-desarrollo-humano)
 
 
-[[date:20 DE SEPTIEMBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-09-20T00:00:00.000Z]]
 
 [[continent:North America]]
 

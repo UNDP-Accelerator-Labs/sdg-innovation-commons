@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/empowering-unlit-corners-unveiling-energy-challenge-rural-angola-part-1)
 
 
-[[date:7 DE DECEMBER DE 2023]]
+[[year:2023]]
+
+[[date:2023-12-07T00:00:00.000Z]]
 
 [[continent:Africa]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/uruguay/blog/donde-nace-el-sol-del-pais-amanece-la-recuperacion-verde)
 
 
-[[date:4 DE AGOSTO DE 2021]]
+[[year:2021]]
+
+[[date:2021-08-04T00:00:00.000Z]]
 
 [[continent:South America]]
 

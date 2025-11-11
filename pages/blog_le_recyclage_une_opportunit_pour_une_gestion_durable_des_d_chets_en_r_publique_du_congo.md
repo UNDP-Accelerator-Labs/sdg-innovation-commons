@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/le-recyclage-une-opportunit%C3%A9-pour-une-gestion-durable-des-d%C3%A9chets-en-r%C3%A9publique-du-congo)
 
 
-[[date:15 AVRIL 2021]]
+[[year:2021]]
+
+[[date:2021-04-15T00:00:00.000Z]]
 
 [[continent:Africa]]
 

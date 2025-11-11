@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/conquering-energy-solutions-mapping-when-approach-makes-us-human)
 
 
+[[year:2022]]
+
 [[date:5 DE OCTUBRE DE 2022]]
 
 [[continent:South America]]

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/buenas-practicas-para-mejorar-la-productividad-local)
 
 
-[[date:17 DE ABRIL DE 2023]]
+[[year:2023]]
+
+[[date:2023-04-17T00:00:00.000Z]]
 
 [[continent:South America]]
 

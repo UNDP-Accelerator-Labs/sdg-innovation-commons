@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/yaguaron-un-distrito-con-potencial-para-la-produccion-flexible-en-la-industria-de-la-confeccion)
 
 
+[[year:2022]]
+
 [[date:29 DE ABRIL DE 2022]]
 
 [[continent:South America]]

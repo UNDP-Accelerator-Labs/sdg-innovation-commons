@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:JANUARY 29, 2023]]
+[[date:2023-01-29T00:00:00.000Z]]
 
 [[country:Timor Leste]]
 

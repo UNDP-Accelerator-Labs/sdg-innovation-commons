@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/no-todos-los-caminos-llevan-roma-historia-de-tres-recorridos-en-b%C3%BAsqueda-de-soluciones)
 
 
-[[date:5 DE FEBRERO DE 2020]]
+[[year:2020]]
+
+[[date:2020-02-05T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:15. MARCH 2024.]]
+[[date:2024-03-15T00:00:00.000Z]]
 
 [[continent:Europe]]
 

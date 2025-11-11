@@ -12,9 +12,9 @@ By Fathimath...
 [Original article published here](https://www.undp.org/maldives/blog/closing-window-opportunity)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:July 15, 2021]]
+[[date:2021-07-15T00:00:00.000Z]]
 
 [[continent:Seven seas (open ocean)]]
 

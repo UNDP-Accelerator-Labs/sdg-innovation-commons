@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:JUNE 12, 2025]]
+[[date:2025-06-12T00:00:00.000Z]]
 
 [[continent:North America]]
 

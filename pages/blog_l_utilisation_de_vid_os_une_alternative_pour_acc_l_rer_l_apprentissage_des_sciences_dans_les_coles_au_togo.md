@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/lutilisation-de-videos-une-alternative-pour-accelerer-lapprentissage-des-sciences-dans-les-ecoles-au-togo)
 
 
-[[date:17 FÉVRIER 2023]]
+[[year:2023]]
+
+[[date:2023-02-17T00:00:00.000Z]]
 
 [[continent:Africa]]
 

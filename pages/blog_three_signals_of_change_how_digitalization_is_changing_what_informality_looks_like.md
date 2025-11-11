@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:AUGUST 4, 2022]]
+[[date:2022-08-04T00:00:00.000Z]]
 
 [[country:Null Island]]
 

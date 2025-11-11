@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/la-pobreza-energetica-es-mucho-mas-que-la-falta-de-un-servicio)
 
 
-[[date:3 DE MAYO DE 2023]]
+[[year:2023]]
+
+[[date:2023-05-03T00:00:00.000Z]]
 
 [[continent:South America]]
 

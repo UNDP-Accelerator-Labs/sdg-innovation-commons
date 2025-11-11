@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/que-nos-puede-decir-un-censo-sobre-tres-clusteres-de-confeccion-en-el-pais-y-por-que-es-importante-conocer-los-datos)
 
 
-[[date:5 DE JULIO DE 2023]]
+[[year:2023]]
+
+[[date:2023-07-05T00:00:00.000Z]]
 
 [[continent:South America]]
 

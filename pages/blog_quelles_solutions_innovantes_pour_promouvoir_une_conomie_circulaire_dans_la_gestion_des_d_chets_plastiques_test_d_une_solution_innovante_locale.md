@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/mali/blog/quelles-solutions-innovantes-pour-promouvoir-une-economie-circulaire-dans-la-gestion-des-dechets-plastiques-test-dune-solution-innovante)
 
 
+[[year:2020]]
+
 [[date:3 JUIN 2020]]
 
 [[continent:Africa]]

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/peru/blog/creando-creando-parte-1-nace-una-comunidad-de-aprendizaje-para-el-emprendimiento-migrante-en-peru)
 
 
-[[date:25 DE JULIO DE 2023]]
+[[year:2023]]
+
+[[date:2023-07-25T00:00:00.000Z]]
 
 [[continent:South America]]
 

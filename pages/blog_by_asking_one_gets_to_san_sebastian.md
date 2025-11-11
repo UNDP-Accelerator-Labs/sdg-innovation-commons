@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/asking-one-gets-san-sebastian)
 
 
-[[date:16 DE JULIO DE 2021]]
+[[year:2021]]
+
+[[date:2021-07-16T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/fr/haiti/blog/tri-la-source-gestion-et-valorisation-des-dechets-solides-en-haiti-des-idees-pour-creer-des-emplois-durables-et-preserver-lenvironnement)
 
 
+[[year:2021]]
+
 [[date:9 DÉCEMBRE 2021]]
 
 [[continent:Africa]]

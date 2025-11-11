@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:OCTOBER 21, 2020]]
+[[date:2020-10-21T00:00:00.000Z]]
 
 [[continent:Asia]]
 

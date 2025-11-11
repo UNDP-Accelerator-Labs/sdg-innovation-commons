@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/geographie-cultures-et-informalite-lere-du-digital)
 
 
-[[date:28 AVRIL 2022]]
+[[year:2022]]
+
+[[date:2022-04-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

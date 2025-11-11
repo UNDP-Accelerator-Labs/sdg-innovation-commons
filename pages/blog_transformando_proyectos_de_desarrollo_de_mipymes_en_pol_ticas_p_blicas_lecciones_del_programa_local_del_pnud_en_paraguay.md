@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/transformando-proyectos-de-desarrollo-de-mipymes-en-politicas-publicas-lecciones-del-programa-local-del-pnud-en-paraguay)
 
 
+[[year:2024]]
+
 [[date:1 DE OCTUBRE DE 2024]]
 
 [[continent:Asia]]

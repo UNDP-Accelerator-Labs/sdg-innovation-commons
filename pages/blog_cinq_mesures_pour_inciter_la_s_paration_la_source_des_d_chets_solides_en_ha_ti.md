@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/haiti/blog/cinq-mesures-pour-inciter-la-separation-la-source-des-dechets-solides-en-haiti)
 
 
-[[date:14 DÉCEMBRE 2021]]
+[[year:2021]]
+
+[[date:2021-12-14T00:00:00.000Z]]
 
 [[continent:North America]]
 

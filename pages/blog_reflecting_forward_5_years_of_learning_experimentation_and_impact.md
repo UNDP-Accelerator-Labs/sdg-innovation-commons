@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:MARCH 27, 2025]]
+[[date:2025-03-27T00:00:00.000Z]]
 
 [[continent:Asia]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/posibilidades-de-accion-ante-la-violencia-contra-las-mujeres-un-modelo-conceptual-para-explorar-alternativas-de-diseno-de-soluciones)
 
 
-[[date:8 DE NOVIEMBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-11-08T00:00:00.000Z]]
 
 [[continent:North America]]
 

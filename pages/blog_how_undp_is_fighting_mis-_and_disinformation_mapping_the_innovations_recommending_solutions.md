@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:NOVEMBER 7, 2023]]
+[[date:2023-11-07T00:00:00.000Z]]
 
 [[country:Null Island]]
 

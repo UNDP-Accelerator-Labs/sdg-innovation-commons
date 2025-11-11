@@ -13,9 +13,9 @@ Autores
 [Original article published here](https://www.undp.org/es/uruguay/blog/acelerar-los-aprendizajes-ante-el-cambio-clim%C3%A1tico)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:November 12, 2021]]
+[[date:2021-11-12T00:00:00.000Z]]
 
 [[continent:South America]]
 

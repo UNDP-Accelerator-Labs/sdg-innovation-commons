@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/moir%C5%A9-integrando-participaci%C3%B3n-comunitaria-un-concurso-de-innovaci%C3%B3n-social)
 
 
-[[date:21 DE ABRIL DE 2021]]
+[[year:2021]]
+
+[[date:2021-04-21T00:00:00.000Z]]
 
 [[continent:South America]]
 

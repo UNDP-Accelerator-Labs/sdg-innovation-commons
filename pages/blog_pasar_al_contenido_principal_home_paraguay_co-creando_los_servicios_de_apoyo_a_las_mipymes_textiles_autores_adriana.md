@@ -12,9 +12,9 @@ ADRIANA...
 [Original article published here](https://www.undp.org/es/paraguay/blog/co-creando-los-servicios-de-apoyo-las-mipymes-textiles-0)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:July 24, 2023]]
+[[date:2023-07-24T00:00:00.000Z]]
 
 [[continent:South America]]
 

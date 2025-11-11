@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:OCTOBER 16, 2024]]
+[[date:2024-10-16T00:00:00.000Z]]
 
 [[country:Trinidad and Tobago]]
 

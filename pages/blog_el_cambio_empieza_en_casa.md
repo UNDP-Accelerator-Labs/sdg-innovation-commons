@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/panama/blog/el-cambio-empieza-en-casa)
 
 
-[[date:24 DE ENERO DE 2022]]
+[[year:2022]]
+
+[[date:2022-01-24T00:00:00.000Z]]
 
 [[continent:North America]]
 

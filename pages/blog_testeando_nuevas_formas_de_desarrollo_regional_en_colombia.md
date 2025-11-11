@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/colombia/blog/testeando-nuevas-formas-de-desarrollo-regional-en-colombia)
 
 
-[[date:10 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-10T00:00:00.000Z]]
 
 [[continent:South America]]
 

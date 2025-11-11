@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/peru/blog/future-happens-today-futures-thinking-action)
 
 
+[[year:2021]]
+
 [[date:13 DE JULIO DE 2021]]
 
 [[continent:South America]]

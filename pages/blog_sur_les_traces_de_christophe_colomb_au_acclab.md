@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/sur-les-traces-de-christophe-colomb%E2%80%A6-au-acclab)
 
 
-[[date:19 JUILLET 2021]]
+[[year:2021]]
+
+[[date:2021-07-19T00:00:00.000Z]]
 
 [[continent:Africa]]
 

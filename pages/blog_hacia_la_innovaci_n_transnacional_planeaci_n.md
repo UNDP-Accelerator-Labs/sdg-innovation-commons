@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/hacia-la-innovacion-transnacional-planeacion)
 
 
-[[date:20 DE DICIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-12-20T00:00:00.000Z]]
 
 [[continent:North America]]
 

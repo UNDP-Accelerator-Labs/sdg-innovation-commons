@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/iniciativas-ciudadanas-ante-covid-19-resultado-de-generacion-espontanea-o-producto-del-capital-social-de-la-cdmx)
 
 
-[[date:9 DE JUNIO DE 2020]]
+[[year:2020]]
+
+[[date:2020-06-09T00:00:00.000Z]]
 
 [[continent:North America]]
 

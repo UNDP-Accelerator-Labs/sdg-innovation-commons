@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/angolan-youth-forefront-covid-19-response-what-if-we-say-they-got-power)
 
 
-[[date:21 DE APRIL DE 2020]]
+[[year:2020]]
+
+[[date:2020-04-21T00:00:00.000Z]]
 
 [[continent:Africa]]
 

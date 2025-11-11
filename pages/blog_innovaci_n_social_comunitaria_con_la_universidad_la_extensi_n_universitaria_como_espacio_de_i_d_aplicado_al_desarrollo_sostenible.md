@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/innovacion-social-comunitaria-con-la-universidad-la-extension-universitaria-como-espacio-de-id-aplicado-al-desarrollo-sostenible)
 
 
+[[year:2024]]
+
 [[date:11 DE SEPTIEMBRE DE 2024]]
 
 [[country:United States]]

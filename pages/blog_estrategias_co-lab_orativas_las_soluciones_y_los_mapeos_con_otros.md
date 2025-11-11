@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/estrategias-co-laborativas-las-soluciones-y-los-mapeos-con-otros)
 
 
-[[date:26 DE ABRIL DE 2021]]
+[[year:2021]]
+
+[[date:2021-04-26T00:00:00.000Z]]
 
 [[continent:South America]]
 

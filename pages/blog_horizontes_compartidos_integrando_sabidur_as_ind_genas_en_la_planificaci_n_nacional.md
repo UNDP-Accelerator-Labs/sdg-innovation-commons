@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/bolivia/blog/horizontes-compartidos-integrando-sabidurias-indigenas-en-la-planificacion-nacional)
 
 
-[[date:24 DE NOVIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-11-24T00:00:00.000Z]]
 
 [[continent:South America]]
 

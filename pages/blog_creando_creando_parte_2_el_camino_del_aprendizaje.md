@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/peru/blog/creando-creando-parte-2-el-camino-del-aprendizaje)
 
 
-[[date:1 DE AGOSTO DE 2023]]
+[[year:2023]]
+
+[[date:2023-08-01T00:00:00.000Z]]
 
 [[continent:South America]]
 

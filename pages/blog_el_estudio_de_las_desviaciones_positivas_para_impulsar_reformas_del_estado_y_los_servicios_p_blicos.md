@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/desviacionespositivas)
 
 
-[[date:15 DE NOVIEMBRE DE 2022]]
+[[year:2022]]
+
+[[date:2022-11-15T00:00:00.000Z]]
 
 [[continent:South America]]
 

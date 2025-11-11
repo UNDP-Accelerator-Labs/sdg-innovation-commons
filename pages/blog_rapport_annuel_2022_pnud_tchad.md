@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/chad/publications/rapport-annuel-2022-pnud-tchad)
 
 
-[[date:4 MAI 2023]]
+[[year:2023]]
+
+[[date:2023-05-04T00:00:00.000Z]]
 
 [[continent:Africa]]
 

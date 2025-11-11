@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/ecosistema-de-la-econom%C3%ADa-solidaria-alternativa-en-ecuador-primer-bosquejo)
 
 
-[[date:27 DE OCTUBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-10-27T00:00:00.000Z]]
 
 [[continent:South America]]
 

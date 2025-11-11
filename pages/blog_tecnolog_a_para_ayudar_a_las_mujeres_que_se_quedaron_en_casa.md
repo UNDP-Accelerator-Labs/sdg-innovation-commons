@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/tecnologia-para-ayudar-las-mujeres-que-se-quedaron-en-casa)
 
 
+[[year:2020]]
+
 [[date:6 DE JULIO DE 2020]]
 
 [[continent:North America]]

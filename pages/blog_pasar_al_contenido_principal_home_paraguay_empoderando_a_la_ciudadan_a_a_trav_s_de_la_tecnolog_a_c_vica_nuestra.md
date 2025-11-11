@@ -10,9 +10,9 @@ EMPODERANDO A LA CIUDADANÍA A TRAVÉS DE LA TECNOLOGÍA CÍVICA: NUESTRA...
 [Original article published here](https://www.undp.org/es/paraguay/blog/experienciadecidim)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:July 11, 2023]]
+[[date:2023-07-11T00:00:00.000Z]]
 
 [[continent:South America]]
 

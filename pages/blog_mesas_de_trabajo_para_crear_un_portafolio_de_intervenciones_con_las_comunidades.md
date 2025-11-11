@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/mesas-de-trabajo-para-crear-un-portafolio-de-intervenciones-con-las-comunidades)
 
 
+[[year:2024]]
+
 [[date:30 DE SEPTIEMBRE DE 2024]]
 
 [[continent:South America]]

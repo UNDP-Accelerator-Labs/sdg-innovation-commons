@@ -65,7 +65,17 @@ def setListItems (file, structure):
 	title = getTitle(text)
 	
 	trees = []
-	for i, d in enumerate(structure['ordered_keys']):
+	# Build ordered keys for tree generation, skipping any dict entry
+	# that contains only a single value (these are filters and should
+	# not be presented as top-level sections).
+	ordered_keys_for_trees = []
+	for d in structure['ordered_keys']:
+		if isinstance(d, dict) and len(d.get('value', [])) == 1:
+			# skip single-value filter for tree construction
+			continue
+		ordered_keys_for_trees.append(d)
+
+	for i, d in enumerate(ordered_keys_for_trees):
 		if isinstance(d, dict):
 			k = d['key']
 			"""

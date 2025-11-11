@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/labsaceleracion-educacion-financiera-en-comedores-comunitarios)
 
 
-[[date:8 DE JUNIO DE 2020]]
+[[year:2020]]
+
+[[date:2020-06-08T00:00:00.000Z]]
 
 [[continent:South America]]
 

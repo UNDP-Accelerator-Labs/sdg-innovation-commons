@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/mapeando-el-capital-social-la-vulnerabilidad-econ%C3%B3mica-y-la-acci%C3%B3n-colectiva-en-tiempos-de-pandemia-%E2%80%93-parte-i)
 
 
-[[date:1 DE DICIEMBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-12-01T00:00:00.000Z]]
 
 [[continent:South America]]
 

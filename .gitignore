@@ -11,3 +11,8 @@ dep.*
 __pycache__/
 *.env
 __pages_test__/
+__scripts__/__pycache__/
+__scripts__/dep.*
+__scripts__/env.local
+__scripts__/.venv/
+__scripts__/node_modules/

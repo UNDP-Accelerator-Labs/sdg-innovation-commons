@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/cote-d-ivoire/blog/le-pnud-cote-divoire-lavant-garde-de-linnovation-par-la-digitalisation)
 
 
-[[date:19 JUILLET 2020]]
+[[year:2020]]
+
+[[date:2020-07-19T00:00:00.000Z]]
 
 [[continent:Africa]]
 

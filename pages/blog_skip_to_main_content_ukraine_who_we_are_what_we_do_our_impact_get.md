@@ -12,9 +12,9 @@ GET...
 [Original article published here](https://www.undp.org/ukraine/blog/connecting-dystopian-dots)
 
 
-[[year:1970]]
+[[year:2021]]
 
-[[date:July 20, 2021]]
+[[date:2021-07-20T00:00:00.000Z]]
 
 [[continent:Europe]]
 

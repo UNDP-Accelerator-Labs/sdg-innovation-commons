@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/el-barrio-como-fuente-de-innovacion-las-experiencias-de-los-comerciantes-de-la-red-con-vos-para-la-inclusion-digital)
 
 
+[[year:2024]]
+
 [[date:11 DE SEPTIEMBRE DE 2024]]
 
 [[continent:South America]]

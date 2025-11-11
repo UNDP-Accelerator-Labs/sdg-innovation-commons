@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/la-historia-de-ku%C3%B1a-jero-cuando-la-necesidad-toca-tu-puerta)
 
 
-[[date:11 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-11T00:00:00.000Z]]
 
 [[continent:South America]]
 

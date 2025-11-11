@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/peru/blog/todas-las-preguntas-la-respuesta-es-comunidad)
 
 
-[[date:13 DE JULIO DE 2021]]
+[[year:2021]]
+
+[[date:2021-07-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

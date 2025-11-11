@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/mujeres-en-red-ni-autosuficientes-ni-dependientes)
 
 
-[[date:30 DE JUNIO DE 2022]]
+[[year:2022]]
+
+[[date:2022-06-30T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/dynamiques-de-paix-et-cohesion-sociale-koubia)
 
 
-[[date:4 DÉCEMBRE 2023]]
+[[year:2023]]
+
+[[date:2023-12-04T00:00:00.000Z]]
 
 [[continent:Africa]]
 

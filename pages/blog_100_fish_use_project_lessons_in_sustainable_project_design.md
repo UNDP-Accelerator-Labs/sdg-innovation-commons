@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:JANUARY 30, 2024]]
+[[date:2024-01-30T00:00:00.000Z]]
 
 [[continent:Oceania]]
 

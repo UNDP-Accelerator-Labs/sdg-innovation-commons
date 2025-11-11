@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/co-llaboration-champions)
 
 
-[[date:17 DE MARZO DE 2023]]
+[[year:2023]]
+
+[[date:2023-03-17T00:00:00.000Z]]
 
 [[continent:South America]]
 

@@ -9,7 +9,7 @@
 
 [[year:2022]]
 
-[[date:11 DE JULIO DE 2022]]
+[[date:2022-07-11T00:00:00.000Z]]
 
 [[continent:North America]]
 

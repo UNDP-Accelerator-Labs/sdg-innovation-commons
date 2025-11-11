@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/pakistan/blog/good-bad-and-ugly-plastics-pakistan)
 
 
-[[year:1970]]
+[[year:2020]]
 
-[[date:March 4, 2020]]
+[[date:2020-03-04T00:00:00.000Z]]
 
 [[continent:Asia]]
 

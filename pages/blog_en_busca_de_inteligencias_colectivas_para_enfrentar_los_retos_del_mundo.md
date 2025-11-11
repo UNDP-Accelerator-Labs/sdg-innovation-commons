@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/en-busca-de-inteligencias-colectivas-para-enfrentar-los-retos-del-mundo)
 
 
+[[year:2019]]
+
 [[date:26 DE SEPTIEMBRE DE 2019]]
 
 [[continent:South America]]

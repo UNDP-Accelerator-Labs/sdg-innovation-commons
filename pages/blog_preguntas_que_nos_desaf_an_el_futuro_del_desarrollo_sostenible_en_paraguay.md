@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/preguntas-que-nos-desafian-el-futuro-del-desarrollo-sostenible-en-paraguay)
 
 
+[[year:2025]]
+
 [[date:25 DE ABRIL DE 2025]]
 
 [[continent:South America]]

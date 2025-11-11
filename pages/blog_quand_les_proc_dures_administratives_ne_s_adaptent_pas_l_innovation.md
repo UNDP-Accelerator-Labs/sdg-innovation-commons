@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/burkina-faso/blog/quand-les-procedures-administratives-ne-sadaptent-pas-linnovation)
 
 
-[[date:23 JUILLET 2020]]
+[[year:2020]]
+
+[[date:2020-07-23T00:00:00.000Z]]
 
 [[continent:Africa]]
 

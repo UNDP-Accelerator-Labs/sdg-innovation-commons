@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/llueve-sobre-mojado-algunos-desaf%C3%ADos-de-j%C3%B3venes-en-situaci%C3%B3n-de-informalidad)
 
 
-[[date:23 DE ABRIL DE 2020]]
+[[year:2020]]
+
+[[date:2020-04-23T00:00:00.000Z]]
 
 [[continent:South America]]
 

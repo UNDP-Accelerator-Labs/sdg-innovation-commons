@@ -9,7 +9,7 @@
 
 [[year:2023]]
 
-[[date:JUNE 2, 2023]]
+[[date:2023-06-02T00:00:00.000Z]]
 
 [[continent:Seven seas (open ocean)]]
 

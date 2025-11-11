@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/feedback-nfti-potentially-favorable-partnership-framework-towards-approach-identify-innovative-solutions)
 
 
-[[date:12 MAI 2022]]
+[[year:2022]]
+
+[[date:2022-05-12T00:00:00.000Z]]
 
 [[continent:Africa]]
 

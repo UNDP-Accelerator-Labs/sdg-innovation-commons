@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/congo/blog/accelerer-le-developpement-par-la-transformation-numerique-lecons-de-la-republique-du-congo)
 
 
-[[date:28 FÉVRIER 2022]]
+[[year:2022]]
+
+[[date:2022-02-28T00:00:00.000Z]]
 
 [[continent:Africa]]
 

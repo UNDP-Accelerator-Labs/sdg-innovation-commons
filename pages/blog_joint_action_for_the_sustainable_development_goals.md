@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:FEBRUARY 7, 2024]]
+[[date:2024-02-07T00:00:00.000Z]]
 
 [[continent:Europe]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/el-reciclaje-como-un-dilema-de-accion-colectiva-como-encarar-la-problematica-del-reciclaje-en-asuncion)
 
 
-[[date:19 DE MARZO DE 2021]]
+[[year:2021]]
+
+[[date:2021-03-19T00:00:00.000Z]]
 
 [[continent:South America]]
 

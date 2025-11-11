@@ -11,9 +11,9 @@ En los talleres...
 [Original article published here](https://www.undp.org/es/el-salvador/blog/la-generacion-del-tiktok-rescatando-la-memoria-historica)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:May 2, 2023]]
+[[date:2023-05-02T00:00:00.000Z]]
 
 [[continent:North America]]
 

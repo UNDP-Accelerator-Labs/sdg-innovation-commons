@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/iraq/publications/design-thinking-training-manual)
 
 
-[[year:2020]]
+[[year:2021]]
 
-[[date:SEPTEMBER 28, 2021]]
+[[date:2021-09-28T00:00:00.000Z]]
 
 [[continent:Asia]]
 

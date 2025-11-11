@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/fr/cameroon/publications/acclab-magazine)
 
 
-[[year:2021]]
+[[year:2022]]
 
-[[date:15 JUIN 2022]]
+[[date:2022-06-15T00:00:00.000Z]]
 
 [[continent:Africa]]
 

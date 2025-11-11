@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/mexico/blog/accelerator-lab-mexico-collective-reflection-two-years-after-keeping-asking-learn)
 
 
-[[date:1 DE NOVIEMBRE DE 2021]]
+[[year:2021]]
+
+[[date:2021-11-01T00:00:00.000Z]]
 
 [[continent:North America]]
 

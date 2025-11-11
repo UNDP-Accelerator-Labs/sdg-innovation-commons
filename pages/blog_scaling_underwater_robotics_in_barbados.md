@@ -9,7 +9,7 @@
 
 [[year:2024]]
 
-[[date:NOVEMBER 1, 2024]]
+[[date:2024-11-01T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/guinea/blog/de-luniversite-lombre-dun-manguier-linitiative-be-reinvente-la-recherche-de-sens)
 
 
-[[date:31 MAI 2021]]
+[[year:2021]]
+
+[[date:2021-05-31T00:00:00.000Z]]
 
 [[continent:Africa]]
 

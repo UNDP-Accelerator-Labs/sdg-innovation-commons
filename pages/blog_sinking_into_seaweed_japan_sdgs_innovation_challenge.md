@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/south-africa/blog/sinking-seaweed-japan-sdgs-innovation-challenge)
 
 
-[[year:1970]]
+[[year:2023]]
 
-[[date:March 21, 2023]]
+[[date:2023-03-21T00:00:00.000Z]]
 
 [[continent:Africa]]
 

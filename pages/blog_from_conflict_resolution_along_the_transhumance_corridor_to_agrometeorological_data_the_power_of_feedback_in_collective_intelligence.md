@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/togo/blog/conflict-resolution-along-transhumance-corridor-agrometeorological-data-power-feedback-collective-intelligence)
 
 
-[[date:24 AVRIL 2023]]
+[[year:2023]]
+
+[[date:2023-04-24T00:00:00.000Z]]
 
 [[continent:Africa]]
 

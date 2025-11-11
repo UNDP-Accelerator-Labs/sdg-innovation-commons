@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/you-are-not-alone-unwanted-loneliness-growing-challenge-emerging-solutions)
 
 
+[[year:2025]]
+
 [[date:21 DE MARZO DE 2025]]
 
 [[continent:South America]]

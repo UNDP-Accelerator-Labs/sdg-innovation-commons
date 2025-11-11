@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/las-innovaciones-que-trajo-el-covid-2019)
 
 
-[[date:7 DE ABRIL DE 2020]]
+[[year:2020]]
+
+[[date:2020-04-07T00:00:00.000Z]]
 
 [[continent:South America]]
 

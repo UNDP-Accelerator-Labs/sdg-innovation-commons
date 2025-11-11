@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/drcongo/blog/employabilite-des-jeunes-et-assainissement-des-villes-lecons-apprises-du-pilote-deconomie-circulaire-lor-dans-nos-poubelles)
 
 
-[[date:17 JUIN 2023]]
+[[year:2023]]
+
+[[date:2023-06-17T00:00:00.000Z]]
 
 [[country:Democratic Republic of Congo]]
 

@@ -9,7 +9,7 @@
 
 [[year:2020]]
 
-[[date:2 OCTOBRE 2020]]
+[[date:2020-10-02T00:00:00.000Z]]
 
 [[country:United States]]
 

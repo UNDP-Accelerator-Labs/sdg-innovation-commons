@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/haiti/blog/quavons-nous-appris-des-donnees-sur-la-gestion-des-dechets-solides-au-niveau-des-mairies-en-haiti)
 
 
-[[date:2 AOÛT 2022]]
+[[year:2022]]
+
+[[date:2022-08-02T00:00:00.000Z]]
 
 [[continent:North America]]
 

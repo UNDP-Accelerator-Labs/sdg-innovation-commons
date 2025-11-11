@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/ecuador/blog/%C2%BFen-qu%C3%A9-nos-hallamos-ahora-un-relato-de-la-aventura-de-inserci%C3%B3n)
 
 
-[[date:12 DE DICIEMBRE DE 2019]]
+[[year:2019]]
+
+[[date:2019-12-12T00:00:00.000Z]]
 
 [[continent:South America]]
 

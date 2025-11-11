@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/pt/angola/blog/portfolio-dynamic-management-love-letter-systemic-approach)
 
 
-[[date:20 DE DECEMBER DE 2023]]
+[[year:2023]]
+
+[[date:2023-12-20T00:00:00.000Z]]
 
 [[continent:Africa]]
 

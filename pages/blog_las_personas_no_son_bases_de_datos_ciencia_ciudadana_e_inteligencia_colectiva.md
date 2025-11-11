@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/las-personas-no-son-bases-de-datos-ciencia-ciudadana-e-inteligencia-colectiva)
 
 
-[[date:25 DE AGOSTO DE 2021]]
+[[year:2021]]
+
+[[date:2021-08-25T00:00:00.000Z]]
 
 [[continent:South America]]
 

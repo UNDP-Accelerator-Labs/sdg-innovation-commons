@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/dominican-republic/blog/gobernanza-territorial-cultura-y-gestion-de-residuos-solidos-aprendizaje-traves-de-inteligencia-colectiva-en-santo-domingo)
 
 
-[[date:1 DE FEBRERO DE 2021]]
+[[year:2021]]
+
+[[date:2021-02-01T00:00:00.000Z]]
 
 [[continent:North America]]
 

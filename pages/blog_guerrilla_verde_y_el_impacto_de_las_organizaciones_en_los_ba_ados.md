@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/guerrilla-verde-y-el-impacto-de-las-organizaciones-en-los-ba%C3%B1ados)
 
 
-[[date:13 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-13T00:00:00.000Z]]
 
 [[continent:South America]]
 

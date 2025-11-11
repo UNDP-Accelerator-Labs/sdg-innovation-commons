@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/analizando-datos-desde-wenda-un-empujon-para-impulsar-la-innovacion)
 
 
+[[year:2022]]
+
 [[date:6 DE ABRIL DE 2022]]
 
 [[continent:South America]]

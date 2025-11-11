@@ -9,7 +9,7 @@
 
 [[year:2021]]
 
-[[date:AUGUST 4, 2021]]
+[[date:2021-08-04T00:00:00.000Z]]
 
 [[country:Timor Leste]]
 

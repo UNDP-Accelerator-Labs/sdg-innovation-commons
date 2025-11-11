@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/ia-inteligencia-argentina-una-conversacion-sobre-la-inteligencia-artificial)
 
 
-[[date:1 DE SEPTIEMBRE DE 2023]]
+[[year:2023]]
+
+[[date:2023-09-01T00:00:00.000Z]]
 
 [[continent:South America]]
 

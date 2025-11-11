@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/cote-d-ivoire/blog/le-labs-en-actions)
 
 
-[[date:24 FÉVRIER 2020]]
+[[year:2020]]
+
+[[date:2020-02-24T00:00:00.000Z]]
 
 [[continent:Africa]]
 

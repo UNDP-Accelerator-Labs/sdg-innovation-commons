@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/la-tecnologia-como-herramienta-de-inclusion-una-mirada-al-desarrollo-de-la-app-dgpnc-poranduha-0)
 
 
+[[year:2024]]
+
 [[date:23 DE ABRIL DE 2024]]
 
 [[continent:South America]]

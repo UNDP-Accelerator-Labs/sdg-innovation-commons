@@ -7,6 +7,8 @@
 [Original article published here](https://www.undp.org/es/paraguay/blog/mejorando-la-productividad-en-la-confeccion-textil-lecciones-del-programa-local-en-paraguay)
 
 
+[[year:2024]]
+
 [[date:30 DE SEPTIEMBRE DE 2024]]
 
 [[continent:South America]]

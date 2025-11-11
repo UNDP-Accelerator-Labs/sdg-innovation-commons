@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/peru/blog/el-futuro-llega-hoy-prospectiva-en-accion-0)
 
 
-[[date:26 DE MAYO DE 2021]]
+[[year:2021]]
+
+[[date:2021-05-26T00:00:00.000Z]]
 
 [[continent:South America]]
 

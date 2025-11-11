@@ -7,9 +7,9 @@
 [Original article published here](https://www.undp.org/fr/chad/publications/strat%C3%A9gie-nationale-de-d%C3%A9veloppement-du-secteur-priv%C3%A9-au-tchad)
 
 
-[[year:2019]]
+[[year:2020]]
 
-[[date:31 JANVIER 2020]]
+[[date:2020-01-31T00:00:00.000Z]]
 
 [[continent:Africa]]
 

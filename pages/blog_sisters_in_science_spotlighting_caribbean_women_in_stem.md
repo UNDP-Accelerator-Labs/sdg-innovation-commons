@@ -9,7 +9,7 @@
 
 [[year:2025]]
 
-[[date:FEBRUARY 11, 2025]]
+[[date:2025-02-11T00:00:00.000Z]]
 
 [[continent:North America]]
 

@@ -12,9 +12,9 @@ I have recently...
 [Original article published here](https://www.undp.org/fr/tunisia/blog/why-you-should-never-throw-away-your-learning-objectives)
 
 
-[[year:1970]]
+[[year:2022]]
 
-[[date:March 10, 2022]]
+[[date:2022-03-10T00:00:00.000Z]]
 
 [[continent:Africa]]
 

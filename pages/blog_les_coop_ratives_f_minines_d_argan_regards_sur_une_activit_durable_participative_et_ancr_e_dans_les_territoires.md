@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/fr/morocco/blog/les-cooperatives-feminines-dargan-regards-sur-une-activite-durable-participative-et-ancree-dans-les-territoires)
 
 
-[[date:14 FÉVRIER 2023]]
+[[year:2023]]
+
+[[date:2023-02-14T00:00:00.000Z]]
 
 [[continent:Africa]]
 

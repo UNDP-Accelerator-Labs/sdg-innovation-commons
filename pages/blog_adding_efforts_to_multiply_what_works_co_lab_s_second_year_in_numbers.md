@@ -7,7 +7,9 @@
 [Original article published here](https://www.undp.org/es/argentina/blog/adding-efforts-multiply-what-works-co-labs-second-year-numbers)
 
 
-[[date:3 DE MAYO DE 2022]]
+[[year:2022]]
+
+[[date:2022-05-03T00:00:00.000Z]]
 
 [[continent:South America]]
 
