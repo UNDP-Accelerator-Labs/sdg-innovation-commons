@@ -1,3 +1,5 @@
+import { d3_extended as d3 } from "./d3.extensions.mjs";
+
 export const makeSafe = function (str) {
 	return str.toLowerCase().replace(/[^a-z0-9]/g, '_');
 }
@@ -27,4 +29,25 @@ export const fixInternalLinks = function (url) {
   } else {
     return url;
   }
+}
+export const moveUpRegistryTree = function (node) {
+  const level = +node.nodeName.match(/\d/)[0];
+  
+  if (level > 1) {
+    let tree = makeSafe(node.textContent.trim());
+    for (let i = level - 1; i > 1; i--) {
+      const sel = d3.select(node);
+      if (sel.hasAncestor('multicol')) {
+        node = sel.findAncestor('multicol').node()
+      }
+      while (node.previousElementSibling && node.previousElementSibling.nodeName !== `H${i}`) {
+        node = node.previousElementSibling;
+      }
+      const level_name = node.previousElementSibling?.textContent.trim();
+      if (level_name) {
+        tree = `${makeSafe(level_name)}-${tree}`;
+      }
+    }
+    return tree;
+  } else return makeSafe(node.textContent.trim());
 }

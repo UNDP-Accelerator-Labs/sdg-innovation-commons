@@ -1,6 +1,12 @@
 import { d3_extended as d3 } from "./d3.extensions.mjs";
 import { marked } from "https://cdn.jsdelivr.net/npm/marked/lib/marked.esm.js";
-import { makeSafe, capitalize, fixInternalLinks } from "./helpers.mjs";
+import { 
+  makeSafe, 
+  capitalize, 
+  fixInternalLinks, 
+  moveUpRegistryTree 
+} from "./helpers.mjs";
+
 import { setupSVG } from "./widgets.mjs";
 
 import {
@@ -419,8 +425,9 @@ export const registry = function (text, source) {
   const content = d3.select("section.content > div.inner");
   const transcript = content.addElem("div", "transcript").html(html);
 
-  const levels = transcript.selectAll("h2").each(function () {
-    d3.select(this).attr("id", makeSafe(this.textContent.trim()));
+  const levels = transcript.selectAll("h1,h2,h3,h4,h5,h6").each(function () {
+    const id = moveUpRegistryTree(this);
+    d3.select(this).attr("id", id);
   });
 
   const cartouche = content
@@ -429,7 +436,7 @@ export const registry = function (text, source) {
     .addElems(
       "li",
       "level",
-      [...levels.nodes()].map((d) => d.textContent.trim())
+      [...transcript.selectAll("h2").nodes()].map((d) => d.textContent.trim())
     )
     .addElems("a")
     .attr("href", (d) => `#${makeSafe(d)}`)
@@ -465,9 +472,9 @@ export const registry = function (text, source) {
     .attr("target", "_blank")
     .html("Edit this page");
 
-  transcript.selectAll("h2").each(function () {
-    const txt = this.textContent.trim();
-  });
+  // transcript.selectAll("h2").each(function () {
+  //   const txt = this.textContent.trim();
+  // });
 
   /*
   transcript.selectAll("p").each(function () {

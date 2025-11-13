@@ -15,7 +15,7 @@ async function onLoad() {
     throw e;
   }
   const { getTranscript, transcript: renderTranscript, registry: renderRegistry, footnote: renderFootnote } = renderModule;
-  const params = new URLSearchParams(document.location.search);
+  const params = new URLSearchParams(window.location.search);
   const doc = params.get("doc");
 
   // let footnotes = null;
@@ -38,6 +38,13 @@ async function onLoad() {
   //   const { transcript: footnotes_transcript, usedSource: footnotes_usedSource } = await getTranscript(footnotes);
   //   renderFootnote(footnotes_transcript, usedSource);
   // }
+
+  // If there is a # in the url path, scroll to that #
+  if (window.location.hash) {
+    let target = location.hash.toLowerCase();
+    document.body.scrollTop = document.querySelector(target).offsetTop - 50; // For Safari
+    document.documentElement.scrollTop = document.querySelector(target).offsetTop - 50; // For Chrome, Firefox, IE and Opera
+  }
 
   activateScrollTop();
 
