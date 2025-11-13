@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import ProfileCard from './ProfileCard';
 import ProfileDetails from './ProfileDetails';
 import ProfileSkeleton from './ProfileSkeleton';
@@ -391,6 +392,14 @@ export default function ProfileContent({
           Account Settings
         </h3>
         <div className="space-y-4">
+          {user?.rights && user.rights >= 4 && (
+            <button className="block w-full border border-solid border-gray-300 p-4 text-left transition-colors hover:border-[#0072bc] hover:bg-gray-50">
+              <Link href="/admin" >
+                <h4 className="font-bold">Admin Dashboard</h4>
+                <p className="text-sm text-gray-600">Access administrative tools and management pages.</p>
+              </Link>
+            </button>
+          )}
           <button
             onClick={() => setShowPasswordChange(true)}
             className="block w-full border border-solid border-gray-300 p-4 text-left transition-colors hover:border-[#0072bc] hover:bg-gray-50"

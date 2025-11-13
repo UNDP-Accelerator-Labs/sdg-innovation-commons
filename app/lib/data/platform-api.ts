@@ -11,6 +11,7 @@ import {
 import get from './get';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import db from '@/app/lib/db';
 
 //Environment variables
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
@@ -641,35 +642,56 @@ export async function logoutCurrentSession() {
 }
 
 export async function getContributorInfo(uuid: string) {
-  const base_url: string | undefined = commonsPlatform.find(
-    (p) => p.key === 'login'
-  )?.url;
-
-  if (!base_url) {
-    throw new Error("Platform base URL not found.");
+  if (!uuid) {
+    return { status: 400, message: 'UUID is required' };
   }
 
-  const url = `${base_url}/en/view/contributor?is_api_call=true&id=${uuid}`;
+  try {
+    // Query general DB for contributor. Use only existing columns from users schema.
+    const q = `SELECT id, name, email, position, created_at, invited_at, confirmed_at, uuid, rights, language, secondary_languages, reviewer, iso3, created_from_sso, last_login
+               FROM users WHERE uuid = $1 LIMIT 1`;
+    const res = await db.query('general', q, [uuid]);
+    // console.log('Contributor query result:', res);
+    if (res && res.rowCount === 1) {
+      const row: any = res.rows[0];
+      return {
+        status: 200,
+        id: row.id,
+        fullName: row.name || '',
+        email: row.email || '',
+        // `country` isn't present in schema; expose iso3 as country when available
+        country: row.iso3 || '',
+        position: row.position || '',
+        joinDate: row.created_at || row.invited_at || null,
+        // avatar and bio are not part of this users schema; return empty string if absent
+        avatar: row.avatar || '',
+        bio: row.bio || '',
+        uuid: row.uuid,
+        rights: row.rights || 1,
+        language: row.language || '',
+        secondary_languages: row.secondary_languages || [],
+        reviewer: row.reviewer || false,
+        iso3: row.iso3 || '',
+        name: row.name || '',
+        last_login: row.last_login || null,
+        confirmed: row.confirmed || false,
+        invited_at: row.invited_at || null,
+      };
+    }
 
-  const resp = await get({
-    url,
-    method: 'GET',
-  });
-
-  const { data, status } = resp || {};
-  if (status === 200 && data?.data) {
     return {
-      status,
-      ...data.data,
+      status: 404,
+      message: 'Contributor not found',
     };
-  } else {
+  } catch (error) {
+    console.error('Error fetching contributor from DB:', error);
     return {
-      status: status || 500,
-      message: data?.message || 'Failed to fetch contributor info',
+      status: 500,
+      message: 'Error querying contributor information',
+      error,
     };
   }
 }
-
 
 export async function updatedProfile(forms: Record<string, any>) {
   const base_url: string | undefined = commonsPlatform.find(

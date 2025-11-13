@@ -6,8 +6,11 @@ import { redirect, unauthorized } from "next/navigation";
 import getSession from "@/app/lib/session";
 
 export default async function ProfilePage() {
-    const { uuid, username } = await getSession()|| {};
-    if (!uuid || !username)  return unauthorized();
+    // fetch session and safely access fields to avoid TS errors when session is null
+    const sess = (await getSession()) as { uuid?: string; username?: string } | null;
+    const uuid = sess?.uuid;
+    const username = sess?.username;
+    if (!uuid || !username) return unauthorized();
 
   // Fetch country names and profile data in parallel
   const [countries, profileData] = await Promise.all([
@@ -16,9 +19,12 @@ export default async function ProfilePage() {
   ]);
 
   // Redirect to unauthorized page if the user is not authorized
-  if (!profileData || profileData.status !== 200) {
-    unauthorized()
+  if (!profileData || (profileData as any).status !== 200) {
+    unauthorized();
   }
+
+  // Narrow profileData to a usable value for the ProfileContent component
+  const profile = (profileData && (profileData as any).status === 200) ? (profileData as any).data || (profileData as any) : null;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -27,7 +33,7 @@ export default async function ProfilePage() {
 
       {/* Main content */}
       <div className="relative home-section !border-t-0 grid-bg pt-[120px] lg:pb-[80px]">
-        <ProfileContent countries={countries} profileData={profileData} />
+        <ProfileContent countries={countries} profileData={profile} />
       </div>
 
       {/* Footer */}
