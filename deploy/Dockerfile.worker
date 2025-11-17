@@ -32,12 +32,17 @@ COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/scripts ./scripts
 COPY --from=base /app/package.json ./package.json
 
+# Ensure scripts are executable (fixes exit code 126 on App Service)
+RUN chmod +x ./scripts/run.sh || true
+RUN chmod +x ./scripts/process_exports.cjs || true
+RUN chmod +x ./scripts/run_worker.js || true
+RUN chmod +x ./scripts/worker_heartbeat.js || true
+
 USER worker
 
 # Expose nothing; worker is a background process
 ENV WEBJOB_HEARTBEAT_FILE=/app/scripts/worker.heartbeat.json
 
-# Default command: run run.sh (which starts heartbeat and worker)
-WORKDIR /app/scripts
-ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["./run.sh"]
+# Default command: run the POSIX startup script from /app/scripts
+WORKDIR /app
+CMD ["/bin/sh", "-c", "./scripts/run.sh"]
