@@ -3,10 +3,12 @@
 // Usage:
 //   pnpm dlx ts-node scripts/run_migrations.ts           # applies migrations for all files (uses each file's DB header or 'general')
 //   pnpm dlx ts-node scripts/run_migrations.ts --db=general  # only apply migrations targeting 'general'
+//   pnpm dlx ts-node scripts/run_migrations.ts --include-inits  # include init*.sql files (not recommended unless bootstrapping)
 
 import fs from 'fs';
 import path from 'path';
 import { query } from '../app/lib/db';
+import readline from 'readline';
 
 function parseDbHeader(sql: string): string[] {
   // look for a header like: -- DB: general,blogs
@@ -24,9 +26,10 @@ async function ensureMigrationsTableFor(dbKey: string) {
   await query(dbKey as any, `CREATE TABLE IF NOT EXISTS schema_migrations (id SERIAL PRIMARY KEY, filename TEXT UNIQUE NOT NULL, applied_at timestamptz NOT NULL DEFAULT NOW())`);
 }
 
-async function getAppliedFor(dbKey: string) {
+async function getAppliedFor(dbKey: string): Promise<Set<string>> {
   const res = await query(dbKey as any, `SELECT filename FROM schema_migrations`);
-  return new Set(res.rows.map((r: any) => r.filename));
+  const arr = (res.rows || []).map((r: any) => String(r.filename));
+  return new Set<string>(arr);
 }
 
 async function applyMigrationToDb(filePath: string, filename: string, dbKey: string) {
@@ -50,9 +53,28 @@ async function main() {
   const argDb = argv.find(a => a.startsWith('--db='));
   const runAll = argv.includes('--all') || false;
   const filterDb = argDb ? argDb.split('=')[1] : undefined;
+  const includeInits = argv.includes('--include-inits') || false;
 
   const dir = path.resolve(process.cwd(), 'app/lib/db-schema');
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.sql')).sort();
+  // By default skip init*.sql files (they reflect the current DB structure). Pass --include-inits to override.
+  const files = fs.readdirSync(dir).filter(f => f.endsWith('.sql')).sort().filter(f => {
+    if (/^init/i.test(f) && !includeInits) return false;
+    return true;
+  });
+
+  // If includeInits was passed, prompt for confirmation to avoid accidental application of init files
+  if (includeInits) {
+    console.warn('WARNING: --include-inits was passed. This will attempt to apply init*.sql files which represent the current DB structure. Proceed only if you intend to bootstrap or reinitialize a database.');
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    const answer: string = await new Promise((resolve) => {
+      rl.question('Type YES to continue and apply init scripts: ', (ans) => { rl.close(); resolve(String(ans || '')); });
+    });
+    if (answer.trim() !== 'YES') {
+      console.log('Aborting — init files will not be applied.');
+      process.exit(2);
+    }
+    console.log('Confirmed — proceeding to include init*.sql files');
+  }
 
   // Build a map filename -> dbKeys
   const fileDbMap: Record<string, string[]> = {};

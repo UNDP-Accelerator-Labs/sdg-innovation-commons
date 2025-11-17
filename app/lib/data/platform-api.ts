@@ -11,7 +11,7 @@ import {
 import get from './get';
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
-import db from '@/app/lib/db';
+import db, { query as dbQuery } from '@/app/lib/db';
 
 //Environment variables
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
@@ -567,48 +567,26 @@ export async function registerContributor(token:string) {
     });
 
     if (data?.status === 200) {
-      const to = adminEmails; // array is OK for nodemailer
-      const cc = adminEmails.length > 1 ? adminEmails.slice(1) : undefined;
-
-      const transportOptions: any = SMTP_SERVICE
-        ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-        : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-
-      const transporter = nodemailer.createTransport(transportOptions);
-
-      const mailOptions = {
-        from: `SDG Commons <${SMTP_USER}>`,
-        to,
-        cc,
-        subject: `FYI: New Contributor Self-Registration – ${forms.new_name || 'N/A'}`,
-        text: `
-          Dear Admin(s),
-
-          This is an automated notification for your information only. A new user has registered themselves as a contributor on the SDG Commons platform.
-
-          Registration details:
-          Name: ${forms.new_name || 'N/A'}
-          Email: ${forms.email || 'N/A'}
-          Organization: ${forms.organization || 'N/A'}
-          Role: ${forms.role || 'N/A'}
-          Country: ${forms.country || 'N/A'}
-          Position: ${forms.position || 'N/A'}
-
-          No action is required on your part at this time.
-
-          Best regards,
-          SDG Commons Platform
-        `,
-      };
-
+      // Persist admin-facing notification for new user registration instead of emailing admins
       try {
-        if (NODE_ENV === 'production') {
-          await transporter.sendMail(mailOptions);
-        } else {
-          console.log('Dev mode - admin notification suppressed', { mailOptions });
-        }
-      } catch (emailError) {
-        console.error('Error sending email to admin:', emailError);
+        const ADMIN_UI_BASE = process.env.NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (process.env.LOCAL_BASE_URL || 'http://localhost:3000');
+        await createNotification({
+          type: 'new_user_registration',
+          level: 'info',
+          payload: {
+            subject: `New user registered: ${forms.new_name || 'N/A'}`,
+            name: forms.new_name || null,
+            email: forms.email || null,
+            organization: forms.organization || null,
+            role: forms.role || null,
+            country: forms.country || null,
+            position: forms.position || null,
+          },
+          metadata: { adminUrl: `${ADMIN_UI_BASE}/admin/notifications`, userManagementUrl: `${ADMIN_UI_BASE}/admin/users` },
+          related_uuids: [],
+        });
+      } catch (notifyErr) {
+        console.error('Failed to create admin notification for new contributor', notifyErr);
       }
     }
 
@@ -921,4 +899,224 @@ export async function sendContactContributorEmail(
       error,
     };
   }
+}
+
+/**
+ * Persist an admin-facing notification into the notifications table.
+ * level: 'info' | 'action_required'
+ * payload: arbitrary JSONB describing the event
+ */
+export async function createNotification(opts: {
+  type: string;
+  level?: 'info' | 'action_required';
+  payload: any;
+  related_uuids?: string[];
+  metadata?: any;
+  expires_at?: string | null;
+  actor_uuid?: string | null;
+}) {
+  const {
+    type,
+    level = 'info',
+    payload,
+    related_uuids = [],
+    metadata = null,
+    expires_at = null,
+    actor_uuid = null,
+  } = opts;
+
+  const sql = `INSERT INTO notifications (type, level, payload, related_uuids, metadata, expires_at, actor_uuid) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *`;
+  const vals = [type, level, payload, related_uuids, metadata, expires_at, actor_uuid];
+  const res = await dbQuery('general' as any, sql, vals);
+  const created = res.rows?.[0] || null;
+
+  // If this notification requires action, send a one-line alert to configured admin emails
+  if (created && level === 'action_required') {
+    try {
+      const adminListRaw = ADMIN_EMAILS || process.env.ADMIN_EMAILS || '';
+      const adminEmails = adminListRaw.split(/[;,\s]+/).map((e: string) => e.trim()).filter(Boolean);
+      if (adminEmails.length > 0 && (SMTP_HOST || SMTP_SERVICE) && SMTP_USER && SMTP_PASS) {
+        const transportOptions: any = SMTP_SERVICE
+          ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
+          : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
+        const transporter = nodemailer.createTransport(transportOptions);
+
+        const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
+        const notifUrl = `${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`;
+        const subject = `Action required: ${created.type}`;
+
+        // Build plain-text fallback and HTML body with payload expansion
+        const createdAt = created.created_at ? new Date(created.created_at).toLocaleString() : 'Unknown time';
+
+        // Expand payload fields into lines for text and rows for HTML
+        const payloadObj = created.payload && typeof created.payload === 'object' ? created.payload : { message: String(created.payload || '') };
+        const payloadEntries = Object.keys(payloadObj).map((k) => ({ key: k, value: payloadObj[k] }));
+
+        const textLines = [];
+        textLines.push(`Notification type: ${created.type}`);
+        textLines.push(`Created at: ${createdAt}`);
+        if (payloadEntries.length > 0) {
+          textLines.push('');
+          textLines.push('Details:');
+          payloadEntries.forEach((e) => {
+            let v = e.value;
+            if (typeof v === 'object') v = JSON.stringify(v);
+            textLines.push(`${e.key}: ${v}`);
+          });
+        }
+        textLines.push('');
+        textLines.push(`Open the notification in the admin UI: ${notifUrl}`);
+
+        // Simple inlined HTML template (responsive enough for common email clients)
+        const htmlRows = payloadEntries.map((e) => {
+          const v = (typeof e.value === 'object') ? `<pre style="white-space:pre-wrap;margin:0">${escapeHtml(JSON.stringify(e.value, null, 2))}</pre>` : escapeHtml(String(e.value));
+          return `
+            <tr>
+              <td style="padding:8px 12px;border-top:1px solid #e6e6e6;font-weight:600;color:#374151">${escapeHtml(e.key)}</td>
+              <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${v}</td>
+            </tr>`;
+        }).join('\n');
+
+        const html = `<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${escapeHtml(subject)}</title>
+  </head>
+  <body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.4;margin:0;background:#f7fafc;color:#111827;">
+    <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;">
+            <tr>
+              <td style="padding:20px 24px;background:#0f766e;color:#ffffff;">
+                <h1 style="margin:0;font-size:18px;">SDG Commons — Admin alert</h1>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:20px 24px;">
+                <p style="margin:0 0 12px 0;color:#374151">A notification requiring action was created.</p>
+                <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;margin-top:8px;">
+                  <tr>
+                    <td style="padding:8px 12px;font-weight:600;color:#374151;border-top:1px solid #e6e6e6;">Type</td>
+                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${escapeHtml(created.type)}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 12px;font-weight:600;color:#374151;border-top:1px solid #e6e6e6;">Created</td>
+                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${escapeHtml(createdAt)}</td>
+                  </tr>
+                  ${htmlRows}
+                </table>
+
+                <p style="margin:18px 0 0 0">
+                  <a href="${escapeHtml(notifUrl)}" style="display:inline-block;padding:10px 16px;background:#059669;color:#ffffff;border-radius:6px;text-decoration:none;font-weight:600">Open in admin UI</a>
+                </p>
+
+                <p style="margin:18px 0 0 0;color:#6b7280;font-size:12px">This is an automated admin alert from SDG Commons.</p>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:12px 16px;background:#f9fafb;color:#9ca3af;font-size:12px;text-align:center">SDG Commons</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+
+        // Helper to escape HTML inserted into template
+        function escapeHtml(s: any){
+          if (s === null || typeof s === 'undefined') return '';
+          return String(s).replace(/[&"'<>]/g, function (c) {
+            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+          });
+        }
+
+        const mailOptions = {
+          from: `SDG Commons <${SMTP_USER}>`,
+          to: adminEmails.join(','),
+          subject,
+          text: textLines.join('\n'),
+          html,
+        };
+
+        if (NODE_ENV === 'production') {
+          await transporter.sendMail(mailOptions);
+        } else {
+          // In non-production, log instead of sending
+          console.log('Admin notification (dev) - would send:', { mailOptions });
+        }
+      } else {
+        // No admin emails or SMTP not configured - log for debugging
+        console.log('Admin notification not sent: missing ADMIN_EMAILS or SMTP config', { ADMIN_EMAILS, SMTP_HOST, SMTP_SERVICE });
+      }
+    } catch (e) {
+      console.error('Failed to send admin alert email for notification', created?.id, e);
+    }
+  }
+
+  return created;
+}
+
+/**
+ * Simple paginated list for admin UI
+ */
+export async function listNotifications({ limit = 20, offset = 0, filters = {} } : { limit?: number; offset?: number; filters?: any }){
+  const where: string[] = [];
+  const vals: any[] = [];
+  let idx = 1;
+  if (filters.status) { where.push(`status = $${idx++}`); vals.push(filters.status); }
+  if (filters.type) { where.push(`type = $${idx++}`); vals.push(filters.type); }
+  if (filters.level) { where.push(`level = $${idx++}`); vals.push(filters.level); }
+  if (filters.query) { where.push(`(payload->> 'subject' ILIKE $${idx} OR payload->> 'message' ILIKE $${idx})`); vals.push(`%${filters.query}%`); idx++; }
+  const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
+  const sql = `SELECT * FROM notifications ${whereSql} ORDER BY created_at DESC LIMIT $${idx++} OFFSET $${idx++}`;
+  vals.push(limit, offset);
+  const res = await dbQuery('general' as any, sql, vals);
+  return res.rows || [];
+}
+
+/**
+ * Get single notification
+ */
+export async function getNotification(id: string){
+  const res = await dbQuery('general' as any, `SELECT * FROM notifications WHERE id = $1`, [id]);
+  return res.rows?.[0] || null;
+}
+
+/**
+ * Patch notification: allow action_taken_by, action_notes, status, expires_at
+ */
+export async function patchNotification(id: string, patch: any, actorUuid?: string) {
+  const fields: string[] = [];
+  const vals: any[] = [];
+  let idx = 1;
+  if (patch.status) { fields.push(`status = $${idx++}`); vals.push(patch.status); }
+  if (typeof patch.action_notes !== 'undefined') { fields.push(`action_notes = $${idx++}`); vals.push(patch.action_notes); }
+  if (patch.action_taken_at) { fields.push(`action_taken_at = $${idx++}`); vals.push(patch.action_taken_at); }
+  if (patch.action_taken_by) { fields.push(`action_taken_by = $${idx++}`); vals.push(patch.action_taken_by); }
+  if (patch.expires_at) { fields.push(`expires_at = $${idx++}`); vals.push(patch.expires_at); }
+
+  // If the server provided an actorUuid and the client didn't explicitly set action_taken_by,
+  // record the server-side actor and timestamp so actions are auditable.
+  if (actorUuid && !patch.action_taken_by) {
+    fields.push(`action_taken_by = $${idx++}`);
+    vals.push(actorUuid);
+    // Only set action_taken_at if not already in patch
+    if (!patch.action_taken_at) {
+      fields.push(`action_taken_at = $${idx++}`);
+      vals.push(new Date().toISOString());
+    }
+  }
+
+  if (fields.length === 0) return getNotification(id);
+  // always set updated_at
+  const sql = `UPDATE notifications SET ${fields.join(', ')}, updated_at = now() WHERE id = $${idx} RETURNING *`;
+  vals.push(id);
+  const res = await dbQuery('general' as any, sql, vals);
+  return res.rows?.[0] || null;
 }

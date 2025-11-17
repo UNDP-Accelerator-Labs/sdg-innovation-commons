@@ -287,12 +287,12 @@ export default async function AdminPage() {
             <div className="bg-white border-2 border-black border-solid p-6">
               <h4 className="font-bold text-lg mb-2">Notifications</h4>
               <p className="text-sm text-gray-600 mb-4">
-                Create or view system-wide admin notifications and informational
+                View system-wide admin notifications and informational
                 messages.
               </p>
               <div className="h-1 w-12 bg-[#0072bc] mb-4"></div>
-              <Button  className="">
-                <Link href="/admin/notifications">Manage Notifications</Link>
+              <Button className="">
+                <Link href="/admin/notifications">View Notifications</Link>
               </Button>
             </div>
 

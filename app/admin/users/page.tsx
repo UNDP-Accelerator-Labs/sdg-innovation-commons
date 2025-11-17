@@ -10,6 +10,8 @@ import { Button } from "@/app/ui/components/Button";
 import { Pagination } from "@/app/ui/components/Pagination";
 import { MenuItem } from "@headlessui/react";
 import DropDown from "@/app/ui/components/DropDown";
+import Link from "next/link";
+import { ChevronLeft } from 'lucide-react';
 
 interface Props {
   searchParams?: { [key: string]: string | string[] | undefined };
@@ -76,26 +78,26 @@ export default async function Page({ searchParams }: Props) {
     }
 
     // detect country-like columns so we can select and display country/iso3
-    let countrySelectExpr = ''; // empty means no country available
+    let countrySelectExpr = ""; // empty means no country available
     try {
       const colsRes = await dbQuery(
-        'general',
+        "general",
         `SELECT column_name FROM information_schema.columns WHERE table_name = $1 AND column_name IN ('country','iso3','meta','country_code')`,
-        ['users']
+        ["users"]
       );
       const cols = (colsRes.rows || []).map((r: any) => r.column_name);
-      if (cols.includes('country')) {
-        countrySelectExpr = 'country';
-      } else if (cols.includes('iso3')) {
-        countrySelectExpr = 'iso3';
-      } else if (cols.includes('meta')) {
+      if (cols.includes("country")) {
+        countrySelectExpr = "country";
+      } else if (cols.includes("iso3")) {
+        countrySelectExpr = "iso3";
+      } else if (cols.includes("meta")) {
         // meta may be jsonb containing an iso3 field
         countrySelectExpr = "meta->>'iso3' AS iso3";
-      } else if (cols.includes('country_code')) {
-        countrySelectExpr = 'country_code';
+      } else if (cols.includes("country_code")) {
+        countrySelectExpr = "country_code";
       }
     } catch (e) {
-      console.warn('Failed to probe country-like columns', e);
+      console.warn("Failed to probe country-like columns", e);
     }
 
     // add limit/offset params
@@ -107,13 +109,15 @@ export default async function Page({ searchParams }: Props) {
     const baseCols = hasDeletedCol
       ? "uuid, name, email, rights, created_at, deleted"
       : "uuid, name, email, rights, created_at";
-    const selectCols = countrySelectExpr ? `${baseCols}, ${countrySelectExpr}` : baseCols;
+    const selectCols = countrySelectExpr
+      ? `${baseCols}, ${countrySelectExpr}`
+      : baseCols;
     const usersQuery = `SELECT ${selectCols} FROM users ${whereSql} ORDER BY created_at DESC NULLS LAST LIMIT ${limitPlaceholder} OFFSET ${offsetPlaceholder}`;
 
     const usersRes = await dbQuery("general", usersQuery, qParams);
     users = (usersRes.rows || []).map((r: any) =>
       // attach normalized country fields for ease of rendering
-      (hasDeletedCol ? r : { ...r, deleted: false })
+      hasDeletedCol ? r : { ...r, deleted: false }
     );
   } catch (e) {
     console.error("Failed to fetch users", e);
@@ -140,138 +144,160 @@ export default async function Page({ searchParams }: Props) {
     <div className="min-h-screen relative overflow-hidden bg-gray-50">
       <Navigation />
       <div className="grid-bg">
-      <main className="max-w-6xl mx-auto py-12">
-        <div className="mb-8 mt-5 pt-8">
-          <h1 className="text-4xl mb-2 font-bold">
-            <>User </>
-            <span className="slanted-bg blue">
-              <span>Management</span>
-            </span>
-          </h1>
-          <p className="text-gray-600">
-            Search, paginate and manage user rights and status.
-          </p>
-        </div>
+        <main className="max-w-6xl mx-auto py-12">
+          <div className="mb-12 flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <div>
+              <h1 className="text-4xl mb-2 font-bold">
+                <>User </>
+                <span className="slanted-bg blue">
+                  <span>Management</span>
+                </span>
+              </h1>
+              <p className="text-gray-600">
+                Search, paginate and manage user rights and status.
+              </p>
+            </div>
 
-        {/* Search bar */}
-        <form
-          id="search-form"
-          method="get"
-          action="/admin/users"
-          className="section-header relative pb-[40px] lg:pb-[40px]"
-        >
-          <div className="group col-span-9 flex flex-row items-stretch lg:col-span-4">
-            <input
-              type="text"
-              name="q"
-              defaultValue={q || ""}
-              placeholder="Search by name, email or uuid"
-              id="admin-search-bar"
-              className="grow !border-r-0 border-black bg-white"
-            />
-            <Button type="submit" className="grow-0 border-l-0">
-              Search
-            </Button>
+            <div className="mt-6 sm:mt-0">
+              <Button>
+                <ChevronLeft className="size-4 mr-2" />
+                <Link href="/admin">Back to Dashboard</Link>
+              </Button>
+            </div>
           </div>
-          <div className="col-span-5 col-start-5 flex flex-row gap-x-2 md:col-span-2 md:col-start-8 lg:col-span-3 lg:col-end-10">
-            <DropDown label="Results per page">
-              <MenuItem
-                as="a"
-                className="w-full bg-white text-start hover:bg-lime-yellow"
-                href={`/admin/users?q=${encodeURIComponent(q)}&limit=10&page=1`}
-              >
-                <div className="block border-none bg-inherit p-4 text-base text-inherit">
-                  10
-                </div>
-              </MenuItem>
-              <MenuItem
-                as="a"
-                className="w-full bg-white text-start hover:bg-lime-yellow"
-                href={`/admin/users?q=${encodeURIComponent(q)}&limit=20&page=1`}
-              >
-                <div className="block border-none bg-inherit p-4 text-base text-inherit">
-                  20
-                </div>
-              </MenuItem>
-              <MenuItem
-                as="a"
-                className="w-full bg-white text-start hover:bg-lime-yellow"
-                href={`/admin/users?q=${encodeURIComponent(q)}&limit=50&page=1`}
-              >
-                <div className="block border-none bg-inherit p-4 text-base text-inherit">
-                  50
-                </div>
-              </MenuItem>
-            </DropDown>
-          </div>
-        </form>
 
-        <div className="bg-white border-2 border-black border-solid rounded shadow-sm overflow-auto">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="p-3">Name</th>
-                <th className="p-3">Email</th>
-                <th className="p-3">Country</th>
-                <th className="p-3">Rights</th>
-                <th className="p-3">Status</th>
-                <th className="p-3">Joined</th>
-                <th className="p-3">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.length === 0 ? (
+          {/* Search bar */}
+          <form
+            id="search-form"
+            method="get"
+            action="/admin/users"
+            className="section-header relative pb-[40px] lg:pb-[40px]"
+          >
+            <div className="group col-span-9 flex flex-row items-stretch lg:col-span-6">
+              <input
+                type="text"
+                name="q"
+                defaultValue={q || ""}
+                placeholder="Search by name, email or uuid"
+                id="admin-search-bar"
+                className="grow !border-r-0 border-black bg-white"
+              />
+              <Button type="submit" className="grow-0 border-l-0">
+                Search
+              </Button>
+            </div>
+            <div className="col-span-5 col-start-5 flex flex-row gap-x-2 md:col-span-2 md:col-start-8 lg:col-span-2 lg:col-end-12">
+              <DropDown label="Results per page">
+                <MenuItem
+                  as="a"
+                  className="w-full bg-white text-start hover:bg-lime-yellow"
+                  href={`/admin/users?q=${encodeURIComponent(q)}&limit=10&page=1`}
+                >
+                  <div className="block border-none bg-inherit p-4 text-base text-inherit">
+                    10
+                  </div>
+                </MenuItem>
+                <MenuItem
+                  as="a"
+                  className="w-full bg-white text-start hover:bg-lime-yellow"
+                  href={`/admin/users?q=${encodeURIComponent(q)}&limit=20&page=1`}
+                >
+                  <div className="block border-none bg-inherit p-4 text-base text-inherit">
+                    20
+                  </div>
+                </MenuItem>
+                <MenuItem
+                  as="a"
+                  className="w-full bg-white text-start hover:bg-lime-yellow"
+                  href={`/admin/users?q=${encodeURIComponent(q)}&limit=50&page=1`}
+                >
+                  <div className="block border-none bg-inherit p-4 text-base text-inherit">
+                    50
+                  </div>
+                </MenuItem>
+              </DropDown>
+            </div>
+          </form>
+
+          <div className="bg-white border-2 border-black border-solid rounded shadow-sm overflow-auto">
+            <table className="w-full text-left text-sm">
+              <thead className="bg-gray-100">
                 <tr>
-                  <td colSpan={6} className="p-4 text-gray-500">
-                    No users found.
-                  </td>
+                  <th className="p-3">Name</th>
+                  <th className="p-3">Email</th>
+                  <th className="p-3">Country</th>
+                  <th className="p-3">Rights</th>
+                  <th className="p-3">Status</th>
+                  <th className="p-3">Joined</th>
+                  <th className="p-3">Actions</th>
                 </tr>
-              ) : (
-                users.map((u) => (
-                  <tr key={u.uuid} className="border-t hover:bg-gray-50">
-                    <td className="p-3 align-top">{u.name || u.uuid}</td>
-                    <td className="p-3 align-top text-sm text-gray-600">
-                      {u.email}
-                    </td>
-                    <td className="p-3 align-top text-sm text-gray-600">
-                      {(() => {
-                        // prefer iso3-like fields, fallbacks to country_code or raw country
-                        const code = (u.iso3 || u.country || u.country_code || (u.meta && u.meta?.iso3)) || '';
-                        return code ? countryMap[code.toLowerCase()] || code : '';
-                      })()}
-                    </td>
-                    <td className="p-3 align-top">{u.rights}</td>
-                    <td className="p-3 align-top">
-                      {u.deleted ? "Deactivated" : "Active"}
-                    </td>
-                    <td className="p-3 align-top text-sm text-gray-500">
-                      {u.created_at
-                        ? new Date(u.created_at).toLocaleString()
-                        : ""}
-                    </td>
-                    <td className="p-3 align-top">
-                      <UserAction
-                        uuid={u.uuid}
-                        rights={u.rights}
-                        deleted={u.deleted}
-                        name={u.name}
-                        email={u.email}
-                        country={u.country || u.iso3 || (u.meta && u.meta.iso3) || u.country_code || ""}
-                      />
+              </thead>
+              <tbody>
+                {users.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="p-4 text-gray-500">
+                      No users found.
                     </td>
                   </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-
-        <div className="pagination mt-4">
-          <div className="col-start-2 flex w-full justify-center">
-            <Pagination page={+page} totalPages={totalPages} />
+                ) : (
+                  users.map((u) => (
+                    <tr key={u.uuid} className="border-t hover:bg-gray-50">
+                      <td className="p-3 align-top">{u.name || u.uuid}</td>
+                      <td className="p-3 align-top text-sm text-gray-600">
+                        {u.email}
+                      </td>
+                      <td className="p-3 align-top text-sm text-gray-600">
+                        {(() => {
+                          // prefer iso3-like fields, fallbacks to country_code or raw country
+                          const code =
+                            u.iso3 ||
+                            u.country ||
+                            u.country_code ||
+                            (u.meta && u.meta?.iso3) ||
+                            "";
+                          return code
+                            ? countryMap[code.toLowerCase()] || code
+                            : "";
+                        })()}
+                      </td>
+                      <td className="p-3 align-top">{u.rights}</td>
+                      <td className="p-3 align-top">
+                        {u.deleted ? "Deactivated" : "Active"}
+                      </td>
+                      <td className="p-3 align-top text-sm text-gray-500">
+                        {u.created_at
+                          ? new Date(u.created_at).toLocaleString()
+                          : ""}
+                      </td>
+                      <td className="p-3 align-top">
+                        <UserAction
+                          uuid={u.uuid}
+                          rights={u.rights}
+                          deleted={u.deleted}
+                          name={u.name}
+                          email={u.email}
+                          country={
+                            u.country ||
+                            u.iso3 ||
+                            (u.meta && u.meta.iso3) ||
+                            u.country_code ||
+                            ""
+                          }
+                        />
+                      </td>
+                    </tr>
+                  ))
+                )}
+              </tbody>
+            </table>
           </div>
-        </div>
-      </main>
+
+          <div className="pagination mt-4">
+            <div className="col-start-2 flex w-full justify-center">
+              <Pagination page={+page} totalPages={totalPages} />
+            </div>
+          </div>
+        </main>
       </div>
       <Footer />
     </div>
