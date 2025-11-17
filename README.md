@@ -1,6 +1,6 @@
 # SDG Innovation Commons
 
-A Next.js application that enables collaboration, discovery and sharing of innovations supporting the Sustainable Development Goals (SDGs). This repository contains the web application, admin UI, server-side APIs, and a background worker that can be deployed as an Azure WebJob.
+A Next.js application that enables collaboration, discovery and sharing of innovations supporting the Sustainable Development Goals (SDGs). This repository contains the web application, admin UI, server-side APIs, and a background worker that runs as a separate containerized service in production.
 
 This README is intended as a single source of truth for developers and operators: it documents architecture and runtime expectations, setup and deployment instructions, important API and DB contracts, and operational/monitoring guidance.
 
@@ -14,7 +14,7 @@ This README is intended as a single source of truth for developers and operators
 - Environment variables and secrets
 - Database / schema notes
 - Admin notifications (API + UI)
-- Background worker & WebJob
+- Background worker (container)
 - CI / CD (GitHub Actions)
 - Monitoring & health
 - Testing
@@ -32,7 +32,7 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 - Persisted admin notifications with action-taking workflow and audit notes
 - Templated admin alert emails (HTML + plain-text fallback)
 - Background worker for processing exports and other asynchronous tasks
-- Worker packaged and deployable as an Azure App Service continuous WebJob
+- Worker built and deployed as a dedicated container to an Azure App Service (Linux container)
 - Health/heartbeat monitoring and an admin-facing health card
 
 ## Architecture overview
@@ -40,8 +40,8 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 - Next.js (app-router) application that serves both client and server code.
 - Server utilities and data access live under `app/lib/` (DB wrapper, platform API helpers, session helper).
 - Admin APIs live under `app/api/admin/*` and are used by the admin UI client components.
-- Background worker code lives in the `scripts/` folder and runs as a separate process in production (packaged into a WebJob).
-- CI/CD is implemented with GitHub Actions; the main app is deployed as a Docker image to Azure App Service, and the worker is deployed as a WebJob zip package.
+- Background worker code lives in the `scripts/` folder and runs as a separate process in production (containerized worker App Service).
+- CI/CD is implemented with GitHub Actions; the main app is deployed as a Docker image to Azure App Service, and the worker is deployed as its own container image to a dedicated worker App Service.
 
 ## Repository layout (important paths)
 
@@ -49,8 +49,8 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
   - app/api/admin/ — server routes used by admin UI (notifications, exports, stats, worker-health)
   - app/admin/ — admin UI pages and client components
   - app/lib/ — server-side helpers: db.ts, session.ts, platform-api.ts, utils
-- scripts/ — background worker scripts: `process_exports.cjs`, `run_worker.js`, `worker_heartbeat.js`, run.sh, run.cmd
-- .github/workflows/app.yaml — CI/CD workflow (build, push, deploy app image and worker WebJob)
+- scripts/ — background worker scripts: `process_exports.cjs`, `run_worker.js`, `worker_heartbeat.js`, run.sh (POSIX entrypoint for local/container runs)
+- .github/workflows/app.yaml — CI/CD workflow (build, push, deploy app image and worker image)
 - app/lib/db-schema/ — SQL migrations and schema reference
 
 ## Getting started (local development)
@@ -102,6 +102,7 @@ The application requires a set of environment variables for full functionality. 
 - LOCAL_BASE_URL — base URL used for building admin links in non-production
 - REGISTRY_USERNAME / REGISTRY_PASSWORD — container registry credentials for CI
 - AZURE_PUBLISH_PROFILE_STAGING / AZURE_PROD_PUBLISH_PROFILE — Azure publish profiles (used by GitHub Actions)
+- AZURE_PUBLISH_PROFILE_WORKER — publish profile for the dedicated worker App Service (used by CI to deploy worker image)
 - NODE_ENV — set to `production` for production behavior (actual email sending)
 
 ## Database / schema notes
@@ -120,6 +121,31 @@ The notifications system persists records in a `notifications` table. The import
 - created_at, updated_at, expires_at
 
 Migrations and schema definitions live under `app/lib/db-schema/`. When changing schema, add a migration and update code that reads or writes notification fields.
+
+### Running migrations
+
+Migrations live under `app/lib/db-schema/` and are applied in order by the included migration runner `scripts/run_migrations.ts`.
+
+Two recommended ways to run migrations from a developer workstation or CI:
+
+- Use the TypeScript migration runner (recommended):
+  - Apply all pending migrations for all DBs:
+    pnpm dlx ts-node scripts/run_migrations.ts
+  - Apply only migrations targeting the `general` DB:
+    pnpm dlx ts-node scripts/run_migrations.ts --db=general
+  - Include `init*.sql` files (dangerous for production):
+    pnpm dlx ts-node scripts/run_migrations.ts --include-inits
+  The runner records applied filenames in a `schema_migrations` table so migrations are idempotent.
+
+- Apply a single SQL migration directly (psql):
+  - Example (bash / zsh):
+    export GENERAL_DB_URL='postgresql://user:pass@host:port/db'
+    psql "$GENERAL_DB_URL" -f app/lib/db-schema/20251117_create_worker_health_table.sql
+
+Notes:
+- The migration runner defaults to the `general` DB key when no header is present in a SQL file. Files may include a header comment like `-- DB: general,blogs` to target multiple DBs.
+- The new worker health migration is `app/lib/db-schema/20251117_create_worker_health_table.sql` — run it before deploying the containerized worker so the worker can upsert heartbeats into the DB.
+- In CI you can run the migration runner, but that requires secure DB credentials available to the workflow. If you want, I can add an optional CI step to run migrations during deployment.
 
 ## Admin notifications (API + UI)
 
@@ -142,26 +168,23 @@ Migrations and schema definitions live under `app/lib/db-schema/`. When changing
 - When a notification is created with `level === 'action_required'`, the server constructs a full HTML email with a plain-text fallback and sends it to `ADMIN_EMAILS` using the configured SMTP transport. In non-production the mail is logged.
 - HTML is escaped before interpolation and payload fields are expanded in both HTML and plain-text versions.
 
-## Background worker & WebJob
+## Background worker (container)
 
 - Worker code and helpers live in `scripts/`.
-- `worker_heartbeat.js` writes a small JSON heartbeat (`worker.heartbeat.json`) periodically under `App_Data/jobs/continuous/worker/` so the site can read worker status.
-- Startup scripts for WebJob:
-  - `run.sh` — starts the heartbeat (background) and runs the worker in the foreground.
-  - `run.cmd` — equivalent for Windows App Service hosts.
-- Packaging for WebJob: the CI produces a zip with `App_Data/jobs/continuous/worker/*` and deploys it to the App Service; Azure App Service runs the `run.*` script as a continuous WebJob.
+- In production the worker runs as a separate container deployed to the `sdg-innovation-commons-worker` Azure App Service. The worker image is built in CI and deployed independently from the main app image.
+- `worker_heartbeat.js` writes a small JSON heartbeat (`worker.heartbeat.json`) periodically so the main app can check worker status via the protected health endpoint.
+- For local or container runs, use `scripts/run.sh` which starts the heartbeat and the worker. The container image entrypoint also executes `scripts/run.sh` by default.
 
 ## CI / CD (GitHub Actions)
 
 - The workflow at `.github/workflows/app.yaml` performs:
   - Build and push the Docker image for the main app.
-  - Deploy the main app image to the staging/production App Services using publish profiles.
-  - Prepare a `webjob.zip` containing worker scripts, package.json and runtime start scripts under `App_Data/jobs/continuous/worker/` and deploy the zip as a WebJob to the same App Service using the publish profile.
-- The worker package step installs production dependencies (optional) and ensures run scripts are present for Linux/Windows hosts.
+  - Build and push a dedicated worker Docker image and deploy it to the `sdg-innovation-commons-worker` App Service using the `AZURE_PUBLISH_PROFILE_WORKER` secret.
+- The workflow ensures corepack/pnpm is enabled on runners so pnpm installs are deterministic; it falls back to `npm install --omit=dev` when pnpm is unavailable.
 
 ## Monitoring & health
 
-- Health endpoint: `GET /api/admin/worker-health` returns the latest heartbeat (pid, uptime, lastSeen) read from `App_Data/jobs/continuous/worker/worker.heartbeat.json`.
+- Health endpoint: `GET /api/admin/worker-health` returns the latest heartbeat (pid, uptime, lastSeen).
 - Access control: the health endpoint requires an admin session or a bearer JWT that can be issued via the server session helper.
 - Admin UI: `app/admin/analytics/` contains a Worker health card component that polls the health endpoint and shows lastSeen, PID and uptime and warns when heartbeat is stale.
 

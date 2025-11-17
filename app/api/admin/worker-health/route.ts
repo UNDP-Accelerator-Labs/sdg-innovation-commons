@@ -3,6 +3,7 @@ import path from 'path';
 import getSession from '@/app/lib/session';
 import jwt from 'jsonwebtoken';
 import { baseHost } from '@/app/lib/utils';
+import db from '@/app/lib/db';
 
 export async function GET(req: Request) {
   try {
@@ -36,6 +37,33 @@ export async function GET(req: Request) {
       return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
     }
 
+    // Try DB-backed heartbeat first
+    let status: any = {
+      worker: { pid: null, uptime: null, lastSeen: null },
+      now: new Date().toISOString(),
+      source: 'none',
+    };
+
+    try {
+      const res = await db.query('general', 'SELECT worker_id, last_seen, pid, uptime, metadata FROM worker_health ORDER BY last_seen DESC LIMIT 1');
+      if (res && res.rows && res.rows.length > 0) {
+        const row = res.rows[0];
+        status.worker = {
+          pid: row.pid || null,
+          uptime: row.uptime || null,
+          lastSeen: row.last_seen ? new Date(row.last_seen).toISOString() : null,
+          workerId: row.worker_id,
+          metadata: row.metadata || null,
+        };
+        status.now = new Date().toISOString();
+        status.source = 'db';
+        return new Response(JSON.stringify(status), { status: 200, headers: { 'Content-Type': 'application/json' } });
+      }
+    } catch (e) {
+      console.warn('worker-health: DB query failed, falling back to file read', e);
+    }
+
+    // Fallback to file-based heartbeat (legacy WebJob path)
     const base = process.env.NODE_ENV === 'production' ? process.cwd() : process.cwd();
     const heartbeatPath = path.join(base, 'App_Data', 'jobs', 'continuous', 'worker', 'worker.heartbeat.json');
     let data: any = null;
@@ -44,15 +72,13 @@ export async function GET(req: Request) {
       try { data = JSON.parse(raw); } catch (e) { data = null; }
     }
 
-    const status = {
-      worker: {
-        pid: data?.pid || null,
-        uptime: data?.uptime || null,
-        lastSeen: data?.timestamp || null,
-      },
-      now: new Date().toISOString(),
-      path: heartbeatPath,
+    status.worker = {
+      pid: data?.pid || null,
+      uptime: data?.uptime || null,
+      lastSeen: data?.timestamp || null,
     };
+    status.now = new Date().toISOString();
+    status.source = 'file';
 
     return new Response(JSON.stringify(status), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (e) {

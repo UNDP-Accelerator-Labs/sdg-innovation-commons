@@ -23,6 +23,13 @@ jobs:
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
 
+      - name: Enable corepack and pnpm
+        run: |
+          set -e
+          npm install -g corepack@latest
+          corepack enable || true
+          corepack prepare pnpm@latest --activate || true
+
       - name: Set env
         run: echo "IMAGE_TAG=$(make -s name)" >> $GITHUB_ENV
 
@@ -33,6 +40,14 @@ jobs:
       - name: Push docker image
         run: |
           make -s dockerpush
+
+      - name: Build worker docker image
+        run: |
+          docker build -f deploy/Dockerfile.worker -t acclabdocker.azurecr.io/sdginnovationcommons-worker:${{ env.IMAGE_TAG }} .
+
+      - name: Push worker docker image
+        run: |
+          docker push acclabdocker.azurecr.io/sdginnovationcommons-worker:${{ env.IMAGE_TAG }}
 
   deploy_staging_pipeline:
     name: Deploy Staging
@@ -53,3 +68,10 @@ jobs:
           app-name: 'staging-sdg-innovation-commons'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_STAGING }}
           images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
+
+      - name: Deploy worker image to staging App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'sdg-innovation-commons-worker'
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_WORKER }}
+          images: 'acclabdocker.azurecr.io/sdginnovationcommons-worker:${{ env.IMAGE_TAG }}'

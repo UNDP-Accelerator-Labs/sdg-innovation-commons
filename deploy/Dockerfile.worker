@@ -1,0 +1,43 @@
+# Worker Dockerfile - builds a small Node 20 image that runs the worker scripts
+# Uses pnpm/corepack similar to main app Dockerfile to get reproducible installs
+FROM node:20-alpine AS base
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV COREPACK_DEFAULT_TO_LATEST=0
+
+# Install corepack and enable pnpm
+RUN npm install -g corepack@latest
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy package files for dependency install
+COPY package.json pnpm-lock.yaml* ./
+
+# Install production dependencies only
+RUN pnpm install --prod --no-frozen-lockfile || true
+
+# Copy worker scripts and runtime files (scripts are at repo root)
+COPY scripts ./scripts
+COPY package.json ./package.json
+
+# Stage for runtime
+FROM node:20-alpine AS runner
+WORKDIR /app
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 worker
+
+# Copy installed modules and worker files from base
+COPY --from=base /app/node_modules ./node_modules
+COPY --from=base /app/scripts ./scripts
+COPY --from=base /app/package.json ./package.json
+
+USER worker
+
+# Expose nothing; worker is a background process
+ENV WEBJOB_HEARTBEAT_FILE=/app/scripts/worker.heartbeat.json
+
+# Default command: run run.sh (which starts heartbeat and worker)
+WORKDIR /app/scripts
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["./run.sh"]
