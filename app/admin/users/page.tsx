@@ -13,17 +13,13 @@ import DropDown from "@/app/ui/components/DropDown";
 import Link from "next/link";
 import { ChevronLeft } from 'lucide-react';
 
-interface Props {
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-export default async function Page({ searchParams }: Props) {
+export default async function Page(props: any) {
   const session = await getSession();
   const rights = session?.rights || 0;
   if (!session || rights < 4) return unauthorized();
 
   // `searchParams` may be a promise in Next.js dynamic routes — await it before using properties
-  const sp = await (searchParams || ({} as any));
+  const sp = await (props?.searchParams || ({} as any));
   const q = typeof sp?.q === "string" ? (sp.q as string) : "";
   const page = Number(typeof sp?.page === "string" ? sp.page : "1") || 1;
   const limit = Number(typeof sp?.limit === "string" ? sp.limit : "10") || 10;
