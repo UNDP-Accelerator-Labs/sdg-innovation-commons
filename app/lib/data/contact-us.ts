@@ -1,6 +1,7 @@
 'use server';
 import { z } from 'zod';
 import nodemailer from 'nodemailer';
+import { createNotification } from '@/app/lib/data/platform-api';
 
 // Utility function to get the current date
 const getCurrentDate = () => new Date().toISOString().split('T')[0];
@@ -120,52 +121,50 @@ export async function createContact(prevState: ContactState, formData: FormData)
     throw new Error('No admin emails provided.');
   }
 
-  const to = adminEmails[0]
-  const cc = adminEmails.length > 1 ? adminEmails.slice(1).join(';') : '';
+  // Persist admin-facing notification instead of sending admin emails
+  try {
+    const ADMIN_UI_BASE = process.env.NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (process.env.LOCAL_BASE_URL || 'http://localhost:3000');
+    const adminUrl = `${ADMIN_UI_BASE}/admin/notifications`;
+    const notif = await createNotification({
+      type: 'contact_us',
+      level: 'action_required',
+      payload: {
+        subject: `Contact Us from ${name} ${surname}`,
+        message,
+        from: { name, email, org },
+        reason,
+        date,
+      },
+      metadata: { adminUrl },
+      related_uuids: [],
+    });
+    // Optionally log created notification id for debugging
+    console.log('Created contact-us notification', notif?.id);
+  } catch (notifyErr) {
+    console.error('Failed to create admin notification for contact-us', notifyErr);
+  }
 
-  const mailOptions = {
+  const mailOptions2 = {
     from: `SDG Commons <${SMTP_USER}>`,
-    to,
-    cc,
-    subject: `New Contact Us Form Submission from ${name} ${surname}`,
+    to: email,
+    subject: `Your comment on the SDG Commons, powered by the UNDP Accelerator Labs`,
     text: `
-      Hello Admin,
+        Dear contributor,
 
-      This is an automated notification to inform you that a user has submitted a Contact Us form on the SDG Commons platform. Please find the submission details below:
-
-      Name: ${name} ${surname}
-      Email: ${email}
-      Organization: ${org || 'N/A'}
-      Reason for Contact: ${reason}
-      Submission Date: ${date}
-      Message:
-      ${message}
-
-
-      Kindly review this submission and take any necessary action.
-
-      Thank you,
-      SDG Commons Platform
-    `,
-  };
-
-    const mailOptions2 = {
-      from: `SDG Commons <${SMTP_USER}>`,
-      to: email,
-      subject: `Your comment on the SDG Commons, powered by the UNDP Accelerator Labs`,
-      text: `
-          Dear contributor,
-
-          Thank you for your message. It is well received and is being reviewed by team members of the UNDP Accelerator Labs who will get back to you shortly.
-          
-          Stay tuned.
-              `,
-      };
+        Thank you for your message. It is well received and is being reviewed by team members of the UNDP Accelerator Labs who will get back to you shortly.
+        
+        Stay tuned.
+            `,
+    };
 
   // Send contact form data to admin email
   try {
-    process.env.NODE_ENV === 'production' ? transporter.sendMail(mailOptions) : null;
-    process.env.NODE_ENV === 'production' ?  transporter.sendMail(mailOptions2) : null;
+    // Admin email suppressed; keep sender acknowledgement (in production only)
+    if (process.env.NODE_ENV === 'production') {
+      await transporter.sendMail(mailOptions2);
+    } else {
+      console.log('Dev mode - acknowledgement suppressed or logged', { mailOptions2 });
+    }
 
     return {
       ...newState,

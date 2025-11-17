@@ -1,92 +1,186 @@
-# The SDG Innovation Commons
+# SDG Innovation Commons
 
-The **SDG Innovation Commons** is a Next.js application designed to support innovation and collaboration towards achieving the Sustainable Development Goals (SDGs). This platform enables users to explore, share, and contribute to projects that drive impact in various SDG areas.
+A Next.js application that enables collaboration, discovery and sharing of innovations supporting the Sustainable Development Goals (SDGs). This repository contains the web application, admin UI, server-side APIs, and a background worker that can be deployed as an Azure WebJob.
 
-## Table of Contents
+This README is intended as a single source of truth for developers and operators: it documents architecture and runtime expectations, setup and deployment instructions, important API and DB contracts, and operational/monitoring guidance.
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
+## Table of contents
 
-## Project Overview
+- About
+- Key features
+- Architecture overview
+- Repository layout
+- Getting started (local development)
+- Environment variables and secrets
+- Database / schema notes
+- Admin notifications (API + UI)
+- Background worker & WebJob
+- CI / CD (GitHub Actions)
+- Monitoring & health
+- Testing
+- Contributing
+- License
 
-The **SDG Innovation Commons** is a platform that aims to bring together all the work of the UNDP Accerator Labs towards the Sustainable Development Goals (SDGs). Users can collaborate on projects, share resources, and explore innovative solutions to pressing global challenges.
+## About
 
-## Features
+SDG Innovation Commons is a modern web application built with Next.js. It includes a public-facing site and an admin console for managing platform operations, notifications, and exports. The codebase follows Next.js app-router conventions and keeps server logic in app/api and app/lib.
 
-- Explore various SDG-related innovations and learnings.
-- Collaborate and contribute to innovation.
-- Share resources and best practices.
-- Interactive UI built with Next.js.
+## Key features
 
-## Getting Started
+- Public Next.js site for contributors and visitors
+- Admin interface for managing notifications, users, exports and other platform operations
+- Persisted admin notifications with action-taking workflow and audit notes
+- Templated admin alert emails (HTML + plain-text fallback)
+- Background worker for processing exports and other asynchronous tasks
+- Worker packaged and deployable as an Azure App Service continuous WebJob
+- Health/heartbeat monitoring and an admin-facing health card
+
+## Architecture overview
+
+- Next.js (app-router) application that serves both client and server code.
+- Server utilities and data access live under `app/lib/` (DB wrapper, platform API helpers, session helper).
+- Admin APIs live under `app/api/admin/*` and are used by the admin UI client components.
+- Background worker code lives in the `scripts/` folder and runs as a separate process in production (packaged into a WebJob).
+- CI/CD is implemented with GitHub Actions; the main app is deployed as a Docker image to Azure App Service, and the worker is deployed as a WebJob zip package.
+
+## Repository layout (important paths)
+
+- app/ — Next.js application (pages, API routes, components)
+  - app/api/admin/ — server routes used by admin UI (notifications, exports, stats, worker-health)
+  - app/admin/ — admin UI pages and client components
+  - app/lib/ — server-side helpers: db.ts, session.ts, platform-api.ts, utils
+- scripts/ — background worker scripts: `process_exports.cjs`, `run_worker.js`, `worker_heartbeat.js`, run.sh, run.cmd
+- .github/workflows/app.yaml — CI/CD workflow (build, push, deploy app image and worker WebJob)
+- app/lib/db-schema/ — SQL migrations and schema reference
+
+## Getting started (local development)
 
 ### Prerequisites
 
-To run this project locally, you will need the following tools installed on your machine:
+- Node.js 18+ (recommended)
+- pnpm (or npm/yarn)
+- PostgreSQL or the database defined by your environment
 
-- [Node.js](https://nodejs.org/) (v18.x or higher)
+### Install
 
-### Installation
-
-1. Clone the repository:
+1. Clone the repository
 
    ```bash
-    git clone https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons.git
-   ```
-
-2. Navigate to the project directory:
-   ```bash
+   git clone https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons.git
    cd sdg-innovation-commons
    ```
-3. Install the dependencies:
-   If you use pnpm:
-   `bash
-    pnpm install
-`
-   Or, if you prefer yarn:
-   `bash
-    yarn install
-`
-4. Run the development server:
-   For pnpm:
+
+2. Install dependencies
 
    ```bash
-       pnpm run dev
+   pnpm install
    ```
 
-   Or for yarn:
-   `bash
-    yarn dev
-`
-   Open http://localhost:3000 to view the app in your browser.
+3. Configure environment variables (see below)
 
-### Technologies Used
+### Run the dev server
 
-This project is built using the following technologies:
+```bash
+pnpm run dev
+```
 
-- Next.js: A React framework for building fast and scalable web applications.
-- React.js: A JavaScript library for building user interfaces.
-- Node.js: For server-side operations and API integrations.
-- Tailwind: For styling the app.
+Open http://localhost:3000 in your browser.
 
-### Contributing
+### Run the worker locally (optional)
 
-We welcome contributions to the SDG Innovation Commons project! To get started:
+- Run the worker directly: `node scripts/process_exports.cjs` or `node scripts/run_worker.js`.
+- Run the heartbeat and worker together (POSIX): `scripts/run.sh` (make executable: `chmod +x scripts/run.sh`).
 
-- Fork the repository.
-- Create a new branch (git checkout -b feature/your-feature).
-- Make your changes.
-- - Commit your changes (git commit -m 'Add some feature').
-- Push to the branch (git push origin feature/your-feature).
-- Open a pull request.
-  Please make sure to follow the [contribution guidelines](./CONTRIBUTING.md).
+## Environment variables and secrets
 
-### License
+The application requires a set of environment variables for full functionality. Set these in your development environment or a `.env` file (do not commit secrets):
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+- APP_SECRET — secret used to sign/verify session tokens
+- DATABASE_URL or database connection variables used by `app/lib/db.ts`
+- SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS (or SMTP_SERVICE) — SMTP config for sending admin emails
+- ADMIN_EMAILS — semicolon/comma-separated list of admin email recipients
+- LOCAL_BASE_URL — base URL used for building admin links in non-production
+- REGISTRY_USERNAME / REGISTRY_PASSWORD — container registry credentials for CI
+- AZURE_PUBLISH_PROFILE_STAGING / AZURE_PROD_PUBLISH_PROFILE — Azure publish profiles (used by GitHub Actions)
+- NODE_ENV — set to `production` for production behavior (actual email sending)
+
+## Database / schema notes
+
+The notifications system persists records in a `notifications` table. The important fields are:
+
+- id — primary key
+- type — text
+- level — `info` | `action_required`
+- payload — jsonb (arbitrary structured payload: subject, message, etc.)
+- metadata — jsonb (UI hints, adminUrl, etc.)
+- related_uuids — text[]
+- status — string (open / acknowledged / closed)
+- action_notes — text
+- action_taken_by / action_taken_at — who and when (server-recorded)
+- created_at, updated_at, expires_at
+
+Migrations and schema definitions live under `app/lib/db-schema/`. When changing schema, add a migration and update code that reads or writes notification fields.
+
+## Admin notifications (API + UI)
+
+### APIs
+
+- GET /api/admin/notifications
+  - List mode: supports `limit`, `offset`, and filters (type, status, level) and returns an array of notifications.
+  - Single mode: when called with `?id=...`, returns that notification and, if available, `action_taken_by_details` (contributor lookup: name, email).
+- PATCH /api/admin/notifications
+  - Accepts `{ id, status, action_notes }` and validates `status` against allowed values. The server ignores client-supplied `action_taken_by` and `action_taken_at` and records the acting admin (from session) and timestamp server-side.
+
+### Client
+
+- `app/admin/notifications/NotificationsClient.client.tsx` contains the admin table with filtering, pagination, action dropdown, and a shared modal for details/actions.
+- ActionForm includes an auditing note instructing admins to record actions; notes are stored in DB for audit purposes only.
+- Info-level notifications are displayed as no-action-needed and are auto-closed by the client.
+
+### Email templates and sending
+
+- When a notification is created with `level === 'action_required'`, the server constructs a full HTML email with a plain-text fallback and sends it to `ADMIN_EMAILS` using the configured SMTP transport. In non-production the mail is logged.
+- HTML is escaped before interpolation and payload fields are expanded in both HTML and plain-text versions.
+
+## Background worker & WebJob
+
+- Worker code and helpers live in `scripts/`.
+- `worker_heartbeat.js` writes a small JSON heartbeat (`worker.heartbeat.json`) periodically under `App_Data/jobs/continuous/worker/` so the site can read worker status.
+- Startup scripts for WebJob:
+  - `run.sh` — starts the heartbeat (background) and runs the worker in the foreground.
+  - `run.cmd` — equivalent for Windows App Service hosts.
+- Packaging for WebJob: the CI produces a zip with `App_Data/jobs/continuous/worker/*` and deploys it to the App Service; Azure App Service runs the `run.*` script as a continuous WebJob.
+
+## CI / CD (GitHub Actions)
+
+- The workflow at `.github/workflows/app.yaml` performs:
+  - Build and push the Docker image for the main app.
+  - Deploy the main app image to the staging/production App Services using publish profiles.
+  - Prepare a `webjob.zip` containing worker scripts, package.json and runtime start scripts under `App_Data/jobs/continuous/worker/` and deploy the zip as a WebJob to the same App Service using the publish profile.
+- The worker package step installs production dependencies (optional) and ensures run scripts are present for Linux/Windows hosts.
+
+## Monitoring & health
+
+- Health endpoint: `GET /api/admin/worker-health` returns the latest heartbeat (pid, uptime, lastSeen) read from `App_Data/jobs/continuous/worker/worker.heartbeat.json`.
+- Access control: the health endpoint requires an admin session or a bearer JWT that can be issued via the server session helper.
+- Admin UI: `app/admin/analytics/` contains a Worker health card component that polls the health endpoint and shows lastSeen, PID and uptime and warns when heartbeat is stale.
+
+## Security & auditing
+
+- All admin endpoints use the session helper (`app/lib/session.ts`) to determine the acting user. Several admin routes require elevated rights.
+- The PATCH route for notifications enforces allowed statuses and records actor/timestamp on the server side to prevent spoofing.
+- Action notes are stored for internal auditing and are not forwarded externally.
+
+## Testing
+
+- Unit and integration tests are recommended for the notifications PATCH behavior and for email sending (mock the SMTP transporter).
+- Add tests under a `test/` folder and wire into CI if required.
+
+## Contributing
+
+- Follow the contributor guide in `CONTRIBUTING.md`.
+- When adding features that require database changes, include SQL migrations in `app/lib/db-schema/` and update README/API docs.
+
+## License
+
+This project is licensed under the MIT License. See the `LICENSE` file for details.

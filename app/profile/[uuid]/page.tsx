@@ -16,15 +16,18 @@ export default async function ProfilePage({
     if (!uuid)  return notFound();
 
   // Fetch country names and profile data in parallel
-  const [countries, profileData] = await Promise.all([
+  const [countries, rawProfile] = await Promise.all([
     platformApi({}, "experiment", "countries"),
     getContributorInfo(uuid), 
   ]);
 
-  // Redirect to unauthorized page if the user is not authorized
-  if (!profileData || profileData.status !== 200) {
-    notFound()
+  // Redirect to not found if the user lookup failed
+  if (!rawProfile || (rawProfile as any).status !== 200) {
+    notFound();
   }
+
+  // At this point rawProfile is expected to be the contributor object; cast for the UI
+  const profileData = rawProfile as any;
 
   return (
     <div className="min-h-screen relative overflow-hidden">
