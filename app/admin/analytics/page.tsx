@@ -5,6 +5,7 @@ import Footer from "@/app/ui/components/Footer";
 import { Button } from "@/app/ui/components/Button";
 import Link from "next/link";
 import { ChevronLeft } from 'lucide-react';
+import WorkerHealthCard from './WorkerHealthCard.client';
 
 export default async function Page() {
   const session = await getSession();
@@ -62,6 +63,17 @@ export default async function Page() {
               <Button className="">
                 <Link href="/admin/exports">Manage Exports</Link>
               </Button>
+            </div>
+
+            {/* Worker health card */}
+            <div className="bg-white border-2 border-black border-solid p-6">
+              <h4 className="font-bold text-lg mb-2">Worker</h4>
+              <p className="text-sm text-gray-600 mb-4">Background worker status</p>
+              <div className="h-1 w-12 bg-[#d2f960] mb-4"></div>
+              {/* Client component */}
+              <div>
+                <WorkerHealthCard />
+              </div>
             </div>
           </section>
         </main>

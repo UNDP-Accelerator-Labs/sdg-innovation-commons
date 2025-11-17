@@ -50,11 +50,48 @@ jobs:
       - name: Set env
         run: echo "IMAGE_TAG=$(make -s name)" >> $GITHUB_ENV
 
-      - uses: azure/webapps-deploy@v2
+      - name: Deploy app image to staging
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'staging-sdg-innovation-commons'
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_STAGING }}
           images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
+
+      - name: Prepare worker WebJob package
+        run: |
+          set -e
+          rm -rf webjob_package webjob.zip || true
+          mkdir -p webjob_package/App_Data/jobs/continuous/worker
+
+          # copy worker runtime files
+          cp -r scripts/* webjob_package/App_Data/jobs/continuous/worker/ || true
+          # include heartbeat monitor for health checks
+          cp scripts/worker_heartbeat.js webjob_package/App_Data/jobs/continuous/worker/ || true
+          cp package.json webjob_package/App_Data/jobs/continuous/worker/ || true
+
+          # install production deps for the worker (if npm available on runner)
+          if command -v npm >/dev/null 2>&1; then
+            pushd webjob_package/App_Data/jobs/continuous/worker >/dev/null
+            npm ci --only=production || true
+            popd >/dev/null
+          fi
+
+          # write Windows run script using printf to avoid heredoc markers
+          printf '%s\n' "@echo off" "SETLOCAL" "node \"%~dp0process_exports.cjs\" >> \"%~dp0worker.log\" 2>&1" > webjob_package/App_Data/jobs/continuous/worker/run.cmd
+
+          # write POSIX run script using printf
+          printf '%s\n' "#!/usr/bin/env bash" "set -e" "SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"" "exec node \"$SCRIPT_DIR/process_exports.cjs\" >> \"$SCRIPT_DIR/worker.log\" 2>&1" > webjob_package/App_Data/jobs/continuous/worker/run.sh
+
+          chmod +x webjob_package/App_Data/jobs/continuous/worker/run.sh || true
+
+          cd webjob_package && zip -r ../webjob.zip .
+
+      - name: Deploy worker WebJob to staging
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'staging-sdg-innovation-commons'
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_STAGING }}
+          package: webjob.zip
 
   deploy_tag_pipeline:
     name: Deploy Tag
@@ -74,8 +111,42 @@ jobs:
       - name: Wait for staging
         run: sleep 60
 
-      - uses: azure/webapps-deploy@v2
+      - name: Deploy app image to production
+        uses: azure/webapps-deploy@v2
         with:
           app-name: 'acclabs'
           publish-profile: ${{ secrets.AZURE_PROD_PUBLISH_PROFILE }}
           images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
+
+      - name: Prepare worker WebJob package
+        run: |
+          set -e
+          rm -rf webjob_package webjob.zip || true
+          mkdir -p webjob_package/App_Data/jobs/continuous/worker
+
+          cp -r scripts/* webjob_package/App_Data/jobs/continuous/worker/ || true
+          # include heartbeat monitor for health checks
+          cp scripts/worker_heartbeat.js webjob_package/App_Data/jobs/continuous/worker/ || true
+          cp package.json webjob_package/App_Data/jobs/continuous/worker/ || true
+
+          if command -v npm >/dev/null 2>&1; then
+            pushd webjob_package/App_Data/jobs/continuous/worker >/dev/null
+            npm ci --only=production || true
+            popd >/dev/null
+          fi
+
+          # write Windows run script using printf to avoid heredoc markers
+          printf '%s\n' "@echo off" "SETLOCAL" "node \"%~dp0process_exports.cjs\" >> \"%~dp0worker.log\" 2>&1" > webjob_package/App_Data/jobs/continuous/worker/run.cmd
+
+          # write POSIX run script using printf
+          printf '%s\n' "#!/usr/bin/env bash" "set -e" "SCRIPT_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"" "exec node \"$SCRIPT_DIR/process_exports.cjs\" >> \"$SCRIPT_DIR/worker.log\" 2>&1" > webjob_package/App_Data/jobs/continuous/worker/run.sh
+
+          chmod +x webjob_package/App_Data/jobs/continuous/worker/run.sh || true
+          cd webjob_package && zip -r ../webjob.zip .
+
+      - name: Deploy worker WebJob to production
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'acclabs'
+          publish-profile: ${{ secrets.AZURE_PROD_PUBLISH_PROFILE }}
+          package: webjob.zip
