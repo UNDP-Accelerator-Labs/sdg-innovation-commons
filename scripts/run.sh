@@ -13,6 +13,21 @@ if [ -f "/app/.env" ]; then
   set +a
 fi
 
+# Start a tiny HTTP health server early so Azure App Service startup probe sees the container as alive
+if [ -f "$SCRIPT_DIR/worker_http.js" ]; then
+  echo "Starting HTTP health server (background)"
+  nohup node "$SCRIPT_DIR/worker_http.js" >> "$SCRIPT_DIR/worker_http.log" 2>&1 &
+  HTTP_PID=$!
+  sleep 0.2
+  if kill -0 "$HTTP_PID" 2>/dev/null; then
+    echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - Started HTTP health server (pid $HTTP_PID)" | tee -a "$SCRIPT_DIR/worker_http.log"
+  else
+    echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - Failed to start HTTP health server (pid $HTTP_PID)" | tee -a "$SCRIPT_DIR/worker_http.log" >&2
+  fi
+else
+  echo "No HTTP health server found at $SCRIPT_DIR/worker_http.js"
+fi
+
 # Helper to check whether DB config is present
 check_db_config() {
   if [ -n "${GENERAL_DB_URL:-}" ] || [ -n "${DATABASE_URL:-}" ]; then

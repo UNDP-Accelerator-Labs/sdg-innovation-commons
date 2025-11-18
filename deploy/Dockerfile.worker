@@ -54,11 +54,14 @@ RUN chmod +x ./scripts/run.sh || true
 RUN chmod +x ./scripts/process_exports.cjs || true
 RUN chmod +x ./scripts/run_worker.js || true
 RUN chmod +x ./scripts/worker_heartbeat.js || true
+RUN chmod +x ./scripts/worker_http.js || true
 
 USER worker
 
-# Expose nothing; worker is a background process
+# Expose a health port so platform startup probes succeed
 ENV WEBJOB_HEARTBEAT_FILE=/app/scripts/worker.heartbeat.json
+ENV PORT=80
+EXPOSE 80
 
 # Default command: run the POSIX startup script from /app/scripts
 WORKDIR /app
