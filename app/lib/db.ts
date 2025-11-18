@@ -1,5 +1,12 @@
 // Server-only Postgres helper for multiple databases using node-postgres (pg)
-import 'server-only';
+// When running under ts-node in the worker container, the virtual "server-only" module may not be present.
+// Use a runtime-safe require to avoid crashing the worker.
+try {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  require('server-only');
+} catch (e) {
+  // ignore: running outside Next.js server runtime
+}
 import pg from 'pg';
 
 export type DBKey = 'experiment' | 'learningplan' | 'solutions' | 'general' | 'blogs';

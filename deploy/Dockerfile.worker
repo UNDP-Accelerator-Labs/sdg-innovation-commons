@@ -10,15 +10,22 @@ ENV COREPACK_DEFAULT_TO_LATEST=0
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
+# Ensure bash is available for any scripts that call /usr/bin/env bash
+RUN apk add --no-cache bash
+
 # Copy package files for dependency install
 COPY package.json pnpm-lock.yaml* ./
 
-# Install production dependencies only
-RUN pnpm install --prod --no-frozen-lockfile || true
+# Install dependencies (include dev deps like ts-node so the TS bootstrap can run)
+RUN pnpm install --no-frozen-lockfile || true
 
 # Copy worker scripts and runtime files (scripts are at repo root)
 COPY scripts ./scripts
 COPY package.json ./package.json
+
+# Ensure TypeScript resolution and server code are available to the worker
+COPY tsconfig.json ./tsconfig.json
+COPY app ./app
 
 # Stage for runtime
 FROM node:20-alpine AS runner
@@ -27,10 +34,17 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 worker
 
+# Ensure bash available at runtime
+RUN apk add --no-cache bash
+
 # Copy installed modules and worker files from base
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/scripts ./scripts
 COPY --from=base /app/package.json ./package.json
+
+# Copy app code and tsconfig so worker can require ../app/... and tsconfig-paths can find tsconfig
+COPY --from=base /app/app ./app
+COPY --from=base /app/tsconfig.json ./tsconfig.json
 
 # Ensure scripts are executable (fixes exit code 126 on App Service)
 RUN chmod +x ./scripts/run.sh || true
