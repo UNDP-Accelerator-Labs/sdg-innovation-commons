@@ -54,7 +54,19 @@ fi
 # Start heartbeat in background if present
 if [ -f "$SCRIPT_DIR/worker_heartbeat.js" ]; then
   nohup node "$SCRIPT_DIR/worker_heartbeat.js" >> "$SCRIPT_DIR/worker_heartbeat.log" 2>&1 &
+  BG_PID=$!
+  # give it a moment to start
+  sleep 0.5
+  if kill -0 "$BG_PID" 2>/dev/null; then
+    echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - Started heartbeat (pid $BG_PID)" | tee -a "$SCRIPT_DIR/worker_heartbeat.log"
+  else
+    echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - Failed to start heartbeat (pid $BG_PID)" | tee -a "$SCRIPT_DIR/worker_heartbeat.log" >&2
+  fi
+else
+  echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - No heartbeat script found at $SCRIPT_DIR/worker_heartbeat.js" | tee -a "$SCRIPT_DIR/worker_heartbeat.log"
 fi
 
 # Start main worker in foreground (so container host keeps it alive)
+# Log startup timestamp
+echo "$(date -u +%Y-%m-%dT%H:%M:%SZ) - Starting main worker (process_exports.cjs)" | tee -a "$SCRIPT_DIR/worker.log"
 exec node "$SCRIPT_DIR/process_exports.cjs" >> "$SCRIPT_DIR/worker.log" 2>&1
