@@ -148,6 +148,36 @@ export default function NotificationsClient(){
     );
   }
 
+  // Render email history array stored in metadata.email_history
+  function renderEmailHistory(meta: any){
+    if (!meta || !Array.isArray(meta.email_history) || meta.email_history.length === 0) return null;
+    return (
+      <div className="col-span-2 mt-2">
+        <strong>Correspondence</strong>
+        <div className="mt-2 space-y-2 text-xs text-gray-700">
+          {meta.email_history.map((h: any, i: number) => (
+            <div key={i} className="border rounded p-2 bg-gray-50">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="font-medium">{h.to || 'unknown'}</div>
+                  {/* show who sent the email when available */}
+                  { (h.actor_name || h.actor_uuid) && (
+                    <div className="text-xs text-gray-500">Sent by: {h.actor_name ? String(h.actor_name) : String(h.actor_uuid)}</div>
+                  ) }
+                </div>
+                <div className="text-xs text-gray-500">{h.status || 'unknown'}</div>
+              </div>
+              <div className="text-xs text-gray-500 mt-1">{h.sent_at || h.attempted_at || ''}</div>
+              {h.subject && <div className="text-xs mt-1"><strong>Subject:</strong> {String(h.subject).slice(0,200)}</div>}
+              {h.preview && <div className="text-xs mt-1 text-gray-700">{String(h.preview)}</div>}
+              {h.error && <div className="text-xs mt-1 text-red-600">Error: {String(h.error).slice(0,300)}</div>}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="flex items-center justify-between mb-4">
@@ -256,6 +286,24 @@ export default function NotificationsClient(){
                   {selected.metadata && typeof selected.metadata === 'object' && Object.keys(selected.metadata).length > 0 ? renderKeyValues(selected.metadata) : <pre className="bg-gray-100 p-3 rounded text-xs overflow-x-auto">{JSON.stringify(selected.metadata || {}, null, 2)}</pre>}
                 </div>
 
+                {/* Show email correspondence if available */}
+                {selected.metadata && renderEmailHistory(selected.metadata)}
+                
+                {/* For action_required notifications, show quick-send form */}
+                {selected.level === 'action_required' && (
+                  <>
+                    <div className="col-span-2 mt-2"><strong>Send email to recipients</strong></div>
+                    <div className="col-span-2 text-xs text-gray-600">
+                      <SendEmailForm notification={selected} onSent={(newHistory) => {
+                        const meta = selected.metadata || {};
+                        meta.email_history = Array.isArray(meta.email_history) ? meta.email_history.concat(newHistory) : (newHistory || []);
+                        setSelected({ ...selected, metadata: meta });
+                        setItems(prev => prev.map(it => it.id === selected.id ? { ...it, metadata: meta } : it));
+                      }} />
+                    </div>
+                  </>
+                )}
+
                 <div className="col-span-2 mt-2"><strong>Related</strong></div>
                 <div className="col-span-2 text-xs text-gray-600">{(selected.related_uuids || []).join(', ') || '—'}</div>
 
@@ -284,9 +332,9 @@ export default function NotificationsClient(){
             {/* Sticky footer */}
             <div className="mt-4 flex gap-3 sticky bottom-0 bg-white pt-3 border-t">
               <Button onClick={() => { setModalOpen(false); setSelected(null); }}>Close</Button>
-              {selected.metadata?.adminUrl && (
+              {/* {selected.metadata?.adminUrl && (
                 <Button onClick={() => window.open(String(selected.metadata.adminUrl), '_blank')}>Go to context</Button>
-              )}
+              )} */}
             </div>
           </div>
         ) : <div>Loading…</div>}
@@ -324,6 +372,74 @@ function ActionForm({ notification, onSave } : { notification: Notification, onS
 
       <div className="flex gap-2 justify-end">
         <Button onClick={() => onSave(notification.id, status, notes)}>Save action</Button>
+      </div>
+    </div>
+  );
+}
+
+function SendEmailForm({ notification, onSent } : { notification: Notification, onSent: (h:any[]) => void }){
+  const [to, setTo] = useState<string>('');
+  const [subject, setSubject] = useState<string>(notification.payload?.email_subject || `Action required: ${notification.type}`);
+  const [message, setMessage] = useState<string>(notification.payload?.message || '');
+  const [sending, setSending] = useState(false);
+
+  useEffect(() => {
+    const pl = notification.payload || {};
+    const r = pl.toEmail || (Array.isArray(pl.toEmails) ? pl.toEmails.join(',') : '') || pl.email || '';
+    setTo(String(r || '').trim());
+  }, [notification]);
+
+  // simple client-side HTML escaper
+  function escapeHtmlClient(s: any){
+    if (s === null || typeof s === 'undefined') return '';
+    return String(s).replace(/[&"'<>]/g, function(c){
+      return ({ '&':'&amp;','<':'&lt;','>':'&gt;', '"':'&quot;', "'":'&#39;' } as any)[c];
+    });
+  }
+
+  async function sendEmail(){
+    if (!to) { alert('Please provide recipient email'); return; }
+    setSending(true);
+    try {
+      const res = await fetch('/api/admin/notifications/send-email', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ id: notification.id, to, subject, message }) });
+      const j = await res.json();
+      if (j && Array.isArray(j.email_history)) {
+        onSent(j.email_history);
+      } else if (j && j.email_history) {
+        onSent([j.email_history]);
+      }
+    } catch (e) { console.error('Failed to send email', e); alert('Failed to send email'); }
+    finally { setSending(false); }
+  }
+
+  return (
+    <div className="col-span-2 space-y-3">
+      {/* Instructional note for admins about sending and recording correspondence */}
+      <div className="text-xs text-gray-600 bg-yellow-50 border border-yellow-100 p-3 rounded">
+        The message you compose here will be sent directly to the recipient(s) you specify and a record of the attempt (success/failure) will be stored with this notification for auditing.
+      </div>
+
+      <div>
+        <label className="block text-xs text-gray-500">To</label>
+        <input className="w-full p-2 border rounded text-sm" value={to} onChange={(e) => setTo(e.target.value)} />
+      </div>
+      <div>
+        <label className="block text-xs text-gray-500">Subject</label>
+        <input className="w-full p-2 border rounded text-sm" value={subject} onChange={(e) => setSubject(e.target.value)} />
+      </div>
+      <div>
+        <label className="block text-xs text-gray-500">Message</label>
+        <textarea className="w-full p-2 border rounded text-sm" rows={6} value={message} onChange={(e) => setMessage(e.target.value)} />
+      </div>
+
+      {/* Live preview of how the email will look to recipients. Preserve line breaks and basic escaping. */}
+      <div>
+        <div className="text-xs text-gray-500 mb-2">Preview (how recipient will see the message):</div>
+        <div className="bg-gray-50 border rounded p-3 text-sm text-gray-800" style={{ whiteSpace: 'pre-wrap' }} dangerouslySetInnerHTML={{ __html: escapeHtmlClient(message) }} />
+      </div>
+
+      <div className="flex justify-end">
+        <Button onClick={sendEmail} disabled={sending}>{sending ? 'Sending…' : 'Send email'}</Button>
       </div>
     </div>
   );

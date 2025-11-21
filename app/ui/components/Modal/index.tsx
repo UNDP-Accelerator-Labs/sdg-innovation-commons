@@ -16,7 +16,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-md bg-white p-10 font-space-mono shadow-lg md:max-w-lg lg:max-w-xl"
+        className="relative w-full max-w-md bg-white p-10 font-space-mono shadow-lg md:max-w-2xl lg:max-w-3xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Icon */}

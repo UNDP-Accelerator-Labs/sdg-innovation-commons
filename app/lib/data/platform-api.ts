@@ -1,4 +1,5 @@
 'use server';
+
 import blogsApi from './blogs-api';
 import {
   commonsPlatform,
@@ -15,6 +16,14 @@ import db, { query as dbQuery } from '@/app/lib/db';
 
 //Environment variables
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
+
+// Top-level HTML escape helper (used by notification email builders)
+export async function escapeHtml(s: any) {
+  if (s === null || typeof s === 'undefined') return '';
+  return String(s).replace(/[&"'<>]/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+  });
+}
 
 export interface Props {
   space?: string;
@@ -1028,13 +1037,7 @@ export async function createNotification(opts: {
   </body>
 </html>`;
 
-        // Helper to escape HTML inserted into template
-        function escapeHtml(s: any){
-          if (s === null || typeof s === 'undefined') return '';
-          return String(s).replace(/[&"'<>]/g, function (c) {
-            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
-          });
-        }
+        // reuse top-level escapeHtml helper
 
         const mailOptions = {
           from: `SDG Commons <${SMTP_USER}>`,
@@ -1057,6 +1060,91 @@ export async function createNotification(opts: {
     } catch (e) {
       console.error('Failed to send admin alert email for notification', created?.id, e);
     }
+
+    // --- New: optionally send notification emails to user recipients and record correspondence ---
+    try {
+      const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
+
+      // Build a list of user recipient emails from payload or related_uuids
+      const userRecipients: string[] = [];
+      const pl = created.payload || {};
+      if (pl) {
+        if (typeof pl.toEmail === 'string' && pl.toEmail) userRecipients.push(pl.toEmail);
+        if (Array.isArray(pl.toEmails)) userRecipients.push(...pl.toEmails.filter(Boolean));
+        if (typeof pl.email === 'string' && pl.email) userRecipients.push(pl.email);
+        if (Array.isArray(pl.recipients)) userRecipients.push(...pl.recipients.filter(Boolean));
+      }
+
+      // If no explicit emails, try resolving related_uuids to contributor emails
+      if (userRecipients.length === 0 && Array.isArray(created.related_uuids) && created.related_uuids.length) {
+        for (const uuid of created.related_uuids) {
+          try {
+            const c = await getContributorInfo(String(uuid));
+            if (c && c.email) userRecipients.push(c.email);
+          } catch (err) {
+            // ignore resolution failures
+          }
+        }
+      }
+
+      // Deduplicate and normalize
+      const recipients = Array.from(new Set((userRecipients || []).map((r: string) => (r || '').trim()).filter(Boolean)));
+
+      // If we have recipients and SMTP configured, send them a user-facing email and record results
+      const emailHistory: any[] = [];
+      if (recipients.length > 0 && (SMTP_HOST || SMTP_SERVICE) && SMTP_USER && SMTP_PASS) {
+        const transportOptions: any = SMTP_SERVICE
+          ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
+          : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
+        // transporter for user emails (dynamic import reused)
+        const nodemailerMod2 = await import('nodemailer');
+        const nodemailerLib2: any = (nodemailerMod2 && (nodemailerMod2 as any).default) ? (nodemailerMod2 as any).default : nodemailerMod2;
+        const transporter2 = nodemailerLib2.createTransport(transportOptions);
+
+        const userSubject = (pl && pl.email_subject) ? String(pl.email_subject) : `Action required: ${created.type}`;
+        const userTextLines: string[] = [];
+        userTextLines.push(`Dear user,`);
+        if (pl && pl.message) userTextLines.push('', String(pl.message));
+        userTextLines.push('');
+        userTextLines.push(`Please review the notification in the SDG Commons admin UI: ${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`);
+        const userHtml = `<p>Dear user,</p><p>${escapeHtml(pl && pl.message ? String(pl.message) : 'You have an important notification that requires action.')}</p><p><a href="${escapeHtml(`${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`)}">Open notification in admin UI</a></p>`;
+
+        for (const toAddr of recipients) {
+          const mail = {
+            from: `SDG Commons <${SMTP_USER}>`,
+            to: toAddr,
+            subject: userSubject,
+            text: userTextLines.join('\n'),
+            html: userHtml,
+          };
+
+          try {
+            if (NODE_ENV === 'production') {
+              await transporter2.sendMail(mail);
+            } else {
+              console.log('User notification (dev) - would send:', { mail });
+            }
+            emailHistory.push({ to: toAddr, subject: userSubject, status: 'sent', sent_at: new Date().toISOString(), preview: (pl && pl.message) ? String(pl.message).slice(0, 500) : '' });
+          } catch (sendErr) {
+            console.error('Failed to send user notification email to', toAddr, String(sendErr));
+            emailHistory.push({ to: toAddr, subject: userSubject, status: 'failed', error: String(sendErr), attempted_at: new Date().toISOString() });
+          }
+        }
+      }
+
+      // Persist email history into notification metadata so admins can see correspondence
+      try {
+        const existingMeta = created.metadata || {};
+        const existingHistory = Array.isArray(existingMeta.email_history) ? existingMeta.email_history : [];
+        const newMeta = Object.assign({}, existingMeta, { email_history: existingHistory.concat(emailHistory) });
+        await dbQuery('general' as any, `UPDATE notifications SET metadata = $1, updated_at = now() WHERE id = $2`, [newMeta, created.id]);
+      } catch (metaErr) {
+        console.error('Failed to persist notification email history', created?.id, metaErr);
+      }
+    } catch (e) {
+      console.error('Unexpected error while handling user notification emails for', created?.id, e);
+    }
+
   }
 
   return created;

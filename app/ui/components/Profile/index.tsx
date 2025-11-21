@@ -430,8 +430,8 @@ export default function ProfileContent({
         </div>
       </div>)}
 
-
-      {!personalView && (
+      {/* Disable the get in touch section for contributor profiles until there is plan handling abuse and harrassment within the platform */}
+      {/* {!personalView && (
         <div className="mt-6 border border-solid border-black bg-white p-6">
           <h3 className="mb-6 font-space-mono text-xl font-bold">Get in Touch</h3>
           <div className="space-y-4">
@@ -453,7 +453,7 @@ export default function ProfileContent({
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
 
       <ProfileModals

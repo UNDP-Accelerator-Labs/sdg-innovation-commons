@@ -12,11 +12,8 @@ export default function ExportRequestClient() {
   const [msgType, setMsgType] = useState<'success' | 'error' | null>(null);
   const [availableDbs, setAvailableDbs] = useState<Array<{ key: string; label: string }>>([]);
 
-  // PII include options
-  const [includeAll, setIncludeAll] = useState(false);
-  const [includeName, setIncludeName] = useState(true);
-  const [includeEmail, setIncludeEmail] = useState(false);
-  const [includeUuid, setIncludeUuid] = useState(false);
+  // PII include options (single toggle to include personal identifiers)
+  const [includePersonalData, setIncludePersonalData] = useState(false);
 
   // Metadata include options
   const [includeTags, setIncludeTags] = useState(true);
@@ -39,14 +36,6 @@ export default function ExportRequestClient() {
     ]);
   }, []);
 
-  useEffect(() => {
-    if (includeAll) {
-      setIncludeName(true);
-      setIncludeEmail(true);
-      setIncludeUuid(true);
-    }
-  }, [includeAll]);
-
   function toggleKey(k: string) {
     setDbKeys((prev) => (prev.includes(k) ? prev.filter((x) => x !== k) : [...prev, k]));
   }
@@ -56,7 +45,7 @@ export default function ExportRequestClient() {
       <button
         type="button"
         onClick={() => onChange(!checked)}
-        className="h-5 w-5 border border-black flex items-center justify-center bg-white flex-shrink-0"
+        className="h-5 w-5 bottom-1 border-2 border-black border-solid flex items-center justify-center bg-white flex-shrink-0"
         style={{ backgroundColor: checked ? '#0072bc' : 'white' }}
       >
         {checked && <Check className="h-3 w-3 text-white" />}
@@ -83,10 +72,8 @@ export default function ExportRequestClient() {
       if (selectedStatuses.length) body.statuses = Array.from(new Set(selectedStatuses));
 
       body.params = {
-        include_name: includeName,
-        include_email: includeEmail,
-        include_uuid: includeUuid,
-        include_all: includeAll,
+        // include_pii controls inclusion of name/email/uuid and other personal identifiers
+        include_pii: includePersonalData,
         include_tags: includeTags,
         include_locations: includeLocations,
         include_metafields: includeMetafields,
@@ -140,7 +127,7 @@ export default function ExportRequestClient() {
                 name="format"
                 checked={format === fmt}
                 onChange={() => setFormat(fmt)}
-                className="w-4 h-4"
+                className="w-4 h-4 bottom-1 border-black border-solid"
               />
               <span className="text-sm font-medium uppercase">{fmt}</span>
             </label>
@@ -159,7 +146,7 @@ export default function ExportRequestClient() {
                 name="kind"
                 checked={kind === t}
                 onChange={() => setKind(t)}
-                className="w-4 h-4"
+                className="w-4 h-4 border-1 border-black border-solid"
               />
               <span className="text-sm font-medium uppercase">{t === 'full' ? 'Full Dataset' : 'Sample (100 records)'}</span>
             </label>
@@ -203,23 +190,9 @@ export default function ExportRequestClient() {
         <h3 className="text-sm font-bold font-space-mono mb-4 uppercase tracking-wide">Include Personal Data</h3>
         <div className="space-y-3">
           <label className="flex items-center gap-3 cursor-pointer p-2 hover:bg-gray-50">
-            <CustomCheckbox checked={includeAll} onChange={setIncludeAll} />
-            <span className="text-sm font-medium">Include All</span>
+            <CustomCheckbox checked={includePersonalData} onChange={setIncludePersonalData} />
+            <span className="text-sm font-medium">Include personal identifiers (name, email, UUID)</span>
           </label>
-          <div className="flex flex-wrap gap-4 pl-8">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <CustomCheckbox checked={includeName} onChange={setIncludeName} />
-              <span className="text-sm">Name</span>
-            </label>
-            <label className="flex items-center gap-3 cursor-pointer">
-              <CustomCheckbox checked={includeEmail} onChange={setIncludeEmail} />
-              <span className="text-sm">Email</span>
-            </label>
-            <label className="flex items-center gap-3 cursor-pointer">
-              <CustomCheckbox checked={includeUuid} onChange={setIncludeUuid} />
-              <span className="text-sm">UUID</span>
-            </label>
-          </div>
         </div>
       </div>
 
