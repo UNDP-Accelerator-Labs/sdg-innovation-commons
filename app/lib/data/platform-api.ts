@@ -1022,7 +1022,17 @@ export async function createNotification(opts: {
         if (pl && pl.message) userTextLines.push('', String(pl.message));
         userTextLines.push('');
         userTextLines.push(`Please review the notification in the SDG Commons admin UI: ${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`);
-        const userHtml = `<p>Dear user,</p><p>${escapeHtml(pl && pl.message ? String(pl.message) : 'You have an important notification that requires action.')}</p><p><a href="${escapeHtml(`${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`)}">Open notification in admin UI</a></p>`;
+        
+        // Create HTML content with inline escaping instead of async escapeHtml function
+        const message = pl && pl.message ? String(pl.message) : 'You have an important notification that requires action.';
+        const notifUrl = `${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`;
+        const escapedMessage = message.replace(/[&"'<>]/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+        });
+        const escapedUrl = notifUrl.replace(/[&"'<>]/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+        });
+        const userHtml = `<p>Dear user,</p><p>${escapedMessage}</p><p><a href="${escapedUrl}">Open notification in admin UI</a></p>`;
 
         for (const toAddr of recipients) {
           const mail = {
