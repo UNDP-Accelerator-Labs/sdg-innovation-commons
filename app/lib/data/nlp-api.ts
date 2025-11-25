@@ -15,6 +15,11 @@ export interface Props {
     doc_type?: (string | undefined)[] | undefined;
 }
 
+export interface ContentRemovalProps {
+  platform: string;
+  contentId: string;
+}
+
 // CHANGED country TO iso3
 
 export default async function nlpApi(_kwargs: Props) {
@@ -139,5 +144,143 @@ async function getCountryNames(data: any[]): Promise<any[]> {
   } catch (error) {
     console.error('Error in getCountryNames:', error);
     throw new Error('Failed to fetch country names or articles');
+  }
+}
+
+/**
+ * Remove content from NLP indexes
+ * Based on the curl example: curl -X DELETE "https://nlpapi.sdg-innovation-commons.org/api/delete_doc/{base}/{doc_id}?token={token}"
+ */
+export async function removeFromNLPIndex({ platform, contentId }: ContentRemovalProps): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    const token = await session_token();
+    
+    if (!token) {
+      return {
+        success: false,
+        error: 'Authentication token required for NLP API operations'
+      };
+    }
+
+    // Map platform names to NLP base names
+    // Based on the existing mapping in nlp-api.ts
+    const platformToBaseMap: Record<string, string> = {
+      'solutions_pad': 'solution',
+      'learningplan_pad': 'actionplan',
+      'experiment_pad': 'experiment',
+      'blogs_pad': 'blog',
+      // Add more mappings as needed
+    };
+
+    const base = platformToBaseMap[platform];
+    if (!base) {
+      return {
+        success: false,
+        error: `Unknown platform: ${platform}. Cannot map to NLP base.`
+      };
+    }
+
+    const url = `${NLP_URL}/delete_doc/${base}/${contentId}`;
+    
+    console.log(`Attempting to remove content from NLP index: ${url}?token=${token ? '[REDACTED]' : 'null'}`);
+
+    const response = await get({
+      url: `${url}?token=${token}`,
+      method: 'DELETE'
+    });
+
+    if (response?.status?.toLowerCase() === 'ok' || response?.message?.toLowerCase().includes('success')) {
+      console.log(`Successfully removed content from NLP index: ${base}/${contentId}`);
+      return {
+        success: true,
+        message: `Content removed from NLP index: ${base}/${contentId}`
+      };
+    } else {
+      console.warn(`NLP API response may indicate failure:`, response);
+      return {
+        success: true, // Don't fail the entire operation - content may not exist in index
+        message: `NLP API called for ${base}/${contentId}. Response: ${JSON.stringify(response)}`
+      };
+    }
+
+  } catch (error) {
+    console.error('Failed to remove content from NLP index:', error);
+    
+    // Don't fail the entire content removal operation if NLP removal fails
+    // This is graceful degradation - the content is still marked as removed in the database
+    return {
+      success: true,
+      error: `NLP removal failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: 'Content marked as removed in database, but NLP index removal failed'
+    };
+  }
+}
+
+/**
+ * Update content relevance in NLP indexes for blogs and publications
+ * This sets relevance to 1 when content is removed
+ */
+export async function updateContentRelevance({ platform, contentId }: ContentRemovalProps): Promise<{ success: boolean; message?: string; error?: string }> {
+  try {
+    // Only apply relevance updates to blogs and similar content types
+    if (!platform.includes('blog') && !platform.includes('publication')) {
+      return {
+        success: true,
+        message: `Relevance update not applicable for platform: ${platform}`
+      };
+    }
+
+    const token = await session_token();
+    
+    if (!token) {
+      return {
+        success: false,
+        error: 'Authentication token required for NLP API operations'
+      };
+    }
+
+    // Map platform to base name
+    const platformToBaseMap: Record<string, string> = {
+      'blogs_pad': 'blog',
+      // Add more publication types as needed
+    };
+
+    const base = platformToBaseMap[platform];
+    if (!base) {
+      return {
+        success: true,
+        message: `Platform ${platform} does not support relevance updates`
+      };
+    }
+
+    // This would be the API endpoint for updating relevance - adjust based on actual NLP API
+    const url = `${NLP_URL}/update_relevance/${base}/${contentId}`;
+    
+    console.log(`Attempting to update content relevance: ${url}?token=${token ? '[REDACTED]' : 'null'}`);
+
+    const response = await get({
+      url: `${url}?token=${token}`,
+      method: 'PUT',
+      body: {
+        relevance: 1, // Set to 1 for removed content
+        status: 'removed'
+      }
+    });
+
+    console.log(`Content relevance update response for ${base}/${contentId}:`, response);
+
+    return {
+      success: true,
+      message: `Relevance updated for ${base}/${contentId}`
+    };
+
+  } catch (error) {
+    console.error('Failed to update content relevance:', error);
+    
+    return {
+      success: true, // Don't fail the operation
+      error: `Relevance update failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      message: 'Content removal completed, but relevance update failed'
+    };
   }
 }

@@ -72,7 +72,7 @@ export default function Feedback({
   if (!isLogedIn) return null;
 
   return (
-    <div className="inner mx-auto bg-gray-100 py-5 px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 ">
+    <div className="inner mx-auto bg-gray-200 py-5 px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 ">
       <div className="section-content pl-8">
         <h5 className="text-lg font-semibold">What do you think about this content?</h5>
         <div className="flex flex-col gap-3 sm:flex-row sm:gap-5">

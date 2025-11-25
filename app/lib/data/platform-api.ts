@@ -909,21 +909,24 @@ export async function createNotification(opts: {
         textLines.push(`Open the notification in the admin UI: ${notifUrl}`);
 
         // Simple inlined HTML template (responsive enough for common email clients)
-        const htmlRows = payloadEntries.map((e) => {
-          const v = (typeof e.value === 'object') ? `<pre style="white-space:pre-wrap;margin:0">${escapeHtml(JSON.stringify(e.value, null, 2))}</pre>` : escapeHtml(String(e.value));
+        const htmlRows = await Promise.all(payloadEntries.map(async (e) => {
+          const v = (typeof e.value === 'object') ? 
+            `<pre style="white-space:pre-wrap;margin:0">${await escapeHtml(JSON.stringify(e.value, null, 2))}</pre>` : 
+            await escapeHtml(String(e.value));
           return `
             <tr>
-              <td style="padding:8px 12px;border-top:1px solid #e6e6e6;font-weight:600;color:#374151">${escapeHtml(e.key)}</td>
+              <td style="padding:8px 12px;border-top:1px solid #e6e6e6;font-weight:600;color:#374151">${await escapeHtml(e.key)}</td>
               <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${v}</td>
             </tr>`;
-        }).join('\n');
+        }));
+        const htmlRowsJoined = htmlRows.join('\n');
 
         const html = `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${escapeHtml(subject)}</title>
+    <title>${await escapeHtml(subject)}</title>
   </head>
   <body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.4;margin:0;background:#f7fafc;color:#111827;">
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -942,17 +945,17 @@ export async function createNotification(opts: {
                 <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;margin-top:8px;">
                   <tr>
                     <td style="padding:8px 12px;font-weight:600;color:#374151;border-top:1px solid #e6e6e6;">Type</td>
-                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${escapeHtml(created.type)}</td>
+                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${await escapeHtml(created.type)}</td>
                   </tr>
                   <tr>
                     <td style="padding:8px 12px;font-weight:600;color:#374151;border-top:1px solid #e6e6e6;">Created</td>
-                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${escapeHtml(createdAt)}</td>
+                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${await escapeHtml(createdAt)}</td>
                   </tr>
-                  ${htmlRows}
+                  ${htmlRowsJoined}
                 </table>
 
                 <p style="margin:18px 0 0 0">
-                  <a href="${escapeHtml(notifUrl)}" style="display:inline-block;padding:10px 16px;background:#059669;color:#ffffff;border-radius:6px;text-decoration:none;font-weight:600">Open in admin UI</a>
+                  <a href="${await escapeHtml(notifUrl)}" style="display:inline-block;padding:10px 16px;background:#059669;color:#ffffff;border-radius:6px;text-decoration:none;font-weight:600">Open in admin UI</a>
                 </p>
 
                 <p style="margin:18px 0 0 0;color:#6b7280;font-size:12px">This is an automated admin alert from SDG Commons.</p>
