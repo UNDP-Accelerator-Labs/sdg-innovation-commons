@@ -330,11 +330,11 @@ export default function NotificationsClient(){
             </div>
 
             {/* Sticky footer */}
-            <div className="mt-4 flex gap-3 sticky bottom-0 bg-white pt-3 border-t">
+            <div className="mt-4 flex justify-between gap-3 sticky bottom-0 bg-white pt-3 border-t">
               <Button onClick={() => { setModalOpen(false); setSelected(null); }}>Close</Button>
-              {/* {selected.metadata?.adminUrl && (
+              {selected.metadata?.adminUrl && (
                 <Button onClick={() => window.open(String(selected.metadata.adminUrl), '_blank')}>Go to context</Button>
-              )} */}
+              )}
             </div>
           </div>
         ) : <div>Loading…</div>}

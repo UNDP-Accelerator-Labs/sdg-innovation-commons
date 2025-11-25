@@ -2,6 +2,7 @@ import Collection from '@/app/ui/collection';
 import { incomingRequestParams } from '@/app/lib/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
 import collectionData from '@/app/lib/data/collection';
+import getSession from "@/app/lib/session";
 
 type Props = {
   params: Promise<{ collection: string }>;
@@ -19,6 +20,8 @@ export async function generateMetadata(
 
   // fetch data
   const data = await collectionData({ id, searchParams: await searchParams });
+  // ensure highlights are included so approved/published creators can be shown in metadata checks
+  const highlights = data?.highlights || null;
   const previousImages = (await parent)?.openGraph?.images || [];
 
   // ensure mainImage is absolute (or undefined) and build images array safely
@@ -71,8 +74,9 @@ export default async function Page({
 }: incomingRequestParams) {
   let { collection } = await params;
 
+  const session = await getSession();
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
-  return <Collection id={collection} searchParams={sParams} />;
+  return <Collection id={collection} searchParams={sParams} session={session} />;
 }
