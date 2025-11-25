@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { query as dbQuery, getClient } from '../app/lib/db';
 import { BlobServiceClient, StorageSharedKeyCredential, generateBlobSASQueryParameters, BlobSASPermissions } from '@azure/storage-blob';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '../app/lib/helper';
 import os from 'os';
 import { Stream, PassThrough } from 'stream';
 import { createNotification } from '../app/lib/data/platform-api';
@@ -125,23 +125,7 @@ async function uploadStreamToAzure(readable: any, destName: string, contentType?
 }
 
 async function sendNotification(toEmail: string, blobUrl: string, ccEmail?: string) {
-  if (!process.env.SMTP_HOST) return;
-  const transporter = nodemailer.createTransport({ host: process.env.SMTP_HOST, port: Number(process.env.SMTP_PORT), auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } });
-
   const subject = 'Your data export is ready — SDG Innovation Commons';
-  const textBody = [
-    'Hello,',
-    '',
-    'Your requested data export is ready for download.',
-    '',
-    `Download link: ${blobUrl}`,
-    '',
-    'This link will be available for 24 hours.',
-    '',
-    'Regards,',
-    'SDG Innovation Commons — Data Exports'
-  ].join('\n');
-
   const htmlBody = `
     <div style="font-family: Arial, Helvetica, sans-serif; color: #111;">
       <p>Hello,</p>
@@ -152,20 +136,8 @@ async function sendNotification(toEmail: string, blobUrl: string, ccEmail?: stri
     </div>
   `;
 
-  const mailOptions: any = {
-    from: process.env.SMTP_USER,
-    to: toEmail,
-    subject,
-    text: textBody,
-    html: htmlBody
-  };
-
-  if (ccEmail) mailOptions.cc = ccEmail;
-
   try {
-    if(process.env.NODE_ENV === 'production') {
-      await transporter.sendMail(mailOptions);
-    }
+    await sendEmail(toEmail, ccEmail || undefined, subject, htmlBody);
     console.log('Sent export notification to', toEmail, ccEmail ? `(cc: ${ccEmail})` : '', 'for', blobUrl);
   } catch (e) {
     console.error('Failed to send export email', e);

@@ -10,9 +10,9 @@ import {
   base_url as hostUrl,
 } from '@/app/lib/utils';
 import get from './get';
-import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import db, { query as dbQuery } from '@/app/lib/db';
+import { sendEmail } from '@/app/lib/helper';
 
 //Environment variables
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
@@ -467,39 +467,20 @@ export async function confirmEmailAccountBeforeRegistration(forms: Record<string
     throw new Error('SMTP_PORT / SMTP_USER / SMTP_PASS are not defined.');
   }
 
-  const transportOptions: any = SMTP_SERVICE
-    ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-    : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-
-  const transporter = nodemailer.createTransport(transportOptions);
-
   const confirmationLink = process.env.NODE_ENV === 'production'
     ? `https://sdg-innovation-commons.org/confirm-email/${token}?new_user=true`
     : `${LOCAL_BASE_URL}/confirm-email/${token}?new_user=true`;
 
-  const mailOptions = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: forms.email,
-    subject: 'Please confirm your email for SDG Commons registration',
-    text: `
-      Dear ${forms.new_name || 'User'},
-
-      Thank you for registering as a contributor on the SDG Commons platform. Please confirm your email address by clicking the link below. The link is valid for 24 hours.
-
-      ${confirmationLink}
-
-      Best regards,
-      SDG Commons Platform
-    `,
-  };
+  const emailSubject = 'Please confirm your email for SDG Commons registration';
+  const emailHtml = `
+      <p>Dear ${forms.new_name || 'User'},</p>
+      <p>Thank you for registering as a contributor on the SDG Commons platform. Please confirm your email address by clicking the link below. The link is valid for 24 hours.</p>
+      <p><a href="${confirmationLink}">${confirmationLink}</a></p>
+      <p>Best regards,<br/>SDG Commons Platform</p>
+    `;
 
   try {
-    if (NODE_ENV === 'production') {
-      await transporter.sendMail(mailOptions);
-    } else {
-      // Avoid sending in dev — log link so QA/dev can click it
-      console.log('Dev mode - confirm link:', confirmationLink);
-    }
+    await sendEmail(forms.email, undefined, emailSubject, emailHtml);
   } catch (error) {
     console.error('Error sending email to user:', error);
   }
@@ -802,12 +783,8 @@ export async function deleteAccount(uuid: string, password: string, email: strin
 }
 
 export async function notifyAccountDeletion(email: string) {
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
-    throw new Error('SMTP environment variables are not defined.');
-  }
-
   const adminEmails = ADMIN_EMAILS
-    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+    ? ADMIN_EMAILS.split(';').map((email: string) => email.trim()).filter((email: string) => email)
     : [];
 
   if (adminEmails.length === 0) {
@@ -815,33 +792,15 @@ export async function notifyAccountDeletion(email: string) {
   }
 
   const adminContact = adminEmails[0];
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    service: SMTP_SERVICE,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
-  const mailOptions = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: email,
-    subject: 'Account Deletion Notification',
-    text: `
-      Dear User,
-
-      Your account has been successfully deleted from the SDG Commons platform. Your contributions may remain in anonymized form unless you explicitly request their removal. If you wish to remove your contributions, please contact the administrator at ${adminContact}.
-
-      Best regards,
-      SDG Commons Platform
-    `,
-  };
+  const emailSubject = 'Account Deletion Notification';
+  const emailHtml = `
+      <p>Dear User,</p>
+      <p>Your account has been successfully deleted from the SDG Commons platform. Your contributions may remain in anonymized form unless you explicitly request their removal. If you wish to remove your contributions, please contact the administrator at ${adminContact}.</p>
+      <p>Best regards,<br/>SDG Commons Platform</p>
+    `;
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sendEmail(email, undefined, emailSubject, emailHtml);
     return {
       status: 200,
       message: 'Notification email sent successfully.',
@@ -862,40 +821,17 @@ export async function sendContactContributorEmail(
   senderName: string,
   message: string
 ) {
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_SERVICE) {
-    throw new Error('SMTP environment variables are not defined.');
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    service: SMTP_SERVICE,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
-  const mailOptions = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: contributorEmail,
-    subject: `Message from ${senderName}`,
-    text: `
-      Dear Contributor,
-
-      You have received a message from ${senderName} (${senderEmail}). Below is the message:
-
-      "${message}"
-
-      Please feel free to respond directly to the sender.
-
-      Best regards,
-      SDG Commons Platform
-    `,
-  };
+  const emailSubject = `Message from ${senderName}`;
+  const emailHtml = `
+      <p>Dear Contributor,</p>
+      <p>You have received a message from ${senderName} (${senderEmail}). Below is the message:</p>
+      <blockquote style="border-left: 4px solid #ccc; margin: 1em 0; padding-left: 1em; font-style: italic;">"${message}"</blockquote>
+      <p>Please feel free to respond directly to the sender.</p>
+      <p>Best regards,<br/>SDG Commons Platform</p>
+    `;
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sendEmail(contributorEmail, undefined, emailSubject, emailHtml);
     return {
       status: 200,
       message: 'Email sent successfully.',
@@ -944,11 +880,7 @@ export async function createNotification(opts: {
     try {
       const adminListRaw = ADMIN_EMAILS || process.env.ADMIN_EMAILS || '';
       const adminEmails = adminListRaw.split(/[;,\s]+/).map((e: string) => e.trim()).filter(Boolean);
-      if (adminEmails.length > 0 && (SMTP_HOST || SMTP_SERVICE) && SMTP_USER && SMTP_PASS) {
-        const transportOptions: any = SMTP_SERVICE
-          ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-          : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-        const transporter = nodemailer.createTransport(transportOptions);
+      if (adminEmails.length > 0) {
 
         const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
         const notifUrl = `${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`;
@@ -1039,20 +971,7 @@ export async function createNotification(opts: {
 
         // reuse top-level escapeHtml helper
 
-        const mailOptions = {
-          from: `SDG Commons <${SMTP_USER}>`,
-          to: adminEmails.join(','),
-          subject,
-          text: textLines.join('\n'),
-          html,
-        };
-
-        if (NODE_ENV === 'production') {
-          await transporter.sendMail(mailOptions);
-        } else {
-          // In non-production, log instead of sending
-          console.log('Admin notification (dev) - would send:', { mailOptions });
-        }
+        await sendEmail(adminEmails.join(','), undefined, subject, html);
       } else {
         // No admin emails or SMTP not configured - log for debugging
         console.log('Admin notification not sent: missing ADMIN_EMAILS or SMTP config', { ADMIN_EMAILS, SMTP_HOST, SMTP_SERVICE });
@@ -1090,16 +1009,9 @@ export async function createNotification(opts: {
       // Deduplicate and normalize
       const recipients = Array.from(new Set((userRecipients || []).map((r: string) => (r || '').trim()).filter(Boolean)));
 
-      // If we have recipients and SMTP configured, send them a user-facing email and record results
+      // If we have recipients, send them a user-facing email and record results
       const emailHistory: any[] = [];
-      if (recipients.length > 0 && (SMTP_HOST || SMTP_SERVICE) && SMTP_USER && SMTP_PASS) {
-        const transportOptions: any = SMTP_SERVICE
-          ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-          : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-        // transporter for user emails (dynamic import reused)
-        const nodemailerMod2 = await import('nodemailer');
-        const nodemailerLib2: any = (nodemailerMod2 && (nodemailerMod2 as any).default) ? (nodemailerMod2 as any).default : nodemailerMod2;
-        const transporter2 = nodemailerLib2.createTransport(transportOptions);
+      if (recipients.length > 0) {
 
         const userSubject = (pl && pl.email_subject) ? String(pl.email_subject) : `Action required: ${created.type}`;
         const userTextLines: string[] = [];
@@ -1119,11 +1031,7 @@ export async function createNotification(opts: {
           };
 
           try {
-            if (NODE_ENV === 'production') {
-              await transporter2.sendMail(mail);
-            } else {
-              console.log('User notification (dev) - would send:', { mail });
-            }
+            await sendEmail(toAddr, undefined, userSubject, userHtml);
             emailHistory.push({ to: toAddr, subject: userSubject, status: 'sent', sent_at: new Date().toISOString(), preview: (pl && pl.message) ? String(pl.message).slice(0, 500) : '' });
           } catch (sendErr) {
             console.error('Failed to send user notification email to', toAddr, String(sendErr));

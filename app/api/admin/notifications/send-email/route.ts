@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/lib/session';
 import { getNotification } from '@/app/lib/data/platform-api';
 import db, { query as dbQuery } from '@/app/lib/db';
+import { sendEmail } from '@/app/lib/helper';
 
 function escapeHtml(s: any) {
   if (s === null || typeof s === 'undefined') return '';
@@ -26,33 +27,13 @@ export async function POST(req: NextRequest) {
   const actor_uuid = session?.uuid || null;
   const actor_name = session?.username || session?.name || null;
 
-  // Build transport options
-  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SERVICE, NODE_ENV, ADMIN_EMAILS, LOCAL_BASE_URL } = process.env as any;
-  if (!(SMTP_HOST || SMTP_SERVICE) || !SMTP_USER || !SMTP_PASS) {
-    return NextResponse.json({ error: 'SMTP not configured on server' }, { status: 500 });
-  }
-
-  const transportOptions: any = SMTP_SERVICE
-    ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-    : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-
-  // dynamic import nodemailer (server-only)
-  const nodemailerMod = await import('nodemailer');
-  const nodemailerLib: any = (nodemailerMod && (nodemailerMod as any).default) ? (nodemailerMod as any).default : nodemailerMod;
-  const transporter = nodemailerLib.createTransport(transportOptions);
-
   // Build email payload for user — do NOT include admin UI link. Preserve line breaks using white-space:pre-wrap and escape HTML.
-  const mail = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: String(to),
-    subject: String(subject || `Notification: ${notif.type}`),
-    text: (message ? String(message) + '\n' : ''),
-    html: `<div style="white-space:pre-wrap;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.4;color:#111">${escapeHtml(message || '')}</div>`,
-  };
+  const emailSubject = String(subject || `Notification: ${notif.type}`);
+  const emailHtml = `<div style="white-space:pre-wrap;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;line-height:1.4;color:#111">${escapeHtml(message || '')}</div>`;
 
-  const historyEntry: any = { to: String(to), subject: mail.subject, actor_uuid, actor_name };
+  const historyEntry: any = { to: String(to), subject: emailSubject, actor_uuid, actor_name };
   try {
-    const info = await transporter.sendMail(mail);
+    await sendEmail(String(to), undefined, emailSubject, emailHtml);
     historyEntry.status = 'sent';
     historyEntry.sent_at = new Date().toISOString();
     historyEntry.preview = (message || '').slice(0, 500);
