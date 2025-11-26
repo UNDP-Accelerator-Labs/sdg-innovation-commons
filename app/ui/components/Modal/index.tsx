@@ -36,7 +36,7 @@ const Modal: FC<ModalProps> = ({ isOpen, onClose, children, title }) => {
         </div>
 
         {/* Modal Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto">{children}</div>
+        <div className="flex-1 overflow-y-auto p-12">{children}</div>
       </div>
     </div>
   );
