@@ -4,7 +4,7 @@ import { query } from '@/app/lib/db';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { flagId: string } }
+  { params }: { params: Promise<{ flagId: string }> }
 ) {
   try {
     const session = await getSession();
@@ -24,7 +24,7 @@ export async function GET(
       );
     }
 
-    const flagId = params.flagId;
+    const { flagId } = await params;
 
     if (!flagId || isNaN(Number(flagId))) {
       return NextResponse.json(
