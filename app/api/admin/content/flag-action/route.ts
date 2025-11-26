@@ -8,7 +8,7 @@ import { removeFromNLPIndex, updateContentRelevance } from '@/app/lib/data/nlp-a
 function getContentTableName(platform: string, contentType: string): string | null {
   // Map platform and content type to database table names
   // For blogs and publications, use 'articles' table
-  if (platform.includes('blog') || platform.includes('publication')) {
+  if (platform.includes('blog') || platform.includes('publications')) {
     return 'articles';
   }
   
@@ -176,7 +176,7 @@ export async function POST(request: NextRequest) {
           console.log(`Database status updated: ${originalFlag.platform}/${originalFlag.content_id}`);
 
           // Set relevance to 1 for blogs and publications
-          if (originalFlag.platform.includes('blog') || originalFlag.platform.includes('publication')) {
+          if (originalFlag.platform.includes('blog') || originalFlag.platform.includes('publications')) {
             try {
               const updateRelevanceQuery = `
                 UPDATE ${contentTable}
@@ -207,7 +207,7 @@ export async function POST(request: NextRequest) {
             console.log(`NLP removal result:`, nlpResult);
 
             // Update relevance in NLP for applicable content types
-            if (originalFlag.platform.includes('blog') || originalFlag.platform.includes('publication')) {
+            if (originalFlag.platform.includes('blog') || originalFlag.platform.includes('publications')) {
               try {
                 const relevanceResult = await updateContentRelevance({
                   platform: originalFlag.platform,
