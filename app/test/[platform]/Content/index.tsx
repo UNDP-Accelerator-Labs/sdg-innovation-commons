@@ -17,6 +17,7 @@ import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
 import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
+import { trackSearch } from '@/app/lib/analytics/search-tracking';
 
 export interface PageStatsResponse {
   total: number;
@@ -177,9 +178,39 @@ export default function Section({
     return keysToCheck.some((key) => key in searchParams && searchParams[key]);
   }
 
+  // Handle search form submission
+  const handleSearchSubmit = async (e: React.FormEvent) => {
+    // Don't prevent default - let the form submit naturally to update URL params
+    if (searchQuery && searchQuery.trim().length > 0) {
+      // Track the search (don't await to avoid blocking form submission)
+      trackSearch({
+        query: searchQuery.trim(),
+        platform: 'test',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: filterParams
+      });
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Track searches when URL parameters change (for direct URL access)
+  useEffect(() => {
+    if (search && search.trim().length > 0) {
+      trackSearch({
+        query: search.trim(),
+        platform: 'test',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: filterParams
+      });
+    }
+  }, [search, hits.length, page, filterParams]);
 
   return (
     <>
@@ -189,6 +220,7 @@ export default function Section({
           <form
             id="search-form"
             method="GET"
+            onSubmit={handleSearchSubmit}
             className="section-header relative pb-[40px] lg:pb-[40px]"
           >
             <div className="group col-span-9 flex flex-row items-stretch lg:col-span-4">

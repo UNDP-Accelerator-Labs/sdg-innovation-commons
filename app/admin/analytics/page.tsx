@@ -4,8 +4,9 @@ import Navbar from "@/app/ui/components/Navbar";
 import Footer from "@/app/ui/components/Footer";
 import { Button } from "@/app/ui/components/Button";
 import Link from "next/link";
-import { ChevronLeft } from 'lucide-react';
+import { ChevronLeft, Search, TrendingUp, Users, BarChart3 } from 'lucide-react';
 import WorkerHealthCard from './WorkerHealthCard.client';
+import SearchAnalytics from './SearchAnalytics';
 
 export default async function Page() {
   const session = await getSession();
@@ -48,9 +49,8 @@ export default async function Page() {
               </div>
           </div>
 
-          <div className="p-4 border-2 rounded bg-white shadow-sm border-black border-solid">
-            Coming soon!
-          </div>
+          {/* Search Analytics Section */}
+          <SearchAnalytics />
 
           {/* Quick links / utilities */}
           <section className="grid grid-cols-1 md:grid-cols-3 gap-6 py-5">

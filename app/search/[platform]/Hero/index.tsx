@@ -8,6 +8,7 @@ import { Button } from '@/app/ui/components/Button';
 import Filters from '@/app/test/[platform]/Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
+import { trackSearch } from '@/app/lib/analytics/search-tracking';
 
 export default function Hero({ searchParams, platform, tabs }: SectionProps) {
   const { page, search } = searchParams;
@@ -32,6 +33,27 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
         allObjectIdz,
       },
     }));
+  };
+
+  const handleSearchSubmit = async (e: React.FormEvent) => {
+    // Let the form submit naturally, but track the search
+    if (searchQuery && searchQuery.trim().length > 1) {
+      // Track search with current filters
+      const filters: Record<string, any> = {};
+      Object.keys(searchParams).forEach(key => {
+        if (key !== 'search' && key !== 'page' && searchParams[key]) {
+          filters[key] = searchParams[key];
+        }
+      });
+
+      trackSearch({
+        query: searchQuery.trim(),
+        platform: platform === 'all' ? undefined : platform,
+        searchType: Object.keys(filters).length > 0 ? 'filter' : 'general',
+        filters: Object.keys(filters).length > 0 ? filters : undefined,
+        pageNumber: parseInt(page || '1')
+      });
+    }
   };
 
   function hasFilterParams(): boolean {
@@ -71,6 +93,7 @@ export default function Hero({ searchParams, platform, tabs }: SectionProps) {
           <form
             id="search-form"
             method="GET"
+            onSubmit={handleSearchSubmit}
             className="section-header relative pb-[40px] lg:pb-[80px]"
           >
             <div className="group col-span-9 flex flex-row items-stretch lg:col-span-4">
