@@ -5,7 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { engage } from '@/app/ui/components/Card/utils';
 import platformApi, { engageApi } from '@/app/lib/data/platform-api';
-import Link from '@/app/ui/components/Link'
+import Link from '@/app/ui/components/Link';
 
 interface Props {
 	id: number;

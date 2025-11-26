@@ -1,27 +1,10 @@
 'use server';
 import { z } from 'zod';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '@/app/lib/helper';
 import { createNotification } from '@/app/lib/data/platform-api';
 
 // Utility function to get the current date
 const getCurrentDate = () => new Date().toISOString().split('T')[0];
-
-// Validate environment variables
-const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE } = process.env;
-if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
-  throw new Error('SMTP or email environment variables are not defined.');
-}
-
-// Create reusable nodemailer transporter
-const transporter = nodemailer.createTransport({
-  host: SMTP_HOST,
-  port: Number(SMTP_PORT),
-  service: SMTP_SERVICE,
-  auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASS,
-  },
-});
 
 // Zod schema for validation
 const ContactSchema = z.object({
@@ -113,8 +96,8 @@ export async function createContact(prevState: ContactState, formData: FormData)
   const { name, surname, email, org, reason, message } = validatedFields.data;
   const date = getCurrentDate();
 
-  const adminEmails = ADMIN_EMAILS
-    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+  const adminEmails = process.env.ADMIN_EMAILS
+    ? process.env.ADMIN_EMAILS.split(';').map((email: string) => email.trim()).filter((email: string) => email)
     : [];
 
   if (adminEmails.length === 0) {
@@ -144,27 +127,17 @@ export async function createContact(prevState: ContactState, formData: FormData)
     console.error('Failed to create admin notification for contact-us', notifyErr);
   }
 
-  const mailOptions2 = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: email,
-    subject: `Your comment on the SDG Commons, powered by the UNDP Accelerator Labs`,
-    text: `
-        Dear contributor,
-
-        Thank you for your message. It is well received and is being reviewed by team members of the UNDP Accelerator Labs who will get back to you shortly.
-        
-        Stay tuned.
-            `,
-    };
+  const emailSubject = `Your comment on the SDG Commons, powered by the UNDP Accelerator Labs`;
+  const emailHtml = `
+        <p>Dear contributor,</p>
+        <p>Thank you for your message. It is well received and is being reviewed by team members of the UNDP Accelerator Labs who will get back to you shortly.</p>
+        <p>Stay tuned.</p>
+        `;
 
   // Send contact form data to admin email
   try {
     // Admin email suppressed; keep sender acknowledgement (in production only)
-    if (process.env.NODE_ENV === 'production') {
-      await transporter.sendMail(mailOptions2);
-    } else {
-      console.log('Dev mode - acknowledgement suppressed or logged', { mailOptions2 });
-    }
+    await sendEmail(email, undefined, emailSubject, emailHtml);
 
     return {
       ...newState,

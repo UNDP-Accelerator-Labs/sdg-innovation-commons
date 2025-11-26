@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
   // normalize and persist job params and options
   const rawParams = body?.params || {};
-  const exclude_pii = body?.exclude_pii ?? rawParams.exclude_pii ?? false;
+  const include_pii = body?.include_pii ?? rawParams.include_pii ?? false;
   const exclude_owner_uuid = body?.exclude_owner_uuid ?? rawParams.exclude_owner_uuid ?? false;
   let statuses = body?.statuses ?? rawParams.statuses ?? null;
   if (typeof statuses === 'string') {
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   }
   if (!Array.isArray(statuses)) statuses = null;
   // start with any supplied params and normalize flags
-  const params: any = { ...rawParams, exclude_pii: !!exclude_pii, exclude_owner_uuid: !!exclude_owner_uuid, statuses };
+  const params: any = { ...rawParams, include_pii: !!include_pii, exclude_pii: !include_pii, exclude_owner_uuid: !!exclude_owner_uuid, statuses };
 
   // If the client submitted an additional delivery email at the top-level, persist it into params
   const additionalEmail = body?.requester_email ?? rawParams?.requester_email ?? null;

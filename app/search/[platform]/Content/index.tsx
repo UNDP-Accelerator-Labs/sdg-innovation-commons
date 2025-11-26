@@ -13,6 +13,7 @@ import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { PageStatsResponse, SectionProps } from '@/app/test/[platform]/Content';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
+import { trackSearch } from '@/app/lib/analytics/search-tracking';
 
 export default function Content({
   searchParams,
@@ -78,6 +79,28 @@ export default function Content({
     setAllObjectIdz(sorted_keys);
 
     setLoading(false);
+
+    // Track search results after all state is updated and we have a valid search query
+    if (search && search.trim().length > 1 && Array.isArray(data)) {
+      const filters: Record<string, any> = {};
+      Object.keys(searchParams).forEach(key => {
+        if (key !== 'search' && key !== 'page' && searchParams[key]) {
+          filters[key] = searchParams[key];
+        }
+      });
+
+      // Use a longer delay and ensure we have all the data before tracking
+      setTimeout(() => {
+        trackSearch({
+          query: search.trim(),
+          platform: platform === 'all' ? undefined : platform,
+          searchType: Object.keys(filters).length > 0 ? 'filter' : 'general',
+          resultsCount: typeof total === 'number' ? total : data.length,
+          pageNumber: parseInt(page || '1'),
+          filters: Object.keys(filters).length > 0 ? filters : undefined
+        });
+      }, 500); // Longer delay to ensure all state updates are complete
+    }
   }
 
   // Fetch data on component mount

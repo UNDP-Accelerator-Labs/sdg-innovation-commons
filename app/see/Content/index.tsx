@@ -14,6 +14,7 @@ import Filters from '../Filters';
 import clsx from 'clsx';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
 import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
+import { trackSearch } from '@/app/lib/analytics/search-tracking';
 
 export interface PageStatsResponse {
   total: number;
@@ -117,9 +118,39 @@ export default function Section({ searchParams }: SectionProps) {
     return keysToCheck.some((key) => key in searchParams && searchParams[key]);
   }
 
+  // Handle search form submission
+  const handleSearchSubmit = async (e: React.FormEvent) => {
+    // Don't prevent default - let the form submit naturally to update URL params
+    if (searchQuery && searchQuery.trim().length > 0) {
+      // Track the search (don't await to avoid blocking form submission)
+      trackSearch({
+        query: searchQuery.trim(),
+        platform: 'see',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: { thematic_areas, sdgs, countries }
+      });
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  // Track searches when URL parameters change (for direct URL access)
+  useEffect(() => {
+    if (search && search.trim().length > 0) {
+      trackSearch({
+        query: search.trim(),
+        platform: 'see',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: { thematic_areas, sdgs, countries }
+      });
+    }
+  }, [search, hits.length, page, thematic_areas, sdgs, countries]);
 
   return (
     <>
@@ -129,6 +160,7 @@ export default function Section({ searchParams }: SectionProps) {
           <form
             id="search-form"
             method="GET"
+            onSubmit={handleSearchSubmit}
             className="section-header relative pb-[40px] lg:pb-[40px]"
           >
             <div className="group col-span-9 flex flex-row items-stretch lg:col-span-4">

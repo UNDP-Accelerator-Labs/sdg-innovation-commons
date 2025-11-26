@@ -9,6 +9,7 @@ import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
 import CreateBoard from '@/app/ui/board/Create';
+import { trackSearch } from '@/app/lib/analytics/search-tracking';
 
 export interface PageStatsResponse {
   total: number;
@@ -33,6 +34,23 @@ export default function Section({ searchParams }: Props) {
   windowParams.set('space', _space);
 
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>(search || '');
+
+  // Handle search form submission
+  const handleSearchSubmit = async (e: React.FormEvent) => {
+    // Don't prevent default - let the form submit naturally to update URL params
+    if (searchQuery && searchQuery.trim().length > 0) {
+      // Track the search (don't await to avoid blocking form submission)
+      trackSearch({
+        query: searchQuery.trim(),
+        platform: 'boards',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: { space: _space }
+      });
+    }
+  };
 
   // LIMIT THE DATABASES TO PULL BOARDS FROM
   const databases = commonsPlatform
@@ -57,6 +75,20 @@ export default function Section({ searchParams }: Props) {
     fetchData();
   }, [_space]);
 
+  // Track searches when URL parameters change (for direct URL access)
+  useEffect(() => {
+    if (search && search.trim().length > 0) {
+      trackSearch({
+        query: search.trim(),
+        platform: 'boards',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: { space: _space }
+      });
+    }
+  }, [search, hits.length, page, _space]);
+
   return (
     <>
       {/* TEMP: WHILE WE DO NOT HAVE A SOLUTION FOR SEARCHING THROUGH BOARDS, REMOVE THE PADDING FROM THE section ELEMENT */}
@@ -67,12 +99,15 @@ export default function Section({ searchParams }: Props) {
           <form
             id="search-form"
             method="GET"
+            onSubmit={handleSearchSubmit}
             className="section-header relative pb-[40px] lg:pb-[40px]"
           >
             <div className="group col-span-4 flex flex-row items-stretch">
               <input
                 type="text"
                 name="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className="grow !border-r-0 border-black bg-white"
                 id="main-search-bar"
                 placeholder="What are you looking for?"

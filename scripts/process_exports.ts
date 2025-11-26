@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { query as dbQuery, getClient } from '../app/lib/db';
 import { BlobServiceClient, StorageSharedKeyCredential, generateBlobSASQueryParameters, BlobSASPermissions } from '@azure/storage-blob';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '../app/lib/helper';
 import os from 'os';
 import { Stream, PassThrough } from 'stream';
 import { createNotification } from '../app/lib/data/platform-api';
@@ -39,6 +39,21 @@ function waitStreamFinish(stream: Stream & { on: any }) {
   });
 }
 
+// Helper to scrub PII from free text when excludePii is enabled.
+// Removes email addresses and phone numbers and replaces them with a placeholder.
+function scrubPII(val: any, excludePii: boolean) {
+  if (!excludePii) return val;
+  if (val === null || typeof val === 'undefined') return val;
+  let s = typeof val === 'string' ? val : JSON.stringify(val);
+  // remove emails
+  s = s.replace(/[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g, '[redacted_email]');
+  // remove common phone number patterns (international and local)
+  s = s.replace(/\+?\d[\d()\-\s]{6,}\d/g, '[redacted_phone]');
+  // remove sequences that look like national ids (simple heuristic: long digit sequences)
+  s = s.replace(/\b\d{6,}\b/g, '[redacted_id]');
+  return s;
+}
+
 function mapCategoryForDb(key: string) {
   // categories: what we see (solutions), what we test (experiment, learningplan), what we learn (blogs)
   if (key === 'solutions') return 'what-we-see';
@@ -56,51 +71,8 @@ function mapDataType(key:string, row:any) {
   return key;
 }
 
-async function uploadFileToAzure(localPath: string, destName: string) {
-  const conn = process.env.AZURE_STORAGE_CONNECTION_STRING;
-  if (!conn) throw new Error('AZURE_STORAGE_CONNECTION_STRING not configured');
-  const client = BlobServiceClient.fromConnectionString(conn);
-  const containerName = process.env.AZURE_EXPORT_CONTAINER || 'exports';
-  const container = client.getContainerClient(containerName);
-  await container.createIfNotExists().catch(()=>{});
-  const block = container.getBlockBlobClient(destName);
-  await block.uploadFile(localPath);
 
-  // Determine the URL we'll return (respect AZURE_EXPORT_SAS_TOKEN or generate per-blob SAS)
-  let returnUrl = block.url;
-  if (process.env.AZURE_EXPORT_SAS_TOKEN) {
-    returnUrl = `${block.url}?${process.env.AZURE_EXPORT_SAS_TOKEN}`;
-    console.log('Uploaded file to Azure (with provided SAS token):', destName, returnUrl);
-    return returnUrl;
-  }
-
-  try {
-    const m = String(conn).match(/AccountName=([^;]+);AccountKey=([^;]+);/);
-    if (m) {
-      const account = m[1];
-      const accountKey = m[2];
-      const sharedKey = new StorageSharedKeyCredential(account, accountKey);
-      const expiresOn = new Date(Date.now() + 24 * 3600 * 1000);
-      const sas = generateBlobSASQueryParameters({
-        containerName,
-        blobName: destName,
-        permissions: BlobSASPermissions.parse('r'),
-        startsOn: new Date(Date.now() - 5 * 60 * 1000),
-        expiresOn,
-      }, sharedKey).toString();
-      returnUrl = `${block.url}?${sas}`;
-      console.log('Uploaded file to Azure (generated SAS):', destName, returnUrl);
-      return returnUrl;
-    }
-  } catch (e) {
-    console.warn('Failed to generate SAS token, returning raw blob URL', String((e as any)?.message || e));
-  }
-
-  console.log('Uploaded file to Azure (raw URL):', destName, returnUrl);
-  return returnUrl;
-}
-
-// New: upload a readable stream directly to Azure Blob with simple retry/backoff
+//upload a readable stream directly to Azure Blob with simple retry/backoff
 async function uploadStreamToAzure(readable: any, destName: string, contentType?: string) {
   const conn = process.env.AZURE_STORAGE_CONNECTION_STRING;
   if (!conn) throw new Error('AZURE_STORAGE_CONNECTION_STRING not configured');
@@ -153,23 +125,7 @@ async function uploadStreamToAzure(readable: any, destName: string, contentType?
 }
 
 async function sendNotification(toEmail: string, blobUrl: string, ccEmail?: string) {
-  if (!process.env.SMTP_HOST) return;
-  const transporter = nodemailer.createTransport({ host: process.env.SMTP_HOST, port: Number(process.env.SMTP_PORT), auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS } });
-
   const subject = 'Your data export is ready — SDG Innovation Commons';
-  const textBody = [
-    'Hello,',
-    '',
-    'Your requested data export is ready for download.',
-    '',
-    `Download link: ${blobUrl}`,
-    '',
-    'This link will be available for 24 hours.',
-    '',
-    'Regards,',
-    'SDG Innovation Commons — Data Exports'
-  ].join('\n');
-
   const htmlBody = `
     <div style="font-family: Arial, Helvetica, sans-serif; color: #111;">
       <p>Hello,</p>
@@ -180,18 +136,8 @@ async function sendNotification(toEmail: string, blobUrl: string, ccEmail?: stri
     </div>
   `;
 
-  const mailOptions: any = {
-    from: process.env.SMTP_USER,
-    to: toEmail,
-    subject,
-    text: textBody,
-    html: htmlBody
-  };
-
-  if (ccEmail) mailOptions.cc = ccEmail;
-
   try {
-    await transporter.sendMail(mailOptions);
+    await sendEmail(toEmail, ccEmail || undefined, subject, htmlBody);
     console.log('Sent export notification to', toEmail, ccEmail ? `(cc: ${ccEmail})` : '', 'for', blobUrl);
   } catch (e) {
     console.error('Failed to send export email', e);
@@ -308,7 +254,7 @@ async function streamQueryToHandler(dbKey: string, sql: string, params: any[], o
   });
 }
 
-// New: ensure export_jobs has columns for worker tracing without failing if already present
+// ensure export_jobs has columns for worker tracing without failing if already present
 async function ensureJobColumns() {
   try {
     await dbQuery('general' as any, `ALTER TABLE export_jobs ADD COLUMN IF NOT EXISTS worker_id text;`);
@@ -373,7 +319,7 @@ async function claimPendingJobs(limit = 5, workerId?: string) {
   }
 }
 
-// New: helper to build export notes
+// Helper to build export notes
 function buildExportNotes(job:any, dbKeys:string[], excludePii = false) {
   const lines:string[] = [];
   lines.push('Export report');
@@ -414,6 +360,16 @@ function buildExportNotes(job:any, dbKeys:string[], excludePii = false) {
     lines.push(`- Only pads with the following statuses are included: ${job.statuses.join(', ')}.`);
   }
   lines.push('');
+  lines.push('Data elements & usage:');
+  lines.push('- id / pad_id: internal identifier for the record. Use for cross-referencing with the application DB.');
+  lines.push('- owner_uuid / contributor_uuid: user UUIDs (redacted when exclude_owner_uuid=true). Use to join back to user records when available.');
+  lines.push('- owner_name / contributor_name: resolved display name from the users table (omitted when exclude_pii=true).');
+  lines.push('- owner_email / contributor_email: resolved email (omitted when exclude_pii=true).');
+  lines.push('- owner_country / contributor_country: resolved country name from iso3 (treated as PII and omitted when exclude_pii=true).');
+  lines.push('- full_text / sections: content and structured sections from the pad/article. Note: when metadata is disabled (no tags/locations/metafields/engagement/comments requested) sections may be omitted.');
+  lines.push('- tags / locations / metafields / engagement / comments: optional metadata enrichments. These are only included when explicitly requested and for non-blog exports.');
+  lines.push('- data_type / article_type / status: categorical fields to help filter and aggregate exports.');
+  lines.push('');
   lines.push('Caveats:');
   lines.push('- Not all platforms use the same column names; the exporter attempts to map common fields (id, owner, created_at) but some columns may be missing or differently named.');
   lines.push('- Large exports stream directly to Azure Blob Storage and may take several seconds to complete before the link becomes valid.');
@@ -440,13 +396,24 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
       const excludeOwnerUuid = !!job.exclude_owner_uuid;
       const statusFilter: string[] | null = Array.isArray(job.statuses) && job.statuses.length ? job.statuses : null;
 
-      const includeName = job?.params?.include_name ?? job?.include_name ?? true;
-      const includeEmail = job?.params?.include_email ?? job?.include_email ?? false;
-      const includeUuid = job?.params?.include_uuid ?? job?.include_uuid ?? false;
+      let includeName = job?.params?.include_name ?? job?.include_name ?? true;
+      let includeEmail = job?.params?.include_email ?? job?.include_email ?? false;
+      let includeUuid = job?.params?.include_uuid ?? job?.include_uuid ?? false;
       const includeAll = job?.params?.include_all ?? job?.include_all ?? false;
-      const effectiveIncludeName = includeAll ? true : !!includeName;
-      const effectiveIncludeEmail = includeAll ? true : !!includeEmail;
-      const effectiveIncludeUuid = includeAll ? true : !!includeUuid;
+      let effectiveIncludeName = includeAll ? true : !!includeName;
+      let effectiveIncludeEmail = includeAll ? true : !!includeEmail;
+      let effectiveIncludeUuid = includeAll ? true : !!includeUuid;
+      const includePiiOverride = job?.params?.include_pii;
+      if (typeof includePiiOverride === 'boolean') {
+        effectiveIncludeName = includePiiOverride;
+        effectiveIncludeEmail = includePiiOverride;
+        effectiveIncludeUuid = includePiiOverride;
+      }
+      if (job?.exclude_pii) {
+        effectiveIncludeName = false;
+        effectiveIncludeEmail = false;
+        effectiveIncludeUuid = false;
+      }
 
       for (const key of dbKeys) {
         // Use group-based sheet names so experiments+learningplans end up in the same sheet
@@ -463,17 +430,34 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
 
         try {
           if (key === 'blogs') {
+            // For blogs/publications: force-disable contributor and metadata datapoints — these articles do not reliably have tags/locations/contributor/metafields
+            const forBlogsForceDisableMetadata = true;
+            const includeTags = forBlogsForceDisableMetadata ? false : (job?.params?.include_tags ?? true);
+            const includeLocations = forBlogsForceDisableMetadata ? false : (job?.params?.include_locations ?? true);
+            const includeMetafields = forBlogsForceDisableMetadata ? false : (job?.params?.include_metafields ?? true);
+            const includeEngagement = forBlogsForceDisableMetadata ? false : (job?.params?.include_engagement ?? true);
+            const includeComments = forBlogsForceDisableMetadata ? false : (job?.params?.include_comments ?? true);
+            // For blog exports we do not expose contributor PII or UUIDs even if requested
+            const blogEffectiveIncludeUuid = false;
+            const blogEffectiveIncludeName = false;
+            const blogEffectiveIncludeEmail = false;
+            // include country only when PII is allowed and at least one of name/email/uuid would be present
+            const includeCountry = !excludePii && (blogEffectiveIncludeName || blogEffectiveIncludeEmail || blogEffectiveIncludeUuid);
+            // Use the blog-specific effective flags below when building header/rows
             const sql = await buildBlogSelectSql('blogs', false);
             await streamQueryToHandler('blogs', sql, [], async (r:any) => {
+              // decide whether to include contributor/owner country column (omit when PII excluded)
               if (!columnsWritten) {
                 // include enrichment and optional metadata columns
-                const header = ['id','title','full_text','article_type','data_type','published_at','iso3','contributor_uuid','contributor_name','contributor_email','contributor_country'];
-                // metadata flags
-                const includeTags = job?.params?.include_tags ?? true;
-                const includeLocations = job?.params?.include_locations ?? true;
-                const includeMetafields = job?.params?.include_metafields ?? true;
-                const includeEngagement = job?.params?.include_engagement ?? true;
-                const includeComments = job?.params?.include_comments ?? true;
+                const header: string[] = ['id','title','full_text','article_type','data_type','published_at','iso3'];
+                // include contributor UUID only when requested and owner UUID exclusion not set (blogs: disabled)
+                if (blogEffectiveIncludeUuid && !excludeOwnerUuid) header.push('contributor_uuid');
+                // contributor PII columns are intentionally disabled for blogs
+                if (!excludePii && blogEffectiveIncludeName) header.push('contributor_name');
+                if (!excludePii && blogEffectiveIncludeEmail) header.push('contributor_email');
+                // include contributor_country only when PII is not excluded and contributor fields are present
+                if (includeCountry) header.push('contributor_country');
+                // metadata flags (forced-off for blogs)
                 if (includeTags) header.push('tags');
                 if (includeLocations) header.push('locations');
                 if (includeMetafields) header.push('metafields');
@@ -495,21 +479,18 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
               }
 
               const user = await enrichUserCached(r.contributor);
-              const countryName = (user?.iso3 && adm0Map[user.iso3?.toLowerCase()]) || user?.iso3 || r.iso3 || '';
               const dataType = mapDataType('blogs', r);
-              const contributorUuidVal = effectiveIncludeUuid ? (r.contributor || '') : '';
-              const contributorNameVal = effectiveIncludeName ? (user?.name || '') : '';
-              const contributorEmailVal = effectiveIncludeEmail ? (user?.email || '') : '';
+              const contributorUuidVal = blogEffectiveIncludeUuid ? (r.contributor || '') : '';
+              const contributorNameVal = (!excludePii && blogEffectiveIncludeName) ? (user?.name || '') : '';
+              const contributorEmailVal = (!excludePii && blogEffectiveIncludeEmail) ? (user?.email || '') : '';
 
               // ensure full_text is available (may be from joins or article column)
-              const fullTextVal = (r.full_text || r.content || r.html_content || r.body || r.text || '') as string;
+              let fullTextVal = (r.full_text || r.content || r.html_content || r.body || r.text || '') as string;
+              fullTextVal = scrubPII(fullTextVal, excludePii) as string;
 
               // metadata fields (articles may or may not have these)
-              const includeTags = job?.params?.include_tags ?? true;
-              const includeLocations = job?.params?.include_locations ?? true;
-              const includeMetafields = job?.params?.include_metafields ?? true;
-              const includeEngagement = job?.params?.include_engagement ?? true;
-              const includeComments = job?.params?.include_comments ?? true;
+              // metadata flags already set for blogs above (forced-off)
+              // const includeTags, includeLocations, includeMetafields, includeEngagement, includeComments
 
               const tags = Array.isArray(r.tags) ? r.tags : (() => { try { return JSON.parse(r.tags || '[]'); } catch(e){ return []; } })();
               const locations = Array.isArray(r.locations) ? r.locations : (() => { try { return JSON.parse(r.locations || '[]'); } catch(e){ return []; } })();
@@ -523,18 +504,20 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
               const formatEng = (arr:any[]) => arr.map((e:any)=> (e ? `${e.type ?? ''}:${e.count ?? e['count'] ?? JSON.stringify(e)}` : '')).join('; ');
               const formatComments = (arr:any[]) => arr.map((c:any)=> (c ? `${c.user_id ?? c.contributor ?? ''}:${String(c.message ?? '').replace(/\s+/g,' ').slice(0,120)}` : '')).join(' || ');
 
-              const tagsStr = includeTags ? formatTags(tags) : '';
-              const locStr = includeLocations ? formatLocations(locations) : '';
-              const mfStr = includeMetafields ? formatMeta(metafields) : '';
-              const egStr = includeEngagement ? formatEng(engagement) : '';
-              const cmStr = includeComments ? formatComments(comments) : '';
+              const tagsStr = false ? '' : '';
+              const locStr = false ? '' : '';
+              const mfStr = false ? '' : '';
+              const egStr = false ? '' : '';
+              const cmStr = false ? '' : '';
 
-              const rowVals:any[] = [r.id, r.title, fullTextVal, r.article_type, dataType, r.published_at, r.iso3, contributorUuidVal, contributorNameVal, contributorEmailVal, countryName];
-              if (includeTags) rowVals.push(tagsStr);
-              if (includeLocations) rowVals.push(locStr);
-              if (includeMetafields) rowVals.push(mfStr);
-              if (includeEngagement) rowVals.push(egStr);
-              if (includeComments) rowVals.push(cmStr);
+              // build row values respecting excluded PII columns
+              const rowVals:any[] = [r.id, r.title, fullTextVal, r.article_type, dataType, r.published_at, r.iso3];
+              if (blogEffectiveIncludeUuid && !excludeOwnerUuid) rowVals.push(contributorUuidVal);
+              if (!excludePii && blogEffectiveIncludeName) rowVals.push(contributorNameVal);
+              if (!excludePii && blogEffectiveIncludeEmail) rowVals.push(contributorEmailVal);
+              if (includeCountry) rowVals.push(''); // blogs do not expose contributor country
+              // blogs force-disable metadata columns
+              // tags/locations/metafields/engagement/comments intentionally omitted for blogs
 
               ws.addRow(rowVals).commit();
             });
@@ -544,16 +527,28 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
             const { sql, params } = await buildPadsSelectSql(statusFilter);
 
             await streamQueryToHandler(key, sql, params, async (r:any) => {
+              // decide whether to include owner country column (omit when PII excluded)
+              // include country only if PII is allowed and at least one of name/email/uuid would be present
+              const includeCountry = !excludePii && (effectiveIncludeName || effectiveIncludeEmail || effectiveIncludeUuid);
               if (!columnsWritten) {
                 // base pad columns + data_type + owner info
                 // include resolved template/source title columns
-                const baseHeader = ['pad_id','title','data_type','owner_uuid','owner_name','owner_email','owner_country','status','created_at','updated_at','source_pad_id','source_pad_title','template','template_title','full_text','sections'];
-                // metadata flags
+                const baseHeader: string[] = ['pad_id','title','data_type'];
+                // include owner UUID only when not excluded
+                if (effectiveIncludeUuid && !excludeOwnerUuid) baseHeader.push('owner_uuid');
+                if (!excludePii && effectiveIncludeName) baseHeader.push('owner_name');
+                if (!excludePii && effectiveIncludeEmail) baseHeader.push('owner_email');
+                if (includeCountry) baseHeader.push('owner_country');
+                baseHeader.push('status','created_at','updated_at','source_pad_id','source_pad_title','template','template_title','full_text');
+                // Determine whether any metadata columns are enabled — if none, sections should be omitted
                 const includeTags = job?.params?.include_tags ?? true;
                 const includeLocations = job?.params?.include_locations ?? true;
                 const includeMetafields = job?.params?.include_metafields ?? true;
                 const includeEngagement = job?.params?.include_engagement ?? true;
                 const includeComments = job?.params?.include_comments ?? true;
+                const includeAnyMetadata = includeTags || includeLocations || includeMetafields || includeEngagement || includeComments;
+                if (includeMetafields) baseHeader.push('sections');
+                // metadata flags
                 if (includeTags) baseHeader.push('tags');
                 if (includeLocations) baseHeader.push('locations');
                 if (includeMetafields) baseHeader.push('metafields');
@@ -574,7 +569,7 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
               const updated_at = r.updated_at ?? null;
               const source_pad_id = r.source_pad_id ?? null;
               const template = r.template ?? null;
-              const full_text = r.full_text ?? null;
+              let full_text = r.full_text ?? null;
               const sections = r.sections ?? null;
 
               // parse JSON columns (may already be objects)
@@ -586,8 +581,8 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
 
               const user = await enrichUserCached(owner_uuid);
               const countryName = (user?.iso3 && adm0Map[user.iso3?.toLowerCase()]) || user?.iso3 || '';
-              const name = effectiveIncludeName ? (user?.name || '') : '';
-              const email = effectiveIncludeEmail ? (user?.email || '') : '';
+              const name = (!excludePii && effectiveIncludeName) ? (user?.name || '') : '';
+              const email = (!excludePii && effectiveIncludeEmail) ? (user?.email || '') : '';
 
               const formatTags = (arr:any[]) => arr.map((t:any)=>{
                 // prefer explicit name, then try tag_id resolution via tagMap
@@ -608,6 +603,7 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
               const includeMetafields = job?.params?.include_metafields ?? true;
               const includeEngagement = job?.params?.include_engagement ?? true;
               const includeComments = job?.params?.include_comments ?? true;
+              const includeAnyMetadata = includeTags || includeLocations || includeMetafields || includeEngagement || includeComments;
 
               const tagsStr = includeTags ? formatTags(tags) : '';
               const locStr = includeLocations ? formatLocations(locations) : '';
@@ -618,7 +614,21 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
               const sourceTitle = sourcePadMap && source_pad_id ? (sourcePadMap[String(source_pad_id)] || '') : '';
               const templateTitle = templateMap && template ? (templateMap[String(template)]?.title || '') : '';
 
-              ws.addRow([pad_id, title, dataType, owner_uuid, name, email, countryName, status, created_at, updated_at, source_pad_id, sourceTitle, template, templateTitle, full_text, sections, ...(includeTags ? [tagsStr] : []), ...(includeLocations ? [locStr] : []), ...(includeMetafields ? [mfStr] : []), ...(includeEngagement ? [egStr] : []), ...(includeComments ? [cmStr] : [])]).commit();
+              // build row array matching header and excluding PII columns when requested
+              const rowArr:any[] = [pad_id, title, dataType];
+              if (effectiveIncludeUuid && !excludeOwnerUuid) rowArr.push(owner_uuid);
+              if (!excludePii && effectiveIncludeName) rowArr.push(name);
+              if (!excludePii && effectiveIncludeEmail) rowArr.push(email);
+              if (includeCountry) rowArr.push(countryName);
+              rowArr.push(status, created_at, updated_at, source_pad_id, sourceTitle, template, templateTitle);
+              rowArr.push(scrubPII(full_text, excludePii));
+              if (includeAnyMetadata) rowArr.push(sections);
+              if (includeTags) rowArr.push(tagsStr);
+              if (includeLocations) rowArr.push(locStr);
+              if (includeMetafields) rowArr.push(mfStr);
+              if (includeEngagement) rowArr.push(egStr);
+              if (includeComments) rowArr.push(cmStr);
+              ws.addRow(rowArr).commit();
             });
 
             // no separate metadata sheets: everything is embedded in the pad row now
@@ -627,14 +637,49 @@ async function uploadXlsxWithRetries(job:any, maxRetries = 3) {
             // fallback sheets
             const sql = key === 'blogs' ? await buildBlogSelectSql('blogs', true) : `SELECT * FROM pads`;
             let header: string[] | null = null;
+            // Respect include_* flags in fallback sheets so we don't create columns for disabled metadata
+            const includeTags = job?.params?.include_tags ?? true;
+            const includeLocations = job?.params?.include_locations ?? true;
+            const includeMetafields = job?.params?.include_metafields ?? true;
+            const includeEngagement = job?.params?.include_engagement ?? true;
+            const includeComments = job?.params?.include_comments ?? true;
+            const includeAnyMetadata = includeTags || includeLocations || includeMetafields || includeEngagement || includeComments;
             await streamQueryToHandler(key, sql, [], async (r:any) => {
               if (!columnsWritten) {
-                header = Object.keys(r);
+                // If excludePii is active, strip name/email-like headers from fallback sheets
+                header = Object.keys(r).filter((k:string)=> {
+                  const lk = k.toLowerCase();
+                  if (excludePii && (lk.includes('name') || lk.includes('email') || lk.includes('country'))) return false;
+                  if (excludeOwnerUuid && (lk === 'owner_uuid' || lk === 'owner' || lk === 'contributor' || lk === 'contributor_id' || lk === 'contributor_uuid' || lk === 'user_uuid')) return false;
+                  if (!includeTags && (lk === 'tags' || lk === 'tag' || lk === 'tag_list')) return false;
+                  if (!includeLocations && (lk === 'locations' || lk === 'location')) return false;
+                  if (!includeMetafields && lk === 'metafields') return false;
+                  if (!includeEngagement && lk === 'engagement') return false;
+                  if (!includeComments && lk === 'comments') return false;
+                  // sections is treated as metadata — omit if all metadata disabled
+                  if (!includeAnyMetadata && lk === 'sections') return false;
+                  return true;
+                });
                 ws.addRow(header).commit();
                 columnsWritten = true;
                 sheetEntry.columnsWritten = true;
               }
-              const vals = header!.map(h => (r[h]));
+              // scrub values for PII-sensitive fields in fallback
+              const vals = header!.map(h => {
+                let v = r[h];
+                // if the job disabled some metadata, ensure we don't leak original fields
+                const lk = String(h).toLowerCase();
+                if (!includeTags && (lk === 'tags' || lk === 'tag' || lk === 'tag_list')) return '';
+                if (!includeLocations && (lk === 'locations' || lk === 'location')) return '';
+                if (!includeMetafields && lk === 'metafields') return '';
+                if (!includeEngagement && (lk === 'engagement')) return '';
+                if (!includeComments && (lk === 'comments')) return '';
+                if (excludeOwnerUuid && (lk === 'owner_uuid' || lk === 'owner' || lk === 'contributor' || lk === 'contributor_id' || lk === 'contributor_uuid' || lk === 'user_uuid')) return '';
+                if (excludePii && lk.includes('country')) return '';
+                if (!includeAnyMetadata && lk === 'sections') return '';
+                if (typeof v === 'string') return scrubPII(v, excludePii);
+                return v;
+              });
               ws.addRow(vals).commit();
             });
           }
@@ -671,6 +716,7 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
   const destName = `export-${job.id}-${key}.${format === 'csv' ? 'csv' : 'json'}`;
   let attempt = 0;
   let lastErr: any = null;
+  console.log(job)
   while (attempt < maxRetries) {
     attempt += 1;
     const pass = new PassThrough();
@@ -679,20 +725,38 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
     try {
       const adm0Map = await fetchAdm0Map();
       const { tagMap, templateMap, sourcePadMap } = await fetchPadRelatedMaps();
-      const excludePii = !!job.exclude_pii;
-      const excludeOwnerUuid = !!job.exclude_owner_uuid;
+      const excludePii_csv = !!job.exclude_pii;
+      const excludeOwnerUuid_csv = !!job.exclude_owner_uuid;
       const statusFilter: string[] | null = Array.isArray(job.statuses) && job.statuses.length ? job.statuses : null;
 
-      const includeName = job?.params?.include_name ?? job?.include_name ?? true;
-      const includeEmail = job?.params?.include_email ?? job?.include_email ?? false;
-      const includeUuid = job?.params?.include_uuid ?? job?.include_uuid ?? false;
-      const includeAll = job?.params?.include_all ?? job?.include_all ?? false;
-      const effectiveIncludeName = includeAll ? true : !!includeName;
-      const effectiveIncludeEmail = includeAll ? true : !!includeEmail;
-      const effectiveIncludeUuid = includeAll ? true : !!includeUuid;
+      let includeName_csv = job?.params?.include_name ?? job?.include_name ?? true;
+      let includeEmail_csv = job?.params?.include_email ?? job?.include_email ?? false;
+      let includeUuid_csv = job?.params?.include_uuid ?? job?.include_uuid ?? false;
+      const includeAll_csv = job?.params?.include_all ?? job?.include_all ?? false;
+      let effectiveIncludeName_csv = includeAll_csv ? true : !!includeName_csv;
+      let effectiveIncludeEmail_csv = includeAll_csv ? true : !!includeEmail_csv;
+      let effectiveIncludeUuid_csv = includeAll_csv ? true : !!includeUuid_csv;
+      const includePiiOverride_csv = job?.params?.include_pii;
+      if (typeof includePiiOverride_csv === 'boolean') {
+        effectiveIncludeName_csv = includePiiOverride_csv;
+        effectiveIncludeEmail_csv = includePiiOverride_csv;
+        effectiveIncludeUuid_csv = includePiiOverride_csv;
+      }
+      if (job?.exclude_pii) {
+        effectiveIncludeName_csv = false;
+        effectiveIncludeEmail_csv = false;
+        effectiveIncludeUuid_csv = false;
+      }
 
       if (format === 'csv'){
         let headerWritten = false;
+        let header: string[] | null = null;
+        const includeCountry = !excludePii_csv && (job?.params?.include_country ?? true);
+        // for blogs disable contributor & metadata
+        if (key === 'blogs') {
+          // override flags for blogs/publications: no contributor/tags/locations/metafields
+          // includeCountry already tied to excludePii_csv; for blogs we don't export country either
+        }
         // Build pads query with optional status filter when applicable
         let sql:string;
         let params:any[] = [];
@@ -706,20 +770,37 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
 
         await streamQueryToHandler(key, sql, params, async (r:any) => {
           // enrich row
-          if (excludeOwnerUuid && (r.owner || r.owner_uuid || r.user_uuid)) {
-            // redact owner/uuid fields in the base row
-            if (r.owner) r.owner = '';
-            if (r.owner_uuid) r.owner_uuid = '';
-            if (r.user_uuid) r.user_uuid = '';
-          }
-          const user = await enrichUserCached(r.contributor ?? r.owner ?? r.owner_uuid ?? r.user_uuid);
+          const resolvedOwnerId = r.contributor ?? r.owner ?? r.owner_uuid ?? r.user_uuid ?? r.contributor_id ?? r.owner_id ?? null;
+          const user = await enrichUserCached(resolvedOwnerId);
           const countryName = (user?.iso3 && adm0Map[user.iso3?.toLowerCase()]) || user?.iso3 || r.iso3 || '';
-          const enriched = Object.assign({}, r);
-          // add enrichment fields consistently
+          // build enriched object but only include optional fields when enabled
+          const enriched: any = Object.assign({}, r);
           enriched.data_type = mapDataType(key, r);
-          enriched.contributor_name = effectiveIncludeName ? (user?.name || '') : '';
-          enriched.contributor_email = effectiveIncludeEmail ? (user?.email || '') : '';
-          enriched.contributor_country = countryName;
+          // only attach contributor_name/email when allowed; otherwise leave property absent
+          if (!excludePii_csv && effectiveIncludeName_csv) {
+            enriched.owner_name = user?.name ?? '';
+            enriched.contributor_name = user?.name ?? '';
+          }
+          if (!excludePii_csv && effectiveIncludeEmail_csv) {
+            enriched.owner_email = user?.email ?? '';
+            enriched.contributor_email = user?.email ?? '';
+          }
+          // include owner/contributor uuid when requested
+          if (effectiveIncludeUuid_csv && !excludeOwnerUuid_csv) {
+            enriched.owner_uuid = resolvedOwnerId ?? '';
+            enriched.contributor_uuid = resolvedOwnerId ?? '';
+          }
+          // contributor_country is treated as PII: only include when PII not excluded and not a blog
+          if (!excludePii_csv && key !== 'blogs') {
+            enriched.contributor_country = countryName;
+            enriched.owner_country = countryName;
+          }
+          // remove owner/contributor id fields entirely when owner UUID exclusion requested
+          if (excludeOwnerUuid_csv) {
+            delete enriched.owner; delete enriched.owner_uuid; delete enriched.owner_id; delete enriched.contributor; delete enriched.contributor_id; delete enriched.contributor_uuid; delete enriched.user_uuid; delete enriched.user_id;
+            // also ensure explicit resolved uuid fields are removed
+            delete enriched.owner_uuid; delete enriched.contributor_uuid;
+          }
 
           // metadata flags
           const includeTags = job?.params?.include_tags ?? true;
@@ -727,6 +808,7 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
           const includeMetafields = job?.params?.include_metafields ?? true;
           const includeEngagement = job?.params?.include_engagement ?? true;
           const includeComments = job?.params?.include_comments ?? true;
+          const includeAnyMetadata_csv = includeTags || includeLocations || includeMetafields || includeEngagement || includeComments;
 
           // parse and format metadata fields if present
           const tags = Array.isArray(r.tags) ? r.tags : (() => { try { return JSON.parse(r.tags || '[]'); } catch(e){ return []; } })();
@@ -747,6 +829,7 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
           }).filter(Boolean).join('; ');
 
           if (includeTags) enriched.tags = formatTagsResolved(tags);
+          else delete enriched.tags;
 
           const formatLocations = (arr:any[]) => arr.map((l:any)=> (l ? `${l.lat ?? ''},${l.lng ?? ''}${l.iso3 ? ` (${l.iso3})` : ''}` : '')).join('; ');
           const formatMeta = (arr:any[]) => arr.map((m:any)=> (m ? `${m.name ?? m.key ?? ''}:${m.value ?? m['value'] ?? JSON.stringify(m)}` : '')).join('; ');
@@ -754,9 +837,13 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
           const formatComments = (arr:any[]) => arr.map((c:any)=> (c ? `${c.user_id ?? c.contributor ?? ''}:${String(c.message ?? '').replace(/\s+/g,' ').slice(0,120)}` : '')).join(' || ');
 
           if (includeLocations) enriched.locations = formatLocations(locations);
+          else delete enriched.locations;
           if (includeMetafields) enriched.metafields = formatMeta(metafields);
+          else delete enriched.metafields;
           if (includeEngagement) enriched.engagement = formatEng(engagement);
+          else delete enriched.engagement;
           if (includeComments) enriched.comments = formatComments(comments);
+          else delete enriched.comments;
 
           // add resolved template/source titles
           try {
@@ -766,14 +853,46 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
             if (srcId) enriched.source_pad_title = sourcePadMap && sourcePadMap[String(srcId)] ? sourcePadMap[String(srcId)] : '';
           } catch(e){ /* ignore resolution errors */ }
 
+          // scrub PII in free-text fields
+          if (excludePii_csv) {
+            if (typeof enriched.full_text === 'string') enriched.full_text = scrubPII(enriched.full_text, true);
+            // scrub any metadata-like string fields
+            if (typeof enriched.tags === 'string') enriched.tags = scrubPII(enriched.tags, true);
+          }
+
           if (!headerWritten) {
-            const cols = Object.keys(enriched);
-            pass.write(cols.join(',') + '\n');
+            // build header optionally excluding PII columns and disabled metadata
+            header = Object.keys(enriched).filter(k => {
+              const lk = k.toLowerCase();
+              if (excludePii_csv && (lk.includes('name') || lk.includes('email') || lk === 'owner_name' || lk === 'contributor_name' || lk === 'owner_email' || lk === 'contributor_email')) return false;
+              if (excludeOwnerUuid_csv && (lk === 'owner_uuid' || lk === 'owner' || lk === 'contributor' || lk === 'contributor_id' || lk === 'contributor_uuid' || lk === 'user_uuid')) return false;   
+              if (excludePii_csv && lk.includes('country')) return false;
+              if (!includeTags && (lk === 'tags' || lk === 'tag' || lk === 'tag_list')) return false;
+              if (!includeLocations && (lk === 'locations' || lk === 'location')) return false;
+              if (!includeMetafields && lk === 'metafields') return false;
+              if (!includeEngagement && lk === 'engagement') return false;
+              if (!includeComments && lk === 'comments') return false;
+              // sections is treated as metadata — omit if all metadata disabled
+              if (!includeAnyMetadata_csv && lk === 'sections') return false;
+              return true;
+            });
+            pass.write(header.join(',') + '\n');
             headerWritten = true;
           }
-          const cols = Object.keys(enriched);
-          const vals = cols.map(c => JSON.stringify(enriched[c] ?? ''));
-          pass.write(vals.join(',') + '\n');
+
+          // ensure we redact any owner/contributor fields in rows when exclusion requested
+          if (excludeOwnerUuid_csv) {
+            delete enriched.owner; delete enriched.owner_uuid; delete enriched.owner_id; delete enriched.contributor; delete enriched.contributor_id; delete enriched.contributor_uuid; delete enriched.user_uuid; delete enriched.user_id;
+          }
+          if (job?.exclude_pii) {
+            // scrub PII from string values
+            for (const hh of Object.keys(enriched)) {
+              if (typeof enriched[hh] === 'string') enriched[hh] = scrubPII(enriched[hh], true);
+            }
+          }
+          // write row using header order
+          const row = header!.map((h: string) => (enriched[h] ?? ''));
+          pass.write((row.map((v: any) => typeof v === 'string' ? `"${String(v).replace(/"/g,'""')}"` : String(v))).join(',') + '\n');
         });
         pass.end();
         const url = await uploadPromise;
@@ -785,13 +904,33 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
         let first = true;
         const sql = key === 'blogs' ? await buildBlogSelectSql(key, false) : `SELECT * FROM pads`;
         await streamQueryToHandler(key, sql, [], async (r:any) => {
-          const user = await enrichUserCached(r.contributor ?? r.owner ?? r.owner_uuid ?? r.user_uuid);
+          const resolvedOwnerId = r.contributor ?? r.owner ?? r.owner_uuid ?? r.user_uuid ?? r.contributor_id ?? r.owner_id ?? null;
+          const user = await enrichUserCached(resolvedOwnerId);
           const countryName = (user?.iso3 && adm0Map[user.iso3?.toLowerCase()]) || user?.iso3 || r.iso3 || '';
+          // Build enriched object but omit disabled fields entirely so JSON objects don't contain empty columns
           const enriched:any = Object.assign({}, r);
           enriched.data_type = mapDataType(key, r);
-          enriched.contributor_name = effectiveIncludeName ? (user?.name || '') : '';
-          enriched.contributor_email = effectiveIncludeEmail ? (user?.email || '') : '';
-          enriched.contributor_country = countryName;
+          if (!excludePii_csv && effectiveIncludeName_csv) {
+            enriched.owner_name = user?.name ?? '';
+            enriched.contributor_name = user?.name ?? '';
+          }
+          if (!excludePii_csv && effectiveIncludeEmail_csv) {
+            enriched.owner_email = user?.email ?? '';
+            enriched.contributor_email = user?.email ?? '';
+          }
+          if (effectiveIncludeUuid_csv && !excludeOwnerUuid_csv) {
+            enriched.owner_uuid = resolvedOwnerId ?? '';
+            enriched.contributor_uuid = resolvedOwnerId ?? '';
+          }
+          // contributor_country treated as PII: do not include when excludePii_csv or for blogs
+          if (!excludePii_csv && key !== 'blogs') {
+            enriched.contributor_country = countryName;
+            enriched.owner_country = countryName;
+          }
+          // remove owner/contributor id fields entirely when owner UUID exclusion requested
+          if (excludeOwnerUuid_csv) {
+            delete enriched.owner; delete enriched.owner_uuid; delete enriched.owner_id; delete enriched.contributor; delete enriched.contributor_id; delete enriched.contributor_uuid; delete enriched.user_uuid; delete enriched.user_id;
+          }
 
           // metadata flags and formatting
           const includeTags = job?.params?.include_tags ?? true;
@@ -799,6 +938,7 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
           const includeMetafields = job?.params?.include_metafields ?? true;
           const includeEngagement = job?.params?.include_engagement ?? true;
           const includeComments = job?.params?.include_comments ?? true;
+          const includeAnyMetadata_csv = includeTags || includeLocations || includeMetafields || includeEngagement || includeComments;
 
           const tags = Array.isArray(r.tags) ? r.tags : (() => { try { return JSON.parse(r.tags || '[]'); } catch(e){ return []; } })();
           const locations = Array.isArray(r.locations) ? r.locations : (() => { try { return JSON.parse(r.locations || '[]'); } catch(e){ return []; } })();
@@ -806,7 +946,6 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
           const engagement = Array.isArray(r.engagement) ? r.engagement : (() => { try { return JSON.parse(r.engagement || '[]'); } catch(e){ return []; } })();
           const comments = Array.isArray(r.comments) ? r.comments : (() => { try { return JSON.parse(r.comments || '[]'); } catch(e){ return []; } })();
 
-          const formatTags = (arr:any[]) => arr.map((t:any)=> (t && (t.tag || t.tag_id || t.type) ? String(t.tag || t.tag_id || t.type) : JSON.stringify(t))).join('; ');
           // replace tag formatting with resolved version
           if (includeTags) enriched.tags = (function(arr:any[]){ return arr.map((t:any)=>{
             if (!t) return '';
@@ -816,6 +955,7 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
             if (tagMap && tagMap[key]) return tagMap[key];
             return String(rawTag);
           }).filter(Boolean).join('; '); })(tags);
+          else delete enriched.tags;
 
           const formatLocations = (arr:any[]) => arr.map((l:any)=> (l ? `${l.lat ?? ''},${l.lng ?? ''}${l.iso3 ? ` (${l.iso3})` : ''}` : '')).join('; ');
           const formatMeta = (arr:any[]) => arr.map((m:any)=> (m ? `${m.name ?? m.key ?? ''}:${m.value ?? m['value'] ?? JSON.stringify(m)}` : '')).join('; ');
@@ -823,9 +963,13 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
           const formatComments = (arr:any[]) => arr.map((c:any)=> (c ? `${c.user_id ?? c.contributor ?? ''}:${String(c.message ?? '').replace(/\s+/g,' ').slice(0,120)}` : '')).join(' || ');
 
           if (includeLocations) enriched.locations = formatLocations(locations);
+          else delete enriched.locations;
           if (includeMetafields) enriched.metafields = formatMeta(metafields);
+          else delete enriched.metafields;
           if (includeEngagement) enriched.engagement = formatEng(engagement);
+          else delete enriched.engagement;
           if (includeComments) enriched.comments = formatComments(comments);
+          else delete enriched.comments;
 
           // add resolved template/source titles
           try {
@@ -834,6 +978,11 @@ async function uploadKeyStreamWithRetries(job:any, key:string, format:string, ma
             if (tplId) enriched.template_title = templateMap && templateMap[String(tplId)] ? templateMap[String(tplId)].title : '';
             if (srcId) enriched.source_pad_title = sourcePadMap && sourcePadMap[String(srcId)] ? sourcePadMap[String(srcId)] : '';
           } catch(e){ /* ignore resolution errors */ }
+
+          // scrub PII in free-text fields
+          if (excludePii_csv) {
+            if (typeof enriched.full_text === 'string') enriched.full_text = scrubPII(enriched.full_text, true);
+          }
 
           const chunk = JSON.stringify(enriched);
           if (!first) pass.write(',\n');

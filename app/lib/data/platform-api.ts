@@ -1,4 +1,5 @@
 'use server';
+
 import blogsApi from './blogs-api';
 import {
   commonsPlatform,
@@ -9,12 +10,20 @@ import {
   base_url as hostUrl,
 } from '@/app/lib/utils';
 import get from './get';
-import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
 import db, { query as dbQuery } from '@/app/lib/db';
+import { sendEmail } from '@/app/lib/helper';
 
 //Environment variables
 const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, ADMIN_EMAILS, SMTP_SERVICE, NODE_ENV } = process.env;
+
+// Top-level HTML escape helper (used by notification email builders)
+export async function escapeHtml(s: any) {
+  if (s === null || typeof s === 'undefined') return '';
+  return String(s).replace(/[&"'<>]/g, function (c) {
+    return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+  });
+}
 
 export interface Props {
   space?: string;
@@ -458,39 +467,20 @@ export async function confirmEmailAccountBeforeRegistration(forms: Record<string
     throw new Error('SMTP_PORT / SMTP_USER / SMTP_PASS are not defined.');
   }
 
-  const transportOptions: any = SMTP_SERVICE
-    ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-    : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-
-  const transporter = nodemailer.createTransport(transportOptions);
-
   const confirmationLink = process.env.NODE_ENV === 'production'
     ? `https://sdg-innovation-commons.org/confirm-email/${token}?new_user=true`
     : `${LOCAL_BASE_URL}/confirm-email/${token}?new_user=true`;
 
-  const mailOptions = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: forms.email,
-    subject: 'Please confirm your email for SDG Commons registration',
-    text: `
-      Dear ${forms.new_name || 'User'},
-
-      Thank you for registering as a contributor on the SDG Commons platform. Please confirm your email address by clicking the link below. The link is valid for 24 hours.
-
-      ${confirmationLink}
-
-      Best regards,
-      SDG Commons Platform
-    `,
-  };
+  const emailSubject = 'Please confirm your email for SDG Commons registration';
+  const emailHtml = `
+      <p>Dear ${forms.new_name || 'User'},</p>
+      <p>Thank you for registering as a contributor on the SDG Commons platform. Please confirm your email address by clicking the link below. The link is valid for 24 hours.</p>
+      <p><a href="${confirmationLink}">${confirmationLink}</a></p>
+      <p>Best regards,<br/>SDG Commons Platform</p>
+    `;
 
   try {
-    if (NODE_ENV === 'production') {
-      await transporter.sendMail(mailOptions);
-    } else {
-      // Avoid sending in dev — log link so QA/dev can click it
-      console.log('Dev mode - confirm link:', confirmationLink);
-    }
+    await sendEmail(forms.email, undefined, emailSubject, emailHtml);
   } catch (error) {
     console.error('Error sending email to user:', error);
   }
@@ -793,12 +783,8 @@ export async function deleteAccount(uuid: string, password: string, email: strin
 }
 
 export async function notifyAccountDeletion(email: string) {
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !ADMIN_EMAILS || !SMTP_SERVICE) {
-    throw new Error('SMTP environment variables are not defined.');
-  }
-
   const adminEmails = ADMIN_EMAILS
-    ? ADMIN_EMAILS.split(';').map(email => email.trim()).filter(email => email)
+    ? ADMIN_EMAILS.split(';').map((email: string) => email.trim()).filter((email: string) => email)
     : [];
 
   if (adminEmails.length === 0) {
@@ -806,33 +792,15 @@ export async function notifyAccountDeletion(email: string) {
   }
 
   const adminContact = adminEmails[0];
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    service: SMTP_SERVICE,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
-  const mailOptions = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: email,
-    subject: 'Account Deletion Notification',
-    text: `
-      Dear User,
-
-      Your account has been successfully deleted from the SDG Commons platform. Your contributions may remain in anonymized form unless you explicitly request their removal. If you wish to remove your contributions, please contact the administrator at ${adminContact}.
-
-      Best regards,
-      SDG Commons Platform
-    `,
-  };
+  const emailSubject = 'Account Deletion Notification';
+  const emailHtml = `
+      <p>Dear User,</p>
+      <p>Your account has been successfully deleted from the SDG Commons platform. Your contributions may remain in anonymized form unless you explicitly request their removal. If you wish to remove your contributions, please contact the administrator at ${adminContact}.</p>
+      <p>Best regards,<br/>SDG Commons Platform</p>
+    `;
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sendEmail(email, undefined, emailSubject, emailHtml);
     return {
       status: 200,
       message: 'Notification email sent successfully.',
@@ -853,40 +821,17 @@ export async function sendContactContributorEmail(
   senderName: string,
   message: string
 ) {
-  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS || !SMTP_SERVICE) {
-    throw new Error('SMTP environment variables are not defined.');
-  }
-
-  const transporter = nodemailer.createTransport({
-    host: SMTP_HOST,
-    port: Number(SMTP_PORT),
-    service: SMTP_SERVICE,
-    auth: {
-      user: SMTP_USER,
-      pass: SMTP_PASS,
-    },
-  });
-
-  const mailOptions = {
-    from: `SDG Commons <${SMTP_USER}>`,
-    to: contributorEmail,
-    subject: `Message from ${senderName}`,
-    text: `
-      Dear Contributor,
-
-      You have received a message from ${senderName} (${senderEmail}). Below is the message:
-
-      "${message}"
-
-      Please feel free to respond directly to the sender.
-
-      Best regards,
-      SDG Commons Platform
-    `,
-  };
+  const emailSubject = `Message from ${senderName}`;
+  const emailHtml = `
+      <p>Dear Contributor,</p>
+      <p>You have received a message from ${senderName} (${senderEmail}). Below is the message:</p>
+      <blockquote style="border-left: 4px solid #ccc; margin: 1em 0; padding-left: 1em; font-style: italic;">"${message}"</blockquote>
+      <p>Please feel free to respond directly to the sender.</p>
+      <p>Best regards,<br/>SDG Commons Platform</p>
+    `;
 
   try {
-    await transporter.sendMail(mailOptions);
+    await sendEmail(contributorEmail, undefined, emailSubject, emailHtml);
     return {
       status: 200,
       message: 'Email sent successfully.',
@@ -935,11 +880,7 @@ export async function createNotification(opts: {
     try {
       const adminListRaw = ADMIN_EMAILS || process.env.ADMIN_EMAILS || '';
       const adminEmails = adminListRaw.split(/[;,\s]+/).map((e: string) => e.trim()).filter(Boolean);
-      if (adminEmails.length > 0 && (SMTP_HOST || SMTP_SERVICE) && SMTP_USER && SMTP_PASS) {
-        const transportOptions: any = SMTP_SERVICE
-          ? { service: SMTP_SERVICE, auth: { user: SMTP_USER, pass: SMTP_PASS } }
-          : { host: SMTP_HOST, port: Number(SMTP_PORT), auth: { user: SMTP_USER, pass: SMTP_PASS } };
-        const transporter = nodemailer.createTransport(transportOptions);
+      if (adminEmails.length > 0) {
 
         const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
         const notifUrl = `${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`;
@@ -968,21 +909,24 @@ export async function createNotification(opts: {
         textLines.push(`Open the notification in the admin UI: ${notifUrl}`);
 
         // Simple inlined HTML template (responsive enough for common email clients)
-        const htmlRows = payloadEntries.map((e) => {
-          const v = (typeof e.value === 'object') ? `<pre style="white-space:pre-wrap;margin:0">${escapeHtml(JSON.stringify(e.value, null, 2))}</pre>` : escapeHtml(String(e.value));
+        const htmlRows = await Promise.all(payloadEntries.map(async (e) => {
+          const v = (typeof e.value === 'object') ? 
+            `<pre style="white-space:pre-wrap;margin:0">${await escapeHtml(JSON.stringify(e.value, null, 2))}</pre>` : 
+            await escapeHtml(String(e.value));
           return `
             <tr>
-              <td style="padding:8px 12px;border-top:1px solid #e6e6e6;font-weight:600;color:#374151">${escapeHtml(e.key)}</td>
+              <td style="padding:8px 12px;border-top:1px solid #e6e6e6;font-weight:600;color:#374151">${await escapeHtml(e.key)}</td>
               <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${v}</td>
             </tr>`;
-        }).join('\n');
+        }));
+        const htmlRowsJoined = htmlRows.join('\n');
 
         const html = `<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>${escapeHtml(subject)}</title>
+    <title>${await escapeHtml(subject)}</title>
   </head>
   <body style="font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;line-height:1.4;margin:0;background:#f7fafc;color:#111827;">
     <table width="100%" cellpadding="0" cellspacing="0" role="presentation">
@@ -1001,17 +945,17 @@ export async function createNotification(opts: {
                 <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="border-collapse:collapse;margin-top:8px;">
                   <tr>
                     <td style="padding:8px 12px;font-weight:600;color:#374151;border-top:1px solid #e6e6e6;">Type</td>
-                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${escapeHtml(created.type)}</td>
+                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${await escapeHtml(created.type)}</td>
                   </tr>
                   <tr>
                     <td style="padding:8px 12px;font-weight:600;color:#374151;border-top:1px solid #e6e6e6;">Created</td>
-                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${escapeHtml(createdAt)}</td>
+                    <td style="padding:8px 12px;border-top:1px solid #e6e6e6;color:#374151">${await escapeHtml(createdAt)}</td>
                   </tr>
-                  ${htmlRows}
+                  ${htmlRowsJoined}
                 </table>
 
                 <p style="margin:18px 0 0 0">
-                  <a href="${escapeHtml(notifUrl)}" style="display:inline-block;padding:10px 16px;background:#059669;color:#ffffff;border-radius:6px;text-decoration:none;font-weight:600">Open in admin UI</a>
+                  <a href="${await escapeHtml(notifUrl)}" style="display:inline-block;padding:10px 16px;background:#059669;color:#ffffff;border-radius:6px;text-decoration:none;font-weight:600">Open in admin UI</a>
                 </p>
 
                 <p style="margin:18px 0 0 0;color:#6b7280;font-size:12px">This is an automated admin alert from SDG Commons.</p>
@@ -1028,28 +972,9 @@ export async function createNotification(opts: {
   </body>
 </html>`;
 
-        // Helper to escape HTML inserted into template
-        function escapeHtml(s: any){
-          if (s === null || typeof s === 'undefined') return '';
-          return String(s).replace(/[&"'<>]/g, function (c) {
-            return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
-          });
-        }
+        // reuse top-level escapeHtml helper
 
-        const mailOptions = {
-          from: `SDG Commons <${SMTP_USER}>`,
-          to: adminEmails.join(','),
-          subject,
-          text: textLines.join('\n'),
-          html,
-        };
-
-        if (NODE_ENV === 'production') {
-          await transporter.sendMail(mailOptions);
-        } else {
-          // In non-production, log instead of sending
-          console.log('Admin notification (dev) - would send:', { mailOptions });
-        }
+        await sendEmail(adminEmails.join(','), undefined, subject, html);
       } else {
         // No admin emails or SMTP not configured - log for debugging
         console.log('Admin notification not sent: missing ADMIN_EMAILS or SMTP config', { ADMIN_EMAILS, SMTP_HOST, SMTP_SERVICE });
@@ -1057,6 +982,90 @@ export async function createNotification(opts: {
     } catch (e) {
       console.error('Failed to send admin alert email for notification', created?.id, e);
     }
+
+    // --- New: optionally send notification emails to user recipients and record correspondence ---
+    try {
+      const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
+
+      // Build a list of user recipient emails from payload or related_uuids
+      const userRecipients: string[] = [];
+      const pl = created.payload || {};
+      if (pl) {
+        if (typeof pl.toEmail === 'string' && pl.toEmail) userRecipients.push(pl.toEmail);
+        if (Array.isArray(pl.toEmails)) userRecipients.push(...pl.toEmails.filter(Boolean));
+        if (typeof pl.email === 'string' && pl.email) userRecipients.push(pl.email);
+        if (Array.isArray(pl.recipients)) userRecipients.push(...pl.recipients.filter(Boolean));
+      }
+
+      // If no explicit emails, try resolving related_uuids to contributor emails
+      if (userRecipients.length === 0 && Array.isArray(created.related_uuids) && created.related_uuids.length) {
+        for (const uuid of created.related_uuids) {
+          try {
+            const c = await getContributorInfo(String(uuid));
+            if (c && c.email) userRecipients.push(c.email);
+          } catch (err) {
+            // ignore resolution failures
+          }
+        }
+      }
+
+      // Deduplicate and normalize
+      const recipients = Array.from(new Set((userRecipients || []).map((r: string) => (r || '').trim()).filter(Boolean)));
+
+      // If we have recipients, send them a user-facing email and record results
+      const emailHistory: any[] = [];
+      if (recipients.length > 0) {
+
+        const userSubject = (pl && pl.email_subject) ? String(pl.email_subject) : `Action required: ${created.type}`;
+        const userTextLines: string[] = [];
+        userTextLines.push(`Dear user,`);
+        if (pl && pl.message) userTextLines.push('', String(pl.message));
+        userTextLines.push('');
+        userTextLines.push(`Please review the notification in the SDG Commons admin UI: ${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`);
+        
+        // Create HTML content with inline escaping instead of async escapeHtml function
+        const message = pl && pl.message ? String(pl.message) : 'You have an important notification that requires action.';
+        const notifUrl = `${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`;
+        const escapedMessage = message.replace(/[&"'<>]/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+        });
+        const escapedUrl = notifUrl.replace(/[&"'<>]/g, function (c) {
+          return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' } as any)[c];
+        });
+        const userHtml = `<p>Dear user,</p><p>${escapedMessage}</p><p><a href="${escapedUrl}">Open notification in admin UI</a></p>`;
+
+        for (const toAddr of recipients) {
+          const mail = {
+            from: `SDG Commons <${SMTP_USER}>`,
+            to: toAddr,
+            subject: userSubject,
+            text: userTextLines.join('\n'),
+            html: userHtml,
+          };
+
+          try {
+            await sendEmail(toAddr, undefined, userSubject, userHtml);
+            emailHistory.push({ to: toAddr, subject: userSubject, status: 'sent', sent_at: new Date().toISOString(), preview: (pl && pl.message) ? String(pl.message).slice(0, 500) : '' });
+          } catch (sendErr) {
+            console.error('Failed to send user notification email to', toAddr, String(sendErr));
+            emailHistory.push({ to: toAddr, subject: userSubject, status: 'failed', error: String(sendErr), attempted_at: new Date().toISOString() });
+          }
+        }
+      }
+
+      // Persist email history into notification metadata so admins can see correspondence
+      try {
+        const existingMeta = created.metadata || {};
+        const existingHistory = Array.isArray(existingMeta.email_history) ? existingMeta.email_history : [];
+        const newMeta = Object.assign({}, existingMeta, { email_history: existingHistory.concat(emailHistory) });
+        await dbQuery('general' as any, `UPDATE notifications SET metadata = $1, updated_at = now() WHERE id = $2`, [newMeta, created.id]);
+      } catch (metaErr) {
+        console.error('Failed to persist notification email history', created?.id, metaErr);
+      }
+    } catch (e) {
+      console.error('Unexpected error while handling user notification emails for', created?.id, e);
+    }
+
   }
 
   return created;

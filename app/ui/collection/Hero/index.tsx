@@ -1,5 +1,5 @@
 'use client';
-import { useState, useRef, createRef, RefObject } from 'react';
+import React, { type RefObject } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
@@ -30,16 +30,16 @@ export default function Hero({
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
     */
-    const elRefs = useRef<Array<RefObject<HTMLDivElement> | null>>([]);
+    const elRefs = React.useRef<Array<RefObject<HTMLDivElement> | null>>([]);
     if (elRefs.current.length !== cards.length) {
         // add or remove refs
         elRefs.current = Array(cards.length)
         .fill(0)
-        .map((_, i) => elRefs.current[i] || createRef());
+        .map((_, i) => elRefs.current[i] || React.createRef());
     }
 
-    const [currentSlide, setCurrentSlide] = useState(0); // Manage the current slide index
-    const [animate, setAnimate] = useState(true); // Manage animation
+    const [currentSlide, setCurrentSlide] = React.useState(0); // Manage the current slide index
+    const [animate, setAnimate] = React.useState(true); // Manage animation
 
     const handleNextSlide = () => {
         setCurrentSlide((prevSlide) => (prevSlide + 1) % cards.length);
@@ -57,8 +57,8 @@ export default function Hero({
     // const isVisible1 = useIsVisible(ref1);
 
     // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
-    const [searchQuery, setSearchQuery] = useState<string>('');
-    const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+    const [searchQuery, setSearchQuery] = React.useState<string>('');
+    const [filterVisibility, setFilterVisibility] = React.useState<boolean>(false);
 
      // Sanitize the text content
     let sanitizedDescription = DOMPurify.sanitize(description);

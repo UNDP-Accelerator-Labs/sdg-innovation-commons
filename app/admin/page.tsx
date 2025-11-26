@@ -272,7 +272,7 @@ export default async function AdminPage() {
           </section>
 
           {/* Quick links / utilities */}
-          <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white border-2 border-black border-solid p-6">
               <h4 className="font-bold text-lg mb-2">User management</h4>
               <p className="text-sm text-gray-600 mb-4">
@@ -281,6 +281,17 @@ export default async function AdminPage() {
               <div className="h-1 w-12 bg-[#d2f960] mb-4"></div>
               <Button className="">
                 <Link href="/admin/users">Manage Users</Link>
+              </Button>
+            </div>
+
+            <div className="bg-white border-2 border-black border-solid p-6">
+              <h4 className="font-bold text-lg mb-2">Content moderation</h4>
+              <p className="text-sm text-gray-600 mb-4">
+                Review and manage flagged content reported by users.
+              </p>
+              <div className="h-1 w-12 bg-[#ff6b6b] mb-4"></div>
+              <Button className="">
+                <Link href="/admin/content">Review Reports</Link>
               </Button>
             </div>
 

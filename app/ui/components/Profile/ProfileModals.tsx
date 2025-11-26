@@ -346,8 +346,9 @@ const ProfileModals: React.FC<ProfileModalsProps> = ({
         </div>
       </Modal>
 
+      {/* Disable the get in touch section for contributor profiles until there is plan handling abuse and harrassment within the platform */}
       {/* Contact Contributor Modal */}
-      <Modal
+      {/* <Modal
         isOpen={showContactContributorModal}
         onClose={() => {
           setShowContactContributorModal(false);
@@ -401,7 +402,7 @@ const ProfileModals: React.FC<ProfileModalsProps> = ({
             </Button>
           </div>
         </form>
-      </Modal>
+      </Modal> */}
     </>
   );
 };

@@ -16,6 +16,7 @@ import Filters from '../Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import DropDown from '@/app/ui/components/DropDown';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
+import { trackSearch } from '@/app/lib/analytics/search-tracking';
 
 export interface PageStatsResponse {
   total: number;
@@ -47,6 +48,22 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
   const [useNlp, setUseNlp] = useState<boolean>(true);
   const [total, setTotal] = useState<number>(0);
   
+  // Handle search form submission
+  const handleSearchSubmit = async (e: React.FormEvent) => {
+    // Don't prevent default - let the form submit naturally to update URL params
+    if (searchQuery && searchQuery.trim().length > 0) {
+      // Track the search (don't await to avoid blocking form submission)
+      trackSearch({
+        query: searchQuery.trim(),
+        platform: 'learn',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: searchParams
+      });
+    }
+  };
+
   // Fetch data on component mount
   useEffect(() => {
     async function fetchData() {
@@ -84,6 +101,20 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
     fetchData();
   }, []);
 
+  // Track searches when URL parameters change (for direct URL access)
+  useEffect(() => {
+    if (search && search.trim().length > 0) {
+      trackSearch({
+        query: search.trim(),
+        platform: 'learn',
+        searchType: 'general',
+        resultsCount: hits.length,
+        pageNumber: parseInt(page) || 1,
+        filters: searchParams
+      });
+    }
+  }, [search, hits.length, page, searchParams]);
+
   const handleAddAllToBoard = (e: any) => {
     e.preventDefault();
     setSharedState((prevState: any) => ({
@@ -109,6 +140,7 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
           <form
             id="search-form"
             method="GET"
+            onSubmit={handleSearchSubmit}
             className="section-header relative pb-[40px] lg:pb-[40px]"
           >
             <div className="group col-span-9 flex flex-row items-stretch lg:col-span-4">

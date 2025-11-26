@@ -1,14 +1,15 @@
-import Link from 'next/link';
-import { Button } from '@/app/ui/components/Button';
-import renderComponents from '@/app/ui/components/MediaComponents';
-import platformApi, { addComment} from '@/app/lib/data/platform-api';
-import woldMap from '@/app/lib/data/world-map';
-import Hero from '../Hero';
-import Cartouche from '../Cartouche';
-import Disclaimer from '../Disclamer';
-import Feedback from '../Feedback';
-import clsx from 'clsx';
-import CommentSection from './CommentSection';
+import Link from "next/link";
+import { Button } from "@/app/ui/components/Button";
+import renderComponents from "@/app/ui/components/MediaComponents";
+import platformApi, { addComment } from "@/app/lib/data/platform-api";
+import woldMap from "@/app/lib/data/world-map";
+import Hero from "../Hero";
+import Cartouche from "../Cartouche";
+import Disclaimer from "../Disclamer";
+import Feedback from "../Feedback";
+import clsx from "clsx";
+import CommentSection from "./CommentSection";
+import FlagContent from "@/app/ui/components/FlagContent";
 
 interface Props {
   id: number;
@@ -26,7 +27,7 @@ export default async function Section({ id, platform }: Props) {
       include_metafields: true,
     },
     platform,
-    'pads'
+    "pads"
   );
 
   const [datum] = data;
@@ -54,20 +55,20 @@ export default async function Section({ id, platform }: Props) {
   } = datum || {};
 
   let lab: string | undefined = undefined;
-  const isUNDP: boolean = email?.includes('@undp.org');
-  const isLabber: boolean = position?.includes('Head of');
+  const isUNDP: boolean = email?.includes("@undp.org");
+  const isLabber: boolean = position?.includes("Head of");
   if (isUNDP && isLabber) lab = `UNDP ${country} Accelerator Lab`;
 
   if (!tags?.length && source) {
     const { tags: sourceTags } = source;
     tags = sourceTags
-      ?.filter((d: any) => d.type === 'thematic_areas')
+      ?.filter((d: any) => d.type === "thematic_areas")
       ?.map((d: any) => d.name);
   }
   if (!sdg?.length && source) {
     const { tags: sourceTags } = source;
     sdg = sourceTags
-      ?.filter((d: any) => d?.type === 'sdgs')
+      ?.filter((d: any) => d?.type === "sdgs")
       ?.map((d: any) => d?.key);
   }
   if (!locations?.length) {
@@ -75,21 +76,21 @@ export default async function Section({ id, platform }: Props) {
   }
 
   let datasources: string[] = rawtags
-    ?.filter((d: any) => d.type === 'datasources')
+    ?.filter((d: any) => d.type === "datasources")
     ?.map((d: any) => d.name);
   let methods: string[] = rawtags
-    ?.filter((d: any) => d.type === 'methods')
+    ?.filter((d: any) => d.type === "methods")
     ?.map((d: any) => d.name);
-  if (!datasources?.length && typeof source === 'object') {
+  if (!datasources?.length && typeof source === "object") {
     const { tags: sourceTags } = source;
     datasources = sourceTags
-      ?.filter((d: any) => d?.type === 'datasources')
+      ?.filter((d: any) => d?.type === "datasources")
       ?.map((d: any) => d.name);
   }
-  if (!methods?.length && typeof source === 'object') {
+  if (!methods?.length && typeof source === "object") {
     const { tags: sourceTags } = source;
     methods = sourceTags
-      ?.filter((d: any) => d.type === 'methods')
+      ?.filter((d: any) => d.type === "methods")
       ?.map((d: any) => d.name);
   }
 
@@ -97,26 +98,26 @@ export default async function Section({ id, platform }: Props) {
   let cost: string[] = [];
   if (metadata?.length) {
     scaling = metadata
-      ?.filter((d: any) => d.name === 'scaling')
+      ?.filter((d: any) => d.name === "scaling")
       ?.map((d: any) => d.value);
     cost = metadata
-      ?.filter((d: any) => d.name === 'total_cost')
+      ?.filter((d: any) => d.name === "total_cost")
       ?.map((d: any) => d.value);
   }
 
-  let color: string = 'green';
-  if (base === 'action plan') color = 'yellow';
-  else if (base === 'experiment') color = 'orange';
+  let color: string = "green";
+  if (base === "action plan") color = "yellow";
+  else if (base === "experiment") color = "orange";
 
-  const imgBase = vignette?.split('/uploads/')[0];
+  const imgBase = vignette?.split("/uploads/")[0];
 
   const mapLayers = locations?.map((d: any) => {
-    return { ...d, ...{ type: 'point', color: '#d2f960', count: 1 } };
+    return { ...d, ...{ type: "point", color: "#d2f960", count: 1 } };
   });
   const { status, file: mapFile } = await woldMap({
     platform,
     projsize: 1440 / 3,
-    base_color: '#000',
+    base_color: "#000",
     layers: mapLayers,
   });
 
@@ -133,7 +134,7 @@ export default async function Section({ id, platform }: Props) {
         padtype={base}
         tagStyle={`bg-light-${color}`}
         tagStyleShade={`bg-light-${color}-shade`}
-        color={color === 'yellow' ? 'light-yellow' : color}
+        color={color === "yellow" ? "light-yellow" : color}
         pinboards={pinboards}
         current_user_engagement={current_user_engagement}
         engagement={engagement}
@@ -154,7 +155,7 @@ export default async function Section({ id, platform }: Props) {
         </div>
         <div className="inner xxl:px-[80px] mx-auto grid w-[375px] grid-cols-9 gap-[20px] px-[20px] md:w-[744px] lg:w-[1440px] lg:px-[80px] xl:px-[40px]">
           <div className="section-content col-span-9 lg:col-span-5">
-            <div className={clsx('p-3', `bg-light-${color}`)}>
+            <div className={clsx("p-3", `bg-light-${color}`)}>
               <Disclaimer platform={base} />
             </div>
             {sections?.map((s: any, j: number) => {
@@ -164,7 +165,7 @@ export default async function Section({ id, platform }: Props) {
                   {!title ? null : <h3>{title}</h3>}
                   {items.map((item: any, i: number) => {
                     const { type } = item;
-                    if (type === 'group') {
+                    if (type === "group") {
                       const { items: groupItemsArr, instruction } = item;
                       return groupItemsArr.map((itemsArr: any[], i: number) => {
                         return (
@@ -202,7 +203,7 @@ export default async function Section({ id, platform }: Props) {
             cost={cost}
             mapFile={mapFile}
           />
-          {typeof source !== 'object' ? null : (
+          {typeof source !== "object" ? null : (
             <div className="col-span-9 text-right lg:col-span-5">
               <Button>
                 <Link href={source?.source_pad_id?.toString()}>Read more</Link>
@@ -211,8 +212,38 @@ export default async function Section({ id, platform }: Props) {
           )}
         </div>
 
-        <CommentSection platform={platform} padId={id} comments={comments || []} />
+        <CommentSection
+          platform={platform}
+          padId={id}
+          comments={comments || []}
+        />
       </section>
+
+      {/* Flag Content Section */}
+      <div className="inner mx-auto bg-gray-100 pt-5 px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 border-b-1 border-t-1 border-black border-solid">
+        <div className="section-content pl-8">
+          <div className="flex items-center justify-between pt-[40px]">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Report Content
+              </h3>
+              <p className="text-sm text-gray-600">
+                Found something inappropriate or concerning? Help us maintain a
+                safe community by reporting this content.
+              </p>
+            </div>
+            <div className="mx-4">
+              <FlagContent
+                contentId={id}
+                platform={platform}
+                contentType="pad"
+                contentTitle={title}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Feedback Section */}
       <Feedback
         id={id}
         platform={platform}
