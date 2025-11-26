@@ -167,15 +167,17 @@ export default function Section({ searchParams }: Props) {
                 </>
               )}
             </div>
-            <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              <Button
-                onClick={() =>
-                  (window.location.href = "/next-practices/create")
-                }
-              >
-                Create Collection
-              </Button>
-            </div>
+            {session?.rights >= 2 && (
+              <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
+                <Button
+                  onClick={() =>
+                    (window.location.href = "/next-practices/create")
+                  }
+                >
+                  Create Collection
+                </Button>
+              </div>
+            )}
           </div>
           <div className="flex items-center justify-between mb-6">
             {isLogedIn && session?.pinboards?.length ? (

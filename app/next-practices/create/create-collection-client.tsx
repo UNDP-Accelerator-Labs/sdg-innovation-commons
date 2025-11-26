@@ -53,6 +53,7 @@ export default function CreateCollectionClient() {
   const [isRejected, setIsRejected] = useState(false)
   const [collectionCreatorUuid, setCollectionCreatorUuid] = useState<string | null>(null)
   const [isUnauthorized, setIsUnauthorized] = useState(false)
+  const [existingHighlights, setExistingHighlights] = useState<any>(null)
   // We do NOT fetch or show private boards. availableBoards is derived only from public search results.
   const [searchResults, setSearchResults] = useState<Board[]>([])
   const [searchTerm, setSearchTerm] = useState("")
@@ -100,6 +101,9 @@ export default function CreateCollectionClient() {
           const status = data.highlights?.status || null
           setCollectionStatus(status)
           setIsRejected(status === 'rejected')
+          
+          // Store existing highlights to preserve them
+          setExistingHighlights(data.highlights || null)
           
           // Check authorization - user must be creator or admin
           const creatorUuid = data.highlights?.creator_uuid || null
@@ -204,7 +208,8 @@ export default function CreateCollectionClient() {
         content: content || null,
         main_image: mainImage || null,
         sections: sectionsList || [],
-        highlights: null,
+        // Preserve existing highlights when editing, don't overwrite with null
+        ...(existingHighlights && { highlights: existingHighlights }),
         boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
       }
 
@@ -475,7 +480,8 @@ export default function CreateCollectionClient() {
         content: content || null,
         main_image: mainImage || null,
         sections: sectionsList || [],
-        highlights: null,
+        // Preserve existing highlights when editing, but they'll be updated by submit_for_review flag
+        ...(existingHighlights && { highlights: existingHighlights }),
         boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
         // Explicitly request admin review/notification
         submit_for_review: true,

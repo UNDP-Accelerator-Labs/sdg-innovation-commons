@@ -159,6 +159,7 @@ export async function POST(req: Request) {
   try {
     // server-side session/auth
     const session = await getSession();
+        //Only contributors with right 2 and above are able to create next practices boards
     if (!session || (session?.rights ?? 0) < 2) {
       return NextResponse.json({ error: "unauthorized" }, { status: 401 });
     }
@@ -272,11 +273,28 @@ export async function POST(req: Request) {
       });
     }
 
+    // Get existing highlights for updates to preserve them when not explicitly modifying
+    let existingHighlights: any = null;
+    try {
+      const existingRes = await query(
+        "general", 
+        "SELECT highlights FROM collections WHERE slug = $1", 
+        [slug]
+      );
+      if (existingRes?.rows?.length > 0) {
+        existingHighlights = existingRes.rows[0].highlights;
+      }
+    } catch (e) {
+      // Ignore error, treat as new collection
+    }
+
     // Build highlights to store: if the client explicitly requested submit-for-review, mark awaiting_review.
     let finalHighlights: any = null;
     if (submit_for_review) {
-      const base =
-        highlights && typeof highlights === "object" ? highlights : {};
+      // When submitting for review, use existing highlights as base or provided highlights
+      const base = highlights && typeof highlights === "object" 
+        ? highlights 
+        : (existingHighlights && typeof existingHighlights === "object" ? existingHighlights : {});
       finalHighlights = {
         ...base,
         awaiting_review: true,
@@ -287,14 +305,19 @@ export async function POST(req: Request) {
         submitted_at: new Date().toISOString(),
         comments: Array.isArray(base.comments) ? base.comments : [],
       };
-    } else if (highlights) {
+    } else if (highlights && typeof highlights === "object") {
+      // When highlights are explicitly provided, use them
       finalHighlights = {
         ...highlights,
         status: "draft",
         submitted_by: creator_name,
         creator_uuid: session?.uuid || null,
       };
+    } else if (existingHighlights) {
+      // When no highlights provided but existing collection has highlights, preserve them
+      finalHighlights = existingHighlights;
     } else {
+      // New collection with no highlights
       finalHighlights = null;
     }
 
