@@ -57,10 +57,22 @@ export async function POST(request: NextRequest) {
     const userUuid = session?.uuid || null;
 
     // Get user IP and user agent
-    const userIp = request.headers.get('x-forwarded-for')?.split(',')[0] || 
-                   request.headers.get('x-real-ip') || 
-                   request.headers.get('cf-connecting-ip') ||
-                   null;
+    // Extract IP address and remove port if present
+    let userIp = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+                 request.headers.get('x-real-ip') || 
+                 request.headers.get('cf-connecting-ip') ||
+                 request.headers.get('x-client-ip') ||
+                 null;
+    
+    // Remove port from IP address if present (e.g., "88.97.207.222:63316" -> "88.97.207.222")
+    if (userIp && userIp.includes(':') && !userIp.includes('[')) {
+      // IPv4 with port - remove port
+      userIp = userIp.split(':')[0];
+    } else if (userIp && userIp.includes('[') && userIp.includes(']:')) {
+      // IPv6 with port - extract IPv6 address
+      const match = userIp.match(/\[([^\]]+)\]/);
+      userIp = match ? match[1] : userIp;
+    }
     const userAgent = request.headers.get('user-agent') || null;
 
     // Insert search record
