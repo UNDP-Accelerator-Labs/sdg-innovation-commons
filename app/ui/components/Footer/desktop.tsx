@@ -1,3 +1,4 @@
+'use client';
 import clsx from 'clsx';
 import Link from 'next/link';
 
@@ -64,10 +65,24 @@ export default function DesktopMediaLinks({ className }: { className?: string })
           </div>
           <div>
             <ul className='list-none m-0 p-0'>
+              {/* <li className='mb-[10px]'><Link href="https://www.undp.org/copyright-terms-use" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Privacy Policy</Link></li> */}
+              {/* <li className='mb-[10px]'>
+                <button
+                  onClick={() => {
+                    if (typeof window !== 'undefined') {
+                      localStorage.removeItem('sdg_commons_cookie_consent');
+                      window.location.reload();
+                    }
+                  }}
+                  className='text-white text-[14px] hover:underline cursor-pointer bg-transparent border-none p-0'
+                >
+                  Cookie Preferences
+                </button>
+              </li> */}
               <li className='mb-[10px]'><Link href="https://www.undp.org/accountability/audit/investigations" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Report Fraud, Abuse, Misconduct</Link></li>
               <li className='mb-[10px]'><Link href="https://www.undp.org/accountability/audit/social-and-environmental-compliance-review-and-stakeholder-response-mechanism" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Submit social environment complaint</Link></li>
               <li className='mb-[10px]'><Link href="https://www.undp.org/scam-alert" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Scam Alert</Link></li>
-              <li className='mb-[10px]'><Link href="https://www.undp.org/copyright-terms-use" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Terms of Use</Link></li>
+              <li className='mb-[10px]'><Link href="https://www.undp.org/copyright-terms-use" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>Privacy Policy and Terms of Use</Link></li>
               <li className='mb-[10px]'><Link href="https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/wiki" target="_blank" rel="noopener noreferrer" className='text-white text-[14px]'>SDG Commons Wiki</Link></li>
             </ul>
           </div>

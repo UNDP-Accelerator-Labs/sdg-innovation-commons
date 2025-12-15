@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
 import { initiateSSO } from '@/app/lib/data/auth';
 import { base_url } from '@/app/lib/helpers/utils';
+import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { getCookieConsent } from '@/app/ui/components/CookieConsent';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -16,6 +18,19 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
+
+  //TODO: Fix the issue with the login form not being able to redirect to the last visited page
+  useEffect(() => {
+    if(uuid) {
+      router.push('/profile'); // Redirect to login if uuid is not available
+      return;
+    }
+    // Store the current page URL in localStorage only if functional cookies are enabled
+    const consent = getCookieConsent();
+    if (consent?.functional) {
+      localStorage.setItem('lastVisitedPage', window.location.href);
+    }
+  }, [uuid]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +43,15 @@ export default function LoginForm() {
         password,
         redirect: false,
       });
+      // Only retrieve lastVisitedPage if functional cookies are enabled
+      const consent = getCookieConsent();
+      let originalUrl = '/';
+      if (consent?.functional) {
+        originalUrl = localStorage.getItem('lastVisitedPage') || '/';
+      }
+      if (originalUrl.includes('/login')) {
+        originalUrl = base_url; 
+      }
 
       if (result?.error) {
         setErrorMessage('Invalid login credentials.');
