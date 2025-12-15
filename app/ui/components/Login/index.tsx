@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { loginUser, initiateSSO } from '@/app/lib/data/platform-api';
 import { base_url } from '@/app/lib/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { getCookieConsent } from '@/app/ui/components/CookieConsent';
 
 export default function LoginForm() {
   const [email, setEmail] = useState("")
@@ -25,15 +26,23 @@ export default function LoginForm() {
       router.push('/profile'); // Redirect to login if uuid is not available
       return;
     }
-    // Store the current page URL in localStorage
-    localStorage.setItem('lastVisitedPage', window.location.href);
+    // Store the current page URL in localStorage only if functional cookies are enabled
+    const consent = getCookieConsent();
+    if (consent?.functional) {
+      localStorage.setItem('lastVisitedPage', window.location.href);
+    }
   }, [uuid]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null); 
     try {
-      let originalUrl = localStorage.getItem('lastVisitedPage') || '/';
+      // Only retrieve lastVisitedPage if functional cookies are enabled
+      const consent = getCookieConsent();
+      let originalUrl = '/';
+      if (consent?.functional) {
+        originalUrl = localStorage.getItem('lastVisitedPage') || '/';
+      }
       if (originalUrl.includes('/login')) {
         originalUrl = base_url; 
       }
