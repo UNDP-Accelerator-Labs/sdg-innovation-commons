@@ -65,7 +65,7 @@ export default async function nlpApi(_kwargs: Props) {
             if (platform === 'blog') platform = 'insight';
             return commonsPlatform.some((c: any) => c.key === platform);
         });
-
+console.log('NLP bases detected:', bases.length)
         if (bases.length) {
             const data = await Promise.all(bases.map(async (b: string) => {
                 const platformHits = hits.filter((d: any) => d.base === b);

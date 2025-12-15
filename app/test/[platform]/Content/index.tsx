@@ -7,7 +7,7 @@ import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import platformApi, { getRegion } from '@/app/lib/data/platform-api';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { page_limit } from '@/app/lib/utils';
+import { page_limit, getCountryList } from '@/app/lib/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -136,7 +136,7 @@ export default function Section({
         ...searchParams,
         ...{ limit: page_limit, doc_type },
       });
-
+console.log('NLP data', data.length, data);
       setUseNlp(true);
       setTotal(total);
 
@@ -341,16 +341,14 @@ export default function Section({
               {loading ? (
                 <ImgCardsSkeleton /> // Show Skeleton while loading
               ) : (
-                hits?.map((post: any) => (
-                  <Card
-                    key={post.doc_id || post?.pad_id}
-                    id={post.doc_id || post?.pad_id}
-                    country={
-                      post?.country === 'NUL' || !post?.country
-                        ? 'Global'
-                        : post?.country
-                    }
-                    title={post?.title || ''}
+                hits?.map((post: any) => {
+                  const countries = getCountryList(post, 3);
+                  return (
+                    <Card
+                      key={post.doc_id || post?.pad_id}
+                      id={post.doc_id || post?.pad_id}
+                      country={countries}
+                      title={post?.title || ''}
                     description={
                       post?.snippets?.length
                         ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}`
@@ -378,7 +376,8 @@ export default function Section({
                     data={post}
                     isLogedIn={isLogedIn}
                   />
-                ))
+                );
+                })
               )}
             </div>
           </div>

@@ -83,17 +83,29 @@ export const formatDate = (
 }
 
 export const polishTags = (data: any[]) => {
-  return data?.flat()?.map((d: any) => ({
-    ...d,
-    snippet: d?.snippet?.length > 200 ? `${d.snippet.slice(0, 200)}…` : d.snippet,
-    rawtags: d.tags,
-    tags: d?.tags
-        ?.filter((t: any) => t.type === 'thematic_areas')
-        .map((t: any) => t.name),
-    sdg: d?.tags
-        ?.filter((t: any) => t.type === 'sdgs')
-        .map((t: any) => t.key)
-  }));
+  return data?.flat()?.map((d: any) => {
+    // Clean snippet: remove null, undefined, 'null', 'undefined' strings
+    let snippet = d?.snippet;
+    if (!snippet || snippet === 'null' || snippet === 'undefined' || 
+        (typeof snippet === 'string' && snippet.trim().toLowerCase() === 'null') ||
+        (typeof snippet === 'string' && snippet.trim().toLowerCase() === 'undefined')) {
+      snippet = '';
+    } else if (typeof snippet === 'string' && snippet.length > 200) {
+      snippet = `${snippet.slice(0, 200)}…`;
+    }
+    
+    return {
+      ...d,
+      snippet,
+      rawtags: d.tags,
+      tags: d?.tags
+          ?.filter((t: any) => t.type === 'thematic_areas')
+          .map((t: any) => t.name),
+      sdg: d?.tags
+          ?.filter((t: any) => t.type === 'sdgs')
+          .map((t: any) => t.key)
+    };
+  });
 };
 
 export const getCountryList = (post: any, limit: number | undefined) => {

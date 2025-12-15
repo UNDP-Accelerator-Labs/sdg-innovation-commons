@@ -116,20 +116,48 @@ export default async function platformApi(
     }
   }
 
+  if (platform) {
+    params.set('platform', platform);
+  }
+
   const base_url: string | undefined = commonsPlatform.find(
     (p) => p.key === platform
   )?.url;
 
-  const url = `${base_url}/apis/${action}/${object}?${params.toString()}`; 
-  // console.log('check url ', url);
+  // Try local API first (without /fetch/ prefix)
+  const localUrl = `${LOCAL_BASE_URL || 'http://localhost:3000'}/api/${object}?${params.toString()}`;
+  const remoteUrl = `${base_url}/apis/${action}/${object}?${params.toString()}`;
+  
+  console.log('Trying local API:', localUrl);
 
-  if (urlOnly) return url;
+  if (urlOnly) return remoteUrl;
 
-  const data = await get({
-    url,
-    method,
-    body,
-  });
+  let data;
+  try {
+    // Attempt local API call
+    const localResponse = await fetch(localUrl, {
+      method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: method !== 'GET' ? JSON.stringify(body) : undefined,
+    });
+
+    if (localResponse.ok) {
+      data = await localResponse.json();
+      console.log('Using local API for', object);
+    } else {
+      throw new Error(`Local API returned ${localResponse.status}`);
+    }
+  } catch (error) {
+    // Fallback to remote API
+    console.log('Local API failed, falling back to remote:', remoteUrl);
+    data = await get({
+      url: remoteUrl,
+      method,
+      body,
+    });
+  }
 
   // set urls for pads
   if (object === 'pads' && Array.isArray(data)) {

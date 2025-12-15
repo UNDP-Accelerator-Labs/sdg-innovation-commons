@@ -53,7 +53,10 @@ function getPool(dbKey: DBKey): any {
   if (!globalAny.__pgPools[dbKey]) {
     const connStr: string = cfg.connectionString as string;
     const hostEnv = (process.env as any)[`${dbKey.toUpperCase()}_DB_HOST`] || '';
-    const requireSsl = (process.env.DB_REQUIRE_SSL === 'true') || /azure|postgres\.database\.azure\.com/i.test(connStr) || /azure|postgres\.database\.azure\.com/i.test(hostEnv);
+    
+    // Don't require SSL for localhost/local connections
+    const isLocalHost = /localhost|127\.0\.0\.1|::1/i.test(connStr) || /localhost|127\.0\.0\.1|::1/i.test(hostEnv);
+    const requireSsl = !isLocalHost && ((process.env.DB_REQUIRE_SSL === 'true') || /azure|postgres\.database\.azure\.com/i.test(connStr) || /azure|postgres\.database\.azure\.com/i.test(hostEnv));
 
     const poolConfig: any = {
       connectionString: connStr,
@@ -65,6 +68,11 @@ function getPool(dbKey: DBKey): any {
       poolConfig.ssl = { rejectUnauthorized: false };
     }
 
+    // Log connection info (mask password)
+    const dbMatch = connStr.match(/\/([^/]+)(\?|$)/);
+    const dbName = dbMatch ? dbMatch[1] : 'unknown';
+    console.log(`[DB] Creating pool for "${dbKey}" connecting to database: ${dbName} (SSL: ${requireSsl ? 'enabled' : 'disabled'})`);
+
     globalAny.__pgPools[dbKey] = new pg.Pool(poolConfig);
   }
 
@@ -73,7 +81,14 @@ function getPool(dbKey: DBKey): any {
 
 export async function query<T = any>(dbKey: DBKey, text: string, params?: any[]): Promise<any> {
   const pool = getPool(dbKey);
-  return pool.query(text, params);
+  try {
+    return await pool.query(text, params);
+  } catch (error: any) {
+    console.error(`Database query error for "${dbKey}":`, error.message);
+    console.error('Query:', text.substring(0, 200));
+    console.error('Params:', params);
+    throw error;
+  }
 }
 
 export async function getClient(dbKey: DBKey): Promise<any> {

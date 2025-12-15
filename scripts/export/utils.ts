@@ -38,7 +38,7 @@ export function scrubPII(val: any, excludePii: boolean, recordId?: string | numb
   
   // Remove email addresses (comprehensive pattern)
   const emailBefore = s;
-  s = s.replace(/[A-Za-z0-9]([A-Za-z0-9._%+-]*[A-Za-z0-9])?@[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?\.[A-Za-z]{2,}/gi, '[REDATED_EMAIL]');
+  s = s.replace(/[A-Za-z0-9]([A-Za-z0-9._%+-]*[A-Za-z0-9])?@[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?\.[A-Za-z]{2,}/gi, '[REDACTED_EMAIL]');
   if (s !== emailBefore) hadRedactions = true;
   
   // Remove phone numbers with various formats:
@@ -46,27 +46,27 @@ export function scrubPII(val: any, excludePii: boolean, recordId?: string | numb
   // - Local format: (123) 456-7890, 123-456-7890, 123.456.7890
   // - Plain digits: 1234567890 (8+ digits)
   const phoneBefore = s;
-  s = s.replace(/(\+\d{1,3}[-.\s]?)?(\(?\d{2,4}\)?[-.\s]?)(\d{2,4}[-.\s]?){2,}\d{2,4}/g, '[REDATED_PHONE]');
+  s = s.replace(/(\+\d{1,3}[-.\s]?)?(\(?\d{2,4}\)?[-.\s]?)(\d{2,4}[-.\s]?){2,}\d{2,4}/g, '[REDACTED_PHONE]');
   if (s !== phoneBefore) hadRedactions = true;
   
   // Remove standalone phone numbers (sequences of 8+ digits with optional separators)
   const phone2Before = s;
-  s = s.replace(/\b\d{3,}[-.\s]?\d{3,}[-.\s]?\d{3,}\b/g, '[REDATED_PHONE]');
+  s = s.replace(/\b\d{3,}[-.\s]?\d{3,}[-.\s]?\d{3,}\b/g, '[REDACTED_PHONE]');
   if (s !== phone2Before) hadRedactions = true;
   
   // Remove sequences that look like national IDs (6+ consecutive digits)
   const idBefore = s;
-  s = s.replace(/\b\d{6,}\b/g, '[REDATED_ID]');
+  s = s.replace(/\b\d{6,}\b/g, '[REDACTED_ID]');
   if (s !== idBefore) hadRedactions = true;
   
   // Remove email-like patterns that might have been missed
   const email2Before = s;
-  s = s.replace(/[A-Za-z0-9._%+-]+\s*@\s*[A-Za-z0-9.-]+\s*\.\s*[A-Za-z]{2,}/gi, '[REDATED_EMAIL]');
+  s = s.replace(/[A-Za-z0-9._%+-]+\s*@\s*[A-Za-z0-9.-]+\s*\.\s*[A-Za-z]{2,}/gi, '[REDACTED_EMAIL]');
   if (s !== email2Before) hadRedactions = true;
   
   // Remove "mailto:" links
   const mailtoBefore = s;
-  s = s.replace(/mailto:\s*[^\s<>]+/gi, 'mailto:[REDATED_EMAIL]');
+  s = s.replace(/mailto:\s*[^\s<>]+/gi, 'mailto:[REDACTED_EMAIL]');
   if (s !== mailtoBefore) hadRedactions = true;
   
   // Log if any PII was redacted (testing purpose only)

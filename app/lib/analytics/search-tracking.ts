@@ -95,9 +95,6 @@ export async function trackSearch(options: SearchTrackingOptions) {
       console.warn('🔍 Invalid search query for tracking:', body.query);
       return;
     }
-
-    console.log('🔍 Tracking search:', { query: body.query, platform: body.platform, resultsCount: body.resultsCount });
-
     const response = await fetch('/api/analytics/search', {
       method: 'POST',
       headers: {
