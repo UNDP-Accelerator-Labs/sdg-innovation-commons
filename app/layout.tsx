@@ -1,8 +1,9 @@
 import '@/app/ui/global.css'
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import { headers } from 'next/headers'
 import { SharedStateProvider } from '@/app/ui/components/SharedState/Context';
+import CookieConsent from '@/app/ui/components/CookieConsent';
+import GoatCounterAnalytics from '@/app/ui/components/GoatCounterAnalytics';
 import getSession from '@/app/lib/session';
 
 const { PROD_ENV } = process.env;
@@ -45,17 +46,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      {isProduction && isProd && (
-        <Script
-          nonce={nonce}
-          data-goatcounter="https://sdg-commons-latest.goatcounter.com/count"
-          async src="//gc.zgo.at/count.js"
-          strategy="afterInteractive"
-        />
-      )}
       <body>
         <SharedStateProvider session={session}>
           {children}
+          <CookieConsent />
+          {isProduction && isProd && <GoatCounterAnalytics nonce={nonce} />}
         </SharedStateProvider>
       </body>
     </html>

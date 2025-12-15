@@ -68,6 +68,77 @@ export const defaultSearch = (key: 'see' | 'learn' | 'test'): string | undefined
 }
 
 
+/**
+ * Scrub PII from free text when needed.
+ * Removes email addresses, phone numbers, and ID sequences.
+ * 
+ * @param val - Value to scrub
+ * @param shouldScrub - Whether to scrub PII (default: true)
+ * @param recordId - Optional record ID for logging
+ */
+export function scrubPII(val: any, shouldScrub: boolean = true, recordId?: string | number): any {
+  if (!shouldScrub) return val;
+  if (val === null || typeof val === 'undefined') return val;
+  
+  let s = typeof val === 'string' ? val : JSON.stringify(val);
+  
+  // Remove email addresses
+  s = s.replace(/[A-Za-z0-9]([A-Za-z0-9._%+-]*[A-Za-z0-9])?@[A-Za-z0-9]([A-Za-z0-9.-]*[A-Za-z0-9])?\.[A-Za-z]{2,}/gi, '[REDACTED_EMAIL]');
+  
+  // Remove phone numbers (international, local, with separators)
+  s = s.replace(/(\+\d{1,3}[-.\s]?)?(\(?\d{2,4}\)?[-.\s]?)(\d{2,4}[-.\s]?){2,}\d{2,4}/g, '[REDACTED_PHONE]');
+  s = s.replace(/\b\d{3,}[-.\s]?\d{3,}[-.\s]?\d{3,}\b/g, '[REDACTED_PHONE]');
+  
+  // Remove sequences that look like national IDs (6+ consecutive digits)
+  s = s.replace(/\b\d{6,}\b/g, '[REDACTED_ID]');
+  
+  // Remove email-like patterns that might have been missed
+  s = s.replace(/[A-Za-z0-9._%+-]+\s*@\s*[A-Za-z0-9.-]+\s*\.\s*[A-Za-z]{2,}/gi, '[REDACTED_EMAIL]');
+  
+  // Remove mailto: links
+  s = s.replace(/mailto:\s*[^\s<>]+/gi, 'mailto:[REDACTED_EMAIL]');
+  
+  return s;
+}
+
+/**
+ * Scrub PII from pad sections structure
+ */
+function scrubPadSections(sections: any[], shouldScrub: boolean, recordId?: string | number): any[] {
+  if (!shouldScrub || !Array.isArray(sections)) return sections;
+  
+  return sections.map(section => {
+    const scrubbedSection = { ...section };
+    
+    // Scrub section title and lead
+    if (scrubbedSection.title) {
+      scrubbedSection.title = scrubPII(scrubbedSection.title, true, recordId);
+    }
+    if (scrubbedSection.lead) {
+      scrubbedSection.lead = scrubPII(scrubbedSection.lead, true, recordId);
+    }
+    
+    // Scrub items within sections
+    if (Array.isArray(scrubbedSection.items)) {
+      scrubbedSection.items = scrubbedSection.items.map((item: any) => {
+        const scrubbedItem = { ...item };
+        if (scrubbedItem.txt) {
+          scrubbedItem.txt = scrubPII(scrubbedItem.txt, true, recordId);
+        }
+        if (scrubbedItem.html) {
+          scrubbedItem.html = scrubPII(scrubbedItem.html, true, recordId);
+        }
+        if (scrubbedItem.name && typeof scrubbedItem.name === 'string') {
+          scrubbedItem.name = scrubPII(scrubbedItem.name, true, recordId);
+        }
+        return scrubbedItem;
+      });
+    }
+    
+    return scrubbedSection;
+  });
+}
+
 export const formatDate = (
   dateString: string,
 ) => {
@@ -82,18 +153,47 @@ export const formatDate = (
   return `${day}.${month}.${year}`;
 }
 
-export const polishTags = (data: any[]) => {
-  return data?.flat()?.map((d: any) => ({
-    ...d,
-    snippet: d?.snippet?.length > 200 ? `${d.snippet.slice(0, 200)}…` : d.snippet,
-    rawtags: d.tags,
-    tags: d?.tags
-        ?.filter((t: any) => t.type === 'thematic_areas')
-        .map((t: any) => t.name),
-    sdg: d?.tags
-        ?.filter((t: any) => t.type === 'sdgs')
-        .map((t: any) => t.key)
-  }));
+export const polishTags = (data: any[], shouldScrubPII: boolean = true) => {
+  return data?.flat()?.map((d: any) => {
+    const recordId = d.pad_id ?? d.id ?? 'unknown';
+    
+    // Scrub PII from text fields
+    const scrubbedData: any = {
+      ...d,
+      snippet: d?.snippet?.length > 200 ? `${d.snippet.slice(0, 200)}…` : d.snippet,
+      rawtags: d.tags,
+      tags: d?.tags
+          ?.filter((t: any) => t.type === 'thematic_areas')
+          .map((t: any) => t.name),
+      sdg: d?.tags
+          ?.filter((t: any) => t.type === 'sdgs')
+          .map((t: any) => t.key)
+    };
+    
+    // Scrub PII from sensitive fields
+    if (shouldScrubPII) {
+      if (scrubbedData.title) {
+        scrubbedData.title = scrubPII(scrubbedData.title, true, recordId);
+      }
+      if (scrubbedData.full_text) {
+        scrubbedData.full_text = scrubPII(scrubbedData.full_text, true, recordId);
+      }
+      if (scrubbedData.snippet) {
+        scrubbedData.snippet = scrubPII(scrubbedData.snippet, true, recordId);
+      }
+      if (Array.isArray(scrubbedData.sections)) {
+        scrubbedData.sections = scrubPadSections(scrubbedData.sections, true, recordId);
+      }
+      if (scrubbedData.description) {
+        scrubbedData.description = scrubPII(scrubbedData.description, true, recordId);
+      }
+      if (scrubbedData.content) {
+        scrubbedData.content = scrubPII(scrubbedData.content, true, recordId);
+      }
+    }
+    
+    return scrubbedData;
+  });
 };
 
 export const getCountryList = (post: any, limit: number | undefined) => {
