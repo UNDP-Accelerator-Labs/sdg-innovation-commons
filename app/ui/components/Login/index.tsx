@@ -8,6 +8,9 @@ import { initiateSSO } from '@/app/lib/data/auth';
 import { base_url } from '@/app/lib/helpers/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { getCookieConsent } from '@/app/ui/components/CookieConsent';
+import { Button } from '@/app/ui/components/Button';
+import { initiateSSO } from '@/app/lib/data/auth';
+import { base_url } from '@/app/lib/helpers/utils';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -52,6 +55,11 @@ export default function LoginForm() {
       if (originalUrl.includes('/login')) {
         originalUrl = base_url; 
       }
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
 
       if (result?.error) {
         setErrorMessage('Invalid login credentials.');

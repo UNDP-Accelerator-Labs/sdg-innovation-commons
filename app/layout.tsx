@@ -7,6 +7,7 @@ import { auth } from '@/auth';
 import CookieConsent from '@/app/ui/components/CookieConsent';
 import GoatCounterAnalytics from '@/app/ui/components/GoatCounterAnalytics';
 import getSession from '@/app/lib/session';
+import { auth } from '@/auth';
 
 const { PROD_ENV } = process.env;
 
@@ -49,11 +50,14 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SharedStateProvider session={session}>
-          {children}
-          <CookieConsent />
-          {isProduction && isProd && <GoatCounterAnalytics nonce={nonce} />}
-        </SharedStateProvider>
+        <SessionProvider session={session}>
+          <SharedStateProvider session={session?.user}>
+            {children}
+            {children}
+            <CookieConsent />
+            {isProduction && isProd && <GoatCounterAnalytics nonce={nonce} />}
+          </SharedStateProvider>
+        </SessionProvider>
       </body>
     </html>
   );
