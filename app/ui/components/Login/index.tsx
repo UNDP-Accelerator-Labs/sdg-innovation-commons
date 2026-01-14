@@ -1,95 +1,88 @@
-"use client"
+'use client';
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import { Button } from '@/app/ui/components/Button';
+import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { loginUser, initiateSSO } from '@/app/lib/data/platform-api';
-import { base_url } from '@/app/lib/utils';
-import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { Button } from '@/app/ui/components/Button';
+import { initiateSSO } from '@/app/lib/data/auth';
+import { base_url } from '@/app/lib/helpers/utils';
 
 export default function LoginForm() {
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [activeTab, setActiveTab] = useState("email")
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [activeTab, setActiveTab] = useState('email');
+  const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  const { sharedState } = useSharedState();
-  const uuid = sharedState?.session?.uuid || null;
-
+  const [isLoading, setIsLoading] = useState(false);
+  
   const router = useRouter();
-
-  //TODO: Fix the issue with the login form not being able to redirect to the last visited page
-  useEffect(() => {
-    if(uuid) {
-      router.push('/profile'); // Redirect to login if uuid is not available
-      return;
-    }
-    // Store the current page URL in localStorage
-    localStorage.setItem('lastVisitedPage', window.location.href);
-  }, [uuid]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null); 
+    setErrorMessage(null);
+    setIsLoading(true);
+
     try {
-      let originalUrl = localStorage.getItem('lastVisitedPage') || '/';
-      if (originalUrl.includes('/login')) {
-        originalUrl = base_url; 
-      }
+      const result = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
 
-      const data = await loginUser(email, password, originalUrl);
-      if (data?.status === 401) {
-        setErrorMessage(data.message); 
+      if (result?.error) {
+        setErrorMessage('Invalid login credentials.');
+        setIsLoading(false);
         return;
       }
 
-      if (data?.status === 200) {
-        setErrorMessage(null); 
-        window.location.href = data?.redirectUrl || '/'; 
-        return;
+      if (result?.ok) {
+        // Redirect to the original page or home
+        const redirectUrl = localStorage.getItem('lastVisitedPage') || '/see';
+        localStorage.removeItem('lastVisitedPage');
+        window.location.href = redirectUrl;
       }
     } catch (error) {
-      console.error("Error during login:", error);
-      setErrorMessage("An unexpected error occurred. Please try again."); 
+      console.error('Error during login:', error);
+      setErrorMessage('An unexpected error occurred. Please try again.');
+      setIsLoading(false);
     }
   };
 
   const handleSSOLogin = async () => {
-    setErrorMessage(null); 
+    setErrorMessage(null);
     let originalUrl = localStorage.getItem('lastVisitedPage') || '/';
     if (originalUrl.includes('/login')) {
-      originalUrl = base_url; 
+      originalUrl = base_url;
     }
     try {
       const data = await initiateSSO(originalUrl);
       if (data?.authUrl) {
-        window.location.href = data.authUrl; // Redirect to the SSO URL
+        window.location.href = data.authUrl;
       } else {
-        setErrorMessage("No redirect URL provided by SSO endpoint.");
+        setErrorMessage('No redirect URL provided by SSO endpoint.');
       }
     } catch (error) {
-      console.error("SSO login error:", error);
-      setErrorMessage("An error occurred while redirecting to SSO. Please try again.");
+      console.error('SSO login error:', error);
+      setErrorMessage('An error occurred while redirecting to SSO. Please try again.');
     }
-  }
+  };
 
   return (
-    <div className="w-full ">
+    <div className="w-full">
       {/* Custom Tabs */}
       <div className="inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500 w-full mb-6">
         <button
-          onClick={() => setActiveTab("email")}
+          onClick={() => setActiveTab('email')}
           className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-3 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 flex-1 ${
-            activeTab === "email" ? "bg-white text-gray-900 shadow-sm" : "hover:bg-gray-200"
+            activeTab === 'email' ? 'bg-white text-gray-900 shadow-sm' : 'hover:bg-gray-200'
           }`}
         >
           Email Login
         </button>
         <button
-          onClick={() => setActiveTab("staff")}
+          onClick={() => setActiveTab('staff')}
           className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-3 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 flex-1 ${
-            activeTab === "staff" ? "bg-white text-gray-900 shadow-sm" : "hover:bg-gray-200"
+            activeTab === 'staff' ? 'bg-white text-gray-900 shadow-sm' : 'hover:bg-gray-200'
           }`}
         >
           UNDP Staff
@@ -97,13 +90,12 @@ export default function LoginForm() {
       </div>
 
       {/* Email Login Tab */}
-      {activeTab === "email" && (
+      {activeTab === 'email' && (
         <form onSubmit={handleSubmit} className="space-y-4">
           {errorMessage && (
-            <div className="text-red-500 text-sm font-medium">
-              {errorMessage}
-            </div>
+            <div className="text-red-500 text-sm font-medium">{errorMessage}</div>
           )}
+
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium leading-none">
               Email
@@ -115,9 +107,11 @@ export default function LoginForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
               className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
+
           <div className="space-y-2 pb-5">
             <label htmlFor="password" className="text-sm font-medium leading-none">
               Password
@@ -129,25 +123,39 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
               className="flex h-10 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             />
           </div>
+
+          {/* <div className="flex items-center space-x-2 pb-3">
+            <input
+              type="checkbox"
+              id="remember"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <label htmlFor="remember" className="text-sm font-medium leading-none">
+              Trust this device (stay signed in for 1 year)
+            </label>
+          </div> */}
+
           <Button
             type="submit"
-            className="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2  text-black"
+            disabled={isLoading}
+            className="w-full inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 text-black"
           >
-            Sign in
+            {isLoading ? 'Signing in...' : 'Sign in'}
           </Button>
         </form>
       )}
 
       {/* UNDP Staff Tab */}
-      {activeTab === "staff" && (
+      {activeTab === 'staff' && (
         <div className="space-y-6">
           {errorMessage && (
-            <div className="text-red-500 text-sm font-medium">
-              {errorMessage}
-            </div>
+            <div className="text-red-500 text-sm font-medium">{errorMessage}</div>
           )}
           <div className="text-center">
             <div className="flex justify-center mb-4">
@@ -160,8 +168,8 @@ export default function LoginForm() {
             </div>
             <h3 className="text-lg font-medium mb-2">UNDP Staff Login</h3>
             <p className="text-sm text-gray-500 mb-4">
-              For UNDP employees and authorized personnel only. You will be redirected to the organization's single
-              sign-on page.
+              For UNDP employees and authorized personnel only. You will be redirected to the
+              organization's single sign-on page.
             </p>
           </div>
 
@@ -174,5 +182,5 @@ export default function LoginForm() {
         </div>
       )}
     </div>
-  )
+  );
 }

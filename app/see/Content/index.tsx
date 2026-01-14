@@ -5,9 +5,9 @@ import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { page_limit, getCountryList } from '@/app/lib/utils';
+import { page_limit, getCountryList } from '@/app/lib/helpers/utils';
 import { Button } from '@/app/ui/components/Button';
 import DropDown from '@/app/ui/components/DropDown';
 import Filters from '../Filters';
@@ -52,22 +52,30 @@ export default function Section({ searchParams }: SectionProps) {
     setLoading(true);
 
     let data: any[];
+    let count: number;
+    let pages: number;
 
     if (!search || hasFilterParams()) {
-      data = await platformApi(
+      const response = await platformApi(
         { ...searchParams, ...{ limit: page_limit } },
         platform,
         'pads'
       );
+      
+      // Handle new {count, data} structure
+      if (response && typeof response === 'object' && 'data' in response) {
+        data = response.data;
+        count = response.count;
+      } else {
+        // Fallback for old structure (shouldn't happen now)
+        data = response;
+        count = response.length;
+      }
+      
+      pages = Math.ceil(count / page_limit);
       setUseNlp(false);
-
-      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
-        page,
-        platform,
-        searchParams
-      );
-      setPages(totalPages);
-      setTotal(total);
+      setTotal(count);
+      setPages(pages);
     } else {
       data = await nlpApi({
         ...searchParams,

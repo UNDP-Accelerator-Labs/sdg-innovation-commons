@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/lib/session';
-import { createNotification } from '@/app/lib/data/platform-api';
+import { createNotification } from '@/app/lib/data/notifications';
 import { query } from '@/app/lib/db';
 
 export async function POST(req: NextRequest) {
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         platform,
         contentType,
         session.uuid,
-        session.name || session.username || 'Anonymous',
+        session.name || 'Anonymous',
         reason,
         description || null,
         contentTitle || null,
@@ -84,7 +84,7 @@ export async function POST(req: NextRequest) {
           contentType: contentType,
           reason: reasonText,
           description: description || '',
-          reporterName: session.name || session.username || 'Anonymous',
+          reporterName: session.name || 'Anonymous',
           reporterEmail: session.email || '',
           contentTitle: contentTitle || `${contentType} #${contentId}`,
           contentUrl: contentUrl || `/${platform}/${contentId}`,

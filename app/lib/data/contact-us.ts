@@ -1,7 +1,7 @@
 'use server';
 import { z } from 'zod';
-import { sendEmail } from '@/app/lib/helper';
-import { createNotification } from '@/app/lib/data/platform-api';
+import { sendEmail } from '@/app/lib/helpers';
+import { createNotification } from '@/app/lib/data/notifications';
 
 // Utility function to get the current date
 const getCurrentDate = () => new Date().toISOString().split('T')[0];

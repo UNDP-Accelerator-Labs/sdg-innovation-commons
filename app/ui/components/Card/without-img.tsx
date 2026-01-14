@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Link from '@/app/ui/components/Link';
-import { pin } from '@/app/lib/data/platform-api';
 import { Button } from '@/app/ui/components/Button';
 import { handleBoard, removeFromBoardApi } from './utils';
 import { BoardInfo } from './with-img';
@@ -76,7 +75,6 @@ export default function Card({
           boardId as number,
           id,
           source as string,
-          pin,
           showNotification,
           () => redirectUser(pathname)
         )

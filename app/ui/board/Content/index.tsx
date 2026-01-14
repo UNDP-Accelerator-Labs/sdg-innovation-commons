@@ -2,13 +2,14 @@ import Card from '@/app/ui/components/Card/with-img';
 import BlogCard from '@/app/ui/components/Card/without-img';
 import boardData from '@/app/lib/data/board';
 import { Pagination } from '@/app/ui/components/Pagination';
-import { formatDate, getCountryList } from '@/app/lib/utils';
+import { formatDate, getCountryList } from '@/app/lib/helpers/utils';
 import { is_user_logged_in } from '@/app/lib/session';
 
 import Hero from '../Hero';
 import Infobar from '../Infobar';
 import Search from '../Search';
 import Tabs from '../Tabs';
+import { BoardProvider } from '../BoardContext';
 
 import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
 
@@ -48,7 +49,17 @@ export default async function Section({ id, platform, searchParams }: Props) {
   } = boardDataResult || {};
 
   return (
-    <>
+    <BoardProvider
+      initialState={{
+        title,
+        description,
+        status,
+        is_contributor,
+        contributors,
+        total,
+        pads,
+      }}
+    >
       <Hero
         title={title}
         creator={creatorName}
@@ -189,6 +200,6 @@ export default async function Section({ id, platform, searchParams }: Props) {
           </div>
         </div>
       </section>
-    </>
+    </BoardProvider>
   );
 }

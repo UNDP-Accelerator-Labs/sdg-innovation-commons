@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import Link from '@/app/ui/components/Link';
 import { usePathname } from 'next/navigation';
-import platformApi, { engageApi, pin } from '@/app/lib/data/platform-api';
+import platformApi, { engageApi } from '@/app/lib/data/platform';
 import { Button } from '@/app/ui/components/Button';
 import { engage, handleBoard, removeFromBoardApi } from './utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
@@ -130,7 +130,6 @@ export default function Card({
           boardId as number,
           id,
           source,
-          pin,
           showNotification,
           () => redirectUser(pathname)
         )
@@ -386,7 +385,7 @@ export default function Card({
               </p>
             </button>
 
-            <a
+            {/* <a
               href={hrefs}
               target="_blank"
               className="flex h-[40px] w-[40px] items-center justify-center border-[1px] border-solid border-black bg-[transparent] text-center"
@@ -415,7 +414,7 @@ export default function Card({
                   </clipPath>
                 </defs>
               </svg>
-            </a>
+            </a> */}
 
             {/* Button for adding to board */}
             {/* If the user is logged in and not on the board page, show the button */}

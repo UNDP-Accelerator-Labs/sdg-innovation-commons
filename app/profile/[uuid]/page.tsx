@@ -1,7 +1,7 @@
 import Navigation from "@/app/ui/components/Navbar";
 import ProfileContent from "@/app/ui/components/Profile";
 import Footer from "@/app/ui/components/Footer";
-import platformApi, { getContributorInfo } from "@/app/lib/data/platform-api";
+import { fetchCountries, getContributorInfo } from "@/app/lib/data/platform-api";
 import { notFound } from "next/navigation";
 
 
@@ -17,7 +17,7 @@ export default async function ProfilePage({
 
   // Fetch country names and profile data in parallel
   const [countries, rawProfile] = await Promise.all([
-    platformApi({}, "experiment", "countries"),
+    fetchCountries({}, "experiment"),
     getContributorInfo(uuid), 
   ]);
 

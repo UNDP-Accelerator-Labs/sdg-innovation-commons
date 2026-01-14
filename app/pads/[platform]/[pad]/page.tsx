@@ -1,7 +1,7 @@
 import Pad from '@/app/ui/pad';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 
 type Props = {
   params: Promise<{ platform: string; pad: string | number }>;
@@ -27,7 +27,10 @@ export async function generateMetadata(
     decodeURI(platform),
     'pads'
   );
-  const [datum] = data;
+  
+  // Handle new {count, data} structure or legacy array
+  const padsArray = (data as any)?.data || data || [];
+  const [datum] = padsArray;
   let { title, vignette, snippet } = datum || {};
 
   const metadataBase = new URL('https://sdg-innovation-commons.org');

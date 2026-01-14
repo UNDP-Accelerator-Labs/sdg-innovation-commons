@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/lib/session';
 import { query } from '@/app/lib/db';
-import { sendEmail } from '@/app/lib/helper';
+import { sendEmail } from '@/app/lib/helpers';
 import { removeFromNLPIndex, updateContentRelevance } from '@/app/lib/data/nlp-api';
 
 // Helper function to determine content table name based on platform and content type

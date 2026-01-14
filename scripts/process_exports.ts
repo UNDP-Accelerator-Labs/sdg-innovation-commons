@@ -12,7 +12,7 @@
 
 import * as os from 'os';
 import { query as dbQuery, getClient } from '../app/lib/db';
-import { createNotification } from '../app/lib/data/platform-api';
+import { createNotification } from '../app/lib/data/notifications';
 
 // Import modular export utilities
 import {

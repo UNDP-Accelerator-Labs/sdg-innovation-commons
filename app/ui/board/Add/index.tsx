@@ -1,12 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
 import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
-import { pin } from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
-import { shimmer } from '@/app/lib/utils';
+import { shimmer } from '@/app/lib/helpers/utils';
 import { useRouter } from 'next/navigation';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import platformApi from '@/app/lib/data/platform-api';
 
 interface Collection {
   name: string;
@@ -74,16 +72,37 @@ const AddToBoard: FC<Props> = ({
         const apiPromises = Object.entries(allObjectIdz).flatMap(([key, ids]) => {
           let _source = key;
           if (['news', 'blog', 'publications', 'press release'].includes(key)) {
-            _source = 'blog';
+            _source = 'blogs';
           }
 
           // Handle case where selectedBoardIds is empty but searchTerm exists. Create a new board.
           if (selectedBoardIds.length === 0 && searchTerm) {
-            return [pin(_source, action, 0, ids, searchTerm)];
+            return [
+              fetch('/api/pinboards/add-pads', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  action,
+                  board_id: 0,
+                  object_id: ids,
+                  board_title: searchTerm,
+                  source: _source,
+                }),
+              }).then((res) => res.json()),
+            ];
           }
 
           return selectedBoardIds.map((boardId) =>
-            pin(_source, action, boardId, ids, searchTerm)
+            fetch('/api/pinboards/add-pads', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action,
+                board_id: boardId,
+                object_id: ids,
+                source: _source,
+              }),
+            }).then((res) => res.json())
           );
         });
 
@@ -110,11 +129,37 @@ const AddToBoard: FC<Props> = ({
           throw new Error('Some API calls failed');
         }
       } else {
+        let _source = source;
+        if (['news', 'blog', 'publications', 'press release'].includes(source)) {
+          _source = 'blogs';
+        }
+
         const apiPromises =
           selectedBoardIds.length === 0 && searchTerm
-            ? [pin(source, action, 0, id, searchTerm)] // Create a new board
+            ? [
+                fetch('/api/pinboards/add-pads', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    action,
+                    board_id: 0,
+                    object_id: id,
+                    board_title: searchTerm,
+                    source: _source,
+                  }),
+                }).then((res) => res.json()),
+              ]
             : selectedBoardIds.map((boardId) =>
-                pin(source, action, boardId, id, searchTerm)
+                fetch('/api/pinboards/add-pads', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    action,
+                    board_id: boardId,
+                    object_id: id,
+                    source: _source,
+                  }),
+                }).then((res) => res.json())
               );
 
         const results = await Promise.all(apiPromises);
@@ -159,11 +204,15 @@ const AddToBoard: FC<Props> = ({
   useEffect(() => {
     async function fetchBoard() {
       setLoading(true);
-      const { data: board, count: board_count } = await platformApi(
-        { space: session?.rights >= 3 ? 'all' : 'private' },
-        'solution',
-        'pinboards'
+      const response = await fetch(
+        `/api/pinboards?space=${session?.rights >= 3 ? 'all' : 'private'}`,
+        {
+          method: 'GET',
+          headers: { 'Content-Type': 'application/json' },
+        }
       );
+
+      const { data: board } = await response.json();
 
       setCollections(
         board.map((b: any) => ({

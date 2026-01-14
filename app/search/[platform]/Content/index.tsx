@@ -5,7 +5,7 @@ import BlogCard from '@/app/ui/components/Card/without-img';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { formatDate, page_limit, getCountryList } from '@/app/lib/utils';
+import { formatDate, page_limit, getCountryList } from '@/app/lib/helpers/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';

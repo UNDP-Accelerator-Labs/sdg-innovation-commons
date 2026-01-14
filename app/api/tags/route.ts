@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query as dbQuery } from '@/app/lib/db';
-import { safeArr, countArray, multiJoin, mapPlatformsToShortkeys } from '@/app/lib/helper';
+import { safeArr, countArray, multiJoin, mapPlatformsToShortkeys, loadExternDb } from '@/app/lib/helpers';
+import { buildPadSubquery, PadFilterParams } from '@/app/lib/helpers/pad-filters';
+import { getSessionInfo } from '@/app/lib/helpers/auth-session';
 
 const DEFAULT_UUID = '00000000-0000-0000-0000-000000000000';
 
@@ -19,12 +21,18 @@ interface TagsRequestParams {
   include_data?: boolean | string;
   space?: string;
   platform?: string | string[]; // Platform filter (e.g., 'solution', 'experiment', 'action plan')
+  search?: string;
+  templates?: string | string[];
+  thematic_areas?: string | string[];
+  sdgs?: string | string[];
+  pinboard?: string | string[]; // Pinboard filter
+  section?: string | number; // Section filter
 }
 
 /**
  * Build filters for tags query
  */
-async function buildFilters(params: TagsRequestParams) {
+async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
   let {
     tags,
     type,
@@ -67,30 +75,51 @@ async function buildFilters(params: TagsRequestParams) {
 
   // Platform filters (tagging table)
   if (usePadsParsed) {
-    // Basic published pads filter
-    platformFilters.push(`
-      t.pad IN (
-        SELECT p.id FROM pads p
-        WHERE p.status >= 3
-        
-      )
-    `);
+    // Build comprehensive pad filters using reusable function
+    const padFilterParams: PadFilterParams = {
+      space: params.space,
+      search: params.search,
+      templates: params.templates,
+      platform: platformArr,
+      mobilizations: mobilizationsArr,
+      thematic_areas: params.thematic_areas,
+      sdgs: params.sdgs,
+      countries: countriesArr,
+      regions: regionsArr,
+      pinboard: params.pinboard,
+      section: params.section,
+      // Pass session/auth info for proper filtering
+      uuid: sessionInfo.uuid,
+      rights: sessionInfo.rights,
+      collaborators: sessionInfo.collaborators,
+      isPublic: sessionInfo.isPublic,
+      isUNDP: sessionInfo.isUNDP,
+    };
+    
+    const padSubquery = await buildPadSubquery(padFilterParams);
+    platformFilters.push(`t.pad IN (${padSubquery})`);
   }
 
   // Filter by platform(s) using ordb
   if (platformArr && platformArr.length > 0) {
-    const platformIds = await dbQuery(
-      'general',
-      `SELECT id FROM extern_db WHERE db IN (${platformArr.map((_: any, i: number) => `$${i + 1}`).join(', ')})`,
-      platformArr
-    );
-    const ids = platformIds.rows.map((d: any) => d.id);
+    const externDbMap = await loadExternDb();
+    const ids = platformArr
+      .map((shortkey: string) => externDbMap.get(shortkey.toLowerCase()))
+      .filter((id: number | undefined): id is number => id !== undefined);
+    
     if (ids.length > 0) {
       // Embed the actual integer IDs directly in the SQL since this is a subquery filter
       platformFilters.push(
         `t.pad IN (SELECT id FROM pads WHERE ordb IN (${ids.join(', ')}))`
       );
     }
+  }
+
+  // Mobilizations filter
+  if (mobilizationsArr && mobilizationsArr.length > 0) {
+    platformFilters.push(
+      `t.pad IN (SELECT pad FROM mobilization_contributions WHERE mobilization IN (${mobilizationsArr.map(m => `'${m}'`).join(', ')}))`
+    );
   }
 
   // Country filters
@@ -164,6 +193,9 @@ async function buildFilters(params: TagsRequestParams) {
 
 export async function GET(req: NextRequest) {
   try {
+    // Extract session/auth information from session or access token
+    const sessionInfo = await getSessionInfo(req);
+    
     const searchParams = req.nextUrl.searchParams;
 
     // Parse query parameters
@@ -182,12 +214,22 @@ export async function GET(req: NextRequest) {
       include_data: searchParams.get('include_data') === 'true',
       space: searchParams.get('space') || undefined,
       platform: searchParams.getAll('platform'),
+      search: searchParams.get('search') || undefined,
+      templates: searchParams.getAll('templates'),
+      thematic_areas: searchParams.getAll('thematic_areas'),
+      sdgs: searchParams.getAll('sdgs'),
+      pinboard: searchParams.get('pinboard') || undefined,
+      section: searchParams.get('section') || undefined,
     };
 
-    const { generalFilters, platformFilters, typeFilter, type, tags } = await buildFilters(params);
+    // Pass session info to buildFilters
+    const { generalFilters, platformFilters, typeFilter, type, tags } = await buildFilters(params, sessionInfo);
 
-    // If there are platform filters, query both tables
-    if (platformFilters) {
+    // If there are platform filters OR if we need to filter by pads that are actually tagged,
+    // query both tables
+    const needsPadFiltering = platformFilters || params.platform || params.space || params.countries || params.regions;
+    
+    if (needsPadFiltering) {
       let sql: string;
       let queryParams: any[] = [];
       
@@ -207,7 +249,8 @@ export async function GET(req: NextRequest) {
           INNER JOIN pads p ON tg.pad = p.id
           INNER JOIN tags t ON tg.tag_id = t.id
           WHERE TRUE
-            ${platformFilters.replace(/\bt\./g, 'tg.')}
+            ${platformFilters ? platformFilters.replace(/\bt\./g, 'tg.') : ''}
+            ${!platformFilters ? 'AND p.status >= 3 AND p.id NOT IN (SELECT review FROM reviews)' : ''}
             ${adjustedTypeFilter}
           GROUP BY tg.tag_id
         `;
@@ -217,9 +260,11 @@ export async function GET(req: NextRequest) {
         sql = `
           SELECT DISTINCT tg.tag_id AS id 
           FROM tagging tg
+          INNER JOIN pads p ON tg.pad = p.id
           INNER JOIN tags t ON tg.tag_id = t.id
           WHERE TRUE
-            ${platformFilters.replace(/\bt\./g, 'tg.')}
+            ${platformFilters ? platformFilters.replace(/\bt\./g, 'tg.') : ''}
+            ${!platformFilters ? 'AND p.status >= 3 AND p.id NOT IN (SELECT review FROM reviews)' : ''}
             ${adjustedTypeFilter}
         `;
         queryParams = [...(type || [])];

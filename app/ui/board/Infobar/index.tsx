@@ -1,5 +1,5 @@
 'use client';
-import { URLsToLinks } from '@/app/lib/utils';
+import { URLsToLinks } from '@/app/lib/helpers/utils';
 import DOMPurify from 'isomorphic-dompurify';
 
 interface Props {

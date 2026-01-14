@@ -1,27 +1,29 @@
 import clsx from 'clsx';
-import statsApi from '@/app/lib/data/platform-pagination';
 import nlpStatsApi from '@/app/lib/data/nlp-pagination';
-import { page_limit } from '@/app/lib/utils';
+import { page_limit } from '@/app/lib/helpers/utils';
 
+/**
+ * Legacy pagination stats function - DEPRECATED
+ * For new code, use count from API response: {count, data}
+ * Only kept for NLP multi-platform searches
+ */
 export async function pagestats(page: number, platform: string | string[], _kwargs: any) {
-	let status: number = 3;
-	let { limit, offset, search, language, iso3 } = _kwargs;
-	async function fetchPages() {
-	    if (Array.isArray(platform)) {
-	    	const {doc_count: total } = await nlpStatsApi({ doc_type: platform, iso3, language, }) || {};
-	    	const pages = Math.ceil(total / page_limit);
-	    	return { total, page, pages };
-	    } else {
-		   	const data = await statsApi(platform, _kwargs) || {};
-		    const { filtered: total, breakdown } = data;
-		    // const totalToCount = breakdown.filter((b: any) => b.status >= status);
-		    // const total = totalToCount.reduce((partialSum: number, a: any) => partialSum + a.count, 0);
-		    const pages = Math.ceil(total / page_limit);
-		    return { total, page, pages };
-		}
+	const { language, iso3 } = _kwargs;
+	
+	// Only supports NLP searches across multiple platforms now
+	if (!Array.isArray(platform)) {
+		console.warn('pagestats() is deprecated for single platform queries. Use count from API response instead.');
+		return { total: 0, page, pages: 0 };
 	}
-
-	return fetchPages();
+	
+	const { doc_count: total } = await nlpStatsApi({ 
+		doc_type: platform, 
+		iso3, 
+		language 
+	}) || {};
+	
+	const pages = Math.ceil(total / page_limit);
+	return { total, page, pages };
 }
 
 interface paginationProps {

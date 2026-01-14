@@ -1,5 +1,5 @@
 'use server';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 import nlpStats from '@/app/lib/data/nlp-pagination';
 
 interface Props {

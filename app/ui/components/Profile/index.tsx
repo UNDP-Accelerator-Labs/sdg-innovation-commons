@@ -2,16 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import ProfileCard from './ProfileCard';
 import ProfileDetails from './ProfileDetails';
 import ProfileSkeleton from './ProfileSkeleton';
 import ProfileModals from './ProfileModals';
 import {
-  logoutCurrentSession,
   updatedProfile,
   deleteAccount,
   sendContactContributorEmail
-} from '@/app/lib/data/platform-api';
+} from '@/app/lib/data/contributors';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 interface Country {
@@ -81,7 +81,7 @@ export default function ProfileContent({
   });
 
   const { sharedState } = useSharedState();
-  const { uuid, email, username } = sharedState?.session || {};
+  const { uuid, email, name: username } = sharedState?.session || {};
 
   useEffect(() => {
     if (!profileData) {
@@ -128,6 +128,7 @@ export default function ProfileContent({
       setIsSubmitting(true);
       const response = await updatedProfile(updatedData);
       if (response?.status === 200) {
+       await signOut({ callbackUrl: '/login', redirect: true });
         window.location.href = '/login'; // Redirect to login page on successful save
       } else {
         setErrorMessage(response?.message || 'Failed to update profile.'); // Show error message
@@ -175,6 +176,7 @@ export default function ProfileContent({
       setIsSubmitting(true);
       const response = await updatedProfile(updatedData);
       if (response?.status === 200) {
+        await signOut({ callbackUrl: '/login', redirect: true });
         window.location.href = '/login'; // Redirect to login page on successful password update
       } else {
         setErrorMessage(response?.message || 'Failed to update password.'); // Show error message in modal
@@ -219,6 +221,7 @@ export default function ProfileContent({
         alert(
           'An email has been sent to your new email address for confirmation.'
         );
+        await signOut({ callbackUrl: '/login', redirect: true });
         window.location.href = '/login'; // Redirect to login page after email update
       } else {
         if (
@@ -241,17 +244,18 @@ export default function ProfileContent({
   const handleLogout = async () => {
     setIsSubmitting(true);
     try {
-      const response = await logoutCurrentSession();
-      if (response?.status === 200 && response?.success) {
-        window.location.href = '/';
-      } else {
-        console.error(
-          'Failed to logout:',
-          response?.message || 'Unknown error'
-        );
-      }
+      // Call our custom logout endpoint to delete DB session
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      
+      // Then sign out with NextAuth
+      await signOut({ callbackUrl: '/', redirect: true });
     } catch (error) {
       console.error('Error during logout:', error);
+      // Fallback: force redirect even if signOut fails
+      window.location.href = '/';
     } finally {
       setIsSubmitting(false);
       setShowLogoutConfirm(false);
@@ -273,9 +277,7 @@ export default function ProfileContent({
       );
       if (response?.status === 200) {
         setDeleteAccountError('Your account has been successfully deleted.');
-        setTimeout(() => {
-          window.location.href = '/'; // Redirect to home page after deletion
-        }, 2000);
+        await signOut({ callbackUrl: '/', redirect: true });
       } else {
         setDeleteAccountError(response?.message || 'Failed to delete account.');
       }

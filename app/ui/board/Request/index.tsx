@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
-import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
@@ -29,23 +28,19 @@ export default function Request({ isOpen, onClose, id }: Props) {
     setErrorMessage('');
 
     try {
-      const response = await platformApi(
-        { output: 'request' },
-        'experiment',
-        'pinboard',
-        false,
-        'POST',
-        {
-          pinboard_id: id,
-          output: 'request',
-        }
-      );
+      const response = await fetch('/api/pinboards/request-collaboration', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pinboard_id: id }),
+      });
 
-      if (response?.success) {
-        setSuccessMessage(response?.message || 'Request submitted to contributors.');
+      const data = await response.json();
+
+      if (data?.success) {
+        setSuccessMessage(data?.message || 'Request submitted to contributors.');
       } else {
         setErrorMessage(
-          response?.message || 'An error occurred while submiting request to the board.'
+          data?.message || 'An error occurred while submiting request to the board.'
         );
       }
     } catch (error) {

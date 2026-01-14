@@ -1,20 +1,20 @@
 import Navigation from "@/app/ui/components/Navbar";
 import ProfileContent from "@/app/ui/components/Profile";
 import Footer from "@/app/ui/components/Footer";
-import platformApi, { getContributorInfo } from "@/app/lib/data/platform-api";
+import { fetchCountries, getContributorInfo } from "@/app/lib/data/platform-api";
 import { redirect, unauthorized } from "next/navigation";
 import getSession from "@/app/lib/session";
 
 export default async function ProfilePage() {
     // fetch session and safely access fields to avoid TS errors when session is null
-    const sess = (await getSession()) as { uuid?: string; username?: string } | null;
+    const sess = (await getSession()) as { uuid?: string; name?: string } | null;
     const uuid = sess?.uuid;
-    const username = sess?.username;
+    const username = sess?.name;
     if (!uuid || !username) return unauthorized();
 
   // Fetch country names and profile data in parallel
   const [countries, profileData] = await Promise.all([
-    platformApi({}, "experiment", "countries"),
+    fetchCountries({}, "experiment"),
     getContributorInfo(uuid), 
   ]);
 

@@ -3,7 +3,7 @@ import Content from './Content';
 import Navbar from '@/app/ui/components/Navbar';
 import Footer from '@/app/ui/components/Footer';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 
 export async function generateMetadata(
   { params, searchParams }: { params?: any; searchParams?: any },

@@ -3,8 +3,8 @@ import React, { FC, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
-import { updatePinboard } from '@/app/lib/data/platform-api';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { useBoardContext } from '@/app/ui/board/BoardContext';
 
 interface Props {
   isOpen: boolean;
@@ -24,6 +24,7 @@ const UpdateBoard: FC<Props> = ({
 }) => {
   if (!isOpen) return null;
   const { sharedState, setSharedState } = useSharedState();
+  const { optimisticUpdate } = useBoardContext();
 
   const [boardTitle, setBoardTitle] = useState<string>(title || '');
   const [boardDescription, setBoardDescription] = useState<string>(
@@ -34,24 +35,40 @@ const UpdateBoard: FC<Props> = ({
 
   const update = async () => {
     try {
-      const data = await updatePinboard(id, boardTitle, boardDescription);
-      if (data?.status === 200) {
-        setSharedState((prevState: any) => ({
-          ...prevState,
-          notification: {
-            showNotification: true,
-            message: '',
-            submessage: data?.message || '',
-            messageType: 'success',
-          },
-        }));
+      await optimisticUpdate(
+        async () => {
+          const response = await fetch('/api/pinboards/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id,
+              title: boardTitle,
+              description: boardDescription,
+            }),
+          });
 
-        window.history.replaceState(null, '', pathname);
-        window.location.reload();
-      } else {
-        console.error('Unexpected response status:', data?.status);
-        throw new Error();
-      }
+          const data = await response.json();
+
+          if (data?.success) {
+            setSharedState((prevState: any) => ({
+              ...prevState,
+              notification: {
+                showNotification: true,
+                message: '',
+                submessage: data?.message || 'Board updated successfully.',
+                messageType: 'success',
+              },
+            }));
+            return data;
+          } else {
+            console.error('Unexpected response status:', data?.status);
+            throw new Error(data?.message || 'Failed to update board');
+          }
+        },
+        { title: boardTitle, description: boardDescription }
+      );
+
+      onClose();
     } catch (error) {
       console.error('Engagement action failed:', error);
       setSharedState((prevState: any) => ({
@@ -59,12 +76,11 @@ const UpdateBoard: FC<Props> = ({
         notification: {
           showNotification: true,
           message: '',
-          submessage: 'Error occured while adding item to board.',
+          submessage: 'Error occured while updating board.',
           messageType: 'warning',
         },
       }));
     }
-    return onClose();
   };
 
   return (

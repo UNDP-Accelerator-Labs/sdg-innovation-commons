@@ -3,7 +3,7 @@ import Hero from './Hero';
 import Content from './Content';
 import Footer from '@/app/ui/components/Footer';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 
 const { PROD_ENV } = process.env;
 

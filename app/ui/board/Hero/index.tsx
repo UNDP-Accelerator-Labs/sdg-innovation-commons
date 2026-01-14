@@ -1,8 +1,8 @@
 import clsx from 'clsx';
-import platformApi from '@/app/lib/data/platform-api';
 import metaData from '@/app/lib/data/meta-data';
 import woldMap from '@/app/lib/data/world-map';
-import Link from 'next/link'
+import Link from 'next/link';
+import { BoardMetadata } from './BoardMetadata';
 
 interface Props {
 	title: string;
@@ -59,10 +59,9 @@ export default async function Hero({
 								)}
 							</div>
 							<div className='stats-cartouche flex flex-wrap justify-between p-[20px] md:inline-block lg:inline-block'>
-								<span className='mr-[40px]'><span className='number mr-[5px]'>{padsCount}</span>Note{padsCount !== 1 ? 's' : null}</span>
+								<BoardMetadata contributors={contributors} padsCount={padsCount} />
 								<span className='mr-[40px]'><span className='number mr-[5px]'>{locations.count}</span> Location{locations.count !== 1 ? 's' : null}</span>
 								<span className='mr-[40px]'><span className='number mr-[5px]'>{tags.count}</span> Thematic area{tags.count !== 1 ? 's' : null}</span>
-								<span><span className='number mr-[5px]'>{contributors}</span> Contributor{contributors !== 1 ? 's' : null}</span>
 							</div>
 							</>
 						)}

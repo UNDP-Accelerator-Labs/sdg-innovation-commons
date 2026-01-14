@@ -1,6 +1,6 @@
 // Email notification service for exports
 
-import { sendEmail } from '../../app/lib/helper';
+import { sendEmail } from '../../app/lib/helpers';
 
 /**
  * Send email notification with export download link

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/app/ui/components/Button";
 import { updatePassword } from "@/app/lib/data/platform-api";
+import { signOut } from "next-auth/react";
 
 interface UpdatePasswordProps {
   token: string;
@@ -43,9 +44,13 @@ export default function UpdatePassword({ token, isValidToken }: UpdatePasswordPr
       setIsSubmitting(true);
       const response = await updatePassword(password, confirmPassword, token); // Pass the token to the API function
       if (response.status === 200) {
-        setMessage("Password updated successfully.");
+        setMessage("Password updated successfully. Redirecting to login...");
         setIsError(false);
-        setTimeout(() => router.push("/login"), 2000); // Redirect to login after success
+        await signOut({ callbackUrl: '/login', redirect: true });
+        // Redirect after a delay to show the success message
+          setTimeout(() => {
+            router.push('/login');
+          }, 5000);
       } else {
         setMessage(response.message || "An error occurred. Please try again.");
         setIsError(true);

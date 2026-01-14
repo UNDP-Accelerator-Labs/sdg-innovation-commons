@@ -6,7 +6,7 @@ import Search from '../Search';
 import Tabs from '../Tabs';
 
 import clsx from 'clsx';
-import { shimmer } from '@/app/lib/utils';
+import { shimmer } from '@/app/lib/helpers/utils';
 
 export default async function Section() {
     return (

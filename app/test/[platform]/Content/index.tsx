@@ -5,9 +5,10 @@ import { MenuItem } from '@headlessui/react';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import platformApi, { getRegion } from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
+import { getRegion } from '@/app/lib/data/platform';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { page_limit, getCountryList } from '@/app/lib/utils';
+import { page_limit, getCountryList } from '@/app/lib/helpers/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -82,21 +83,34 @@ export default function Section({
     let data: any[];
 
     if (hasFilterParams() && platform !== 'all') { // Search with filters ==> Use platformApi
-      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
-        page,
-        platform,
-        searchParams
-      );
-      setPages(totalPages);
-      data = await platformApi(
+      const response = await platformApi(
         { ...searchParams, ...{ limit: page_limit, include_locations: true } },
         platform,
         'pads'
       );
+      
+      // Handle new {count, data} structure
+      if (response && typeof response === 'object' && 'data' in response) {
+        data = response.data;
+        const count = response.count;
+        const totalPages = Math.ceil(count / page_limit);
+        setPages(totalPages);
+        setTotal(count);
+      } else {
+        // Fallback for old structure
+        data = response;
+        const { total, pages: totalPages }: PageStatsResponse = await pagestats(
+          page,
+          platform,
+          searchParams
+        );
+        setPages(totalPages);
+        setTotal(total);
+      }
+      
       setAllObjectIdz(null);
       setallowDownLoad(true);
       setUseNlp(false);
-      setTotal(total);
 
       console.log('using platform api ', hits);
     } else { // Search using NLP

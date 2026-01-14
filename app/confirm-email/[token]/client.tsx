@@ -6,17 +6,14 @@ import Navigation from '@/app/ui/components/Navbar';
 import { Button } from '@/app/ui/components/Button';
 import Link from 'next/link';
 import { CheckCircle, XCircle, Loader2, Mail } from 'lucide-react';
-import { confirmEmail, registerContributor } from '@/app/lib/data/platform-api';
+import { confirmEmail, registerContributor } from '@/app/lib/data/contributors';
 import Footer from '@/app/ui/components/Footer';
+import { signOut } from 'next-auth/react';
 
 export default function ConfirmEmailClient({ token }: { token: string }) {
   const router = useRouter()
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading")
   const [message, setMessage] = useState<string>("")
-
-  // Check if new_user query param is present
-  const urlParams = new URLSearchParams(window.location.search);
-  const new_user = urlParams.get('new_user') === 'true';
   
   useEffect(() => {
     const verifyEmail = async () => {
@@ -27,16 +24,28 @@ export default function ConfirmEmailClient({ token }: { token: string }) {
         return;
       }
 
+      // Check if new_user query param is present
+      const urlParams = new URLSearchParams(window.location.search);
+      const new_user = urlParams.get('new_user') === 'true';
+
       try {
         const response = new_user ? await registerContributor(token) : await confirmEmail(token);
 
         if (response?.status === 200) {
           setStatus('success');
           setMessage(response.message);
-          // Redirect after a delay to show the success message
-          setTimeout(() => {
-            router.push('/login');
-          }, 5000);
+          
+          // Call logout endpoint to delete DB session (if logged in)
+          try {
+            await fetch('/api/auth/logout', {
+              method: 'POST',
+              credentials: 'include',
+            });
+          } catch (e) {
+            // Ignore errors - user might not be logged in
+          }
+          
+          await signOut({ callbackUrl: '/login', redirect: true });
         } else {
           setStatus('error');
           setMessage(response?.message || 'Failed to confirm email');

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
-import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { useRouter } from 'next/navigation';
@@ -30,23 +29,19 @@ export default function Delete({ isOpen, onClose, id }: Props) {
     setErrorMessage('');
 
     try {
-      const response = await platformApi(
-        { output: 'delete' },
-        'solution',
-        'pinboard',
-        false,
-        'POST',
-        {
-          pinboard: id,
-          output: 'delete',
-        }
-      );
+      const response = await fetch('/api/pinboards/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pinboard: id }),
+      });
 
-      if (response?.success) {
+      const data = await response.json();
+
+      if (data?.success) {
         return router.push(`/boards`);
       } else {
         setErrorMessage(
-          response?.message || 'An error occurred while deleting the board.'
+          data?.message || 'An error occurred while deleting the board.'
         );
       }
     } catch (error) {

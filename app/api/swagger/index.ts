@@ -11,10 +11,12 @@
 import { schemas } from './schemas';
 import { tagsPaths } from './tags';
 import { collectionsPaths } from './collections';
-import { boardsPaths } from './boards';
+import { pinboardsPaths, pinboardSchemas } from './pinboards';
 import { analyticsPaths } from './analytics';
 import { contentPaths } from './content';
 import { uploadsPaths } from './uploads';
+import { commentsPaths, commentsSchemas } from './comments';
+import { engagementPaths, engagementSchemas } from './engagement';
 // Admin endpoints commented out - not exposed in public API
 // import { adminUsersPaths } from './admin-users';
 // import { adminContentPaths } from './admin-content';
@@ -32,18 +34,18 @@ export const swaggerSpec = {
     version: '1.0.0',
     description: 'Comprehensive API documentation for the SDG Innovation Commons platform',
     contact: {
-      name: 'UNDP Accelerator Labs',
+      name: 'SDG Innovation Commons',
       url: 'https://sdg-innovation-commons.org',
     },
   },
   servers: [
     {
-      url: 'http://localhost:3000',
-      description: 'Local development server',
-    },
-    {
       url: 'https://sdg-innovation-commons.org',
       description: 'Production server',
+    },
+    {
+      url: 'http://localhost:3000',
+      description: 'Local development server',
     },
   ],
   tags: [
@@ -56,21 +58,25 @@ export const swaggerSpec = {
       description: 'User-created collections of content',
     },
     {
-      name: 'Boards',
-      description: 'Pinboard management',
+      name: 'Comments',
+      description: 'Comment and discussion management on pads',
     },
     {
-      name: 'Analytics',
-      description: 'Search and usage analytics',
+      name: 'Engagement',
+      description: 'User engagement (likes, useful, interesting) with content',
     },
-    {
-      name: 'Content',
-      description: 'Content management and moderation',
-    },
-    {
-      name: 'Uploads',
-      description: 'File upload endpoints',
-    },
+    // {
+    //   name: 'Analytics',
+    //   description: 'Search and usage analytics',
+    // },
+    // {
+    //   name: 'Content',
+    //   description: 'Content management and moderation',
+    // },
+    // {
+    //   name: 'Uploads',
+    //   description: 'File upload endpoints',
+    // },
     // Admin tags commented out - not exposed in public API
     // {
     //   name: 'Admin - Users',
@@ -100,6 +106,10 @@ export const swaggerSpec = {
       name: 'Pads',
       description: 'Published content (solutions, experiments, action plans, blogs)',
     },
+    {
+      name: 'Pinboards',
+      description: 'User-created pinboards for organizing and sharing pads',
+    },
   ],
   components: {
     securitySchemes: {
@@ -110,16 +120,23 @@ export const swaggerSpec = {
         description: 'Session cookie authentication',
       },
     },
-    schemas,
+    schemas: {
+      ...schemas,
+      ...pinboardSchemas,
+      ...commentsSchemas,
+      ...engagementSchemas,
+    },
   },
   paths: {
     // Merge all path definitions
     ...tagsPaths,
     ...collectionsPaths,
-    ...boardsPaths,
-    ...analyticsPaths,
-    ...contentPaths,
-    ...uploadsPaths,
+    ...pinboardsPaths,
+    ...commentsPaths,
+    ...engagementPaths,
+    // ...analyticsPaths,
+    // ...contentPaths,
+    // ...uploadsPaths,
     // Admin endpoints commented out - not exposed in public API
     // ...adminUsersPaths,
     // ...adminContentPaths,

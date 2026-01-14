@@ -5,12 +5,17 @@ import { redirectToLogin } from '@/app/lib/auth';
 import NavLink from "./navlink";
 import Link from 'next/link';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { useSession } from 'next-auth/react';
 import Loading from '@/app/ui/components/Loading';
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { sharedState } = useSharedState();
+  const { data: nextAuthSession } = useSession();
   const [loading, setLoading] = useState(false);
+
+  // Use NextAuth session if available, fallback to SharedState
+  const username = nextAuthSession?.user?.name || sharedState?.session?.name || null;
 
   // Function to toggle the menu open/close state
   const toggleMenu = () => {
@@ -20,7 +25,7 @@ export default function NavBar() {
   const currPath = usePathname();
   const loginRedirect = (e:any)=>{
       e.preventDefault()
-      if (sharedState?.session?.username) {
+      if (username) {
         setLoading(true);
         return redirect('/profile');
       };
@@ -69,10 +74,10 @@ export default function NavBar() {
             <Link href={'/search/all'}>
               <img className="w-[40.7px] relative h-[37.2px] object-cover" alt="Search" src="/images/search.svg" />
             </Link>
-            {sharedState?.session?.username ? <>
+            {username ? <>
               <button onClick={loginRedirect} className='no-underline text-black bottom-0 bg-inherit'>
                 <span className="leading-[38px] text-[12px] cursor-pointer bg-lime-yellow px-5 py-5">
-                  Welcome {sharedState?.session?.username || ''}
+                  Welcome {username}
                 </span>
               </button>
             </>

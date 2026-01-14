@@ -6,7 +6,7 @@ import Card from '@/app/ui/components/Card/without-img';
 import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { formatDate, page_limit } from '@/app/lib/utils';
+import { formatDate, page_limit } from '@/app/lib/helpers/utils';
 import { PostProps } from '@/app/lib/definitions';
 import clsx from 'clsx';
 import Link from 'next/link';

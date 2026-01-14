@@ -5,10 +5,10 @@ import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 import nlpApi from '@/app/lib/data/nlp-api';
 import { PostProps } from '@/app/lib/definitions';
-import { defaultSearch } from '@/app/lib/utils';
+import { defaultSearch } from '@/app/lib/helpers/utils';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import { Props } from '../See'
 
@@ -29,11 +29,13 @@ export default function Section({ boards, isLogedIn}: Props) {
             let data: any[];
 
             if (activeTab !== 'all') {
-                data = await platformApi(
+                const response = await platformApi(
                     { limit: 3, page: 1, orderby: 'random' }, 
                     activeTab, 
                     'pads'
                 );
+                // Handle new {count, data} structure or legacy array
+                data = (response as any)?.data || response || [];
             } else {
                 console.log('look for all items')
                 data = await nlpApi(

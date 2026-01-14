@@ -58,11 +58,11 @@ export async function POST(request: NextRequest) {
 
     // Get user IP and user agent
     // Extract IP address and remove port if present
-    let userIp = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+    let userIp: string | null = request.headers.get('x-forwarded-for')?.split(',')[0] || 
                  request.headers.get('x-real-ip') || 
                  request.headers.get('cf-connecting-ip') ||
                  request.headers.get('x-client-ip') ||
-                 null;
+                 '';
     
     // Remove port from IP address if present (e.g., "88.97.207.222:63316" -> "88.97.207.222")
     if (userIp && userIp.includes(':') && !userIp.includes('[')) {
@@ -73,6 +73,12 @@ export async function POST(request: NextRequest) {
       const match = userIp.match(/\[([^\]]+)\]/);
       userIp = match ? match[1] : userIp;
     }
+    
+    // Convert empty string, localhost IPs, or invalid IP to null
+    if (!userIp || userIp.trim() === '' || userIp === '::1' || userIp === '127.0.0.1' || userIp === 'localhost') {
+      userIp = null;
+    }
+    
     const userAgent = request.headers.get('user-agent') || null;
 
     // Insert search record

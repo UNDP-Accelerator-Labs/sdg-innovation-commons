@@ -4,7 +4,7 @@ import Card from "@/app/ui/components/Card/collection-card";
 import { ImgCardsSkeleton } from "@/app/ui/components/Card/skeleton";
 import { pagestats, Pagination } from "@/app/ui/components/Pagination";
 import platformApi from "@/app/lib/data/platform-api";
-import { page_limit, commonsPlatform } from "@/app/lib/utils";
+import { page_limit, commonsPlatform } from "@/app/lib/helpers/utils";
 import { useSharedState } from "@/app/ui/components/SharedState/Context";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/app/ui/components/Button";

@@ -5,7 +5,7 @@ export const padsPaths = {
   '/api/pads': {
     get: {
       tags: ['Pads'],
-      summary: 'Get pads (solutions, experiments, action plans, blogs)',
+      summary: 'Get pads (solutions, experiments, action plans)',
       description: 'Retrieve published content with comprehensive filtering options',
       parameters: [
         {
@@ -69,6 +69,14 @@ export const padsPaths = {
           },
         },
         {
+          name: 'id_dbpads',
+          in: 'query',
+          description: 'Filter by concatenated pad+database ID(s) in format {pad_id}_{db_id}',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
           name: 'templates',
           in: 'query',
           description: 'Filter by template ID(s)',
@@ -79,10 +87,19 @@ export const padsPaths = {
         {
           name: 'platforms',
           in: 'query',
-          description: 'Filter by platform (solution, experiment, action plan)',
+          description: 'Filter by platform (solution, experiment, action plan, consent, codification)',
           schema: {
             type: 'string',
-            enum: ['solution', 'experiment', 'action plan'],
+            enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
+          },
+        },
+        {
+          name: 'platform',
+          in: 'query',
+          description: 'Filter by platform (singular form, alias for platforms)',
+          schema: {
+            type: 'string',
+            enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
           },
         },
         {
@@ -139,7 +156,7 @@ export const padsPaths = {
         {
           name: 'include_engagement',
           in: 'query',
-          description: 'Include engagement statistics (likes, views, etc.)',
+          description: 'Include engagement statistics (likes, bookmarks, etc.), current user engagement (if logged in), and page views/reads',
           schema: {
             type: 'boolean',
             default: false,
@@ -155,9 +172,44 @@ export const padsPaths = {
           },
         },
         {
+          name: 'include_imgs',
+          in: 'query',
+          description: 'Include image URLs with Azure Blob Storage paths',
+          schema: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        {
+          name: 'include_source',
+          in: 'query',
+          description: 'Include source URL to view the pad',
+          schema: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        {
+          name: 'include_pinboards',
+          in: 'query',
+          description: 'Include pinboard information: "all" for all pinboards containing the pad, "own" for only user\'s pinboards (requires authentication)',
+          schema: {
+            type: 'string',
+            enum: ['all', 'own'],
+          },
+        },
+        {
+          name: 'teams',
+          in: 'query',
+          description: 'Filter by team ID(s)',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
           name: 'pseudonymize',
           in: 'query',
-          description: 'Remove personally identifiable information',
+          description: 'Remove personally identifiable information (email, position, ownername)',
           schema: {
             type: 'boolean',
             default: true,
@@ -208,21 +260,41 @@ export const padsPaths = {
                       type: 'integer',
                       description: 'Unique pad identifier',
                     },
+                    id_db: {
+                      type: 'string',
+                      description: 'Concatenated pad+database ID in format {pad_id}_{db_id}',
+                    },
                     contributor_id: {
                       type: 'string',
-                      description: 'UUID of the contributor',
+                      description: 'UUID of the contributor (removed if pseudonymize=true)',
                     },
-                    contributor_name: {
+                    ownername: {
                       type: 'string',
-                      description: 'Name of the contributor',
+                      description: 'Name of the owner (removed if pseudonymize=true)',
                     },
-                    contributor_country: {
+                    position: {
                       type: 'string',
-                      description: 'ISO3 code of contributor country',
+                      description: 'Position of the owner (removed if pseudonymize=true)',
+                    },
+                    email: {
+                      type: 'string',
+                      description: 'Email of the owner (removed if pseudonymize=true)',
+                    },
+                    iso3: {
+                      type: 'string',
+                      description: 'ISO3 country code',
+                    },
+                    country: {
+                      type: 'string',
+                      description: 'Country name',
                     },
                     title: {
                       type: 'string',
                       description: 'Pad title',
+                    },
+                    snippet: {
+                      type: 'string',
+                      description: 'Auto-generated snippet from full_text (first 300 characters)',
                     },
                     created_at: {
                       type: 'string',
@@ -236,11 +308,15 @@ export const padsPaths = {
                     },
                     status: {
                       type: 'integer',
-                      description: 'Publication status',
+                      description: 'Publication status: 0=draft, 1=ready, 2=internal, 3=published',
                     },
                     template: {
                       type: 'integer',
                       description: 'Template ID',
+                    },
+                    ordb: {
+                      type: 'integer',
+                      description: 'External database ID used for platform determination',
                     },
                     sections: {
                       type: 'array',
@@ -250,9 +326,28 @@ export const padsPaths = {
                       type: 'string',
                       description: 'Full text content',
                     },
+                    imgs: {
+                      type: 'array',
+                      description: 'Image URLs with Azure Blob Storage paths (if include_imgs=true)',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                    media: {
+                      type: 'array',
+                      description: 'Media URLs (if include_imgs=true)',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                    vignette: {
+                      type: 'string',
+                      nullable: true,
+                      description: 'Primary image URL for thumbnail (if include_imgs=true)',
+                    },
                     tags: {
                       type: 'array',
-                      description: 'Associated tags',
+                      description: 'Associated tags (if include_tags=true)',
                       items: {
                         type: 'object',
                         properties: {
@@ -263,7 +358,7 @@ export const padsPaths = {
                     },
                     locations: {
                       type: 'array',
-                      description: 'Geographic locations',
+                      description: 'Geographic locations (if include_locations=true)',
                       items: {
                         type: 'object',
                         properties: {
@@ -275,11 +370,11 @@ export const padsPaths = {
                     },
                     metadata: {
                       type: 'array',
-                      description: 'Additional metadata fields',
+                      description: 'Additional metadata fields (if include_metafields=true)',
                     },
                     engagement: {
                       type: 'array',
-                      description: 'Engagement statistics (if requested)',
+                      description: 'Engagement statistics (if include_engagement=true)',
                       items: {
                         type: 'object',
                         properties: {
@@ -288,13 +383,43 @@ export const padsPaths = {
                         },
                       },
                     },
+                    current_user_engagement: {
+                      type: 'array',
+                      description: 'Current user\'s engagement with this pad (if include_engagement=true and user is logged in)',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          type: { type: 'string' },
+                          count: { type: 'integer' },
+                        },
+                      },
+                    },
+                    views: {
+                      type: 'object',
+                      description: 'Page view and read statistics (if include_engagement=true)',
+                      properties: {
+                        views: { type: 'integer', description: 'Total view count' },
+                        reads: { type: 'integer', description: 'Total read count (scrolled to bottom)' },
+                      },
+                    },
+                    pinboards: {
+                      type: 'array',
+                      description: 'Pinboards containing this pad (if include_pinboards=all or include_pinboards=own)',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          pinboard_id: { type: 'integer' },
+                          title: { type: 'string' },
+                        },
+                      },
+                    },
                     comments: {
                       type: 'array',
-                      description: 'Comments (if requested)',
+                      description: 'Comments (if include_comments=true)',
                     },
                     source: {
                       type: 'string',
-                      description: 'URL to view the pad',
+                      description: 'URL to view the pad (if include_source=true or always included)',
                     },
                   },
                 },

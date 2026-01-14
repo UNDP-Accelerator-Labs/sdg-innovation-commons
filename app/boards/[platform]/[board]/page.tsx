@@ -1,5 +1,5 @@
 import Board from '@/app/ui/board';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
 import boardData from '@/app/lib/data/board';
 

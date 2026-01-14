@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { sdgLabels } from '@/app/lib/utils';
+import { sdgLabels } from '@/app/lib/helpers/utils';
 
 interface Props {
 	locations: any[];

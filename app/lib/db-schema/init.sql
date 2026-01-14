@@ -490,8 +490,10 @@ CREATE TABLE IF NOT EXISTS public.files
     owner uuid,
     published boolean DEFAULT false,
     source integer,
+    id_db text COLLATE pg_catalog."default",
     ordb integer,
     CONSTRAINT files_pkey PRIMARY KEY (id),
+    CONSTRAINT files_id_db_key UNIQUE (id_db),
     CONSTRAINT files_source_fkey FOREIGN KEY (source)
         REFERENCES public.pads (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -615,7 +617,9 @@ CREATE TABLE IF NOT EXISTS public.mobilizations
     old_collection integer,
     version ltree,
     collection integer,
+    id_db text COLLATE pg_catalog."default",
     CONSTRAINT mobilizations_pkey PRIMARY KEY (id),
+    CONSTRAINT mobilizations_id_db_key UNIQUE (id_db),
     CONSTRAINT mobilizations_source_fkey FOREIGN KEY (source)
         REFERENCES public.mobilizations (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -625,7 +629,6 @@ CREATE TABLE IF NOT EXISTS public.mobilizations
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
 
 CREATE TABLE IF NOT EXISTS public.pads
 (
@@ -640,8 +643,10 @@ CREATE TABLE IF NOT EXISTS public.pads
     update_at timestamp with time zone NOT NULL DEFAULT now(),
     source integer,
     version ltree,
+    id_db text COLLATE pg_catalog."default",
     ordb integer,
     CONSTRAINT pads_pkey PRIMARY KEY (id),
+    CONSTRAINT pads_id_db_key UNIQUE (id_db),
     CONSTRAINT pads_source_fkey FOREIGN KEY (source)
         REFERENCES public.pads (id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -945,8 +950,10 @@ CREATE TABLE IF NOT EXISTS public.templates
     source integer,
     slideshow boolean DEFAULT false,
     version ltree,
+    id_db text COLLATE pg_catalog."default",
     ordb integer,
     CONSTRAINT templates_pkey PRIMARY KEY (id),
+    CONSTRAINT templates_id_db_key UNIQUE (id_db),
     CONSTRAINT templates_source_fkey FOREIGN KEY (source)
         REFERENCES public.templates (id) MATCH SIMPLE
         ON UPDATE NO ACTION

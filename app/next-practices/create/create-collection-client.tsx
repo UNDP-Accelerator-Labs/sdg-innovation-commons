@@ -568,12 +568,12 @@ export default function CreateCollectionClient() {
   const fetchAvailableBoards = async (q?: string) => {
     try {
       const trimmed = (q || "").trim()
-      let url = "/api/boards"
+      let url = "/api/pinboards"
       if (!trimmed || trimmed.length < 2) {
         // load first 10 public boards by default
-        url = "/api/boards?limit=10"
+        url = "/api/pinboards?limit=10"
       } else {
-        url = `/api/boards?q=${encodeURIComponent(trimmed)}`
+        url = `/api/pinboards?q=${encodeURIComponent(trimmed)}`
       }
       const res = await fetch(url)
       if (res.ok) {

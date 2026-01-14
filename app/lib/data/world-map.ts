@@ -1,6 +1,5 @@
 'use server';
-import { commonsPlatform } from '@/app/lib/utils';
-import get from './get'
+import { headers } from 'next/headers';
 
 interface layerProps {
 	iso3: string;
@@ -12,29 +11,58 @@ interface layerProps {
 }
 
 interface Props {
-	platform: string;
+	platform?: string;
 	projsize?: number;
 	base_color?: string;
+	background_color?: string;
 	layers?: layerProps[];
+	simplification?: number;
 }
 
 export default async function worldMap({
 	platform,
 	projsize,
 	base_color,
+	background_color,
 	layers,
+	simplification,
 }: Props) {
-	const base_url: string | undefined = commonsPlatform.find(p => p.key === platform)?.url;
-	if (!base_url) return { status: 500, message: 'cannot find API url' };
+	try {
+		// Use local API endpoint instead of external platform API
+		const headersList = await headers();
+		const host = headersList.get('host') || 'localhost:3000';
+		const protocol = headersList.get('x-forwarded-proto') || 'http';
+		const baseUrl = `${protocol}://${host}`;
+		
+		const response = await fetch(`${baseUrl}/api/map`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				projsize: projsize ?? 1440 * 0.75,
+				base_color: base_color || '#000',
+				background_color: background_color || 'transparent',
+				layers: layers || [],
+				simplification: simplification || 10,
+			}),
+		});
 
-	const { file }: any = await get({
-	    url: `${base_url}/apis/fetch/map`,
-	    method: 'POST',
-	    body: {
-			projsize: projsize ?? 1440 * .75,
-			base_color: base_color || '#000',
-			layers: layers || [],
+		if (!response.ok) {
+			const error = await response.json();
+			return { 
+				status: response.status, 
+				message: error.message || 'Failed to generate map' 
+			};
 		}
-	});
-	return { status: 200, file };
+
+		const data = await response.json();
+		return { status: 200, file: data.file };
+	} catch (error) {
+		console.error('Error generating world map:', error);
+		return { 
+			status: 500, 
+			message: error instanceof Error ? error.message : 'Unknown error' 
+		};
+	}
 }

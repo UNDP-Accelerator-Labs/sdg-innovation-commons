@@ -2,8 +2,9 @@ import '@/app/ui/global.css'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import { headers } from 'next/headers'
+import { SessionProvider } from '@/app/ui/components/SessionProvider';
 import { SharedStateProvider } from '@/app/ui/components/SharedState/Context';
-import getSession from '@/app/lib/session';
+import { auth } from '@/auth';
 
 const { PROD_ENV } = process.env;
 
@@ -41,7 +42,7 @@ export default async function RootLayout({
   const excludedSubdomains = ['staging', 'localhost'];
   const subdomain = host.split('.')[0];
   const isProd = !excludedSubdomains.includes(subdomain);
-  const session = await getSession();
+  const session = await auth();
 
   return (
     <html lang="en">
@@ -54,9 +55,11 @@ export default async function RootLayout({
         />
       )}
       <body>
-        <SharedStateProvider session={session}>
-          {children}
-        </SharedStateProvider>
+        <SessionProvider session={session}>
+          <SharedStateProvider session={session?.user}>
+            {children}
+          </SharedStateProvider>
+        </SessionProvider>
       </body>
     </html>
   );

@@ -38,7 +38,8 @@ export default async function get({ url, method, body, cache }: Props) {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error)) {
-      if ([400, 401, 404, 403].includes(error.response?.status as number)) {
+
+      if ([400, 401, 404, 403, 500].includes(error.response?.status as number)) {
         try {
           const responseData = error?.response?.data;
           if (responseData?.message) {
@@ -47,13 +48,14 @@ export default async function get({ url, method, body, cache }: Props) {
           }
           return responseData;
         } catch {
-          throw new Error('Error parsing JSON for status 400');
+          throw new Error(`Error parsing JSON for status ${error.response?.status}`);
         }
       } else {
         console.error('Error:', error?.message);
         throw new Error(`Error occurred...`);
       }
     } else {
+      console.error('Non-axios error:', error);
       throw new Error('An unexpected error occurred');
     }
   }

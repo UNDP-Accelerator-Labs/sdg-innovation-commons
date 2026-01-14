@@ -207,7 +207,7 @@ export async function POST(req: Request) {
         );
     }
 
-    const creator_name = session.username || session.uuid || null;
+    const creator_name = session.name || session.uuid || null;
 
     // sanitize description and sections (txt items) to avoid XSS in stored HTML
     const allowedTags = [

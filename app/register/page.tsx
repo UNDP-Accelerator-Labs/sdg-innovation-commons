@@ -3,12 +3,12 @@ import RegisterForm from "@/app/ui/components/Register"
 import Link from "next/link"
 import { Button } from '@/app/ui/components/Button';
 import Footer from '@/app/ui/components/Footer';
-import platformApi from "@/app/lib/data/platform-api";
+import { fetchCountries } from "@/app/lib/data/platform-api";
 
 export default async function RegisterPage() {
 
     // Fetch country names and articles in parallel
-    const countries =  await platformApi({}, 'experiment', 'countries')
+    const countries = await fetchCountries({}, 'experiment')
 
   return (
     <div className="min-h-screen grid-background relative overflow-hidden">

@@ -1,5 +1,5 @@
 import Collection from '@/app/ui/collection';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
 import collectionData from '@/app/lib/data/collection';
 import getSession from "@/app/lib/session";

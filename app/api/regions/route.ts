@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query as dbQuery } from '@/app/lib/db';
-import { safeArr } from '@/app/lib/helper';
+import { safeArr } from '@/app/lib/helpers';
 
 interface RegionsRequestParams {
   countries?: string | string[];

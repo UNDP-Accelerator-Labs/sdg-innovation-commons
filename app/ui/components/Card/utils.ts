@@ -58,18 +58,29 @@ export const removeFromBoardApi = async (
     boardId: number,
     id: number,
     source: string,
-    pin: (source: string, action: ActionType, boardId: number, id: number) => Promise<any>,
     showNotification: (message : string, submessage: string, messageType: string ) => void,
     redirectUser: () => void,
 ) => {
 
     let platform = source;
-    if(['news', 'blog', 'publications', 'press release'].includes(source)) platform = 'blog'
+    if(['news', 'blog', 'publications', 'press release'].includes(source)) platform = 'blogs'
 
     if (!boardId) return;
 
     try {
-        const data = await pin(platform, action, boardId, id);
+        const response = await fetch('/api/pinboards/add-pads', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action,
+                board_id: boardId,
+                object_id: id,
+                source: platform,
+            }),
+        });
+
+        const data = await response.json();
+
         if (data?.status === 200) {
             showNotification(
                 '',
@@ -86,7 +97,7 @@ export const removeFromBoardApi = async (
         showNotification(
             '',
             'Error occurred while removing item from board.',
-            'success'
+            'warning'
         );
     }
 };

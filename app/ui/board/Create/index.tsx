@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
-import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { useRouter } from 'next/navigation';
@@ -33,27 +32,25 @@ export default function Create({ isOpen, onClose }: Props) {
     setSuccessMessage('');
 
     try {
-      const response = await platformApi(
-        { output: 'create' },
-        'experiment',
-        'pinboard',
-        false,
-        'POST',
-        {
+      const response = await fetch('/api/pinboards/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           title: boardTitle.trim(),
           description: boardDescription.trim(),
-          output: 'create',
-        }
-      );
+        }),
+      });
 
-      if (response?.success) {
+      const data = await response.json();
+
+      if (data?.success) {
         setSuccessMessage('Board created successfully!');
         setBoardTitle('');
         setBoardDescription('');
-        return router.push(`/boards/all/${response?.pinboard?.id}`);
+        return router.push(`/boards/all/${data?.pinboard?.id}`);
       } else {
         setErrorMessage(
-          response?.message || 'An error occurred while creating the board.'
+          data?.message || 'An error occurred while creating the board.'
         );
       }
     } catch (error) {

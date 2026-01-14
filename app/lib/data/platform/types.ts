@@ -1,0 +1,36 @@
+export interface Props {
+  space?: string;
+  page?: number;
+  limit?: number;
+  search?: string;
+  status?: any;
+  contributors?: any;
+  countries?: any;
+  regions?: any;
+  teams?: any;
+  pads?: any;
+  id_dbpads?: any;
+  templates?: any;
+  mobilizations?: any;
+  pinboard?: any;
+  section?: any;
+  methods?: any;
+  nodes?: any;
+  orderby?: string;
+  include_tags?: boolean;
+  include_imgs?: boolean;
+  include_data?: boolean;
+  include_locations?: boolean;
+  include_metafields?: boolean;
+  include_source?: boolean;
+  include_engagement?: boolean;
+  include_comments?: boolean;
+  anonymize_comments?: boolean;
+  platform?: string;
+  pseudonymize?: boolean;
+  render?: boolean;
+  action?: string;
+  include_pinboards?: string;
+  email?: string;
+  output?: string;
+}

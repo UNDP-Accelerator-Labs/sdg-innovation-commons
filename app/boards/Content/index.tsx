@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import Card from '@/app/ui/components/Card/featured-card';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { Pagination } from '@/app/ui/components/Pagination';
-import platformApi from '@/app/lib/data/platform-api';
-import { page_limit, commonsPlatform } from '@/app/lib/utils';
+import platformApi from '@/app/lib/data/platform';
+import { page_limit, commonsPlatform } from '@/app/lib/helpers/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
@@ -59,11 +59,12 @@ export default function Section({ searchParams }: Props) {
 
   async function fetchData(): Promise<void> {
     setLoading(true);
-    const { data, count } = await platformApi(
+    const response = await platformApi(
       { ...searchParams, ...{ limit: page_limit, space: _space, databases } },
       'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
     );
+    const { data, count } = response;
     const pages = Math.ceil(count / page_limit);
 
     setHits(data);

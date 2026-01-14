@@ -1,6 +1,6 @@
 'use server';
-import platformApi from './platform-api';
-import { commonsPlatform, extractSDGNumbers, polishTags } from '@/app/lib/utils';
+import platformApi from './platform';
+import { commonsPlatform, extractSDGNumbers, polishTags } from '@/app/lib/helpers/utils';
 import get from './get';
 
 export interface Props {
