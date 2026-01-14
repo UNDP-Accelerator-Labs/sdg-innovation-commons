@@ -85,6 +85,14 @@ export const padsPaths = {
           },
         },
         {
+          name: 'id_dbpads',
+          in: 'query',
+          description: 'Filter by concatenated pad+database ID(s) in format {pad_id}_{db_id}',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
           name: 'templates',
           in: 'query',
           description: 'Filter by template ID(s)',
@@ -272,6 +280,10 @@ export const padsPaths = {
                       type: 'string',
                       description: 'Concatenated content+database ID in format {pad_id}_{db_id}',
                     },
+                    id_db: {
+                      type: 'string',
+                      description: 'Concatenated pad+database ID in format {pad_id}_{db_id}',
+                    },
                     contributor_id: {
                       type: 'string',
                       description: 'UUID of the contributor (removed if pseudonymize=true)',
@@ -299,6 +311,10 @@ export const padsPaths = {
                     title: {
                       type: 'string',
                       description: 'Content title',
+                    },
+                    snippet: {
+                      type: 'string',
+                      description: 'Auto-generated snippet from full_text (first 300 characters)',
                     },
                     snippet: {
                       type: 'string',

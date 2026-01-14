@@ -95,6 +95,10 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
       name: 'Pinboards',
       description: 'Community Curated Boards - User-created collections organizing and sharing content by theme or topic',
     },
+    {
+      name: 'Pinboards',
+      description: 'User-created pinboards for organizing and sharing pads',
+    },
   ],
   components: {
     securitySchemes: {
