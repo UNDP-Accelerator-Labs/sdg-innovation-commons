@@ -283,7 +283,7 @@ export default function Contact() {
               {isLogedIn && apiToken && (
                 <div className="mb-6 mx-auto max-w-2xl bg-white border-2 border-blue-100 rounded-xl p-6 shadow-sm">
                   <div className="mb-3">
-                    <p className="text-sm font-semibold text-gray-700">
+                    <p className="text-[12px] font-semibold text-gray-700">
                       Your API Access Token
                     </p>
                   </div>
@@ -294,7 +294,7 @@ export default function Contact() {
                         {apiToken}
                       </code>
                     ) : (
-                      <div className="flex-1 text-xs font-mono text-gray-400">
+                      <div className="flex-1 text-[14px] font-mono text-gray-400">
                         {"•".repeat(60)}
                       </div>
                     )}
@@ -386,11 +386,9 @@ export default function Contact() {
                   </div>
 
                   <div className="mt-2">
-                    <p className="text-xs text-gray-500">
-                      Keep this token secure. It provides access to your account
-                      data via the SDG Commons API. Include it in your API
-                      requests as 
-                      <code className="block bg-white px-2 py-1.5 rounded text-gray-800 font-mono text-[10px]">
+                    <p className="text-[11px] leading-relaxed text-gray-500">
+                      Secure this token—it grants API access to your account data and is valid for one year. Add it to requests as:
+                      <code className="block bg-white px-2 py-1.5 mt-1 rounded text-gray-800 font-mono text-[9px]">
                         Authorization: Bearer YOUR_TOKEN
                       </code>
                     </p>
