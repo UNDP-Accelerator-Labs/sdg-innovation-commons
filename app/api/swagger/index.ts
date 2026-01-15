@@ -17,6 +17,7 @@ import { contentPaths } from './content';
 import { uploadsPaths } from './uploads';
 import { commentsPaths, commentsSchemas } from './comments';
 import { engagementPaths, engagementSchemas } from './engagement';
+import { articlesPaths } from './articles';
 // Admin endpoints commented out - not exposed in public API
 // import { adminUsersPaths } from './admin-users';
 // import { adminContentPaths } from './admin-content';
@@ -32,83 +33,67 @@ export const swaggerSpec = {
   info: {
     title: 'SDG Innovation Commons API',
     version: '1.0.0',
-    description: 'Comprehensive API documentation for the SDG Innovation Commons platform',
+    description: `Comprehensive API documentation for the SDG Innovation Commons platform.
+
+## About the Platform
+
+The SDG Innovation Commons is a platform for sharing and discovering sustainable development innovations through:
+
+- **What We See** - Solutions and notes on SDG priorities and problems mapped around the world
+- **What We Test** - Experiments and action plans to test what works in sustainable development
+- **What We Learn** - Curated blogs and publications fostering collaboration and continuous learning
+- **Community Curated Boards** - User-created collections organizing content by theme
+- **Next Practices** - Curated collections showcasing emerging approaches to achieve the SDGs`,
     contact: {
       name: 'SDG Innovation Commons',
       url: 'https://sdg-innovation-commons.org',
     },
   },
-  servers: [
-    {
-      url: 'https://sdg-innovation-commons.org',
-      description: 'Production server',
-    },
-    {
-      url: 'http://localhost:3000',
-      description: 'Local development server',
-    },
-  ],
+  servers: process.env.NODE_ENV === 'production' 
+    ? [
+        {
+          url: 'https://sdg-innovation-commons.org',
+          description: 'Production server',
+        },
+      ]
+    : [
+        {
+          url: 'http://localhost:3000',
+          description: 'Local development server',
+        },
+      ],
   tags: [
     {
       name: 'Tags',
-      description: 'Tag management endpoints for filtering and retrieving tags',
+      description: 'Tag management endpoints for filtering and retrieving thematic areas, SDGs, and other categorizations',
     },
     {
       name: 'Collections',
-      description: 'User-created collections of content',
+      description: 'Next Practices - Curated collections showcasing emerging approaches and solutions for achieving the SDGs through what we see, test, and learn',
     },
     {
       name: 'Comments',
-      description: 'Comment and discussion management on pads',
+      description: 'Discussion and feedback on content - enabling collaborative learning and knowledge exchange',
     },
     {
       name: 'Engagement',
-      description: 'User engagement (likes, useful, interesting) with content',
+      description: 'User engagement metrics (likes, useful, interesting) with content - helping surface valuable insights',
     },
-    // {
-    //   name: 'Analytics',
-    //   description: 'Search and usage analytics',
-    // },
-    // {
-    //   name: 'Content',
-    //   description: 'Content management and moderation',
-    // },
-    // {
-    //   name: 'Uploads',
-    //   description: 'File upload endpoints',
-    // },
-    // Admin tags commented out - not exposed in public API
-    // {
-    //   name: 'Admin - Users',
-    //   description: 'User management (admin only)',
-    // },
-    // {
-    //   name: 'Admin - Content',
-    //   description: 'Content moderation (admin only)',
-    // },
-    // {
-    //   name: 'Admin - Analytics',
-    //   description: 'Analytics and statistics (admin only)',
-    // },
-    // {
-    //   name: 'Admin - Exports',
-    //   description: 'Data export management (admin only)',
-    // },
-    // {
-    //   name: 'Admin - Notifications',
-    //   description: 'Notification management (admin only)',
-    // },
     {
       name: 'Locations',
-      description: 'Geographic location data for countries and regions',
+      description: 'Geographic location data for countries and regions - mapping innovations around the world',
+    },
+    {
+      name: 'Articles',
+      description: 'What We Learn - Blogs and publications fostering collaboration and continuous learning',
     },
     {
       name: 'Pads',
-      description: 'Published content (solutions, experiments, action plans, blogs)',
+      description: 'Published content representing What We See (solutions) and What We Test (experiments, action plans)',
     },
     {
       name: 'Pinboards',
-      description: 'User-created pinboards for organizing and sharing pads',
+      description: 'Community Curated Boards - User-created collections organizing and sharing content by theme or topic',
     },
   ],
   components: {
@@ -134,6 +119,7 @@ export const swaggerSpec = {
     ...pinboardsPaths,
     ...commentsPaths,
     ...engagementPaths,
+    ...articlesPaths,
     // ...analyticsPaths,
     // ...contentPaths,
     // ...uploadsPaths,

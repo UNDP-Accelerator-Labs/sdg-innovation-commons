@@ -1,22 +1,123 @@
 /**
- * Collections API endpoints documentation
+ * Next Practices (Collections) API endpoints documentation
+ * 
+ * Next Practices are curated collections that showcase emerging approaches to achieving the SDGs
+ * through what we see (solutions), what we test (experiments), and what we learn (insights).
  */
 export const collectionsPaths = {
   '/api/collections': {
     get: {
       tags: ['Collections'],
-      summary: 'Get all published collections',
-      description: 'Retrieve all published collections with their metadata',
+      summary: 'Get Next Practices by filter',
+      description: `Retrieve Next Practices (curated collections) filtered by various parameters. 
+      
+Next Practices showcase how the platform is uncovering emerging solutions for sustainable development by connecting insights from:
+- What We See (solutions)
+- What We Test (experiments and action plans)
+- What We Learn (blogs and publications)`,
+      parameters: [
+        {
+          name: 'slug',
+          in: 'query',
+          description: 'Fetch a specific Next Practice by its slug',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'list',
+          in: 'query',
+          description: 'List published Next Practices (use value "public")',
+          schema: {
+            type: 'string',
+            enum: ['public'],
+          },
+        },
+        {
+          name: 'owner',
+          in: 'query',
+          description: 'Filter Next Practices by creator UUID. If the logged-in user matches the creator, returns all their collections (including drafts). Otherwise, only returns published collections.',
+          schema: {
+            type: 'string',
+            format: 'uuid',
+          },
+        },
+        {
+          name: 'limit',
+          in: 'query',
+          description: 'Maximum number of Next Practices to return (max 100)',
+          schema: {
+            type: 'integer',
+            minimum: 1,
+            maximum: 100,
+            default: 12,
+          },
+        },
+        {
+          name: 'offset',
+          in: 'query',
+          description: 'Number of Next Practices to skip for pagination',
+          schema: {
+            type: 'integer',
+            minimum: 0,
+            default: 0,
+          },
+        },
+      ],
       responses: {
         200: {
           description: 'Successful response',
           content: {
             'application/json': {
               schema: {
-                type: 'array',
-                items: {
-                  $ref: '#/components/schemas/Collection',
-                },
+                oneOf: [
+                  {
+                    // Single collection by slug
+                    $ref: '#/components/schemas/Collection',
+                  },
+                  {
+                    // Array of collections (public or owner filtered)
+                    type: 'array',
+                    items: {
+                      $ref: '#/components/schemas/Collection',
+                    },
+                  },
+                  {
+                    // Owner filtered response with count
+                    type: 'object',
+                    properties: {
+                      data: {
+                        type: 'array',
+                        items: {
+                          $ref: '#/components/schemas/Collection',
+                        },
+                      },
+                      count: {
+                        type: 'integer',
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+        400: {
+          description: 'Bad request - missing or invalid parameters',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error',
+              },
+            },
+          },
+        },
+        404: {
+          description: 'Next Practice not found',
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Error',
               },
             },
           },
@@ -35,8 +136,8 @@ export const collectionsPaths = {
     },
     post: {
       tags: ['Collections'],
-      summary: 'Create a new collection',
-      description: 'Create a new collection (requires authentication)',
+      summary: 'Create a new Next Practice',
+      description: 'Create a new Next Practice collection (requires authentication)',
       security: [{ cookieAuth: [] }],
       requestBody: {
         required: true,
@@ -79,7 +180,7 @@ export const collectionsPaths = {
       },
       responses: {
         200: {
-          description: 'Collection created successfully',
+          description: 'Next Practice created successfully',
           content: {
             'application/json': {
               schema: {

@@ -1,12 +1,20 @@
 /**
- * Pads (Content) API endpoints documentation
+ * Content API endpoints documentation
+ * 
+ * This API provides access to two types of content across the platform:
+ * - "What We See" (platform: solutions) - Proven solutions and innovations
+ * - "What We Test" (platforms: experiments, action-plans) - Active experiments and action plans
+ * 
+ * Note: "What We Learn" content (blogs and publications) is available through the /api/articles endpoint.
+ * 
+ * Use the 'platforms' parameter to specify which content types to retrieve.
  */
 export const padsPaths = {
   '/api/pads': {
     get: {
       tags: ['Pads'],
-      summary: 'Get pads (solutions, experiments, action plans)',
-      description: 'Retrieve published content with comprehensive filtering options',
+      summary: 'Get content from What We See and What We Test',
+      description: 'Retrieve published content with comprehensive filtering options. Use the platforms parameter to specify content type: solutions (What We See) or experiments/action-plans (What We Test). For blogs and publications (What We Learn), use the /api/articles endpoint.',
       parameters: [
         {
           name: 'space',
@@ -39,7 +47,7 @@ export const padsPaths = {
         {
           name: 'contributors',
           in: 'query',
-          description: 'Filter by contributor UUID(s)',
+          description: 'Filter by contributor UUID(s). If the logged-in user matches the contributor UUID, returns all their content (including drafts with status < 3). Otherwise, only returns published content (status >= 3).',
           schema: {
             type: 'string',
           },
@@ -63,7 +71,7 @@ export const padsPaths = {
         {
           name: 'pads',
           in: 'query',
-          description: 'Filter by specific pad ID(s)',
+          description: 'Filter by specific content ID(s)',
           schema: {
             type: 'string',
           },
@@ -71,7 +79,7 @@ export const padsPaths = {
         {
           name: 'id_dbpads',
           in: 'query',
-          description: 'Filter by concatenated pad+database ID(s) in format {pad_id}_{db_id}',
+          description: 'Filter by concatenated content+database ID(s) in format {pad_id}_{db_id}',
           schema: {
             type: 'string',
           },
@@ -87,7 +95,7 @@ export const padsPaths = {
         {
           name: 'platforms',
           in: 'query',
-          description: 'Filter by platform (solution, experiment, action plan, consent, codification)',
+          description: 'Filter by content type/platform. Values: "solution" (What We See), "experiment"/"action plan" (What We Test), "consent", "codification". Note: For blogs and publications (What We Learn), use /api/articles endpoint.',
           schema: {
             type: 'string',
             enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
@@ -96,7 +104,7 @@ export const padsPaths = {
         {
           name: 'platform',
           in: 'query',
-          description: 'Filter by platform (singular form, alias for platforms)',
+          description: 'Filter by content type/platform (singular form, alias for platforms). Values: "solution" (What We See), "experiment"/"action plan" (What We Test). Note: For blogs and publications (What We Learn), use /api/articles endpoint.',
           schema: {
             type: 'string',
             enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
@@ -192,7 +200,7 @@ export const padsPaths = {
         {
           name: 'include_pinboards',
           in: 'query',
-          description: 'Include pinboard information: "all" for all pinboards containing the pad, "own" for only user\'s pinboards (requires authentication)',
+          description: 'Include Community Curated Board information: "all" for all boards containing the content, "own" for only user\'s boards (requires authentication)',
           schema: {
             type: 'string',
             enum: ['all', 'own'],
@@ -258,11 +266,11 @@ export const padsPaths = {
                   properties: {
                     pad_id: {
                       type: 'integer',
-                      description: 'Unique pad identifier',
+                      description: 'Unique content identifier',
                     },
                     id_db: {
                       type: 'string',
-                      description: 'Concatenated pad+database ID in format {pad_id}_{db_id}',
+                      description: 'Concatenated content+database ID in format {pad_id}_{db_id}',
                     },
                     contributor_id: {
                       type: 'string',
@@ -290,7 +298,7 @@ export const padsPaths = {
                     },
                     title: {
                       type: 'string',
-                      description: 'Pad title',
+                      description: 'Content title',
                     },
                     snippet: {
                       type: 'string',

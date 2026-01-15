@@ -1,17 +1,21 @@
 /**
- * Pinboards API endpoints documentation
+ * Community Curated Boards API endpoints documentation
+ * 
+ * Community Curated Boards allow users to create thematic collections organized
+ * by connecting related content from "What We See" (solutions), "What We Test" 
+ * (experiments and action plans), and "What We Learn" (blogs and publications).
  */
 export const pinboardsPaths = {
   '/api/pinboards': {
     get: {
       tags: ['Pinboards'],
-      summary: 'List or get pinboards',
-      description: 'Retrieve pinboards with filtering, search, and pagination. Returns either a list of pinboards or detailed single pinboard with pads.',
+      summary: 'List or get Community Curated Boards',
+      description: 'Retrieve boards with filtering, search, and pagination. Returns either a list of boards or a detailed single board with its content.',
       parameters: [
         {
           name: 'pinboard',
           in: 'query',
-          description: 'Single pinboard ID or comma-separated list of IDs. If omitted or multiple provided, returns list of pinboards. If single ID provided, returns detailed pinboard with pads.',
+          description: 'Single board ID or comma-separated list of IDs. If omitted or multiple provided, returns list of boards. If single ID provided, returns detailed board with its content.',
           schema: {
             type: 'string',
           },
@@ -19,7 +23,7 @@ export const pinboardsPaths = {
         {
           name: 'page',
           in: 'query',
-          description: 'Page number for pagination. In list mode, applies to pinboards. In single pinboard mode, applies to pads within the pinboard.',
+          description: 'Page number for pagination. In list mode, applies to boards. In single board mode, applies to content items within the board.',
           schema: {
             type: 'integer',
             minimum: 1,
@@ -47,9 +51,18 @@ export const pinboardsPaths = {
           },
         },
         {
+          name: 'owner',
+          in: 'query',
+          description: 'Filter boards by creator UUID. If the logged-in user matches the creator, returns all their boards (including drafts with status <= 2). Otherwise, only returns published boards (status > 2).',
+          schema: {
+            type: 'string',
+            format: 'uuid',
+          },
+        },
+        {
           name: 'databases',
           in: 'query',
-          description: 'Filter by database/platform. Comma-separated list of db IDs or shorthand names (solutions, experiments, action-plans, etc.)',
+          description: 'Filter by platform/content type. Comma-separated list. Possible values: solutions (What We See), experiments, action-plans (What We Test), blogs, publications (What We Learn).',
           schema: {
             type: 'string',
           },
@@ -57,7 +70,7 @@ export const pinboardsPaths = {
         {
           name: 'search',
           in: 'query',
-          description: 'Search in pinboard title and description',
+          description: 'Search in board title and description',
           schema: {
             type: 'string',
           },
@@ -72,11 +85,11 @@ export const pinboardsPaths = {
                 oneOf: [
                   {
                     type: 'object',
-                    description: 'Multiple pinboards response',
+                    description: 'Multiple boards response',
                     properties: {
                       count: {
                         type: 'integer',
-                        description: 'Total number of pinboards',
+                        description: 'Total number of boards',
                       },
                       data: {
                         type: 'array',
@@ -88,7 +101,7 @@ export const pinboardsPaths = {
                   },
                   {
                     $ref: '#/components/schemas/PinboardDetailed',
-                    description: 'Single pinboard response with pads',
+                    description: 'Single board response with content',
                   },
                 ],
               },
