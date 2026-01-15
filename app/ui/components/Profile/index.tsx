@@ -7,6 +7,7 @@ import ProfileCard from './ProfileCard';
 import ProfileDetails from './ProfileDetails';
 import ProfileSkeleton from './ProfileSkeleton';
 import ProfileModals from './ProfileModals';
+import UserContributions from './UserContributions';
 import {
   updatedProfile,
   deleteAccount,
@@ -90,6 +91,9 @@ export default function ProfileContent({
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
+    } else {
+      setUser(profileData);
+      setEditForm(profileData);
     }
   }, [profileData]);
 
@@ -350,8 +354,8 @@ export default function ProfileContent({
           <p>{errorMessage}</p>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:h-full">
-        <div className="lg:col-span-1 flex flex-col">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch">
+        <div className="lg:col-span-1 flex">
           <ProfileCard
             user={user!}
             isEditing={isEditing}
@@ -369,7 +373,7 @@ export default function ProfileContent({
             personalView={personalView} 
           />
         </div>
-        <div className="lg:col-span-2 flex flex-col">
+        <div className="lg:col-span-2 flex">
           <ProfileDetails
             user={user!}
             isEditing={isEditing}
@@ -389,7 +393,10 @@ export default function ProfileContent({
           />
         </div>
       </div>
-      {personalView && (<div className="mt-6 border border-solid border-black bg-white p-6">
+
+      {personalView && (      
+      <div className='my-10 py-10'>
+        <div className="mt-8 border border-solid border-black bg-white p-6">
         <h3 className="mb-6 font-space-mono text-xl font-bold">
           Account Settings
         </h3>
@@ -430,6 +437,7 @@ export default function ProfileContent({
             </p>
           </button>
         </div>
+      </div>
       </div>)}
 
       {/* Disable the get in touch section for contributor profiles until there is plan handling abuse and harrassment within the platform */}
@@ -457,6 +465,13 @@ export default function ProfileContent({
         </div>
       )} */}
 
+
+      {/* User Contributions Section */}
+      {user?.uuid && (
+        <div className="mt-8">
+          <UserContributions uuid={user.uuid} personalView={personalView} />
+        </div>
+      )}
 
       <ProfileModals
         userUuid={user?.uuid || ''}

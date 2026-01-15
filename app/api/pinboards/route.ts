@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '@/app/lib/db';
 import getSession from '@/app/lib/session';
-import { generateCacheKey, getCachedCount, setCachedCount } from '@/app/lib/helpers/count-cache';
 import { page_limit as PAGE_CONTENT_LIMIT } from '@/app/lib/helpers/utils';
+
+// Disable caching for this API route
+export const dynamic = 'force-dynamic';
 
 interface PinboardQueryParams {
   pinboard?: string | string[];
@@ -11,6 +13,7 @@ interface PinboardQueryParams {
   space?: 'private' | 'published' | 'all';
   databases?: string | string[];
   search?: string;
+  owner?: string; // UUID of board owner to filter by
 }
 
 export async function GET(request: NextRequest) {
@@ -32,13 +35,15 @@ async function handlePinboardRequest(request: NextRequest) {
     let params: PinboardQueryParams = {};
 
     if (request.method === 'GET') {
+      const databasesParam = searchParams.getAll('databases');
       params = {
         pinboard: searchParams.get('pinboard') || undefined,
         page: searchParams.get('page') || undefined,
         limit: searchParams.get('limit') || undefined,
         space: (searchParams.get('space') as any) || undefined,
-        databases: searchParams.get('databases') || undefined,
+        databases: databasesParam.length > 0 ? databasesParam : undefined,
         search: searchParams.get('search') || undefined,
+        owner: searchParams.get('owner') || undefined,
       };
     } else {
       const body = await request.json().catch(() => ({}));
@@ -78,6 +83,7 @@ async function handlePinboardRequest(request: NextRequest) {
     const limit = params.limit ? parseInt(params.limit) : undefined;
     const space = params.space;
     const search = params.search?.trim();
+    const owner = params.owner; // Owner UUID for filtering
 
     // Build filters
     const filters: string[] = [];
@@ -91,25 +97,43 @@ async function handlePinboardRequest(request: NextRequest) {
       valueIndex++;
     }
 
+    // Owner filter - show boards created by this user
+    // If logged-in user is the owner, show all their boards (including drafts)
+    // If someone else is viewing, only show published boards
+    if (owner) {
+      if (uuid && uuid === owner) {
+        // User viewing their own boards - show all
+        filters.push(`p.owner = $${valueIndex}::uuid`);
+        filterValues.push(owner);
+        valueIndex++;
+      } else {
+        // Someone else viewing - only show published
+        filters.push(`(p.owner = $${valueIndex}::uuid AND p.status > 2)`);
+        filterValues.push(owner);
+        valueIndex++;
+      }
+    }
+
     // Space filter (private, published, all)
-    if (space === 'private') {
+    // Only apply if owner filter is not set (owner filter handles visibility)
+    if (!owner && space === 'private') {
+      // Private: only show pinboards user owns or contributes to
       filters.push(`
         (
           p.id IN (
             SELECT pinboard FROM pinboard_contributors
             WHERE participant = $${valueIndex}::uuid
           ) OR p.owner = $${valueIndex}::uuid
-          OR $${valueIndex + 1} > 2
         )
       `);
-      filterValues.push(uuid, rights);
-      valueIndex += 2;
+      filterValues.push(uuid);
+      valueIndex += 1;
     } else if (space === 'published') {
-      filters.push(`(p.status > 2 OR $${valueIndex} > 2)`);
-      filterValues.push(rights);
-      valueIndex++;
-    } else {
+      // Published: only show published pinboards (status > 2)
+      filters.push(`p.status > 2`);
+    } else if (!owner) {
       // Default to 'all' - user's pinboards and published ones
+      // Only use if owner filter is not set
       filters.push(`
         (
           p.id IN (
@@ -134,13 +158,18 @@ async function handlePinboardRequest(request: NextRequest) {
 
     const whereClause = filters.length > 0 ? filters.join(' AND ') : 'TRUE';
 
-    // Database filter
+    // Save filterValues length before adding databases (for count query)
+    const filterValuesLengthWithoutDb = filterValues.length;
+
+    // Database filter - only add to filterValues if it will be used (i.e., for single pinboard queries)
     let dbFilter = 'TRUE';
-    const dbFilterValues: any[] = [];
-    if (databases && Array.isArray(databases) && databases.length > 0) {
-      dbFilter = `edb.db IN (SELECT UNNEST($${valueIndex}::text[]))`;
-      dbFilterValues.push(databases);
+    let databasesWereAdded = false;
+    if (isSinglePinboard && databases && Array.isArray(databases) && databases.length > 0) {
+      // Use CAST for explicit type conversion
+      dbFilter = `edb.db = ANY(CAST($${valueIndex} AS text[]))`;
+      filterValues.push(databases);
       valueIndex++;
+      databasesWereAdded = true;
     }
 
     // Pagination setup
@@ -177,15 +206,14 @@ async function handlePinboardRequest(request: NextRequest) {
       ${isSinglePinboard ? `accessible_pads AS (
         SELECT DISTINCT ON (pc.pad) pc.pad, pc.db, pc.pinboard, edb.db AS platform
         FROM pinboard_contributions pc
-        INNER JOIN pads pad ON pad.id = pc.pad
+        LEFT JOIN pads pad ON pad.id = pc.pad
         LEFT JOIN extern_db edb ON edb.id = pc.db
         WHERE pc.pinboard = ANY($1)
           AND pc.is_included = true
           AND ${dbFilter}
           AND (
-            pad.status >= 3 
-            OR pad.owner = $${valueIndex + paginationValues.length}::uuid
-            OR $${valueIndex + paginationValues.length + 1} > 2
+            edb.db = 'blogs'
+            OR (pad.id IS NOT NULL AND (pad.status >= 3 OR pad.owner = $${valueIndex + paginationValues.length}::uuid OR $${valueIndex + paginationValues.length + 1} > 2))
           )
         ORDER BY pc.pad, pc.db
       ),` : ''}
@@ -262,7 +290,7 @@ async function handlePinboardRequest(request: NextRequest) {
           ELSE FALSE
         END AS is_contributor
       FROM pinboard_data pd
-      ORDER BY pd.pinboard_id DESC
+      ORDER BY pd.date DESC
       ${paginationClause}
     `;
 
@@ -270,48 +298,26 @@ async function handlePinboardRequest(request: NextRequest) {
       SELECT COUNT(p.id)::INT AS count
       FROM pinboards p
       WHERE ${whereClause}
-        AND (
-          p.id IN (
-            SELECT pinboard FROM pinboard_contributors
-            WHERE participant = $${filterValues.length + 1}::uuid
-          ) OR (p.status > 2 OR p.owner = $${filterValues.length + 1}::uuid)
-          OR $${filterValues.length + 2} > 2
-        )
     `;
 
-    const allValues = [...filterValues, ...dbFilterValues, ...paginationValues, uuid, rights];
-    const countValues = [...filterValues, uuid, rights];
-
-    // Generate cache key for count (excludes page/limit)
-    const cacheKey = generateCacheKey('/api/pinboards', {
-      pinboard, space, databases, search
-    });
-
-    // Try to get cached count first
-    let totalCount: number | null = getCachedCount(cacheKey);
+    // Build parameter arrays
+    // Main query needs: filterValues (which may include databases if single pinboard) + paginationValues + uuid + rights
+    // uuid and rights are always added at the end for is_contributor check and other uses
+    const allValues = [...filterValues, ...paginationValues, uuid, rights];
     
-    // Fetch data and count - use cached count if available
+    // Count query only uses the filterValues (space filter already has necessary params)
+    const countValues = [...filterValues];
+
+    // Fetch data and count without caching
     let data;
     let countResult;
     
-    if (totalCount !== null && !isSinglePinboard) {
-      // Use cached count, only fetch data
-      data = await query('general', mainQuery, allValues);
-    } else {
-      // Fetch both count and data
-      [data, countResult] = await Promise.all([
-        query('general', mainQuery, allValues),
-        isSinglePinboard ? Promise.resolve({ rows: [] }) : query('general', countQuery, countValues),
-      ]);
-      
-      if (!isSinglePinboard) {
-        totalCount = countResult.rows[0]?.count || 0;
-        // Cache the count for future requests
-        if (totalCount !== null && totalCount > 0) {
-          setCachedCount(cacheKey, totalCount);
-        }
-      }
-    }
+    [data, countResult] = await Promise.all([
+      query('general', mainQuery, allValues),
+      isSinglePinboard ? Promise.resolve({ rows: [] }) : query('general', countQuery, countValues),
+    ]);
+    
+    const totalCount = isSinglePinboard ? 0 : (countResult.rows[0]?.count || 0);
 
     // Return response based on original request type
     if (isSinglePinboard) {

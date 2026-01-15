@@ -4,6 +4,9 @@ import { safeArr, countArray, multiJoin, mapPlatformsToShortkeys, loadExternDb }
 import { buildPadSubquery, PadFilterParams } from '@/app/lib/helpers/pad-filters';
 import { getSessionInfo } from '@/app/lib/helpers/auth-session';
 
+// Disable caching for this API route
+export const dynamic = 'force-dynamic';
+
 const DEFAULT_UUID = '00000000-0000-0000-0000-000000000000';
 
 interface TagsRequestParams {
@@ -75,29 +78,48 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
 
   // Platform filters (tagging table)
   if (usePadsParsed) {
-    // Build comprehensive pad filters using reusable function
-    const padFilterParams: PadFilterParams = {
-      space: params.space,
-      search: params.search,
-      templates: params.templates,
-      platform: platformArr,
-      mobilizations: mobilizationsArr,
-      thematic_areas: params.thematic_areas,
-      sdgs: params.sdgs,
-      countries: countriesArr,
-      regions: regionsArr,
-      pinboard: params.pinboard,
-      section: params.section,
-      // Pass session/auth info for proper filtering
-      uuid: sessionInfo.uuid,
-      rights: sessionInfo.rights,
-      collaborators: sessionInfo.collaborators,
-      isPublic: sessionInfo.isPublic,
-      isUNDP: sessionInfo.isUNDP,
-    };
-    
-    const padSubquery = await buildPadSubquery(padFilterParams);
-    platformFilters.push(`t.pad IN (${padSubquery})`);
+    // Special handling for pinboard queries - query pinboard_contributions directly
+    // to avoid double-filtering (the pinboard API already filters accessible pads)
+    if (params.pinboard) {
+      const pinboardId = Array.isArray(params.pinboard) ? params.pinboard[0] : params.pinboard;
+      
+      // Query tags from NON-BLOG pads in the pinboard (blogs don't have local tag entries)
+      // Apply the same accessibility logic as the pinboard API
+      const pinboardPadSubquery = `
+        SELECT DISTINCT pc.pad
+        FROM pinboard_contributions pc
+        INNER JOIN pads p ON p.id = pc.pad
+        LEFT JOIN extern_db edb ON edb.id = pc.db
+        WHERE pc.pinboard = ${pinboardId}
+          AND pc.is_included = true
+          AND edb.db != 'blogs'
+          AND (p.status >= 3 OR p.owner = '${sessionInfo.uuid || '00000000-0000-0000-0000-000000000000'}'::uuid OR ${sessionInfo.rights || 0} > 2)
+      `;
+      platformFilters.push(`t.pad IN (${pinboardPadSubquery})`);
+    } else {
+      // For non-pinboard queries, use buildPadSubquery
+      const padFilterParams: PadFilterParams = {
+        space: params.space,
+        search: params.search,
+        templates: params.templates,
+        platform: platformArr,
+        mobilizations: mobilizationsArr,
+        thematic_areas: params.thematic_areas,
+        sdgs: params.sdgs,
+        countries: countriesArr,
+        regions: regionsArr,
+        section: params.section,
+        // Pass session/auth info for proper filtering
+        uuid: sessionInfo.uuid,
+        rights: sessionInfo.rights,
+        collaborators: sessionInfo.collaborators,
+        isPublic: sessionInfo.isPublic,
+        isUNDP: sessionInfo.isUNDP,
+      };
+      
+      const padSubquery = await buildPadSubquery(padFilterParams);
+      platformFilters.push(`t.pad IN (${padSubquery})`);
+    }
   }
 
   // Filter by platform(s) using ordb

@@ -46,10 +46,10 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
   countryError,
   personalView,
 }) => (
-  <div className="bg-white border border-black border-solid p-6">
+  <div className="bg-white border border-black border-solid p-6 w-full h-full flex flex-col">
     <h3 className="text-xl font-bold mb-6 font-space-mono">Profile Information</h3>
     {!isEditing ? (
-      <div className="space-y-6">
+      <div className="space-y-6 flex-grow">
         <div>
           <label className="text-sm font-bold font-space-mono text-gray-600">Full Name</label>
           <div className="flex items-center space-x-2 mt-1">
@@ -81,7 +81,7 @@ const ProfileDetails: React.FC<ProfileDetailsProps> = ({
       </div>
     ) : (<>
       {personalView && (
-        <form className="space-y-6">
+        <form className="space-y-6 flex-grow">
         <div>
           <label htmlFor="fullName" className="text-sm font-bold font-space-mono">
             Full Name

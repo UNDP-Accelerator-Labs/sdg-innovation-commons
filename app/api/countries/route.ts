@@ -4,6 +4,9 @@ import { safeArr } from '@/app/lib/helpers';
 import { buildPadSubquery, PadFilterParams } from '@/app/lib/helpers/pad-filters';
 import { getSessionInfo } from '@/app/lib/helpers/auth-session';
 
+// Disable caching for this API route
+export const dynamic = 'force-dynamic';
+
 const DEFAULT_UUID = '00000000-0000-0000-0000-000000000000';
 
 interface CountriesRequestParams {
@@ -79,36 +82,95 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
   // If use_pads is true, get countries from pads
   if (use_pads) {
     try {
-      // Build comprehensive pad filters using reusable function
-      const padFilterParams: PadFilterParams = {
-        space: params.space,
-        search: params.search,
-        templates: params.templates,
-        platform: params.platform,
-        mobilizations: params.mobilizations,
-        thematic_areas: params.thematic_areas,
-        sdgs: params.sdgs,
-        pinboard: params.pinboard,
-        section: params.section,
-        // Pass session/auth info for proper filtering
-        uuid: sessionInfo.uuid,
-        rights: sessionInfo.rights,
-        collaborators: sessionInfo.collaborators,
-        isPublic: sessionInfo.isPublic,
-        isUNDP: sessionInfo.isUNDP,
-      };
-      
-      const padSubquery = await buildPadSubquery(padFilterParams);
-      
-      // Get locations from pads
-      const padLocationQuery = `
-        SELECT iso3, COUNT(DISTINCT(pad))::INT as count
-        FROM locations
-        WHERE pad IN (${padSubquery})
-        GROUP BY iso3
-      `;
-      const padLocationResult = await dbQuery('general', padLocationQuery, []);
-      pad_locations = padLocationResult.rows;
+      // Special handling for pinboard queries - use pinboard_contributions directly
+      // to avoid double-filtering (the pinboard API already filters accessible pads)
+      if (params.pinboard) {
+        const pinboardId = Array.isArray(params.pinboard) ? params.pinboard[0] : params.pinboard;
+        
+        // Get locations from locations table (for pads that have location data)
+        const locationTableQuery = `
+          SELECT l.iso3, COUNT(DISTINCT(l.pad))::INT as count
+          FROM locations l
+          INNER JOIN pinboard_contributions pc ON pc.pad = l.pad
+          INNER JOIN pads p ON p.id = l.pad
+          LEFT JOIN extern_db edb ON edb.id = pc.db
+          WHERE pc.pinboard = $1
+            AND pc.is_included = true
+            AND (edb.db IS NULL OR edb.db != 'blogs')
+            AND (p.status >= 3 OR p.owner = $2::uuid OR $3 > 2)
+          GROUP BY l.iso3
+        `;
+        
+        // Get locations from pad owners (for pads without location data, like action plans)
+        const ownerLocationQuery = `
+          SELECT u.iso3, COUNT(DISTINCT(p.id))::INT as count
+          FROM pinboard_contributions pc
+          INNER JOIN pads p ON p.id = pc.pad
+          INNER JOIN users u ON u.uuid = p.owner
+          LEFT JOIN extern_db edb ON edb.id = pc.db
+          WHERE pc.pinboard = $1
+            AND pc.is_included = true
+            AND (edb.db IS NULL OR edb.db != 'blogs')
+            AND (p.status >= 3 OR p.owner = $2::uuid OR $3 > 2)
+            AND p.id NOT IN (SELECT pad FROM locations WHERE pad = p.id)
+          GROUP BY u.iso3
+        `;
+        
+        // Fetch both location sources in parallel
+        const [locationResult, ownerResult] = await Promise.all([
+          dbQuery('general', locationTableQuery, [
+            pinboardId,
+            sessionInfo.uuid || '00000000-0000-0000-0000-000000000000',
+            sessionInfo.rights || 0
+          ]),
+          dbQuery('general', ownerLocationQuery, [
+            pinboardId,
+            sessionInfo.uuid || '00000000-0000-0000-0000-000000000000',
+            sessionInfo.rights || 0
+          ])
+        ]);
+        
+        // Merge both sources
+        const locationMap = new Map<string, number>();
+        locationResult.rows.forEach((row: any) => {
+          locationMap.set(row.iso3, (locationMap.get(row.iso3) || 0) + row.count);
+        });
+        ownerResult.rows.forEach((row: any) => {
+          locationMap.set(row.iso3, (locationMap.get(row.iso3) || 0) + row.count);
+        });
+        
+        pad_locations = Array.from(locationMap.entries()).map(([iso3, count]) => ({ iso3, count }));
+      } else {
+        // For non-pinboard queries, use buildPadSubquery
+        const padFilterParams: PadFilterParams = {
+          space: params.space,
+          search: params.search,
+          templates: params.templates,
+          platform: params.platform,
+          mobilizations: params.mobilizations,
+          thematic_areas: params.thematic_areas,
+          sdgs: params.sdgs,
+          section: params.section,
+          // Pass session/auth info for proper filtering
+          uuid: sessionInfo.uuid,
+          rights: sessionInfo.rights,
+          collaborators: sessionInfo.collaborators,
+          isPublic: sessionInfo.isPublic,
+          isUNDP: sessionInfo.isUNDP,
+        };
+        
+        const padSubquery = await buildPadSubquery(padFilterParams);
+        
+        // Get locations from pads
+        const padLocationQuery = `
+          SELECT iso3, COUNT(DISTINCT(pad))::INT as count
+          FROM locations
+          WHERE pad IN (${padSubquery})
+          GROUP BY iso3
+        `;
+        const padLocationResult = await dbQuery('general', padLocationQuery, []);
+        pad_locations = padLocationResult.rows;
+      }
 
       if (pad_locations.length > 0) {
         locationCountries = pad_locations.map(d => d.iso3);

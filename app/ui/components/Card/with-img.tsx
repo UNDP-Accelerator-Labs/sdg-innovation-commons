@@ -294,15 +294,18 @@ export default function Card({
         <div>
           <div className="hidden flex-row flex-wrap content-end items-end justify-start gap-1.5 pb-[20px] text-center text-sm lg:flex">
             {/* Render the first 4 tags */}
-            {visibleTags?.map((tag: string, i: number) => (
-              <button
-                type="button"
-                key={i}
-                className={clsx('chip capitalize', tagStyleShade)}
-              >
-                {tag?.length > 25 ? `${tag.slice(0, 25)}…` : tag}
-              </button>
-            ))}
+            {visibleTags?.map((tag: any, i: number) => {
+              const tagText = typeof tag === 'string' ? tag : (tag?.name || tag?.key || '');
+              return (
+                <button
+                  type="button"
+                  key={i}
+                  className={clsx('chip capitalize', tagStyleShade)}
+                >
+                  {tagText?.length > 25 ? `${tagText.slice(0, 25)}…` : tagText}
+                </button>
+              );
+            })}
 
             {/* If there are more than 4 tags, display the +n logic */}
             {remainingTagsCount > 0 && (

@@ -43,7 +43,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   setShowLogoutConfirm,
   personalView,
 }) => (
-  <div className="bg-white border border-black border-solid p-6 text-center">
+  <div className="bg-white border border-black border-solid p-6 text-center w-full h-full flex flex-col">
     <div className="mb-4">
       {user?.avatar ? (
         <img
@@ -66,7 +66,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
       </div>
     </div>)}
 
-    {personalView && (<div className="mt-6 space-y-2">
+    {personalView && (<div className="mt-auto pt-6 space-y-2">
       {!isEditing ? (
         <button onClick={handleEdit} className="w-full detach py-2 px-4 relative z-10 text-black font-bold">
           <span className="relative z-10 flex items-center justify-center space-x-2">

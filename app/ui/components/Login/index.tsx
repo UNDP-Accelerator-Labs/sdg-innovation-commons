@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
@@ -8,9 +8,6 @@ import { initiateSSO } from '@/app/lib/data/auth';
 import { base_url } from '@/app/lib/helpers/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { getCookieConsent } from '@/app/ui/components/CookieConsent';
-import { Button } from '@/app/ui/components/Button';
-import { initiateSSO } from '@/app/lib/data/auth';
-import { base_url } from '@/app/lib/helpers/utils';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
@@ -21,6 +18,8 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   
   const router = useRouter();
+  const { sharedState } = useSharedState();
+  const { uuid } = sharedState?.session || {};
 
   //TODO: Fix the issue with the login form not being able to redirect to the last visited page
   useEffect(() => {
@@ -41,11 +40,6 @@ export default function LoginForm() {
     setIsLoading(true);
 
     try {
-      const result = await signIn('credentials', {
-        email,
-        password,
-        redirect: false,
-      });
       // Only retrieve lastVisitedPage if functional cookies are enabled
       const consent = getCookieConsent();
       let originalUrl = '/';

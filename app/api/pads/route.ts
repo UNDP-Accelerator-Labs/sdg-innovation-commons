@@ -8,7 +8,9 @@ import {
 import { isURL, getImg, app_storage } from "@/app/lib/helpers/utils";
 import { loadExternDb } from "@/app/lib/helpers";
 import getSession from "@/app/lib/session";
-import { generateCacheKey, getCachedCount, setCachedCount } from "@/app/lib/helpers/count-cache";
+
+// Disable caching for this API route
+export const dynamic = 'force-dynamic';
 
 interface PadsRequestParams {
   space?: string;
@@ -170,11 +172,14 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   const filterParams: any[] = [];
 
   // Space filter (published, private, shared, all)
-  if (space === "published") {
-    filters.push("p.status >= 3");
-  } else if (space === "private") {
-    // Would need session/auth to filter by owner
-    filters.push("p.status >= 0");
+  // Note: Skip space filter if specific pad IDs are provided, as they're already filtered
+  if (!padsArr && !id_dbPadsArr) {
+    if (space === "published") {
+      filters.push("p.status >= 3");
+    } else if (space === "private") {
+      // Would need session/auth to filter by owner
+      filters.push("p.status >= 0");
+    }
   }
 
   // Status filter
@@ -184,9 +189,21 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   }
 
   // Contributors filter
+  // When filtering by contributor (owner), show all their pads if they're logged in
+  // Otherwise only show published pads (status >= 3)
   if (contributorsArr && contributorsArr.length > 0) {
     filterParams.push(contributorsArr);
-    filters.push(`p.owner = ANY($${filterParams.length}::uuid[])`);
+    const ownerFilter = `p.owner = ANY($${filterParams.length}::uuid[])`;
+    
+    // If user is logged in and viewing their own content, show all statuses
+    // Otherwise, only show published content (status >= 3)
+    if (userUuid && contributorsArr.includes(userUuid)) {
+      // User is viewing their own content - show all
+      filters.push(ownerFilter);
+    } else {
+      // Someone else is viewing - only show published
+      filters.push(`(${ownerFilter} AND p.status >= 3)`);
+    }
   }
 
   // Countries filter
@@ -476,36 +493,12 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       ${paginationClause}
     `;
 
-    // Generate cache key for count (excludes page/limit)
-    const cacheKey = generateCacheKey('/api/pads', {
-      space, search, status, contributors: contributorsArr,
-      countries: countriesArr, regions: regionsArr, platforms: platformsArr,
-      thematic_areas: thematicAreasArr, sdgs: sdgsArr
-    });
-
-    // Try to get cached count first
-    let totalCount: number | null = getCachedCount(cacheKey);
-    
-    // Fetch count and data - use cached count if available
-    let countResult;
-    let result;
-    
-    if (totalCount !== null) {
-      // Use cached count, only fetch data
-      result = await dbQuery("general", padsQuery, filterParams);
-    } else {
-      // Fetch both count and data
-      [countResult, result] = await Promise.all([
-        dbQuery("general", countQuery, countFilterParams),
-        dbQuery("general", padsQuery, filterParams)
-      ]);
-      totalCount = countResult.rows[0]?.count || 0;
-      
-      // Cache the count for future requests
-      if (totalCount !== null && totalCount > 0) {
-        setCachedCount(cacheKey, totalCount);
-      }
-    }
+    // Fetch count and data without caching
+    const [countResult, result] = await Promise.all([
+      dbQuery("general", countQuery, countFilterParams),
+      dbQuery("general", padsQuery, filterParams)
+    ]);
+    const totalCount = countResult.rows[0]?.count || 0;
     
     let padsData = result.rows;
 

@@ -72,9 +72,17 @@ export default function Section({ searchParams }: Props) {
     setLoading(false);
   }
 
+  // Sync internal space state with URL params
+  useEffect(() => {
+    if (space !== _space) {
+      setSpace(space || 'published');
+    }
+  }, [space]);
+
+  // Fetch data when any relevant parameter changes
   useEffect(() => {
     fetchData();
-  }, [_space]);
+  }, [_space, page, search]);
 
   // Track searches when URL parameters change (for direct URL access)
   useEffect(() => {

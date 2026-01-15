@@ -59,9 +59,12 @@ export default async function Hero({
 								)}
 							</div>
 							<div className='stats-cartouche flex flex-wrap justify-between p-[20px] md:inline-block lg:inline-block'>
-								<BoardMetadata contributors={contributors} padsCount={padsCount} />
-								<span className='mr-[40px]'><span className='number mr-[5px]'>{locations.count}</span> Location{locations.count !== 1 ? 's' : null}</span>
-								<span className='mr-[40px]'><span className='number mr-[5px]'>{tags.count}</span> Thematic area{tags.count !== 1 ? 's' : null}</span>
+								<BoardMetadata 
+									contributors={contributors} 
+									padsCount={padsCount}
+									locations={locations}
+									tags={tags}
+								/>
 							</div>
 							</>
 						)}

@@ -38,7 +38,10 @@ export default async function blogApi(_kwargs: Props) {
         }
     }
     
-    const url = `https://blogapi.sdg-innovation-commons.org/articles?${params.toString()}`;
+    // Use local API endpoint instead of external blog API
+    const isServerSide = typeof window === 'undefined';
+    const LOCAL_BASE_URL = process.env.LOCAL_BASE_URL || (isServerSide ? `http://localhost:${process.env.PORT || 3000}` : '');
+    const url = `${LOCAL_BASE_URL}/api/articles?${params.toString()}`;
 
     const data = await get({
         url,

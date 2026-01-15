@@ -59,7 +59,8 @@ export async function buildPadFilters(params: PadFilterParams): Promise<string> 
   const uuid = params.uuid || '00000000-0000-0000-0000-000000000000';
   const rights = params.rights ?? 0;
   const collaborators = params.collaborators || [];
-  const isPublic = !(uuid === '00000000-0000-0000-0000-000000000000');
+  // Use provided isPublic value, or infer from uuid if not provided
+  const isPublic = params.isPublic ?? (uuid === '00000000-0000-0000-0000-000000000000');
   const isUNDP = params.isUNDP ?? false;
 
   // Space-based filtering (matches Node.JS filter.js logic)

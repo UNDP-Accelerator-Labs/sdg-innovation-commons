@@ -85,22 +85,41 @@ function validateSections(sections: any): { valid: boolean; message?: string } {
 
 export async function GET(req: Request) {
   try {
+    const session = await getSession();
+    const loggedInUuid = session?.uuid || null;
+
     const url = new URL(req.url);
     const slug = url.searchParams.get("slug");
     const list = url.searchParams.get("list");
+    const owner = url.searchParams.get("owner"); // Owner UUID for filtering
     const limitParam = url.searchParams.get("limit");
     const offsetParam = url.searchParams.get("offset");
 
     if (slug) {
       const res = await query(
         "general",
-        "SELECT * FROM collections WHERE slug = $1 LIMIT 1",
+        `SELECT 
+          c.*,
+          CASE 
+            WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+            ELSE COALESCE(cn.name, u.iso3)
+          END AS creator_country
+        FROM collections c
+        LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+        LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+        WHERE c.slug = $1 
+        LIMIT 1`,
         [slug]
       );
       if (!res?.rows?.length)
         return NextResponse.json({ error: "Not found" }, { status: 404 });
 
       const row = res.rows[0];
+      // Add country to highlights object
+      const highlights = row.highlights || {};
+      if (row.creator_country) {
+        highlights.creator_country = row.creator_country;
+      }
       const result = {
         slug: row.slug,
         title: row.title,
@@ -109,7 +128,7 @@ export async function GET(req: Request) {
         creator_name: row.creator_name,
         main_image: row.main_image,
         sections: row.sections,
-        highlights: row.highlights,
+        highlights,
         boards: row.boards,
         id: row.id,
         created_at: row.created_at,
@@ -119,29 +138,143 @@ export async function GET(req: Request) {
       return NextResponse.json(result);
     }
 
+    // Support fetching collections by owner UUID
+    if (owner) {
+      const limit = Math.min(100, Number(limitParam) || 100);
+      const offset = Math.max(0, Number(offsetParam) || 0);
+      
+      // If logged-in user is the owner, show all their collections (including drafts)
+      // Otherwise, only show published collections
+      let sql = '';
+      let params: any[] = [];
+      
+      if (loggedInUuid && loggedInUuid === owner) {
+        // User viewing their own collections - show all
+        sql = `
+          SELECT 
+            c.slug, 
+            c.title, 
+            c.description, 
+            c.main_image, 
+            c.sections, 
+            c.highlights,
+            c.boards, 
+            c.id, 
+            c.created_at, 
+            c.updated_at,
+            CASE 
+              WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+              ELSE COALESCE(cn.name, u.iso3)
+            END AS creator_country
+          FROM collections c
+          LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+          LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+          WHERE (c.highlights->>'creator_uuid')::uuid = $1::uuid
+          ORDER BY c.updated_at DESC
+          LIMIT $2 OFFSET $3
+        `;
+        params = [owner, limit, offset];
+      } else {
+        // Someone else viewing - only show published
+        sql = `
+          SELECT 
+            c.slug, 
+            c.title, 
+            c.description, 
+            c.main_image, 
+            c.sections, 
+            c.highlights,
+            c.boards, 
+            c.id, 
+            c.created_at, 
+            c.updated_at,
+            CASE 
+              WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+              ELSE COALESCE(cn.name, u.iso3)
+            END AS creator_country
+          FROM collections c
+          LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+          LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+          WHERE (c.highlights->>'creator_uuid')::uuid = $1::uuid
+            AND c.highlights->>'published' = 'true'
+          ORDER BY c.updated_at DESC
+          LIMIT $2 OFFSET $3
+        `;
+        params = [owner, limit, offset];
+      }
+      
+      const res = await query("general", sql, params);
+      const rows = (res?.rows || []).map((r: any) => {
+        // Add country to highlights object
+        const highlights = r.highlights || {};
+        if (r.creator_country) {
+          highlights.creator_country = r.creator_country;
+        }
+        return {
+          slug: r.slug,
+          title: r.title,
+          description: r.description,
+          main_image: r.main_image,
+          sections: r.sections,
+          highlights,
+          boards: r.boards,
+          id: r.id,
+          created_at: r.created_at,
+          updated_at: r.updated_at,
+        };
+      });
+      return NextResponse.json({ data: rows, count: rows.length });
+    }
+
     // Support listing public collections: consider a collection "public" if it has at least one attached board
     if (list === "public") {
       const limit = Math.min(100, Number(limitParam) || 12);
       const offset = Math.max(0, Number(offsetParam) || 0);
       // Include collections that either have public boards attached or have been approved (highlights.published = true)
-      const sql = `SELECT slug, title, description, main_image, sections, highlights, boards, id, created_at, updated_at
-                   FROM collections
-                   WHERE highlights->> 'published' = 'true'
-                   ORDER BY updated_at DESC
-                   LIMIT $1 OFFSET $2`;
+      // Join with users and countries to get creator country name
+      const sql = `
+        SELECT 
+          c.slug, 
+          c.title, 
+          c.description, 
+          c.main_image, 
+          c.sections, 
+          c.highlights,
+          c.boards, 
+          c.id, 
+          c.created_at, 
+          c.updated_at,
+          CASE 
+            WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+            ELSE COALESCE(cn.name, u.iso3)
+          END AS creator_country
+        FROM collections c
+        LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+        LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+        WHERE c.highlights->>'published' = 'true'
+        ORDER BY c.updated_at DESC
+        LIMIT $1 OFFSET $2
+      `;
       const res = await query("general", sql, [limit, offset]);
-      const rows = (res?.rows || []).map((r: any) => ({
-        slug: r.slug,
-        title: r.title,
-        description: r.description,
-        main_image: r.main_image,
-        sections: r.sections,
-        highlights: r.highlights,
-        boards: r.boards,
-        id: r.id,
-        created_at: r.created_at,
-        updated_at: r.updated_at,
-      }));
+      const rows = (res?.rows || []).map((r: any) => {
+        // Add country to highlights object
+        const highlights = r.highlights || {};
+        if (r.creator_country) {
+          highlights.creator_country = r.creator_country;
+        }
+        return {
+          slug: r.slug,
+          title: r.title,
+          description: r.description,
+          main_image: r.main_image,
+          sections: r.sections,
+          highlights,
+          boards: r.boards,
+          id: r.id,
+          created_at: r.created_at,
+          updated_at: r.updated_at,
+        };
+      });
       return NextResponse.json(rows);
     }
 

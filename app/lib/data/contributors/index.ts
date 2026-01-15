@@ -174,9 +174,34 @@ export async function getContributorInfo(uuid: string) {
   }
 
   try {
-    // Query general DB for contributor. Use only existing columns from users schema.
-    const q = `SELECT id, name, email, position, created_at, invited_at, confirmed_at, uuid, rights, language, secondary_languages, reviewer, iso3, created_from_sso, last_login
-               FROM users WHERE uuid = $1 LIMIT 1`;
+    // Query general DB for contributor with country name from countries table
+    const q = `
+      SELECT 
+        u.id, 
+        u.name, 
+        u.email, 
+        u.position, 
+        u.created_at, 
+        u.invited_at, 
+        u.confirmed_at, 
+        u.uuid, 
+        u.rights, 
+        u.language, 
+        u.secondary_languages, 
+        u.reviewer, 
+        u.iso3,
+        u.created_from_sso, 
+        u.last_login,
+        CASE 
+          WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+          ELSE COALESCE(cn.name, u.iso3)
+        END as country_name
+      FROM users u
+      LEFT JOIN countries c ON u.iso3 = c.iso3
+      LEFT JOIN country_names cn ON cn.iso3 = c.iso3 AND cn.language = 'en'
+      WHERE u.uuid = $1 
+      LIMIT 1
+    `;
     const res = await db.query('general', q, [uuid]);
     // console.log('Contributor query result:', res);
     if (res && res.rowCount === 1) {
@@ -186,11 +211,10 @@ export async function getContributorInfo(uuid: string) {
         id: row.id,
         fullName: row.name || '',
         email: row.email || '',
-        // `country` isn't present in schema; expose iso3 as country when available
-        country: row.iso3 || '',
+        country: row.country_name || 'Global',
         position: row.position || '',
         joinDate: row.created_at || row.invited_at || null,
-        // avatar and bio are not part of this users schema; return empty string if absent
+        created_at: row.created_at || row.invited_at || null,
         avatar: row.avatar || '',
         bio: row.bio || '',
         uuid: row.uuid,
