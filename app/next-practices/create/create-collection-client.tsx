@@ -293,53 +293,50 @@ export default function CreateCollectionClient() {
       setApiError('')
       
       try {
-        // Request SAS URL from server
-        const q = new URL('/api/uploads/azure/sas', window.location.origin)
-        q.searchParams.set('filename', file.name)
-        q.searchParams.set('contentType', file.type)
-        q.searchParams.set('container', 'sdgcommons')
+        // Create FormData for server upload
+        const formData = new FormData()
+        formData.append('file', file)
         
-        const res = await fetch(q.toString())
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}))
-          throw new Error(errorData.error || 'Failed to get upload URL')
-        }
+        // Upload to our server endpoint which handles Azure upload
+        const uploadUrl = '/api/uploads/server'
         
-        const data = await res.json()
-        const uploadUrl = data.uploadUrl
-        
-        // Upload with progress using XHR
-        await new Promise<void>((resolve, reject) => {
-          const xhr = new XMLHttpRequest()
-          xhr.open('PUT', uploadUrl)
-          xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
-          if (file.type) xhr.setRequestHeader('Content-Type', file.type)
-          
-          xhr.upload.onprogress = (ev) => {
-            if (ev.lengthComputable) {
-              const pct = Math.round((ev.loaded / ev.total) * 100)
-              setMainImageUploadProgress(pct)
-            }
-          }
-          
-          xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              setMainImage(data.blobUrl)
-              setImagePreviewUrl(data.blobUrl)
-              setMainImageUploadProgress(null)
-              resolve()
-            } else {
-              reject(new Error(`Upload failed with status: ${xhr.status}`))
-            }
-          }
-          
-          xhr.onerror = () => reject(new Error('Network error during upload'))
-          xhr.ontimeout = () => reject(new Error('Upload timed out'))
-          xhr.timeout = 30000 // 30 second timeout
-          xhr.send(file)
+        const response = await fetch(uploadUrl, {
+          method: 'POST',
+          body: formData,
         })
         
-        console.log('Image uploaded successfully to:', data.blobUrl)
+        if (!response.ok) {
+          const errorText = await response.text()
+          let errorData: any = {}
+          try {
+            errorData = JSON.parse(errorText)
+          } catch {
+            // Failed to parse as JSON, use text
+          }
+          throw new Error(errorData.error || `Server upload failed: ${response.status} - ${errorText}`)
+        }
+        
+        const data = await response.json()
+        
+        if (!data.blobUrl) {
+          throw new Error('No blob URL received from server')
+        }
+        
+        // Simulate progress for better UX
+        setMainImageUploadProgress(25)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        setMainImageUploadProgress(50)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        setMainImageUploadProgress(75)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        setMainImageUploadProgress(100)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
+        // Set the uploaded image
+        setMainImage(data.blobUrl)
+        setImagePreviewUrl(data.blobUrl)
+        setMainImageUploadProgress(null)
+        
       } catch (e) {
         console.error('Azure upload failed:', e)
         const errorMessage = e instanceof Error ? e.message : 'Unknown upload error'
@@ -376,58 +373,55 @@ export default function CreateCollectionClient() {
       setApiError('')
       
       try {
-        const q = new URL('/api/uploads/azure/sas', window.location.origin)
-        q.searchParams.set('filename', file.name)
-        q.searchParams.set('contentType', file.type)
-        q.searchParams.set('container', 'sdgcommons')
+        // Create FormData for server upload
+        const formData = new FormData()
+        formData.append('file', file)
         
-        const res = await fetch(q.toString())
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}))
-          throw new Error(errorData.error || 'Failed to get upload URL')
-        }
-        
-        const data = await res.json()
-        const uploadUrl = data.uploadUrl
-        
-        await new Promise<void>((resolve, reject) => {
-          const xhr = new XMLHttpRequest()
-          xhr.open('PUT', uploadUrl)
-          xhr.setRequestHeader('x-ms-blob-type', 'BlockBlob')
-          if (file.type) xhr.setRequestHeader('Content-Type', file.type)
-          
-          xhr.upload.onprogress = (ev) => {
-            if (ev.lengthComputable) {
-              const pct = Math.round((ev.loaded / ev.total) * 100)
-              setItemUploadProgress((p) => ({ ...p, [id]: pct }))
-            }
-          }
-          
-          xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              const newSections = [...sectionsList]
-              newSections[sectionIdx].items[itemIdx].src = data.blobUrl
-              setSectionsList(newSections)
-              setItemUploadProgress((p) => {
-                const np = { ...p }
-                delete np[id]
-                return np
-              })
-              resolve()
-            } else {
-              reject(new Error(`Upload failed with status: ${xhr.status}`))
-            }
-          }
-          
-          xhr.onerror = () => reject(new Error('Network error during upload'))
-          xhr.ontimeout = () => reject(new Error('Upload timed out'))
-          xhr.timeout = 30000 // 30 second timeout
-          xhr.send(file)
+        // Upload to our server endpoint
+        const uploadUrl = '/api/uploads/server'
+        const response = await fetch(uploadUrl, {
+          method: 'POST',
+          body: formData,
         })
         
-        console.log('Section image uploaded successfully to:', data.blobUrl)
+        if (!response.ok) {
+          const errorText = await response.text()
+          let errorData: any = {}
+          try {
+            errorData = JSON.parse(errorText)
+          } catch {
+            // Failed to parse as JSON, use text
+          }
+          throw new Error(errorData.error || `Server upload failed: ${response.status} - ${errorText}`)
+        }
+        
+        const data = await response.json()
+        
+        if (!data.blobUrl) {
+          throw new Error('No blob URL received from server')
+        }
+        
+        // Simulate progress for UX
+        setItemUploadProgress((p) => ({ ...p, [id]: 25 }))
+        await new Promise(resolve => setTimeout(resolve, 50))
+        setItemUploadProgress((p) => ({ ...p, [id]: 50 }))
+        await new Promise(resolve => setTimeout(resolve, 50))
+        setItemUploadProgress((p) => ({ ...p, [id]: 75 }))
+        await new Promise(resolve => setTimeout(resolve, 50))
+        setItemUploadProgress((p) => ({ ...p, [id]: 100 }))
+        await new Promise(resolve => setTimeout(resolve, 50))
+        
+        // Update the section with uploaded image
+        const newSections = [...sectionsList]
+        newSections[sectionIdx].items[itemIdx].src = data.blobUrl
+        setSectionsList(newSections)
+        setItemUploadProgress((p) => {
+          const np = { ...p }
+          delete np[id]
+          return np
+        })
       } catch (e) {
-        console.error('Azure section image upload failed:', e)
+        console.error('Image upload failed:', e)
         const errorMessage = e instanceof Error ? e.message : 'Unknown upload error'
         setApiError(`Image upload failed: ${errorMessage}. Please try again.`)
         // Clear the progress indicator on error
