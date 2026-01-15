@@ -7,7 +7,6 @@ import { auth } from '@/auth';
 import CookieConsent from '@/app/ui/components/CookieConsent';
 import GoatCounterAnalytics from '@/app/ui/components/GoatCounterAnalytics';
 import getSession from '@/app/lib/session';
-import { auth } from '@/auth';
 
 const { PROD_ENV } = process.env;
 
