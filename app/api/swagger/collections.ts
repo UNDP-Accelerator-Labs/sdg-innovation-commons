@@ -169,6 +169,28 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
                     type: 'integer',
                   },
                 },
+                external_resources: {
+                  type: 'array',
+                  description: 'Array of external resource objects with title, description, and url',
+                  items: {
+                    type: 'object',
+                    required: ['title', 'url'],
+                    properties: {
+                      title: {
+                        type: 'string',
+                        maxLength: 500,
+                      },
+                      description: {
+                        type: 'string',
+                      },
+                      url: {
+                        type: 'string',
+                        format: 'uri',
+                        maxLength: 2000,
+                      },
+                    },
+                  },
+                },
                 status: {
                   type: 'string',
                   enum: ['draft', 'awaiting_review', 'published'],

@@ -39,6 +39,7 @@ export default async function Section({
     sdgs,
     locations,
     highlights,
+    externalResources = [],
   } = await collectionData({ id, searchParams });
 
   return (
@@ -86,7 +87,7 @@ export default async function Section({
             <div className="c-left col-span-9 lg:col-span-5">
               <h2 className="mb-[20px]">
                 <span className="slanted-bg yellow">
-                  <span>Full List of Boards in this Collection</span>
+                  <span>Boards and Resources in this Collection</span>
                 </span>
               </h2>
             </div>
@@ -117,6 +118,24 @@ export default async function Section({
                   backgroundImage={post?.vignette}
                   date={post?.date}
                   viewCount={post?.total}
+                />
+              ))}
+              {/* Display External Resources as Cards */}
+              {externalResources?.map((resource: any, index: number) => (
+                <Card
+                  key={`external-${index}`}
+                  id={`external-${index}`}
+                  country="External"
+                  title={resource?.title || ""}
+                  description={resource?.description || ""}
+                  source="external"
+                  tagStyle="bg-undp-blue"
+                  tagStyleShade="bg-undp-blue-shade"
+                  href={resource?.url}
+                  isExternal={true}
+                  backgroundImage=""
+                  date=""
+                  viewCount={0}
                 />
               ))}
             </div>

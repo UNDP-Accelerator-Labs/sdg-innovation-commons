@@ -14,6 +14,7 @@ export default function Card({
     backgroundImage,
     className,
     openInNewTab,
+    isExternal = false,
     tagStyleShade
 }: CardProps) {
 
@@ -53,8 +54,25 @@ export default function Card({
             <div className='content flex flex-col justify-between grow px-[20px] py-[20px]'>
                 <div>
                     {/* Title */}
-                    <Link href={href || '/'} passHref >
-                        <h1>{title}</h1>
+                    <Link href={href || '/'} passHref openInNewTab={isExternal || openInNewTab}>
+                        <div className="flex items-center gap-2">
+                            <h1 className="flex-1">{title}</h1>
+                            {isExternal && (
+                                <svg 
+                                    className="w-5 h-5 flex-shrink-0" 
+                                    fill="none" 
+                                    stroke="currentColor" 
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path 
+                                        strokeLinecap="round" 
+                                        strokeLinejoin="round" 
+                                        strokeWidth={2} 
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" 
+                                    />
+                                </svg>
+                            )}
+                        </div>
                     </Link>
                     {/* Description */}
                     <p ref={ref}>{description}</p>
@@ -63,14 +81,35 @@ export default function Card({
                     {/* Footer */}
                     <div className="self-stretch flex flex-row items-center justify-between text-sm mb-[10px]">
                         <div className="flex flex-row items-end justify-start gap-1">
-                            {/* View Count */}
-                            <img className="w-[30px] relative" alt="Views" src="/images/board-cards.svg" />
-                            <p className="font-space-mono ml-[10px] mb-0"><b>{viewCount} Item{viewCount !== 1 ? 's' : null}</b></p>
+                            {/* View Count or External indicator */}
+                            {isExternal ? (
+                                <>
+                                    <svg 
+                                        className="w-[30px] h-[30px]" 
+                                        fill="none" 
+                                        stroke="currentColor" 
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path 
+                                            strokeLinecap="round" 
+                                            strokeLinejoin="round" 
+                                            strokeWidth={2} 
+                                            d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" 
+                                        />
+                                    </svg>
+                                    <p className="font-space-mono ml-[10px] mb-0"><b>External Resource</b></p>
+                                </>
+                            ) : (
+                                <>
+                                    <img className="w-[30px] relative" alt="Views" src="/images/board-cards.svg" />
+                                    <p className="font-space-mono ml-[10px] mb-0"><b>{viewCount} Item{viewCount !== 1 ? 's' : null}</b></p>
+                                </>
+                            )}
                         </div>
                         {/* Arrow */}
                         <CardLink
                             href={href || '/'}
-                            openInNewTab={openInNewTab}
+                            openInNewTab={isExternal || openInNewTab}
                         />
                     </div>
                 </div>

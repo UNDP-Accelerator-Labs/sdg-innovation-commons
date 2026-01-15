@@ -10,7 +10,7 @@ import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { CardOptions } from './commons';
 
 export interface CardProps {
-  id: number;
+  id: number | string;
   country?: string | string[];
   title: string;
   description: string;
@@ -25,6 +25,7 @@ export interface CardProps {
   source?: string;
   date?: string;
   openInNewTab?: boolean;
+  isExternal?: boolean;
   tagStyleShade?: string;
   boardInfo?: BoardInfo;
   isLogedIn?: boolean;

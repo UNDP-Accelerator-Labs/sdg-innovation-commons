@@ -58,6 +58,7 @@ export default async function Data({
                 sections: row.sections,
                 highlights: row.highlights,
                 boards: row.boards,
+                externalResources: row.external_resources || [],
             };
         }
     } catch (e) {

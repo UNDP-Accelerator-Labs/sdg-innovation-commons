@@ -130,6 +130,7 @@ export async function GET(req: Request) {
         sections: row.sections,
         highlights,
         boards: row.boards,
+        external_resources: row.external_resources || [],
         id: row.id,
         created_at: row.created_at,
         updated_at: row.updated_at,
@@ -218,6 +219,7 @@ export async function GET(req: Request) {
           sections: r.sections,
           highlights,
           boards: r.boards,
+          external_resources: r.external_resources || [],
           id: r.id,
           created_at: r.created_at,
           updated_at: r.updated_at,
@@ -270,6 +272,7 @@ export async function GET(req: Request) {
           sections: r.sections,
           highlights,
           boards: r.boards,
+          external_resources: r.external_resources || [],
           id: r.id,
           created_at: r.created_at,
           updated_at: r.updated_at,
@@ -307,6 +310,7 @@ export async function POST(req: Request) {
       sections,
       highlights,
       boards,
+      external_resources,
       submit_for_review,
     } = body || {};
 
@@ -338,6 +342,78 @@ export async function POST(req: Request) {
           { error: "too many boards (max 50)" },
           { status: 400 }
         );
+    }
+
+    // Validate and normalize external_resources
+    let sanitizedExternalResources: any[] | null = null;
+    if (Array.isArray(external_resources) && external_resources.length) {
+      if (external_resources.length > 50) {
+        return NextResponse.json(
+          { error: "too many external resources (max 50)" },
+          { status: 400 }
+        );
+      }
+      
+      sanitizedExternalResources = [];
+      for (const resource of external_resources) {
+        if (!resource || typeof resource !== 'object') {
+          return NextResponse.json(
+            { error: "each external resource must be an object" },
+            { status: 400 }
+          );
+        }
+        
+        const { title, description, url } = resource;
+        
+        if (!title || typeof title !== 'string' || title.length === 0) {
+          return NextResponse.json(
+            { error: "external resource title is required" },
+            { status: 400 }
+          );
+        }
+        
+        if (title.length > 500) {
+          return NextResponse.json(
+            { error: "external resource title too long (max 500 chars)" },
+            { status: 400 }
+          );
+        }
+        
+        if (!url || typeof url !== 'string' || url.length === 0) {
+          return NextResponse.json(
+            { error: "external resource url is required" },
+            { status: 400 }
+          );
+        }
+        
+        // Basic URL validation
+        try {
+          new URL(url);
+        } catch {
+          return NextResponse.json(
+            { error: "external resource url must be a valid URL" },
+            { status: 400 }
+          );
+        }
+        
+        if (url.length > 2000) {
+          return NextResponse.json(
+            { error: "external resource url too long (max 2000 chars)" },
+            { status: 400 }
+          );
+        }
+        
+        const cleanTitle = DOMPurify.sanitize(title, { ALLOWED_TAGS: [] });
+        const cleanDescription = description && typeof description === 'string' 
+          ? DOMPurify.sanitize(description, { ALLOWED_TAGS: [] }) 
+          : '';
+        
+        sanitizedExternalResources.push({
+          title: cleanTitle,
+          description: cleanDescription,
+          url: url.trim(),
+        });
+      }
     }
 
     const creator_name = session.name || session.uuid || null;
@@ -421,8 +497,10 @@ export async function POST(req: Request) {
       // Ignore error, treat as new collection
     }
 
-    // Build highlights to store: if the client explicitly requested submit-for-review, mark awaiting_review.
+    // Build highlights to store: preserve creator information from existing highlights when editing
     let finalHighlights: any = null;
+    const isExistingCollection = !!existingHighlights;
+    
     if (submit_for_review) {
       // When submitting for review, use existing highlights as base or provided highlights
       const base = highlights && typeof highlights === "object" 
@@ -433,30 +511,36 @@ export async function POST(req: Request) {
         awaiting_review: true,
         published: false,
         status: "awaiting_review",
-        submitted_by: creator_name,
-        creator_uuid: session?.uuid || null,
+        // Preserve original creator info when editing, only set for new collections
+        submitted_by: isExistingCollection ? base.submitted_by : creator_name,
+        creator_uuid: isExistingCollection ? base.creator_uuid : (session?.uuid || null),
         submitted_at: new Date().toISOString(),
         comments: Array.isArray(base.comments) ? base.comments : [],
       };
     } else if (highlights && typeof highlights === "object") {
-      // When highlights are explicitly provided, use them
+      // When highlights are explicitly provided, preserve creator info if editing
       finalHighlights = {
         ...highlights,
+        status: highlights.status || "draft",
+        // Preserve original creator info when editing
+        submitted_by: isExistingCollection && existingHighlights?.submitted_by ? existingHighlights.submitted_by : creator_name,
+        creator_uuid: isExistingCollection && existingHighlights?.creator_uuid ? existingHighlights.creator_uuid : (session?.uuid || null),
+      };
+    } else if (existingHighlights) {
+      // When no highlights provided but existing collection has highlights, preserve them completely
+      finalHighlights = existingHighlights;
+    } else {
+      // New collection with no highlights - create new with current user as creator
+      finalHighlights = {
         status: "draft",
         submitted_by: creator_name,
         creator_uuid: session?.uuid || null,
       };
-    } else if (existingHighlights) {
-      // When no highlights provided but existing collection has highlights, preserve them
-      finalHighlights = existingHighlights;
-    } else {
-      // New collection with no highlights
-      finalHighlights = null;
     }
 
     // Upsert by slug; server sets creator_name if inserting (or leaves existing creator_name on update if null)
-    const sql = `INSERT INTO collections (slug, title, description, content, creator_name, main_image, sections, highlights, boards)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9)
+    const sql = `INSERT INTO collections (slug, title, description, content, creator_name, main_image, sections, highlights, boards, external_resources)
+                 VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9,$10::jsonb)
                  ON CONFLICT (slug) DO UPDATE SET
                    title = EXCLUDED.title,
                    description = EXCLUDED.description,
@@ -466,6 +550,7 @@ export async function POST(req: Request) {
                    sections = EXCLUDED.sections,
                    highlights = EXCLUDED.highlights,
                    boards = EXCLUDED.boards,
+                   external_resources = EXCLUDED.external_resources,
                    updated_at = NOW()
                  RETURNING *`;
 
@@ -479,6 +564,7 @@ export async function POST(req: Request) {
       sanitizedSections ? JSON.stringify(sanitizedSections) : null,
       finalHighlights ? JSON.stringify(finalHighlights) : null,
       boardsArr,
+      sanitizedExternalResources ? JSON.stringify(sanitizedExternalResources) : '[]',
     ];
 
     const res = await query("general", sql, params as any[]);

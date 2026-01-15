@@ -54,11 +54,18 @@ export default function CreateCollectionClient() {
   const [collectionCreatorUuid, setCollectionCreatorUuid] = useState<string | null>(null)
   const [isUnauthorized, setIsUnauthorized] = useState(false)
   const [existingHighlights, setExistingHighlights] = useState<any>(null)
-  // We do NOT fetch or show private boards. availableBoards is derived only from public search results.
-  const [searchResults, setSearchResults] = useState<Board[]>([])
+  // Fetch public/published boards only from API
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedBoards, setSelectedBoards] = useState<string[]>([])
   const [availableBoards, setAvailableBoards] = useState<Board[]>([])
+
+  // External resources state
+  const [externalResources, setExternalResources] = useState<Array<{title: string; description: string; url: string}>>([])
+  const [newResourceTitle, setNewResourceTitle] = useState("")
+  const [newResourceDescription, setNewResourceDescription] = useState("")
+  const [newResourceUrl, setNewResourceUrl] = useState("")
+  const [editingResourceIndex, setEditingResourceIndex] = useState<number | null>(null)
+  const [showResourceForm, setShowResourceForm] = useState(false)
 
   const { sharedState } = useSharedState()
   const session = sharedState?.session || null
@@ -129,6 +136,7 @@ export default function CreateCollectionClient() {
           setImagePreviewUrl(data.main_image || "")
           setSectionsList(data.sections || [])
           setSelectedBoards((data.boards || []).map((b: any) => String(b)))
+          setExternalResources(data.external_resources || [])
           setOriginalSlug(data.slug || null)
         } else {
           console.warn('Could not load collection for edit:', editId)
@@ -211,6 +219,7 @@ export default function CreateCollectionClient() {
         // Preserve existing highlights when editing, don't overwrite with null
         ...(existingHighlights && { highlights: existingHighlights }),
         boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
+        external_resources: externalResources,
       }
 
       const res = await fetch('/api/collections', {
@@ -246,17 +255,17 @@ export default function CreateCollectionClient() {
     }
   }
 
-  // Debounced autosave: save when relevant fields change
-  useEffect(() => {
-    // Require slug, title and main image AND require slug availability check to have completed and returned available
-    const fieldsReady = slug.trim() !== '' && title.trim() !== '' && mainImage.trim() !== '' && slugExists === false && checkingSlug === false
-    if (!fieldsReady) return
-    const timer = setTimeout(() => {
-      void autosaveToServer()
-    }, 2000)
-    return () => clearTimeout(timer)
-  // include checkingSlug so autosave waits for the completion of slug check
-  }, [slug, title, description, content, mainImage, JSON.stringify(sectionsList), selectedBoards.join(','), slugExists, checkingSlug])
+  // Autosave disabled - users must explicitly click Save
+  // useEffect(() => {
+  //   // Require slug, title and main image AND require slug availability check to have completed and returned available
+  //   const fieldsReady = slug.trim() !== '' && title.trim() !== '' && mainImage.trim() !== '' && slugExists === false && checkingSlug === false
+  //   if (!fieldsReady) return
+  //   const timer = setTimeout(() => {
+  //     void autosaveToServer()
+  //   }, 2000)
+  //   return () => clearTimeout(timer)
+  // // include checkingSlug so autosave waits for the completion of slug check
+  // }, [slug, title, description, content, mainImage, JSON.stringify(sectionsList), selectedBoards.join(','), slugExists, checkingSlug])
 
   // determine if user can proceed: slug and title present, slug not taken, and main image provided
   const canProceed = slug.trim() !== "" && title.trim() !== "" && slugExists !== true && mainImage.trim() !== ""
@@ -483,6 +492,7 @@ export default function CreateCollectionClient() {
         // Preserve existing highlights when editing, but they'll be updated by submit_for_review flag
         ...(existingHighlights && { highlights: existingHighlights }),
         boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
+        external_resources: externalResources,
         // Explicitly request admin review/notification
         submit_for_review: true,
       }
@@ -564,33 +574,43 @@ export default function CreateCollectionClient() {
     setSectionsList(newSections)
   }
 
-  // Fetch public boards. If q is absent or shorter than 2 chars, load the default first 10 public boards.
+  // Fetch published boards from API. Always loads 10 most recent published boards.
+  // When searching, searches title and description in the database.
   const fetchAvailableBoards = async (q?: string) => {
     try {
       const trimmed = (q || "").trim()
-      let url = "/api/pinboards"
-      if (!trimmed || trimmed.length < 2) {
-        // load first 10 public boards by default
-        url = "/api/pinboards?limit=10"
-      } else {
-        url = `/api/pinboards?q=${encodeURIComponent(trimmed)}`
+      // Always fetch published boards only, limit to 10, ordered by most recent (DESC)
+      // Include page=1 to ensure the limit is applied by the API
+      let url = "/api/pinboards?space=published&limit=10&page=1"
+      if (trimmed && trimmed.length >= 2) {
+        // Search title and description in database
+        url = `/api/pinboards?space=published&search=${encodeURIComponent(trimmed)}&limit=10&page=1`
       }
       const res = await fetch(url)
       if (res.ok) {
-        const data = await res.json()
-         const d = (data || []).map((b: any) => ({ ...b, id: String(b.id) }))
-        setAvailableBoards(d)
-        // normalize ids to strings and only keep public boards
-        setSearchResults(d)
+        const result = await res.json()
+        // API returns {count, data} for multiple boards
+        const data = result?.data || result || []
+        const boards = (Array.isArray(data) ? data : []).map((b: any) => ({ 
+          ...b, 
+          id: String(b.pinboard_id || b.id) // Use pinboard_id as the primary ID, fallback to id
+        }))
+        setAvailableBoards(boards)
       } else {
-        setSearchResults([])
+        setAvailableBoards([])
       }
     } catch (e) {
       console.error('Board search failed', e)
-      setSearchResults([])
+      setAvailableBoards([])
     }
   }
 
+  // Load initial boards on mount
+  useEffect(() => {
+    fetchAvailableBoards("")
+  }, [])
+
+  // Fetch boards when search term changes
   useEffect(() => {
     // Always fetch public boards. If query is short, this will load the default first 10.
     fetchAvailableBoards(searchTerm)
@@ -1112,6 +1132,205 @@ export default function CreateCollectionClient() {
               </div>
             </div>
 
+            {/* External Resources Section */}
+            <div className="border-2 border-black bg-white">
+              <div className="border-b-2 border-black bg-[#f9f9f9] px-6 py-4">
+                <div className='flex items-center justify-between'>
+                  <h2 className="text-2xl font-bold">External Resources</h2>
+                  <button
+                    onClick={() => {
+                      if (isRejected) return
+                      setShowResourceForm(true)
+                      setEditingResourceIndex(null)
+                      setNewResourceTitle('')
+                      setNewResourceDescription('')
+                      setNewResourceUrl('')
+                      // Scroll to form (optional)
+                      setTimeout(() => {
+                        document.getElementById('external-resource-form')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+                      }, 100)
+                    }}
+                    disabled={isRejected}
+                    className={`detach px-4 py-2 font-bold text-black transition ${isRejected ? 'opacity-50 cursor-not-allowed bg-gray-100' : 'hover:bg-yellow-400'}`}
+                  >
+                    <span className="relative z-10">+ Add Resource</span>
+                  </button>
+                </div>
+                <p className="text-sm text-gray-600">Add links to external toolkits, resources, or related materials</p>
+              </div>
+              <div className="p-6 space-y-4">
+                {/* Add/Edit External Resource Form */}
+                {showResourceForm && (
+                <div id="external-resource-form" className="border-2 border-gray-300 p-4 rounded bg-gray-50 space-y-3">
+                  <div>
+                    <label className="block text-sm font-semibold mb-1">Title *</label>
+                    <input
+                      type="text"
+                      value={newResourceTitle}
+                      onChange={(e) => !isRejected && setNewResourceTitle(e.target.value)}
+                      placeholder="Resource title"
+                      disabled={isRejected}
+                      maxLength={500}
+                      className={`w-full border-2 border-black p-2 focus:outline-none focus:ring-2 focus:ring-[#0072bc] ${isRejected ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold mb-1">Description</label>
+                    <textarea
+                      value={newResourceDescription}
+                      onChange={(e) => !isRejected && setNewResourceDescription(e.target.value)}
+                      placeholder="Brief description of the resource"
+                      disabled={isRejected}
+                      rows={2}
+                      className={`w-full border-2 border-black p-2 focus:outline-none focus:ring-2 focus:ring-[#0072bc] ${isRejected ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold mb-1">URL *</label>
+                    <input
+                      type="url"
+                      value={newResourceUrl}
+                      onChange={(e) => !isRejected && setNewResourceUrl(e.target.value)}
+                      placeholder="https://example.com"
+                      disabled={isRejected}
+                      maxLength={2000}
+                      className={`w-full border-2 border-black p-2 focus:outline-none focus:ring-2 focus:ring-[#0072bc] ${isRejected ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <button
+                      className="detach px-4 py-2 font-bold text-blue-600 transition"
+                      onClick={() => {
+                        if (isRejected) return
+                        if (!newResourceTitle.trim() || !newResourceUrl.trim()) {
+                          alert('Title and URL are required')
+                          return
+                        }
+                        try {
+                          new URL(newResourceUrl)
+                        } catch {
+                          alert('Please enter a valid URL')
+                          return
+                        }
+                        
+                        if (editingResourceIndex !== null) {
+                          // Update existing resource
+                          const updated = [...externalResources]
+                          updated[editingResourceIndex] = {
+                            title: newResourceTitle.trim(),
+                            description: newResourceDescription.trim(),
+                            url: newResourceUrl.trim(),
+                          }
+                          setExternalResources(updated)
+                          setEditingResourceIndex(null)
+                        } else {
+                          // Add new resource
+                          setExternalResources([
+                            ...externalResources,
+                            {
+                              title: newResourceTitle.trim(),
+                              description: newResourceDescription.trim(),
+                              url: newResourceUrl.trim(),
+                            },
+                          ])
+                        }
+                        setNewResourceTitle('')
+                        setNewResourceDescription('')
+                        setNewResourceUrl('')
+                        setShowResourceForm(false)
+                      }}
+                      disabled={isRejected || !newResourceTitle.trim() || !newResourceUrl.trim()}
+                    >
+                      {editingResourceIndex !== null ? 'Update Resource' : 'Add Resource'}
+                    </button>
+                    <button
+                      className={`px-4 py-2 font-bold text-black transition`}
+                      onClick={() => {
+                        setEditingResourceIndex(null)
+                        setNewResourceTitle('')
+                        setNewResourceDescription('')
+                        setNewResourceUrl('')
+                        setShowResourceForm(false)
+                      }}
+                      disabled={isRejected}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+                )}
+
+                {/* List of External Resources */}
+                {externalResources.length > 0 ? (
+                  <div className="space-y-2">
+                    <p className="text-xs font-bold text-gray-700 mb-3">ADDED RESOURCES ({externalResources.length})</p>
+                    {externalResources.map((resource, index) => (
+                      <div
+                        key={index}
+                        className="border-2 border-black p-3 rounded bg-white flex justify-between items-start"
+                      >
+                        <div className="flex-1">
+                          <h4 className="font-bold text-sm">{resource.title}</h4>
+                          {resource.description && (
+                            <p className="text-xs text-gray-600 mt-1">{resource.description}</p>
+                          )}
+                          <a
+                            href={resource.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs text-blue-600 hover:underline mt-1 inline-block"
+                          >
+                            {resource.url}
+                          </a>
+                        </div>
+                        <div className="flex gap-2 ml-4">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (isRejected) return
+                              setNewResourceTitle(resource.title)
+                              setNewResourceDescription(resource.description)
+                              setNewResourceUrl(resource.url)
+                              setEditingResourceIndex(index)
+                              setShowResourceForm(true)
+                              setTimeout(() => {
+                                document.getElementById('external-resource-form')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+                              }, 100)
+                            }}
+                            disabled={isRejected}
+                            className={`text-sm px-2 py-1 border border-black rounded ${isRejected ? 'text-gray-400 cursor-not-allowed' : 'text-blue-600 hover:bg-blue-50'}`}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (isRejected) return
+                              setExternalResources(externalResources.filter((_, i) => i !== index))
+                              if (editingResourceIndex === index) {
+                                setEditingResourceIndex(null)
+                                setNewResourceTitle('')
+                                setNewResourceDescription('')
+                                setNewResourceUrl('')
+                              }
+                            }}
+                            disabled={isRejected}
+                            className={`text-sm px-2 py-1 border border-black rounded ${isRejected ? 'text-gray-400 cursor-not-allowed' : 'text-red-600 hover:bg-red-50'}`}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="border-2 border-dashed border-gray-300 rounded p-8 text-center">
+                    <p className="text-gray-600">No external resources yet. Click "+ Add Resource" to get started.</p>
+                  </div>
+                )}
+              </div>
+            </div>
+
             {/* Action Buttons */}
             <div className="flex py-5 gap-4 justify-between">
               <Button
@@ -1124,7 +1343,7 @@ export default function CreateCollectionClient() {
                 onClick={handleSaveBasicsWithValidation}
                 disabled={!canProceed || saving || uploadsInProgress || isRejected}
               >
-                <span className="relative z-10">{isRejected ? "Cannot Edit Rejected Collection" : saving ? "Saving..." : "Next: Review"}</span>
+                <span className="relative z-10">{isRejected ? "Cannot Edit Rejected Collection" : saving ? "Saving..." : "Save & Continue"}</span>
               </Button>
             </div>
           </div>

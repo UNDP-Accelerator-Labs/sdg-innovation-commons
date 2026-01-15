@@ -82,6 +82,28 @@ export const schemas = {
           type: 'integer',
         },
       },
+      external_resources: {
+        type: 'array',
+        description: 'External resources (toolkits, URLs, etc.)',
+        items: {
+          type: 'object',
+          properties: {
+            title: {
+              type: 'string',
+              description: 'Resource title',
+            },
+            description: {
+              type: 'string',
+              description: 'Resource description',
+            },
+            url: {
+              type: 'string',
+              format: 'uri',
+              description: 'Resource URL',
+            },
+          },
+        },
+      },
       creator_name: {
         type: 'string',
         description: 'Creator username',

@@ -36,8 +36,9 @@ async function handlePinboardRequest(request: NextRequest) {
 
     if (request.method === 'GET') {
       const databasesParam = searchParams.getAll('databases');
+      const pinboardParam = searchParams.getAll('pinboard'); // Get all pinboard values
       params = {
-        pinboard: searchParams.get('pinboard') || undefined,
+        pinboard: pinboardParam.length > 0 ? (pinboardParam.length === 1 ? pinboardParam[0] : pinboardParam) : undefined,
         page: searchParams.get('page') || undefined,
         limit: searchParams.get('limit') || undefined,
         space: (searchParams.get('space') as any) || undefined,
