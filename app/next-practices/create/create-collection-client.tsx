@@ -69,6 +69,7 @@ export default function CreateCollectionClient() {
 
   const { sharedState } = useSharedState()
   const session = sharedState?.session || null
+  const isAdmin = session?.rights >= 4
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState("")
   const [uploadsInProgress, setUploadsInProgress] = useState<boolean>(false)
@@ -515,6 +516,71 @@ export default function CreateCollectionClient() {
       console.error('Submit for review failed', e)
       setSaving(false)
       setPublishError('Failed to submit for review')
+    }
+  }
+
+  // Admin publish handler: direct publish without review
+  const handleAdminPublish = async () => {
+    if(isRejected) return
+    if (saving) return
+    if (uploadsInProgress) return setPublishError('Uploads in progress, please wait')
+    
+    // Client-side admin check for better UX
+    if (!isAdmin) {
+      setPublishError('You do not have permission to publish collections directly. Please submit for review instead.')
+      return
+    }
+    
+    setPublishMessage(null)
+    setPublishError(null)
+    setSaving(true)
+    try {
+      const payload = {
+        slug: slug.trim(),
+        title: title.trim(),
+        description,
+        content: content || null,
+        main_image: mainImage || null,
+        sections: sectionsList || [],
+        // For admin publish, set as published directly
+        highlights: {
+          ...(existingHighlights || {}),
+          published: true,
+          status: "published",
+          submitted_by: session?.name || session?.uuid || null,
+          creator_uuid: session?.uuid || null,
+          published_at: new Date().toISOString()
+        },
+        boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
+        external_resources: externalResources,
+        // No review needed for admin
+        admin_publish: true,
+      }
+      const res = await fetch('/api/collections', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json().catch(() => ({}))
+      setSaving(false)
+      if (!res.ok) {
+        // Handle specific error messages from backend validation
+        if (res.status === 403) {
+          setPublishError('You do not have administrator privileges to publish collections directly.')
+        } else {
+          setPublishError(data?.message || data?.error || 'Failed to publish collection')
+        }
+        return
+      }
+      setPublishMessage('Collection published successfully!')
+      // redirect to preview page after a short delay
+      setTimeout(() => {
+        try { window.location.href = `/next-practices/${data?.slug || slug}` } catch (e) { router.push(`/next-practices/${data?.slug || slug}`) }
+      }, 1200)
+    } catch (e) {
+      console.error('Admin publish failed', e)
+      setSaving(false)
+      setPublishError('Failed to publish collection')
     }
   }
 
@@ -1444,12 +1510,32 @@ export default function CreateCollectionClient() {
                   >
                     <span className="relative z-10"> Preview</span>
                   </Button>
-                  <Button
-                    onClick={handleSubmitForReview}
-                    disabled={saving || uploadsInProgress || isRejected}
-                  >
-                    <span className="relative z-10">{isRejected ? "Cannot Submit Rejected Collection" : saving ? "Submitting..." : uploadsInProgress ? 'Uploads in progress...' : 'Submit for review'}</span>
-                  </Button>
+                  {isAdmin ? (
+                    // Admin sees both options
+                    <>
+                      <Button
+                        onClick={handleSubmitForReview}
+                        disabled={saving || uploadsInProgress || isRejected}
+                        className="bg-gray-600 hover:bg-gray-700"
+                      >
+                        <span className="relative z-10">{isRejected ? "Cannot Submit Rejected Collection" : saving ? "Submitting..." : uploadsInProgress ? 'Uploads in progress...' : 'Submit for review'}</span>
+                      </Button>
+                      <Button
+                        onClick={handleAdminPublish}
+                        disabled={saving || uploadsInProgress || isRejected}
+                      >
+                        <span className="relative z-10">{isRejected ? "Cannot Publish Rejected Collection" : saving ? "Publishing..." : uploadsInProgress ? 'Uploads in progress...' : 'Publish Now'}</span>
+                      </Button>
+                    </>
+                  ) : (
+                    // Regular users see only submit for review
+                    <Button
+                      onClick={handleSubmitForReview}
+                      disabled={saving || uploadsInProgress || isRejected}
+                    >
+                      <span className="relative z-10">{isRejected ? "Cannot Submit Rejected Collection" : saving ? "Submitting..." : uploadsInProgress ? 'Uploads in progress...' : 'Submit for review'}</span>
+                    </Button>
+                  )}
                 </div>
               </div>
             </div>

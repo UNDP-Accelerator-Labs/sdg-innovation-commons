@@ -278,10 +278,6 @@ export const padsPaths = {
                     },
                     id_db: {
                       type: 'string',
-                      description: 'Concatenated content+database ID in format {pad_id}_{db_id}',
-                    },
-                    id_db: {
-                      type: 'string',
                       description: 'Concatenated pad+database ID in format {pad_id}_{db_id}',
                     },
                     contributor_id: {
@@ -311,10 +307,6 @@ export const padsPaths = {
                     title: {
                       type: 'string',
                       description: 'Content title',
-                    },
-                    snippet: {
-                      type: 'string',
-                      description: 'Auto-generated snippet from full_text (first 300 characters)',
                     },
                     snippet: {
                       type: 'string',

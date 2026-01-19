@@ -82,18 +82,21 @@ export default async function Section({
             method="GET"
             className="section-header relative"
           ></form>
-          {/* Display the section title and description */}
-          <div className="section-header mb-[20px] lg:mb-[100px]">
-            <div className="c-left col-span-9 lg:col-span-5">
-              <h2 className="mb-[20px]">
-                <span className="slanted-bg yellow">
-                  <span>Boards and Resources in this Collection</span>
-                </span>
-              </h2>
+        {/* Only show boards and resources section if there's content to display */}
+        {(data && data.length > 0) || (externalResources && externalResources.length > 0) ? (
+          <div className="section-wrapper">
+            {/* Display the section title and description */}
+            <div className="section-header mb-[20px] lg:mb-[100px]">
+              <div className="c-left col-span-9 lg:col-span-5">
+                <h2 className="mb-[20px]">
+                  <span className="slanted-bg yellow">
+                    <span>Boards and Resources in this Collection</span>
+                  </span>
+                </h2>
+              </div>
             </div>
-          </div>
-          {/* Display the content */}
-          <div className="section-content">
+            {/* Display the content */}
+            <div className="section-content">
             {/* Display Cards */}
             <div className="mb-[40px] grid gap-[20px] md:grid-cols-2 lg:mb-[80px] lg:grid-cols-3">
               {data?.map((post: any) => (
@@ -147,6 +150,8 @@ export default async function Section({
               </div>
             </div>
           )}
+          </div>
+        ) : null}
 
           {/* Edit Collection page if you are creator or admin and collection is not rejected */}
           {((highlights && highlights?.creator_uuid === session?.uuid) ||

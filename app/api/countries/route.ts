@@ -84,8 +84,13 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
     try {
       // Special handling for pinboard queries - use pinboard_contributions directly
       // to avoid double-filtering (the pinboard API already filters accessible pads)
-      if (params.pinboard) {
+      if (params.pinboard && params.pinboard !== 'null' && params.pinboard !== 'undefined') {
         const pinboardId = Array.isArray(params.pinboard) ? params.pinboard[0] : params.pinboard;
+        
+        // Skip if pinboardId is invalid
+        if (!pinboardId || pinboardId === 'null' || pinboardId === 'undefined') {
+          // Treat as no pinboard query, use regular pad filtering
+        } else {
         
         // Get locations from locations table (for pads that have location data)
         const locationTableQuery = `
@@ -140,6 +145,7 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
         });
         
         pad_locations = Array.from(locationMap.entries()).map(([iso3, count]) => ({ iso3, count }));
+        }
       } else {
         // For non-pinboard queries, use buildPadSubquery
         const padFilterParams: PadFilterParams = {

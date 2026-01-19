@@ -3,7 +3,7 @@ import metaData from '@/app/lib/data/meta-data';
 import woldMap from '@/app/lib/data/world-map';
 
 interface Props {
-	boards?: number[] | number;
+	boards?: number[] | number | null | undefined;
 	// platforms?: string[]; // THIS IS tabs IN content
 	searchParams?: any;
 }
@@ -13,6 +13,28 @@ export default async function Data({
 	// platforms,
 	searchParams,
 }: Props) {
+	// If no boards are specified, return empty metadata for external resources only collections
+	if (!boards || 
+	    (Array.isArray(boards) && boards.length === 0) ||
+	    (typeof boards === 'number' && boards <= 0)) {
+		return {
+			tags: {
+				count: 0,
+				highlight: [],
+				diff: 0,
+			},
+			locations: {
+				values: [],
+				count: 0,
+				map: null,
+			},
+			sdgs: {
+				highlight: [],
+				count: 0,
+			}
+		};
+	}
+
 	// SET THE CORRECT PLATFORM(S)
 	// if (platform === 'all') platforms = platforms.filter((d: string) => d !== 'all');
 	// else platforms = platforms.filter((d: string) => d === platform);

@@ -74,7 +74,7 @@ export default function Card({
         removeFromBoardApi(
           action,
           boardId as number,
-          id,
+          Number(id),
           source as string,
           showNotification,
           () => redirectUser(pathname)

@@ -312,7 +312,24 @@ export async function POST(req: Request) {
       boards,
       external_resources,
       submit_for_review,
+      admin_publish,
     } = body || {};
+
+    // Validate admin_publish flag - only admins can use direct publish
+    if (admin_publish && (session?.rights ?? 0) < 4) {
+      return NextResponse.json({ 
+        error: "forbidden", 
+        message: "Only administrators can publish collections directly" 
+      }, { status: 403 });
+    }
+
+    // Validate conflicting flags - cannot submit for review and admin publish at the same time
+    if (submit_for_review && admin_publish) {
+      return NextResponse.json({ 
+        error: "invalid_request", 
+        message: "Cannot submit for review and publish directly at the same time" 
+      }, { status: 400 });
+    }
 
     if (!slug)
       return NextResponse.json({ error: "missing slug" }, { status: 400 });
@@ -500,9 +517,28 @@ export async function POST(req: Request) {
     // Build highlights to store: preserve creator information from existing highlights when editing
     let finalHighlights: any = null;
     const isExistingCollection = !!existingHighlights;
+    const isAdmin = (session?.rights ?? 0) >= 4;
     
-    if (submit_for_review) {
-      // When submitting for review, use existing highlights as base or provided highlights
+    if (admin_publish && isAdmin) {
+      // Admin direct publish - bypass review process
+      const base = highlights && typeof highlights === "object" 
+        ? highlights 
+        : (existingHighlights && typeof existingHighlights === "object" ? existingHighlights : {});
+      finalHighlights = {
+        ...base,
+        awaiting_review: false,
+        published: true,
+        status: "published",
+        // Preserve original creator info when editing, only set for new collections
+        submitted_by: isExistingCollection ? (base.submitted_by || existingHighlights?.submitted_by) : creator_name,
+        creator_uuid: isExistingCollection ? (base.creator_uuid || existingHighlights?.creator_uuid) : (session?.uuid || null),
+        published_at: new Date().toISOString(),
+        published_by: creator_name,
+        publisher_uuid: session?.uuid || null,
+        comments: Array.isArray(base.comments) ? base.comments : [],
+      };
+    } else if (submit_for_review) {
+      // Regular submit for review process
       const base = highlights && typeof highlights === "object" 
         ? highlights 
         : (existingHighlights && typeof existingHighlights === "object" ? existingHighlights : {});
@@ -512,8 +548,8 @@ export async function POST(req: Request) {
         published: false,
         status: "awaiting_review",
         // Preserve original creator info when editing, only set for new collections
-        submitted_by: isExistingCollection ? base.submitted_by : creator_name,
-        creator_uuid: isExistingCollection ? base.creator_uuid : (session?.uuid || null),
+        submitted_by: isExistingCollection ? (base.submitted_by || existingHighlights?.submitted_by) : creator_name,
+        creator_uuid: isExistingCollection ? (base.creator_uuid || existingHighlights?.creator_uuid) : (session?.uuid || null),
         submitted_at: new Date().toISOString(),
         comments: Array.isArray(base.comments) ? base.comments : [],
       };
@@ -572,9 +608,12 @@ export async function POST(req: Request) {
     if (!row)
       return NextResponse.json({ error: "upsert failed" }, { status: 500 });
 
-    // Only notify admins when the user explicitly submitted for review
-    const needsReview = !!submit_for_review;
-    if (submit_for_review) {
+    // Determine the outcome and handle notifications
+    const isAdminPublishing = admin_publish && isAdmin;
+    const needsReview = submit_for_review && !isAdminPublishing;
+    
+    // Only send notification for regular users submitting for review
+    if (needsReview) {
       try {
         const { createNotification } = await import(
           "@/app/lib/data/platform-api"
@@ -587,10 +626,10 @@ export async function POST(req: Request) {
             title: row.title,
             creator: creator_name,
             id: row.id,
-            url: `/next-practice/${row.slug}`,
+            url: `/next-practices/${row.slug}`,
           },
           metadata: {
-            adminUrl: `/next-practice/${row.slug}`,
+            adminUrl: `/next-practices/${row.slug}`,
           },
           actor_uuid: session?.uuid || null,
         });
@@ -599,10 +638,22 @@ export async function POST(req: Request) {
       }
     }
 
+    // Log admin actions for audit trail
+    if (isAdminPublishing) {
+      console.log(`Admin ${session?.name || session?.uuid} published collection directly:`, {
+        slug: row.slug,
+        title: row.title,
+        admin_uuid: session?.uuid,
+        timestamp: new Date().toISOString()
+      });
+    }
+
     return NextResponse.json({
       slug: row.slug,
       id: row.id,
       needs_review: needsReview,
+      published: isAdminPublishing,
+      status: isAdminPublishing ? "published" : (needsReview ? "awaiting_review" : "draft"),
     });
   } catch (e) {
     console.error("POST /api/collections error", e);

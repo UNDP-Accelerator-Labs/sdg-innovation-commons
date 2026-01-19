@@ -54,10 +54,16 @@ export default async function platformApi(
     const argV = _kwargs[k as keyof typeof _kwargs];
     if (Array.isArray(argV)) {
       argV.forEach((v: any) => {
-        params.append(k, v);
+        // Only append non-null, non-undefined values
+        if (v !== null && v !== undefined && v !== 'null' && v !== 'undefined') {
+          params.append(k, v);
+        }
       });
     } else {
-      params.set(k, argV);
+      // Only set non-null, non-undefined values
+      if (argV !== null && argV !== undefined && argV !== 'null' && argV !== 'undefined') {
+        params.set(k, argV);
+      }
     }
   }
 

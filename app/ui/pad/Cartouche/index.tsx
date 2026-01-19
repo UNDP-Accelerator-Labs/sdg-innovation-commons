@@ -30,7 +30,7 @@ export default async function Cartouche({
 			</div>
 			<div className='flex flex-row flex-wrap gap-1.5 border-b-[1px] border-solid pb-[20px] pl-[20px] pr-[20px] pt-[20px] lg:pt-0 justify-center items-center'>
 				{/*<p className='font-space-mono text-[14px] mb-0 basis-full'><b>Location(s)</b></p>*/}
-				{locations.map((d: any, i: number) => (
+				{(locations || []).map((d: any, i: number) => (
 					<button key={`chip-${i}`} className='chip bg-black text-white'>{d.country}</button>
 				))}
 			</div>
