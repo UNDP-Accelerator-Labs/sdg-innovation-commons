@@ -741,7 +741,7 @@ export default function CreateCollectionClient() {
 
         {/* Step 1: Collection Details and Content */}
         {step === 1 && (
-          <div className="space-y-8 border-2 border-black border-solid bg-white p-8">
+          <div className="space-y-8 border-[1px] border-black border-solid bg-white p-8">
             {/* Collection Basics Card */}
             <div className="px-4 border-2 border-black bg-white">
               <div className="border-b-2 border-black bg-[#f9f9f9] px-6 py-2">
