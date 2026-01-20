@@ -91,7 +91,7 @@ export default async function Page({
   searchParams,
 }: incomingRequestParams) {
   let { platform, pad } = await params;
-  platform = decodeURI(platform);
+  platform = decodeURI(Array.isArray(platform) ? platform[0] : platform);
 
   return <Pad platform={platform} id={+pad} />;
 }

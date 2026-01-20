@@ -1,8 +1,9 @@
+import 'server-only';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 import { authConfig } from './auth.config';
-import db from '@/app/lib/db';
+import { query } from '@/app/lib/services/database';
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   ...authConfig,
@@ -49,7 +50,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           WHERE u.email = $1 OR u.name = $1
         `;
 
-        const userResult = await db.query('general', userQuery, [email]);
+        const userResult = await query('general', userQuery, [email]);
 
         if (!userResult || userResult.rowCount === 0) {
           return null;
@@ -68,7 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         // Update last login
-        await db.query(
+        await query(
           'general',
           `UPDATE users SET last_login = NOW() WHERE uuid = $1`,
           [user.uuid]

@@ -1,58 +1,25 @@
-import { auth } from '@/auth';
-import jwt from 'jsonwebtoken';
-
-const { APP_SECRET } = process.env;
-
-// Simplified session helper using NextAuth
-export const getSession = async () => {
-  const session = await auth();
-  
-  if (!session?.user) {
-    return null;
-  }
-
-  // Return session data in the format expected by the app
-  return {
-    uuid: session.user.uuid,
-    email: session.user.email || '',
-    name: session.user.name || '',
-    rights: session.user.rights || 0,
-    iso3: session.user.iso3 || '',
-    language: session.user.language,
-    bureau: session.user.bureau,
-    collaborators: session.user.collaborators || [],
-    pinboards: session.user.pinboards || [],
-    is_trusted: session.user.is_trusted || false,
-    loginTime: new Date().toISOString(),
-  };
-};
-
 /**
- * Generate session token for legacy compatibility
+ * Legacy session module - DEPRECATED
+ * @deprecated Use '@/app/lib/services/auth' instead
+ * 
+ * This file is maintained for backward compatibility.
+ * All new code should import from the services folder.
+ * 
+ * Migration:
+ * - import { getSession } from '@/app/lib/session' 
+ *   => import { getSession } from '@/app/lib/services/auth'
  */
-export const session_token = async () => {
-  const session = await getSession();
-  if (!session?.uuid) return null;
-  
-  const token = jwt.sign(
-    { 
-      uuid: session.uuid, 
-      rights: session.rights, 
-      username: session.name 
-    },
-    APP_SECRET!,
-    {
-      audience: 'user:known',
-      issuer: 'sdg-innovation-commons.org',
-    }
-  );
-  return token;
-};
+
+export { 
+  getSession, 
+  generateSessionToken as session_token,
+} from './services/auth';
 
 /**
  * Check if user is logged in
  */
 export const is_user_logged_in = async () => {
+  const { getSession } = await import('./services/auth');
   const session = await getSession();
   return !!session?.name;
 };
@@ -72,4 +39,5 @@ export const deleteUserSessions = async (uuid: string): Promise<boolean> => {
   return true;
 };
 
-export default getSession;
+// Re-export getSession as default for legacy compatibility
+export { getSession as default } from './services/auth';

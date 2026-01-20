@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { MenuItem } from '@headlessui/react';
 import clsx from 'clsx';
-import { SectionProps } from '@/app/test/[platform]/Content';
+import type { SectionProps } from '@/app/test/[platform]/types';
 import { Button } from '@/app/ui/components/Button';
 import Filters from '@/app/test/[platform]/Filters';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';

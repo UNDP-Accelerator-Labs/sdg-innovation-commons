@@ -110,11 +110,11 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
         regions: regionsArr,
         section: params.section,
         // Pass session/auth info for proper filtering
-        uuid: sessionInfo.uuid,
-        rights: sessionInfo.rights,
-        collaborators: sessionInfo.collaborators,
-        isPublic: sessionInfo.isPublic,
-        isUNDP: sessionInfo.isUNDP,
+        uuid: sessionInfo?.uuid,
+        rights: sessionInfo?.rights,
+        collaborators: sessionInfo?.collaborators,
+        isPublic: sessionInfo?.isPublic,
+        isUNDP: sessionInfo?.isUNDP,
       };
       
       const padSubquery = await buildPadSubquery(padFilterParams);

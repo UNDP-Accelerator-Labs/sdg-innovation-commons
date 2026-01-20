@@ -3,7 +3,13 @@
 import type React from "react"
 import { useState } from "react"
 import { Button } from '@/app/ui/components/Button';
-import { confirmEmailAccountBeforeRegistration, registerContributor } from "@/app/lib/data/platform-api";
+import { confirmEmailAccountBeforeRegistration } from "@/app/lib/data/platform-api";
+import {
+  validatePassword,
+  validateEmail,
+  validatePasswordConfirmation,
+  getPasswordRequirements
+} from '@/app/lib/utils/auth-validation';
 
 interface RegisterFormProps {
     countries: any[];
@@ -27,6 +33,7 @@ interface RegisterFormProps {
   const [searchTerm, setSearchTerm] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
   const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
   const [countryError, setCountryError] = useState<string | null>(null);
   const [formMessage, setFormMessage] = useState<string | null>(null);
@@ -45,46 +52,25 @@ interface RegisterFormProps {
     }))
   }
 
-  const validatePassword = (password: string) => {
-    const minLength = 8;
-    const hasUpperCase = /[A-Z]/.test(password);
-    const hasLowerCase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
-    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-  
-    if (password.length < minLength) {
-      return "Password must be at least 8 characters long.";
-    }
-    if (!hasUpperCase) {
-      return "Password must contain at least one uppercase letter.";
-    }
-    if (!hasLowerCase) {
-      return "Password must contain at least one lowercase letter.";
-    }
-    if (!hasNumber) {
-      return "Password must contain at least one number.";
-    }
-    if (!hasSpecialChar) {
-      return "Password must contain at least one special character.";
-    }
-    return null;
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setFormData((prev) => ({ ...prev, email: value }));
+    const validation = validateEmail(value);
+    setEmailError(validation.error);
   };
   
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFormData((prev) => ({ ...prev, password: value }));
-    const error = validatePassword(value);
-    setPasswordError(error);
+    const validation = validatePassword(value);
+    setPasswordError(validation.error);
   };
 
   const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setFormData((prev) => ({ ...prev, confirmPassword: value }));
-    if (formData.password !== value) {
-      setConfirmPasswordError("Passwords do not match.");
-    } else {
-      setConfirmPasswordError(null);
-    }
+    const validation = validatePasswordConfirmation(formData.password, value);
+    setConfirmPasswordError(validation.error);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -97,7 +83,7 @@ interface RegisterFormProps {
       setCountryError(null);
     }
 
-    if (passwordError || confirmPasswordError) {
+    if (emailError || passwordError || confirmPasswordError) {
         setFormMessage("Please fix the errors before submitting.");
         return;
     }
@@ -197,10 +183,13 @@ interface RegisterFormProps {
           type="email"
           placeholder="john.doe@example.com"
           value={formData.email}
-          onChange={handleInputChange}
+          onChange={handleEmailChange}
           required
           className="w-full border border-black p-2"
         />
+        {emailError && (
+          <p className="text-red-500 text-xs mt-1">{emailError}</p>
+        )}
       </div>
 
       <div className="space-y-2">

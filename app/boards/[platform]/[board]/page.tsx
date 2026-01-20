@@ -55,7 +55,7 @@ export default async function Page({
   searchParams,
 }: incomingRequestParams) {
   let { platform, board } = await params;
-  platform = decodeURI(platform);
+  platform = decodeURI(Array.isArray(platform) ? platform[0] : platform);
 
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';

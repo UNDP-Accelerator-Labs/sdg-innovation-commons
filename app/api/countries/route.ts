@@ -64,18 +64,6 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
   const countriesArr = countries ? (Array.isArray(countries) ? countries : [countries]) : undefined;
   const regionsArr = regions ? (Array.isArray(regions) ? regions : [regions]) : undefined;
 
-  // Build filters for countries table
-  const filters: string[] = [];
-  if (regionsArr && regionsArr.length > 0) {
-    filters.push(`c.bureau IN (${regionsArr.map((_, i) => `$${i + 1}`).join(', ')})`);
-  }
-  if (has_lab) {
-    filters.push('c.has_lab = TRUE');
-  }
-
-  const filterStr = filters.length > 0 ? filters.join(' AND ') : 'TRUE';
-  const filterParams = regionsArr || [];
-
   let pad_locations: any[] = [];
   let locationCountries = countriesArr;
 
@@ -125,13 +113,13 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
         const [locationResult, ownerResult] = await Promise.all([
           dbQuery('general', locationTableQuery, [
             pinboardId,
-            sessionInfo.uuid || '00000000-0000-0000-0000-000000000000',
-            sessionInfo.rights || 0
+            sessionInfo?.uuid || '00000000-0000-0000-0000-000000000000',
+            sessionInfo?.rights || 0
           ]),
           dbQuery('general', ownerLocationQuery, [
             pinboardId,
-            sessionInfo.uuid || '00000000-0000-0000-0000-000000000000',
-            sessionInfo.rights || 0
+            sessionInfo?.uuid || '00000000-0000-0000-0000-000000000000',
+            sessionInfo?.rights || 0
           ])
         ]);
         
@@ -158,11 +146,11 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
           sdgs: params.sdgs,
           section: params.section,
           // Pass session/auth info for proper filtering
-          uuid: sessionInfo.uuid,
-          rights: sessionInfo.rights,
-          collaborators: sessionInfo.collaborators,
-          isPublic: sessionInfo.isPublic,
-          isUNDP: sessionInfo.isUNDP,
+          uuid: sessionInfo?.uuid,
+          rights: sessionInfo?.rights,
+          collaborators: sessionInfo?.collaborators,
+          isPublic: sessionInfo?.isPublic,
+          isUNDP: sessionInfo?.isUNDP,
         };
         
         const padSubquery = await buildPadSubquery(padFilterParams);
@@ -192,6 +180,21 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
     nameColumn = `name_${language}`;
   }
 
+  // Build filters for countries table - must be done after locationCountries is determined
+  const filters: string[] = [];
+  const filterParams: any[] = [];
+  
+  if (regionsArr && regionsArr.length > 0) {
+    const startIndex = (locationCountries && locationCountries.length > 0) ? locationCountries.length + 1 : 1;
+    filters.push(`c.bureau IN (${regionsArr.map((_, i) => `$${startIndex + i}`).join(', ')})`);
+    filterParams.push(...regionsArr);
+  }
+  if (has_lab) {
+    filters.push('c.has_lab = TRUE');
+  }
+
+  const filterStr = filters.length > 0 ? filters.join(' AND ') : 'TRUE';
+
   try {
     // Combined query for countries, subunits, and metadata in a single query
     const combinedQuery = `
@@ -219,7 +222,10 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
     const combinedResult = await dbQuery(
       'general',
       combinedQuery,
-      locationCountries && locationCountries.length > 0 ? safeArr(locationCountries, '000') : []
+      [
+        ...(locationCountries && locationCountries.length > 0 ? safeArr(locationCountries, '000') : []),
+        ...filterParams
+      ]
     );
 
     let locations = combinedResult.rows;

@@ -64,11 +64,20 @@ export default function Section({ searchParams }: Props) {
       'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
     );
-    const { data, count } = response;
-    const pages = Math.ceil(count / page_limit);
+    
+    // Check for error responses
+    if (response && typeof response === 'object' && 'message' in response && !('data' in response)) {
+      console.error('API Error:', response.message);
+      setHits([]);
+      setPages(0);
+    } else {
+      const { data, count } = response;
+      const pages = Math.ceil((count || 0) / page_limit);
 
-    setHits(data);
-    setPages(pages);
+      setHits(Array.isArray(data) ? data : []);
+      setPages(pages);
+    }
+    
     setLoading(false);
   }
 

@@ -73,10 +73,11 @@ export default async function Page({
   searchParams,
 }: incomingRequestParams) {
   let { collection } = await params;
+  const collectionId = Array.isArray(collection) ? collection[0] : collection;
 
   const session = await getSession();
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
-  return <Collection id={collection} searchParams={sParams} session={session} />;
+  return <Collection id={collectionId} searchParams={sParams} session={session} />;
 }

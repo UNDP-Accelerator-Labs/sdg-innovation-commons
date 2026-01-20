@@ -8,11 +8,12 @@ import { initiateSSO } from '@/app/lib/data/auth';
 import { base_url } from '@/app/lib/helpers/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { getCookieConsent } from '@/app/ui/components/CookieConsent';
+import { isUndpSsoEnabled, isEmailAuthEnabled } from '@/app/lib/utils/auth-validation';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [activeTab, setActiveTab] = useState('email');
+  const [activeTab, setActiveTab] = useState<'email' | 'staff'>('email');
   const [rememberMe, setRememberMe] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -21,10 +22,20 @@ export default function LoginForm() {
   const { sharedState } = useSharedState();
   const { uuid } = sharedState?.session || {};
 
-  //TODO: Fix the issue with the login form not being able to redirect to the last visited page
+  // Check feature flags
+  const ssoEnabled = isUndpSsoEnabled();
+  const emailAuthEnabled = isEmailAuthEnabled();
+
+  // Set initial tab based on available auth methods
+  useEffect(() => {
+    if (!emailAuthEnabled && ssoEnabled) {
+      setActiveTab('staff');
+    }
+  }, [emailAuthEnabled, ssoEnabled]);
+
   useEffect(() => {
     if(uuid) {
-      router.push('/profile'); // Redirect to login if uuid is not available
+      router.push('/profile');
       return;
     }
     // Store the current page URL in localStorage only if functional cookies are enabled
@@ -93,30 +104,41 @@ export default function LoginForm() {
     }
   };
 
+  // If neither auth method is enabled, show error
+  if (!emailAuthEnabled && !ssoEnabled) {
+    return (
+      <div className="w-full p-4 border border-red-300 bg-red-50 rounded-md">
+        <p className="text-red-700">Authentication is currently disabled. Please contact the administrator.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="w-full">
-      {/* Custom Tabs */}
-      <div className="inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500 w-full mb-6">
-        <button
-          onClick={() => setActiveTab('email')}
-          className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-3 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 flex-1 ${
-            activeTab === 'email' ? 'bg-white text-gray-900 shadow-sm' : 'hover:bg-gray-200'
-          }`}
-        >
-          Email Login
-        </button>
-        <button
-          onClick={() => setActiveTab('staff')}
-          className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-3 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 flex-1 ${
-            activeTab === 'staff' ? 'bg-white text-gray-900 shadow-sm' : 'hover:bg-gray-200'
-          }`}
-        >
-          UNDP Staff
-        </button>
-      </div>
+      {/* Custom Tabs - Only show if both methods are enabled */}
+      {emailAuthEnabled && ssoEnabled && (
+        <div className="inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500 w-full mb-6">
+          <button
+            onClick={() => setActiveTab('email')}
+            className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-3 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 flex-1 ${
+              activeTab === 'email' ? 'bg-white text-gray-900 shadow-sm' : 'hover:bg-gray-200'
+            }`}
+          >
+            Email Login
+          </button>
+          <button
+            onClick={() => setActiveTab('staff')}
+            className={`inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-3 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 flex-1 ${
+              activeTab === 'staff' ? 'bg-white text-gray-900 shadow-sm' : 'hover:bg-gray-200'
+            }`}
+          >
+            UNDP Staff
+          </button>
+        </div>
+      )}
 
       {/* Email Login Tab */}
-      {activeTab === 'email' && (
+      {emailAuthEnabled && activeTab === 'email' && (
         <form onSubmit={handleSubmit} className="space-y-4">
           {errorMessage && (
             <div className="text-red-500 text-sm font-medium">{errorMessage}</div>
@@ -178,7 +200,7 @@ export default function LoginForm() {
       )}
 
       {/* UNDP Staff Tab */}
-      {activeTab === 'staff' && (
+      {ssoEnabled && activeTab === 'staff' && (
         <div className="space-y-6">
           {errorMessage && (
             <div className="text-red-500 text-sm font-medium">{errorMessage}</div>

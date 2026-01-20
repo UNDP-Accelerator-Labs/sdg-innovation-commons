@@ -66,7 +66,7 @@ export async function validateToken(token: string) {
 export async function initiateSSO(originalUrl: string) {
   try {
     const base_url: string | undefined = commonsPlatform.find(
-      (p) => p.key === "login"
+      (p: any) => p.key === "login"
     )?.url;
   
     if (!base_url) {

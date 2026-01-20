@@ -26,6 +26,7 @@ interface PadsRequestParams {
   platforms?: string | string[];
   thematic_areas?: string | string[];
   sdgs?: string | string[];
+  methods?: string | string[];
   datasources?: string | string[];
   include_tags?: boolean | string;
   include_locations?: boolean | string;
@@ -63,6 +64,7 @@ export async function GET(req: NextRequest) {
       ].filter(Boolean),
       thematic_areas: searchParams.getAll("thematic_areas"),
       sdgs: searchParams.getAll("sdgs"),
+      methods: searchParams.getAll("methods"),
       datasources: searchParams.getAll("datasources"),
       include_tags: searchParams.get("include_tags") === "true",
       include_locations: searchParams.get("include_locations") === "true",
@@ -103,6 +105,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     platforms,
     thematic_areas,
     sdgs,
+    methods,
     datasources,
     include_tags,
     include_locations,
@@ -161,6 +164,11 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       : [thematic_areas]
     : undefined;
   const sdgsArr = sdgs ? (Array.isArray(sdgs) ? sdgs : [sdgs]) : undefined;
+  const methodsArr = methods
+    ? Array.isArray(methods)
+      ? methods
+      : [methods]
+    : undefined;
   const datasourcesArr = datasources
     ? Array.isArray(datasources)
       ? datasources
@@ -173,7 +181,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
 
   // Space filter (published, private, shared, all)
   // Note: Skip space filter if specific pad IDs are provided, as they're already filtered
-  if (!padsArr && !id_dbPadsArr) {
+  if ((!padsArr || padsArr.length === 0) && (!id_dbPadsArr || id_dbPadsArr.length === 0)) {
     if (space === "published") {
       filters.push("p.status >= 3");
     } else if (space === "private") {
@@ -209,19 +217,43 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   // Countries filter
   if (countriesArr && countriesArr.length > 0) {
     filterParams.push(countriesArr);
-    filters.push(
-      `p.id IN (SELECT pad FROM locations WHERE iso3 = ANY($${filterParams.length}::text[]))`
-    );
+    const paramIndex = filterParams.length;
+    // Check both locations table AND user's country (for pads without location data like action plans)
+    filters.push(`(
+      p.id IN (
+        SELECT DISTINCT l.pad 
+        FROM locations l
+        WHERE l.iso3 = ANY($${paramIndex}::text[])
+      )
+      OR p.owner IN (
+        SELECT uuid 
+        FROM users 
+        WHERE iso3 = ANY($${paramIndex}::text[])
+      )
+    )`);
   }
 
   // Regions filter (via countries)
   if (regionsArr && regionsArr.length > 0) {
     filterParams.push(regionsArr);
-    filters.push(`p.id IN (
-      SELECT DISTINCT l.pad 
-      FROM locations l
-      INNER JOIN adm0_subunits a ON a.su_a3 = l.iso3
-      WHERE a.bureau = ANY($${filterParams.length}::text[])
+    const paramIndex = filterParams.length;
+    // Check both locations table AND user's country (for pads without location data like action plans)
+    filters.push(`(
+      p.id IN (
+        SELECT DISTINCT l.pad 
+        FROM locations l
+        WHERE l.iso3 IN (
+          SELECT iso_a3 FROM adm0 WHERE undp_bureau = ANY($${paramIndex}::text[])
+          UNION
+          SELECT su_a3 FROM adm0_subunits WHERE undp_bureau = ANY($${paramIndex}::text[])
+        )
+      )
+      OR p.owner IN (
+        SELECT u.uuid 
+        FROM users u
+        LEFT JOIN countries c ON c.iso3 = u.iso3
+        WHERE c.bureau = ANY($${paramIndex}::text[])
+      )
     )`);
   }
 
@@ -250,7 +282,9 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   }
 
   // Platform filter
-  if (platformsArr && platformsArr.length > 0) {
+  // Skip platform filter if specific pad IDs are provided, as they already represent the correct platform
+  // Also skip if platform is 'all' - we want results from all platforms
+  if (platformsArr && platformsArr.length > 0 && !platformsArr.includes('all') && (!padsArr || padsArr.length === 0) && (!id_dbPadsArr || id_dbPadsArr.length === 0)) {
     const platformShortkeys = mapPlatformsToShortkeys(platformsArr);
 
     try {
@@ -281,6 +315,14 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     filterParams.push(sdgsArr.map((id) => +id));
     filters.push(
       `p.id IN (SELECT pad FROM tagging WHERE tag_id = ANY($${filterParams.length}::int[]) AND type = 'sdgs')`
+    );
+  }
+
+  // Methods filter
+  if (methodsArr && methodsArr.length > 0) {
+    filterParams.push(methodsArr.map((id) => +id));
+    filters.push(
+      `p.id IN (SELECT pad FROM tagging WHERE tag_id = ANY($${filterParams.length}::int[]) AND type = 'methods')`
     );
   }
 
@@ -474,6 +516,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       SELECT COUNT(DISTINCT p.id)::int AS count
       FROM pads p
       LEFT JOIN users u ON u.uuid = p.owner
+      LEFT JOIN adm0 a ON a.iso_a3 = u.iso3
       ${include_tags ? 'LEFT JOIN tagging tg ON tg.pad = p.id' : ''}
       ${include_locations ? 'LEFT JOIN locations l ON l.pad = p.id' : ''}
       WHERE TRUE

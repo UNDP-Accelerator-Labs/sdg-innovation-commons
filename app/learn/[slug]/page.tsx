@@ -13,7 +13,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { slug } = await params;
-  const decoded = decodeURI(slug);
+  const decoded = decodeURI(Array.isArray(slug) ? slug[0] : slug);
   const title = `SDG Commons - ${decoded}`;
   const description =
     "Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.";
@@ -46,7 +46,8 @@ export async function generateMetadata(
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {
   let { slug } = await params;
-  slug = decodeURI(slug);
+  slug = decodeURI(Array.isArray(slug) ? slug[0] : slug);
+  console.log('Learn Page slug:', slug);
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 

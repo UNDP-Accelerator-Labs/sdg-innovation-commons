@@ -65,7 +65,6 @@ export default async function nlpApi(_kwargs: Props) {
       method: "POST",
       body,
     })) || {};
-
   if (status?.toLowerCase() === "ok") {
     const bases = hits
       .map((d: any) => d.base)
@@ -113,18 +112,9 @@ export default async function nlpApi(_kwargs: Props) {
             platform,
             "pads"
           );
-          
           // Handle new {count, data} structure or legacy array
           const platformData: any[] = platformResponse?.data || platformResponse || [];
 
-          if (search?.length) {
-            platformData?.forEach((d: any) => {
-              // because this is triggered by a search, we use the nlp api snippet which provides a cue as to whi the doc is a hit
-              const { snippets } =
-                platformHits.find((c: any) => c.doc_id === d.pad_id) || {};
-              if (snippets && Array.isArray(snippets)) d.snippet = snippets[0];
-            });
-          }
           platformData?.sort((a, b) => {
             return pads.indexOf(a.pad_id) - pads.indexOf(b.pad_id);
           });

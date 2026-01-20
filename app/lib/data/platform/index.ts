@@ -71,10 +71,7 @@ export default async function platformApi(
     params.set('platform', platform);
   }
 
-  const base_url: string | undefined = commonsPlatform.find(
-    (p) => p.key === platform
-  )?.url;
-
+  console.log('params for platform api:', params.toString());
   // For server-side requests, construct the full local URL
   const isServerSide = typeof window === 'undefined';
   const baseUrl = isServerSide 

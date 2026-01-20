@@ -59,7 +59,7 @@ export async function generateMetadata(
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {
   let { platform } = await params;
-  platform = decodeURI(platform);
+  platform = decodeURI(Array.isArray(platform) ? platform[0] : platform);
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 

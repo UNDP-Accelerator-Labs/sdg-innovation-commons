@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import CardWithImg from '@/app/ui/components/Card/with-img';
 import FeaturedCard from '@/app/ui/components/Card/featured-card';
@@ -34,13 +35,18 @@ const tabs: TabConfig[] = [
 ];
 
 export default function UserContributions({ uuid, personalView = false }: UserContributionsProps) {
-  const [activeTab, setActiveTab] = useState<TabType>('action');
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [count, setCount] = useState(0);
   const [mounted, setMounted] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  
+  // Get current tab and page from URL params
+  const activeTab = (searchParams.get('tab') as TabType) || 'action';
+  const currentPage = parseInt(searchParams.get('page') || '1', 10);
   
   const { sharedState } = useSharedState();
   const { isLogedIn, session } = sharedState || {};
@@ -145,13 +151,6 @@ export default function UserContributions({ uuid, personalView = false }: UserCo
 
   useEffect(() => {
     if (mounted) {
-      setCurrentPage(1); // Reset to page 1 when tab changes
-      fetchUserContent(activeTab, 1);
-    }
-  }, [activeTab, mounted, fetchUserContent]);
-
-  useEffect(() => {
-    if (mounted) {
       fetchUserContent(activeTab, currentPage);
     }
   }, [currentPage, activeTab, fetchUserContent, mounted]);
@@ -185,12 +184,20 @@ export default function UserContributions({ uuid, personalView = false }: UserCo
     return description;
   };
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    // Form will naturally update URL params via GET method
+  };
+
   return (
     <div className="mt-10 pt-10 border border-black bg-white">
       {/* Display tabs */}
       <nav className="tabs items-end">
         {tabs.map((tab, i) => {
           let txt: string = tab.label;
+          const params = new URLSearchParams(searchParams.toString());
+          params.set('tab', tab.id);
+          params.set('page', '1'); // Reset to page 1 when changing tabs
+          
           return (
             <div
               key={i}
@@ -199,10 +206,8 @@ export default function UserContributions({ uuid, personalView = false }: UserCo
                 activeTab === tab.id ? 'font-bold' : 'yellow'
               )}
             >
-              <Link 
-                onClick={() => setActiveTab(tab.id)}
-                className="w-full h-full"
-                href={'#'}
+              <Link
+                href={`${pathname}?${params.toString()}`}
                 scroll={false}
               >
                 {`${txt}${txt.slice(-1) === 's' ? '' : 's'}`}
@@ -212,9 +217,12 @@ export default function UserContributions({ uuid, personalView = false }: UserCo
         })}
       </nav>
       
+      <form id="search-form" method="GET" onSubmit={handleFormSubmit}>
+        {/* Hidden input to preserve tab state */}
+        <input type="hidden" name="tab" value={activeTab} />
 
-      {/* Content */}
-      <div className="p-6">
+        {/* Content */}
+        <div className="p-6">
         {loading ? (
           <div className="grid gap-[20px] md:grid-cols-2 lg:grid-cols-3">
             <ImgCardsSkeleton />
@@ -305,16 +313,16 @@ export default function UserContributions({ uuid, personalView = false }: UserCo
             </div>
             
             {/* Pagination */}
-            {totalPages > 1 && (
-              <Pagination
-                page={currentPage}
-                pages={totalPages}
-                total={count}
-                handlePrev={() => setCurrentPage(currentPage - 1)}
-                handleNext={() => setCurrentPage(currentPage + 1)}
-                setPage={setCurrentPage}
-              />
-            )}
+            <div className="pagination">
+              <div className="col-start-2 flex w-full justify-center">
+                {totalPages > 1 && (
+                  <Pagination
+                    page={currentPage}
+                    totalPages={totalPages}
+                  />
+                )}
+              </div>
+            </div>
           </>
         ) : (
           <div className="py-12 text-center">
@@ -323,7 +331,8 @@ export default function UserContributions({ uuid, personalView = false }: UserCo
             </p>
           </div>
         )}
-      </div>
+        </div>
+      </form>
     </div>
   );
 }

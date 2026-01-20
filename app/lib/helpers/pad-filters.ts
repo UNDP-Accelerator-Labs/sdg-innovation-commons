@@ -6,7 +6,8 @@
  * Supports both authenticated (with session/token) and unauthenticated access
  */
 
-import { loadExternDb, mapPlatformsToShortkeys, safeArr } from './index';
+import { loadExternDb, mapPlatformsToShortkeys } from '../utils/platform';
+import { safeArr } from '../utils/array';
 import { query as dbQuery } from '@/app/lib/db';
 
 const DEFAULT_UUID = '00000000-0000-0000-0000-000000000000';
