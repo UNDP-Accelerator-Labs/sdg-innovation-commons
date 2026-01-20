@@ -35,11 +35,18 @@ export async function generateMetadata(
     title: data?.title,
     description: data?.description,
     openGraph: {
+      title: data?.title || 'SDG Commons - Community Curated Boards',
+      description: data?.description || '',
+      url: `/boards/${platform}/${id}`,
+      siteName: 'SDG Commons',
+      type: 'article',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       // Next Metadata supports twitter object
       card: 'summary_large_image',
+      title: data?.title || 'SDG Commons - Community Curated Boards',
+      description: data?.description || '',
       images: [ogImageUrl],
     },
     metadataBase,

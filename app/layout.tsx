@@ -15,9 +15,14 @@ export const metadata: Metadata = {
   description: "The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.",
   metadataBase: new URL('https://sdg-innovation-commons.org'),
   openGraph: {
+    title: 'SDG Commons',
+    description: "The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs. Join us to bring these insights into action.",
+    url: 'https://sdg-innovation-commons.org',
+    siteName: 'SDG Commons',
+    type: 'website',
     images: [
       {
-        url: 'https://sdg-innovation-commons.org/images/undp-logo.svg',
+        url: '/api/og?title=SDG%20Commons&subtitle=Insights%2C%20data%20and%20next%20practices%20for%20the%20SDGs',
         alt: 'SDG Commons — insights, data and next practices',
         width: 1200,
         height: 630,
@@ -26,7 +31,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    images: ['https://sdg-innovation-commons.org/images/undp-logo.svg'],
+    title: 'SDG Commons',
+    description: "The SDG Commons is a resource hub with data, insights, solutions and next practices for the Sustainable Development Goals (SDGs) powered by the UNDP Accelerator Labs.",
+    images: ['/api/og?title=SDG%20Commons&subtitle=Insights%2C%20data%20and%20next%20practices%20for%20the%20SDGs'],
   },
   ...(PROD_ENV === 'staging' && {
     robots: 'noindex, nofollow',

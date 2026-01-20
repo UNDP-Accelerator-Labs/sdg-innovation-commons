@@ -51,10 +51,17 @@ export async function generateMetadata(
     title: data?.title,
     description: data?.description,
     openGraph: {
+      title: data?.title || 'SDG Commons - Next Practices',
+      description: data?.description || '',
+      url: `/next-practices/${id}`,
+      siteName: 'SDG Commons',
+      type: 'article',
       images,
     },
     twitter: {
       card: 'summary_large_image',
+      title: data?.title || 'SDG Commons - Next Practices',
+      description: data?.description || '',
       images: images[0] ? [images[0]] : [fallbackOg],
     },
     metadataBase,

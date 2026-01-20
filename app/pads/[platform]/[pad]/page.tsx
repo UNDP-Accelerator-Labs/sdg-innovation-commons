@@ -69,10 +69,17 @@ export async function generateMetadata(
     title: title || 'SDG Commons',
     description: snippet || '',
     openGraph: {
+      title: title || 'SDG Commons',
+      description: snippet || '',
+      url: `/pads/${platform}/${id}`,
+      siteName: 'SDG Commons',
+      type: 'article',
       images,
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons',
+      description: snippet || '',
       images: images[0] ? [images[0]] : [fallbackOg],
     },
     metadataBase,

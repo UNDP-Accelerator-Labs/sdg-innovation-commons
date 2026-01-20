@@ -31,10 +31,17 @@ export async function generateMetadata(
     description,
     metadataBase,
     openGraph: {
+      title: title || 'SDG Commons - Learn',
+      description: description,
+      url: `/learn/${decoded}`,
+      siteName: 'SDG Commons',
+      type: 'website',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons - Learn',
+      description: description,
       images: [ogImageUrl],
     },
   };

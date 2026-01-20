@@ -41,10 +41,17 @@ export async function generateMetadata(
     description: subtitle,
     metadataBase,
     openGraph: {
+      title: title || 'SDG Commons - Community Curated Boards',
+      description: subtitle,
+      url: '/boards',
+      siteName: 'SDG Commons',
+      type: 'website',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons - Community Curated Boards',
+      description: subtitle,
       images: [ogImageUrl],
     },
   };
