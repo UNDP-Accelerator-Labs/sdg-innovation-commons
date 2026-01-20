@@ -345,7 +345,8 @@ export default function WordCloud({ data, width = 600, height = 400, className =
                 className="w-3 h-3 rounded-full"
                 style={{ backgroundColor: ['#059669', '#0891b2', '#ea580c', '#dc2626', '#7c3aed', '#ca8a04', '#be185d'][index % 7] }}
               />
-              <span>{platform} ({count})</span>
+              <span>{platform} </span>
+                {/* ({count}) */}
             </div>
           ))}
         </div>
