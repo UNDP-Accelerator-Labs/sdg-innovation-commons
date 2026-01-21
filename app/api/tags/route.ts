@@ -93,7 +93,7 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
         WHERE pc.pinboard = ${pinboardId}
           AND pc.is_included = true
           AND edb.db != 'blogs'
-          AND (p.status >= 3 OR p.owner = '${sessionInfo.uuid || '00000000-0000-0000-0000-000000000000'}'::uuid OR ${sessionInfo.rights || 0} > 2)
+          AND (p.status >= 3 OR p.owner = '${sessionInfo?.uuid || DEFAULT_UUID}'::uuid OR ${sessionInfo?.rights || 0} > 2)
       `;
       platformFilters.push(`t.pad IN (${pinboardPadSubquery})`);
     } else {

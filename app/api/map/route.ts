@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query as dbQuery } from '@/app/lib/db';
 import projectGeo from '@/app/lib/helpers/map/geo';
-import renderMap from '@/app/lib/helpers/map/render';
 import { topology } from 'topojson-server';
 import { feature, quantize } from 'topojson-client';
 import { presimplify } from 'topojson-simplify';
@@ -95,6 +94,8 @@ export async function POST(req: NextRequest) {
       topo_basemap.objects.basemap
     );
 
+    // Dynamic import to avoid loading canvas at build time
+    const { default: renderMap } = await import('@/app/lib/helpers/map/render');
     const { status, file, message } = await renderMap({
       basemap: simplifiedBasemap,
       projection,
