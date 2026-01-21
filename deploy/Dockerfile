@@ -5,6 +5,21 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV COREPACK_DEFAULT_TO_LATEST=0
 
+# Install system dependencies for canvas
+RUN apk add --no-cache \
+    cairo-dev \
+    jpeg-dev \
+    pango-dev \
+    giflib-dev \
+    pixman-dev \
+    pangomm-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    build-base \
+    g++ \
+    make \
+    python3
+
 RUN npm install -g corepack@latest
 RUN corepack enable && corepack prepare pnpm@latest --activate
 
@@ -15,6 +30,9 @@ RUN pnpm install --frozen-lockfile --prod=false
 # Copy the rest of the application code
 COPY . .
 
+# Set dummy APP_SECRET for build time (will be overridden at runtime by Azure)
+ENV APP_SECRET=build-time-dummy-secret-will-be-replaced-at-runtime
+
 # Build the project
 RUN pnpm run build
 
@@ -22,6 +40,13 @@ RUN pnpm run build
 FROM node:20-alpine AS runner
 WORKDIR /app
 
+# Install runtime dependencies for canvas
+RUN apk add --no-cache \
+    cairo \
+    jpeg \
+    pango \
+    giflib \
+    pixman
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
