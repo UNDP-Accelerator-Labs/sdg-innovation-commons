@@ -45,7 +45,8 @@ export default function ConfirmEmailClient({ token }: { token: string }) {
             // Ignore errors - user might not be logged in
           }
           
-          await signOut({ callbackUrl: '/login', redirect: true });
+          await signOut({ redirect: false });
+          window.location.href = '/login';
         } else {
           setStatus('error');
           setMessage(response?.message || 'Failed to confirm email');

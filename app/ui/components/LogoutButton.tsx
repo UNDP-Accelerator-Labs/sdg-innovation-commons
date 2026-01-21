@@ -11,8 +11,10 @@ export default function LogoutButton({ className }: { className?: string }) {
       credentials: 'include',
     });
     
-    // Then sign out with NextAuth
-    await signOut({ callbackUrl: '/login' });
+    // Sign out with NextAuth without callback (redirect manually)
+    await signOut({ redirect: false });
+    // Manual redirect to ensure correct domain
+    window.location.href = '/login';
   };
 
   return (

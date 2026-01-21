@@ -254,8 +254,10 @@ export default function ProfileContent({
         credentials: 'include',
       });
       
-      // Then sign out with NextAuth
-      await signOut({ callbackUrl: '/', redirect: true });
+      // Sign out with NextAuth without callback (redirect manually)
+      await signOut({ redirect: false });
+      // Manual redirect to ensure correct domain
+      window.location.href = '/';
     } catch (error) {
       console.error('Error during logout:', error);
       // Fallback: force redirect even if signOut fails
