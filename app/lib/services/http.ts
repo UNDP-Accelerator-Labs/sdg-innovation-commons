@@ -23,20 +23,22 @@ export async function httpRequest<T = any>(
   options: AxiosRequestConfig & { method?: HttpMethod } = {}
 ): Promise<T> {
   try {
-    // const cookieStore = await cookies();
-    // const cookieHeader = cookieStore
-    //   .getAll()
-    //   .map(cookie => `${cookie.name}=${cookie.value}`)
-    //   .join('; ');
+    // Forward cookies for server-to-server API calls
+    // This ensures authentication works when server components call API routes
+    const cookieStore = await cookies();
+    const cookieHeader = cookieStore
+      .getAll()
+      .map(cookie => `${cookie.name}=${cookie.value}`)
+      .join('; ');
 
     const config: AxiosRequestConfig = {
       ...options,
       url,
       method: options.method || 'GET',
-    //   headers: {
-    //     ...options.headers,
-    //     // Cookie: cookieHeader,
-    //   },
+      headers: {
+        ...options.headers,
+        Cookie: cookieHeader,
+      },
     };
 
     const response: AxiosResponse<T> = await axios(config);
