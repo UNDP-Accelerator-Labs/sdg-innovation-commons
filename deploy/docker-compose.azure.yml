@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # Main Next.js application
@@ -30,7 +30,15 @@ services:
       # Add other environment variables as needed
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3000/api/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -64,7 +72,15 @@ services:
     restart: unless-stopped
     command: sh -c "node scripts/worker_http.js & node scripts/worker_heartbeat.js & node scripts/run_worker.js"
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:8080/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

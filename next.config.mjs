@@ -6,7 +6,7 @@ const nextConfig = {
     authInterrupts: true,
   },
   // Mark canvas as external to prevent bundling (it's a native module)
-  serverExternalPackages: ['canvas'],
+  serverExternalPackages: ["canvas"],
 };
 
 export default nextConfig;

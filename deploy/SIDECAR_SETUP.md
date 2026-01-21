@@ -25,6 +25,7 @@ az webapp show --name staging-sdg-innovation-commons --query resourceGroup -o ts
 ```
 
 **Note down:**
+
 - Subscription ID: `________________________________________`
 - Resource Group: `________________________________________`
 
@@ -67,22 +68,26 @@ This will output JSON like:
 ## Step 3: Add GitHub Secrets
 
 Go to your GitHub repository:
+
 1. Navigate to **Settings** → **Secrets and variables** → **Actions**
 2. Click **New repository secret**
 
 Add these two secrets:
 
 ### Secret 1: `AZURE_CREDENTIALS`
+
 - **Name:** `AZURE_CREDENTIALS`
 - **Value:** The entire JSON output from Step 2 (paste as-is)
 
 ### Secret 2: `AZURE_RESOURCE_GROUP`
+
 - **Name:** `AZURE_RESOURCE_GROUP`
 - **Value:** Your resource group name (e.g., `sdg-innovation-commons-rg`)
 
 ## Step 4: Verify Existing Secrets
 
 Make sure you already have these secrets (used by current workflow):
+
 - ✅ `REGISTRY_USERNAME`
 - ✅ `REGISTRY_PASSWORD`
 - ✅ `AZURE_PUBLISH_PROFILE_STAGING` (still needed for rollback)
@@ -103,6 +108,7 @@ git push origin --tags
 ```
 
 This will trigger `.github/workflows/sidecar-deployment.yaml` which will:
+
 1. ✅ Build main app image
 2. ✅ Build worker image
 3. ✅ Push both images to ACR
@@ -111,6 +117,7 @@ This will trigger `.github/workflows/sidecar-deployment.yaml` which will:
 ## Step 6: Monitor Deployment
 
 ### Watch GitHub Actions
+
 1. Go to **Actions** tab in GitHub
 2. Click on the running workflow
 3. Watch the "Deploy Multi-Container to Staging" job
@@ -137,6 +144,7 @@ az webapp show \
 ```
 
 Expected output:
+
 ```
 COMPOSE|<base64-encoded-docker-compose-file>
 ```
@@ -144,14 +152,16 @@ COMPOSE|<base64-encoded-docker-compose-file>
 ## Step 8: Test Your Staging App
 
 1. **Test Web App:**
+
    ```bash
    curl https://staging-sdg-innovation-commons.azurewebsites.net
    ```
 
 2. **Check Worker Health:**
    The worker runs inside the same App Service but isn't directly accessible from outside.
-   
+
    Check logs for worker activity:
+
    ```bash
    az webapp log tail \
      --name staging-sdg-innovation-commons \
@@ -169,6 +179,7 @@ COMPOSE|<base64-encoded-docker-compose-file>
 ### Issue: "Could not find service principal"
 
 **Solution:** Make sure you're logged into the correct Azure subscription:
+
 ```bash
 az account show
 az login  # if needed
@@ -177,6 +188,7 @@ az login  # if needed
 ### Issue: "Insufficient privileges"
 
 **Solution:** You need Owner or User Access Administrator role to create service principals:
+
 ```bash
 # Ask your Azure admin to create the service principal, or
 # Give you elevated permissions temporarily
@@ -185,6 +197,7 @@ az login  # if needed
 ### Issue: Deployment succeeds but app won't start
 
 **Solution:** Check app settings are configured:
+
 ```bash
 az webapp config appsettings list \
   --name staging-sdg-innovation-commons \
@@ -192,6 +205,7 @@ az webapp config appsettings list \
 ```
 
 If missing, add them:
+
 ```bash
 az webapp config appsettings set \
   --name staging-sdg-innovation-commons \
@@ -204,6 +218,7 @@ az webapp config appsettings set \
 ### Issue: Worker not processing jobs
 
 **Solution:** Check worker logs specifically:
+
 ```bash
 az webapp log tail \
   --name staging-sdg-innovation-commons \
@@ -211,6 +226,7 @@ az webapp log tail \
 ```
 
 Worker should show:
+
 - ✅ "Started HTTP health server"
 - ✅ "Started heartbeat"
 - ✅ "Starting main worker (process_exports.cjs)"
@@ -218,6 +234,7 @@ Worker should show:
 ### Issue: Want to rollback to separate containers
 
 **Solution:** Just push a regular `staging-v*` tag:
+
 ```bash
 git tag staging-v$(date +%Y.%m.%d-%H%M)
 git push origin --tags
@@ -230,6 +247,7 @@ This triggers the original `staging-only.yaml` workflow which deploys to separat
 If multi-container doesn't work well, you can easily rollback:
 
 ### Option 1: Deploy with original workflow
+
 ```bash
 # Use staging-v tag (not sidecar-v)
 git tag staging-v$(date +%Y.%m.%d-%H%M)
@@ -239,6 +257,7 @@ git push origin --tags
 This will deploy to the separate `sdg-innovation-commons-worker` App Service again.
 
 ### Option 2: Manual rollback via Azure CLI
+
 ```bash
 # Revert to single container
 az webapp config container set \
@@ -251,6 +270,7 @@ az webapp config container set \
 ## Monitoring Multi-Container
 
 ### Check Container Status
+
 ```bash
 # View current container configuration
 az webapp config show \
@@ -260,6 +280,7 @@ az webapp config show \
 ```
 
 ### View All Logs
+
 ```bash
 # Stream all logs (both containers)
 az webapp log tail \
@@ -268,6 +289,7 @@ az webapp log tail \
 ```
 
 ### Download Logs for Analysis
+
 ```bash
 # Download last hour of logs
 az webapp log download \
@@ -280,6 +302,7 @@ unzip staging-logs.zip
 ```
 
 ### Check Resource Usage
+
 ```bash
 # CPU and Memory metrics
 az monitor metrics list \
@@ -295,6 +318,7 @@ az monitor metrics list \
 **Note:** Production (`acclabs`) will continue using separate App Services for now. Only staging uses multi-container sidecar.
 
 To deploy production, use the regular tags:
+
 ```bash
 # Production still uses separate containers
 git tag v$(date +%Y.%m.%d-%H%M)
@@ -308,17 +332,20 @@ This keeps production stable while you test sidecar in staging.
 After testing sidecar in staging for a few weeks:
 
 1. **Monitor Performance:**
+
    - CPU usage patterns
    - Memory consumption
    - Worker job completion rates
    - Web app response times
 
 2. **Compare with Separate Containers:**
+
    - Is resource contention an issue?
    - Are logs harder to debug?
    - Does worker affect web performance?
 
 3. **Decide:**
+
    - ✅ Keep sidecar if it works well
    - ✅ Rollback if separate containers are better
 

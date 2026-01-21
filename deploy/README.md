@@ -5,6 +5,7 @@ This guide explains how to deploy the SDG Innovation Commons application with a 
 ## Architecture
 
 The deployment consists of two containers:
+
 1. **Web Container**: Main Next.js application serving the web interface
 2. **Worker Container**: Background job processor running export tasks
 
@@ -117,6 +118,7 @@ az webapp config appsettings set --resource-group sdg-rg \
 ```
 
 Or use Azure Portal:
+
 1. Navigate to your App Service
 2. Go to **Configuration** → **Application settings**
 3. Add all required environment variables
@@ -127,7 +129,7 @@ Create a simplified compose config for Azure (without build context):
 
 ```yaml
 # Save as deploy/docker-compose.azure-simple.yml
-version: '3.8'
+version: "3.8"
 services:
   web:
     image: sdgregistry.azurecr.io/sdg-innovation-commons:latest
@@ -141,6 +143,7 @@ services:
 ```
 
 Update the web app:
+
 ```bash
 az webapp config container set --name sdg-innovation-commons \
   --resource-group sdg-rg \
@@ -178,7 +181,7 @@ az webapp log tail --name sdg-innovation-commons \
   --resource-group sdg-rg \
   --container web
 
-# Worker container logs  
+# Worker container logs
 az webapp log tail --name sdg-innovation-commons \
   --resource-group sdg-rg \
   --container worker
@@ -222,18 +225,21 @@ az webapp restart --name sdg-innovation-commons --resource-group sdg-rg
 ## Troubleshooting
 
 ### Container Won't Start
+
 - Check logs: `az webapp log tail`
 - Verify ACR credentials are correct
 - Ensure environment variables are set
 - Check that images exist in ACR: `az acr repository list --name sdgregistry`
 
 ### Worker Not Processing Jobs
+
 - Check worker container logs
 - Verify database connectivity from worker
 - Check `worker_health` table for heartbeats
 - Ensure shared storage is accessible
 
 ### Database Connection Issues
+
 - Verify PostgreSQL firewall allows Azure services
 - Check SSL is enabled: `DB_REQUIRE_SSL=true`
 - Test connection string format
@@ -255,7 +261,7 @@ Add to your GitHub Actions workflow:
   run: |
     docker build -f deploy/Dockerfile -t ${{ secrets.ACR_LOGIN_SERVER }}/sdg-innovation-commons:${{ github.sha }} .
     docker push ${{ secrets.ACR_LOGIN_SERVER }}/sdg-innovation-commons:${{ github.sha }}
-    
+
     docker build -f deploy/Dockerfile.worker -t ${{ secrets.ACR_LOGIN_SERVER }}/sdg-innovation-commons-worker:${{ github.sha }} .
     docker push ${{ secrets.ACR_LOGIN_SERVER }}/sdg-innovation-commons-worker:${{ github.sha }}
 
@@ -265,6 +271,6 @@ Add to your GitHub Actions workflow:
       --resource-group sdg-rg \
       --name sdg-innovation-commons \
       --settings IMAGE_TAG="${{ github.sha }}"
-    
+
     az webapp restart --name sdg-innovation-commons --resource-group sdg-rg
 ```
