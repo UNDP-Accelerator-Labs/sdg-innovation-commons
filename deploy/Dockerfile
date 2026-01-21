@@ -27,6 +27,9 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile --prod=false
 
+# Rebuild canvas with the installed system dependencies
+RUN pnpm rebuild canvas
+
 # Copy the rest of the application code
 COPY . .
 
