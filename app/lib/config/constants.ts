@@ -44,12 +44,13 @@ export const NLP_URL = 'https://nlpapi.sdg-innovation-commons.org/api';
 
 /**
  * Local base URL (environment-aware)
- * In production, use the production URL; in development, use localhost
+ * Server-side: Always use localhost for internal API calls
+ * Client-side: Use empty string for relative URLs (works for any domain)
+ *              or NEXT_PUBLIC_API_BASE_URL if explicitly set
  */
-export const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 
-  (process.env.NODE_ENV === 'production' 
-    ? 'https://sdg-innovation-commons.org' 
-    : 'http://localhost:3000');
+export const LOCAL_BASE_URL = typeof window === 'undefined'
+  ? `http://localhost:${process.env.PORT || 3000}` // Server-side: always localhost
+  : (process.env.NEXT_PUBLIC_API_BASE_URL || ''); // Client-side: relative URLs
 
 /**
  * Authentication Feature Flags and Configuration
