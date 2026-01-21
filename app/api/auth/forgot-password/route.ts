@@ -3,14 +3,18 @@ import db from '@/app/lib/db';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '@/app/lib/helpers';
 
-const { APP_SECRET, NODE_ENV } = process.env;
 const LOCAL_BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
-if (!APP_SECRET) {
-  throw new Error('APP_SECRET environment variable is required');
-}
-
 export async function POST(request: NextRequest) {
+  const { APP_SECRET, NODE_ENV } = process.env;
+  
+  if (!APP_SECRET) {
+    return NextResponse.json(
+      { status: 500, message: 'Server configuration error: APP_SECRET not configured' },
+      { status: 500 }
+    );
+  }
+
   try {
     const body = await request.json();
     const { email } = body;

@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import jwt from 'jsonwebtoken';
 
-const { APP_SECRET } = process.env;
-
-if (!APP_SECRET) {
-  throw new Error('APP_SECRET environment variable is required');
-}
-
 export async function POST(request: NextRequest) {
+  const { APP_SECRET } = process.env;
+  
+  if (!APP_SECRET) {
+    return NextResponse.json(
+      { status: 500, message: 'Server configuration error: APP_SECRET not configured' },
+      { status: 500 }
+    );
+  }
+
   try {
     const body = await request.json();
     const { token } = body;

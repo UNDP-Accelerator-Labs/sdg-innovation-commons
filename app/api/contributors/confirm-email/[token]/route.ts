@@ -4,12 +4,6 @@ import db from '@/app/lib/db';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '@/app/lib/helpers';
 
-const { APP_SECRET } = process.env;
-
-if (!APP_SECRET) {
-  throw new Error('APP_SECRET environment variable is required');
-}
-
 function verifyTokenFields(decoded: any): boolean {
   const { email, action, uuid, name } = decoded;
   return !!(email && uuid && name && action === 'confirm-email');
@@ -19,6 +13,15 @@ export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ token: string }> }
 ) {
+  const { APP_SECRET } = process.env;
+  
+  if (!APP_SECRET) {
+    return NextResponse.json(
+      { status: 500, message: 'Server configuration error: APP_SECRET not configured' },
+      { status: 500 }
+    );
+  }
+
   try {
     const { token } = await params;
 

@@ -30,9 +30,6 @@ RUN pnpm install --frozen-lockfile --prod=false
 # Copy the rest of the application code
 COPY . .
 
-# Set dummy APP_SECRET for build time (will be overridden at runtime by Azure)
-ENV APP_SECRET=build-time-dummy-secret-will-be-replaced-at-runtime
-
 # Build the project
 RUN pnpm run build
 
