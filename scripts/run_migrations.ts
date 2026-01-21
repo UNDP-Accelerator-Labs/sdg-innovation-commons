@@ -5,8 +5,17 @@
 //   pnpm dlx ts-node scripts/run_migrations.ts --db=general  # only apply migrations targeting 'general'
 //   pnpm dlx ts-node scripts/run_migrations.ts --include-inits  # include init*.sql files (not recommended unless bootstrapping)
 
+// Load environment variables from .env.local before anything else
+import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
+
+// Load .env files for local development
+// In production (Azure Web Apps), environment variables are injected by the platform
+// dotenv.config() silently skips if files don't exist, so this is safe everywhere
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+
 import { query } from '../app/lib/db';
 import readline from 'readline';
 

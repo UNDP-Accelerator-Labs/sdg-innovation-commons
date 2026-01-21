@@ -1,9 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "build": "next build",
-    "dev": "next dev --turbopack",
-    "start": "next start"
+    "migrate": "node scripts/run_migrations.cjs",
+    "build": "npm run migrate && next build",
+    "dev": "npm run migrate && next dev --turbopack",
+    "start": "npm run migrate && next start"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.29.1",
