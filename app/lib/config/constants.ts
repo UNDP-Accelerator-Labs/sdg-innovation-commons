@@ -53,6 +53,19 @@ export const LOCAL_BASE_URL = typeof window === 'undefined'
   : (process.env.NEXT_PUBLIC_API_BASE_URL || ''); // Client-side: relative URLs
 
 /**
+ * Helper function to parse boolean environment variables
+ * Handles strings like "true", "false", "1", "0", "yes", "no" and actual booleans
+ */
+const parseEnvBoolean = (value: string | boolean | undefined, defaultValue: boolean): boolean => {
+  if (value === undefined || value === null || value === '') return defaultValue;
+  if (typeof value === 'boolean') return value;
+  const normalized = String(value).toLowerCase().trim();
+  if (normalized === 'false' || normalized === '0' || normalized === 'no') return false;
+  if (normalized === 'true' || normalized === '1' || normalized === 'yes') return true;
+  return defaultValue;
+};
+
+/**
  * Authentication Feature Flags and Configuration
  * Control authentication methods, features, and JWT settings
  */
@@ -60,20 +73,16 @@ export const AUTH_CONFIG = {
   /**
    * Enable/disable UNDP SSO (Single Sign-On) authentication
    * Set to false to disable the "UNDP Staff" login tab
-   * Checks both NEXT_PUBLIC_ (build-time) and regular (runtime) env vars
+   * Accepts: true/false, "true"/"false", "1"/"0", "yes"/"no" (case-insensitive)
    */
-  ENABLE_UNDP_SSO: (
-    process.env.NEXT_PUBLIC_ENABLE_UNDP_SSO !== 'false' && 
-    process.env.ENABLE_UNDP_SSO !== 'false'
-  ),
+  ENABLE_UNDP_SSO: parseEnvBoolean(process.env.ENABLE_UNDP_SSO, true),
+
   
   /**
    * Enable/disable standard email/password authentication
+   * Accepts: true/false, "true"/"false", "1"/"0", "yes"/"no" (case-insensitive)
    */
-  ENABLE_EMAIL_AUTH: (
-    process.env.NEXT_PUBLIC_ENABLE_EMAIL_AUTH !== 'false' && 
-    process.env.ENABLE_EMAIL_AUTH !== 'false'
-  ),
+  ENABLE_EMAIL_AUTH: parseEnvBoolean(process.env.ENABLE_EMAIL_AUTH, true),
   
   /**
    * Session expiration time in seconds (default: 7 days)

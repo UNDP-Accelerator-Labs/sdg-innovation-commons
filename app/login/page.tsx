@@ -1,8 +1,15 @@
 import Link from "next/link";
 import LoginForm from "@/app/ui/components/Login";
 import Navigation from "@/app/ui/components/Navbar";
+import { AUTH_CONFIG } from "@/app/lib/config/constants";
 
 export default async function LoginPage() {
+  // Pass auth config to client component
+  const authConfig = {
+    ssoEnabled: AUTH_CONFIG.ENABLE_UNDP_SSO,
+    emailAuthEnabled: AUTH_CONFIG.ENABLE_EMAIL_AUTH,
+  };
+
   return (
     <div className="min-h-screen bg-white bg-grid-pattern relative overflow-hidden grid-bg">
       {/* Navigation */}
@@ -45,7 +52,10 @@ export default async function LoginPage() {
             <p className="text-gray-600">Sign in to your account</p>
           </div>
 
-          <LoginForm />
+          <LoginForm 
+            ssoEnabled={authConfig.ssoEnabled}
+            emailAuthEnabled={authConfig.emailAuthEnabled}
+          />
 
           <div className="mt-6 text-center text-sm text-gray-600">
             <p>

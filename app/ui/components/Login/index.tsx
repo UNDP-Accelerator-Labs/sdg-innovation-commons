@@ -8,9 +8,13 @@ import { initiateSSO } from '@/app/lib/data/auth';
 import { base_url } from '@/app/lib/helpers/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { getCookieConsent } from '@/app/ui/components/CookieConsent';
-import { isUndpSsoEnabled, isEmailAuthEnabled } from '@/app/lib/utils/auth-validation';
 
-export default function LoginForm() {
+interface LoginFormProps {
+  ssoEnabled: boolean;
+  emailAuthEnabled: boolean;
+}
+
+export default function LoginForm({ ssoEnabled, emailAuthEnabled }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [activeTab, setActiveTab] = useState<'email' | 'staff'>('email');
@@ -21,10 +25,6 @@ export default function LoginForm() {
   const router = useRouter();
   const { sharedState } = useSharedState();
   const { uuid } = sharedState?.session || {};
-
-  // Check feature flags
-  const ssoEnabled = isUndpSsoEnabled();
-  const emailAuthEnabled = isEmailAuthEnabled();
 
   // Set initial tab based on available auth methods
   useEffect(() => {
