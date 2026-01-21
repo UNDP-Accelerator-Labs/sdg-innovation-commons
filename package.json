@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "migrate": "node scripts/run_migrations.cjs",
-    "build": "npm run migrate && next build",
+    "build": "next build",
     "dev": "npm run migrate && next dev --turbopack",
     "start": "npm run migrate && next start"
   },
