@@ -12,9 +12,10 @@ export const authConfig = {
     authorized({ auth, request: { nextUrl } }) {
       const isLoggedIn = !!auth?.user;
       const isOnAdminPage = nextUrl.pathname.startsWith('/admin');
-      const isOnProfilePage = nextUrl.pathname.startsWith('/profile');
+      // Only protect /profile (own profile), not /profile/[uuid] (other users' profiles)
+      const isOnOwnProfilePage = nextUrl.pathname === '/profile';
       
-      if (isOnAdminPage || isOnProfilePage) {
+      if (isOnAdminPage || isOnOwnProfilePage) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
       }

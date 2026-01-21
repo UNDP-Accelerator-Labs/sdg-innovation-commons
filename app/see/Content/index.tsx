@@ -85,9 +85,9 @@ export default function Section({ searchParams }: SectionProps) {
               </Button>
             </div>
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              {(downloadUrl?.length > 0 || (isLogedIn && search?.length > 0)) && (
+              {((isLogedIn && search?.length > 0)) && (
                 <DropDown>
-                  {downloadUrl?.length > 0 && (
+                  {/* {downloadUrl?.length > 0 && (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"
@@ -101,7 +101,7 @@ export default function Section({ searchParams }: SectionProps) {
                         Download All
                       </a>
                     </MenuItem>
-                  )}
+                  )} */}
                   {isLogedIn && hasSearchOrFilters && hits.length ? (
                     <MenuItem
                       as="button"

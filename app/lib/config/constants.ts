@@ -60,13 +60,20 @@ export const AUTH_CONFIG = {
   /**
    * Enable/disable UNDP SSO (Single Sign-On) authentication
    * Set to false to disable the "UNDP Staff" login tab
+   * Checks both NEXT_PUBLIC_ (build-time) and regular (runtime) env vars
    */
-  ENABLE_UNDP_SSO: process.env.NEXT_PUBLIC_ENABLE_UNDP_SSO !== 'false',
+  ENABLE_UNDP_SSO: (
+    process.env.NEXT_PUBLIC_ENABLE_UNDP_SSO !== 'false' && 
+    process.env.ENABLE_UNDP_SSO !== 'false'
+  ),
   
   /**
    * Enable/disable standard email/password authentication
    */
-  ENABLE_EMAIL_AUTH: process.env.NEXT_PUBLIC_ENABLE_EMAIL_AUTH !== 'false',
+  ENABLE_EMAIL_AUTH: (
+    process.env.NEXT_PUBLIC_ENABLE_EMAIL_AUTH !== 'false' && 
+    process.env.ENABLE_EMAIL_AUTH !== 'false'
+  ),
   
   /**
    * Session expiration time in seconds (default: 7 days)

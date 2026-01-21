@@ -2,7 +2,8 @@ import Navigation from "@/app/ui/components/Navbar";
 import ProfileContent from "@/app/ui/components/Profile";
 import Footer from "@/app/ui/components/Footer";
 import { fetchCountries, getContributorInfo } from "@/app/lib/data/platform-api";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
+import getSession from "@/app/lib/session";
 
 
 export type incomingRequestParams = {
@@ -16,6 +17,15 @@ export default async function ProfilePage({
     if (!uuid)  return notFound();
 
   try {
+    // Check if logged-in user is trying to view their own profile via UUID route
+    const sess = (await getSession()) as { uuid?: string } | null;
+    const sessionUuid = sess?.uuid;
+    
+    // If the UUID matches the logged-in user, redirect to /profile (own profile page)
+    if (sessionUuid && sessionUuid === uuid) {
+      redirect('/profile');
+    }
+
     // Fetch country names and profile data in parallel
     const [countries, rawProfile] = await Promise.all([
       fetchCountries({}, "experiment"),

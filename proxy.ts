@@ -16,9 +16,13 @@ const cspLinks = [
 
 // Routes that require authentication
 const protectedRoutes = [
-  '/profile',
   '/admin',
   '/next-practices/create',
+];
+
+// Exact match routes that require authentication
+const exactProtectedRoutes = [
+  '/profile',
 ];
 
 // Routes that should redirect if already logged in
@@ -87,6 +91,7 @@ export async function proxy(request: NextRequest) {
 
     // Check authentication for protected routes using NextAuth
     const isProtectedRoute = protectedRoutes.some(route => currentPath.startsWith(route));
+    const isExactProtectedRoute = exactProtectedRoutes.includes(currentPath);
     const isAuthRoute = authRoutes.some(route => currentPath.startsWith(route));
     
     // Get NextAuth session
@@ -94,7 +99,7 @@ export async function proxy(request: NextRequest) {
     const isAuthenticated = !!session?.user;
 
     // Redirect to login if accessing protected route without authentication
-    if (isProtectedRoute && !isAuthenticated) {
+    if ((isProtectedRoute || isExactProtectedRoute) && !isAuthenticated) {
       const loginUrl = new URL('/login', request.url);
       loginUrl.searchParams.set('redirect', currentPath);
       return NextResponse.redirect(loginUrl);
