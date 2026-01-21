@@ -1,7 +1,8 @@
 import * as d3Geo from 'd3-geo';
 import { scaleLinear } from 'd3-scale';
 import { extent } from 'd3-array';
-import { createCanvas } from 'canvas';
+// Dynamic import of canvas to avoid build-time errors
+// import { createCanvas } from 'canvas';
 import { BlobServiceClient } from '@azure/storage-blob';
 import { v4 as uuidv4 } from 'uuid';
 import { app_storage } from '@/app/lib/helpers/utils';
@@ -37,6 +38,8 @@ export default async function renderMap(kwargs: RenderKwargs): Promise<RenderRes
   const width = projsize;
   const height = projsize;
 
+  // Dynamically import canvas at runtime
+  const { createCanvas } = await import('canvas');
   const canvas = createCanvas(width, height);
   const context = canvas.getContext('2d');
 

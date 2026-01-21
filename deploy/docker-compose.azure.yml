@@ -1,0 +1,79 @@
+version: '3.8'
+
+services:
+  # Main Next.js application
+  web:
+    image: ${DOCKER_REGISTRY}/sdg-innovation-commons:${IMAGE_TAG:-latest}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    ports:
+      - "80:3000"
+    environment:
+      PORT: "3000"
+      NODE_ENV: "production"
+      # Database configuration
+      GENERAL_DB_URL: ${GENERAL_DB_URL}
+      GENERAL_DB_HOST: ${GENERAL_DB_HOST}
+      GENERAL_DB_PORT: ${GENERAL_DB_PORT}
+      GENERAL_DB_USER: ${GENERAL_DB_USER}
+      GENERAL_DB_PASSWORD: ${GENERAL_DB_PASSWORD}
+      GENERAL_DB_NAME: ${GENERAL_DB_NAME}
+      DB_REQUIRE_SSL: ${DB_REQUIRE_SSL:-true}
+      # Azure Storage
+      AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME}
+      AZURE_STORAGE_ACCOUNT_KEY: ${AZURE_STORAGE_ACCOUNT_KEY}
+      # Auth secrets
+      APP_SECRET: ${APP_SECRET}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      # Add other environment variables as needed
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - app-network
+
+  # Worker sidecar for background jobs
+  worker:
+    image: ${DOCKER_REGISTRY}/sdg-innovation-commons-worker:${IMAGE_TAG:-latest}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.worker
+    environment:
+      NODE_ENV: "production"
+      WORKER_ID: "azure-sidecar-worker"
+      # Database configuration (same as web)
+      GENERAL_DB_URL: ${GENERAL_DB_URL}
+      GENERAL_DB_HOST: ${GENERAL_DB_HOST}
+      GENERAL_DB_PORT: ${GENERAL_DB_PORT}
+      GENERAL_DB_USER: ${GENERAL_DB_USER}
+      GENERAL_DB_PASSWORD: ${GENERAL_DB_PASSWORD}
+      GENERAL_DB_NAME: ${GENERAL_DB_NAME}
+      DB_REQUIRE_SSL: ${DB_REQUIRE_SSL:-true}
+      # Azure Storage
+      AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME}
+      AZURE_STORAGE_ACCOUNT_KEY: ${AZURE_STORAGE_ACCOUNT_KEY}
+      # Worker-specific settings
+      WEBJOB_HEARTBEAT_INTERVAL: "30"
+      PORT: "8080"
+    restart: unless-stopped
+    command: sh -c "node scripts/worker_http.js & node scripts/worker_heartbeat.js & node scripts/run_worker.js"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks:
+      - app-network
+    depends_on:
+      - web
+
+networks:
+  app-network:
+    driver: bridge
