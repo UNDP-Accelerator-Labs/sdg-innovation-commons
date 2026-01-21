@@ -33,15 +33,16 @@ interface RenderResult {
 }
 
 export default async function renderMap(kwargs: RenderKwargs): Promise<RenderResult> {
-  const { basemap, projsize, projection, ...renderProperties } = kwargs;
+  try {
+    const { basemap, projsize, projection, ...renderProperties } = kwargs;
 
-  const width = projsize;
-  const height = projsize;
+    const width = projsize;
+    const height = projsize;
 
-  // Dynamically import canvas at runtime
-  const { createCanvas } = await import('canvas');
-  const canvas = createCanvas(width, height);
-  const context = canvas.getContext('2d');
+    // Dynamically import canvas at runtime
+    const { createCanvas } = await import('canvas');
+    const canvas = createCanvas(width, height);
+    const context = canvas.getContext('2d');
 
   let { background_color, base_color, layers, simplification } = renderProperties;
 
@@ -162,5 +163,12 @@ export default async function renderMap(kwargs: RenderKwargs): Promise<RenderRes
         message: 'Error generating the file',
       };
     }
+  }
+  } catch (error: any) {
+    console.error('Map rendering error:', error);
+    return {
+      status: 500,
+      message: `Map rendering unavailable: ${error.message || 'Canvas module not available'}`,
+    };
   }
 }

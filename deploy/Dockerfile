@@ -22,14 +22,25 @@ RUN pnpm run build
 FROM node:20-alpine AS runner
 WORKDIR /app
 
-# Install canvas runtime dependencies
+# Install canvas dependencies (both build-time and runtime)
 RUN apk add --no-cache \
     cairo \
+    cairo-dev \
     pango \
+    pango-dev \
     jpeg \
+    jpeg-dev \
     pixman \
+    pixman-dev \
     giflib \
-    librsvg
+    giflib-dev \
+    librsvg \
+    python3 \
+    make \
+    g++
+
+RUN npm install -g corepack@latest
+RUN corepack enable && corepack prepare pnpm@latest --activate
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
@@ -39,8 +50,12 @@ COPY --from=base /app/public ./public
 COPY --from=base /app/.next ./.next
 COPY --from=base /app/node_modules ./node_modules
 COPY --from=base /app/package.json ./package.json
+COPY --from=base /app/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=base /app/scripts ./scripts
 COPY --from=base /app/app/lib ./app/lib
+
+# Rebuild canvas for this environment
+RUN pnpm rebuild canvas
 
 USER nextjs
 
