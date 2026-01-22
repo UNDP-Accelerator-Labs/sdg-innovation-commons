@@ -101,6 +101,8 @@ az webapp config container set --name sdg-innovation-commons \
 
 ### 5. Set Environment Variables
 
+**Critical: Authentication will fail if these are not set correctly**
+
 ```bash
 # Database configuration
 az webapp config appsettings set --resource-group sdg-rg \
@@ -111,11 +113,17 @@ az webapp config appsettings set --resource-group sdg-rg \
     AZURE_STORAGE_ACCOUNT_NAME="your-storage-account" \
     AZURE_STORAGE_ACCOUNT_KEY="your-storage-key" \
     APP_SECRET="your-app-secret" \
-    NEXTAUTH_SECRET="your-nextauth-secret" \
-    NEXTAUTH_URL="https://sdg-innovation-commons.azurewebsites.net" \
+    NEXTAUTH_URL="https://your-actual-domain.com" \
+    NODE_ENV="production" \
     DOCKER_REGISTRY="sdgregistry.azurecr.io" \
     IMAGE_TAG="latest"
 ```
+
+**Important Notes:**
+
+- `APP_SECRET`: Must be a secure random string (use `openssl rand -base64 32`)
+- `NEXTAUTH_URL`: Must exactly match your production domain (including https://)
+- `NODE_ENV`: Must be set to "production" for proper cookie security
 
 Or use Azure Portal:
 
@@ -223,6 +231,48 @@ az webapp restart --name sdg-innovation-commons --resource-group sdg-rg
 ```
 
 ## Troubleshooting
+
+### Authentication Errors ("You need to be logged in")
+
+If you get authentication errors in production but it works locally:
+
+1. **Verify NEXTAUTH_URL is set correctly**:
+
+   ```bash
+   # Must match your actual domain
+   az webapp config appsettings set --resource-group sdg-rg \
+     --name sdg-innovation-commons \
+     --settings NEXTAUTH_URL="https://your-actual-domain.com"
+   ```
+
+2. **Ensure APP_SECRET is set**:
+
+   ```bash
+   # Generate a secure secret
+   openssl rand -base64 32
+
+   # Set it in Azure
+   az webapp config appsettings set --resource-group sdg-rg \
+     --name sdg-innovation-commons \
+     --settings APP_SECRET="your-generated-secret"
+   ```
+
+3. **Check HTTPS/SSL configuration**:
+
+   - NextAuth requires HTTPS in production
+   - Ensure your App Service has SSL enabled
+   - Verify `trustHost: true` is set in auth.config.ts
+
+4. **Cookie Issues**:
+
+   - Check browser console for cookie errors
+   - Verify cookies are being set with `Secure` flag in production
+   - Ensure `sameSite` policy is compatible with your setup
+
+5. **Restart after config changes**:
+   ```bash
+   az webapp restart --name sdg-innovation-commons --resource-group sdg-rg
+   ```
 
 ### Container Won't Start
 

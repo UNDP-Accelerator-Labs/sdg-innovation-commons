@@ -59,8 +59,8 @@ export async function uploadKeyStreamWithRetries(
     try {
       const adm0Map = await fetchAdm0Map();
       const { tagMap, templateMap, sourcePadMap } = await fetchPadRelatedMaps();
-      const excludePii_csv = !!job.exclude_pii;
-      const excludeOwnerUuid_csv = !!job.exclude_owner_uuid;
+      const excludePii_csv = !!job.params?.exclude_pii;
+      const excludeOwnerUuid_csv = !!job.params?.exclude_owner_uuid;
       const statusFilter: string[] | null = Array.isArray(job.statuses) && job.statuses.length
         ? job.statuses
         : null;
@@ -78,7 +78,7 @@ export async function uploadKeyStreamWithRetries(
         effectiveIncludeEmail_csv = includePiiOverride_csv;
         effectiveIncludeUuid_csv = includePiiOverride_csv;
       }
-      if (job?.exclude_pii) {
+      if (excludePii_csv) {
         effectiveIncludeName_csv = false;
         effectiveIncludeEmail_csv = false;
         effectiveIncludeUuid_csv = false;
@@ -222,7 +222,7 @@ async function handleCsvExport(
       delete enriched.user_uuid;
       delete enriched.user_id;
     }
-    if (job?.exclude_pii) {
+    if (excludePii) {
       for (const hh of Object.keys(enriched)) {
         if (typeof enriched[hh] === 'string') enriched[hh] = scrubPII(enriched[hh], true);
       }

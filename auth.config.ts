@@ -89,4 +89,5 @@ export const authConfig = {
   },
   providers: [], // Will be added in auth.ts
   trustHost: true,
+  debug: process.env.NODE_ENV === 'development',
 } satisfies NextAuthConfig;
