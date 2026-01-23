@@ -1,0 +1,296 @@
+# Production Docker Compose for SDG Innovation Commons
+# Includes: Next.js App, Semantic Search, Background Worker, Qdrant, Redis
+# Note: PostgreSQL can be local (for testing) or Azure PostgreSQL (production)
+#
+# Usage:
+#   make prod-build  # Build all images
+#   make prod-up     # Start all services
+#   make prod-down   # Stop all services
+#
+# For Azure PostgreSQL: Comment out the postgres service and use DATABASE_URL in .env
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Optional - use for local testing)
+  # For production, use Azure PostgreSQL and comment this out
+  postgres:
+    image: postgres:15-alpine
+    container_name: sdg-postgres
+    environment:
+      POSTGRES_DB: ${GENERAL_DB_NAME:-postgres}
+      POSTGRES_USER: ${GENERAL_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${GENERAL_DB_PASSWORD:-postgres}
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      # CRITICAL: Named volume for data persistence
+      - postgres_data:/var/lib/postgresql/data
+      # Optional: Backup directory
+      # - ./backups/postgres:/backups
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${GENERAL_DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+
+  # Qdrant Vector Database
+  # CRITICAL: This MUST have persistent storage for production
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: sdg-qdrant
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC API
+    volumes:
+      # CRITICAL: Named volume ensures data persists across container lifecycles
+      # Even if container is stopped, removed, or replaced, data remains
+      - qdrant_storage:/qdrant/storage
+      # Snapshots for backups
+      - qdrant_snapshots:/qdrant/snapshots
+    environment:
+      - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY}
+      - QDRANT__SERVICE__ENABLE_TLS=false
+      - QDRANT__STORAGE__STORAGE_PATH=/qdrant/storage
+      - QDRANT__STORAGE__SNAPSHOTS_PATH=/qdrant/snapshots
+      # Performance settings for production
+      - QDRANT__SERVICE__MAX_REQUEST_SIZE_MB=100
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: sdg-redis
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD:-} --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+    volumes:
+      # Persistent storage for Redis
+      - redis_data:/data
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-}", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+
+  # Semantic Search Service (Python FastAPI)
+  semantic-search:
+    build:
+      context: ../semantic-search
+      dockerfile: Dockerfile
+    container_name: sdg-semantic-search
+    ports:
+      - "8000:8000"
+    depends_on:
+      qdrant:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      # Qdrant Configuration
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - QDRANT_GRPC_PORT=6334
+      - QDRANT_API_KEY=${QDRANT_API_KEY}
+      - QDRANT_COLLECTION_NAME=sdg_documents
+      
+      # API Security
+      - API_SECRET_KEY=${SEMANTIC_SEARCH_API_KEY}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000,https://sdg-innovation-commons.org}
+      
+      # Service Configuration
+      - SERVICE_HOST=0.0.0.0
+      - SERVICE_PORT=8000
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+      
+      # Embedding Model (pre-cached in Docker image)
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      - DEVICE=${DEVICE:-cpu}
+      
+      # Redis Cache
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+
+  # Next.js Application
+  nextjs:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: sdg-nextjs
+    ports:
+      - "${PORT:-3000}:3000"
+    depends_on:
+      semantic-search:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      # Uncomment if using local postgres
+      # postgres:
+      #   condition: service_healthy
+    environment:
+      # App Configuration
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=3000
+      
+      # Database - Use Azure PostgreSQL in production
+      - DATABASE_URL=${DATABASE_URL}
+      - GENERAL_DB_HOST=${GENERAL_DB_HOST:-postgres}
+      - GENERAL_DB_USER=${GENERAL_DB_USER:-postgres}
+      - GENERAL_DB_PASSWORD=${GENERAL_DB_PASSWORD}
+      - GENERAL_DB_NAME=${GENERAL_DB_NAME:-postgres}
+      - GENERAL_DB_PORT=${GENERAL_DB_PORT:-5432}
+      
+      # Auth
+      - APP_SECRET=${APP_SECRET}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
+      
+      # Semantic Search
+      - SEMANTIC_SEARCH_URL=http://semantic-search:8000
+      - SEMANTIC_SEARCH_API_KEY=${SEMANTIC_SEARCH_API_KEY}
+      
+      # External APIs
+      - OPENCAGE_API=${OPENCAGE_API}
+      - ACCLAB_PLATFORM_KEY=${ACCLAB_PLATFORM_KEY}
+      - BLOG_API_TOKEN=${BLOG_API_TOKEN}
+      
+      # SMTP
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      
+      # Azure Storage (if using)
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - AZURE_STORAGE_CONTAINER=${AZURE_STORAGE_CONTAINER}
+    volumes:
+      - app_data:/app/App_Data
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: '2.0'
+
+  # Background Worker
+  worker:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile.worker
+    container_name: sdg-worker
+    depends_on:
+      redis:
+        condition: service_healthy
+      # Uncomment if using local postgres
+      # postgres:
+      #   condition: service_healthy
+    environment:
+      # Database - Use Azure PostgreSQL in production
+      - DATABASE_URL=${DATABASE_URL}
+      - GENERAL_DB_HOST=${GENERAL_DB_HOST:-postgres}
+      - GENERAL_DB_USER=${GENERAL_DB_USER:-postgres}
+      - GENERAL_DB_PASSWORD=${GENERAL_DB_PASSWORD}
+      - GENERAL_DB_NAME=${GENERAL_DB_NAME:-postgres}
+      
+      # Redis
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+      
+      # Worker Config
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-2}
+      - WORKER_INTERVAL=${WORKER_INTERVAL:-60}
+      
+      # Azure Storage (if using)
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+      - AZURE_STORAGE_CONTAINER=${AZURE_STORAGE_CONTAINER}
+    volumes:
+      - app_data:/app/App_Data
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+
+# Named volumes for data persistence
+# CRITICAL: These volumes ensure data survives container restarts/removals
+# To backup: docker run --rm -v sdg-qdrant-storage:/source -v $(pwd)/backup:/backup alpine tar czf /backup/qdrant-backup.tar.gz -C /source .
+# To restore: docker run --rm -v sdg-qdrant-storage:/target -v $(pwd)/backup:/backup alpine sh -c "cd /target && tar xzf /backup/qdrant-backup.tar.gz"
+volumes:
+  postgres_data:
+    driver: local
+    name: sdg-postgres-data
+  qdrant_storage:
+    driver: local
+    name: sdg-qdrant-storage
+  qdrant_snapshots:
+    driver: local
+    name: sdg-qdrant-snapshots
+  redis_data:
+    driver: local
+    name: sdg-redis-data
+  app_data:
+    driver: local
+    name: sdg-app-data
+
+networks:
+  sdg-network:
+    driver: bridge
+    name: sdg-network

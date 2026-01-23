@@ -1,0 +1,116 @@
+# Local Development Docker Compose
+# Infrastructure services (Postgres, Qdrant, Redis) for local development
+# Run Next.js, Semantic Search, and Worker locally for hot reload
+# 
+# Usage:
+#   make dev-infra    # Start only infrastructure
+#   make dev-nextjs   # Start Next.js with hot reload (after dev-infra)
+#   make dev-semantic # Start semantic search with hot reload (after dev-infra)
+
+version: '3.8'
+
+services:
+  # PostgreSQL Database (Local Development)
+  # Note: Comment this out if using remote Azure PostgreSQL
+  postgres:
+    image: postgres:15-alpine
+    container_name: sdg-postgres-dev
+    environment:
+      POSTGRES_DB: ${GENERAL_DB_NAME:-postgres}
+      POSTGRES_USER: ${GENERAL_DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${GENERAL_DB_PASSWORD:-postgres}
+      # Enable extensions
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+    ports:
+      - "5432:5432"
+    volumes:
+      # Named volume for data persistence - survives container restarts/removals
+      - postgres_dev_data:/var/lib/postgresql/data
+      # Optional: Init scripts for database setup
+      # - ./deploy/postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - sdg-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${GENERAL_DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    # Resource limits (optional for local dev)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       memory: 1G
+    #       cpus: '1.0'
+
+  # Qdrant Vector Database
+  # Persistent storage is CRITICAL - data survives container restarts
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: sdg-qdrant-dev
+    ports:
+      - "6333:6333"  # HTTP API
+      - "6334:6334"  # gRPC API (optional, for high-performance clients)
+    volumes:
+      # CRITICAL: Named volume ensures vector data persists across container lifecycles
+      - qdrant_dev_storage:/qdrant/storage
+      # Optional: Snapshots directory for backups
+      - qdrant_dev_snapshots:/qdrant/snapshots
+    environment:
+      - QDRANT__SERVICE__API_KEY=${QDRANT_API_KEY:-dev-secret-key}
+      - QDRANT__SERVICE__ENABLE_TLS=false
+      # Optional: Configure storage
+      - QDRANT__STORAGE__STORAGE_PATH=/qdrant/storage
+      - QDRANT__STORAGE__SNAPSHOTS_PATH=/qdrant/snapshots
+      # Performance tuning (optional)
+      - QDRANT__SERVICE__MAX_REQUEST_SIZE_MB=100
+    networks:
+      - sdg-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    container_name: sdg-redis-dev
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass ${REDIS_PASSWORD:-devpassword} --appendonly yes
+    volumes:
+      # Persistent storage for Redis data
+      - redis_dev_data:/data
+    networks:
+      - sdg-dev-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-devpassword}", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+# Named volumes for data persistence
+# These volumes persist data even when containers are stopped, removed, or recreated
+# To completely reset data: docker-compose -f deploy/docker-compose.dev.yml down -v
+volumes:
+  postgres_dev_data:
+    driver: local
+    name: sdg-postgres-dev-data
+  qdrant_dev_storage:
+    driver: local
+    name: sdg-qdrant-dev-storage
+  qdrant_dev_snapshots:
+    driver: local
+    name: sdg-qdrant-dev-snapshots
+  redis_dev_data:
+    driver: local
+    name: sdg-redis-dev-data
+
+networks:
+  sdg-dev-network:
+    driver: bridge
+    name: sdg-dev-network

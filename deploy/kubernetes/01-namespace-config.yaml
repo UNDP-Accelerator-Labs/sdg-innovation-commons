@@ -1,0 +1,80 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: sdg-innovation-commons
+  labels:
+    name: sdg-innovation-commons
+    environment: production
+
+---
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sdg-app-config
+  namespace: sdg-innovation-commons
+data:
+  NODE_ENV: "production"
+  PORT: "3000"
+  LOG_LEVEL: "INFO"
+  
+  # Qdrant Configuration
+  QDRANT_HOST: "qdrant-service"
+  QDRANT_PORT: "6333"
+  QDRANT_GRPC_PORT: "6334"
+  QDRANT_COLLECTION_NAME: "sdg_documents"
+  QDRANT_USE_HTTPS: "false"
+  
+  # Redis Configuration
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  
+  # Semantic Search Configuration
+  SEMANTIC_SEARCH_URL: "http://semantic-search-service:8000"
+  EMBEDDING_MODEL: "sentence-transformers/all-MiniLM-L6-v2"
+  DEVICE: "cpu"
+  SERVICE_HOST: "0.0.0.0"
+  SERVICE_PORT: "8000"
+  
+  # Worker Configuration
+  WORKER_CONCURRENCY: "2"
+  WORKER_INTERVAL: "60"
+
+---
+# Secret for sensitive data (use kubectl create secret or Azure Key Vault)
+# Create this manually: kubectl create secret generic sdg-app-secrets -n sdg-innovation-commons \
+#   --from-literal=app-secret=<your-secret> \
+#   --from-literal=nextauth-secret=<your-secret> \
+#   --from-literal=database-url=<your-db-url> \
+#   --from-literal=redis-password=<your-redis-password> \
+#   --from-literal=qdrant-api-key=<your-qdrant-key> \
+#   --from-literal=semantic-search-api-key=<your-api-key>
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sdg-app-secrets
+  namespace: sdg-innovation-commons
+type: Opaque
+stringData:
+  # IMPORTANT: Replace these with actual values or use external secret management
+  # For production, use: Azure Key Vault, HashiCorp Vault, or sealed-secrets
+  APP_SECRET: "REPLACE_WITH_YOUR_SECRET"
+  NEXTAUTH_SECRET: "REPLACE_WITH_YOUR_SECRET"
+  DATABASE_URL: "postgres://user:password@azure-postgres-host:5432/dbname?sslmode=require"
+  GENERAL_DB_PASSWORD: "REPLACE_WITH_YOUR_DB_PASSWORD"
+  REDIS_PASSWORD: "REPLACE_WITH_YOUR_REDIS_PASSWORD"
+  QDRANT_API_KEY: "REPLACE_WITH_YOUR_QDRANT_KEY"
+  SEMANTIC_SEARCH_API_KEY: "REPLACE_WITH_YOUR_API_KEY"
+  
+  # SMTP Credentials
+  SMTP_USER: "REPLACE_WITH_YOUR_SMTP_USER"
+  SMTP_PASS: "REPLACE_WITH_YOUR_SMTP_PASSWORD"
+  
+  # External API Keys
+  OPENCAGE_API: "REPLACE_WITH_YOUR_KEY"
+  ACCLAB_PLATFORM_KEY: "REPLACE_WITH_YOUR_KEY"
+  BLOG_API_TOKEN: "REPLACE_WITH_YOUR_TOKEN"
+  
+  # Azure Storage (if using)
+  AZURE_STORAGE_CONNECTION_STRING: "REPLACE_WITH_YOUR_CONNECTION_STRING"

@@ -1,0 +1,91 @@
+---
+# Background Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  namespace: sdg-innovation-commons
+  labels:
+    app: worker
+    component: background
+spec:
+  replicas: 1  # Typically 1-2 workers, adjust based on workload
+  selector:
+    matchLabels:
+      app: worker
+  template:
+    metadata:
+      labels:
+        app: worker
+        component: background
+    spec:
+      containers:
+      - name: worker
+        image: YOUR_REGISTRY/sdg-worker:latest  # Replace with your container registry
+        imagePullPolicy: Always
+        env:
+        # Database - Azure PostgreSQL recommended
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: sdg-app-secrets
+              key: DATABASE_URL
+        - name: GENERAL_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sdg-app-secrets
+              key: GENERAL_DB_PASSWORD
+        
+        # Redis
+        - name: REDIS_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: sdg-app-config
+              key: REDIS_HOST
+        - name: REDIS_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: sdg-app-config
+              key: REDIS_PORT
+        - name: REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: sdg-app-secrets
+              key: REDIS_PASSWORD
+        
+        # Worker Configuration
+        - name: WORKER_CONCURRENCY
+          valueFrom:
+            configMapKeyRef:
+              name: sdg-app-config
+              key: WORKER_CONCURRENCY
+        - name: WORKER_INTERVAL
+          valueFrom:
+            configMapKeyRef:
+              name: sdg-app-config
+              key: WORKER_INTERVAL
+        
+        # Azure Storage (if using)
+        - name: AZURE_STORAGE_CONNECTION_STRING
+          valueFrom:
+            secretKeyRef:
+              name: sdg-app-secrets
+              key: AZURE_STORAGE_CONNECTION_STRING
+              optional: true
+        
+        volumeMounts:
+        - name: app-data
+          mountPath: /app/App_Data
+        
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+      
+      volumes:
+      - name: app-data
+        persistentVolumeClaim:
+          claimName: app-data-pvc

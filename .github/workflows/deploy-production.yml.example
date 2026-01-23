@@ -1,0 +1,229 @@
+# CI/CD Pipeline Example for GitHub Actions
+# This workflow builds and deploys the application to production
+
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+env:
+  REGISTRY: yourregistry.azurecr.io
+  NAMESPACE: sdg-innovation-commons
+
+jobs:
+  build:
+    name: Build and Push Images
+    runs-on: ubuntu-latest
+    
+    outputs:
+      image_tag: ${{ steps.meta.outputs.version }}
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      
+      - name: Extract metadata
+        id: meta
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          else
+            VERSION=sha-${GITHUB_SHA::8}
+          fi
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+      
+      - name: Build and push Next.js image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./deploy/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/sdg-nextjs:${{ steps.meta.outputs.version }}
+            ${{ env.REGISTRY }}/sdg-nextjs:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/sdg-nextjs:latest
+          cache-to: type=inline
+      
+      - name: Build and push Semantic Search image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./semantic-search
+          file: ./semantic-search/Dockerfile
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/sdg-semantic-search:${{ steps.meta.outputs.version }}
+            ${{ env.REGISTRY }}/sdg-semantic-search:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/sdg-semantic-search:latest
+          cache-to: type=inline
+      
+      - name: Build and push Worker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./deploy/Dockerfile.worker
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/sdg-worker:${{ steps.meta.outputs.version }}
+            ${{ env.REGISTRY }}/sdg-worker:latest
+          cache-from: type=registry,ref=${{ env.REGISTRY }}/sdg-worker:latest
+          cache-to: type=inline
+
+  deploy:
+    name: Deploy to Kubernetes
+    needs: build
+    runs-on: ubuntu-latest
+    environment: production
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'latest'
+      
+      - name: Set Kubernetes context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+      
+      - name: Update image tags in manifests
+        run: |
+          cd deploy/kubernetes
+          sed -i "s|YOUR_REGISTRY/sdg-nextjs:latest|${{ env.REGISTRY }}/sdg-nextjs:${{ needs.build.outputs.image_tag }}|g" 06-nextjs.yaml
+          sed -i "s|YOUR_REGISTRY/sdg-semantic-search:latest|${{ env.REGISTRY }}/sdg-semantic-search:${{ needs.build.outputs.image_tag }}|g" 05-semantic-search.yaml
+          sed -i "s|YOUR_REGISTRY/sdg-worker:latest|${{ env.REGISTRY }}/sdg-worker:${{ needs.build.outputs.image_tag }}|g" 07-worker.yaml
+      
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl apply -f deploy/kubernetes/01-namespace-config.yaml
+          kubectl apply -f deploy/kubernetes/02-storage.yaml
+          kubectl apply -f deploy/kubernetes/03-qdrant.yaml
+          kubectl apply -f deploy/kubernetes/04-redis.yaml
+          kubectl apply -f deploy/kubernetes/05-semantic-search.yaml
+          kubectl apply -f deploy/kubernetes/06-nextjs.yaml
+          kubectl apply -f deploy/kubernetes/07-worker.yaml
+          kubectl apply -f deploy/kubernetes/08-ingress.yaml
+      
+      - name: Wait for rollout
+        run: |
+          kubectl rollout status deployment/nextjs -n ${{ env.NAMESPACE }} --timeout=5m
+          kubectl rollout status deployment/semantic-search -n ${{ env.NAMESPACE }} --timeout=5m
+          kubectl rollout status deployment/worker -n ${{ env.NAMESPACE }} --timeout=5m
+      
+      - name: Verify deployment
+        run: |
+          kubectl get pods -n ${{ env.NAMESPACE }}
+          kubectl get svc -n ${{ env.NAMESPACE }}
+          kubectl get ingress -n ${{ env.NAMESPACE }}
+      
+      - name: Run health checks
+        run: |
+          # Wait for services to be ready
+          sleep 30
+          
+          # Health check Next.js
+          kubectl run curl-test --image=curlimages/curl:latest --rm -i --restart=Never -n ${{ env.NAMESPACE }} -- \
+            curl -f http://nextjs-service:3000/api/health || exit 1
+          
+          # Health check Semantic Search
+          kubectl run curl-test --image=curlimages/curl:latest --rm -i --restart=Never -n ${{ env.NAMESPACE }} -- \
+            curl -f http://semantic-search-service:8000/health || exit 1
+      
+      - name: Create deployment annotation
+        run: |
+          kubectl annotate deployment nextjs -n ${{ env.NAMESPACE }} \
+            kubernetes.io/change-cause="Deployed version ${{ needs.build.outputs.image_tag }} by ${{ github.actor }}"
+      
+      - name: Notify on success
+        if: success()
+        run: |
+          echo "Deployment successful!"
+          echo "Version: ${{ needs.build.outputs.image_tag }}"
+          echo "Deployed by: ${{ github.actor }}"
+      
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "Deployment failed!"
+          kubectl get events -n ${{ env.NAMESPACE }} --sort-by='.lastTimestamp'
+
+  backup:
+    name: Backup Qdrant
+    needs: deploy
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Set Kubernetes context
+        uses: azure/aks-set-context@v3
+        with:
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: ${{ secrets.AKS_CLUSTER_NAME }}
+      
+      - name: Create Qdrant snapshot
+        run: |
+          kubectl exec -n ${{ env.NAMESPACE }} deployment/qdrant -- \
+            curl -X POST http://localhost:6333/collections/sdg_documents/snapshots
+      
+      - name: Backup to Azure Storage
+        run: |
+          # Get pod name
+          POD=$(kubectl get pod -n ${{ env.NAMESPACE }} -l app=qdrant -o jsonpath='{.items[0].metadata.name}')
+          
+          # Copy snapshot from pod
+          kubectl cp ${{ env.NAMESPACE }}/$POD:/qdrant/snapshots ./snapshots
+          
+          # Upload to Azure Storage
+          az storage blob upload-batch \
+            --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }} \
+            --destination qdrant-backups \
+            --source ./snapshots \
+            --pattern "*.snapshot"
+      
+      - name: Cleanup old backups
+        run: |
+          # Keep last 30 days of backups
+          CUTOFF_DATE=$(date -d '30 days ago' +%Y-%m-%d)
+          az storage blob delete-batch \
+            --account-name ${{ secrets.STORAGE_ACCOUNT_NAME }} \
+            --account-key ${{ secrets.STORAGE_ACCOUNT_KEY }} \
+            --source qdrant-backups \
+            --if-unmodified-since $CUTOFF_DATE
+
+# Required secrets in GitHub:
+# - REGISTRY_USERNAME: Azure Container Registry username
+# - REGISTRY_PASSWORD: Azure Container Registry password
+# - AZURE_CREDENTIALS: Azure service principal credentials
+# - AZURE_RESOURCE_GROUP: Azure resource group name
+# - AKS_CLUSTER_NAME: AKS cluster name
+# - STORAGE_ACCOUNT_NAME: Azure Storage account for backups
+# - STORAGE_ACCOUNT_KEY: Azure Storage account key

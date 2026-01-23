@@ -48,3 +48,22 @@ notes/
 Ahoy/
 
 build-output.*
+
+# Semantic Search Service
+semantic-search/.env
+semantic-search/__pycache__/
+semantic-search/*.pyc
+semantic-search/venv/
+semantic-search/.venv/
+semantic-search/env/
+semantic-search/models/
+semantic-search/.cache/
+semantic-search/*.log
+semantic-search/transformers_cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python

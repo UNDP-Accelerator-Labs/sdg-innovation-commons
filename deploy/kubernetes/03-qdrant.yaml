@@ -1,0 +1,105 @@
+---
+# Qdrant Vector Database Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdrant
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+    component: database
+spec:
+  replicas: 1  # Single replica for now (Qdrant clustering available in enterprise)
+  selector:
+    matchLabels:
+      app: qdrant
+  strategy:
+    type: Recreate  # Important: ensures old pod is terminated before new one starts
+  template:
+    metadata:
+      labels:
+        app: qdrant
+        component: database
+    spec:
+      containers:
+      - name: qdrant
+        image: qdrant/qdrant:latest
+        ports:
+        - name: http
+          containerPort: 6333
+          protocol: TCP
+        - name: grpc
+          containerPort: 6334
+          protocol: TCP
+        env:
+        - name: QDRANT__SERVICE__API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: sdg-app-secrets
+              key: QDRANT_API_KEY
+        - name: QDRANT__SERVICE__ENABLE_TLS
+          value: "false"
+        - name: QDRANT__STORAGE__STORAGE_PATH
+          value: "/qdrant/storage"
+        - name: QDRANT__STORAGE__SNAPSHOTS_PATH
+          value: "/qdrant/snapshots"
+        - name: QDRANT__SERVICE__MAX_REQUEST_SIZE_MB
+          value: "100"
+        - name: QDRANT__SERVICE__GRPC_PORT
+          value: "6334"
+        volumeMounts:
+        - name: storage
+          mountPath: /qdrant/storage
+        - name: snapshots
+          mountPath: /qdrant/snapshots
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 6333
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 6333
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+      volumes:
+      - name: storage
+        persistentVolumeClaim:
+          claimName: qdrant-storage-pvc
+      - name: snapshots
+        persistentVolumeClaim:
+          claimName: qdrant-snapshots-pvc
+
+---
+# Qdrant Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdrant-service
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+spec:
+  type: ClusterIP
+  ports:
+  - name: http
+    port: 6333
+    targetPort: 6333
+    protocol: TCP
+  - name: grpc
+    port: 6334
+    targetPort: 6334
+    protocol: TCP
+  selector:
+    app: qdrant

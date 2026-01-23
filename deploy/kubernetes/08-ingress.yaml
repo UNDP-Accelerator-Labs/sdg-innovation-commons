@@ -1,0 +1,123 @@
+---
+# Ingress for HTTP/HTTPS traffic
+# Choose ONE of the following based on your cloud provider:
+# - Azure: Use Azure Application Gateway Ingress Controller or NGINX Ingress
+# - AWS: Use AWS Load Balancer Controller
+# - GCP: Use GCE Ingress
+# - Other: Use NGINX Ingress Controller
+
+# Option 1: NGINX Ingress (works on all platforms)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sdg-ingress
+  namespace: sdg-innovation-commons
+  annotations:
+    # NGINX Ingress Controller
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"  # If using cert-manager for SSL
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    
+    # For Azure Application Gateway (alternative)
+    # kubernetes.io/ingress.class: "azure/application-gateway"
+    # appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    
+spec:
+  tls:
+  - hosts:
+    - yourdomain.com
+    - www.yourdomain.com
+    secretName: sdg-tls-secret  # Create this with cert-manager or manually
+  rules:
+  - host: yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nextjs-service
+            port:
+              number: 3000
+  - host: www.yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nextjs-service
+            port:
+              number: 3000
+
+---
+# Optional: Ingress for Semantic Search API (if you want to expose it directly)
+# Usually, this should be internal-only (ClusterIP) and accessed via Next.js
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sdg-semantic-search-ingress
+  namespace: sdg-innovation-commons
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # Add authentication if exposing publicly
+    nginx.ingress.kubernetes.io/auth-type: "basic"
+    nginx.ingress.kubernetes.io/auth-secret: "basic-auth"
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+spec:
+  tls:
+  - hosts:
+    - api.yourdomain.com
+    secretName: sdg-api-tls-secret
+  rules:
+  - host: api.yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: semantic-search-service
+            port:
+              number: 8000
+
+---
+# Certificate for Let's Encrypt SSL (if using cert-manager)
+# Install cert-manager first: kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: your-email@example.com  # Replace with your email
+    privateKeySecretRef:
+      name: letsencrypt-prod-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# Staging issuer for testing
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: your-email@example.com  # Replace with your email
+    privateKeySecretRef:
+      name: letsencrypt-staging-key
+    solvers:
+    - http01:
+        ingress:
+          class: nginx

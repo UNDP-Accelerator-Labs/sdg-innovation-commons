@@ -40,6 +40,7 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 - Next.js (app-router) application that serves both client and server code.
 - Server utilities and data access live under `app/lib/` (DB wrapper, platform API helpers, session helper).
 - Admin APIs live under `app/api/admin/*` and are used by the admin UI client components.
+- **Semantic Search Service**: Python FastAPI microservice (`semantic-search/`) providing vector-based semantic search using Qdrant and sentence transformers.
 - Background worker code lives in the `scripts/` folder and runs as a separate process in production (containerized worker App Service).
 - CI/CD is implemented with GitHub Actions; the main app is deployed as a Docker image to Azure App Service, and the worker is deployed as its own container image to a dedicated worker App Service.
 
@@ -48,6 +49,13 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 - app/ — Next.js application (pages, API routes, components)
   - app/api/admin/ — server routes used by admin UI (notifications, exports, stats, worker-health)
   - app/admin/ — admin UI pages and client components
+  - app/lib/services/ — service clients (semantic-search-client.ts)
+- semantic-search/ — **Python FastAPI semantic search service** (root-level, separate from Next.js)
+  - main.py — FastAPI application
+  - search.py — core semantic search logic
+  - qdrant_client.py — Qdrant vector database client
+  - embeddings.py — sentence transformer embedding generation
+  - docker-compose.yml — local development setup with Qdrant
   - app/lib/ — server-side helpers: db.ts, session.ts, platform-api.ts, utils
 - scripts/ — background worker scripts: `process_exports.cjs`, `run_worker.js`, `worker_heartbeat.js`, run.sh (POSIX entrypoint for local/container runs)
 - .github/workflows/app.yaml — CI/CD workflow (build, push, deploy app image and worker image)
@@ -60,6 +68,7 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 - Node.js 18+ (recommended)
 - pnpm (or npm/yarn)
 - PostgreSQL or the database defined by your environment
+- Docker & Docker Compose (for semantic search service)
 
 ### Install
 
@@ -78,6 +87,16 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 
 3. Configure environment variables (see below)
 
+4. **Set up semantic search service** (see [Semantic Search Setup](SEMANTIC_SEARCH_SETUP.md))
+
+   ```bash
+   cd semantic-search
+   cp .env.example .env
+   # Edit .env with your API keys
+   docker-compose up -d
+   cd ..
+   ```
+
 ### Run the dev server
 
 ```bash
@@ -85,6 +104,8 @@ pnpm run dev
 ```
 
 Open http://localhost:3000 in your browser.
+
+Semantic search API will be available at http://localhost:8000
 
 ### Run the worker locally (optional)
 
@@ -104,6 +125,16 @@ The application requires a set of environment variables for full functionality. 
 - AZURE_PUBLISH_PROFILE_STAGING / AZURE_PROD_PUBLISH_PROFILE — Azure publish profiles (used by GitHub Actions)
 - AZURE_PUBLISH_PROFILE_WORKER — publish profile for the dedicated worker App Service (used by CI to deploy worker image)
 - NODE_ENV — set to `production` for production behavior (actual email sending)
+
+### Semantic Search Service
+
+The application now includes an internal semantic search service (Python FastAPI). See `semantic-search/README.md` for detailed setup.
+
+Required environment variables:
+- SEMANTIC_SEARCH_URL — URL of the semantic search service (default: `http://localhost:8000`)
+- SEMANTIC_SEARCH_API_KEY — API key for service authentication (generate with `openssl rand -hex 32`)
+
+See `.env.semantic-search.example` for complete configuration options.
 
 ## Database / schema notes
 

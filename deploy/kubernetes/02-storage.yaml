@@ -1,0 +1,90 @@
+---
+# Persistent Volume Claim for Qdrant Vector Database
+# CRITICAL: This ensures vector data persists across pod restarts/replacements
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qdrant-storage-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-premium  # For Azure AKS: use managed-premium or azurefile
+                                     # For AWS EKS: use gp3 or ebs-sc
+                                     # For GCP GKE: use standard-rwo or premium-rwo
+  resources:
+    requests:
+      storage: 50Gi  # Adjust based on your vector data size
+
+---
+# Persistent Volume Claim for Qdrant Snapshots (backups)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qdrant-snapshots-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-premium
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+# Persistent Volume Claim for Redis
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: redis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-premium
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+# Persistent Volume Claim for Application Data (uploads, exports, etc.)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-data-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: nextjs
+spec:
+  accessModes:
+    - ReadWriteMany  # Multiple pods may need access (nextjs + worker)
+  storageClassName: azurefile  # For Azure: use azurefile for ReadWriteMany
+                               # For AWS: use efs-sc
+                               # For GCP: use filestore-sc
+  resources:
+    requests:
+      storage: 20Gi
+
+---
+# Optional: Persistent Volume Claim for PostgreSQL (if deploying in-cluster)
+# Recommended: Use Azure PostgreSQL, AWS RDS, or GCP Cloud SQL instead
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: postgres
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: managed-premium
+  resources:
+    requests:
+      storage: 100Gi
