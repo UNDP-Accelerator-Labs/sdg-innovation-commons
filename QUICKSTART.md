@@ -5,6 +5,7 @@ This guide helps you get up and running quickly with the SDG Innovation Commons 
 ## Choose Your Path
 
 ### 🔧 Local Development
+
 **Best for**: Contributing to the codebase, feature development, debugging
 
 **Time to setup**: ~10 minutes
@@ -28,6 +29,7 @@ See [Local Development Guide](#local-development) below for details.
 ---
 
 ### 🐳 Docker Compose (Simple Deployment)
+
 **Best for**: Testing full stack, staging environments, single-server deployments
 
 **Time to setup**: ~15 minutes
@@ -49,6 +51,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md#docker-compose-deployment) for details.
 ---
 
 ### ☸️ Kubernetes (Production Deployment)
+
 **Best for**: Production environments, high availability, auto-scaling
 
 **Time to setup**: ~30 minutes (with existing cluster)
@@ -83,17 +86,20 @@ See [DEPLOYMENT.md](DEPLOYMENT.md#kubernetes-deployment) for details.
 ### Setup Steps
 
 1. **Clone Repository**
+
    ```bash
    git clone https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons.git
    cd sdg-innovation-commons
    ```
 
 2. **Automated Setup** (Recommended)
+
    ```bash
    ./scripts/setup-dev.sh
    ```
-   
+
    This script will:
+
    - Check prerequisites
    - Install Node.js and Python dependencies
    - Create environment files
@@ -101,38 +107,42 @@ See [DEPLOYMENT.md](DEPLOYMENT.md#kubernetes-deployment) for details.
    - Run database migrations
 
 3. **Manual Setup** (Alternative)
+
    ```bash
    # Install dependencies
    pnpm install
-   
+
    # Setup environment
    cp .env.development .env
    cp semantic-search/.env.development semantic-search/.env
-   
+
    # Start infrastructure
    make dev-infra
-   
+
    # Run migrations
    pnpm run migrate
    ```
 
 4. **Start Development Servers**
-   
+
    Open 3 terminal windows:
-   
+
    **Terminal 1 - Next.js**
+
    ```bash
    pnpm run dev
    ```
-   
+
    **Terminal 2 - Semantic Search**
+
    ```bash
    cd semantic-search
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ./dev.sh
    ```
-   
+
    **Terminal 3 - Background Worker** (Optional)
+
    ```bash
    ./scripts/dev-worker.sh
    ```
@@ -171,11 +181,13 @@ make clean
 ### Common Tasks
 
 **Running Database Migrations**
+
 ```bash
 pnpm run migrate
 ```
 
 **Testing Semantic Search**
+
 ```bash
 # Check health
 curl http://localhost:8000/health
@@ -187,6 +199,7 @@ curl -X POST http://localhost:8000/api/search \
 ```
 
 **Checking Qdrant**
+
 ```bash
 # Health check
 curl http://localhost:6333/health
@@ -198,6 +211,7 @@ curl http://localhost:6333/collections
 ### Troubleshooting
 
 **Port already in use**
+
 ```bash
 # Check what's using the port
 lsof -i :3000  # or :8000, :6333, etc.
@@ -207,6 +221,7 @@ kill -9 <PID>
 ```
 
 **Docker services won't start**
+
 ```bash
 # Check Docker is running
 docker ps
@@ -218,6 +233,7 @@ make dev-logs
 ```
 
 **Database connection errors**
+
 ```bash
 # Check PostgreSQL is running
 docker ps | grep postgres
@@ -227,6 +243,7 @@ psql postgres://postgres:postgres@localhost:5432/postgres
 ```
 
 **Qdrant connection errors**
+
 ```bash
 # Check Qdrant is running
 docker ps | grep qdrant
@@ -236,6 +253,7 @@ docker logs sdg-qdrant-dev
 ```
 
 **Module not found errors**
+
 ```bash
 # Reinstall dependencies
 pnpm install

@@ -131,6 +131,7 @@ The application requires a set of environment variables for full functionality. 
 The application now includes an internal semantic search service (Python FastAPI). See `semantic-search/README.md` for detailed setup.
 
 Required environment variables:
+
 - SEMANTIC_SEARCH_URL — URL of the semantic search service (default: `http://localhost:8000`)
 - SEMANTIC_SEARCH_API_KEY — API key for service authentication (generate with `openssl rand -hex 32`)
 
@@ -160,13 +161,14 @@ Migrations live under `app/lib/db-schema/` and are applied in order by the inclu
 Two recommended ways to run migrations from a developer workstation or CI:
 
 - Use the TypeScript migration runner (recommended):
+
   - Apply all pending migrations for all DBs:
     pnpm dlx ts-node scripts/run_migrations.ts
   - Apply only migrations targeting the `general` DB:
     pnpm dlx ts-node scripts/run_migrations.ts --db=general
   - Include `init*.sql` files (dangerous for production):
     pnpm dlx ts-node scripts/run_migrations.ts --include-inits
-  The runner records applied filenames in a `schema_migrations` table so migrations are idempotent.
+    The runner records applied filenames in a `schema_migrations` table so migrations are idempotent.
 
 - Apply a single SQL migration directly (psql):
   - Example (bash / zsh):
@@ -174,6 +176,7 @@ Two recommended ways to run migrations from a developer workstation or CI:
     psql "$GENERAL_DB_URL" -f app/lib/db-schema/20251117_create_worker_health_table.sql
 
 Notes:
+
 - The migration runner defaults to the `general` DB key when no header is present in a SQL file. Files may include a header comment like `-- DB: general,blogs` to target multiple DBs.
 - The new worker health migration is `app/lib/db-schema/20251117_create_worker_health_table.sql` — run it before deploying the containerized worker so the worker can upsert heartbeats into the DB.
 - In CI you can run the migration runner, but that requires secure DB credentials available to the workflow. If you want, I can add an optional CI step to run migrations during deployment.

@@ -30,11 +30,11 @@ The application consists of four main components:
 
 ```
 User -> Next.js App -> Semantic Search API -> Qdrant (vectors)
-         |                                     
+         |
          +--> PostgreSQL (data)
          |
          +--> Redis (cache)
-         
+
 Background Worker -> PostgreSQL
                   -> Redis
 ```
@@ -79,23 +79,27 @@ cd semantic-search && ./dev.sh
 ### Development Environment Details
 
 **Infrastructure Services (Docker)**:
+
 - PostgreSQL: `localhost:5432`
 - Qdrant: `localhost:6333` (HTTP), `localhost:6334` (gRPC)
 - Redis: `localhost:6379`
 
 **Application Services (Local)**:
+
 - Next.js: `http://localhost:3000`
 - Semantic Search: `http://localhost:8000`
 - API Docs: `http://localhost:8000/docs`
 
 **Data Persistence**:
 All infrastructure services use named Docker volumes that persist data across container restarts:
+
 - `sdg-postgres-dev-data` - PostgreSQL data
 - `sdg-qdrant-dev-storage` - Qdrant vectors (CRITICAL)
 - `sdg-qdrant-dev-snapshots` - Qdrant backups
 - `sdg-redis-dev-data` - Redis persistence
 
 To completely reset data:
+
 ```bash
 docker-compose -f deploy/docker-compose.dev.yml down -v
 ```
@@ -107,6 +111,7 @@ docker-compose -f deploy/docker-compose.dev.yml down -v
 Best for: Single-server deployments, testing, staging environments
 
 #### Prerequisites
+
 - Docker and Docker Compose on production server
 - Azure PostgreSQL instance (or local PostgreSQL)
 - Domain name and SSL certificate
@@ -128,6 +133,7 @@ nano .env  # Update with production values
 2. **Configure Database**
 
 For Azure PostgreSQL:
+
 ```env
 # .env
 DATABASE_URL=postgres://username:password@your-server.postgres.database.azure.com:5432/dbname?sslmode=require
@@ -171,10 +177,10 @@ server {
 server {
     listen 443 ssl http2;
     server_name yourdomain.com;
-    
+
     ssl_certificate /etc/letsencrypt/live/yourdomain.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/yourdomain.com/privkey.pem;
-    
+
     location / {
         proxy_pass http://localhost:3000;
         proxy_set_header Host $host;
@@ -190,6 +196,7 @@ server {
 Best for: Production environments, high availability, scalability
 
 #### Prerequisites
+
 - Kubernetes cluster (AKS, EKS, GKE, or self-hosted)
 - kubectl configured
 - Container registry (Azure ACR, AWS ECR, Docker Hub, etc.)
@@ -198,6 +205,7 @@ Best for: Production environments, high availability, scalability
 - NGINX Ingress Controller or cloud load balancer
 
 #### Architecture Benefits
+
 - **High Availability**: Multiple replicas of each service
 - **Auto-scaling**: HPA scales based on CPU/memory
 - **Rolling Updates**: Zero-downtime deployments
@@ -230,6 +238,7 @@ docker push yourregistry.azurecr.io/sdg-worker:latest
 2. **Configure Kubernetes Manifests**
 
 Update image references in Kubernetes manifests:
+
 ```bash
 # deploy/kubernetes/05-semantic-search.yaml
 # deploy/kubernetes/06-nextjs.yaml
@@ -264,6 +273,7 @@ kubectl create secret generic sdg-app-secrets \
 ```
 
 For Azure, use Azure Key Vault:
+
 ```bash
 # Install CSI driver
 helm repo add csi-secrets-store-provider-azure https://azure.github.io/secrets-store-csi-driver-provider-azure/charts
@@ -296,6 +306,7 @@ kubectl get pods -n sdg-innovation-commons -w
 5. **Configure DNS**
 
 Point your domain to the LoadBalancer IP:
+
 ```bash
 kubectl get ingress -n sdg-innovation-commons
 ```
@@ -317,11 +328,13 @@ kubectl apply -f deploy/kubernetes/08-ingress.yaml
 Qdrant stores vector embeddings that are expensive to regenerate. **Data persistence is MANDATORY**.
 
 #### Docker Compose
+
 - Uses named volumes: `qdrant_storage` and `qdrant_snapshots`
 - Survives container stop/restart/removal
 - Backed up with volume snapshots
 
 #### Kubernetes
+
 - Uses PersistentVolumeClaims (PVCs)
 - Backed by cloud storage (Azure Disk, AWS EBS, GCP PD)
 - Survives pod deletions, node failures, cluster restarts
@@ -330,6 +343,7 @@ Qdrant stores vector embeddings that are expensive to regenerate. **Data persist
 ### Verification
 
 Test data persistence:
+
 ```bash
 # Docker Compose
 docker-compose -f deploy/docker-compose.yml stop qdrant
@@ -344,11 +358,13 @@ kubectl delete pod -n sdg-innovation-commons -l app=qdrant
 ### PostgreSQL Strategy
 
 **Recommended**: Use managed database service
+
 - Azure Database for PostgreSQL
 - AWS RDS for PostgreSQL
 - Google Cloud SQL for PostgreSQL
 
 Benefits:
+
 - Automatic backups
 - Point-in-time recovery
 - High availability
@@ -356,6 +372,7 @@ Benefits:
 - Better performance
 
 If using containerized PostgreSQL:
+
 - Must use persistent volumes
 - Configure regular backups
 - Consider replication for HA
@@ -365,6 +382,7 @@ If using containerized PostgreSQL:
 ### Azure PostgreSQL (Recommended)
 
 1. Create Azure PostgreSQL instance:
+
 ```bash
 az postgres flexible-server create \
   --resource-group your-rg \
@@ -378,6 +396,7 @@ az postgres flexible-server create \
 ```
 
 2. Configure firewall:
+
 ```bash
 # Allow Azure services
 az postgres flexible-server firewall-rule create \
@@ -397,6 +416,7 @@ az postgres flexible-server firewall-rule create \
 ```
 
 3. Connection string:
+
 ```
 postgres://sdgadmin:YourPassword@sdg-postgres.postgres.database.azure.com:5432/postgres?sslmode=require
 ```
@@ -410,6 +430,7 @@ Included in docker-compose.yml with persistent volume.
 ### Qdrant Backup
 
 #### Manual Snapshot
+
 ```bash
 # Docker Compose
 docker exec sdg-qdrant curl -X POST http://localhost:6333/collections/sdg_documents/snapshots
@@ -419,6 +440,7 @@ docker cp sdg-qdrant:/qdrant/snapshots ./backups/qdrant/
 ```
 
 #### Kubernetes Snapshot
+
 ```bash
 # Create snapshot
 kubectl exec -n sdg-innovation-commons deployment/qdrant -- \
@@ -429,6 +451,7 @@ kubectl cp sdg-innovation-commons/qdrant-xxxxx:/qdrant/snapshots ./backups/qdran
 ```
 
 #### Volume Backup
+
 ```bash
 # Docker
 docker run --rm \
@@ -444,6 +467,7 @@ az snapshot create \
 ```
 
 ### Qdrant Recovery
+
 ```bash
 # Restore from volume backup
 docker run --rm \
@@ -503,6 +527,7 @@ kubectl describe pod -n sdg-innovation-commons <pod-name>
 
 **Cause**: Volume not properly configured
 **Solution**: Ensure persistent volumes are used
+
 ```bash
 # Check volumes
 docker volume ls | grep qdrant
@@ -513,6 +538,7 @@ kubectl get pvc -n sdg-innovation-commons | grep qdrant
 
 **Cause**: Service networking or API key mismatch
 **Solution**:
+
 ```bash
 # Check Qdrant is running
 kubectl get pods -n sdg-innovation-commons -l app=qdrant
@@ -528,6 +554,7 @@ kubectl logs -n sdg-innovation-commons -l app=semantic-search
 
 **Cause**: Firewall rules, wrong credentials, or SSL issues
 **Solution**:
+
 ```bash
 # Test connection
 psql "postgres://user:pass@host:5432/db?sslmode=require"
@@ -580,5 +607,6 @@ kubectl logs -n cert-manager -l app=cert-manager
 ## Support
 
 For issues or questions:
+
 - GitHub Issues: https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons/issues
 - Documentation: See README.md and docs/

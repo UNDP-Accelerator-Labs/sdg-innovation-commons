@@ -7,6 +7,7 @@ This document summarizes the complete development and deployment infrastructure 
 ### 1. Docker Infrastructure
 
 #### Development Environment (`deploy/docker-compose.dev.yml`)
+
 - **PostgreSQL** with persistent volume (optional, can use Azure PostgreSQL)
 - **Qdrant** vector database with persistent storage (CRITICAL for data persistence)
 - **Redis** cache with persistent storage
@@ -14,6 +15,7 @@ This document summarizes the complete development and deployment infrastructure 
 - Named volumes ensure data survives container restarts
 
 #### Production Environment (`deploy/docker-compose.yml`)
+
 - All services with production-ready configurations
 - Resource limits and health checks
 - Support for both local and Azure PostgreSQL
@@ -34,6 +36,7 @@ Complete production-ready Kubernetes setup:
 - **08-ingress.yaml** - Ingress with SSL/TLS (cert-manager)
 
 Features:
+
 - High availability with multiple replicas
 - Horizontal Pod Autoscaling (HPA)
 - Persistent volumes for critical data
@@ -44,6 +47,7 @@ Features:
 ### 3. Docker Images
 
 #### Semantic Search (`semantic-search/Dockerfile`)
+
 - Multi-stage build for optimized image size
 - Pre-cached embedding models in image
 - Production-ready with non-root user
@@ -53,7 +57,9 @@ Features:
 ### 4. Development Tools
 
 #### Setup Script (`scripts/setup-dev.sh`)
+
 Automated development environment setup:
+
 - Prerequisites checking
 - Dependency installation
 - Environment file creation
@@ -64,7 +70,9 @@ Automated development environment setup:
 ### 5. Documentation
 
 #### DEPLOYMENT.md
+
 Comprehensive deployment guide covering:
+
 - Architecture overview
 - Local development setup
 - Docker Compose deployment
@@ -77,7 +85,9 @@ Comprehensive deployment guide covering:
 - Best practices
 
 #### QUICKSTART.md
+
 Quick reference guide for:
+
 - Fast local setup
 - Common commands
 - Troubleshooting
@@ -99,6 +109,7 @@ Created environment templates for all environments:
 Added comprehensive Make commands:
 
 **Development:**
+
 - `make dev-infra` - Start infrastructure
 - `make dev-nextjs` - Start Next.js
 - `make dev-semantic` - Start semantic search
@@ -107,6 +118,7 @@ Added comprehensive Make commands:
 - `make dev-stop` - Stop services
 
 **Production (Docker Compose):**
+
 - `make prod-build` - Build images
 - `make prod-up` - Start all services
 - `make prod-down` - Stop services
@@ -115,6 +127,7 @@ Added comprehensive Make commands:
 - `make prod-status` - Check status
 
 **Kubernetes:**
+
 - `make k8s-build` - Build container images
 - `make k8s-push` - Push to registry
 - `make k8s-deploy` - Deploy to K8s
@@ -124,10 +137,12 @@ Added comprehensive Make commands:
 - `make k8s-delete` - Delete deployment
 
 **Backup & Recovery:**
+
 - `make backup-qdrant` - Backup Qdrant data
 - `make restore-qdrant` - Restore from backup
 
 **Utilities:**
+
 - `make setup` - Initial setup
 - `make install` - Install dependencies
 - `make migrate` - Run DB migrations
@@ -139,6 +154,7 @@ Added comprehensive Make commands:
 ### Data Persistence (CRITICAL)
 
 **Qdrant Vector Database:**
+
 - ✅ Named Docker volumes in both dev and prod
 - ✅ PersistentVolumeClaims in Kubernetes
 - ✅ Separate volumes for storage and snapshots
@@ -146,12 +162,14 @@ Added comprehensive Make commands:
 - ✅ Data survives container/pod restarts, deletions, and node failures
 
 **PostgreSQL:**
+
 - ✅ Support for local PostgreSQL (development)
 - ✅ Support for Azure PostgreSQL (recommended for production)
 - ✅ Connection string configuration for both
 - ✅ SSL/TLS support for Azure
 
 **Redis:**
+
 - ✅ AOF persistence enabled
 - ✅ Persistent volumes
 - ✅ Password protection
@@ -257,6 +275,7 @@ kubectl exec -n sdg-innovation-commons deployment/qdrant -- \
 ### Recommended: Azure PostgreSQL
 
 **Advantages:**
+
 - ✅ Automated backups
 - ✅ Point-in-time recovery
 - ✅ High availability
@@ -265,6 +284,7 @@ kubectl exec -n sdg-innovation-commons deployment/qdrant -- \
 - ✅ SSL/TLS by default
 
 **Setup:**
+
 ```bash
 az postgres flexible-server create \
   --resource-group your-rg \
@@ -279,6 +299,7 @@ az postgres flexible-server create \
 ### Alternative: Containerized PostgreSQL
 
 For development/testing only. Not recommended for production.
+
 - Uses persistent volumes
 - Manual backup required
 - No built-in HA
@@ -290,12 +311,14 @@ For development/testing only. Not recommended for production.
 **MUST-HAVE**: Qdrant data contains expensive-to-generate vector embeddings.
 
 ✅ **Implemented:**
+
 - Named Docker volumes (dev and prod)
 - PersistentVolumeClaims in Kubernetes
 - Backup commands
 - Snapshot support
 
 ❌ **Never do:**
+
 - Run Qdrant without persistent storage
 - Delete volumes without backup
 - Use ephemeral storage
@@ -303,12 +326,14 @@ For development/testing only. Not recommended for production.
 ### 2. PostgreSQL Choice
 
 ✅ **Recommended:** Azure PostgreSQL Flexible Server
+
 - Managed service
 - Automatic backups
 - High availability
 - Better for production
 
 ✅ **Acceptable:** Containerized PostgreSQL
+
 - Development and testing only
 - Must use persistent volumes
 - Requires manual backup strategy
@@ -316,12 +341,14 @@ For development/testing only. Not recommended for production.
 ### 3. Secrets Management
 
 ✅ **Production:**
+
 - Azure Key Vault (recommended)
 - Kubernetes Secrets
 - AWS Secrets Manager
 - HashiCorp Vault
 
 ❌ **Never:**
+
 - Commit secrets to Git
 - Use default passwords in production
 - Share secrets in plain text
@@ -359,17 +386,20 @@ For development/testing only. Not recommended for production.
 ### Automated Backups
 
 **Qdrant:**
+
 ```bash
 # Create cron job for daily backups
 0 2 * * * cd /path/to/repo && make backup-qdrant
 ```
 
 **PostgreSQL (Azure):**
+
 - Automatic backups enabled by default
 - Point-in-time recovery available
 - Configure retention period
 
 **Application Data:**
+
 - Use Azure Storage for uploads/exports
 - Configure blob lifecycle management
 
@@ -407,11 +437,13 @@ For development/testing only. Not recommended for production.
 ## Success Criteria
 
 ✅ **Development:**
+
 - Can start environment in < 10 minutes
 - Hot reload works for all services
 - Data persists across restarts
 
 ✅ **Production:**
+
 - Zero-downtime deployments
 - Data never lost
 - Auto-scaling works
@@ -419,6 +451,7 @@ For development/testing only. Not recommended for production.
 - Monitoring in place
 
 ✅ **Operations:**
+
 - Clear runbooks
 - Disaster recovery tested
 - Team trained

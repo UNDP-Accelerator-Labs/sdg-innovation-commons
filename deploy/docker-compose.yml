@@ -9,7 +9,7 @@
 #
 # For Azure PostgreSQL: Comment out the postgres service and use DATABASE_URL in .env
 
-version: '3.8'
+version: "3.8"
 
 services:
   # PostgreSQL Database (Optional - use for local testing)
@@ -41,7 +41,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '2.0'
+          cpus: "2.0"
 
   # Qdrant Vector Database
   # CRITICAL: This MUST have persistent storage for production
@@ -49,8 +49,8 @@ services:
     image: qdrant/qdrant:latest
     container_name: sdg-qdrant
     ports:
-      - "6333:6333"  # HTTP API
-      - "6334:6334"  # gRPC API
+      - "6333:6333" # HTTP API
+      - "6334:6334" # gRPC API
     volumes:
       # CRITICAL: Named volume ensures data persists across container lifecycles
       # Even if container is stopped, removed, or replaced, data remains
@@ -78,7 +78,7 @@ services:
       resources:
         limits:
           memory: 4G
-          cpus: '2.0'
+          cpus: "2.0"
 
   # Redis Cache
   redis:
@@ -94,7 +94,15 @@ services:
       - sdg-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-}", "ping"]
+      test:
+        [
+          "CMD",
+          "redis-cli",
+          "--no-auth-warning",
+          "-a",
+          "${REDIS_PASSWORD:-}",
+          "ping",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -102,7 +110,7 @@ services:
       resources:
         limits:
           memory: 512M
-          cpus: '1.0'
+          cpus: "1.0"
 
   # Semantic Search Service (Python FastAPI)
   semantic-search:
@@ -124,20 +132,20 @@ services:
       - QDRANT_GRPC_PORT=6334
       - QDRANT_API_KEY=${QDRANT_API_KEY}
       - QDRANT_COLLECTION_NAME=sdg_documents
-      
+
       # API Security
       - API_SECRET_KEY=${SEMANTIC_SEARCH_API_KEY}
       - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:3000,https://sdg-innovation-commons.org}
-      
+
       # Service Configuration
       - SERVICE_HOST=0.0.0.0
       - SERVICE_PORT=8000
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
-      
+
       # Embedding Model (pre-cached in Docker image)
       - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
       - DEVICE=${DEVICE:-cpu}
-      
+
       # Redis Cache
       - REDIS_HOST=redis
       - REDIS_PORT=6379
@@ -155,7 +163,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '2.0'
+          cpus: "2.0"
 
   # Next.js Application
   nextjs:
@@ -177,7 +185,7 @@ services:
       # App Configuration
       - NODE_ENV=${NODE_ENV:-production}
       - PORT=3000
-      
+
       # Database - Use Azure PostgreSQL in production
       - DATABASE_URL=${DATABASE_URL}
       - GENERAL_DB_HOST=${GENERAL_DB_HOST:-postgres}
@@ -185,27 +193,27 @@ services:
       - GENERAL_DB_PASSWORD=${GENERAL_DB_PASSWORD}
       - GENERAL_DB_NAME=${GENERAL_DB_NAME:-postgres}
       - GENERAL_DB_PORT=${GENERAL_DB_PORT:-5432}
-      
+
       # Auth
       - APP_SECRET=${APP_SECRET}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
       - NEXTAUTH_URL=${NEXTAUTH_URL:-http://localhost:3000}
-      
+
       # Semantic Search
       - SEMANTIC_SEARCH_URL=http://semantic-search:8000
       - SEMANTIC_SEARCH_API_KEY=${SEMANTIC_SEARCH_API_KEY}
-      
+
       # External APIs
       - OPENCAGE_API=${OPENCAGE_API}
       - ACCLAB_PLATFORM_KEY=${ACCLAB_PLATFORM_KEY}
       - BLOG_API_TOKEN=${BLOG_API_TOKEN}
-      
+
       # SMTP
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASS=${SMTP_PASS}
-      
+
       # Azure Storage (if using)
       - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
       - AZURE_STORAGE_CONTAINER=${AZURE_STORAGE_CONTAINER}
@@ -224,7 +232,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '2.0'
+          cpus: "2.0"
 
   # Background Worker
   worker:
@@ -245,16 +253,16 @@ services:
       - GENERAL_DB_USER=${GENERAL_DB_USER:-postgres}
       - GENERAL_DB_PASSWORD=${GENERAL_DB_PASSWORD}
       - GENERAL_DB_NAME=${GENERAL_DB_NAME:-postgres}
-      
+
       # Redis
       - REDIS_HOST=redis
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD:-}
-      
+
       # Worker Config
       - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-2}
       - WORKER_INTERVAL=${WORKER_INTERVAL:-60}
-      
+
       # Azure Storage (if using)
       - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
       - AZURE_STORAGE_CONTAINER=${AZURE_STORAGE_CONTAINER}
@@ -267,7 +275,7 @@ services:
       resources:
         limits:
           memory: 1G
-          cpus: '1.0'
+          cpus: "1.0"
 
 # Named volumes for data persistence
 # CRITICAL: These volumes ensure data survives container restarts/removals

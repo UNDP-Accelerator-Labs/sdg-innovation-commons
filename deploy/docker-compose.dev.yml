@@ -1,13 +1,13 @@
 # Local Development Docker Compose
 # Infrastructure services (Postgres, Qdrant, Redis) for local development
 # Run Next.js, Semantic Search, and Worker locally for hot reload
-# 
+#
 # Usage:
 #   make dev-infra    # Start only infrastructure
 #   make dev-nextjs   # Start Next.js with hot reload (after dev-infra)
 #   make dev-semantic # Start semantic search with hot reload (after dev-infra)
 
-version: '3.8'
+version: "3.8"
 
 services:
   # PostgreSQL Database (Local Development)
@@ -49,8 +49,8 @@ services:
     image: qdrant/qdrant:latest
     container_name: sdg-qdrant-dev
     ports:
-      - "6333:6333"  # HTTP API
-      - "6334:6334"  # gRPC API (optional, for high-performance clients)
+      - "6333:6333" # HTTP API
+      - "6334:6334" # gRPC API (optional, for high-performance clients)
     volumes:
       # CRITICAL: Named volume ensures vector data persists across container lifecycles
       - qdrant_dev_storage:/qdrant/storage
@@ -88,7 +88,15 @@ services:
       - sdg-dev-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "${REDIS_PASSWORD:-devpassword}", "ping"]
+      test:
+        [
+          "CMD",
+          "redis-cli",
+          "--no-auth-warning",
+          "-a",
+          "${REDIS_PASSWORD:-devpassword}",
+          "ping",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
