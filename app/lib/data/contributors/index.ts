@@ -56,9 +56,7 @@ export async function confirmEmailAccountBeforeRegistration(forms: Record<string
     throw new Error('SMTP_PORT / SMTP_USER / SMTP_PASS are not defined.');
   }
 
-  const confirmationLink = process.env.NODE_ENV === 'production'
-    ? `https://sdg-innovation-commons.org/confirm-email/${token}?new_user=true`
-    : `${LOCAL_BASE_URL}/confirm-email/${token}?new_user=true`;
+  const confirmationLink = `${process.env.NEXTAUTH_URL || LOCAL_BASE_URL}/confirm-email/${token}?new_user=true`;
 
   const emailSubject = 'Please confirm your email for SDG Commons registration';
   const emailHtml = `
@@ -140,7 +138,7 @@ export async function registerContributor(token:string) {
     if (data?.status === 200) {
       // Persist admin-facing notification for new user registration instead of emailing admins
       try {
-        const ADMIN_UI_BASE = process.env.NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (process.env.LOCAL_BASE_URL || 'http://localhost:3000');
+        const ADMIN_UI_BASE = process.env.NEXTAUTH_URL || process.env.LOCAL_BASE_URL || 'http://localhost:3000';
         await createNotification({
           type: 'new_user_registration',
           level: 'info',

@@ -49,14 +49,43 @@ export async function proxy(request: NextRequest) {
     if (isApiRoute && !isPublicApiRoute) {
       const authHeader = request.headers.get('authorization');
       
-      // Only validate if Bearer token is provided
-      // If no token, let the request through - the endpoint will check session auth
+      // Check for token in multiple places: header, query params, or body
+      let token: string | null = null;
+      
+      // 1. Check Authorization header (Bearer token)
       if (authHeader && authHeader.startsWith('Bearer ')) {
-        const token = authHeader.substring(7);
-        
+        token = authHeader.substring(7);
+      }
+      
+      // 2. Check query parameters (e.g., ?token=xxx or ?access_token=xxx)
+      if (!token) {
+        const urlToken = request.nextUrl.searchParams.get('token') || 
+                        request.nextUrl.searchParams.get('access_token');
+        if (urlToken) token = urlToken;
+      }
+      
+      // 3. Check request body for POST/PUT/PATCH requests
+      // Note: We'll clone the request to avoid consuming the body
+      if (!token && ['POST', 'PUT', 'PATCH'].includes(request.method)) {
+        try {
+          const clonedRequest = request.clone();
+          const contentType = request.headers.get('content-type');
+          
+          if (contentType?.includes('application/json')) {
+            const body = await clonedRequest.json();
+            if (body?.token) token = body.token;
+            else if (body?.access_token) token = body.access_token;
+          }
+        } catch (e) {
+          // If body parsing fails, continue without token from body
+        }
+      }
+      
+      // Only validate if token is found
+      if (token) {
         try {
           const decoded = jwt.verify(token, APP_SECRET || 'fallback-secret-key') as any;
-          
+
           // Validate token type
           if (decoded.type === 'api_access') {
             // Add user info to headers for API routes to use
@@ -86,7 +115,7 @@ export async function proxy(request: NextRequest) {
           );
         }
       }
-      // If no Bearer token provided, continue to endpoint (will use session auth)
+      // If no token provided (header, query, or body), continue to endpoint (will use session auth)
     }
 
     // Check authentication for protected routes using NextAuth
@@ -147,8 +176,11 @@ export async function proxy(request: NextRequest) {
   
   export const config = {
     matcher: [
+      // Include API routes for token authentication
+      '/api/:path*',
+      // Include all non-static routes for CSP and auth checks
       {
-        source: "/((?!api|_next/static|_next/image|favicon.ico).*)",
+        source: "/((?!_next/static|_next/image|favicon.ico).*)",
         missing: [
           { type: "header", key: "next-router-prefetch" },
           { type: "header", key: "purpose", value: "prefetch" },

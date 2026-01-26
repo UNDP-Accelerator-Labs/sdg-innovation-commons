@@ -106,7 +106,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
 
   // Persist admin-facing notification instead of sending admin emails
   try {
-    const ADMIN_UI_BASE = process.env.NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (process.env.LOCAL_BASE_URL || 'http://localhost:3000');
+    const ADMIN_UI_BASE = process.env.NEXTAUTH_URL || process.env.LOCAL_BASE_URL || 'http://localhost:3000';
     const adminUrl = `${ADMIN_UI_BASE}/admin/notifications`;
     const notif = await createNotification({
       type: 'contact_us',

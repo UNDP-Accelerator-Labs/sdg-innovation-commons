@@ -123,7 +123,7 @@ export async function sendWelcomeEmail(email: string, name: string): Promise<voi
         <li>Collaborate with innovators worldwide</li>
       </ul>
       <p>
-        <a href="${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://sdg-innovation-commons.org'}" 
+        <a href="${process.env.NEXTAUTH_URL || 'https://sdg-innovation-commons.org'}" 
            style="background-color: #0468b1; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
           Get Started
         </a>
@@ -151,7 +151,7 @@ export async function sendPasswordResetEmail(
   resetToken: string,
   name: string
 ): Promise<void> {
-  const resetUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://sdg-innovation-commons.org'}/reset/${resetToken}`;
+  const resetUrl = `${process.env.NEXTAUTH_URL || 'https://sdg-innovation-commons.org'}/reset/${resetToken}`;
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -190,7 +190,7 @@ export async function sendEmailConfirmation(
   confirmToken: string,
   name: string
 ): Promise<void> {
-  const confirmUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://sdg-innovation-commons.org'}/confirm-email/${confirmToken}`;
+  const confirmUrl = `${process.env.NEXTAUTH_URL || 'https://sdg-innovation-commons.org'}/confirm-email/${confirmToken}`;
 
   const html = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

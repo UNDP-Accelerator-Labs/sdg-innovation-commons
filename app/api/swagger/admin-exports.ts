@@ -118,7 +118,7 @@ export const adminExportsPaths = {
           description: 'Number of jobs to return',
           schema: {
             type: 'integer',
-            default: 50,
+            default: 10,
           },
         },
       ],

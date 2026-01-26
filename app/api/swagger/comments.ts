@@ -8,8 +8,8 @@ export const commentsPaths = {
     post: {
       tags: ['Comments'],
       summary: 'Add or delete a comment',
-      description: 'Add a new comment to content or delete an existing comment. Requires authentication.',
-      security: [{ cookieAuth: [] }],
+      description: 'Add a new comment to content or delete an existing comment. Requires authentication via session cookie or API token.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -44,6 +44,10 @@ export const commentsPaths = {
                       nullable: true,
                       description: 'Parent comment ID for replies (optional)',
                     },
+                    token: {
+                      type: 'string',
+                      description: 'API access token (alternative to Authorization header)',
+                    },
                   },
                 },
                 {
@@ -59,6 +63,14 @@ export const commentsPaths = {
                     comment_id: {
                       type: 'integer',
                       description: 'ID of the comment to delete',
+                    },
+                    token: {
+                      type: 'string',
+                      description: 'API access token (alternative to Authorization header)',
+                    },
+                    access_token: {
+                      type: 'string',
+                      description: 'API access token (alternative to Authorization header or token field)',
                     },
                   },
                 },

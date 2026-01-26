@@ -24,7 +24,7 @@ export const adminNotificationsPaths = {
           description: 'Number of notifications to return',
           schema: {
             type: 'integer',
-            default: 50,
+            default: 10,
           },
         },
       ],

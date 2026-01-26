@@ -10,7 +10,8 @@ export const pinboardsPaths = {
     get: {
       tags: ['Pinboards'],
       summary: 'List or get Community Curated Boards',
-      description: 'Retrieve boards with filtering, search, and pagination. Returns either a list of boards or a detailed single board with its content.',
+      description: 'Retrieve boards with filtering, search, and pagination. Returns either a list of boards or a detailed single board with its content. Authentication is optional but enables viewing own drafts and private boards.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }, {}],
       parameters: [
         {
           name: 'pinboard',
@@ -71,6 +72,14 @@ export const pinboardsPaths = {
           name: 'search',
           in: 'query',
           description: 'Search in board title and description',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'token',
+          in: 'query',
+          description: 'API access token (alternative to Authorization header)',
           schema: {
             type: 'string',
           },

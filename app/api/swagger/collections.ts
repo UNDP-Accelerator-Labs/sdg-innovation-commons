@@ -9,12 +9,13 @@ export const collectionsPaths = {
     get: {
       tags: ['Collections'],
       summary: 'Get Next Practices by filter',
-      description: `Retrieve Next Practices (curated collections) filtered by various parameters. 
+      description: `Retrieve Next Practices (curated collections) filtered by various parameters. Authentication is optional but enables viewing own drafts.
       
 Next Practices showcase how the platform is uncovering emerging solutions for sustainable development by connecting insights from:
 - What We See (solutions)
 - What We Test (experiments and action plans)
 - What We Learn (blogs and publications)`,
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }, {}],
       parameters: [
         {
           name: 'slug',
@@ -61,6 +62,14 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
             type: 'integer',
             minimum: 0,
             default: 0,
+          },
+        }, 
+        {
+          name: 'token',
+          in: 'query',
+          description: 'API access token (alternative to Authorization header)',
+          schema: {
+            type: 'string',
           },
         },
       ],
@@ -137,8 +146,8 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
     post: {
       tags: ['Collections'],
       summary: 'Create a new Next Practice',
-      description: 'Create a new Next Practice collection (requires authentication)',
-      security: [{ cookieAuth: [] }],
+      description: 'Create a new Next Practice collection. Requires authentication via session cookie or API token.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -195,6 +204,10 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
                   type: 'string',
                   enum: ['draft', 'awaiting_review', 'published'],
                 },
+                token: {
+                  type: 'string',
+                  description: 'API access token (alternative to Authorization header)',
+                },
               },
             },
           },
@@ -229,8 +242,8 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
     put: {
       tags: ['Collections'],
       summary: 'Update an existing collection',
-      description: 'Update a collection (requires authentication and ownership)',
-      security: [{ cookieAuth: [] }],
+      description: 'Update a collection. Requires authentication via session cookie or API token and ownership.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -260,6 +273,10 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
                 status: {
                   type: 'string',
                 },
+                token: {
+                  type: 'string',
+                  description: 'API access token (alternative to Authorization header)',
+                },
               },
             },
           },
@@ -283,8 +300,8 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
     delete: {
       tags: ['Collections'],
       summary: 'Delete a collection',
-      description: 'Delete a collection (requires authentication and ownership)',
-      security: [{ cookieAuth: [] }],
+      description: 'Delete a collection. Requires authentication via session cookie or API token and ownership.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -295,6 +312,10 @@ Next Practices showcase how the platform is uncovering emerging solutions for su
               properties: {
                 id: {
                   type: 'integer',
+                },
+                token: {
+                  type: 'string',
+                  description: 'API access token (alternative to Authorization header)',
                 },
               },
             },
