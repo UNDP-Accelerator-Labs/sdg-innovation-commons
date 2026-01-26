@@ -24,6 +24,8 @@ interface PadsRequestParams {
   id_dbpads?: string | string[];
   templates?: string | string[];
   platforms?: string | string[];
+  pinboard?: string | string[];
+  mobilizations?: string | string[];
   thematic_areas?: string | string[];
   sdgs?: string | string[];
   methods?: string | string[];
@@ -36,6 +38,7 @@ interface PadsRequestParams {
   include_comments?: boolean | string;
   include_imgs?: boolean | string;
   include_pinboards?: string;
+  include_data?: boolean | string;
   anonymize_comments?: boolean | string;
   pseudonymize?: boolean | string;
   page?: number | string;
@@ -62,6 +65,8 @@ export async function GET(req: NextRequest) {
         ...searchParams.getAll("platforms"),
         ...searchParams.getAll("platform"),
       ].filter(Boolean),
+      pinboard: searchParams.getAll("pinboard"),
+      mobilizations: searchParams.getAll("mobilizations"),
       thematic_areas: searchParams.getAll("thematic_areas"),
       sdgs: searchParams.getAll("sdgs"),
       methods: searchParams.getAll("methods"),
@@ -74,6 +79,7 @@ export async function GET(req: NextRequest) {
       include_comments: searchParams.get("include_comments") === "true",
       include_imgs: searchParams.get("include_imgs") === "true",
       include_pinboards: searchParams.get("include_pinboards") || undefined,
+      include_data: searchParams.get("include_data") !== "false",
       anonymize_comments: searchParams.get("anonymize_comments") !== "false",
       pseudonymize: searchParams.get("pseudonymize")  ? searchParams.get("pseudonymize")  !== "false" : undefined,
       page: searchParams.get("page") || undefined,
@@ -103,6 +109,8 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     id_dbpads,
     templates,
     platforms,
+    pinboard,
+    mobilizations,
     thematic_areas,
     sdgs,
     methods,
@@ -115,6 +123,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     include_comments,
     include_imgs,
     include_pinboards,
+    include_data,
     anonymize_comments,
     pseudonymize,
     page,
@@ -122,8 +131,16 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   } = params;
 
   const host = req.headers.get("host") || "localhost:3000";
+  
+  // Get session (handles both NextAuth and API token authentication)
   const session = await getSession();
   const userUuid = session?.uuid;
+  const rights = session?.rights || 0;
+  const collaborators = session?.collaborators || [];
+  const isPublic = !userUuid;
+
+  // Get collaborator UUIDs for access control
+  const collaboratorsIds = collaborators.map((c: any) => c.uuid).filter(Boolean);
 
   // Normalize arrays
   const contributorsArr = contributors
@@ -158,6 +175,16 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       ? platforms
       : [platforms]
     : undefined;
+  const pinboardArr = pinboard
+    ? Array.isArray(pinboard)
+      ? pinboard
+      : [pinboard]
+    : undefined;
+  const mobilizationsArr = mobilizations
+    ? Array.isArray(mobilizations)
+      ? mobilizations
+      : [mobilizations]
+    : undefined;
   const thematicAreasArr = thematic_areas
     ? Array.isArray(thematic_areas)
       ? thematic_areas
@@ -182,11 +209,208 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   // Space filter (published, private, shared, all)
   // Note: Skip space filter if specific pad IDs are provided, as they're already filtered
   if ((!padsArr || padsArr.length === 0) && (!id_dbPadsArr || id_dbPadsArr.length === 0)) {
-    if (space === "published") {
-      filters.push("p.status >= 3");
-    } else if (space === "private") {
-      // Would need session/auth to filter by owner
-      filters.push("p.status >= 0");
+    if (space === "private") {
+      // Private space: owned by user
+      if (!userUuid) {
+        return NextResponse.json(
+          { error: "Authentication required for private space" },
+          { status: 401 }
+        );
+      }
+      filters.push(`p.owner = '${userUuid}'`);
+    } else if (space === "curated") {
+      // Curated space: reviewing content or admin rights
+      if (!userUuid) {
+        return NextResponse.json(
+          { error: "Authentication required for curated space" },
+          { status: 401 }
+        );
+      }
+      filterParams.push(userUuid, rights);
+      filters.push(`(
+        (
+          p.id IN (
+            SELECT mc.pad
+            FROM mobilization_contributions mc
+            INNER JOIN mobilizations m ON m.id = mc.mobilization
+            WHERE m.owner = $${filterParams.length - 1}
+          )
+          OR $${filterParams.length} > 2
+        ) AND (
+          p.owner <> $${filterParams.length - 1}
+          OR p.owner IS NULL
+        ) AND p.status < 2
+      )`);
+    } else if (space === "shared") {
+      // Shared space: owned by team members (excluding user)
+      if (!userUuid) {
+        return NextResponse.json(
+          { error: "Authentication required for shared space" },
+          { status: 401 }
+        );
+      }
+      if (collaboratorsIds.length === 0) {
+        // No collaborators, return empty result
+        filters.push("FALSE");
+      } else {
+        filterParams.push(collaboratorsIds, userUuid);
+        filters.push(`(p.owner = ANY($${filterParams.length - 1}::uuid[]) AND p.owner <> $${filterParams.length})`);
+      }
+    } else if (space === "reviewing") {
+      // Reviewing space: pads in review that user has oversight over
+      if (!userUuid) {
+        return NextResponse.json(
+          { error: "Authentication required for reviewing space" },
+          { status: 401 }
+        );
+      }
+      filterParams.push(userUuid, rights, userUuid);
+      filters.push(`(
+        (
+          (
+            p.id IN (
+              SELECT mc.pad
+              FROM mobilization_contributions mc
+              INNER JOIN mobilizations m ON m.id = mc.mobilization
+              WHERE m.owner = $${filterParams.length - 2}
+            )
+            OR $${filterParams.length - 1} > 2
+          ) OR (
+            p.owner = $${filterParams.length}
+          )
+        ) AND p.id IN (
+          SELECT pad FROM review_requests
+        )
+      )`);
+    } else if (space === "public") {
+      // Public space: only published pads
+      filters.push("p.status = 3");
+    } else if (space === "published") {
+      // Published space: depends on rights and UNDP status
+      if (isPublic) {
+        // Not logged in: only public pads
+        filters.push("p.status = 3");
+      } else {
+        // Check if user is UNDP
+        const isUNDPQuery = await dbQuery(
+          "general",
+          `SELECT email LIKE '%@undp.org' AS is_undp FROM users WHERE uuid = $1`,
+          [userUuid]
+        );
+        const isUNDP = isUNDPQuery.rows?.[0]?.is_undp || false;
+
+        if (rights < 3) {
+          if (isUNDP) {
+            filters.push("p.status >= 2");
+          } else {
+            filters.push("p.status = 3");
+          }
+        } else {
+          // Admins can see status 2 and 3, and status 2 from collaborators
+          if (collaboratorsIds.length > 0) {
+            filterParams.push(collaboratorsIds, rights);
+            filters.push(`(p.status = 3 OR (p.status = 2 AND (p.owner = ANY($${filterParams.length - 1}::uuid[]) OR $${filterParams.length} > 2)))`);
+          } else {
+            filterParams.push(rights);
+            filters.push(`(p.status = 3 OR (p.status = 2 AND $${filterParams.length} > 2))`);
+          }
+        }
+      }
+    } else if (space === "pinned") {
+      // Pinned space: pads in pinboards
+      if (isPublic) {
+        if (pinboardArr && pinboardArr.length > 0) {
+          // Fetch pinboard pads and mobilizations
+          const pinboardPadsQuery = await dbQuery(
+            "general",
+            `SELECT DISTINCT pad FROM pinboard_contributions WHERE pinboard = ANY($1::int[]) AND is_included = true`,
+            [pinboardArr.map((id) => +id)]
+          );
+          const pinboardPads = pinboardPadsQuery.rows.map((r: any) => r.pad);
+
+          const mobsQuery = await dbQuery(
+            "general",
+            `SELECT mobilization FROM pinboards WHERE id = ANY($1::int[])`,
+            [pinboardArr.map((id) => +id)]
+          );
+          const mobs = mobsQuery.rows.map((r: any) => r.mobilization).filter(Boolean);
+
+          filterParams.push(pinboardPads.length > 0 ? pinboardPads : [-1]);
+          filterParams.push(mobs.length > 0 ? mobs : [-1]);
+          filters.push(`(
+            (p.status > 2 OR (p.status > 1 AND p.owner IS NULL))
+            AND (p.id = ANY($${filterParams.length - 1}::int[])
+            OR p.id IN (SELECT pad FROM mobilization_contributions WHERE mobilization = ANY($${filterParams.length}::int[])))
+          )`);
+        } else {
+          filters.push("(p.status > 2 OR (p.status > 1 AND p.owner IS NULL))");
+        }
+      } else {
+        // User is logged in
+        const isUNDPQuery = await dbQuery(
+          "general",
+          `SELECT email LIKE '%@undp.org' AS is_undp FROM users WHERE uuid = $1`,
+          [userUuid]
+        );
+        const isUNDP = isUNDPQuery.rows?.[0]?.is_undp || false;
+
+        if (pinboardArr && pinboardArr.length > 0) {
+          const pinboardPadsQuery = await dbQuery(
+            "general",
+            `SELECT DISTINCT pad FROM pinboard_contributions WHERE pinboard = ANY($1::int[]) AND is_included = true`,
+            [pinboardArr.map((id) => +id)]
+          );
+          const pinboardPads = pinboardPadsQuery.rows.map((r: any) => r.pad);
+
+          const mobsQuery = await dbQuery(
+            "general",
+            `SELECT mobilization FROM pinboards WHERE id = ANY($1::int[])`,
+            [pinboardArr.map((id) => +id)]
+          );
+          const mobs = mobsQuery.rows.map((r: any) => r.mobilization).filter(Boolean);
+
+          filterParams.push(isUNDP, rights);
+          filterParams.push(pinboardPads.length > 0 ? pinboardPads : [-1]);
+          filterParams.push(mobs.length > 0 ? mobs : [-1]);
+          filters.push(`(
+            (
+              (p.status = 2 AND $${filterParams.length - 3})
+              OR p.status = 3
+              OR $${filterParams.length - 2} > 2
+            ) AND (
+              p.id = ANY($${filterParams.length - 1}::int[])
+              OR p.id IN (SELECT pad FROM mobilization_contributions WHERE mobilization = ANY($${filterParams.length}::int[]))
+            )
+          )`);
+        } else {
+          filterParams.push(isUNDP, rights);
+          filters.push(`(
+            (p.status = 2 AND $${filterParams.length - 1})
+            OR p.status = 3
+            OR $${filterParams.length} > 2
+          )`);
+        }
+      }
+    } else {
+      // Default: only published pads for public, or published + owned/team for authenticated
+      if (isPublic) {
+        filters.push("p.status >= 3");
+      } else {
+        // Authenticated users can see: public, owned, team pads, or admin rights
+        const visibilityConditions = ["p.status >= 3"];
+        visibilityConditions.push(`p.owner = '${userUuid}'`);
+        
+        if (collaboratorsIds.length > 0) {
+          filterParams.push(collaboratorsIds);
+          visibilityConditions.push(`p.owner = ANY($${filterParams.length}::uuid[])`);
+        }
+        
+        if (rights >= 3) {
+          visibilityConditions.push("p.status >= 0");
+        }
+        
+        filters.push(`(${visibilityConditions.join(" OR ")})`);
+      }
     }
   }
 
@@ -302,6 +526,37 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     }
   }
 
+  // Pinboard filter
+  if (pinboardArr && pinboardArr.length > 0) {
+    filterParams.push(pinboardArr.map((id) => +id));
+    filters.push(
+      `p.id IN (SELECT DISTINCT pc.pad FROM pinboard_contributions pc WHERE pc.pinboard = ANY($${filterParams.length}::int[]) AND pc.is_included = TRUE)`
+    );
+  }
+
+  // Mobilizations filter
+  if (mobilizationsArr && mobilizationsArr.length > 0) {
+    // Separate positive and negative filters (e.g., "-5" means exclude mobilization 5)
+    const positiveFilter = mobilizationsArr.filter((id) => !String(id).startsWith('-'));
+    const negativeFilter = mobilizationsArr
+      .filter((id) => String(id).startsWith('-'))
+      .map((id) => String(id).substring(1));
+
+    if (positiveFilter.length > 0) {
+      filterParams.push(positiveFilter.map((id) => +id));
+      filters.push(
+        `p.id IN (SELECT DISTINCT mc.pad FROM mobilization_contributions mc WHERE mc.mobilization = ANY($${filterParams.length}::int[]))`
+      );
+    }
+
+    if (negativeFilter.length > 0) {
+      filterParams.push(negativeFilter.map((id) => +id));
+      filters.push(
+        `p.id NOT IN (SELECT DISTINCT mc.pad FROM mobilization_contributions mc WHERE mc.mobilization = ANY($${filterParams.length}::int[]))`
+      );
+    }
+  }
+
   // Thematic areas filter
   if (thematicAreasArr && thematicAreasArr.length > 0) {
     filterParams.push(thematicAreasArr.map((id) => +id));
@@ -340,6 +595,18 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     filters.push(
       `(p.title ILIKE $${filterParams.length} OR p.full_text ILIKE $${filterParams.length})`
     );
+  }
+
+  // Exclude pads in review unless user is the reviewer
+  // This matches the Node.js filter: AND p.id NOT IN (SELECT review FROM reviews)
+  // But we allow reviewers to see their own review items
+  if (!isPublic && userUuid) {
+    // Authenticated users: exclude reviews they're not reviewing
+    filterParams.push(userUuid);
+    filters.push(`(p.id NOT IN (SELECT review FROM reviews WHERE reviewer <> $${filterParams.length}) OR p.id NOT IN (SELECT review FROM reviews))`);
+  } else {
+    // Public users: exclude all reviews
+    filters.push(`p.id NOT IN (SELECT review FROM reviews)`);
   }
 
   const filterStr = filters.length > 0 ? `AND ${filters.join(" AND ")}` : "";
@@ -564,6 +831,11 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     const protocol = req.headers.get("x-forwarded-proto") || "http";
 
     padsData.forEach((pad: any) => {
+      // Remove sections if include_data is false
+      if (!include_data) {
+        delete pad.sections;
+      }
+      
       // Compute platform name once per pad
       const platformShortkey = pad.ordb ? idToShortkeyMap.get(pad.ordb) : null;
       const platformName = platformShortkey 

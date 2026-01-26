@@ -9,6 +9,7 @@ import 'server-only';
 import { auth } from '@/auth';
 import jwt from 'jsonwebtoken';
 import { NextRequest } from 'next/server';
+import { headers } from 'next/headers';
 import type { SessionInfo, ApiAuthResult } from '../types';
 import { UserRights } from '../types';
 import { AUTH_CONFIG } from '../config';
@@ -17,31 +18,99 @@ import { AUTH_CONFIG } from '../config';
 export { redirectToLogin, hasRight, isAdminUser, getUserDisplayName } from './auth-client';
 
 /**
- * Get the current user session from NextAuth
+ * Get the current user session from NextAuth or API token
+ * This function checks both NextAuth session and API token authentication (from middleware)
  * 
  * @returns Session information or null if not authenticated
  */
 export async function getSession(): Promise<SessionInfo | null> {
+  // First try NextAuth session
   const session = await auth();
   
-  if (!session?.user) {
-    return null;
+  if (session?.user) {
+    // Return session data in standardized format
+    return {
+      uuid: session.user.uuid,
+      email: session.user.email || '',
+      name: session.user.name || '',
+      rights: session.user.rights || 0,
+      iso3: session.user.iso3 || '',
+      language: session.user.language,
+      bureau: session.user.bureau,
+      collaborators: session.user.collaborators || [],
+      pinboards: session.user.pinboards || [],
+      is_trusted: session.user.is_trusted || false,
+      loginTime: new Date().toISOString(),
+    };
   }
 
-  // Return session data in standardized format
-  return {
-    uuid: session.user.uuid,
-    email: session.user.email || '',
-    name: session.user.name || '',
-    rights: session.user.rights || 0,
-    iso3: session.user.iso3 || '',
-    language: session.user.language,
-    bureau: session.user.bureau,
-    collaborators: session.user.collaborators || [],
-    pinboards: session.user.pinboards || [],
-    is_trusted: session.user.is_trusted || false,
-    loginTime: new Date().toISOString(),
-  };
+  // If no NextAuth session, check for API token authentication (set by middleware)
+  const headersList = await headers();
+  const isApiAuthenticated = headersList.get('x-api-authenticated') === 'true';
+  
+  if (isApiAuthenticated) {
+    const uuid = headersList.get('x-api-user-uuid');
+    const email = headersList.get('x-api-user-email') || '';
+    const rights = parseInt(headersList.get('x-api-user-rights') || '0', 10);
+    
+    if (!uuid) return null;
+    
+    // Fetch full user data from database for API token users
+    try {
+      const { query } = await import('../db');
+      
+      const userQuery = await query(
+        'general',
+        `SELECT u.uuid, u.name, u.email, u.rights, u.iso3, u.language,
+          COALESCE(su.undp_bureau, adm0.undp_bureau) AS bureau,
+          COALESCE(
+            (SELECT json_agg(DISTINCT(jsonb_build_object(
+              'uuid', u2.uuid,
+              'name', u2.name,
+              'rights', u2.rights
+            ))) FROM team_members tm
+            INNER JOIN teams t ON t.id = tm.team
+            INNER JOIN users u2 ON u2.uuid = tm.member
+            WHERE t.id IN (SELECT team FROM team_members WHERE member = u.uuid)
+          )::TEXT, '[]')::JSONB AS collaborators,
+          COALESCE(
+            (SELECT json_agg(DISTINCT(p.id))
+            FROM pinboards p
+            WHERE p.id IN (
+              SELECT pinboard FROM pinboard_contributors WHERE participant = u.uuid
+            ) OR p.owner = u.uuid
+          )::TEXT, '[]')::JSONB AS pinboards
+        FROM users u
+        LEFT JOIN adm0_subunits su ON su.su_a3 = u.iso3
+        LEFT JOIN adm0 adm0 ON adm0.iso_a3 = u.iso3
+        WHERE u.uuid = $1`,
+        [uuid]
+      );
+      
+      const user = userQuery.rows?.[0];
+      
+      if (!user) return null;
+      
+      return {
+        uuid: user.uuid,
+        email: user.email || email,
+        name: user.name || '',
+        rights: user.rights || rights,
+        iso3: user.iso3 || '',
+        language: user.language || 'en',
+        bureau: user.bureau,
+        collaborators: user.collaborators || [],
+        pinboards: user.pinboards || [],
+        is_trusted: false,
+        loginTime: new Date().toISOString(),
+      };
+    } catch (error) {
+      console.error('Error fetching user data for API token:', error);
+      return null;
+    }
+  }
+  
+  return null;
 }
 
 /**

@@ -43,7 +43,7 @@ export async function createNotification(opts: {
       const adminEmails = adminListRaw.split(/[;,\s]+/).map((e: string) => e.trim()).filter(Boolean);
       if (adminEmails.length > 0) {
 
-        const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
+        const ADMIN_UI_BASE = process.env.NEXTAUTH_URL || LOCAL_BASE_URL || 'http://localhost:3000';
         const notifUrl = `${ADMIN_UI_BASE}/admin/notifications?id=${encodeURIComponent(created.id)}`;
         const subject = `Action required: ${created.type}`;
 
@@ -144,7 +144,7 @@ export async function createNotification(opts: {
 
     // --- New: optionally send notification emails to user recipients and record correspondence ---
     try {
-      const ADMIN_UI_BASE = NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (LOCAL_BASE_URL || 'http://localhost:3000');
+      const ADMIN_UI_BASE = process.env.NEXTAUTH_URL || LOCAL_BASE_URL || 'http://localhost:3000';
 
       // Build a list of user recipient emails from payload or related_uuids
       const userRecipients: string[] = [];

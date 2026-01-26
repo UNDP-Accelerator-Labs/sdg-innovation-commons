@@ -49,19 +49,16 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
       url: 'https://sdg-innovation-commons.org',
     },
   },
-  servers: process.env.NODE_ENV === 'production' 
-    ? [
-        {
-          url: 'https://sdg-innovation-commons.org',
-          description: 'Production server',
-        },
-      ]
-    : [
-        {
-          url: 'http://localhost:3000',
-          description: 'Local development server',
-        },
-      ],
+  servers: [
+    {
+      url: process.env.NEXTAUTH_URL || 'http://localhost:3000',
+      description: process.env.NEXTAUTH_URL?.includes('staging') 
+        ? 'Staging server' 
+        : process.env.NEXTAUTH_URL?.includes('localhost') 
+        ? 'Local development server'
+        : 'Production server',
+    },
+  ],
   tags: [
     {
       name: 'Tags',
@@ -95,10 +92,6 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
       name: 'Pinboards',
       description: 'Community Curated Boards - User-created collections organizing and sharing content by theme or topic',
     },
-    {
-      name: 'Pinboards',
-      description: 'User-created pinboards for organizing and sharing pads',
-    },
   ],
   components: {
     securitySchemes: {
@@ -107,6 +100,12 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
         in: 'cookie',
         name: 'connect.sid',
         description: 'Session cookie authentication',
+      },
+      bearerAuth: {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        description: 'API token authentication. Tokens can be passed in the Authorization header (Bearer <token>), as a query parameter (?token=<token> or ?access_token=<token>), or in the request body (token or access_token field for POST/PUT/PATCH requests).',
       },
     },
     schemas: {

@@ -140,10 +140,7 @@ async function main() {
 
             // If toEmail exists also create an admin notification that export completed, for audit (info)
             try {
-              const adminUiBase =
-                process.env.NODE_ENV === 'production'
-                  ? 'https://sdg-innovation-commons.org'
-                  : process.env.LOCAL_BASE_URL || 'http://localhost:3000';
+              const adminUiBase = process.env.NEXTAUTH_URL || process.env.LOCAL_BASE_URL || 'http://localhost:3000';
               await createNotification({
                 type: 'export_completed',
                 level: 'info',

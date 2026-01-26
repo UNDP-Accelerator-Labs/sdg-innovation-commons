@@ -8,8 +8,8 @@ export const engagementPaths = {
     post: {
       tags: ['Engagement'],
       summary: 'Engage with content',
-      description: 'Add or remove engagement (like, dislike, useful, interesting, no_opinion) on pads. Requires authentication.',
-      security: [{ cookieAuth: [] }],
+      description: 'Add or remove engagement (like, dislike, useful, interesting, no_opinion) on pads. Requires authentication via session cookie or API token.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }],
       requestBody: {
         required: true,
         content: {
@@ -36,6 +36,10 @@ export const engagementPaths = {
                   type: 'string',
                   enum: ['like', 'dislike', 'useful', 'interesting', 'no_opinion'],
                   description: 'Type of engagement',
+                },
+                token: {
+                  type: 'string',
+                  description: 'API access token (alternative to Authorization header)',
                 },
               },
             },

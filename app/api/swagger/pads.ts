@@ -14,7 +14,8 @@ export const padsPaths = {
     get: {
       tags: ['Pads'],
       summary: 'Get content from What We See and What We Test',
-      description: 'Retrieve published content with comprehensive filtering options. Use the platforms parameter to specify content type: solutions (What We See) or experiments/action-plans (What We Test). For blogs and publications (What We Learn), use the /api/articles endpoint.',
+      description: 'Retrieve published content with comprehensive filtering options. Use the platforms parameter to specify content type: solutions (What We See) or experiments/action-plans (What We Test). For blogs and publications (What We Learn), use the /api/articles endpoint. Authentication is optional but enables user-specific features like current_user_engagement and viewing own drafts.',
+      security: [{ cookieAuth: [] }, { bearerAuth: [] }, {}],
       parameters: [
         {
           name: 'space',
@@ -79,15 +80,7 @@ export const padsPaths = {
         {
           name: 'id_dbpads',
           in: 'query',
-          description: 'Filter by concatenated content+database ID(s) in format {pad_id}_{db_id}',
-          schema: {
-            type: 'string',
-          },
-        },
-        {
-          name: 'id_dbpads',
-          in: 'query',
-          description: 'Filter by concatenated pad+database ID(s) in format {pad_id}_{db_id}',
+          description: 'Filter by concatenated content+database ID(s) in format {pad_id}-{db_id}',
           schema: {
             type: 'string',
           },
@@ -100,15 +93,15 @@ export const padsPaths = {
             type: 'string',
           },
         },
-        {
-          name: 'platforms',
-          in: 'query',
-          description: 'Filter by content type/platform. Values: "solution" (What We See), "experiment"/"action plan" (What We Test), "consent", "codification". Note: For blogs and publications (What We Learn), use /api/articles endpoint.',
-          schema: {
-            type: 'string',
-            enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
-          },
-        },
+        // {
+        //   name: 'platforms',
+        //   in: 'query',
+        //   description: 'Filter by content type/platform. Values: "solution" (What We See), "experiment"/"action plan" (What We Test), "consent", "codification". Note: For blogs and publications (What We Learn), use /api/articles endpoint.',
+        //   schema: {
+        //     type: 'string',
+        //     enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
+        //   },
+        // },
         {
           name: 'platform',
           in: 'query',
@@ -116,6 +109,22 @@ export const padsPaths = {
           schema: {
             type: 'string',
             enum: ['solution', 'experiment', 'action plan', 'consent', 'codification'],
+          },
+        },
+        {
+          name: 'pinboard',
+          in: 'query',
+          description: 'Filter by Community Curated Board ID(s). Returns only pads that are included in the specified pinboard(s).',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'mobilizations',
+          in: 'query',
+          description: 'Filter by mobilization ID(s). Supports negative filters: prefix with "-" to exclude (e.g., "-5" excludes mobilization 5). Can be repeated for multiple values.',
+          schema: {
+            type: 'string',
           },
         },
         {
@@ -215,6 +224,15 @@ export const padsPaths = {
           },
         },
         {
+          name: 'include_data',
+          in: 'query',
+          description: 'Include full content sections. Set to false to exclude sections field and reduce payload size (useful for list views).',
+          schema: {
+            type: 'boolean',
+            default: true,
+          },
+        },
+        {
           name: 'teams',
           in: 'query',
           description: 'Filter by team ID(s)',
@@ -258,7 +276,15 @@ export const padsPaths = {
             type: 'integer',
             minimum: 1,
             maximum: 1000,
-            default: 100,
+            default: 10,
+          },
+        },
+        {
+          name: 'token',
+          in: 'query',
+          description: 'API access token (alternative to Authorization header)',
+          schema: {
+            type: 'string',
           },
         },
       ],
@@ -336,7 +362,7 @@ export const padsPaths = {
                     },
                     sections: {
                       type: 'array',
-                      description: 'Structured content sections',
+                      description: 'Structured content sections (excluded if include_data=false)',
                     },
                     full_text: {
                       type: 'string',
