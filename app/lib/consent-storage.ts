@@ -33,7 +33,7 @@ export function setConsentAwareItem(key: string, value: any): boolean {
   
   // Functional data requires consent
   if (!consent?.functional) {
-    console.log(`Functional cookies disabled: Not storing "${key}"`);
+    // console.log(`Functional cookies disabled: Not storing "${key}"`);
     return false;
   }
   
@@ -113,7 +113,6 @@ export function clearFunctionalData(): void {
         localStorage.removeItem(key);
       }
     });
-    console.log('Cleared functional data from localStorage');
   } catch (error) {
     console.error('Error clearing functional data:', error);
   }
