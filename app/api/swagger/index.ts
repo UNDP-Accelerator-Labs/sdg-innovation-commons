@@ -27,6 +27,7 @@ import { articlesPaths } from './articles';
 import { countriesPaths } from './countries';
 import { regionsPaths } from './regions';
 import { padsPaths } from './pads';
+import { contributorsPaths } from './contributors';
 
 export const swaggerSpec = {
   openapi: '3.0.0',
@@ -92,6 +93,10 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
       name: 'Pinboards',
       description: 'Community Curated Boards - User-created collections organizing and sharing content by theme or topic',
     },
+    {
+      name: 'Contributors',
+      description: 'Users and contributors on the platform with their profiles, teams, and contributions',
+    },
   ],
   components: {
     securitySchemes: {
@@ -135,5 +140,6 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
     ...countriesPaths,
     ...regionsPaths,
     ...padsPaths,
+    ...contributorsPaths,
   },
 };

@@ -6,15 +6,17 @@ export const tagsPaths = {
     get: {
       tags: ['Tags'],
       summary: 'Get tags with filters',
-      description: 'Retrieve tags filtered by various criteria including platform, type, language, and geographic filters',
+      description: 'Retrieve tags filtered by various criteria including platform, type, language, geographic filters, pads, mobilizations, and timeseries data',
       parameters: [
         {
-          name: 'platform',
+          name: 'tags',
           in: 'query',
-          description: 'Platform filter (solution, experiment, action plan, insight)',
+          description: 'Filter by specific tag IDs (can be multiple)',
           schema: {
-            type: 'string',
-            enum: ['solution', 'experiment', 'action plan', 'insight'],
+            type: 'array',
+            items: {
+              type: 'string',
+            },
           },
         },
         {
@@ -22,8 +24,33 @@ export const tagsPaths = {
           in: 'query',
           description: 'Tag type filter (can be multiple)',
           schema: {
-            type: 'string',
-            enum: ['thematic_areas', 'sdgs', 'regions', 'countries', 'methods', 'datasources'],
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: ['thematic_areas', 'sdgs', 'regions', 'countries', 'methods', 'datasources'],
+            },
+          },
+        },
+        {
+          name: 'pads',
+          in: 'query',
+          description: 'Filter tags from specific pad IDs (can be multiple)',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          name: 'mobilizations',
+          in: 'query',
+          description: 'Filter tags from pads associated with specific mobilization IDs (can be multiple)',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
           },
         },
         {
@@ -35,36 +62,130 @@ export const tagsPaths = {
           },
         },
         {
+          name: 'timeseries',
+          in: 'query',
+          description: 'Return timeseries data showing tag usage over time',
+          schema: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        {
+          name: 'aggregation',
+          in: 'query',
+          description: 'Time aggregation for timeseries (day, week, month, year)',
+          schema: {
+            type: 'string',
+            enum: ['day', 'week', 'month', 'year'],
+            default: 'day',
+          },
+        },
+        {
           name: 'use_pads',
           in: 'query',
-          description: 'Filter to only show tags used in published pads',
+          description: 'Apply complex pad-level filters (requires additional filter parameters)',
           schema: {
             type: 'boolean',
           },
         },
         {
+          name: 'platform',
+          in: 'query',
+          description: 'Platform filter (solution, experiment, action plan, insight) - can be multiple',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: ['solution', 'experiment', 'action plan', 'insight'],
+            },
+          },
+        },
+        {
           name: 'countries',
           in: 'query',
-          description: 'Filter by country ISO3 codes (can be multiple)',
+          description: 'Filter by country ISO3 codes (can be multiple, prefix with - for exclusion)',
           schema: {
-            type: 'string',
+            type: 'array',
+            items: {
+              type: 'string',
+            },
           },
         },
         {
           name: 'regions',
           in: 'query',
-          description: 'Filter by UNDP region codes (can be multiple)',
+          description: 'Filter by UNDP region codes (can be multiple, prefix with - for exclusion)',
           schema: {
-            type: 'string',
+            type: 'array',
+            items: {
+              type: 'string',
+            },
           },
         },
         {
           name: 'space',
           in: 'query',
-          description: 'Content space filter',
+          description: 'Content space filter (private, shared, public, curated, reviewing)',
           schema: {
             type: 'string',
-            enum: ['published', 'pinned'],
+            enum: ['private', 'shared', 'public', 'curated', 'reviewing'],
+          },
+        },
+        {
+          name: 'search',
+          in: 'query',
+          description: 'Search term to filter pads by full text',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'templates',
+          in: 'query',
+          description: 'Filter by template IDs (can be multiple, prefix with - for exclusion)',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          name: 'thematic_areas',
+          in: 'query',
+          description: 'Filter by thematic area tag IDs (can be multiple)',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          name: 'sdgs',
+          in: 'query',
+          description: 'Filter by SDG tag IDs (can be multiple)',
+          schema: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+        {
+          name: 'pinboard',
+          in: 'query',
+          description: 'Filter tags from pads in a specific pinboard',
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'section',
+          in: 'query',
+          description: 'Filter by pinboard section',
+          schema: {
+            type: 'string',
           },
         },
         {
@@ -77,17 +198,74 @@ export const tagsPaths = {
             default: 'json',
           },
         },
+        {
+          name: 'include_data',
+          in: 'query',
+          description: 'Include additional data in response',
+          schema: {
+            type: 'boolean',
+            default: false,
+          },
+        },
       ],
       responses: {
         200: {
-          description: 'Successful response',
+          description: 'Successful response - returns array of tags with counts or timeseries data based on parameters',
           content: {
             'application/json': {
               schema: {
-                type: 'array',
-                items: {
-                  $ref: '#/components/schemas/Tag',
-                },
+                oneOf: [
+                  {
+                    type: 'array',
+                    description: 'Regular tag response with counts',
+                    items: {
+                      allOf: [
+                        { $ref: '#/components/schemas/Tag' },
+                        {
+                          type: 'object',
+                          properties: {
+                            count: {
+                              type: 'integer',
+                              description: 'Number of times this tag is used',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                  {
+                    type: 'array',
+                    description: 'Timeseries response (when timeseries=true)',
+                    items: {
+                      allOf: [
+                        { $ref: '#/components/schemas/Tag' },
+                        {
+                          type: 'object',
+                          properties: {
+                            timeseries: {
+                              type: 'array',
+                              description: 'Array of date-count pairs showing usage over time',
+                              items: {
+                                type: 'object',
+                                properties: {
+                                  date: {
+                                    type: 'string',
+                                    format: 'date-time',
+                                    description: 'Date/time of the aggregated period',
+                                  },
+                                  count: {
+                                    type: 'integer',
+                                    description: 'Number of uses in this period',
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  },
+                ],
               },
             },
           },

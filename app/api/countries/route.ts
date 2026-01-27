@@ -14,6 +14,7 @@ interface CountriesRequestParams {
   regions?: string | string[];
   has_lab?: boolean | string;
   use_pads?: boolean | string;
+  pads?: string | string[];
   language?: string;
   space?: string;
   platform?: string | string[];
@@ -38,6 +39,7 @@ export async function GET(req: NextRequest) {
       regions: searchParams.getAll('regions'),
       has_lab: searchParams.get('has_lab') === 'true',
       use_pads: searchParams.get('use_pads') === 'true',
+      pads: searchParams.getAll('pads').length ? searchParams.getAll('pads') : searchParams.get('pads') ? [searchParams.get('pads')!] : undefined,
       language: searchParams.get('language') || 'en',
       space: searchParams.get('space') || undefined,
       platform: searchParams.getAll('platform'),
@@ -58,7 +60,7 @@ export async function GET(req: NextRequest) {
 }
 
 async function processCountriesRequest(params: CountriesRequestParams, sessionInfo: any) {
-  let { countries, regions, has_lab, use_pads, language } = params;
+  let { countries, regions, has_lab, use_pads, pads, language } = params;
 
   // Normalize countries to array
   const countriesArr = countries ? (Array.isArray(countries) ? countries : [countries]) : undefined;
@@ -137,6 +139,7 @@ async function processCountriesRequest(params: CountriesRequestParams, sessionIn
       } else {
         // For non-pinboard queries, use buildPadSubquery
         const padFilterParams: PadFilterParams = {
+          pads: pads,
           space: params.space,
           search: params.search,
           templates: params.templates,
