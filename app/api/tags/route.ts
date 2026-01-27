@@ -67,9 +67,9 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
 
   // General filters (tags table)
   if (tagsArr && tagsArr.length > 0) {
-    generalFilters.push(`t.id IN (${tagsArr.map((_: any, i: number) => `$${i + 1}`).join(', ')})`);
+    generalFilters.push(`t.id IN (${tagsArr.map((id: any) => `${id}`).join(', ')})`);
     if (timeseries) {
-      platformFilters.push(`t.tag_id IN (${tagsArr.map((_: any, i: number) => `$${i + 1}`).join(', ')})`);
+      platformFilters.push(`t.tag_id IN (${tagsArr.map((id: any) => `${id}`).join(', ')})`);
     }
   }
   if (language) {
@@ -77,9 +77,21 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
   }
 
   // Platform filters (tagging table)
+  
+  // Direct pads filter
+  if (padsArr && padsArr.length > 0) {
+    platformFilters.push(`t.pad IN (${padsArr.join(', ')})`);
+  }
+  
+  // Direct mobilizations filter
+  if (mobilizationsArr && mobilizationsArr.length > 0) {
+    platformFilters.push(
+      `t.pad IN (SELECT pad FROM mobilization_contributions WHERE mobilization IN (${mobilizationsArr.join(', ')}))`
+    );
+  }
+  
   if (usePadsParsed) {
     // Special handling for pinboard queries - query pinboard_contributions directly
-    // to avoid double-filtering (the pinboard API already filters accessible pads)
     if (params.pinboard) {
       const pinboardId = Array.isArray(params.pinboard) ? params.pinboard[0] : params.pinboard;
       
@@ -135,13 +147,6 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
         `t.pad IN (SELECT id FROM pads WHERE ordb IN (${ids.join(', ')}))`
       );
     }
-  }
-
-  // Mobilizations filter
-  if (mobilizationsArr && mobilizationsArr.length > 0) {
-    platformFilters.push(
-      `t.pad IN (SELECT pad FROM mobilization_contributions WHERE mobilization IN (${mobilizationsArr.map(m => `'${m}'`).join(', ')}))`
-    );
   }
 
   // Country filters
@@ -210,6 +215,8 @@ async function buildFilters(params: TagsRequestParams, sessionInfo: any) {
     typeFilter,
     type: typeArr,
     tags: tagsArr,
+    pads: padsArr,
+    mobilizations: mobilizationsArr,
   };
 }
 
@@ -222,30 +229,30 @@ export async function GET(req: NextRequest) {
 
     // Parse query parameters
     const params: TagsRequestParams = {
-      tags: searchParams.getAll('tags'),
-      type: searchParams.getAll('type'),
-      pads: searchParams.getAll('pads'),
+      tags: searchParams.getAll('tags').length ? searchParams.getAll('tags') : searchParams.get('tags') ? [searchParams.get('tags')!] : undefined,
+      type: searchParams.getAll('type').length ? searchParams.getAll('type') : searchParams.get('type') ? [searchParams.get('type')!] : undefined,
+      pads: searchParams.getAll('pads').length ? searchParams.getAll('pads') : searchParams.get('pads') ? [searchParams.get('pads')!] : undefined,
       language: searchParams.get('language') || undefined,
-      mobilizations: searchParams.getAll('mobilizations'),
-      countries: searchParams.getAll('countries'),
-      regions: searchParams.getAll('regions'),
+      mobilizations: searchParams.getAll('mobilizations').length ? searchParams.getAll('mobilizations') : searchParams.get('mobilizations') ? [searchParams.get('mobilizations')!] : undefined,
+      countries: searchParams.getAll('countries').length ? searchParams.getAll('countries') : searchParams.get('countries') ? [searchParams.get('countries')!] : undefined,
+      regions: searchParams.getAll('regions').length ? searchParams.getAll('regions') : searchParams.get('regions') ? [searchParams.get('regions')!] : undefined,
       timeseries: searchParams.get('timeseries') === 'true',
       use_pads: searchParams.get('use_pads') === 'true',
       aggregation: searchParams.get('aggregation') || 'day',
       output: searchParams.get('output') || 'json',
       include_data: searchParams.get('include_data') === 'true',
       space: searchParams.get('space') || undefined,
-      platform: searchParams.getAll('platform'),
+      platform: searchParams.getAll('platform').length ? searchParams.getAll('platform') : searchParams.get('platform') ? [searchParams.get('platform')!] : undefined,
       search: searchParams.get('search') || undefined,
-      templates: searchParams.getAll('templates'),
-      thematic_areas: searchParams.getAll('thematic_areas'),
-      sdgs: searchParams.getAll('sdgs'),
+      templates: searchParams.getAll('templates').length ? searchParams.getAll('templates') : searchParams.get('templates') ? [searchParams.get('templates')!] : undefined,
+      thematic_areas: searchParams.getAll('thematic_areas').length ? searchParams.getAll('thematic_areas') : searchParams.get('thematic_areas') ? [searchParams.get('thematic_areas')!] : undefined,
+      sdgs: searchParams.getAll('sdgs').length ? searchParams.getAll('sdgs') : searchParams.get('sdgs') ? [searchParams.get('sdgs')!] : undefined,
       pinboard: searchParams.get('pinboard') || undefined,
       section: searchParams.get('section') || undefined,
     };
 
     // Pass session info to buildFilters
-    const { generalFilters, platformFilters, typeFilter, type, tags } = await buildFilters(params, sessionInfo);
+    const { generalFilters, platformFilters, typeFilter, type, tags, pads, mobilizations } = await buildFilters(params, sessionInfo);
 
     // If there are platform filters OR if we need to filter by pads that are actually tagged,
     // query both tables
