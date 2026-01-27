@@ -69,14 +69,14 @@ export default function CookieConsent() {
       if (!prefs.functional) {
         // Clear all functional data when consent is revoked
         clearFunctionalData();
-        console.log('Functional cookies disabled: Cleared stored preferences');
+        // console.log('Functional cookies disabled: Cleared stored preferences');
       } else {
         console.log('Functional cookies enabled: User preferences will be saved');
       }
       
       // Log analytics consent status (actual loading handled by GoatCounterAnalytics component)
       if (prefs.analytics) {
-        console.log('Analytics cookies enabled: GoatCounter will be loaded');
+        // console.log('Analytics cookies enabled: GoatCounter will be loaded');
       } else {
         console.log('Analytics cookies disabled: GoatCounter will not be loaded');
       }
