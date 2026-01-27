@@ -243,7 +243,7 @@ export default function CollectionReview({ slug, highlights: _highlights, creato
                 <span className="font-semibold">Creator:</span> {creatorName || "Unknown"}
               </p>
 
-              <div className={clsx("border-2 border-black p-2 flex items-center gap-3", getStatusColor())}>
+              {/* <div className={clsx("border-2 border-black p-2 flex items-center gap-3", getStatusColor())}>
                 {getStatusIcon()}
                 <div>
                   <p className="font-bold text-lg">{getStatusText()}</p>
@@ -266,7 +266,7 @@ export default function CollectionReview({ slug, highlights: _highlights, creato
                     </p>
                   )}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 

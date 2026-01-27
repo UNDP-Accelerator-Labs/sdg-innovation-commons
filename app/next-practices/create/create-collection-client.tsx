@@ -34,6 +34,7 @@ export default function CreateCollectionClient() {
 
   const [step, setStep] = useState<number>(1)
   const [isEditing, setIsEditing] = useState(!!editId)
+  const [collectionId, setCollectionId] = useState<number | null>(null) // Track collection ID to prevent duplication
   const [slug, setSlug] = useState("")
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
@@ -129,6 +130,7 @@ export default function CreateCollectionClient() {
             return
           }
           
+          setCollectionId(data.id || null) // Capture collection ID
           setSlug(data.slug || "")
           setTitle(data.title || "")
           setDescription(data.description || "")
@@ -210,15 +212,32 @@ export default function CreateCollectionClient() {
     if (isRejected) return false
     try {
       setAutosaveStatus('Saving...')
+      
+      // When saving changes to a published collection, change status to draft
+      // so changes don't go live until user explicitly clicks "Update Live Page"
+      let modifiedHighlights = existingHighlights;
+      if (isEditing && existingHighlights && (existingHighlights.status === 'published' || existingHighlights.published === true)) {
+        modifiedHighlights = {
+          ...existingHighlights,
+          status: 'draft',
+          published: false,
+          awaiting_review: false,
+          // Preserve creator information
+          submitted_by: existingHighlights.submitted_by,
+          creator_uuid: existingHighlights.creator_uuid,
+        };
+      }
+      
       const payload = {
+        ...(collectionId && { id: collectionId }), // Include ID if we have it to update instead of create
         slug: slug.trim(),
         title: title.trim(),
         description,
         content: content || null,
         main_image: mainImage || null,
         sections: sectionsList || [],
-        // Preserve existing highlights when editing, don't overwrite with null
-        ...(existingHighlights && { highlights: existingHighlights }),
+        // Use modified highlights that set status to draft for published collections
+        ...(modifiedHighlights && { highlights: modifiedHighlights }),
         boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
         external_resources: externalResources,
       }
@@ -242,7 +261,12 @@ export default function CreateCollectionClient() {
         return false
       }
 
-      // success
+      // success - capture collection ID from response
+      const data = await res.json().catch(() => ({}))
+      if (data?.id && !collectionId) {
+        setCollectionId(data.id) // Store ID after first save
+        setIsEditing(true) // Now we're editing an existing collection
+      }
       setApiError("")
       setAutosaveStatus('Saved')
       // clear saved indicator after a short delay
@@ -468,6 +492,78 @@ export default function CreateCollectionClient() {
     handleSaveBasics()
   }
 
+  // Save changes without submitting for review or changing publish status
+  const handleSaveChanges = async () => {
+    if(isRejected) return
+    if (saving) return
+    if (uploadsInProgress) return setPublishError('Uploads in progress, please wait')
+    setPublishMessage(null)
+    setPublishError(null)
+    setSaving(true)
+    try {
+      // When saving changes to a published collection, change status to draft
+      // so changes don't go live until user explicitly clicks "Update Live Page"
+      let modifiedHighlights = existingHighlights;
+      if (isEditing && existingHighlights && (existingHighlights.status === 'published' || existingHighlights.published === true)) {
+        modifiedHighlights = {
+          ...existingHighlights,
+          status: 'draft',
+          published: false,
+          awaiting_review: false,
+          // Preserve creator information
+          submitted_by: existingHighlights.submitted_by,
+          creator_uuid: existingHighlights.creator_uuid,
+        };
+      }
+      
+      const payload = {
+        ...(collectionId && { id: collectionId }), // Include ID to ensure we update the right collection
+        slug: slug.trim(),
+        title: title.trim(),
+        description,
+        content: content || null,
+        main_image: mainImage || null,
+        sections: sectionsList || [],
+        // Use modified highlights that set status to draft for published collections
+        ...(modifiedHighlights && { highlights: modifiedHighlights }),
+        boards: selectedBoards.map((id) => Number(id)).filter((n) => Number.isFinite(n)),
+        external_resources: externalResources,
+        // Don't trigger review or publish - just save
+      }
+      const res = await fetch('/api/collections', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+      const data = await res.json().catch(() => ({}))
+      setSaving(false)
+      if (!res.ok) {
+        setPublishError(data?.message || data?.error || 'Failed to save changes')
+        return
+      }
+      
+      // Update local state to reflect the new draft status
+      if (collectionStatus === 'published') {
+        setCollectionStatus('draft')
+        setPublishMessage('Changes saved as draft. Click "Update Live Page" to publish changes.')
+      } else {
+        setPublishMessage('Changes saved successfully!')
+      }
+      
+      // Update existing highlights to reflect new status
+      if (data?.highlights) {
+        setExistingHighlights(data.highlights)
+      }
+      
+      // Clear message after a delay
+      setTimeout(() => setPublishMessage(null), 5000)
+    } catch (e) {
+      console.error('Save changes failed', e)
+      setSaving(false)
+      setPublishError('Failed to save changes')
+    }
+  }
+
   // Publish handler: explicit save + feedback + redirect
   const handleSubmitForReview = async () => {
     if(isRejected) return
@@ -478,6 +574,7 @@ export default function CreateCollectionClient() {
     setSaving(true)
     try {
       const payload = {
+        ...(collectionId && { id: collectionId }), // Include ID to ensure we update the right collection
         slug: slug.trim(),
         title: title.trim(),
         description,
@@ -536,6 +633,7 @@ export default function CreateCollectionClient() {
     setSaving(true)
     try {
       const payload = {
+        ...(collectionId && { id: collectionId }), // Include ID to ensure we update the right collection
         slug: slug.trim(),
         title: title.trim(),
         description,
@@ -632,6 +730,42 @@ export default function CreateCollectionClient() {
     const newSections = [...sectionsList]
     newSections[sectionIdx].items.splice(itemIdx, 1)
     setSectionsList(newSections)
+  }
+
+  const moveSectionUp = (idx: number) => {
+    if (idx === 0) return
+    const newSections = [...sectionsList]
+    const temp = newSections[idx]
+    newSections[idx] = newSections[idx - 1]
+    newSections[idx - 1] = temp
+    setSectionsList(newSections)
+  }
+
+  const moveSectionDown = (idx: number) => {
+    if (idx === sectionsList.length - 1) return
+    const newSections = [...sectionsList]
+    const temp = newSections[idx]
+    newSections[idx] = newSections[idx + 1]
+    newSections[idx + 1] = temp
+    setSectionsList(newSections)
+  }
+
+  const moveExternalResourceUp = (idx: number) => {
+    if (idx === 0) return
+    const newResources = [...externalResources]
+    const temp = newResources[idx]
+    newResources[idx] = newResources[idx - 1]
+    newResources[idx - 1] = temp
+    setExternalResources(newResources)
+  }
+
+  const moveExternalResourceDown = (idx: number) => {
+    if (idx === externalResources.length - 1) return
+    const newResources = [...externalResources]
+    const temp = newResources[idx]
+    newResources[idx] = newResources[idx + 1]
+    newResources[idx + 1] = temp
+    setExternalResources(newResources)
   }
 
   // Fetch published boards from API. Always loads 10 most recent published boards.
@@ -822,14 +956,14 @@ export default function CreateCollectionClient() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block font-bold text-gray-900 mb-2">Collection Slug *</label>
-                    <p className="text-xs text-gray-600 mb-3">URL-friendly name (e.g., circular-economy)</p>
+                    <p className="text-xs text-gray-600 mb-3">{isEditing ? 'Slug cannot be changed when editing' : 'URL-friendly name (e.g., circular-economy)'}</p>
                     <input
                       type="text"
                       value={slug}
                       onChange={(e) => setSlug(e.target.value.toLowerCase().replace(/\s+/g, "-"))}
                       placeholder="circular-economy"
-                      disabled={isRejected}
-                      className={`w-full border-2 border-black p-3 focus:outline-none focus:ring-2 focus:ring-[#0072bc] focus:ring-offset-2 font-mono text-sm ${isRejected ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                      disabled={isRejected || isEditing}
+                      className={`w-full border-2 border-black p-3 focus:outline-none focus:ring-2 focus:ring-[#0072bc] focus:ring-offset-2 font-mono text-sm ${isRejected || isEditing ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                     />
                     <div className="mt-2 min-h-5">
                       <span className="inline-block px-2 py-0.5 text-xs rounded font-semibold mr-2">
@@ -968,6 +1102,25 @@ export default function CreateCollectionClient() {
                     {sectionsList.map((sec, idx) => (
                       <div key={idx} className="border-2 border-gray-300 rounded p-4 bg-gray-50">
                         <div className="flex gap-2 mb-4">
+                          {/* Reorder buttons */}
+                          <div className="flex flex-col gap-1">
+                            <button
+                              onClick={() => moveSectionUp(idx)}
+                              disabled={isRejected || idx === 0}
+                              className={`px-2 py-1 border-2 border-gray-400 text-gray-700 font-bold rounded text-xs ${isRejected || idx === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-200'}`}
+                              title="Move up"
+                            >
+                              ▲
+                            </button>
+                            <button
+                              onClick={() => moveSectionDown(idx)}
+                              disabled={isRejected || idx === sectionsList.length - 1}
+                              className={`px-2 py-1 border-2 border-gray-400 text-gray-700 font-bold rounded text-xs ${isRejected || idx === sectionsList.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-200'}`}
+                              title="Move down"
+                            >
+                              ▼
+                            </button>
+                          </div>
                           <input
                             className={`flex-1 border-2 border-black py-2 font-bold ${isRejected ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                             placeholder="Section title"
@@ -1329,6 +1482,27 @@ export default function CreateCollectionClient() {
                         key={index}
                         className="border-2 border-black p-3 rounded bg-white flex justify-between items-start"
                       >
+                        {/* Reorder buttons */}
+                        <div className="flex flex-col gap-1 mr-3">
+                          <button
+                            type="button"
+                            onClick={() => moveExternalResourceUp(index)}
+                            disabled={isRejected || index === 0}
+                            className={`px-2 py-1 border-2 border-gray-400 text-gray-700 font-bold rounded text-xs ${isRejected || index === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-200'}`}
+                            title="Move up"
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => moveExternalResourceDown(index)}
+                            disabled={isRejected || index === externalResources.length - 1}
+                            className={`px-2 py-1 border-2 border-gray-400 text-gray-700 font-bold rounded text-xs ${isRejected || index === externalResources.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-gray-200'}`}
+                            title="Move down"
+                          >
+                            ▼
+                          </button>
+                        </div>
                         <div className="flex-1">
                           <h4 className="font-bold text-sm">{resource.title}</h4>
                           {resource.description && (
@@ -1508,33 +1682,66 @@ export default function CreateCollectionClient() {
                     onClick={handlePreview}
                     disabled={uploadsInProgress || isRejected}
                   >
-                    <span className="relative z-10"> Preview</span>
+                    <span className="relative z-10">Preview</span>
                   </Button>
-                  {isAdmin ? (
-                    // Admin sees both options
+                  
+                  {/* Show appropriate buttons based on edit mode and status */}
+                  {isEditing && collectionStatus === 'published' ? (
+                    // Editing a published collection
                     <>
                       <Button
-                        onClick={handleSubmitForReview}
+                        onClick={handleSaveChanges}
                         disabled={saving || uploadsInProgress || isRejected}
-                        className="bg-gray-600 hover:bg-gray-700"
+                        // className="bg-blue-600 hover:bg-blue-700"
                       >
-                        <span className="relative z-10">{isRejected ? "Cannot Submit Rejected Collection" : saving ? "Submitting..." : uploadsInProgress ? 'Uploads in progress...' : 'Submit for review'}</span>
+                        <span className="relative z-10">{isRejected ? "Cannot Save Rejected Collection" : saving ? "Saving..." : uploadsInProgress ? 'Uploads in progress...' : 'Save Changes'}</span>
+                      </Button>
+                      {/* Allow both admins and creators to update live page */}
+                      {(isAdmin || (session?.uuid && collectionCreatorUuid === session.uuid)) && (
+                        <Button
+                          onClick={handleAdminPublish}
+                          disabled={saving || uploadsInProgress || isRejected}
+                        >
+                          <span className="relative z-10">{isRejected ? "Cannot Update" : saving ? "Updating..." : uploadsInProgress ? 'Uploads in progress...' : 'Update Live Page'}</span>
+                        </Button>
+                      )}
+                    </>
+                  ) : isAdmin ? (
+                    // Admin creating or editing draft - show both options
+                    <>
+                      <Button
+                        onClick={handleSaveChanges}
+                        disabled={saving || uploadsInProgress || isRejected}
+                        // className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        <span className="relative z-10">{isRejected ? "Cannot Save" : saving ? "Saving..." : uploadsInProgress ? 'Uploads in progress...' : isEditing ? 'Save Changes' : 'Save Draft'}</span>
                       </Button>
                       <Button
                         onClick={handleAdminPublish}
                         disabled={saving || uploadsInProgress || isRejected}
                       >
-                        <span className="relative z-10">{isRejected ? "Cannot Publish Rejected Collection" : saving ? "Publishing..." : uploadsInProgress ? 'Uploads in progress...' : 'Publish Now'}</span>
+                        <span className="relative z-10">{isRejected ? "Cannot Publish" : saving ? "Publishing..." : uploadsInProgress ? 'Uploads in progress...' : 'Publish Now'}</span>
                       </Button>
                     </>
                   ) : (
-                    // Regular users see only submit for review
-                    <Button
-                      onClick={handleSubmitForReview}
-                      disabled={saving || uploadsInProgress || isRejected}
-                    >
-                      <span className="relative z-10">{isRejected ? "Cannot Submit Rejected Collection" : saving ? "Submitting..." : uploadsInProgress ? 'Uploads in progress...' : 'Submit for review'}</span>
-                    </Button>
+                    // Regular users - save or submit for review
+                    <>
+                      <Button
+                        onClick={handleSaveChanges}
+                        disabled={saving || uploadsInProgress || isRejected}
+                        // className="bg-blue-600 hover:bg-blue-700"
+                      >
+                        <span className="relative z-10">{isRejected ? "Cannot Save" : saving ? "Saving..." : uploadsInProgress ? 'Uploads in progress...' : isEditing ? 'Save Changes' : 'Save Draft'}</span>
+                      </Button>
+                      {(!isEditing || collectionStatus === 'draft') && (
+                        <Button
+                          onClick={handleSubmitForReview}
+                          disabled={saving || uploadsInProgress || isRejected}
+                        >
+                          <span className="relative z-10">{isRejected ? "Cannot Submit" : saving ? "Submitting..." : uploadsInProgress ? 'Uploads in progress...' : 'Submit for Review'}</span>
+                        </Button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>

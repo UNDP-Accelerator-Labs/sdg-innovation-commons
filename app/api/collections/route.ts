@@ -115,8 +115,26 @@ export async function GET(req: Request) {
         return NextResponse.json({ error: "Not found" }, { status: 404 });
 
       const row = res.rows[0];
-      // Add country to highlights object
+      
+      // Access control for draft collections
       const highlights = row.highlights || {};
+      const status = highlights.status || 'draft';
+      const creatorUuid = highlights.creator_uuid;
+      
+      // If collection is not published, only creator and admins can view it
+      if (status !== 'published' && !highlights.published) {
+        const isCreator = loggedInUuid && creatorUuid && loggedInUuid === creatorUuid;
+        const isAdmin = session && (session.rights ?? 0) >= 4;
+        
+        if (!isCreator && !isAdmin) {
+          return NextResponse.json({ 
+            error: "Forbidden", 
+            message: "This collection is currently in draft mode and has not been published yet. Only the collection creator and administrators can view unpublished collections." 
+          }, { status: 403 });
+        }
+      }
+      
+      // Add country to highlights object
       if (row.creator_country) {
         highlights.creator_country = row.creator_country;
       }
@@ -302,6 +320,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
     const {
+      id, // Collection ID for updates (prevents duplication when slug changes)
       slug,
       title,
       description,
@@ -500,15 +519,29 @@ export async function POST(req: Request) {
     }
 
     // Get existing highlights for updates to preserve them when not explicitly modifying
+    // Check by ID first (if provided), then by slug
     let existingHighlights: any = null;
+    let existingCollectionId: number | null = null;
     try {
-      const existingRes = await query(
-        "general", 
-        "SELECT highlights FROM collections WHERE slug = $1", 
-        [slug]
-      );
+      let existingRes;
+      if (id) {
+        // If ID is provided, use it (more reliable than slug which can change during creation)
+        existingRes = await query(
+          "general", 
+          "SELECT id, highlights FROM collections WHERE id = $1", 
+          [id]
+        );
+      } else {
+        // Fall back to slug lookup
+        existingRes = await query(
+          "general", 
+          "SELECT id, highlights FROM collections WHERE slug = $1", 
+          [slug]
+        );
+      }
       if (existingRes?.rows?.length > 0) {
         existingHighlights = existingRes.rows[0].highlights;
+        existingCollectionId = existingRes.rows[0].id;
       }
     } catch (e) {
       // Ignore error, treat as new collection
@@ -539,25 +572,44 @@ export async function POST(req: Request) {
       };
     } else if (submit_for_review) {
       // Regular submit for review process
+      // Only trigger review for new collections or drafts, not for already published collections
+      const isAlreadyPublished = existingHighlights?.status === "published";
       const base = highlights && typeof highlights === "object" 
         ? highlights 
         : (existingHighlights && typeof existingHighlights === "object" ? existingHighlights : {});
-      finalHighlights = {
-        ...base,
-        awaiting_review: true,
-        published: false,
-        status: "awaiting_review",
-        // Preserve original creator info when editing, only set for new collections
-        submitted_by: isExistingCollection ? (base.submitted_by || existingHighlights?.submitted_by) : creator_name,
-        creator_uuid: isExistingCollection ? (base.creator_uuid || existingHighlights?.creator_uuid) : (session?.uuid || null),
-        submitted_at: new Date().toISOString(),
-        comments: Array.isArray(base.comments) ? base.comments : [],
-      };
+      
+      if (isAlreadyPublished) {
+        // If already published, just preserve the existing status - don't trigger review again
+        finalHighlights = {
+          ...existingHighlights,
+          // Update content but maintain published status
+          submitted_by: existingHighlights.submitted_by,
+          creator_uuid: existingHighlights.creator_uuid,
+        };
+      } else {
+        // New or draft collection - submit for review
+        finalHighlights = {
+          ...base,
+          awaiting_review: true,
+          published: false,
+          status: "awaiting_review",
+          // Preserve original creator info when editing, only set for new collections
+          submitted_by: isExistingCollection ? (base.submitted_by || existingHighlights?.submitted_by) : creator_name,
+          creator_uuid: isExistingCollection ? (base.creator_uuid || existingHighlights?.creator_uuid) : (session?.uuid || null),
+          submitted_at: new Date().toISOString(),
+          comments: Array.isArray(base.comments) ? base.comments : [],
+        };
+      }
     } else if (highlights && typeof highlights === "object") {
-      // When highlights are explicitly provided, preserve creator info if editing
+      // When highlights are explicitly provided, use the status from the payload
+      // This allows the client to change status (e.g., published -> draft when saving changes)
       finalHighlights = {
         ...highlights,
-        status: highlights.status || "draft",
+        // Use status from payload if provided, otherwise use existing or default to draft
+        status: highlights.status || (isExistingCollection && existingHighlights?.status) || "draft",
+        // Set published flag based on status
+        published: highlights.status === "published" || highlights.published === true,
+        awaiting_review: highlights.awaiting_review || false,
         // Preserve original creator info when editing
         submitted_by: isExistingCollection && existingHighlights?.submitted_by ? existingHighlights.submitted_by : creator_name,
         creator_uuid: isExistingCollection && existingHighlights?.creator_uuid ? existingHighlights.creator_uuid : (session?.uuid || null),
@@ -574,34 +626,70 @@ export async function POST(req: Request) {
       };
     }
 
-    // Upsert by slug; server sets creator_name if inserting (or leaves existing creator_name on update if null)
-    const sql = `INSERT INTO collections (slug, title, description, content, creator_name, main_image, sections, highlights, boards, external_resources)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9,$10::jsonb)
-                 ON CONFLICT (slug) DO UPDATE SET
-                   title = EXCLUDED.title,
-                   description = EXCLUDED.description,
-                   content = EXCLUDED.content,
-                   creator_name = COALESCE(collections.creator_name, EXCLUDED.creator_name),
-                   main_image = EXCLUDED.main_image,
-                   sections = EXCLUDED.sections,
-                   highlights = EXCLUDED.highlights,
-                   boards = EXCLUDED.boards,
-                   external_resources = EXCLUDED.external_resources,
-                   updated_at = NOW()
-                 RETURNING *`;
-
-    const params = [
-      slug,
-      title || null,
-      cleanDescription,
-      content || null,
-      creator_name,
-      main_image || null,
-      sanitizedSections ? JSON.stringify(sanitizedSections) : null,
-      finalHighlights ? JSON.stringify(finalHighlights) : null,
-      boardsArr,
-      sanitizedExternalResources ? JSON.stringify(sanitizedExternalResources) : '[]',
-    ];
+    // Determine whether to INSERT or UPDATE based on existingCollectionId
+    let sql: string;
+    let params: any[];
+    
+    if (existingCollectionId) {
+      // Update existing collection by ID (prevents duplication when slug changes)
+      sql = `UPDATE collections SET
+               slug = $1,
+               title = $2,
+               description = $3,
+               content = $4,
+               creator_name = COALESCE(creator_name, $5),
+               main_image = $6,
+               sections = $7::jsonb,
+               highlights = $8::jsonb,
+               boards = $9,
+               external_resources = $10::jsonb,
+               updated_at = NOW()
+             WHERE id = $11
+             RETURNING *`;
+      
+      params = [
+        slug,
+        title || null,
+        cleanDescription,
+        content || null,
+        creator_name,
+        main_image || null,
+        sanitizedSections ? JSON.stringify(sanitizedSections) : null,
+        finalHighlights ? JSON.stringify(finalHighlights) : null,
+        boardsArr,
+        sanitizedExternalResources ? JSON.stringify(sanitizedExternalResources) : '[]',
+        existingCollectionId,
+      ];
+    } else {
+      // Insert new collection (with ON CONFLICT for safety)
+      sql = `INSERT INTO collections (slug, title, description, content, creator_name, main_image, sections, highlights, boards, external_resources)
+                   VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9,$10::jsonb)
+                   ON CONFLICT (slug) DO UPDATE SET
+                     title = EXCLUDED.title,
+                     description = EXCLUDED.description,
+                     content = EXCLUDED.content,
+                     creator_name = COALESCE(collections.creator_name, EXCLUDED.creator_name),
+                     main_image = EXCLUDED.main_image,
+                     sections = EXCLUDED.sections,
+                     highlights = EXCLUDED.highlights,
+                     boards = EXCLUDED.boards,
+                     external_resources = EXCLUDED.external_resources,
+                     updated_at = NOW()
+                   RETURNING *`;
+      
+      params = [
+        slug,
+        title || null,
+        cleanDescription,
+        content || null,
+        creator_name,
+        main_image || null,
+        sanitizedSections ? JSON.stringify(sanitizedSections) : null,
+        finalHighlights ? JSON.stringify(finalHighlights) : null,
+        boardsArr,
+        sanitizedExternalResources ? JSON.stringify(sanitizedExternalResources) : '[]',
+      ];
+    }
 
     const res = await query("general", sql, params as any[]);
     const row = res?.rows?.[0];
@@ -636,16 +724,6 @@ export async function POST(req: Request) {
       } catch (e) {
         console.warn("Failed to create review notification", e);
       }
-    }
-
-    // Log admin actions for audit trail
-    if (isAdminPublishing) {
-      console.log(`Admin ${session?.name || session?.uuid} published collection directly:`, {
-        slug: row.slug,
-        title: row.title,
-        admin_uuid: session?.uuid,
-        timestamp: new Date().toISOString()
-      });
     }
 
     return NextResponse.json({

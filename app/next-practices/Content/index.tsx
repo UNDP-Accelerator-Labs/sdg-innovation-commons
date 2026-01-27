@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { Button } from '@/app/ui/components/Button';
 import { useMyCollections, usePublicCollections } from '../hooks';
-import { collection as collectionData } from '@/app/lib/data/collection/tempData';
 import CollectionTabs from '../components/CollectionTabs';
 import CollectionGrid from '../components/CollectionGrid';
 import type { SectionProps, CollectionTab } from '../types';
@@ -19,20 +18,8 @@ export default function Section({ searchParams }: SectionProps) {
   const { collections: myCollections, loading: loadingMy } = useMyCollections(isLogedIn || false);
   const { collections: publicCollections, loading: loadingPublic } = usePublicCollections(12);
 
-  // Fallback temp data for display
-  const tempData = collectionData.map((d: any, i: number) => {
-    const { id, ...obj } = d;
-    return {
-      ...obj,
-      key: id,
-      id: i,
-      href: `/next-practices/${id}`,
-      description: obj.sections?.[0]?.items?.[0]?.txt || '',
-    };
-  });
-
-  // Use public collections if available, otherwise fallback to temp data
-  const publicData = publicCollections.length > 0 ? publicCollections : tempData;
+  // Use public collections from API
+  const publicData = publicCollections;
 
   // Determine which collections to display
   const displayedCollections = activeTab === 'my' ? myCollections : publicData;
