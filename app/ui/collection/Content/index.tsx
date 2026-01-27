@@ -6,6 +6,7 @@ import CollectionReview from "@/app/next-practices/[collection]/CollectionReview
 
 import Hero from "../Hero";
 import Infobar from "../Infobar";
+import NotPublished from "../NotPublished";
 import { Button } from "@/app/ui/components/Button";
 import Link from "next/link";
 
@@ -28,6 +29,7 @@ export default async function Section({
   const { page, search } = searchParams;
 
   const {
+    unauthorized,
     title,
     description,
     creatorName,
@@ -41,6 +43,11 @@ export default async function Section({
     highlights,
     externalResources = [],
   } = await collectionData({ id, searchParams });
+
+  // If user is not authorized to view this draft collection, show NotPublished component
+  if (unauthorized) {
+    return <NotPublished />;
+  }
 
   return (
     <>
@@ -60,19 +67,6 @@ export default async function Section({
         locations={locations}
         // vignette={vignette}
       />
-
-      {/* Review panel: client component handles visibility and admin actions */}
-      {highlights?.length <= 0 || highlights?.published === true ? (
-        <></>
-      ) : (
-        <div className="home-section py-[40px] px-[40px] lg:py-[80px]">
-          <CollectionReview
-            slug={id}
-            highlights={highlights}
-            creatorName={creatorName}
-          />
-        </div>
-      )}
 
       <section className="home-section grid-bg py-[40px] lg:py-[80px]">
         <div className="inner xxl:px-[80px] xxl:w-[1440px] mx-auto w-[375px] px-[20px] md:w-[744px] lg:w-[992px] lg:px-[80px] xl:w-[1200px] xl:px-[40px]">
@@ -171,6 +165,19 @@ export default async function Section({
           )}
         </div>
       </section>
+
+      {/* Review panel: client component handles visibility and admin actions */}
+      {highlights?.length <= 0 || highlights?.published === true ? (
+        <></>
+      ) : (
+        <div className="home-section py-[40px] px-[40px] lg:py-[80px]">
+          <CollectionReview
+            slug={id}
+            highlights={highlights}
+            creatorName={creatorName}
+          />
+        </div>
+      )}
     </>
   );
 }

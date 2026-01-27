@@ -1,28 +1,38 @@
 'use client';
-import { useState, useRef, createRef, RefObject } from 'react';
+import { useState, useRef, createRef, RefObject, useEffect } from 'react';
 import { Button } from '@/app/ui/components/Button';
 import { useIsVisible } from '@/app/ui/components/Interaction';
 import Link from 'next/link';
 import Card from '@/app/ui/components/Card/collection-card';
 import clsx from 'clsx';
-import { collection as collectionData } from '@/app/lib/data/collection/tempData';
 
 export default function Section() {
-    const slides = collectionData.map((d: any, i: number) => {
-        const { id, ...obj } = d;
-        obj.key = id;
-        obj.id = i;
-        obj.href = `/next-practices/${id}`;
-        obj.description = obj.sections[0].items[0].txt;
-        // obj.cardBackgroundImage = '/images/Rectangle 68.png';
-        return obj
-    });
+    const [slides, setSlides] = useState<any[]>([]);
+
+    // Fetch published collections from API
+    useEffect(() => {
+        fetch('/api/collections?list=public&limit=10')
+            .then(res => res.json())
+            .then(data => {
+                const collections = (data || []).map((d: any, i: number) => ({
+                    ...d,
+                    key: d.slug,
+                    id: i,
+                    href: `/next-practices/${d.slug}`,
+                    description: d.description || '',
+                    mainImage: d.main_image || '',
+                    boards: d.boards || [],
+                }));
+                setSlides(collections);
+            })
+            .catch(err => console.error('Failed to fetch collections', err));
+    }, []);
 
     /*
         Credit: https://stackoverflow.com/questions/54633690/how-can-i-use-multiple-refs-for-an-array-of-elements-with-hooks
     */
     const elRefs = useRef<Array<RefObject<HTMLDivElement> | null>>([]);
-    if (elRefs.current.length !== slides.length) {
+    if (slides && elRefs.current.length !== slides.length) {
         // add or remove refs
         elRefs.current = Array(slides.length)
         .fill(0)
@@ -33,16 +43,18 @@ export default function Section() {
     const [animate, setAnimate] = useState(true); // Manage animation
 
     const handleNextSlide = () => {
+        if (!slides || slides.length === 0) return;
         setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
         elRefs?.current[(currentSlide + 1) % slides.length]?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     const handlePrevSlide = () => {
+        if (!slides || slides.length === 0) return;
         setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
         elRefs?.current[(currentSlide || slides.length) - 1]?.current?.scrollIntoView({ behavior: "smooth" });
     };
 
-    const currentData = slides[currentSlide]; // Get the current slide data
+    const currentData = slides && slides.length > 0 ? slides[currentSlide] : null; // Get the current slide data
 
     // const ref1 = useRef<HTMLDivElement>(null);
     // const isVisible1 = useIsVisible(ref1);
@@ -50,6 +62,17 @@ export default function Section() {
     // const [searchQuery, setSearchQuery] = useState<string>(searchParams.search || '');
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
+
+    // Show loading or nothing if no collections are available yet
+    if (!slides || !slides.length || !currentData) {
+        return (
+            <section className='relative home-section pt-[120px] py-[80px] overflow-hidden min-h-[100vh] flex items-center justify-center'>
+                <div className='text-center text-white'>
+                    <p className='text-lg'>Loading collections...</p>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <>
@@ -102,7 +125,7 @@ export default function Section() {
                                 description={''}
                                 tags={[]}
                                 href={currentData.href}
-                                viewCount={currentData.boards.length}
+                                viewCount={currentData.boards?.length || 0}
                                 backgroundImage={currentData.mainImage}
                                 openInNewTab={false}
                             />
