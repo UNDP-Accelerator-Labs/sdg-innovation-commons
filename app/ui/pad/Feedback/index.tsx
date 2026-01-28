@@ -112,7 +112,8 @@ export default function Feedback({
         {session?.rights >= 3 || session?.name === ownername ? (
           <div className="mt-5 text-sm">
             <h4>Engagement Statistics (visible only to content owner and admin)</h4>
-            <ul className="mx-0">\n              <li>{getEngagementCount('useful') || 0} found this useful.</li>
+            <ul className="mx-0">     
+              <li>{getEngagementCount('useful') || 0} found this useful.</li>
               <li>
                 {getEngagementCount('interesting') || 0} found this interesting.
               </li>

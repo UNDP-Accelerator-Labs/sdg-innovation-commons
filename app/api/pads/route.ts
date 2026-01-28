@@ -12,6 +12,314 @@ import getSession from "@/app/lib/session";
 // Disable caching for this API route
 export const dynamic = 'force-dynamic';
 
+// Helper function to build conditional select fields and joins
+interface QueryBuildOptions {
+  include_tags?: boolean;
+  include_locations?: boolean;
+  include_metafields?: boolean;
+  include_engagement?: boolean;
+  include_comments?: boolean;
+  include_pinboards?: string;
+  userUuid?: string;
+  anonymize_comments?: boolean;
+  isSource?: boolean;
+}
+
+function buildQueryComponents(options: QueryBuildOptions) {
+  const {
+    include_tags,
+    include_locations,
+    include_metafields,
+    include_engagement,
+    include_comments,
+    include_pinboards,
+    userUuid,
+    anonymize_comments,
+    isSource = false,
+  } = options;
+
+  const selectFields: string[] = [];
+  const joins: string[] = [];
+
+  // Base fields
+  if (isSource) {
+    selectFields.push(
+      'p.id AS source_pad_id',
+      'p.owner AS contributor_id',
+      'p.title',
+      'p.date AS created_at',
+      'p.update_at AS updated_at',
+      'p.status',
+      'p.template',
+      'p.ordb',
+      'p.id_db',
+      'p.sections',
+      'p.full_text'
+    );
+  } else {
+    selectFields.push(
+      'p.id AS pad_id',
+      'p.owner AS contributor_id',
+      'p.title',
+      'p.date AS created_at',
+      'p.update_at AS updated_at',
+      'p.status',
+      'p.source AS source_pad_id',
+      'u.name AS ownername',
+      'u.position AS position',
+      'u.email AS email',
+      'u.iso3 AS iso3',
+      'a.name_en AS country',
+      'p.template',
+      'p.ordb',
+      'p.id_db',
+      'p.sections',
+      'p.full_text'
+    );
+    joins.push(
+      'LEFT JOIN users u ON u.uuid = p.owner',
+      'LEFT JOIN adm0 a ON a.iso_a3 = u.iso3'
+    );
+  }
+
+  // Tags
+  if (include_tags) {
+    selectFields.push(`
+      COALESCE(
+        jsonb_agg(DISTINCT jsonb_build_object('tag_id', tg.tag_id, 'type', tg.type, 'key', tag.key, 'name', tag.name)) 
+        FILTER (WHERE tg.tag_id IS NOT NULL), 
+        '[]'
+      ) AS tags`);
+    joins.push(
+      'LEFT JOIN tagging tg ON tg.pad = p.id',
+      'LEFT JOIN tags tag ON tag.id = tg.tag_id'
+    );
+  }
+
+  // Locations
+  if (include_locations) {
+    selectFields.push(`
+      COALESCE(
+        jsonb_agg(DISTINCT jsonb_build_object('lat', l.lat, 'lng', l.lng, 'iso3', l.iso3, 'country', adm.name_en)) 
+        FILTER (WHERE l.lat IS NOT NULL AND l.lng IS NOT NULL), 
+        '[]'
+      ) AS locations`);
+    joins.push(
+      'LEFT JOIN locations l ON l.pad = p.id',
+      'LEFT JOIN adm0 adm ON adm.iso_a3 = l.iso3'
+    );
+  }
+
+  // Metafields
+  if (include_metafields) {
+    selectFields.push(`
+      COALESCE(
+        jsonb_agg(DISTINCT jsonb_build_object('type', m.type, 'name', m.name, 'value', m.value)) 
+        FILTER (WHERE m.value IS NOT NULL), 
+        '[]'
+      ) AS metadata`);
+    joins.push('LEFT JOIN metafields m ON m.pad = p.id');
+  }
+
+  // Engagement (not for source pads)
+  if (include_engagement && !isSource) {
+    selectFields.push(`
+      COALESCE(
+        jsonb_agg(DISTINCT jsonb_build_object('type', eng.type, 'count', eng.count)) 
+        FILTER (WHERE eng.type IS NOT NULL), 
+        '[]'
+      ) AS engagement`);
+    
+    if (userUuid) {
+      selectFields.push(`
+        COALESCE(
+          jsonb_agg(DISTINCT jsonb_build_object('type', ue.type, 'count', (SELECT count(type) FROM engagement WHERE type = ue.type AND docid = p.id)))
+          FILTER (WHERE ue.type IS NOT NULL AND ue.contributor = '${userUuid}'),
+          '[]'
+        ) AS current_user_engagement`);
+    }
+    
+    selectFields.push(`
+      jsonb_build_object(
+        'views', COALESCE(SUM(ps.view_count), 0),
+        'reads', COALESCE(SUM(ps.read_count), 0)
+      ) AS views`);
+
+    joins.push(`LEFT JOIN (
+      SELECT docid, type, COUNT(*)::int AS count
+      FROM engagement
+      WHERE doctype = 'pad'
+      GROUP BY docid, type
+    ) eng ON eng.docid = p.id`);
+    
+    if (userUuid) {
+      joins.push(`LEFT JOIN engagement ue ON ue.docid = p.id AND ue.doctype = 'pad'`);
+    }
+    
+    joins.push(`LEFT JOIN page_stats ps ON ps.doc_id = p.id AND ps.doc_type = 'pad'`);
+  }
+
+  // Comments (not for source pads)
+  if (include_comments && !isSource) {
+    selectFields.push(`
+      COALESCE(
+        jsonb_agg(DISTINCT
+          jsonb_build_object(
+            'message_id', cmt.id,
+            'response_to_message_id', cmt.source,
+            'user_id', CASE WHEN ${anonymize_comments} THEN NULL ELSE cmt.contributor END,
+            'ownername', CASE WHEN ${anonymize_comments} THEN 'Anonymous' ELSE cu.name END,
+            'date', cmt.date,
+            'message', cmt.message
+          )
+        )
+        FILTER (WHERE cmt.id IS NOT NULL), 
+        '[]'
+      ) AS comments`);
+    joins.push(
+      "LEFT JOIN comments cmt ON cmt.doctype = 'pad' AND cmt.docid = p.id",
+      "LEFT JOIN users cu ON cu.uuid = cmt.contributor"
+    );
+  }
+
+  // Pinboards (not for source pads)
+  if (include_pinboards && !isSource) {
+    selectFields.push(`
+      COALESCE(
+        jsonb_agg(DISTINCT jsonb_build_object('pinboard_id', pb.id, 'title', pb.title))
+        FILTER (WHERE pb.id IS NOT NULL),
+        '[]'
+      ) AS pinboards`);
+    
+    if (include_pinboards === 'all') {
+      joins.push(
+        `LEFT JOIN pinboard_contributions pc ON pc.pad = p.id AND pc.is_included = TRUE`,
+        'LEFT JOIN pinboards pb ON pb.id = pc.pinboard'
+      );
+    } else if (include_pinboards === 'own' && userUuid) {
+      joins.push(
+        `LEFT JOIN pinboard_contributions pc ON pc.pad = p.id AND pc.is_included = TRUE`,
+        `LEFT JOIN pinboards pb ON pb.id = pc.pinboard AND (pb.owner = '${userUuid}' OR pb.id IN (SELECT pinboard FROM pinboard_contributors WHERE participant = '${userUuid}'))`
+      );
+    }
+  }
+
+  return { selectFields, joins };
+}
+
+// Helper function to process individual pad data
+interface ProcessPadOptions {
+  include_data?: boolean;
+  include_imgs?: boolean;
+  include_tags?: boolean;
+  include_locations?: boolean;
+  include_metafields?: boolean;
+  pseudonymize?: boolean;
+  isSource?: boolean;
+  idToShortkeyMap: Map<number, string>;
+  containerMap: { [key: string]: string };
+  protocol: string;
+  host: string;
+}
+
+function processPad(pad: any, options: ProcessPadOptions): void {
+  const {
+    include_data,
+    include_imgs,
+    include_tags,
+    include_locations,
+    include_metafields,
+    pseudonymize,
+    isSource = false,
+    idToShortkeyMap,
+    containerMap,
+    protocol,
+    host,
+  } = options;
+
+  // Compute platform name
+  const platformShortkey = pad.ordb ? idToShortkeyMap.get(pad.ordb) : null;
+  const platformName = platformShortkey 
+    ? mapShortkeyToPlatform(platformShortkey)
+    : "solution";
+
+  // Generate snippet from full_text
+  if (pad.full_text && typeof pad.full_text === "string") {
+    const cleanText = pad.full_text
+      .replace(/\n+/g, " ")
+      .replace(/\s+/g, " ")
+      .replace(/null|undefined/g, '')
+      .trim()
+      .substring(0, 300);
+    pad.snippet = cleanText || "";
+  } else {
+    pad.snippet = "";
+  }
+
+  // Add URL for viewing the pad (for both main and source pads)
+  const idField = isSource ? pad.source_pad_id : (pad.pad_id || pad.id);
+  pad.url = `${protocol}://${host}/pads/${encodeURIComponent(platformName)}/${idField}`;
+
+  // Process images
+  if (include_imgs) {
+    const media = getImg(pad, false);
+    const containerName = containerMap[platformName.toLowerCase()] || 'solutions-mapping';
+    
+    if (!isSource) {
+      pad.media = media.map((imgPath: string) => {
+        if (isURL(imgPath)) {
+          return imgPath;
+        }
+        if (app_storage) {
+          const cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
+          return `${app_storage}${containerName}/${cleanPath}`;
+        }
+        return new URL(imgPath, `${protocol}://${host}`).href;
+      });
+    }
+
+    // Add vignette for both main and source pads
+    if (app_storage && media.length > 0) {
+      const vignette_path = media[0];
+      if (vignette_path && !isURL(vignette_path)) {
+        const cleanPath = vignette_path.startsWith('/') ? vignette_path.substring(1) : vignette_path;
+        pad.vignette = `${app_storage}${containerName}/${cleanPath}`;
+      } else if (isURL(vignette_path)) {
+        pad.vignette = vignette_path;
+      } else {
+        pad.vignette = null;
+      }
+    }
+  }
+
+  // Clean up based on options
+  if (!include_data || isSource) {
+    delete pad.sections;
+  }
+  
+  delete pad.full_text;
+
+  if (!include_tags) {
+    delete pad.tags;
+  }
+
+  if (!include_locations) {
+    delete pad.locations;
+  }
+
+  if (!include_metafields) {
+    delete pad.metadata;
+  }
+
+  // Remove sensitive data if pseudonymize is true (main pads only)
+  if (pseudonymize && !isSource) {
+    delete pad.contributor_id;
+    delete pad.ownername;
+    delete pad.email;
+    delete pad.position;
+  }
+}
+
 interface PadsRequestParams {
   space?: string;
   search?: string;
@@ -625,158 +933,17 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   }
 
   try {
-    // Build conditional SELECT fields
-    const selectFields = [
-      'p.id AS pad_id',
-      'p.owner AS contributor_id',
-      'p.title',
-      'p.date AS created_at',
-      'p.update_at AS updated_at',
-      'p.status',
-      'p.source AS source_pad_id',
-      'u.name AS ownername',
-      'u.position AS position',
-      'u.email AS email',
-      'u.iso3 AS iso3',
-      'a.name_en AS country',
-      'p.template',
-      'p.ordb',
-      'p.id_db',
-      'p.sections',
-      'p.full_text',
-    ];
-
-    // Conditional aggregations
-    if (include_tags) {
-      selectFields.push(`
-        COALESCE(
-          jsonb_agg(DISTINCT jsonb_build_object('tag_id', tg.tag_id, 'type', tg.type, 'key', tag.key, 'name', tag.name)) 
-          FILTER (WHERE tg.tag_id IS NOT NULL), 
-          '[]'
-        ) AS tags`);
-    }
-
-    if (include_locations) {
-      selectFields.push(`
-        COALESCE(
-          jsonb_agg(DISTINCT jsonb_build_object('lat', l.lat, 'lng', l.lng, 'iso3', l.iso3, 'country', adm.name_en)) 
-          FILTER (WHERE l.lat IS NOT NULL AND l.lng IS NOT NULL), 
-          '[]'
-        ) AS locations`);
-    }
-
-    if (include_metafields) {
-      selectFields.push(`
-        COALESCE(
-          jsonb_agg(DISTINCT jsonb_build_object('type', m.type, 'name', m.name, 'value', m.value)) 
-          FILTER (WHERE m.value IS NOT NULL), 
-          '[]'
-        ) AS metadata`);
-    }
-
-    if (include_engagement) {
-      selectFields.push(`
-        COALESCE(
-          jsonb_agg(DISTINCT jsonb_build_object('type', eng.type, 'count', eng.count)) 
-          FILTER (WHERE eng.type IS NOT NULL), 
-          '[]'
-        ) AS engagement`);
-      
-      if (userUuid) {
-        selectFields.push(`
-          COALESCE(
-            jsonb_agg(DISTINCT jsonb_build_object('type', ue.type, 'count', (SELECT count(type) FROM engagement WHERE type = ue.type AND docid = p.id)))
-            FILTER (WHERE ue.type IS NOT NULL AND ue.contributor = '${userUuid}'),
-            '[]'
-          ) AS current_user_engagement`);
-      }
-      
-      // Add page views aggregation
-      selectFields.push(`
-        jsonb_build_object(
-          'views', COALESCE(SUM(ps.view_count), 0),
-          'reads', COALESCE(SUM(ps.read_count), 0)
-        ) AS views`);
-    }
-
-    if (include_comments) {
-      selectFields.push(`
-        COALESCE(
-          jsonb_agg(DISTINCT
-            jsonb_build_object(
-              'message_id', cmt.id,
-              'response_to_message_id', cmt.source,
-              'user_id', CASE WHEN ${anonymize_comments} THEN NULL ELSE cmt.contributor END,
-              'ownername', CASE WHEN ${anonymize_comments} THEN 'Anonymous' ELSE cu.name END,
-              'date', cmt.date,
-              'message', cmt.message
-            )
-          )
-          FILTER (WHERE cmt.id IS NOT NULL), 
-          '[]'
-        ) AS comments`);
-    }
-
-    if (include_pinboards === 'all' || include_pinboards === 'own') {
-      selectFields.push(`
-        COALESCE(
-          jsonb_agg(DISTINCT jsonb_build_object('pinboard_id', pb.id, 'title', pb.title))
-          FILTER (WHERE pb.id IS NOT NULL),
-          '[]'
-        ) AS pinboards`);
-    }
-
-    // Build conditional JOINs
-    const joins = [
-      'LEFT JOIN users u ON u.uuid = p.owner',
-      'LEFT JOIN adm0 a ON a.iso_a3 = u.iso3',
-    ];
-
-    if (include_tags) {
-      joins.push('LEFT JOIN tagging tg ON tg.pad = p.id');
-      joins.push('LEFT JOIN tags tag ON tag.id = tg.tag_id');
-    }
-
-    if (include_locations) {
-      joins.push('LEFT JOIN locations l ON l.pad = p.id');
-      joins.push('LEFT JOIN adm0 adm ON adm.iso_a3 = l.iso3');
-    }
-
-    if (include_metafields) {
-      joins.push('LEFT JOIN metafields m ON m.pad = p.id');
-    }
-
-    if (include_engagement) {
-      joins.push(`LEFT JOIN (
-        SELECT docid, type, COUNT(*)::int AS count
-        FROM engagement
-        WHERE doctype = 'pad'
-        GROUP BY docid, type
-      ) eng ON eng.docid = p.id`);
-      
-      // Add user-specific engagement if user is logged in
-      if (userUuid) {
-        joins.push(`LEFT JOIN engagement ue ON ue.docid = p.id AND ue.doctype = 'pad'`);
-      }
-      
-      // Add page stats for views/reads
-      joins.push(`LEFT JOIN page_stats ps ON ps.doc_id = p.id AND ps.doc_type = 'pad'`);
-    }
-
-    if (include_comments) {
-      joins.push("LEFT JOIN comments cmt ON cmt.doctype = 'pad' AND cmt.docid = p.id");
-      joins.push("LEFT JOIN users cu ON cu.uuid = cmt.contributor");
-    }
-
-    if (include_pinboards === 'all' || include_pinboards === 'own') {
-      if (include_pinboards === 'all') {
-        joins.push(`LEFT JOIN pinboard_contributions pc ON pc.pad = p.id AND pc.is_included = TRUE`);
-        joins.push('LEFT JOIN pinboards pb ON pb.id = pc.pinboard');
-      } else if (include_pinboards === 'own' && userUuid) {
-        joins.push(`LEFT JOIN pinboard_contributions pc ON pc.pad = p.id AND pc.is_included = TRUE`);
-        joins.push(`LEFT JOIN pinboards pb ON pb.id = pc.pinboard AND (pb.owner = '${userUuid}' OR pb.id IN (SELECT pinboard FROM pinboard_contributors WHERE participant = '${userUuid}'))`);
-      }
-    }
+    // Build query components using helper function
+    const queryComponents = buildQueryComponents({
+      include_tags: !!include_tags,
+      include_locations: !!include_locations,
+      include_metafields: !!include_metafields,
+      include_engagement: !!include_engagement,
+      include_comments: !!include_comments,
+      include_pinboards,
+      userUuid,
+      anonymize_comments: !!anonymize_comments,
+    });
 
     // Count query for pagination (without aggregations and LIMIT/OFFSET)
     const countQuery = `
@@ -793,9 +960,9 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     // Main pads query
     const padsQuery = `
       SELECT 
-        ${selectFields.join(',\n        ')}
+        ${queryComponents.selectFields.join(',\n        ')}
       FROM pads p
-      ${joins.join('\n      ')}
+      ${queryComponents.joins.join('\n      ')}
       WHERE TRUE
         ${filterStr}
       GROUP BY p.id, u.name, u.position, u.email, u.iso3, a.name_en
@@ -830,71 +997,79 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
 
     const protocol = req.headers.get("x-forwarded-proto") || "http";
 
+    // Process options for pad processing
+    const processOptions: ProcessPadOptions = {
+      include_data: !!include_data,
+      include_imgs: !!include_imgs,
+      include_tags: !!include_tags,
+      include_locations: !!include_locations,
+      include_metafields: !!include_metafields,
+      pseudonymize: !!pseudonymize,
+      isSource: false,
+      idToShortkeyMap,
+      containerMap,
+      protocol,
+      host,
+    };
+
+    // Process each pad using helper function
     padsData.forEach((pad: any) => {
-      // Remove sections if include_data is false
-      if (!include_data) {
-        delete pad.sections;
-      }
-      
-      // Compute platform name once per pad
-      const platformShortkey = pad.ordb ? idToShortkeyMap.get(pad.ordb) : null;
-      const platformName = platformShortkey 
-        ? mapShortkeyToPlatform(platformShortkey)
-        : "solution";
-      
-      pad.source = `${protocol}://${host}/pads/${encodeURIComponent(platformName)}/${pad.pad_id}`;
+      processPad(pad, processOptions);
+    });
 
-      // Generate snippet from full_text with optimized string operations
-      if (pad.full_text && typeof pad.full_text === "string") {
-        const cleanText = pad.full_text
-          .replace(/\n+/g, " ")
-          .replace(/\s+/g, " ")
-          .replace(/null|undefined/g, '')
-          .trim()
-          .substring(0, 300);
-        
-        pad.snippet = cleanText || "";
-      } else {
-        pad.snippet = "";
-      }
+    // Fetch and join source pads if requested
+    if (include_source && padsData.length > 0) {
+      // Get unique source pad IDs from main pads
+      const sourcePadIds = [...new Set(
+        padsData
+          .map((p: any) => p.source_pad_id)
+          .filter((id: any) => id != null)
+      )];
 
-      // Remove sensitive data if pseudonymize is true
-      if (pseudonymize) {
-        delete pad.contributor_id;
-        delete pad.ownername;
-        delete pad.email;
-        delete pad.position;
-      }
-
-      // Extract and process images if include_imgs is true
-      if (include_imgs) {
-        const media = getImg(pad, false);
-        const containerName = containerMap[platformName.toLowerCase()] || 'solutions-mapping';
-        
-        pad.media = media.map((imgPath: string) => {
-          if (isURL(imgPath)) {
-            return imgPath;
-          }
-          // For relative paths, use Azure Blob Storage
-          if (app_storage) {
-            const cleanPath = imgPath.startsWith('/') ? imgPath.substring(1) : imgPath;
-            return `${app_storage}${containerName}/${cleanPath}`;
-          }
-          // Fallback to local URL
-          return new URL(imgPath, `${protocol}://${host}`).href;
+      if (sourcePadIds.length > 0) {
+        // Build source query using helper function
+        const sourceQueryComponents = buildQueryComponents({
+          include_tags: !!include_tags,
+          include_locations: !!include_locations,
+          include_metafields: !!include_metafields,
+          isSource: true,
         });
 
-        if (app_storage) {
-          const vignette_path = media?.[0];
-          if (vignette_path) {
-            const cleanPath = vignette_path.startsWith('/') ? vignette_path.substring(1) : vignette_path;
-            pad.vignette = `${app_storage}${containerName}/${cleanPath}`;
-          } else {
-            pad.vignette = null;
+        const sourceQuery = `
+          SELECT 
+            ${sourceQueryComponents.selectFields.join(',\n            ')}
+          FROM pads p
+          ${sourceQueryComponents.joins.join('\n          ')}
+          WHERE p.id = ANY($1::int[])
+          GROUP BY p.id
+        `;
+
+        const sourceResult = await dbQuery("general", sourceQuery, [sourcePadIds]);
+        const sourcePads = sourceResult.rows;
+
+        // Process source pads using helper function
+        const sourceProcessOptions: ProcessPadOptions = {
+          ...processOptions,
+          isSource: true,
+        };
+
+        sourcePads.forEach((source: any) => {
+          processPad(source, sourceProcessOptions);
+        });
+
+        // Join sources to main pads - overwrites the source URL with source object
+        // This matches the Node.js version behavior
+        padsData.forEach((pad: any) => {
+          if (pad.source_pad_id) {
+            const source = sourcePads.find((s: any) => s.source_pad_id === pad.source_pad_id);
+            if (source) {
+              // Overwrite the source URL with the source object (Node.js behavior)
+              pad.source = source;
+            }
           }
-        }
+        });
       }
-    });
+    }
 
     // Return with count for pagination support
     return NextResponse.json({

@@ -122,10 +122,15 @@ export const padsPaths = {
         {
           name: 'mobilizations',
           in: 'query',
-          description: 'Filter by mobilization ID(s). Supports negative filters: prefix with "-" to exclude (e.g., "-5" excludes mobilization 5). Can be repeated for multiple values.',
+          description: 'Filter by mobilization ID(s). Supports multiple values by repeating the parameter (e.g., ?mobilizations=1&mobilizations=2). Supports negative filters: prefix with "-" to exclude pads from specific mobilizations (e.g., "-5" excludes mobilization 5). Can combine positive and negative filters.',
           schema: {
-            type: 'string',
+            type: 'array',
+            items: {
+              type: 'string',
+            },
           },
+          explode: true,
+          style: 'form',
         },
         {
           name: 'thematic_areas',
@@ -208,7 +213,7 @@ export const padsPaths = {
         {
           name: 'include_source',
           in: 'query',
-          description: 'Include source URL to view the pad',
+          description: 'Include detailed information about the source pad if this pad is derived from another pad. When enabled, returns a nested "source" object containing the original pad\'s basic information including title, status, dates, snippet, vignette (if include_imgs is true), tags (if include_tags is true), locations (if include_locations is true), and metadata (if include_metafields is true).',
           schema: {
             type: 'boolean',
             default: false,
@@ -459,9 +464,34 @@ export const padsPaths = {
                       type: 'array',
                       description: 'Comments (if include_comments=true)',
                     },
-                    source: {
+                    url: {
                       type: 'string',
-                      description: 'URL to view the pad (if include_source=true or always included)',
+                      description: 'URL to view the pad',
+                    },
+                    source_pad_id: {
+                      type: 'integer',
+                      nullable: true,
+                      description: 'ID of the source pad if this pad is derived from another pad',
+                    },
+                    source: {
+                      type: 'object',
+                      nullable: true,
+                      description: 'Detailed source pad information (only present when include_source=true and pad has a source)',
+                      properties: {
+                        source_pad_id: { type: 'integer', description: 'Source pad ID' },
+                        contributor_id: { type: 'string', description: 'Source pad contributor UUID' },
+                        title: { type: 'string', description: 'Source pad title' },
+                        snippet: { type: 'string', description: 'Source pad snippet' },
+                        url: { type: 'string', description: 'URL to view the source pad' },
+                        created_at: { type: 'string', format: 'date-time', description: 'Source pad creation date' },
+                        updated_at: { type: 'string', format: 'date-time', description: 'Source pad update date' },
+                        status: { type: 'integer', description: 'Source pad status' },
+                        template: { type: 'integer', description: 'Source pad template ID' },
+                        vignette: { type: 'string', nullable: true, description: 'Source pad thumbnail (if include_imgs=true)' },
+                        tags: { type: 'array', description: 'Source pad tags (if include_tags=true)' },
+                        locations: { type: 'array', description: 'Source pad locations (if include_locations=true)' },
+                        metadata: { type: 'array', description: 'Source pad metadata (if include_metafields=true)' },
+                      },
                     },
                   },
                 },
