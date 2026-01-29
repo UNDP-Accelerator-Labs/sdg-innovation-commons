@@ -199,23 +199,23 @@ export const polishTags = (data: any[], shouldScrubPII: boolean = true) => {
 export const getCountryList = (post: any, limit: number | undefined) => {
   if (!limit) limit = 3;
   let countries =
-    post?.locations?.map((d: any) => d.country) || [];
-  if (!countries.length)
+    post?.locations?.map((d: any) => d?.country) || [];
+  if (!countries?.length)
     countries = [
       post?.country === 'NUL' || !post?.country
         ? 'Global'
         : post?.country,
     ];
   else {
-    countries = countries.filter(
+    countries = countries?.filter(
       (value: string, index: number, array: string[]) => {
         return array.indexOf(value) === index;
       }
     );
-    if (countries.length > limit) {
-      const n = countries.length;
-      countries = countries.slice(0, limit);
-      countries.push(`+${n - limit}`);
+    if (countries?.length > limit) {
+      const n = countries?.length;
+      countries = countries?.slice(0, limit);
+      countries?.push(`+${n - limit}`);
     }
   }
   return countries;
