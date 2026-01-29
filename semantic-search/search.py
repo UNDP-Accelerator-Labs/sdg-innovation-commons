@@ -5,7 +5,7 @@ import structlog
 
 from models import SearchRequest, SearchResponse, ResultChunk, SearchFilters
 from embeddings import embedding_service
-from qdrant_client import qdrant_service
+from qdrant_service import qdrant_service
 
 logger = structlog.get_logger()
 

@@ -42,6 +42,8 @@ class Settings(BaseSettings):
     redis_port: int = Field(default=6379, env="REDIS_PORT")
     redis_password: Optional[str] = Field(default=None, env="REDIS_PASSWORD")
     redis_db: int = Field(default=0, env="REDIS_DB")
+    redis_enabled: bool = Field(default=True, env="REDIS_ENABLED")
+    redis_ttl: int = Field(default=3600, env="REDIS_TTL")
     
     # Feature Flags
     enable_cache: bool = Field(default=True, env="ENABLE_CACHE")
@@ -50,6 +52,7 @@ class Settings(BaseSettings):
     
     # Performance
     max_workers: int = Field(default=4, env="MAX_WORKERS")
+    batch_size: int = Field(default=32, env="BATCH_SIZE")
     timeout: int = Field(default=600, env="TIMEOUT")
     
     @property
@@ -58,7 +61,7 @@ class Settings(BaseSettings):
         return [origin.strip() for origin in self.allowed_origins.split(",")]
     
     class Config:
-        env_file = ".env"
+        env_file = ".env.development"
         case_sensitive = False
 
 

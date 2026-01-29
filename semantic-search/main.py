@@ -18,7 +18,7 @@ from models import (
 )
 from security import verify_api_key, optional_auth
 from embeddings import embedding_service
-from qdrant_client import qdrant_service
+from qdrant_service import qdrant_service
 from search import semantic_search, add_document
 
 # Configure structured logging

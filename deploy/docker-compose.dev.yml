@@ -12,36 +12,36 @@ version: "3.8"
 services:
   # PostgreSQL Database (Local Development)
   # Note: Comment this out if using remote Azure PostgreSQL
-  postgres:
-    image: postgres:15-alpine
-    container_name: sdg-postgres-dev
-    environment:
-      POSTGRES_DB: ${GENERAL_DB_NAME:-postgres}
-      POSTGRES_USER: ${GENERAL_DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${GENERAL_DB_PASSWORD:-postgres}
-      # Enable extensions
-      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
-    ports:
-      - "5432:5432"
-    volumes:
-      # Named volume for data persistence - survives container restarts/removals
-      - postgres_dev_data:/var/lib/postgresql/data
-      # Optional: Init scripts for database setup
-      # - ./deploy/postgres-init:/docker-entrypoint-initdb.d
-    networks:
-      - sdg-dev-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${GENERAL_DB_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    # Resource limits (optional for local dev)
-    # deploy:
-    #   resources:
-    #     limits:
-    #       memory: 1G
-    #       cpus: '1.0'
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: sdg-postgres-dev
+  #   environment:
+  #     POSTGRES_DB: ${GENERAL_DB_NAME:-postgres}
+  #     POSTGRES_USER: ${GENERAL_DB_USER:-postgres}
+  #     POSTGRES_PASSWORD: ${GENERAL_DB_PASSWORD:-postgres}
+  #     # Enable extensions
+  #     POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     # Named volume for data persistence - survives container restarts/removals
+  #     - postgres_dev_data:/var/lib/postgresql/data
+  #     # Optional: Init scripts for database setup
+  #     # - ./deploy/postgres-init:/docker-entrypoint-initdb.d
+  #   networks:
+  #     - sdg-dev-network
+  #   restart: unless-stopped
+  #   healthcheck:
+  #     test: ["CMD-SHELL", "pg_isready -U ${GENERAL_DB_USER:-postgres}"]
+  #     interval: 10s
+  #     timeout: 5s
+  #     retries: 5
+  # Resource limits (optional for local dev)
+  # deploy:
+  #   resources:
+  #     limits:
+  #       memory: 1G
+  #       cpus: '1.0'
 
   # Qdrant Vector Database
   # Persistent storage is CRITICAL - data survives container restarts

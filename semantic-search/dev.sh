@@ -14,16 +14,19 @@ NC='\033[0m'
 echo -e "${BLUE}Starting Semantic Search Service (Development Mode)${NC}"
 echo ""
 
-# Check if .env exists
-if [ ! -f ".env" ]; then
+# Check if .env.development exists, fallback to .env
+if [ -f ".env.development" ]; then
+    echo -e "${BLUE}Using .env.development${NC}"
+    export $(grep -v '^#' .env.development | xargs)
+elif [ -f ".env" ]; then
+    echo -e "${BLUE}Using .env${NC}"
+    export $(grep -v '^#' .env | xargs)
+else
     echo -e "${YELLOW}No .env file found. Creating from .env.example...${NC}"
     cp .env.example .env
     echo -e "${YELLOW}Please edit .env with your configuration${NC}"
     exit 1
 fi
-
-# Source environment variables
-export $(grep -v '^#' .env | xargs)
 
 # Use localhost for development
 export QDRANT_HOST=${QDRANT_HOST:-localhost}
@@ -46,7 +49,7 @@ pip install -q -r requirements.txt
 
 # Check if Qdrant is accessible
 echo -e "${BLUE}Checking Qdrant connection...${NC}"
-if ! curl -s -f "http://${QDRANT_HOST}:6333/health" > /dev/null 2>&1; then
+if ! curl -s -f -H "api-key: ${QDRANT_API_KEY}" "http://${QDRANT_HOST}:6333/" > /dev/null 2>&1; then
     echo -e "${YELLOW}⚠️  Qdrant not accessible at ${QDRANT_HOST}:6333${NC}"
     echo -e "${YELLOW}   Start infrastructure: docker-compose -f ../docker-compose.dev.yml up -d${NC}"
     exit 1
