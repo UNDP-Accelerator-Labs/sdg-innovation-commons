@@ -46,7 +46,7 @@ export default function Content({
     let doc_type: string[];
     if (platform === 'all') doc_type = tabs.slice(1);
     else doc_type = [platform];
-    if (searchParams.countries) searchParams.iso3 = searchParams.countries;
+    if (searchParams?.countries) searchParams.iso3 = searchParams.countries;
 
     const { total, pages: totalPages }: PageStatsResponse = await pagestats(
       page,
