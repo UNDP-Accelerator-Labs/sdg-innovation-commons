@@ -41,9 +41,14 @@ export default function Home() {
 
     const hash = window.location.hash;
     if (hash) {
-      const element = document.querySelector(hash);
-      if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+      try {
+        const element = document.querySelector(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      } catch (error) {
+        // Hash is not a valid CSS selector (e.g., tracking parameters)
+        console.debug('Invalid hash selector:', hash);
       }
     }
 
