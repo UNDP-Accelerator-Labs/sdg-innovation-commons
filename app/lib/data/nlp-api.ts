@@ -1,14 +1,13 @@
 "use server";
+
+import { semanticSearch, SemanticSearchFilters } from "@/app/lib/services/semantic-search-client";
+import { SEMANTIC_SEARCH_URL, SEMANTIC_SEARCH_API_KEY } from "@/app/lib/config/constants";
 import {
-  NLP_URL,
   commonsPlatform,
-  polishTags,
   page_limit,
 } from "@/app/lib/helpers/utils";
-import { mapPlatformToShortkey, getExternDbIdForPlatform} from "@/app/lib/helpers";
-import get from "./get";
+import { mapPlatformToShortkey, getExternDbIdForPlatform } from "@/app/lib/helpers";
 import platformApi from "./platform-api";
-import { session_token } from "@/app/lib/session";
 import blogApi from "./blogs-api";
 
 export interface Props {
@@ -28,44 +27,42 @@ export interface ContentRemovalProps {
   contentId: string;
 }
 
-// CHANGED country TO iso3
-
+/**
+ * Main nlpApi function - now uses internal semantic search service
+ * 
+ * This maintains backward compatibility while using the new internal service.
+ */
 export default async function nlpApi(_kwargs: Props) {
   let { page, limit, offset, search, language, iso3, doc_type } = _kwargs;
+  
+  // Normalize parameters
   if (!page || isNaN(page)) page = 1;
   if (!Array.isArray(language))
     language = [language].filter((d: string | undefined) => d);
-  if (!Array.isArray(iso3)) iso3 = [iso3].filter((d: string | undefined) => d);
+  if (!Array.isArray(iso3)) 
+    iso3 = [iso3].filter((d: string | undefined) => d);
   if (!Array.isArray(doc_type))
     doc_type = [doc_type].filter((d: string | undefined) => d);
 
-  const token = await session_token();
-
-  const body = {
-    input: search ?? "",
-    page_limit: page,
-    page,
-    limit: limit ?? 10,
-    offset: (page - 1) * (limit ?? 0),
-    short_snippets: true,
-    vecdb: "main",
-    db: "main",
-    token: token ?? "",
-    filters: {
-      language,
-      doc_type,
-      iso3,
-      status: token ? ["public", "preview"] : ["public"],
-    },
+  // Prepare filters for semantic search
+  const filters: SemanticSearchFilters = {
+    language: language.length > 0 ? language : undefined,
+    iso3: iso3.length > 0 ? iso3 : undefined,
+    doc_type: doc_type.length > 0 ? doc_type : undefined,
   };
 
-  let { hits, status } =
-    (await get({
-      url: `${NLP_URL}/${token ? "query_embed" : "search"}`,
-      method: "POST",
-      body,
-    })) || {};
+  // Call internal semantic search service
+  const { hits, status } = await semanticSearch({
+    input: search ?? "",
+    limit: limit ?? 10,
+    offset: offset ?? (page - 1) * (limit ?? 10),
+    filters,
+    short_snippets: true,
+    vecdb: "main",
+  });
+
   if (status?.toLowerCase() === "ok") {
+    // Extract unique bases (platforms)
     const bases = hits
       .map((d: any) => d.base)
       .filter((value: any, index: number, self: any) => {
@@ -84,6 +81,7 @@ export default async function nlpApi(_kwargs: Props) {
           const platformHits = hits.filter((d: any) => d.base === b);
           let pads: any[] = [];
           let id_dbpads: any[] = [];
+          
           const _pads = await Promise.all(
             platformHits.map(async (d: any) => {
               if (["solution", "experiment", "actionplan"].includes(d.base)) {
@@ -100,6 +98,7 @@ export default async function nlpApi(_kwargs: Props) {
               return d.doc_id;
             })
           );
+          
           if (b === "blog") {
             return await getCountryNames(platformHits);
           }
@@ -112,6 +111,7 @@ export default async function nlpApi(_kwargs: Props) {
             platform,
             "pads"
           );
+          
           // Handle new {count, data} structure or legacy array
           const platformData: any[] = platformResponse?.data || platformResponse || [];
 
@@ -126,7 +126,9 @@ export default async function nlpApi(_kwargs: Props) {
     } else {
       return await getCountryNames(hits);
     }
-  } else return [];
+  } else {
+    return [];
+  }
 }
 
 async function getCountryNames(data: any[]): Promise<any[]> {
@@ -146,51 +148,38 @@ async function getCountryNames(data: any[]): Promise<any[]> {
 
     // Fetch country names and articles in parallel
     const [countryNames, articles] = await Promise.all([
-      platformApi({}, "experiment", "countries"), // Fetch country data
-      blogApi({ pads: ids }), // Fetch articles
+      platformApi({}, "experiment", "countries"),
+      blogApi({ pads: ids }),
     ]);
 
-    // Process each data entry
-    data.forEach((d: any) => {
-      // Match countries based on ISO3 codes
-      const matchingCountries = countryNames?.filter((c: any) =>
-        d.meta?.iso3?.includes(c.iso3)
-      );
+    // Create country lookup map
+    const countryMap = new Map(
+      countryNames?.map((c: any) => [c.iso_code, c.name])
+    );
 
-      if (matchingCountries?.length) {
-        // Check for entries without sub_iso3 first
-        const countryWithoutSubIso3 = matchingCountries.find(
-          (c: any) => !c.sub_iso3
-        );
-        if (countryWithoutSubIso3) {
-          d.country = countryWithoutSubIso3.country;
-        } else {
-          // Use the first entry with sub_iso3 if all have sub_iso3
-          d.country = matchingCountries[0]?.country;
-        }
-      }
-
-      // Match articles based on document ID
-      if (articles?.length) {
-        const matchingArticle = articles.find(
-          (c: any) => d.doc_id === c.id && d.base === "blog"
-        );
-        if (matchingArticle) {
-          d.pinboards = matchingArticle.pinboards;
-        }
-      }
-    });
-
-    return data;
+    // Enhance data with country names
+    return data.map((d: any) => ({
+      ...d,
+      countries: d.meta?.iso3
+        ?.map((iso: string) => ({
+          iso_code: iso,
+          name: countryMap.get(iso) || iso,
+        }))
+        .filter(Boolean),
+      article: articles?.find((a: any) => a.id === d.doc_id),
+    }));
   } catch (error) {
-    console.error("Error in getCountryNames:", error);
-    throw new Error("Failed to fetch country names or articles");
+    console.error("Error fetching country names:", error);
+    return data;
   }
 }
 
 /**
- * Remove content from NLP indexes
- * Uses add_embed endpoint with title: null to effectively remove/hide content
+ * Remove content from local semantic search service
+ * 
+ * Simple function that removes a document from the vector database.
+ * Supports both platform+contentId or direct docId usage.
+ * Requires DUAL authentication: JWT token (cookies) + API key.
  */
 export async function removeFromNLPIndex({
   platform,
@@ -201,173 +190,74 @@ export async function removeFromNLPIndex({
   error?: string;
 }> {
   try {
-    const token = await session_token();
-
-    if (!token) {
+    // Parse contentId to get the document ID
+    const docId = parseInt(contentId, 10);
+    if (isNaN(docId)) {
       return {
         success: false,
-        error: "Authentication token required for NLP API operations",
+        error: `Invalid content ID: ${contentId}. Must be a numeric ID.`,
       };
     }
 
-    // Map platform names to NLP base names
-    // Based on the existing mapping in nlp-api.ts
-    const platformToBaseMap: Record<string, string> = {
-      solutions_pad: "solution",
-      learningplan_pad: "actionplan",
-      experiment_pad: "experiment",
-      blogs_pad: "blog",
-      // Add more mappings as needed
-    };
-
-    const base = platformToBaseMap[platform];
-    if (!base) {
+    // Check if API key is available
+    if (!SEMANTIC_SEARCH_API_KEY) {
       return {
         success: false,
-        error: `Unknown platform: ${platform}. Cannot map to NLP base.`,
+        error: "API key not configured for document removal operations.",
       };
     }
 
-    // Get write access token - this might need to be configured
-    const writeAccess = process.env.NLP_WRITE_ACCESS || "";
-
-    const url = `${NLP_URL}/add_embed`;
-
-    // Generate the correct URL based on platform type
-    const generateURL = (base: string, contentId: string): string => {
-      const urlMap: Record<string, string> = {
-        solution: `https://solutions.sdg-innovation-commons.org/en/view/pad?id=${contentId}`,
-        experiment: `https://experiments.sdg-innovation-commons.org/en/view/pad?id=${contentId}`,
-        actionplan: `https://learningplans.sdg-innovation-commons.org/en/view/pad?id=${contentId}`,
-        // For blogs and publications, the URL should be provided in the content/pad data
-        // We'll use a fallback pattern for now
-        blog: `https://sdg-innovation-commons.org/blog/${contentId}`,
-      };
-      return (
-        urlMap[base] ||
-        `https://sdg-innovation-commons.org/${base}/${contentId}`
-      );
-    };
-
-    const body = {
-      input: "", // Empty input removes the document from the database
-      db: "main",
-      // base: base,
-      doc_id: parseInt(contentId, 10),
-      title: null,
-      url: generateURL(base, contentId), // Generate correct URL based on platform
-      meta: {
-        status: "removed",
-        doc_type: base,
-      },
-      token: token,
-      write_access: writeAccess,
-    };
-
-    const response = await get({
-      url: url,
+    // Use the secure /api/remove endpoint with dual authentication
+    const response = await fetch(`${SEMANTIC_SEARCH_URL}/api/remove`, {
       method: "POST",
-      body: body,
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": SEMANTIC_SEARCH_API_KEY, // API key for dual auth
+      },
+      credentials: "include", // JWT from cookies
+      body: JSON.stringify({
+        doc_id: docId,
+        url: `/${platform}/${contentId}`, // Optional URL for logging
+      }),
     });
 
-    if (
-      response?.status?.toLowerCase() === "ok" ||
-      response?.message?.toLowerCase().includes("success")
-    ) {
-      console.log(
-        `Successfully removed content from NLP index: ${base}/${contentId}`
-      );
+    const result = await response.json();
+
+    if (!response.ok) {
       return {
-        success: true,
-        message: `Content removed from NLP index: ${base}/${contentId}`,
-      };
-    } else {
-      console.warn(`NLP API response may indicate failure:`, response);
-      return {
-        success: true, // Don't fail the entire operation - content may not exist in index
-        message: `NLP API called for ${base}/${contentId}. Response: ${JSON.stringify(response)}`,
+        success: false,
+        error: result.message || `HTTP ${response.status}: Failed to remove document`,
       };
     }
-  } catch (error) {
-    console.error("Failed to remove content from NLP index:", error);
 
-    // Don't fail the entire content removal operation if NLP removal fails
-    // This is graceful degradation - the content is still marked as removed in the database
     return {
-      success: true,
-      error: `NLP removal failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-      message:
-        "Content marked as removed in database, but NLP index removal failed",
+      success: result.status === "ok",
+      message: result.message || `Successfully removed ${platform} content ${contentId}`,
+      error: result.status === "error" ? result.message : undefined,
+    };
+
+  } catch (error) {
+    console.error("Error removing content from semantic search:", error);
+    return {
+      success: false,
+      error: `Failed to remove content: ${error instanceof Error ? error.message : "Unknown error"}`,
     };
   }
 }
 
 /**
- * Update content relevance in blog database for blogs and publications
- * This sets relevance to 1 when content is removed
+ * Helper function to remove document by ID directly
+ * 
+ * @param docId - Document ID to remove
+ * @param url - Optional URL for logging (defaults to /unknown/{docId})
  */
-export async function updateContentRelevance({
-  platform,
-  contentId,
-}: ContentRemovalProps): Promise<{
+export async function removeDocumentById(docId: number, url?: string): Promise<{
   success: boolean;
   message?: string;
   error?: string;
 }> {
-  try {
-    // Only apply relevance updates to blogs and similar content types
-    if (!platform.includes("blog") && !platform.includes("publications")) {
-      return {
-        success: true,
-        message: `Relevance update not applicable for platform: ${platform}`,
-      };
-    }
-
-    console.log(
-      `Attempting to update content relevance in blog database: ${platform}/${contentId}`
-    );
-
-    // Import the query function from db
-    const { query } = await import("@/app/lib/db");
-
-    // Update the relevance in the articles table using the blogs database
-    const result = await query(
-      "blogs",
-      `UPDATE articles 
-       SET relevance = 1, 
-           updated_at = NOW()
-       WHERE id = $1`,
-      [parseInt(contentId, 10)]
-    );
-
-    if (result.count > 0) {
-      console.log(
-        `Successfully updated content relevance in blog database: ${platform}/${contentId}`
-      );
-      return {
-        success: true,
-        message: `Content relevance updated in blog database: ${platform}/${contentId}`,
-      };
-    } else {
-      console.warn(
-        `No rows updated for content: ${platform}/${contentId} - content may not exist`
-      );
-      return {
-        success: true, // Don't fail the operation - content might not exist in articles table
-        message: `Content ${platform}/${contentId} not found in articles table`,
-      };
-    }
-  } catch (error) {
-    console.error(
-      "Failed to update content relevance in blog database:",
-      error
-    );
-
-    return {
-      success: true, // Don't fail the entire content removal operation
-      error: `Blog database relevance update failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-      message:
-        "Content removal completed, but blog database relevance update failed",
-    };
-  }
+  return removeFromNLPIndex({
+    platform: "unknown",
+    contentId: docId.toString(),
+  });
 }

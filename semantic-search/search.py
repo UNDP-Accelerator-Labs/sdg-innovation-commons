@@ -131,32 +131,44 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
         logger.info(
             "Generated query embedding",
             query_length=len(request.input),
-            embed_time=round(embed_time, 3)
+            embed_time=round(embed_time, 3),
+            embedding_dimension=len(query_embedding)
         )
         
-        # Search vector database
+        # Search vector database using search_groups
         search_start = time.time()
-        search_results = qdrant_service.search(
+        search_results, total_count = qdrant_service.search(
             query_vector=query_embedding,
             limit=request.limit,
             offset=request.offset,
             filters=request.filters,
             score_threshold=request.score_threshold,
+            hit_limit=request.hit_limit,
         )
         search_time = time.time() - search_start
         
         logger.info(
             "Vector search completed",
             results_count=len(search_results),
+            total_matching=total_count,
             search_time=round(search_time, 3)
         )
         
-        # Convert results to response format
+        # Debug: log first result if any
+        if search_results:
+            first_result = search_results[0]
+            logger.info("First search result", 
+                       score=first_result.get("score", 0),
+                       payload_keys=list(first_result.get("payload", {}).keys()))
+        else:
+            logger.warning("No search results returned")
+        
+        # Convert search results to response format
         hits = []
         for result in search_results:
             payload = result["payload"]
             
-            # Extract snippets from payload
+            # Extract snippets from payload  
             snippets = payload.get("snippets", [])
             
             # Refine snippets if enabled
@@ -197,7 +209,7 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
         return SearchResponse(
             hits=hits,
             status="ok",
-            total=len(hits)
+            total=total_count
         )
         
     except Exception as e:

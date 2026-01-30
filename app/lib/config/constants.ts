@@ -38,7 +38,20 @@ export const APP_TITLE_SHORT = 'sdg-innovation-commons';
 export const APP_TITLE_FULL = 'SDG Innovation Commons';
 
 /**
- * NLP API URL
+ * Semantic Search API URL (Local)
+ * @deprecated External NLP_URL removed - now uses local semantic search service
+ */
+export const SEMANTIC_SEARCH_URL = process.env.SEMANTIC_SEARCH_URL || process.env.NEXT_PUBLIC_SEMANTIC_SEARCH_URL || 'http://localhost:8000';
+
+/**
+ * Semantic Search API Key for secure operations
+ * Required for dual authentication on sensitive endpoints
+ */
+export const SEMANTIC_SEARCH_API_KEY = process.env.SEMANTIC_SEARCH_API_KEY || process.env.NEXT_PUBLIC_SEMANTIC_SEARCH_API_KEY;
+
+/**
+ * @deprecated Use SEMANTIC_SEARCH_URL instead
+ * Legacy constant for backward compatibility - will be removed
  */
 export const NLP_URL = 'https://nlpapi.sdg-innovation-commons.org/api';
 

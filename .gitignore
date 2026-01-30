@@ -56,6 +56,9 @@ semantic-search/*.pyc
 semantic-search/venv/
 semantic-search/.venv/
 semantic-search/env/
+semantic-search/.env.local
+semantic-search/.env.production
+semantic-search/.env.development
 semantic-search/models/
 semantic-search/.cache/
 semantic-search/*.log

@@ -1,7 +1,7 @@
 """Main FastAPI application for semantic search service."""
 from contextlib import asynccontextmanager
 from typing import Optional
-from fastapi import FastAPI, HTTPException, Depends, Security
+from fastapi import FastAPI, HTTPException, Depends, Security, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 import structlog
@@ -10,13 +10,15 @@ from config import settings
 from models import (
     SearchRequest,
     SearchResponse,
+    SearchFilters,
     StatsRequest,
     StatsResponse,
-    AddDocumentRequest,
-    AddDocumentResponse,
+    AddEmbedRequest,
+    AddEmbedResponse,
+    RemoveDocumentRequest,
     HealthResponse,
 )
-from security import verify_api_key, optional_auth
+from security import get_current_user, require_auth, require_dual_auth
 from embeddings import embedding_service
 from qdrant_service import qdrant_service
 from search import semantic_search, add_document
@@ -111,21 +113,33 @@ async def health_check():
 @app.post("/api/search", response_model=SearchResponse, tags=["Search"])
 async def search_endpoint(
     request: SearchRequest,
-    auth: Optional[dict] = Security(optional_auth)
+    http_request: Request
 ):
     """
-    Public semantic search endpoint (optional authentication).
+    Semantic search endpoint with automatic authentication detection.
     
-    - If authenticated, can access all documents based on user permissions
-    - If not authenticated, only public documents are returned
+    - No token: returns public documents only
+    - Valid JWT: returns full access based on user permissions
+    - Invalid JWT: returns 401 Unauthorized
     
     Args:
         request: Search request parameters
-        auth: Optional authentication credentials
+        http_request: FastAPI request object for authentication
         
     Returns:
         Search results
+        
+    Raises:
+        HTTPException: 401 if invalid token provided
     """
+    try:
+        # Get current user from JWT or cookies
+        # This will raise HTTPException if token is provided but invalid
+        auth = await get_current_user(http_request)
+    except HTTPException:
+        # Re-raise authentication errors (401 Unauthorized)
+        raise
+    
     # Apply security filter for unauthenticated requests
     if auth is None:
         if request.filters is None:
@@ -143,50 +157,36 @@ async def search_endpoint(
     return await semantic_search(request)
 
 
-@app.post("/api/query_embed", response_model=SearchResponse, tags=["Search"])
-async def query_embed_endpoint(
-    request: SearchRequest,
-    auth: dict = Depends(verify_api_key)
-):
-    """
-    Authenticated semantic search endpoint.
-    
-    Requires API key or JWT token.
-    Can access documents based on authentication level.
-    
-    Args:
-        request: Search request parameters
-        auth: Authentication credentials (required)
-        
-    Returns:
-        Search results
-    """
-    logger.info(
-        "Authenticated search request",
-        query=request.input[:50] if request.input else "",
-        auth_type=auth.get("type", "jwt")
-    )
-    
-    return await semantic_search(request)
-
-
 @app.post("/api/stats", response_model=StatsResponse, tags=["Statistics"])
 async def stats_endpoint(
     request: StatsRequest,
-    auth: Optional[dict] = Security(optional_auth)
+    http_request: Request
 ):
     """
-    Get document statistics.
+    Get document statistics with automatic authentication detection.
     
-    Returns counts and field distributions for documents matching filters.
+    - No token: returns public documents statistics only
+    - Valid JWT: returns full statistics based on user permissions
+    - Invalid JWT: returns 401 Unauthorized
     
     Args:
         request: Statistics request parameters
-        auth: Optional authentication credentials
+        http_request: FastAPI request object for authentication
         
     Returns:
         Statistics response
+        
+    Raises:
+        HTTPException: 401 if invalid token provided
     """
+    try:
+        # Get current user from JWT or cookies
+        # This will raise HTTPException if token is provided but invalid
+        auth = await get_current_user(http_request)
+    except HTTPException:
+        # Re-raise authentication errors (401 Unauthorized)
+        raise
+    
     # Apply security filter for unauthenticated requests
     if auth is None:
         if request.filters is None:
@@ -194,12 +194,25 @@ async def stats_endpoint(
         else:
             request.filters.status = ["public"]
     
+    logger.info(
+        "Stats request",
+        fields=request.fields,
+        authenticated=auth is not None
+    )
+    
     try:
         stats = qdrant_service.get_stats(filters=request.filters)
         
+        # Get field aggregations based on requested fields
+        field_aggregations = {}
+        for field in request.fields:
+            if field in ["doc_type", "language", "iso3", "status"]:
+                field_data = stats.get("field_aggregations", {}).get(field, {})
+                field_aggregations[field] = field_data
+        
         return StatsResponse(
-            doc_count=stats.get("filtered_documents", 0),
-            fields={},  # TODO: Implement field aggregations
+            doc_count=stats.get("doc_count", 0),
+            fields=field_aggregations,
             status="ok"
         )
         
@@ -212,40 +225,124 @@ async def stats_endpoint(
         )
 
 
-@app.post("/api/add_document", response_model=AddDocumentResponse, tags=["Documents"])
-async def add_document_endpoint(
-    request: AddDocumentRequest,
-    auth: dict = Depends(verify_api_key)
+@app.post("/api/add_embed", response_model=AddEmbedResponse, tags=["Documents"])
+async def add_embed_endpoint(
+    request: AddEmbedRequest,
+    http_request: Request
 ):
     """
-    Add or update a document in the vector database.
+    Add or update a document embedding in the vector database.
     
-    Requires authentication.
+    Matches the NLP API add_embed endpoint exactly.
+    Empty input content removes the document.
+    
+    Requires DUAL authentication: Both JWT token AND API key must be valid.
     
     Args:
-        request: Document data
-        auth: Authentication credentials (required)
+        request: Document embedding data
+        http_request: FastAPI request object for authentication
         
     Returns:
-        Add document response
+        Add embed response
     """
+    # Require BOTH JWT and API key for document modification
+    auth = await require_dual_auth(http_request)
+    
     logger.info(
-        "Add document request",
-        base=request.base,
+        "Add embed request",
         doc_id=request.doc_id,
-        content_length=len(request.content)
+        content_length=len(request.input),
+        url=request.url,
+        auth_type=auth.get("type"),
+        user_id=auth.get("user_id")
     )
     
-    result = await add_document(
-        base=request.base,
+    try:
+        if not request.input.strip():
+            # Empty input removes the document (matching NLP API behavior)
+            result = qdrant_service.remove_document(str(request.doc_id))
+            
+            return AddEmbedResponse(
+                status="ok" if result["success"] else "error",
+                message=result["message"],
+                doc_id=request.doc_id,
+                snippets_added=0  # 0 since we're removing, not adding
+            )
+        
+        # Extract base from meta or infer from URL
+        base = request.meta.get("doc_type", "blog")
+        
+        result = await add_document(
+            base=base,
+            doc_id=request.doc_id,
+            url=request.url,
+            content=request.input,
+            title=request.title,
+            meta=request.meta
+        )
+        
+        return AddEmbedResponse(
+            status="ok" if result["success"] else "error",
+            message=result.get("message"),
+            doc_id=request.doc_id,
+            snippets_added=result.get("snippets_added", 0)
+        )
+        
+    except Exception as e:
+        logger.error("Add embed request failed", error=str(e), doc_id=request.doc_id)
+        return AddEmbedResponse(
+            status="error",
+            message=f"Failed to add document: {str(e)}",
+            doc_id=request.doc_id
+        )
+
+
+@app.post("/api/remove", response_model=AddEmbedResponse, tags=["Documents"])
+async def remove_document_endpoint(
+    request: RemoveDocumentRequest,
+    http_request: Request
+):
+    """
+    Simple endpoint to remove a document from the vector database.
+    
+    Only requires document ID. Ultra-secure endpoint protected by DUAL authentication:
+    Both JWT token AND API key must be valid.
+    
+    Args:
+        request: Remove document request (doc_id and optional url)
+        http_request: FastAPI request object for authentication
+        
+    Returns:
+        Remove operation response
+    """
+    # Require BOTH JWT and API key for document modification
+    auth = await require_dual_auth(http_request)
+    
+    logger.info(
+        "Remove document request",
         doc_id=request.doc_id,
         url=request.url,
-        content=request.content,
-        title=request.title,
-        meta=request.meta
+        auth_type=auth.get("type"),
+        user_id=auth.get("user_id")
     )
     
-    return AddDocumentResponse(**result)
+    try:
+        result = qdrant_service.remove_document(str(request.doc_id))
+        
+        return AddEmbedResponse(
+            status="ok" if result["success"] else "error",
+            message=result["message"],
+            doc_id=request.doc_id,
+            snippets_added=0
+        )
+        
+    except Exception as e:
+        logger.error("Remove document failed", error=str(e), doc_id=request.doc_id, url=request.url)
+        return AddEmbedResponse(
+            status="error",
+            message=f"Failed to remove document: {str(e)}",
+            doc_id=request.doc_id
+        )
 
 
 @app.exception_handler(Exception)

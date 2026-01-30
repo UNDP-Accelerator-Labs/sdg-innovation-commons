@@ -1,8 +1,7 @@
 'use server';
 
-import { NLP_URL, page_limit } from '@/app/lib/helpers/utils';
-import get from './get';
-import { session_token } from '@/app/lib/session';
+import { getSemanticStats } from '@/app/lib/services/semantic-search-client';
+import { page_limit } from '@/app/lib/helpers/utils';
 
 export interface Props {
     language?: any;
@@ -36,25 +35,15 @@ export default async function nlpStatsApi(_kwargs: Props) {
         return cached.data;
     }
 
-    const token = await session_token();
-
-    const body = {
+    // Use local semantic search service
+    const { doc_count, fields: field } = await getSemanticStats({
         fields: fields || [],
-        vecdb: 'main',
-        db: 'main',
-        token: token ?? '',
         filters: {
-            language,
-            doc_type,
-            iso3,
-            status : token ? ["public", "preview"] : [ "public"] 
-        }
-    }
-
-    let { doc_count, fields : field } = await get({
-        url: `${NLP_URL}/${token ? 'stat_embed' : 'stats'}`,
-        method: 'POST',
-        body,
+            language: language.length > 0 ? language : undefined,
+            doc_type: doc_type.length > 0 ? doc_type : undefined,
+            iso3: iso3.length > 0 ? iso3 : undefined,
+        },
+        vecdb: 'main',
     });
 
     const result = { doc_count, field, iso3: field?.iso3 ? Object.keys(field?.iso3) : [] };

@@ -1,90 +1,347 @@
-"""Security utilities for API authentication and authorization."""
-from datetime import datetime, timedelta
-from typing import Optional
-from fastapi import Security, HTTPException, status
+"""Authentication and security utilities."""
+import os
+from typing import Optional, Dict, Any
+from fastapi import HTTPException, Request
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import JWTError, jwt
-from passlib.context import CryptContext
-
+import jwt
+import structlog
 from config import settings
 
-# Security schemes
-security_bearer = HTTPBearer()
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+logger = structlog.get_logger()
+
+# Make HTTPBearer optional to allow unauthenticated requests
+bearer_scheme = HTTPBearer(auto_error=False)
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
-    """Create JWT access token."""
-    to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(hours=24)
-    
-    to_encode.update({"exp": expire})
-    encoded_jwt = jwt.encode(
-        to_encode,
-        settings.api_secret_key,
-        algorithm=settings.api_algorithm
-    )
-    return encoded_jwt
-
-
-def verify_token(token: str) -> dict:
-    """Verify and decode JWT token."""
-    try:
-        payload = jwt.decode(
-            token,
-            settings.api_secret_key,
-            algorithms=[settings.api_algorithm]
-        )
-        return payload
-    except JWTError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Could not validate credentials",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-
-async def verify_api_key(
-    credentials: HTTPAuthorizationCredentials = Security(security_bearer)
-) -> dict:
+def extract_jwt_from_request(request: Request) -> Optional[str]:
     """
-    Verify API key from Authorization header.
+    Extract JWT token from request headers, cookies, query params, or body.
     
-    Accepts either:
-    - JWT token (for authenticated Next.js requests)
-    - Static API key (for internal service communication)
-    """
-    token = credentials.credentials
-    
-    # Try JWT verification first
-    try:
-        payload = verify_token(token)
-        return payload
-    except HTTPException:
-        # If JWT fails, check if it's a valid static API key
-        if token == settings.api_secret_key:
-            return {"type": "api_key", "valid": True}
+    Args:
+        request: FastAPI request object
         
-        # Neither JWT nor valid API key
+    Returns:
+        JWT token string or None
+    """
+    # Try Authorization header first (Bearer token)
+    auth_header = request.headers.get("authorization")
+    if auth_header and auth_header.startswith("Bearer "):
+        return auth_header[7:]  # Remove "Bearer " prefix
+    
+    # Try query parameters
+    token = request.query_params.get("token") or request.query_params.get("jwt")
+    if token:
+        return token
+    
+    # Try cookies (common Next.js pattern)
+    cookie_names = ["token", "auth-token", "next-auth.session-token", "jwt"]
+    for cookie_name in cookie_names:
+        token = request.cookies.get(cookie_name)
+        if token:
+            return token
+    
+    return None
+
+
+def extract_api_key_from_request(request: Request) -> Optional[str]:
+    """
+    Extract API key from request headers, query params, or body.
+    
+    Args:
+        request: FastAPI request object
+        
+    Returns:
+        API key string or None
+    """
+    # Try X-API-Key header for service-to-service communication
+    api_key = request.headers.get("x-api-key")
+    if api_key:
+        return api_key
+    
+    # Try query parameters
+    api_key = request.query_params.get("api_key") or request.query_params.get("apikey")
+    if api_key:
+        return api_key
+    
+    return None
+
+
+def verify_api_key(api_key: str) -> Dict[str, Any]:
+    """
+    Verify API key for service-to-service communication.
+    
+    Args:
+        api_key: API key string
+        
+    Returns:
+        API key info dict
+        
+    Raises:
+        HTTPException: If API key is invalid
+    """
+    expected_api_key = settings.semantic_search_api_key
+    if not expected_api_key:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication credentials",
-            headers={"WWW-Authenticate": "Bearer"},
+            status_code=500,
+            detail="API key authentication not configured"
+        )
+    
+    if api_key != expected_api_key:
+        raise HTTPException(
+            status_code=401,
+            detail="Invalid API key"
+        )
+    
+    return {
+        "type": "api_key",
+        "user_id": "service",
+        "permissions": ["read", "write"]
+    }
+
+
+def verify_jwt_token(token: str) -> Dict[str, Any]:
+    """
+    Verify and decode JWT token generated by Next.js app.
+    
+    Args:
+        token: JWT token string
+        
+    Returns:
+        Decoded token payload
+        
+    Raises:
+        HTTPException: If token is invalid
+    """
+    try:
+        # Only handle JWT tokens for user authentication
+        if not token.startswith("eyJ"):  # JWT format check
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid JWT token format"
+            )
+        
+        # Get JWT secret from settings - matches Next.js configuration
+        jwt_secret = settings.jwt_secret
+        
+        if not jwt_secret:
+            logger.error("No JWT secret configured. Set APP_SECRET, NEXTAUTH_SECRET, or JWT_SECRET_KEY environment variable")
+            raise HTTPException(
+                status_code=500,
+                detail="JWT verification not properly configured"
+            )
+        
+        try:
+            # Verify JWT with proper secret - flexible verification for Next.js compatibility
+            # Remove strict audience/issuer requirements for development
+            payload = jwt.decode(
+                token, 
+                jwt_secret, 
+                algorithms=["HS256"],
+                # Remove strict audience/issuer verification for Next.js compatibility
+                # audience="user:known",
+                # issuer="sdg-innovation-commons"
+                options={
+                    "verify_signature": True,
+                    "verify_exp": True,
+                    "verify_iat": True,
+                    "verify_aud": False,  # Skip audience verification
+                    "verify_iss": False   # Skip issuer verification
+                }
+            )
+            
+            # Extract user information from payload
+            user_id = payload.get("uuid") or payload.get("sub")
+            if not user_id:
+                raise HTTPException(
+                    status_code=401,
+                    detail="Invalid JWT payload - missing user identifier"
+                )
+            
+            return {
+                "type": "jwt",
+                "user_id": user_id,
+                "uuid": payload.get("uuid"),
+                "rights": payload.get("rights", 1),
+                "username": payload.get("username"),
+                "permissions": ["read", "write"] if payload.get("rights", 0) > 0 else ["read"],
+                "payload": payload
+            }
+            
+        except jwt.ExpiredSignatureError:
+            raise HTTPException(
+                status_code=401,
+                detail="JWT token has expired"
+            )
+        except jwt.InvalidAudienceError:
+            logger.warning("JWT token has invalid audience")
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid JWT token audience"
+            )
+        except jwt.InvalidIssuerError:
+            logger.warning("JWT token has invalid issuer")
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid JWT token issuer"
+            )
+        except jwt.InvalidSignatureError:
+            logger.warning("JWT token has invalid signature")
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid JWT token signature"
+            )
+        except jwt.InvalidTokenError as e:
+            logger.warning("Invalid JWT token", error=str(e))
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid or malformed JWT token"
+            )
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error("JWT verification failed", error=str(e))
+        raise HTTPException(
+            status_code=500,
+            detail="JWT authentication system error"
         )
 
 
-async def optional_auth(
-    credentials: Optional[HTTPAuthorizationCredentials] = Security(security_bearer)
-) -> Optional[dict]:
-    """Optional authentication - allows public access but extracts auth if provided."""
-    if credentials is None:
+async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
+    """
+    Get current user from JWT token in request (headers, cookies, query params).
+    
+    Important Security Behavior:
+    - No token provided = return None (allows public access)
+    - Valid token provided = return user info (authenticated access) 
+    - Invalid token provided = raise HTTPException (authentication failed)
+    
+    Args:
+        request: FastAPI request object
+        
+    Returns:
+        User info dict or None if no authentication attempted
+        
+    Raises:
+        HTTPException: If authentication is attempted but fails
+    """
+    token = extract_jwt_from_request(request)
+    if not token:
+        # No token provided - this is fine for public access
         return None
     
+    # Token provided - authentication is being attempted
     try:
-        return await verify_api_key(credentials)
+        user_info = verify_jwt_token(token)
+        logger.info(
+            "User authenticated", 
+            user_id=user_info.get("user_id"),
+            rights=user_info.get("rights")
+        )
+        return user_info
     except HTTPException:
-        # Don't fail on invalid auth for optional endpoints
-        return None
+        # Token provided but invalid - authentication failure
+        raise
+    except Exception as e:
+        logger.error("Authentication system error", error=str(e))
+        raise HTTPException(
+            status_code=500,
+            detail="Authentication system error"
+        )
+
+
+async def require_auth(request: Request) -> Dict[str, Any]:
+    """
+    Require valid JWT authentication for protected endpoints.
+    Raises 401 if no valid token is provided.
+    
+    Args:
+        request: FastAPI request object
+        
+    Returns:
+        User info dict from verified JWT
+        
+    Raises:
+        HTTPException: If authentication fails or is missing
+    """
+    token = extract_jwt_from_request(request)
+    if not token:
+        raise HTTPException(
+            status_code=401,
+            detail="Authentication required. Provide a valid JWT token in Authorization header, cookies, or query params."
+        )
+    
+    user_info = verify_jwt_token(token)
+    
+    logger.info(
+        "Protected endpoint accessed", 
+        user_id=user_info.get("user_id"),
+        rights=user_info.get("rights")
+    )
+    
+    return user_info
+
+
+async def require_dual_auth(request: Request) -> Dict[str, Any]:
+    """
+    Require BOTH valid JWT AND API key for ultra-sensitive endpoints.
+    This provides double authentication for critical operations like document modification.
+    
+    Args:
+        request: FastAPI request object
+        
+    Returns:
+        Combined auth info from both JWT and API key
+        
+    Raises:
+        HTTPException: If either JWT or API key is missing/invalid
+    """
+    # Extract both JWT and API key
+    jwt_token = extract_jwt_from_request(request)
+    api_key = extract_api_key_from_request(request)
+    
+    # Both are required
+    if not jwt_token:
+        raise HTTPException(
+            status_code=401,
+            detail="Dual authentication required: Missing JWT token. Provide in Authorization header, cookies, or query params."
+        )
+    
+    if not api_key:
+        raise HTTPException(
+            status_code=401,
+            detail="Dual authentication required: Missing API key. Provide in X-API-Key header or query params."
+        )
+    
+    # Verify both independently
+    try:
+        jwt_info = verify_jwt_token(jwt_token)
+    except HTTPException as e:
+        raise HTTPException(
+            status_code=401,
+            detail=f"JWT verification failed: {e.detail}"
+        )
+    
+    try:
+        api_key_info = verify_api_key(api_key)
+    except HTTPException as e:
+        raise HTTPException(
+            status_code=401,
+            detail=f"API key verification failed: {e.detail}"
+        )
+    
+    # Both valid - return combined info
+    logger.info(
+        "Dual authentication successful", 
+        user_id=jwt_info.get("user_id"),
+        rights=jwt_info.get("rights"),
+        api_key_valid=True
+    )
+    
+    return {
+        "type": "dual_auth",
+        "jwt": jwt_info,
+        "api_key": api_key_info,
+        "user_id": jwt_info.get("user_id"),
+        "permissions": ["read", "write", "admin"]  # Highest level permissions
+    }

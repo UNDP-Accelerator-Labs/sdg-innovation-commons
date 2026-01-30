@@ -72,22 +72,33 @@ class StatsResponse(BaseModel):
     status: Literal["ok", "error"] = "ok"
 
 
-class AddDocumentRequest(BaseModel):
-    """Request to add/update a document in the vector database."""
-    base: str = Field(description="Platform type")
+class AddEmbedRequest(BaseModel):
+    """Request to add/update a document embedding (matching NLP API)."""
+    input: str = Field(description="Document content - empty string removes document")
+    db: str = Field(default="main", description="Database name")
     doc_id: int = Field(description="Document ID")
-    url: str
     title: Optional[str] = None
-    content: str = Field(description="Full document text")
-    meta: Dict[str, Any] = Field(default_factory=dict)
+    url: str
+    meta: Dict[str, Any] = Field(default_factory=dict, description="Document metadata")
+    token: Optional[str] = None
+    write_access: Optional[str] = None
 
 
-class AddDocumentResponse(BaseModel):
-    """Response after adding a document."""
-    success: bool
-    main_id: str
-    snippets_added: int
+class RemoveDocumentRequest(BaseModel):
+    """Request to remove a document from vector database."""
+    doc_id: int = Field(description="Document ID to remove")
+    url: Optional[str] = Field(default=None, description="Document URL (optional, for logging)")
+
+
+class AddEmbedResponse(BaseModel):
+    """Response after adding a document embedding (matching NLP API)."""
+    status: Literal["ok", "error"] = "ok"
     message: Optional[str] = None
+    doc_id: Optional[int] = None
+    snippets_added: Optional[int] = None
+
+
+
 
 
 class HealthResponse(BaseModel):

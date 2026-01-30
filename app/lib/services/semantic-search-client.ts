@@ -104,7 +104,7 @@ export async function semanticSearch(
     offset = 0,
     filters,
     hit_limit = 3,
-    score_threshold,
+    score_threshold = 0.0,
     short_snippets = true,
     vecdb = "main",
   } = params;
@@ -112,9 +112,10 @@ export async function semanticSearch(
   // Get user session token
   const token = await session_token();
 
-  // Prepare filters with default status
+  // Prepare filters with proper security - authenticated users get more access
   const searchFilters: SemanticSearchFilters = {
     ...filters,
+    // Only authenticated users can access preview content
     status: token ? ["public", "preview"] : ["public"],
   };
 
@@ -129,27 +130,23 @@ export async function semanticSearch(
     short_snippets,
     vecdb,
   };
+  console.log("Semantic search request body:", body);
 
-  // Determine endpoint based on authentication
-  const endpoint = token ? "query_embed" : "search";
+  // Use single endpoint - authentication is handled by the service
   const baseUrl = getSemanticSearchUrl();
-  const url = `${baseUrl}/api/${endpoint}`;
+  const url = `${baseUrl}/api/search`;
 
   // Prepare headers
   const headers: HeadersInit = {
     "Content-Type": "application/json",
   };
 
-  // Add authentication
+  // Add authentication if available
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
-  } else {
-    // For server-to-server calls without user token, use API key
-    const apiKey = getApiSecretKey();
-    if (apiKey) {
-      headers["Authorization"] = `Bearer ${apiKey}`;
-    }
   }
+  // Note: No API key fallback for unauthenticated users
+  // Unauthenticated requests should only access public data
 
   try {
     const response = await fetch(url, {
@@ -183,9 +180,6 @@ export async function semanticSearch(
   }
 }
 
-/**
- * Get statistics from semantic search service
- */
 export async function getSemanticStats(params: {
   fields: string[];
   filters?: SemanticSearchFilters;
@@ -198,8 +192,10 @@ export async function getSemanticStats(params: {
   const { fields, filters, vecdb = "main" } = params;
   const token = await session_token();
 
+  // Prepare filters with proper security - authenticated users get more access
   const searchFilters: SemanticSearchFilters = {
     ...filters,
+    // Only authenticated users can access preview content statistics
     status: token ? ["public", "preview"] : ["public"],
   };
 
@@ -216,9 +212,11 @@ export async function getSemanticStats(params: {
     "Content-Type": "application/json",
   };
 
+  // Only add authentication if user is logged in
   if (token) {
     headers["Authorization"] = `Bearer ${token}`;
   }
+  // Note: No API key fallback - unauthenticated requests get public data only
 
   try {
     const response = await fetch(url, {

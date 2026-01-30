@@ -19,6 +19,15 @@ class Settings(BaseSettings):
     # API Security
     api_secret_key: str = Field(..., env="API_SECRET_KEY")
     api_algorithm: str = Field(default="HS256", env="API_ALGORITHM")
+    
+    # JWT Authentication (for Next.js integration)
+    app_secret: Optional[str] = Field(default=None, env="APP_SECRET")
+    nextauth_secret: Optional[str] = Field(default=None, env="NEXTAUTH_SECRET")
+    jwt_secret_key: Optional[str] = Field(default=None, env="JWT_SECRET_KEY")
+    
+    # API Key for service-to-service communication
+    semantic_search_api_key: Optional[str] = Field(default=None, env="SEMANTIC_SEARCH_API_KEY")
+    
     allowed_origins: str = Field(
         default="http://localhost:3000",
         env="ALLOWED_ORIGINS"
@@ -59,6 +68,11 @@ class Settings(BaseSettings):
     def allowed_origins_list(self) -> List[str]:
         """Parse allowed origins from comma-separated string."""
         return [origin.strip() for origin in self.allowed_origins.split(",")]
+    
+    @property
+    def jwt_secret(self) -> Optional[str]:
+        """Get JWT secret from any of the possible environment variables."""
+        return self.app_secret or self.nextauth_secret or self.jwt_secret_key
     
     class Config:
         env_file = ".env.development"
