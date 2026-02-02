@@ -323,7 +323,7 @@ function processPad(pad: any, options: ProcessPadOptions): void {
 interface PadsRequestParams {
   space?: string;
   search?: string;
-  status?: number | string;
+  status?: number | string | string[];
   contributors?: string | string[];
   countries?: string | string[];
   regions?: string | string[];
@@ -360,7 +360,7 @@ export async function GET(req: NextRequest) {
     const params: PadsRequestParams = {
       space: searchParams.get("space") || "published",
       search: searchParams.get("search") || undefined,
-      status: searchParams.get("status") || undefined,
+      status: searchParams.getAll("status"),
       contributors: searchParams.getAll("contributors"),
       countries: searchParams.getAll("countries"),
       regions: searchParams.getAll("regions"),
@@ -451,6 +451,11 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   const collaboratorsIds = collaborators.map((c: any) => c.uuid).filter(Boolean);
 
   // Normalize arrays
+  const statusArr = status
+    ? Array.isArray(status)
+      ? status.map((s) => +s)
+      : [+status]
+    : undefined;
   const contributorsArr = contributors
     ? Array.isArray(contributors)
       ? contributors
@@ -596,8 +601,19 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     } else if (space === "published") {
       // Published space: depends on rights and UNDP status
       if (isPublic) {
-        // Not logged in: only public pads
-        filters.push("p.status = 3");
+        // Not logged in: only public pads (unless status filter is explicitly provided)
+        if (!statusArr || statusArr.length === 0) {
+          filters.push("p.status = 3");
+        } else {
+          // Respect explicit status filter, but ensure minimum status of 2 for public access
+          const publicStatuses = statusArr.filter(s => s >= 2);
+          if (publicStatuses.length > 0) {
+            filterParams.push(publicStatuses);
+            filters.push(`p.status = ANY($${filterParams.length}::int[])`);
+          } else {
+            filters.push("p.status = 3");
+          }
+        }
       } else {
         // Check if user is UNDP
         const isUNDPQuery = await dbQuery(
@@ -701,8 +717,21 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       }
     } else {
       // Default: only published pads for public, or published + owned/team for authenticated
+      // Note: If explicit status filter provided, it will be applied separately
       if (isPublic) {
-        filters.push("p.status >= 3");
+        // For public users without explicit status, default to published only
+        if (!statusArr || statusArr.length === 0) {
+          filters.push("p.status >= 3");
+        } else {
+          // Respect explicit status but ensure minimum status of 2 for public
+          const publicStatuses = statusArr.filter(s => s >= 2);
+          if (publicStatuses.length > 0) {
+            filterParams.push(publicStatuses);
+            filters.push(`p.status = ANY($${filterParams.length}::int[])`);
+          } else {
+            filters.push("p.status >= 3");
+          }
+        }
       } else {
         // Authenticated users can see: public, owned, team pads, or admin rights
         const visibilityConditions = ["p.status >= 3"];
@@ -723,9 +752,16 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   }
 
   // Status filter
-  if (status !== undefined) {
-    filterParams.push(+status);
-    filters.push(`p.status = $${filterParams.length}`);
+  // In Node.js, this is in base_filters and applied separately from space filter
+  // Both filters work together: space filter + explicit status filter
+  // Only skip if we explicitly handled the status array in the space filter logic above
+  const statusHandledInSpaceFilter = 
+    (space === 'published' && isPublic && statusArr && statusArr.length > 0) ||
+    (!space && isPublic && statusArr && statusArr.length > 0);
+  
+  if (statusArr && statusArr.length > 0 && !statusHandledInSpaceFilter) {
+    filterParams.push(statusArr);
+    filters.push(`p.status = ANY($${filterParams.length}::int[])`);
   }
 
   // Contributors filter
@@ -791,7 +827,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
 
   // Old Pads ID filter
   if (id_dbPadsArr && id_dbPadsArr.length > 0) {
-    // id_db column contains concatenated strings in format "{pad_id}_{db_id}"
+    // id_db column contains concatenated strings in format "{pad_id}-{db_id}"
     // Coerce all entries to trimmed strings so SQL can compare against text[] reliably.
     const padsParam = id_dbPadsArr.map((id: any) =>
       typeof id === "string" ? id.trim() : String(id)
@@ -851,16 +887,38 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       .map((id) => String(id).substring(1));
 
     if (positiveFilter.length > 0) {
-      filterParams.push(positiveFilter.map((id) => +id));
+      // Support both new IDs and old IDs via id_db column
+      // For backwards compatibility, check if mobilization.id matches OR mobilization.id_db starts with the old ID
+      const mobilizationIds = positiveFilter.map((id) => +id);
+      const idDbPatterns = positiveFilter.map((id) => `${id}-%`); // e.g., '7-%' to match '7-1', '7-2', etc.
+      
+      filterParams.push(mobilizationIds);
+      filterParams.push(idDbPatterns);
       filters.push(
-        `p.id IN (SELECT DISTINCT mc.pad FROM mobilization_contributions mc WHERE mc.mobilization = ANY($${filterParams.length}::int[]))`
+        `p.id IN (
+          SELECT DISTINCT mc.pad 
+          FROM mobilization_contributions mc 
+          INNER JOIN mobilizations m ON m.id = mc.mobilization
+          WHERE mc.mobilization = ANY($${filterParams.length - 1}::int[])
+             OR m.id_db LIKE ANY($${filterParams.length}::text[])
+        )`
       );
     }
 
     if (negativeFilter.length > 0) {
-      filterParams.push(negativeFilter.map((id) => +id));
+      const mobilizationIds = negativeFilter.map((id) => +id);
+      const idDbPatterns = negativeFilter.map((id) => `${id}-%`);
+      
+      filterParams.push(mobilizationIds);
+      filterParams.push(idDbPatterns);
       filters.push(
-        `p.id NOT IN (SELECT DISTINCT mc.pad FROM mobilization_contributions mc WHERE mc.mobilization = ANY($${filterParams.length}::int[]))`
+        `p.id NOT IN (
+          SELECT DISTINCT mc.pad 
+          FROM mobilization_contributions mc
+          INNER JOIN mobilizations m ON m.id = mc.mobilization
+          WHERE mc.mobilization = ANY($${filterParams.length - 1}::int[])
+             OR m.id_db LIKE ANY($${filterParams.length}::text[])
+        )`
       );
     }
   }
@@ -905,17 +963,9 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     );
   }
 
-  // Exclude pads in review unless user is the reviewer
+  // Exclude pads in review
   // This matches the Node.js filter: AND p.id NOT IN (SELECT review FROM reviews)
-  // But we allow reviewers to see their own review items
-  if (!isPublic && userUuid) {
-    // Authenticated users: exclude reviews they're not reviewing
-    filterParams.push(userUuid);
-    filters.push(`(p.id NOT IN (SELECT review FROM reviews WHERE reviewer <> $${filterParams.length}) OR p.id NOT IN (SELECT review FROM reviews))`);
-  } else {
-    // Public users: exclude all reviews
-    filters.push(`p.id NOT IN (SELECT review FROM reviews)`);
-  }
+  filters.push(`p.id NOT IN (SELECT review FROM reviews)`);
 
   const filterStr = filters.length > 0 ? `AND ${filters.join(" AND ")}` : "";
 
