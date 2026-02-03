@@ -27,6 +27,10 @@ yarn-error.log*
 # local env files
 .env*.local
 .env
+.env.development
+.env.staging
+.env.production
+!.env.example
 
 # vercel
 .vercel
@@ -51,6 +55,11 @@ build-output.*
 
 # Semantic Search Service
 semantic-search/.env
+semantic-search/.env.development
+semantic-search/.env.production
+semantic-search/.env.staging
+semantic-search/.env.local
+!semantic-search/.env.example
 semantic-search/__pycache__/
 semantic-search/*.pyc
 semantic-search/venv/

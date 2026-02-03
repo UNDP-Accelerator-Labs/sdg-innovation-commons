@@ -52,7 +52,6 @@ const trackedSearches = new Set<string>();
 export async function trackSearch(options: SearchTrackingOptions) {
   // Only track if query is meaningful
   if (!options.query || options.query.trim().length < 2) {
-    console.log('🔍 Search tracking skipped: query too short or empty');
     return;
   }
 
@@ -106,8 +105,6 @@ export async function trackSearch(options: SearchTrackingOptions) {
     if (!response.ok) {
       const errorText = await response.text();
       console.warn('🔍 Failed to track search:', response.status, errorText);
-    } else {
-      console.log('🔍 Search tracked successfully');
     }
   } catch (error) {
     // Silently fail search tracking - don't impact user experience

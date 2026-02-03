@@ -6,24 +6,31 @@ import structlog
 from models import SearchRequest, SearchResponse, ResultChunk, SearchFilters
 from embeddings import embedding_service
 from qdrant_service import qdrant_service
+from config import settings
 
 logger = structlog.get_logger()
 
 
-def snippify_text(text: str, chunk_size: int = 500, chunk_padding: int = 50) -> List[str]:
+def snippify_text(text: str, chunk_size: Optional[int] = None, chunk_padding: Optional[int] = None) -> List[str]:
     """
     Split text into overlapping chunks (snippets).
     
+    Uses configurable chunk parameters matching NLP API.
+    
     Args:
         text: Input text to split
-        chunk_size: Size of each chunk
-        chunk_padding: Overlap between chunks
+        chunk_size: Size of each chunk (uses config default if None)
+        chunk_padding: Overlap between chunks (uses config default if None)
         
     Returns:
         List of text snippets
     """
     if not text:
         return []
+    
+    # Use config values if not specified
+    chunk_size = chunk_size or settings.chunk_size
+    chunk_padding = chunk_padding or settings.chunk_padding
     
     snippets = []
     start = 0
@@ -106,13 +113,47 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
         # Handle empty query - return recent documents
         if not request.input or not request.input.strip():
             logger.info("Empty query, returning recent documents")
-            # TODO: Implement "recent documents" query without vector search
-            # For now, return empty results
+            
+            # Use get_recent_documents instead of semantic search
+            search_results, total_count = qdrant_service.get_recent_documents(
+                limit=request.limit,
+                offset=request.offset,
+                filters=request.filters,
+                hit_limit=request.hit_limit,
+            )
+            
+            # Convert results to response format
+            hits = []
+            for result in search_results:
+                payload = result["payload"]
+                
+                chunk = ResultChunk(
+                    main_id=payload.get("main_id", ""),
+                    score=result.get("score", 0.0),
+                    base=payload.get("base", ""),
+                    doc_id=payload.get("doc_id", 0),
+                    url=payload.get("url", ""),
+                    title=payload.get("title", ""),
+                    updated=payload.get("updated", ""),
+                    snippets=payload.get("snippets", []),
+                    meta=payload.get("meta", {})
+                )
+                hits.append(chunk)
+            
+            total_time = time.time() - start_time
+            
+            logger.info(
+                "Recent documents retrieved",
+                hits_count=len(hits),
+                total_count=total_count,
+                offset=request.offset,
+                total_time=round(total_time, 3)
+            )
+            
             return SearchResponse(
-                hits=[],
+                hits=hits,
                 status="ok",
-                message="Empty query - recent documents not yet implemented",
-                total=0
+                total=total_count
             )
         
         # Generate query embedding
@@ -128,13 +169,6 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
                 message="Failed to generate embedding for query"
             )
         
-        logger.info(
-            "Generated query embedding",
-            query_length=len(request.input),
-            embed_time=round(embed_time, 3),
-            embedding_dimension=len(query_embedding)
-        )
-        
         # Search vector database using search_groups
         search_start = time.time()
         search_results, total_count = qdrant_service.search(
@@ -146,22 +180,6 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
             hit_limit=request.hit_limit,
         )
         search_time = time.time() - search_start
-        
-        logger.info(
-            "Vector search completed",
-            results_count=len(search_results),
-            total_matching=total_count,
-            search_time=round(search_time, 3)
-        )
-        
-        # Debug: log first result if any
-        if search_results:
-            first_result = search_results[0]
-            logger.info("First search result", 
-                       score=first_result.get("score", 0),
-                       payload_keys=list(first_result.get("payload", {}).keys()))
-        else:
-            logger.warning("No search results returned")
         
         # Convert search results to response format
         hits = []
@@ -201,6 +219,9 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
             "Search completed",
             query=request.input[:50],
             hits_count=len(hits),
+            total_count=total_count,
+            limit=request.limit,
+            offset=request.offset,
             total_time=round(total_time, 3),
             embed_time=round(embed_time, 3),
             search_time=round(search_time, 3)
@@ -231,6 +252,8 @@ async def add_document(
 ) -> Dict[str, Any]:
     """
     Add or update a document in the vector database.
+    
+    Enhanced to support dual-collection architecture with snippet-level embeddings.
     
     Args:
         base: Platform type (solution, experiment, etc.)
@@ -292,10 +315,11 @@ async def add_document(
             "title": title or url,
             "updated": time.strftime("%Y-%m-%dT%H:%M:%S.000Z", time.gmtime()),
             "snippets": valid_snippets,
+            "snippet_embeddings": valid_embeddings,  # Include for dual collection mode
             "meta": meta or {}
         }
         
-        # Add document to Qdrant
+        # Add document to Qdrant (handles both single and dual collection modes)
         success = qdrant_service.add_document(
             doc_id=main_id,
             vector=doc_embedding,
@@ -308,7 +332,8 @@ async def add_document(
             "Document added",
             main_id=main_id,
             snippets_count=len(valid_snippets),
-            time_seconds=round(total_time, 2)
+            time_seconds=round(total_time, 2),
+            mode="dual" if settings.use_dual_collections else "legacy"
         )
         
         return {

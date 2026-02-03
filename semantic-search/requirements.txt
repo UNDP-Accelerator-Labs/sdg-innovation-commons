@@ -17,13 +17,15 @@ transformers==4.46.3
 numpy==2.2.1
 pandas==2.2.3
 
+# Database
+psycopg2-binary==2.9.10
+
 # HTTP and async
 httpx==0.28.1
 aiofiles==24.1.0
 
 # Utilities
 python-dotenv==1.0.1
-redis==5.2.0
 python-jose[cryptography]==3.3.0
 passlib[bcrypt]==1.7.4
 

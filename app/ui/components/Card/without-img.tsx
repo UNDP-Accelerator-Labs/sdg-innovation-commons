@@ -149,8 +149,8 @@ export default function Card({
             passHref
             openInNewTab={openInNewTab}
           >
-            <h1>{title.replace(/\&amp;/g, '&')}</h1>
-            <p>{description.replace(/\&amp;/g, '&')}</p>
+            <h1>{title?.replace(/\&amp;/g, '&')}</h1>
+            <p>{typeof description === 'string' ? description.replace(/\&amp;/g, '&') : Array.isArray(description) ? description[0]?.replace(/\&amp;/g, '&') || '' : ''}</p>
           </Link>
         </div>
         {/* TYPE INFO */}

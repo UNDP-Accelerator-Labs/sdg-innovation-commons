@@ -1,8 +1,15 @@
 """Configuration management for semantic search service."""
 import os
+from pathlib import Path
 from typing import Optional, List
-from pydantic_settings import BaseSettings
-from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field, AliasChoices
+from dotenv import load_dotenv
+
+# Explicitly load .env.development file before settings initialization
+env_file = Path(__file__).parent / ".env.development"
+if env_file.exists():
+    load_dotenv(env_file)
 
 
 class Settings(BaseSettings):
@@ -46,23 +53,38 @@ class Settings(BaseSettings):
     embedding_dimension: int = Field(default=384, env="EMBEDDING_DIMENSION")
     device: str = Field(default="cpu", env="DEVICE")
     
-    # Redis Cache (optional)
-    redis_host: str = Field(default="localhost", env="REDIS_HOST")
-    redis_port: int = Field(default=6379, env="REDIS_PORT")
-    redis_password: Optional[str] = Field(default=None, env="REDIS_PASSWORD")
-    redis_db: int = Field(default=0, env="REDIS_DB")
-    redis_enabled: bool = Field(default=True, env="REDIS_ENABLED")
-    redis_ttl: int = Field(default=3600, env="REDIS_TTL")
-    
     # Feature Flags
     enable_cache: bool = Field(default=True, env="ENABLE_CACHE")
     enable_snippets: bool = Field(default=True, env="ENABLE_SNIPPETS")
-    short_snippets: bool = Field(default=True, env="SHORT_SNIPPETS")
+    short_snippets: bool = Field(default=True, validation_alias="SHORT_SNIPPETS")
+    enable_chunk_hashing: bool = Field(default=True, validation_alias="ENABLE_CHUNK_HASHING")
+    
+    # PostgreSQL Database (for index maintenance)
+    db_host: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_HOST")
+    db_port: int = Field(default=5432, validation_alias="GENERAL_DB_PORT")
+    db_user: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_USER")
+    db_password: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_PASSWORD")
+    db_name: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_NAME")
+    
+    # Chunking Parameters (matches NLP API)
+    chunk_size: int = Field(default=600, env="CHUNK_SIZE")
+    chunk_padding: int = Field(default=20, env="CHUNK_PADDING")
     
     # Performance
     max_workers: int = Field(default=4, env="MAX_WORKERS")
     batch_size: int = Field(default=32, env="BATCH_SIZE")
     timeout: int = Field(default=600, env="TIMEOUT")
+    
+    # Collection Names (Dual Architecture - matches NLP API)
+    @property
+    def vec_collection_name(self) -> str:
+        """Vector collection name for snippet embeddings."""
+        return f"{self.qdrant_collection_name}_dot_vec"
+    
+    @property
+    def data_collection_name(self) -> str:
+        """Data collection name for document metadata."""
+        return f"{self.qdrant_collection_name}_dot_data"
     
     @property
     def allowed_origins_list(self) -> List[str]:
@@ -74,9 +96,10 @@ class Settings(BaseSettings):
         """Get JWT secret from any of the possible environment variables."""
         return self.app_secret or self.nextauth_secret or self.jwt_secret_key
     
-    class Config:
-        env_file = ".env.development"
-        case_sensitive = False
+    model_config = SettingsConfigDict(
+        case_sensitive=False,
+        extra="ignore"
+    )
 
 
 # Global settings instance

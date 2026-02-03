@@ -130,22 +130,24 @@ def verify_jwt_token(token: str) -> Dict[str, Any]:
                 detail="JWT verification not properly configured"
             )
         
+        # Log secret info for debugging (first/last 4 chars only)
+        secret_preview = f"{jwt_secret[:4]}...{jwt_secret[-4:]}" if len(jwt_secret) > 8 else "***"
+        logger.debug("Using JWT secret", secret_preview=secret_preview)
+        
         try:
-            # Verify JWT with proper secret - flexible verification for Next.js compatibility
-            # Remove strict audience/issuer requirements for development
+            # Verify JWT with proper secret - verify with Next.js settings
+            # The Next.js app sets audience to 'user:known' and issuer to base host
             payload = jwt.decode(
                 token, 
                 jwt_secret, 
                 algorithms=["HS256"],
-                # Remove strict audience/issuer verification for Next.js compatibility
-                # audience="user:known",
-                # issuer="sdg-innovation-commons"
+                audience="user:known",  # Match Next.js JWT_AUDIENCE
                 options={
                     "verify_signature": True,
                     "verify_exp": True,
                     "verify_iat": True,
-                    "verify_aud": False,  # Skip audience verification
-                    "verify_iss": False   # Skip issuer verification
+                    "verify_aud": True,   # Verify audience
+                    "verify_iss": False   # Skip issuer verification (varies by environment)
                 }
             )
             

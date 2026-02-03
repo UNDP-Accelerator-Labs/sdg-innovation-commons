@@ -38,9 +38,10 @@ export default function Section({ boards, isLogedIn}: Props) {
                 data = (response as any)?.data || response || [];
             } else {
                 console.log('look for all items')
-                data = await nlpApi(
+                const result = await nlpApi(
                     { limit: 3, doc_type: tabs.slice(1), search: defaultSearch('test') }
                 );
+                data = result?.data || [];
             }
 
             setHits(data);

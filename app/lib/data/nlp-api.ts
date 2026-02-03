@@ -27,12 +27,18 @@ export interface ContentRemovalProps {
   contentId: string;
 }
 
+export interface NlpApiResult {
+  data: any[];
+  page_count: number;
+  hits: number;
+}
+
 /**
  * Main nlpApi function - now uses internal semantic search service
  * 
  * This maintains backward compatibility while using the new internal service.
  */
-export default async function nlpApi(_kwargs: Props) {
+export default async function nlpApi(_kwargs: Props): Promise<NlpApiResult> {
   let { page, limit, offset, search, language, iso3, doc_type } = _kwargs;
   
   // Normalize parameters
@@ -48,7 +54,7 @@ export default async function nlpApi(_kwargs: Props) {
   const filters: SemanticSearchFilters = {
     language: language.length > 0 ? language : undefined,
     iso3: iso3.length > 0 ? iso3 : undefined,
-    doc_type: doc_type.length > 0 ? doc_type : undefined,
+    doc_type: doc_type.length > 0 ? doc_type.filter((d): d is string => d !== undefined) : undefined,
   };
 
   // Call internal semantic search service
@@ -107,7 +113,7 @@ export default async function nlpApi(_kwargs: Props) {
           if (platform === "actionplan") platform = "action plan";
 
           const platformResponse: any = await platformApi(
-            { pads, id_dbpads, limit: page_limit },
+            { pads, id_dbpads },
             platform,
             "pads"
           );
@@ -122,12 +128,26 @@ export default async function nlpApi(_kwargs: Props) {
           return platformData;
         })
       );
-      return data.flat();
+      const flattenedData = data.flat();
+      return {
+        data: flattenedData,
+        page_count: Math.ceil(flattenedData.length / (limit ?? 10)),
+        hits: flattenedData.length,
+      };
     } else {
-      return await getCountryNames(hits);
+      const enrichedData = await getCountryNames(hits);
+      return {
+        data: enrichedData,
+        page_count: Math.ceil(enrichedData.length / (limit ?? 10)),
+        hits: enrichedData.length,
+      };
     }
   } else {
-    return [];
+    return {
+      data: [],
+      page_count: 0,
+      hits: 0,
+    };
   }
 }
 

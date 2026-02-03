@@ -42,7 +42,6 @@ export default function Content({
   async function fetchData(): Promise<void> {
     setLoading(true);
 
-    let data: any[];
     let doc_type: string[];
     if (platform === 'all') doc_type = tabs.slice(1);
     else doc_type = [platform];
@@ -58,21 +57,24 @@ export default function Content({
     setPages(totalPages);
     setTotal(total);
 
-    data = await nlpApi({
+    const result = await nlpApi({
       ...searchParams,
       ...{ limit: page_limit, doc_type },
     });
     
+    // Extract data from new result structure
+    const data = result?.data || [];
+    
     // Check for error responses from NLP API
     if (data && typeof data === 'object' && 'message' in data && !Array.isArray(data)) {
       console.error('NLP API Error:', (data as { message: string }).message);
-      data = [];
+      setHits([]);
     } else if (!Array.isArray(data)) {
       console.error('Unexpected NLP API response:', data);
-      data = [];
+      setHits([]);
+    } else {
+      setHits(data);
     }
-    
-    setHits(data);
 
     const idz: number[] = Array.isArray(data) ? data.map((p) => p?.pad_id || p?.doc_id).filter(Boolean) : [];
     setObjectIdz(idz);
@@ -115,10 +117,10 @@ export default function Content({
     }
   }
 
-  // Fetch data on component mount
+  // Fetch data on component mount and when page changes
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [page, search, platform, JSON.stringify(searchParams)]);
 
   useEffect(() => {
     setSharedState((prevState: any) => ({
@@ -185,7 +187,13 @@ export default function Content({
                         }
                         date={formatDate(post?.meta?.date) || ''}
                         title={post?.title || ''}
-                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                        description={
+                          Array.isArray(post?.snippets) && post.snippets.length > 0
+                            ? String(post.snippets[0] || '')
+                            : typeof post?.snippets === 'string'
+                            ? post.snippets
+                            : ''
+                        }
                         tags={post?.base || ''}
                         tagStyle="bg-light-blue"
                         href={post?.url}
@@ -215,7 +223,11 @@ export default function Content({
                         description={
                           post?.snippet?.length
                             ? `${post?.snippet?.length > 200 ? `${post.snippet.slice(0, 200)}…` : post.snippet}`
-                            : post?.snippets
+                            : Array.isArray(post?.snippets) && post.snippets.length > 0
+                            ? String(post.snippets[0] || '')
+                            : typeof post?.snippets === 'string'
+                            ? post.snippets
+                            : ''
                         }
                         source={post?.base || 'solution'}
                         tagStyle={`bg-light-${color}`}

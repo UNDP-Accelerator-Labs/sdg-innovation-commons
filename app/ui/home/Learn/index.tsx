@@ -20,13 +20,13 @@ export default function Section({ boards, isLogedIn}: Props) {
         async function fetchData() {
             setLoading(true);
 
-            const data = await nlpApi(
+            const result = await nlpApi(
                 { limit: 4, doc_type: [
                     'blog', 'publications', //'news'
                 ], search: defaultSearch('learn') }
             );
 
-            setHits(data);
+            setHits(result?.data || []);
             setLoading(false); 
         }
 

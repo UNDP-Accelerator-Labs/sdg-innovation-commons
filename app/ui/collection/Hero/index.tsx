@@ -64,7 +64,7 @@ export default function Hero({
     let sanitizedDescription = DOMPurify.sanitize(description);
 
     // Add required class to all <a> tags using a regular expression
-    sanitizedDescription = sanitizedDescription.replace(
+    sanitizedDescription = sanitizedDescription?.replace(
         /<a\s+/g,
         '<a target="_blank" class="text-blue-500 cursor-pointer" '
     );

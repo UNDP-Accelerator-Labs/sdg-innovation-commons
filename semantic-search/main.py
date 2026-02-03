@@ -22,6 +22,7 @@ from security import get_current_user, require_auth, require_dual_auth
 from embeddings import embedding_service
 from qdrant_service import qdrant_service
 from search import semantic_search, add_document
+from maintenance import clean_qdrant_index
 
 # Configure structured logging
 structlog.configure(
@@ -101,12 +102,18 @@ async def health_check():
     """
     Health check endpoint.
     
-    Returns service status and connection health.
+    Returns service status, connection health, and architecture configuration.
     """
     return HealthResponse(
         status="healthy",
         qdrant_connected=qdrant_service.health_check(),
         embedding_model_loaded=embedding_service.is_loaded(),
+        architecture="dual-collection",
+        collections={
+            "vec": settings.vec_collection_name,
+            "data": settings.data_collection_name,
+            "legacy": None,
+        }
     )
 
 
@@ -344,6 +351,52 @@ async def remove_document_endpoint(
             doc_id=request.doc_id
         )
 
+@app.post("/api/maintenance/clean-index", tags=["Maintenance"])
+async def clean_index_endpoint(
+    dry_run: bool = True,
+    http_request: Request = None
+):
+    """
+    Clean Qdrant index by removing stale documents.
+    
+    Removes documents that exist in Qdrant but not in PostgreSQL.
+    
+    **Requires both Bearer token and API key authentication.**
+    
+    Args:
+        dry_run: If True (default), only scan without deleting. Set to False to perform actual deletion.
+    
+    Returns:
+        Dictionary with cleanup results including:
+        - success: Whether operation completed successfully
+        - dry_run: Whether this was a dry run
+        - valid_ids_count: Number of valid documents in database
+        - documents_scanned: Total documents scanned in Qdrant
+        - stale_documents_found: Number of stale documents identified
+        - data_collection_removed: Documents removed from data collection (0 if dry_run)
+        - vec_collection_removed: Documents removed from vec collection (0 if dry_run)
+        - elapsed_seconds: Time taken for operation
+        - stale_details: Sample of stale documents (only in dry_run mode)
+    """
+    # Require BOTH JWT and API key for maintenance operations
+    auth = await require_dual_auth(http_request)
+    
+    logger.info(
+        "Index cleanup requested",
+        dry_run=dry_run,
+        user_id=auth.get("user_id"),
+        rights=auth.get("rights")
+    )
+    
+    result = clean_qdrant_index(dry_run=dry_run)
+    
+    if not result.get("success"):
+        raise HTTPException(
+            status_code=500,
+            detail=result.get("error", "Index cleanup failed")
+        )
+    
+    return result
 
 @app.exception_handler(Exception)
 async def global_exception_handler(request, exc):

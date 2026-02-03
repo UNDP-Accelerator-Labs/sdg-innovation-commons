@@ -85,12 +85,13 @@ export default function Section({ searchParams, tabs, docType }: SectionProps) {
       setTotal(total);
 
      
-      const data = await nlpApi({
+      const result = await nlpApi({
         ...searchParams,
         ...{ limit: page_limit, doc_type },
       });
       setUseNlp(true);
 
+      const data = result?.data || [];
       setHits(data);
 
       const idz: number[] = data?.map((p: any) => p?.doc_id);

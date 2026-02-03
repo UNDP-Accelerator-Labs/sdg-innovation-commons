@@ -108,3 +108,5 @@ class HealthResponse(BaseModel):
     qdrant_connected: bool
     embedding_model_loaded: bool
     version: str = "1.0.0"
+    architecture: Optional[str] = None
+    collections: Optional[Dict[str, Optional[str]]] = None

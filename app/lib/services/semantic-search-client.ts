@@ -130,7 +130,6 @@ export async function semanticSearch(
     short_snippets,
     vecdb,
   };
-  console.log("Semantic search request body:", body);
 
   // Use single endpoint - authentication is handled by the service
   const baseUrl = getSemanticSearchUrl();

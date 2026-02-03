@@ -106,12 +106,6 @@ class EmbeddingService:
             )
             encode_time = time.time() - start_time
             
-            logger.info(
-                "Generated embeddings",
-                count=len(valid_texts),
-                time_seconds=round(encode_time, 2)
-            )
-            
             # Map embeddings back to original positions
             results: List[Optional[List[float]]] = [None] * len(texts)
             for idx, valid_idx in enumerate(valid_indices):
