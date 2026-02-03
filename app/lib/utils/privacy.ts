@@ -4,6 +4,58 @@
  */
 
 /**
+ * Redact PII from text strings (for display purposes)
+ * Redacts emails, phone numbers, URLs with personal info, etc.
+ * 
+ * @param text - Text to redact
+ * @returns Text with PII redacted
+ */
+export function redactPIIFromText(text: string): string {
+  if (!text || typeof text !== 'string') return text;
+  
+  let redacted = text;
+  
+  // Redact email addresses
+  redacted = redacted.replace(
+    /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g,
+    '[email redacted]'
+  );
+  
+  // Redact phone numbers (various formats)
+  // International: +1-234-567-8900, +1 (234) 567-8900, +1.234.567.8900
+  redacted = redacted.replace(
+    /(\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g,
+    '[phone redacted]'
+  );
+  
+  // Redact credit card numbers (groups of 4 digits)
+  redacted = redacted.replace(
+    /\b\d{4}[-\s]?\d{4}[-\s]?\d{4}[-\s]?\d{4}\b/g,
+    '[card number redacted]'
+  );
+  
+  // Redact SSN-like patterns (xxx-xx-xxxx)
+  redacted = redacted.replace(
+    /\b\d{3}-\d{2}-\d{4}\b/g,
+    '[SSN redacted]'
+  );
+  
+  // Redact IP addresses
+  redacted = redacted.replace(
+    /\b(?:\d{1,3}\.){3}\d{1,3}\b/g,
+    '[IP address redacted]'
+  );
+  
+  // Redact street addresses (basic patterns)
+  redacted = redacted.replace(
+    /\b\d+\s+[\w\s]+(?:street|st|avenue|ave|road|rd|boulevard|blvd|lane|ln|drive|dr|court|ct|circle|cir)\b/gi,
+    '[address redacted]'
+  );
+  
+  return redacted;
+}
+
+/**
  * Scrub personally identifiable information from data
  * Used to protect user privacy in public-facing data
  * 

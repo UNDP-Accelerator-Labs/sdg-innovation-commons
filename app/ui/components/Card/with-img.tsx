@@ -8,6 +8,7 @@ import { Button } from '@/app/ui/components/Button';
 import { engage, handleBoard, removeFromBoardApi } from './utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { CardOptions } from './commons';
+import { redactPIIFromText } from '@/app/lib/utils/privacy';
 
 export interface BoardInfo {
   boards?: any[];
@@ -289,7 +290,7 @@ export default function Card({
             <h1>{title?.replace(/\&amp;/g, '&')}</h1>
           </Link>
           {/* Description */}
-          <p className="break-words">{description?.replace(/\&amp;/g, '&')}</p>
+          <p className="break-words">{redactPIIFromText(description?.replace(/\&amp;/g, '&') || '')}</p>
         </div>
         <div>
           <div className="hidden flex-row flex-wrap content-end items-end justify-start gap-1.5 pb-[20px] text-center text-sm lg:flex">

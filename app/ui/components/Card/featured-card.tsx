@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Link from '@/app/ui/components/Link';
 import { CardLink } from '@/app/ui/components/Link/card';
 import { CardProps } from "./without-img"
+import { redactPIIFromText } from '@/app/lib/utils/privacy';
 
 export default function Card({
     title,
@@ -21,7 +22,7 @@ export default function Card({
     const ref = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (ref.current) ref.current.innerHTML = description ? description?.replace(/\n+/g, '<br/>') : '';
+        if (ref.current) ref.current.innerHTML = description ? redactPIIFromText(description)?.replace(/\n+/g, '<br/>') : '';
     }, [ref]);
 
     return (

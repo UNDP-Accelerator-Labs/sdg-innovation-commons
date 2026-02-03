@@ -71,7 +71,7 @@ export default function Section({ boards, isLogedIn}: Props) {
                                         country={post?.country === 'NUL' || !post?.country ? 'Global' : post?.country}
                                         date={formatDate(post?.meta?.date) || ''}
                                         title={post?.title || ''}
-                                        description={`${post?.snippets} ${post?.snippets?.length ? '...' : ''}`}
+                                        description={`${post?.snippets[0]} ${post?.snippets?.length ? '...' : ''}`}
                                         tags={post?.base || ''}
                                         tagStyle="bg-light-blue"
                                         href={post?.url}

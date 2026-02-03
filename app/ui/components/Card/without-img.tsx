@@ -8,6 +8,7 @@ import { BoardInfo } from './with-img';
 import { usePathname } from 'next/navigation';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { CardOptions } from './commons';
+import { redactPIIFromText } from '@/app/lib/utils/privacy';
 
 export interface CardProps {
   id: number | string;
@@ -150,7 +151,13 @@ export default function Card({
             openInNewTab={openInNewTab}
           >
             <h1>{title?.replace(/\&amp;/g, '&')}</h1>
-            <p>{typeof description === 'string' ? description.replace(/\&amp;/g, '&') : Array.isArray(description) ? description[0]?.replace(/\&amp;/g, '&') || '' : ''}</p>
+            <p>
+              {typeof description === 'string' 
+                ? redactPIIFromText(description.replace(/\&amp;/g, '&'))
+                : Array.isArray(description) && description[0]
+                ? redactPIIFromText(String(description[0]).replace(/\&amp;/g, '&'))
+                : ''}
+            </p>
           </Link>
         </div>
         {/* TYPE INFO */}

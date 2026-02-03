@@ -33,7 +33,7 @@ export { getImg } from '../utils/media';
 export { extractSDGNumbers } from '../utils/sdg';
 
 // Re-export privacy utilities
-export { scrubPII, polishTags } from '../utils/privacy';
+export { scrubPII, polishTags, redactPIIFromText } from '../utils/privacy';
 
 // Re-export date utilities
 export { formatDate } from '../utils/date';
