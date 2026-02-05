@@ -1,5 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# Local development logs and PIDs
+/logs/
+*.pid
+
 # dependencies
 /node_modules
 /.pnp
@@ -24,13 +28,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# local env files (all with dot prefix for consistency)
 .env*.local
 .env
 .env.development
 .env.staging
 .env.production
+.env.test
 !.env.example
+!.env.production.example
+!.env.staging.example
+!.env.development.example
+!.env.test.example
 
 # vercel
 .vercel
@@ -53,21 +62,27 @@ Ahoy/
 
 build-output.*
 
-# Semantic Search Service
+# Semantic Search Service - Python environment files
 semantic-search/.env
 semantic-search/.env.development
 semantic-search/.env.production
 semantic-search/.env.staging
 semantic-search/.env.local
+semantic-search/.env.test
+semantic-search/env.production
+semantic-search/env.staging
+semantic-search/env.development
 !semantic-search/.env.example
+!semantic-search/env.*.example
+
+# Python cache and virtual environments
 semantic-search/__pycache__/
 semantic-search/*.pyc
 semantic-search/venv/
 semantic-search/.venv/
 semantic-search/env/
-semantic-search/.env.local
-semantic-search/.env.production
-semantic-search/.env.development
+
+# ML models and cache
 semantic-search/models/
 semantic-search/.cache/
 semantic-search/*.log

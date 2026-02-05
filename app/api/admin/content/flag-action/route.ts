@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/lib/session';
 import { query } from '@/app/lib/db';
 import { sendEmail } from '@/app/lib/helpers';
-import { removeFromNLPIndex, updateContentRelevance } from '@/app/lib/data/nlp-api';
+import { removeFromNLPIndex } from '@/app/lib/data/nlp-api';
 
 // Helper function to determine content table name based on platform and content type
 function getContentTableName(platform: string, contentType: string): string | null {
@@ -205,24 +205,6 @@ export async function POST(request: NextRequest) {
               contentRemovalResults.errors.push(nlpResult.error);
             }
             console.log(`NLP removal result:`, nlpResult);
-
-            // Update relevance in NLP for applicable content types
-            if (originalFlag.platform.includes('blog') || originalFlag.platform.includes('publications')) {
-              try {
-                const relevanceResult = await updateContentRelevance({
-                  platform: originalFlag.platform,
-                  contentId: originalFlag.content_id.toString()
-                });
-                
-                if (relevanceResult.error) {
-                  contentRemovalResults.errors.push(relevanceResult.error);
-                }
-                console.log(`NLP relevance update result:`, relevanceResult);
-              } catch (nlpRelevanceError) {
-                console.error('Failed to update NLP relevance:', nlpRelevanceError);
-                contentRemovalResults.errors.push(`NLP relevance update failed: ${nlpRelevanceError instanceof Error ? nlpRelevanceError.message : 'Unknown error'}`);
-              }
-            }
 
           } catch (nlpError) {
             console.error('Failed to remove from NLP index:', nlpError);

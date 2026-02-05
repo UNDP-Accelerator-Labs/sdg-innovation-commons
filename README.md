@@ -1,25 +1,53 @@
 # SDG Innovation Commons
 
-A Next.js application that enables collaboration, discovery and sharing of innovations supporting the Sustainable Development Goals (SDGs). This repository contains the web application, admin UI, server-side APIs, and a background worker that runs as a separate containerized service in production.
+A Next.js application that enables collaboration, discovery and sharing of innovations supporting the Sustainable Development Goals (SDGs). This repository contains the web application, admin UI, server-side APIs, a background worker, and a semantic search microservice.
 
-This README is intended as a single source of truth for developers and operators: it documents architecture and runtime expectations, setup and deployment instructions, important API and DB contracts, and operational/monitoring guidance.
+## 📚 Documentation
+
+- **[SETUP.md](SETUP.md)** - **START HERE!** Complete setup and deployment guide covering:
+
+  - Local development setup (all three services)
+  - Environment variables explained for Next.js, Worker, and Semantic Search
+  - How the services work together
+  - Production deployment (Automated CI/CD with Azure Kubernetes Service)
+  - Troubleshooting common issues
+
+- **[CONTRIBUTING.md](CONTRIBUTING.md)** - Guidelines for contributing to the project
+
+## Quick Start
+
+```bash
+# 1. Clone and install
+git clone https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons.git
+cd sdg-innovation-commons
+pnpm install
+
+# 2. Set up environment
+cp .env.example .env.local
+# Edit .env.local with your database credentials
+
+# 3. Start development
+pnpm run dev
+# Visit http://localhost:3000
+```
+
+For complete setup instructions, see **[SETUP.md](SETUP.md)**.
 
 ## Table of contents
 
-- About
-- Key features
-- Architecture overview
-- Repository layout
-- Getting started (local development)
-- Environment variables and secrets
-- Database / schema notes
-- Admin notifications (API + UI)
-- Background worker (container)
-- CI / CD (GitHub Actions)
-- Monitoring & health
-- Testing
-- Contributing
-- License
+- [About](#about)
+- [Key features](#key-features)
+- [Architecture overview](#architecture-overview)
+- [Repository layout](#repository-layout)
+- [Environment variables and secrets](#environment-variables-and-secrets)
+- [Database / schema notes](#database--schema-notes)
+- [Admin notifications (API + UI)](#admin-notifications-api--ui)
+- [Background worker (container)](#background-worker-container)
+- [CI / CD (GitHub Actions)](#ci--cd-github-actions)
+- [Monitoring & health](#monitoring--health)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## About
 
@@ -31,77 +59,142 @@ SDG Innovation Commons is a modern web application built with Next.js. It includ
 - Admin interface for managing notifications, users, exports and other platform operations
 - Persisted admin notifications with action-taking workflow and audit notes
 - Templated admin alert emails (HTML + plain-text fallback)
+- **Semantic Search**: Vector-based search using Qdrant and sentence transformers
 - Background worker for processing exports and other asynchronous tasks
-- Worker built and deployed as a dedicated container to an Azure App Service (Linux container)
+- Worker built and deployed as a dedicated container
 - Health/heartbeat monitoring and an admin-facing health card
+- Automated CI/CD with GitHub Actions
 
 ## Architecture overview
 
-- Next.js (app-router) application that serves both client and server code.
-- Server utilities and data access live under `app/lib/` (DB wrapper, platform API helpers, session helper).
-- Admin APIs live under `app/api/admin/*` and are used by the admin UI client components.
-- **Semantic Search Service**: Python FastAPI microservice (`semantic-search/`) providing vector-based semantic search using Qdrant and sentence transformers.
-- Background worker code lives in the `scripts/` folder and runs as a separate process in production (containerized worker App Service).
-- CI/CD is implemented with GitHub Actions; the main app is deployed as a Docker image to Azure App Service, and the worker is deployed as its own container image to a dedicated worker App Service.
+The application consists of **three interconnected services**:
+
+```
+┌─────────────────────────────────────────┐
+│   Next.js Web App                        │
+│   - Public site & Admin UI               │
+│   - API routes                           │
+│   - Server-side rendering                │
+└────────┬────────────────────────┬────────┘
+         │                        │
+         ▼                        ▼
+┌────────────────────┐   ┌────────────────────┐
+│ Background Worker   │   │ Semantic Search    │
+│ - Export processing │   │ - FastAPI service  │
+│ - Email sending     │   │ - Vector search    │
+│ - Job queues        │   │ - Qdrant database  │
+└────────────────────┘   └────────────────────┘
+         │                        │
+         └────────┬───────────────┘
+                  ▼
+        ┌─────────────────────┐
+        │ Shared Data Layer    │
+        │ - PostgreSQL (Azure) │
+        │ - Redis Cache        │
+        │ - Azure Blob Storage │
+        └─────────────────────┘
+```
+
+**Technologies:**
+
+- **Next.js 14** (App Router) - Main application
+- **Python FastAPI** - Semantic search microservice
+- **Node.js** - Background worker
+- **PostgreSQL** (Azure managed) - Primary database
+- **Qdrant** - Vector database for semantic search
+- **Redis** - Cache and job queue
+- **Azure Blob Storage** - File storage
+
+**For detailed architecture and setup, see [SETUP.md](SETUP.md).**
 
 ## Repository layout (important paths)
 
 - app/ — Next.js application (pages, API routes, components)
-  - app/api/admin/ — server routes used by admin UI (notifications, exports, stats, worker-health)
-  - app/admin/ — admin UI pages and client components
-  - app/lib/services/ — service clients (semantic-search-client.ts)
-- semantic-search/ — **Python FastAPI semantic search service** (root-level, separate from Next.js)
+  - app/api/ — API routes (admin, content, search, etc.)
+  - app/admin/ — Admin UI pages and client components
+  - app/lib/ — Server-side helpers: db.ts, session.ts, platform-api.ts
+  - app/lib/services/ — Service clients (semantic-search-client.ts)
+- semantic-search/ — **Python FastAPI semantic search service**
   - main.py — FastAPI application
-  - search.py — core semantic search logic
-  - qdrant_client.py — Qdrant vector database client
-  - embeddings.py — sentence transformer embedding generation
-  - docker-compose.yml — local development setup with Qdrant
-  - app/lib/ — server-side helpers: db.ts, session.ts, platform-api.ts, utils
-- scripts/ — background worker scripts: `process_exports.cjs`, `run_worker.js`, `worker_heartbeat.js`, run.sh (POSIX entrypoint for local/container runs)
-- .github/workflows/app.yaml — CI/CD workflow (build, push, deploy app image and worker image)
-- app/lib/db-schema/ — SQL migrations and schema reference
+  - search.py — Core semantic search logic
+  - qdrant_service.py — Qdrant vector database client
+  - embeddings.py — Sentence transformer embedding generation
+  - Dockerfile — Production container image
+- scripts/ — Background worker scripts
+  - process_exports.cjs — Export processing
+  - run_worker.js — Worker entry point
+  - worker_heartbeat.js — Health monitoring
+- deploy/ — Deployment configurations
+  - docker-compose.yml — Production Docker Compose
+  - docker-compose.dev.yml — Development infrastructure
+  - kubernetes/ — Kubernetes manifests for AKS
+  - Dockerfile — Next.js production image
+  - Dockerfile.worker — Worker production image
+- .github/workflows/ — CI/CD automation
+  - deploy-production.yml — Production deployment
+  - deploy-staging.yml — Staging deployment
 
-## Getting started (local development)
+## Environment Variables and Secrets
 
-### Prerequisites
+The application uses **separate environment files** for each service:
 
-- Node.js 18+ (recommended)
-- pnpm (or npm/yarn)
-- PostgreSQL or the database defined by your environment
-- Docker & Docker Compose (for semantic search service)
+| Service          | Development File                   | Production File          | Purpose                    |
+| ---------------- | ---------------------------------- | ------------------------ | -------------------------- |
+| Next.js + Worker | `.env.local`                       | `env.production` (CI/CD) | App config, database, APIs |
+| Semantic Search  | `semantic-search/.env.development` | `env.production` (CI/CD) | Qdrant, embeddings, API    |
 
-### Install
+**Quick setup:**
 
-1. Clone the repository
+```bash
+# Development
+cp .env.example .env.local
+cp semantic-search/.env.example semantic-search/.env.development
+# Edit with your credentials
 
-   ```bash
-   git clone https://github.com/UNDP-Accelerator-Labs/sdg-innovation-commons.git
-   cd sdg-innovation-commons
-   ```
+# Production (CI/CD)
+cp .env.production.example env.production
+cp .env.staging.example env.staging
+# Edit with actual secrets, then run:
+./scripts/setup-github-secrets.sh production
+```
 
-2. Install dependencies
+**For complete environment variable documentation, see [SETUP.md - Environment Variables](SETUP.md#environment-variables).**
 
-   ```bash
-   pnpm install
-   ```
+## Database / Schema Notes
 
-3. Configure environment variables (see below)
+The application uses PostgreSQL (Azure managed in production). Schema migrations are in `app/lib/db-schema/` or managed through your migration tool.
 
-4. **Set up semantic search service** (see [Semantic Search Setup](SEMANTIC_SEARCH_SETUP.md))
+**Development database:**
 
-   ```bash
-   cd semantic-search
-   cp .env.example .env
-   # Edit .env with your API keys
-   docker-compose up -d
-   cd ..
-   ```
+```bash
+# Set DATABASE_URL in .env.local
+DATABASE_URL='postgresql://user:password@server.postgres.database.azure.com:5432/dbname?sslmode=require'
 
-### Run the dev server
+# Run migrations (if applicable)
+pnpm run migrate
+```
+
+For production database setup, see [SETUP.md](SETUP.md).
+cp semantic-search/.env.example semantic-search/.env.development
+
+# Edit with your credentials
+
+# Production (CI/CD)
+
+cp .env.production.example env.production
+cp .env.staging.example env.staging
+
+# Edit with actual secrets, then run:
+
+./scripts/setup-github-secrets.sh production
+
+````
+
+**For complete environment variable documentation, see [SETUP.md - Environment Variables](SETUP.md#environment-variables).**
 
 ```bash
 pnpm run dev
-```
+````
 
 Open http://localhost:3000 in your browser.
 

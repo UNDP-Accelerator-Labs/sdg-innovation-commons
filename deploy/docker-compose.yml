@@ -1,47 +1,23 @@
 # Production Docker Compose for SDG Innovation Commons
 # Includes: Next.js App, Semantic Search, Background Worker, Qdrant, Redis
-# Note: PostgreSQL can be local (for testing) or Azure PostgreSQL (production)
+# Note: Uses Azure PostgreSQL - configure DATABASE_URL in .env
 #
 # Usage:
 #   make prod-build  # Build all images
 #   make prod-up     # Start all services
 #   make prod-down   # Stop all services
 #
-# For Azure PostgreSQL: Comment out the postgres service and use DATABASE_URL in .env
+# Prerequisites:
+#   - Azure PostgreSQL Flexible Server created
+#   - DATABASE_URL configured in .env with Azure PostgreSQL connection string
 
 version: "3.8"
 
 services:
-  # PostgreSQL Database (Optional - use for local testing)
-  # For production, use Azure PostgreSQL and comment this out
-  postgres:
-    image: postgres:15-alpine
-    container_name: sdg-postgres
-    environment:
-      POSTGRES_DB: ${GENERAL_DB_NAME:-postgres}
-      POSTGRES_USER: ${GENERAL_DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${GENERAL_DB_PASSWORD:-postgres}
-      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
-    volumes:
-      # CRITICAL: Named volume for data persistence
-      - postgres_data:/var/lib/postgresql/data
-      # Optional: Backup directory
-      # - ./backups/postgres:/backups
-    networks:
-      - sdg-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${GENERAL_DB_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: "2.0"
+  # PostgreSQL Database: Using Azure PostgreSQL Flexible Server
+  # No local postgres service needed - application connects directly to Azure
+  # Ensure DATABASE_URL is set in .env:
+  # DATABASE_URL="postgresql://user:password@servername.postgres.database.azure.com:5432/dbname?sslmode=require"
 
   # Qdrant Vector Database
   # CRITICAL: This MUST have persistent storage for production

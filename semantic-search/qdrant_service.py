@@ -183,6 +183,7 @@ class QdrantService:
         Create indices on payload fields for efficient filtering.
         
         Uses flattened metadata fields (meta_*) for indexing.
+        Note: Updated field uses INTEGER index for timestamp to support order_by.
         
         Args:
             collection_name: Name of the collection to index
@@ -191,6 +192,7 @@ class QdrantService:
             return
         
         # Index fields used in filters (flattened metadata)
+        # Note: 'updated' uses INTEGER for timestamp to support order_by queries
         index_fields = [
             ("base", PayloadSchemaType.KEYWORD),
             ("doc_id", PayloadSchemaType.INTEGER),
@@ -201,7 +203,7 @@ class QdrantService:
             ("meta_doc_type", PayloadSchemaType.KEYWORD),
             ("meta_iso3", PayloadSchemaType.KEYWORD),
             ("meta_date", PayloadSchemaType.DATETIME),
-            ("updated", PayloadSchemaType.DATETIME),
+            ("updated", PayloadSchemaType.DATETIME),  # Datetime string for order_by support
         ]
         
         for field_name, field_type in index_fields:

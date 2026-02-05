@@ -4,6 +4,8 @@ from typing import Optional
 from fastapi import FastAPI, HTTPException, Depends, Security, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.security import HTTPBearer, APIKeyHeader
+from fastapi.openapi.models import SecuritySchemeType
 import structlog
 
 from config import settings
@@ -74,6 +76,9 @@ app = FastAPI(
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
+    swagger_ui_parameters={
+        "persistAuthorization": True,
+    }
 )
 
 # Configure CORS
@@ -84,6 +89,49 @@ app.add_middleware(
     allow_methods=["GET", "POST", "PUT", "DELETE"],
     allow_headers=["*"],
 )
+
+# Configure OpenAPI security schemes for Swagger UI
+app.openapi_schema = None  # Reset to regenerate with security
+
+def custom_openapi():
+    if app.openapi_schema:
+        return app.openapi_schema
+    
+    from fastapi.openapi.utils import get_openapi
+    
+    openapi_schema = get_openapi(
+        title=app.title,
+        version=app.version,
+        description=app.description,
+        routes=app.routes,
+    )
+    
+    # Add security schemes
+    openapi_schema["components"]["securitySchemes"] = {
+        "bearerAuth": {
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT",
+            "description": "Enter your JWT token (from Next.js authentication)"
+        },
+        "apiKeyAuth": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key",
+            "description": "Enter your API key for service-to-service authentication"
+        }
+    }
+    
+    # Make all endpoints require either bearer or API key auth
+    openapi_schema["security"] = [
+        {"bearerAuth": []},
+        {"apiKeyAuth": []}
+    ]
+    
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+app.openapi = custom_openapi
 
 
 @app.get("/", tags=["Root"])

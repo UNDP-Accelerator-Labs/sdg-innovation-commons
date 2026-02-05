@@ -1,0 +1,69 @@
+---
+# Local Development Storage Configuration
+# Uses default storage class (Docker Desktop dynamic provisioning)
+# For production, use 02-storage.yaml with managed-premium/azurefile
+
+---
+# Persistent Volume Claim for Qdrant Vector Database
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qdrant-storage-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # No storageClassName = use default (Docker Desktop dynamic provisioning)
+  resources:
+    requests:
+      storage: 5Gi  # Smaller for local testing
+
+---
+# Persistent Volume Claim for Qdrant Snapshots
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: qdrant-snapshots-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+
+---
+# Persistent Volume Claim for Redis
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: redis-data-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: redis
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+
+---
+# Persistent Volume Claim for App Data
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-data-pvc
+  namespace: sdg-innovation-commons
+  labels:
+    app: nextjs
+spec:
+  accessModes:
+    - ReadWriteOnce  # Changed from ReadWriteMany (not supported in Docker Desktop)
+  resources:
+    requests:
+      storage: 2Gi

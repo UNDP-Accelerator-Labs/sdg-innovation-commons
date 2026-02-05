@@ -1,0 +1,371 @@
+---
+# Azure Monitor Integration for Kubernetes
+# Provides observability, metrics, and alerting
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: sdg-innovation-commons
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+      evaluation_interval: 15s
+    
+    scrape_configs:
+      # Qdrant metrics
+      - job_name: 'qdrant'
+        static_configs:
+          - targets: ['qdrant-service:6333']
+        metrics_path: '/metrics'
+      
+      # Application metrics (if exposed)
+      - job_name: 'nextjs'
+        static_configs:
+          - targets: ['nextjs-service:3000']
+        metrics_path: '/api/metrics'
+      
+      # Semantic search metrics
+      - job_name: 'semantic-search'
+        static_configs:
+          - targets: ['semantic-search-service:8000']
+        metrics_path: '/metrics'
+
+---
+# Alert Rules for Prometheus/Azure Monitor
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alert-rules
+  namespace: sdg-innovation-commons
+data:
+  alerts.yml: |
+    groups:
+    - name: qdrant_alerts
+      interval: 30s
+      rules:
+      # Critical: Qdrant is down
+      - alert: QdrantDown
+        expr: up{job="qdrant"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Qdrant vector database is down"
+          description: "Qdrant has been down for more than 5 minutes"
+      
+      # Warning: High memory usage
+      - alert: QdrantHighMemory
+        expr: (qdrant_memory_used_bytes / qdrant_memory_total_bytes) > 0.85
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Qdrant memory usage is high"
+          description: "Memory usage is above 85% for 10 minutes"
+      
+      # Warning: High storage usage
+      - alert: QdrantHighStorage
+        expr: (qdrant_storage_used_bytes / qdrant_storage_total_bytes) > 0.80
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Qdrant storage usage is high"
+          description: "Storage usage is above 80%"
+      
+      # Critical: Very high storage usage
+      - alert: QdrantCriticalStorage
+        expr: (qdrant_storage_used_bytes / qdrant_storage_total_bytes) > 0.90
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Qdrant storage is almost full"
+          description: "Storage usage is above 90% - immediate action required"
+    
+    - name: backup_alerts
+      interval: 6h
+      rules:
+      # Critical: Backup hasn't run in 25 hours
+      - alert: BackupNotRun
+        expr: (time() - qdrant_last_backup_timestamp) > 90000  # 25 hours
+        labels:
+          severity: critical
+        annotations:
+          summary: "Qdrant backup has not run recently"
+          description: "Last successful backup was more than 25 hours ago"
+    
+    - name: application_alerts
+      interval: 30s
+      rules:
+      # Warning: High error rate
+      - alert: HighErrorRate
+        expr: rate(http_requests_total{status=~"5.."}[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is above 1% for 5 minutes"
+      
+      # Warning: Slow response times
+      - alert: SlowResponseTime
+        expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket[5m])) > 5
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Slow API response times"
+          description: "95th percentile response time is above 5 seconds"
+      
+      # Critical: Application down
+      - alert: ApplicationDown
+        expr: up{job="nextjs"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Next.js application is down"
+          description: "Application has been down for more than 5 minutes"
+      
+      # Critical: Semantic search down
+      - alert: SemanticSearchDown
+        expr: up{job="semantic-search"} == 0
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Semantic search service is down"
+          description: "Semantic search has been down for more than 5 minutes"
+
+---
+# Pod Monitor for Qdrant
+# Scrapes metrics from Qdrant pods
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: qdrant-monitor
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant
+spec:
+  selector:
+    matchLabels:
+      app: qdrant
+  podMetricsEndpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+
+---
+# Service Monitor for application services
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: app-services-monitor
+  namespace: sdg-innovation-commons
+  labels:
+    app: sdg-innovation-commons
+spec:
+  selector:
+    matchLabels:
+      monitoring: "true"
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+
+---
+# Azure Monitor Workspace (for Azure integration)
+# This is a reference - actual setup is done via Azure Portal
+# 
+# Resources to create in Azure:
+# 1. Azure Monitor Workspace
+# 2. Application Insights instance
+# 3. Log Analytics Workspace
+# 4. Azure Managed Grafana (optional but recommended)
+#
+# Connect your AKS cluster:
+#   az aks enable-addons \
+#     --resource-group <your-rg> \
+#     --name <your-aks-cluster> \
+#     --addons monitoring \
+#     --workspace-resource-id <log-analytics-workspace-id>
+#
+# Install Azure Monitor Agent:
+#   kubectl apply -f https://aka.ms/azuremonitorcontainers/agent.yaml
+
+---
+# Custom metrics exporter for Qdrant backup status
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qdrant-metrics-exporter
+  namespace: sdg-innovation-commons
+data:
+  exporter.py: |
+    #!/usr/bin/env python3
+    """
+    Custom metrics exporter for Qdrant backup status.
+    Exposes metrics about last backup time for monitoring.
+    """
+    import os
+    import time
+    from datetime import datetime
+    from azure.storage.blob import BlobServiceClient
+    from prometheus_client import start_http_server, Gauge
+    
+    # Metrics
+    LAST_BACKUP_TIME = Gauge(
+        'qdrant_last_backup_timestamp',
+        'Unix timestamp of last successful backup'
+    )
+    
+    BACKUP_SIZE_BYTES = Gauge(
+        'qdrant_last_backup_size_bytes',
+        'Size of last backup in bytes'
+    )
+    
+    BACKUP_COUNT = Gauge(
+        'qdrant_total_backups_count',
+        'Total number of backups in storage'
+    )
+    
+    def get_latest_backup():
+        """Fetch latest backup metadata from Azure Blob Storage."""
+        try:
+            account_name = os.getenv('AZURE_STORAGE_ACCOUNT')
+            account_key = os.getenv('AZURE_STORAGE_KEY')
+            container_name = os.getenv('AZURE_BACKUP_CONTAINER', 'qdrant-backups')
+            
+            blob_service = BlobServiceClient(
+                account_url=f"https://{account_name}.blob.core.windows.net",
+                credential=account_key
+            )
+            
+            container_client = blob_service.get_container_client(container_name)
+            
+            # List all backups
+            blobs = list(container_client.list_blobs(name_starts_with='qdrant-snapshots/'))
+            
+            if not blobs:
+                return None, None, 0
+            
+            # Get latest backup
+            latest_blob = max(blobs, key=lambda b: b.last_modified)
+            
+            return (
+                latest_blob.last_modified.timestamp(),
+                latest_blob.size,
+                len(blobs)
+            )
+        
+        except Exception as e:
+            print(f"Error fetching backup metadata: {e}")
+            return None, None, 0
+    
+    def update_metrics():
+        """Update Prometheus metrics."""
+        while True:
+            last_time, last_size, total_count = get_latest_backup()
+            
+            if last_time:
+                LAST_BACKUP_TIME.set(last_time)
+                print(f"Last backup: {datetime.fromtimestamp(last_time)}")
+            
+            if last_size:
+                BACKUP_SIZE_BYTES.set(last_size)
+                print(f"Last backup size: {last_size / (1024**2):.2f} MB")
+            
+            BACKUP_COUNT.set(total_count)
+            print(f"Total backups: {total_count}")
+            
+            # Update every 5 minutes
+            time.sleep(300)
+    
+    if __name__ == '__main__':
+        # Start Prometheus HTTP server
+        port = int(os.getenv('METRICS_PORT', 9090))
+        start_http_server(port)
+        print(f"Metrics server started on port {port}")
+        
+        # Update metrics continuously
+        update_metrics()
+
+---
+# Deployment for metrics exporter
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdrant-metrics-exporter
+  namespace: sdg-innovation-commons
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: qdrant-metrics-exporter
+  template:
+    metadata:
+      labels:
+        app: qdrant-metrics-exporter
+        monitoring: "true"
+    spec:
+      containers:
+      - name: exporter
+        image: python:3.11-slim
+        command: ["/bin/bash", "-c"]
+        args:
+          - |
+            pip install prometheus-client azure-storage-blob
+            python /scripts/exporter.py
+        ports:
+        - name: metrics
+          containerPort: 9090
+        env:
+        - name: AZURE_STORAGE_ACCOUNT
+          valueFrom:
+            secretKeyRef:
+              name: azure-storage-secrets
+              key: AZURE_STORAGE_ACCOUNT
+        - name: AZURE_STORAGE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: azure-storage-secrets
+              key: AZURE_STORAGE_KEY
+        - name: AZURE_BACKUP_CONTAINER
+          value: "qdrant-backups"
+        - name: METRICS_PORT
+          value: "9090"
+        volumeMounts:
+        - name: exporter-script
+          mountPath: /scripts
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "100m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+      volumes:
+      - name: exporter-script
+        configMap:
+          name: qdrant-metrics-exporter
+
+---
+# Service for metrics exporter
+apiVersion: v1
+kind: Service
+metadata:
+  name: qdrant-metrics-exporter
+  namespace: sdg-innovation-commons
+  labels:
+    monitoring: "true"
+spec:
+  selector:
+    app: qdrant-metrics-exporter
+  ports:
+  - name: metrics
+    port: 9090
+    targetPort: 9090

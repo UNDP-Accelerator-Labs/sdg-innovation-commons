@@ -3,7 +3,7 @@ name: Deployment
 on:
   push:
     tags:
-      - 'staging-v*'
+      # - 'hotfix-v*'
 
 jobs:
   build_pipeline:
@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Fetch tags
-        run: git fetch --prune --unshallow --tags --force
+        run: git fetch --prune --unshallow --tags
 
       - name: Docker login
         uses: azure/docker-login@v2
@@ -49,8 +49,8 @@ jobs:
         run: |
           docker push acclabdocker.azurecr.io/sdginnovationcommons-worker:${{ env.IMAGE_TAG }}
 
-  deploy_staging_pipeline:
-    name: Deploy Staging
+  deploy_hotfix_pipeline:
+    name: Deploy Hotfix
     needs: build_pipeline
     runs-on: ubuntu-latest
 
@@ -58,18 +58,18 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Fetch tags
-        run: git fetch --prune --unshallow --tags --force
+        run: git fetch --prune --unshallow --tags
 
       - name: Set env
         run: echo "IMAGE_TAG=$(make -s name)" >> $GITHUB_ENV
 
       - uses: azure/webapps-deploy@v2
         with:
-          app-name: 'staging-sdg-innovation-commons'
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE_STAGING }}
+          app-name: 'acclabs'
+          publish-profile: ${{ secrets.AZURE_PROD_PUBLISH_PROFILE }}
           images: 'acclabdocker.azurecr.io/sdginnovationcommons:${{ env.IMAGE_TAG }}'
 
-      - name: Deploy worker image to staging App Service
+      - name: Deploy worker image to production App Service
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'sdg-innovation-commons-worker'

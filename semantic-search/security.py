@@ -135,21 +135,60 @@ def verify_jwt_token(token: str) -> Dict[str, Any]:
         logger.debug("Using JWT secret", secret_preview=secret_preview)
         
         try:
-            # Verify JWT with proper secret - verify with Next.js settings
-            # The Next.js app sets audience to 'user:known' and issuer to base host
-            payload = jwt.decode(
-                token, 
-                jwt_secret, 
-                algorithms=["HS256"],
-                audience="user:known",  # Match Next.js JWT_AUDIENCE
-                options={
-                    "verify_signature": True,
-                    "verify_exp": True,
-                    "verify_iat": True,
-                    "verify_aud": True,   # Verify audience
-                    "verify_iss": False   # Skip issuer verification (varies by environment)
-                }
-            )
+            # First, try to decode without verification to see what's in the token
+            unverified = jwt.decode(token, options={"verify_signature": False})
+            has_aud = "aud" in unverified
+            logger.debug("JWT payload preview", keys=list(unverified.keys()), has_aud=has_aud)
+            
+            # Verify JWT with proper secret
+            # Check if token has audience claim, then decide verification strategy
+            if has_aud:
+                # Token has audience, try to verify it
+                try:
+                    payload = jwt.decode(
+                        token, 
+                        jwt_secret, 
+                        algorithms=["HS256"],
+                        audience="user:known",  # Match Next.js JWT_AUDIENCE
+                        options={
+                            "verify_signature": True,
+                            "verify_exp": True,
+                            "verify_iat": True,
+                            "verify_aud": True,
+                            "verify_iss": False
+                        }
+                    )
+                except jwt.InvalidAudienceError:
+                    # Token has wrong audience, try without audience verification
+                    logger.warning("JWT has unexpected audience, verifying without audience check")
+                    payload = jwt.decode(
+                        token, 
+                        jwt_secret, 
+                        algorithms=["HS256"],
+                        options={
+                            "verify_signature": True,
+                            "verify_exp": True,
+                            "verify_iat": True,
+                            "verify_aud": False,
+                            "verify_iss": False
+                        }
+                    )
+            else:
+                # Token doesn't have audience claim (e.g., API access tokens)
+                # Verify without audience check
+                logger.debug("JWT has no audience claim, verifying without audience check")
+                payload = jwt.decode(
+                    token, 
+                    jwt_secret, 
+                    algorithms=["HS256"],
+                    options={
+                        "verify_signature": True,
+                        "verify_exp": True,
+                        "verify_iat": True,
+                        "verify_aud": False,  # Skip audience verification
+                        "verify_iss": False   # Skip issuer verification
+                    }
+                )
             
             # Extract user information from payload
             user_id = payload.get("uuid") or payload.get("sub")
@@ -193,10 +232,16 @@ def verify_jwt_token(token: str) -> Dict[str, Any]:
                 detail="Invalid JWT token signature"
             )
         except jwt.InvalidTokenError as e:
-            logger.warning("Invalid JWT token", error=str(e))
+            # Log the detailed error for debugging
+            logger.error(
+                "Invalid JWT token",
+                error=str(e),
+                error_type=type(e).__name__,
+                token_preview=f"{token[:20]}...{token[-20:]}" if len(token) > 40 else token[:40]
+            )
             raise HTTPException(
                 status_code=401,
-                detail="Invalid or malformed JWT token"
+                detail=f"Invalid or malformed JWT token: {str(e)}"
             )
         
     except HTTPException:

@@ -1,47 +1,20 @@
 # Local Development Docker Compose
-# Infrastructure services (Postgres, Qdrant, Redis) for local development
+# Infrastructure services (Qdrant, Redis) for local development
 # Run Next.js, Semantic Search, and Worker locally for hot reload
 #
 # Usage:
 #   make dev-infra    # Start only infrastructure
 #   make dev-nextjs   # Start Next.js with hot reload (after dev-infra)
 #   make dev-semantic # Start semantic search with hot reload (after dev-infra)
+#
+# Note: Uses Azure PostgreSQL - configure DATABASE_URL in .env
+# DATABASE_URL="postgresql://user:password@servername.postgres.database.azure.com:5432/dbname?sslmode=require"
 
 version: "3.8"
 
 services:
-  # PostgreSQL Database (Local Development)
-  # Note: Comment this out if using remote Azure PostgreSQL
-  # postgres:
-  #   image: postgres:15-alpine
-  #   container_name: sdg-postgres-dev
-  #   environment:
-  #     POSTGRES_DB: ${GENERAL_DB_NAME:-postgres}
-  #     POSTGRES_USER: ${GENERAL_DB_USER:-postgres}
-  #     POSTGRES_PASSWORD: ${GENERAL_DB_PASSWORD:-postgres}
-  #     # Enable extensions
-  #     POSTGRES_INITDB_ARGS: "-E UTF8 --locale=en_US.UTF-8"
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     # Named volume for data persistence - survives container restarts/removals
-  #     - postgres_dev_data:/var/lib/postgresql/data
-  #     # Optional: Init scripts for database setup
-  #     # - ./deploy/postgres-init:/docker-entrypoint-initdb.d
-  #   networks:
-  #     - sdg-dev-network
-  #   restart: unless-stopped
-  #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U ${GENERAL_DB_USER:-postgres}"]
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 5
-  # Resource limits (optional for local dev)
-  # deploy:
-  #   resources:
-  #     limits:
-  #       memory: 1G
-  #       cpus: '1.0'
+  # PostgreSQL: Using Azure PostgreSQL Flexible Server
+  # Application connects directly to Azure - no local postgres service needed
 
   # Qdrant Vector Database
   # Persistent storage is CRITICAL - data survives container restarts

@@ -21,57 +21,15 @@ spec:
     spec:
       containers:
       - name: worker
-        image: YOUR_REGISTRY/sdg-worker:latest  # Replace with your container registry
+        image: sdg-worker:local
         imagePullPolicy: Always
-        env:
-        # Database - Azure PostgreSQL recommended
-        - name: DATABASE_URL
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: DATABASE_URL
-        - name: GENERAL_DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: GENERAL_DB_PASSWORD
         
-        # Redis
-        - name: REDIS_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: REDIS_HOST
-        - name: REDIS_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: REDIS_PORT
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: REDIS_PASSWORD
-        
-        # Worker Configuration
-        - name: WORKER_CONCURRENCY
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: WORKER_CONCURRENCY
-        - name: WORKER_INTERVAL
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: WORKER_INTERVAL
-        
-        # Azure Storage (if using)
-        - name: AZURE_STORAGE_CONNECTION_STRING
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: AZURE_STORAGE_CONNECTION_STRING
-              optional: true
+        # Load ALL environment variables from ConfigMap and Secret
+        envFrom:
+          - configMapRef:
+              name: nextjs-config
+          - secretRef:
+              name: nextjs-secrets
         
         volumeMounts:
         - name: app-data

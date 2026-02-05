@@ -21,99 +21,19 @@ spec:
     spec:
       containers:
       - name: semantic-search
-        image: YOUR_REGISTRY/sdg-semantic-search:latest  # Replace with your container registry
+        image: sdg-semantic-search:local
         imagePullPolicy: Always
         ports:
         - name: http
           containerPort: 8000
           protocol: TCP
-        env:
-        # Qdrant Configuration
-        - name: QDRANT_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: QDRANT_HOST
-        - name: QDRANT_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: QDRANT_PORT
-        - name: QDRANT_GRPC_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: QDRANT_GRPC_PORT
-        - name: QDRANT_API_KEY
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: QDRANT_API_KEY
-        - name: QDRANT_COLLECTION_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: QDRANT_COLLECTION_NAME
-        - name: QDRANT_USE_HTTPS
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: QDRANT_USE_HTTPS
         
-        # API Security
-        - name: API_SECRET_KEY
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: SEMANTIC_SEARCH_API_KEY
-        - name: ALLOWED_ORIGINS
-          value: "https://yourdomain.com,https://www.yourdomain.com"  # Update with your domain
-        
-        # Service Configuration
-        - name: SERVICE_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: SERVICE_HOST
-        - name: SERVICE_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: SERVICE_PORT
-        - name: LOG_LEVEL
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: LOG_LEVEL
-        
-        # Embedding Model
-        - name: EMBEDDING_MODEL
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: EMBEDDING_MODEL
-        - name: DEVICE
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: DEVICE
-        
-        # Redis Cache
-        - name: REDIS_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: REDIS_HOST
-        - name: REDIS_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: sdg-app-config
-              key: REDIS_PORT
-        - name: REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: sdg-app-secrets
-              key: REDIS_PASSWORD
+        # Load ALL environment variables from ConfigMap and Secret
+        envFrom:
+          - configMapRef:
+              name: semantic-search-config
+          - secretRef:
+              name: semantic-search-secrets
         
         resources:
           requests:

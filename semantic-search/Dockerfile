@@ -37,26 +37,30 @@ RUN apt-get update && apt-get install -y \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy Python packages from builder
-COPY --from=builder /root/.local /root/.local
-COPY --from=builder /root/.cache/huggingface /root/.cache/huggingface
+# Create non-root user first
+RUN useradd -m -u 1000 appuser
 
-# Add local bin to PATH
-ENV PATH=/root/.local/bin:$PATH
+# Copy Python packages from builder to user's home
+COPY --from=builder /root/.local /home/appuser/.local
+COPY --from=builder /root/.cache/huggingface /home/appuser/.cache/huggingface
+
+# Set ownership
+RUN chown -R appuser:appuser /home/appuser/.local /home/appuser/.cache
+
+# Switch to non-root user
+USER appuser
+
+# Add local bin to PATH for appuser
+ENV PATH=/home/appuser/.local/bin:$PATH
 
 # Set environment variables for model caching
-ENV HF_HOME=/root/.cache/huggingface
-ENV TRANSFORMERS_CACHE=/root/.cache/huggingface/transformers
-ENV SENTENCE_TRANSFORMERS_HOME=/root/.cache/huggingface/sentence-transformers
+ENV HF_HOME=/home/appuser/.cache/huggingface
+ENV TRANSFORMERS_CACHE=/home/appuser/.cache/huggingface/transformers
+ENV SENTENCE_TRANSFORMERS_HOME=/home/appuser/.cache/huggingface/sentence-transformers
 ENV PYTHONUNBUFFERED=1
 
 # Copy application code
-COPY . .
-
-# Create non-root user for security (optional but recommended)
-RUN useradd -m -u 1000 appuser && \
-    chown -R appuser:appuser /app /root/.cache
-USER appuser
+COPY --chown=appuser:appuser . .
 
 # Expose port
 EXPOSE 8000

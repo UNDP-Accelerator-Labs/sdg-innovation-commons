@@ -1,0 +1,335 @@
+name: Deploy to Staging
+
+on:
+  push:
+    branches:
+      - staging
+      - develop
+    tags:
+      - 'staging-*'  # Trigger on staging tags
+  workflow_dispatch:
+
+env:
+  ACR_LOGIN_SERVER: ${{ secrets.STAGING_ACR_LOGIN_SERVER }}
+  AKS_CLUSTER_NAME: ${{ secrets.STAGING_AKS_CLUSTER_NAME }}
+  AKS_RESOURCE_GROUP: ${{ secrets.STAGING_AKS_RESOURCE_GROUP }}
+  NAMESPACE: staging
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Azure Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.ACR_LOGIN_SERVER }}
+          username: ${{ secrets.STAGING_ACR_USERNAME }}
+          password: ${{ secrets.STAGING_ACR_PASSWORD }}
+
+      - name: Build and push Next.js image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./deploy/Dockerfile
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-nextjs:${{ github.sha }}
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-nextjs:staging-latest
+          cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/sdg-nextjs:staging-latest
+          cache-to: type=inline
+
+      - name: Build and push Semantic Search image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./semantic-search
+          file: ./semantic-search/Dockerfile
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-semantic-search:${{ github.sha }}
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-semantic-search:staging-latest
+          cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/sdg-semantic-search:staging-latest
+          cache-to: type=inline
+
+      - name: Build and push Worker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./deploy/Dockerfile.worker
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-worker:${{ github.sha }}
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-worker:staging-latest
+          cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/sdg-worker:staging-latest
+          cache-to: type=inline
+
+      - name: Set up Azure CLI
+        uses: azure/setup-kubectl@v3
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: 'v3.13.0'
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.STAGING_AZURE_CREDENTIALS }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group ${{ env.AKS_RESOURCE_GROUP }} \
+            --name ${{ env.AKS_CLUSTER_NAME }} \
+            --overwrite-existing
+
+      - name: Create staging namespace
+        run: |
+          kubectl create namespace ${{ env.NAMESPACE }} --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Install NGINX Ingress Controller
+        run: |
+          echo "📦 Installing NGINX Ingress Controller..."
+          helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx || true
+          helm repo update
+          
+          # Install or upgrade NGINX Ingress
+          helm upgrade --install ingress-nginx ingress-nginx/ingress-nginx \
+            --namespace ingress-nginx \
+            --create-namespace \
+            --set controller.service.annotations."service\.beta\.kubernetes\.io/azure-load-balancer-health-probe-request-path"=/healthz \
+            --wait \
+            --timeout 5m || echo "NGINX Ingress already installed"
+          
+          echo "✅ NGINX Ingress Controller ready"
+
+      - name: Install cert-manager for SSL
+        run: |
+          echo "📦 Installing cert-manager..."
+          kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.yaml || echo "cert-manager already installed"
+          
+          # Wait for cert-manager to be ready
+          echo "⏳ Waiting for cert-manager..."
+          kubectl wait --for=condition=Available --timeout=300s \
+            deployment/cert-manager \
+            deployment/cert-manager-webhook \
+            deployment/cert-manager-cainjector \
+            -n cert-manager || echo "cert-manager pods not ready yet"
+          
+          echo "✅ cert-manager ready"
+
+      - name: Create/Update Next.js ConfigMap
+        run: |
+          kubectl create configmap nextjs-config \
+            --from-literal=NODE_ENV="staging" \
+            --from-literal=PORT="3000" \
+            --from-literal=LOG_LEVEL="DEBUG" \
+            --from-literal=QDRANT_HOST="qdrant-service" \
+            --from-literal=QDRANT_PORT="6333" \
+            --from-literal=QDRANT_USE_HTTPS="false" \
+            --from-literal=REDIS_HOST="redis-service" \
+            --from-literal=REDIS_PORT="6379" \
+            --from-literal=SEMANTIC_SEARCH_URL="http://semantic-search-service:8000" \
+            --from-literal=WORKER_CONCURRENCY="2" \
+            --from-literal=WORKER_INTERVAL="60" \
+            --from-literal=NEXTAUTH_URL="${{ secrets.STAGING_NEXTAUTH_URL }}" \
+            --from-literal=API_HOST="0.0.0.0" \
+            --from-literal=API_PORT="3000" \
+            --from-literal=ALLOWED_ORIGINS="${{ secrets.STAGING_ALLOWED_ORIGINS }}" \
+            --namespace=${{ env.NAMESPACE }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create/Update Next.js Secrets
+        run: |
+          kubectl create secret generic nextjs-secrets \
+            --from-literal=DATABASE_URL='${{ secrets.STAGING_DATABASE_URL }}' \
+            --from-literal=APP_SECRET='${{ secrets.STAGING_APP_SECRET }}' \
+            --from-literal=NEXTAUTH_SECRET='${{ secrets.STAGING_NEXTAUTH_SECRET }}' \
+            --from-literal=GENERAL_DB_PASSWORD='${{ secrets.STAGING_GENERAL_DB_PASSWORD }}' \
+            --from-literal=QDRANT_API_KEY='${{ secrets.STAGING_QDRANT_API_KEY }}' \
+            --from-literal=REDIS_PASSWORD='${{ secrets.STAGING_REDIS_PASSWORD }}' \
+            --from-literal=SEMANTIC_SEARCH_API_KEY='${{ secrets.STAGING_SEMANTIC_SEARCH_API_KEY }}' \
+            --from-literal=AZURE_STORAGE_CONNECTION_STRING='${{ secrets.STAGING_AZURE_STORAGE_CONNECTION_STRING }}' \
+            --from-literal=SMTP_HOST='${{ secrets.STAGING_SMTP_HOST }}' \
+            --from-literal=SMTP_PORT='${{ secrets.STAGING_SMTP_PORT }}' \
+            --from-literal=SMTP_USER='${{ secrets.STAGING_SMTP_USER }}' \
+            --from-literal=SMTP_PASS='${{ secrets.STAGING_SMTP_PASS }}' \
+            --from-literal=ADMIN_EMAILS='${{ secrets.STAGING_ADMIN_EMAILS }}' \
+            --from-literal=OPENCAGE_API='${{ secrets.STAGING_OPENCAGE_API }}' \
+            --from-literal=ACCLAB_PLATFORM_KEY='${{ secrets.STAGING_ACCLAB_PLATFORM_KEY }}' \
+            --from-literal=BLOG_API_TOKEN='${{ secrets.STAGING_BLOG_API_TOKEN }}' \
+            --namespace=${{ env.NAMESPACE }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create/Update Semantic Search ConfigMap
+        run: |
+          kubectl create configmap semantic-search-config \
+            --from-literal=NODE_ENV="staging" \
+            --from-literal=LOG_LEVEL="DEBUG" \
+            --from-literal=QDRANT_HOST="qdrant-service" \
+            --from-literal=QDRANT_PORT="6333" \
+            --from-literal=QDRANT_GRPC_PORT="6334" \
+            --from-literal=QDRANT_COLLECTION_NAME="main" \
+            --from-literal=QDRANT_USE_HTTPS="false" \
+            --from-literal=EMBEDDING_MODEL="sentence-transformers/all-MiniLM-L6-v2" \
+            --from-literal=DEVICE="cpu" \
+            --from-literal=SERVICE_HOST="0.0.0.0" \
+            --from-literal=SERVICE_PORT="8000" \
+            --namespace=${{ env.NAMESPACE }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create/Update Semantic Search Secrets
+        run: |
+          kubectl create secret generic semantic-search-secrets \
+            --from-literal=QDRANT_API_KEY='${{ secrets.STAGING_QDRANT_API_KEY }}' \
+            --from-literal=API_SECRET_KEY='${{ secrets.STAGING_SEMANTIC_SEARCH_API_KEY }}' \
+            --namespace=${{ env.NAMESPACE }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Deploy infrastructure to staging
+        run: |
+          # Deploy storage (PVCs)
+          kubectl apply -f deploy/kubernetes/02-storage.yaml --namespace=${{ env.NAMESPACE }}
+          
+          # Deploy Qdrant
+          kubectl apply -f deploy/kubernetes/03-qdrant.yaml --namespace=${{ env.NAMESPACE }}
+          
+          # Deploy Redis
+          kubectl apply -f deploy/kubernetes/04-redis.yaml --namespace=${{ env.NAMESPACE }}
+          
+          # Wait for stateful services
+          kubectl wait --for=condition=ready pod -l app=redis --timeout=300s --namespace=${{ env.NAMESPACE }} || true
+          kubectl wait --for=condition=ready pod -l app=qdrant --timeout=300s --namespace=${{ env.NAMESPACE }} || true
+
+      - name: Deploy applications to staging
+        run: |
+          # Update image tags in manifests with staging namespace
+          sed -i "s|image: .*sdg-nextjs.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-nextjs:${{ github.sha }}|g" deploy/kubernetes/06-nextjs.yaml
+          sed -i "s|image: .*sdg-semantic-search.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-semantic-search:${{ github.sha }}|g" deploy/kubernetes/05-semantic-search.yaml
+          sed -i "s|image: .*sdg-worker.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-worker:${{ github.sha }}|g" deploy/kubernetes/07-worker.yaml
+          
+          # Deploy applications
+          kubectl apply -f deploy/kubernetes/05-semantic-search.yaml --namespace=${{ env.NAMESPACE }}
+          kubectl apply -f deploy/kubernetes/06-nextjs.yaml --namespace=${{ env.NAMESPACE }}
+          kubectl apply -f deploy/kubernetes/07-worker.yaml --namespace=${{ env.NAMESPACE }}
+          kubectl apply -f deploy/kubernetes/09-qdrant-backup-cronjob.yaml --namespace=${{ env.NAMESPACE }}
+          
+          # Configure staging domain if provided
+          if [ ! -z "${{ secrets.STAGING_DOMAIN }}" ]; then
+            echo "🔧 Configuring staging domain: ${{ secrets.STAGING_DOMAIN }}"
+            sed -i "s|YOUR_DOMAIN_HERE|${{ secrets.STAGING_DOMAIN }}|g" deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  # tls:|  tls:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  #   - hosts:|    - hosts:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  #   - |    - |g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  #   secretName:|    secretName:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^    # nginx.ingress.kubernetes.io/ssl-redirect:|    nginx.ingress.kubernetes.io/ssl-redirect:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^    # cert-manager.io/cluster-issuer:|    cert-manager.io/cluster-issuer:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  # - host:|  - host:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  #   http:|    http:|g' deploy/kubernetes/08-ingress.yaml
+            sed -i 's|^  #     paths:|      paths:|g' deploy/kubernetes/08-ingress.yaml
+            echo "✅ Staging domain configuration applied"
+          else
+            echo "ℹ️  Using IP-based access (no staging domain)"
+          fi
+          
+          # Deploy ingress for external access
+          kubectl apply -f deploy/kubernetes/08-ingress.yaml --namespace=${{ env.NAMESPACE }}
+
+      - name: Verify staging deployment
+        run: |
+          kubectl rollout status deployment/nextjs --timeout=600s --namespace=${{ env.NAMESPACE }}
+          kubectl rollout status deployment/semantic-search --timeout=600s --namespace=${{ env.NAMESPACE }}
+          kubectl rollout status deployment/worker --timeout=600s --namespace=${{ env.NAMESPACE }}
+
+      - name: Report Staging Access URLs
+        run: |
+          echo "⏳ Waiting for LoadBalancer IP assignment..."
+          sleep 30
+          
+          INGRESS_IP=$(kubectl get service ingress-nginx-controller -n ingress-nginx -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+          
+          if [ -z "$INGRESS_IP" ]; then
+            echo "⚠️  LoadBalancer IP not yet assigned. Please wait and check:"
+            echo "    kubectl get svc -n ingress-nginx"
+          else
+            echo "✅ Staging deployment successful!"
+            echo ""
+            echo "═══════════════════════════════════════════════════════════"
+            echo "📍 STAGING ENVIRONMENT ACCESS"
+            echo "═══════════════════════════════════════════════════════════"
+            echo ""
+            echo "Environment: Staging"
+            echo "Namespace: ${{ env.NAMESPACE }}"
+            echo ""
+            
+            if [ ! -z "${{ secrets.STAGING_DOMAIN }}" ]; then
+              # Domain configured for staging
+              echo "� MAIN SERVICES"
+              echo "────────────────────────────────────────────────────────"
+              echo "🌐 Main Application: https://${{ secrets.STAGING_DOMAIN }}"
+              echo ""
+              echo "🔧 API & ADMIN SERVICES"
+              echo "────────────────────────────────────────────────────────"
+              echo "🔧 Semantic Search API: https://api.${{ secrets.STAGING_DOMAIN }}"
+              echo "   ↳ Search Endpoint: https://api.${{ secrets.STAGING_DOMAIN }}/search"
+              echo "   ↳ Swagger Docs: https://api.${{ secrets.STAGING_DOMAIN }}/docs"
+              echo "   ↳ ReDoc: https://api.${{ secrets.STAGING_DOMAIN }}/redoc"
+              echo ""
+              echo "🗄️  Qdrant Dashboard: https://qdrant.${{ secrets.STAGING_DOMAIN }}"
+              echo "   ↳ Upload Snapshots: https://qdrant.${{ secrets.STAGING_DOMAIN }}/dashboard"
+              echo "   ↳ Collections: https://qdrant.${{ secrets.STAGING_DOMAIN }}/collections"
+              echo "   ↳ Authentication: api-key header"
+              echo ""
+              echo "📊 MONITORING SERVICES"
+              echo "────────────────────────────────────────────────────────"
+              echo "📈 Prometheus: https://prometheus.${{ secrets.STAGING_DOMAIN }}"
+              echo "📊 Grafana: https://grafana.${{ secrets.STAGING_DOMAIN }}"
+              echo ""
+              echo "🔒 SSL: Let's Encrypt (auto-configured)"
+              echo "   Check: kubectl get certificate -n ${{ env.NAMESPACE }}"
+            else
+              # IP-based access for staging
+              echo "🌍 MAIN SERVICES"
+              echo "────────────────────────────────────────────────────────"
+              echo "🌐 Main Application: http://$INGRESS_IP"
+              echo ""
+              echo "🔧 API & ADMIN SERVICES"
+              echo "────────────────────────────────────────────────────────"
+              echo "🔧 Semantic Search API: http://$INGRESS_IP/api/semantic"
+              echo "   ↳ Search Endpoint: http://$INGRESS_IP/api/semantic/search"
+              echo "   ↳ Swagger Docs: http://$INGRESS_IP/api/semantic/docs"
+              echo "   ↳ ReDoc: http://$INGRESS_IP/api/semantic/redoc"
+              echo ""
+              echo "🗄️  Qdrant Dashboard: http://$INGRESS_IP/qdrant"
+              echo "   ↳ Upload Snapshots: http://$INGRESS_IP/qdrant/dashboard"
+              echo "   ↳ Collections: http://$INGRESS_IP/qdrant/collections"
+              echo "   ↳ Authentication: api-key header"
+              echo ""
+              echo "📊 MONITORING SERVICES"
+              echo "────────────────────────────────────────────────────────"
+              echo "📈 Prometheus: http://$INGRESS_IP/prometheus"
+              echo "📊 Grafana: http://$INGRESS_IP/grafana"
+            fi
+            
+            echo ""
+            echo "🔐 Authentication: Use api-key header for Qdrant"
+            echo ""
+            echo "To check deployment status:"
+            echo "  kubectl get pods -n ${{ env.NAMESPACE }}"
+            echo "  kubectl get certificate -n ${{ env.NAMESPACE }}"
+            echo ""
+            echo "═══════════════════════════════════════════════════════════"
+          fi
+          
+          echo ""
+          echo "Services:"
+          kubectl get svc --namespace=${{ env.NAMESPACE }}
+          echo ""
+          echo "Pods:"
+          kubectl get pods --namespace=${{ env.NAMESPACE }}

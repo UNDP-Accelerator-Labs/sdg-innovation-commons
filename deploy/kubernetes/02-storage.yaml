@@ -71,20 +71,6 @@ spec:
     requests:
       storage: 20Gi
 
----
-# Optional: Persistent Volume Claim for PostgreSQL (if deploying in-cluster)
-# Recommended: Use Azure PostgreSQL, AWS RDS, or GCP Cloud SQL instead
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-data-pvc
-  namespace: sdg-innovation-commons
-  labels:
-    app: postgres
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: managed-premium
-  resources:
-    requests:
-      storage: 100Gi
+# PostgreSQL: Using Azure PostgreSQL Flexible Server
+# No PVC needed - application connects directly to Azure managed database
+# Connection configured via DATABASE_URL secret in Kubernetes

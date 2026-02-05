@@ -1,40 +1,44 @@
 ---
 # Ingress for HTTP/HTTPS traffic
-# Choose ONE of the following based on your cloud provider:
-# - Azure: Use Azure Application Gateway Ingress Controller or NGINX Ingress
-# - AWS: Use AWS Load Balancer Controller
-# - GCP: Use GCE Ingress
-# - Other: Use NGINX Ingress Controller
+# Supports both IP-based access and subdomain routing
+# 
+# Without domain: Access via http://<LoadBalancer-IP>
+# With domain: Access via subdomains
+#   - yourdomain.com → Next.js (main app)
+#   - api.yourdomain.com → Semantic Search API
+#   - qdrant.yourdomain.com → Qdrant Dashboard (with API key auth)
+#
+# To enable domains: Set the DOMAIN variable below or via environment
 
-# Option 1: NGINX Ingress (works on all platforms)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sdg-ingress
+  name: sdg-main-ingress
   namespace: sdg-innovation-commons
   annotations:
-    # NGINX Ingress Controller
     kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"  # If using cert-manager for SSL
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "100m"
     nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
-    
-    # For Azure Application Gateway (alternative)
-    # kubernetes.io/ingress.class: "azure/application-gateway"
-    # appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    # Enable when you have a domain configured
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
     
 spec:
-  tls:
-  - hosts:
-    - yourdomain.com
-    - www.yourdomain.com
-    secretName: sdg-tls-secret  # Create this with cert-manager or manually
+  # TLS Configuration - Uncomment when you have a domain
+  # Let's Encrypt certificates auto-renew 30 days before expiration
+  # tls:
+  # - hosts:
+  #   - YOUR_DOMAIN_HERE  # e.g., sdg-platform.undp.org
+  #   - www.YOUR_DOMAIN_HERE
+  #   - api.YOUR_DOMAIN_HERE
+  #   - qdrant.YOUR_DOMAIN_HERE
+  #   secretName: sdg-tls-wildcard  # Single wildcard cert for all subdomains
+  
   rules:
-  - host: yourdomain.com
-    http:
+  # Default rule - works with IP address (no domain required)
+  - http:
       paths:
       - path: /
         pathType: Prefix
@@ -43,49 +47,218 @@ spec:
             name: nextjs-service
             port:
               number: 3000
-  - host: www.yourdomain.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nextjs-service
-            port:
-              number: 3000
+  
+  # Subdomain rules - Uncomment and configure when you have a domain
+  # Main domain - Next.js App
+  # - host: YOUR_DOMAIN_HERE  # e.g., sdg-platform.undp.org
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: nextjs-service
+  #           port:
+  #             number: 3000
+  
+  # WWW redirect (optional)
+  # - host: www.YOUR_DOMAIN_HERE
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: nextjs-service
+  #           port:
+  #             number: 3000
 
 ---
-# Optional: Ingress for Semantic Search API (if you want to expose it directly)
-# Usually, this should be internal-only (ClusterIP) and accessed via Next.js
+# Semantic Search API Ingress (subdomain: api.yourdomain.com)
+# Provides access to search API and Swagger documentation
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: sdg-semantic-search-ingress
+  name: sdg-api-ingress
   namespace: sdg-innovation-commons
   annotations:
     kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    # Add authentication if exposing publicly
-    nginx.ingress.kubernetes.io/auth-type: "basic"
-    nginx.ingress.kubernetes.io/auth-secret: "basic-auth"
-    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    # Rewrite /api/semantic to / for the backend service
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Enable when you have a domain configured
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
-  tls:
-  - hosts:
-    - api.yourdomain.com
-    secretName: sdg-api-tls-secret
+  # tls:
+  # - hosts:
+  #   - api.YOUR_DOMAIN_HERE  # e.g., api.sdg-platform.undp.org
+  #   secretName: sdg-api-tls
+  
   rules:
-  - host: api.yourdomain.com
-    http:
+  # Path-based routing for IP access
+  # http://<IP>/api/semantic/search → semantic-search-service:8000/search
+  # http://<IP>/api/semantic/docs → semantic-search-service:8000/docs (Swagger UI)
+  - http:
       paths:
-      - path: /
+      - path: /api/semantic(/|$)(.*)
         pathType: Prefix
         backend:
           service:
             name: semantic-search-service
             port:
               number: 8000
+  
+  # Subdomain routing - Uncomment when you have a domain
+  # Provides cleaner URLs: https://api.yourdomain.com/search, https://api.yourdomain.com/docs
+  # - host: api.YOUR_DOMAIN_HERE
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: semantic-search-service
+  #           port:
+  #             number: 8000
+
+---
+# Qdrant Dashboard Ingress (subdomain: qdrant.yourdomain.com)
+# Requires QDRANT_API_KEY for access (automatically configured from secret)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sdg-qdrant-ingress
+  namespace: sdg-innovation-commons
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # API Key authentication using Qdrant's built-in auth
+    # The API key is passed via header automatically
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      proxy_set_header api-key $http_api_key;
+    # Enable when you have a domain configured  
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  # tls:
+  # - hosts:
+  #   - qdrant.YOUR_DOMAIN_HERE  # e.g., qdrant.sdg-platform.undp.org
+  #   secretName: sdg-qdrant-tls
+  
+  rules:
+  # Path-based routing for IP access: http://<IP>/qdrant
+  - http:
+      paths:
+      - path: /qdrant
+        pathType: Prefix
+        backend:
+          service:
+            name: qdrant-service
+            port:
+              number: 6333
+  
+  # Subdomain routing - Uncomment when you have a domain
+  # - host: qdrant.YOUR_DOMAIN_HERE
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: qdrant-service
+  #           port:
+  #             number: 6333
+
+---
+# Prometheus Ingress (subdomain: prometheus.yourdomain.com)
+# For metrics collection and queries
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sdg-prometheus-ingress
+  namespace: sdg-innovation-commons
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # Add basic auth for security
+    # Create secret: kubectl create secret generic prometheus-auth --from-literal=auth=$(htpasswd -nb admin <password>)
+    # nginx.ingress.kubernetes.io/auth-type: "basic"
+    # nginx.ingress.kubernetes.io/auth-secret: "prometheus-auth"
+    # nginx.ingress.kubernetes.io/auth-realm: "Prometheus Authentication Required"
+    # Enable when you have a domain configured
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  # tls:
+  # - hosts:
+  #   - prometheus.YOUR_DOMAIN_HERE
+  #   secretName: sdg-prometheus-tls
+  
+  rules:
+  # Path-based routing for IP access: http://<IP>/prometheus
+  - http:
+      paths:
+      - path: /prometheus
+        pathType: Prefix
+        backend:
+          service:
+            name: prometheus-service
+            port:
+              number: 9090
+  
+  # Subdomain routing - Uncomment when you have a domain
+  # - host: prometheus.YOUR_DOMAIN_HERE
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: prometheus-service
+  #           port:
+  #             number: 9090
+
+---
+# Grafana Ingress (subdomain: grafana.yourdomain.com)
+# For visualization dashboards
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: sdg-grafana-ingress
+  namespace: sdg-innovation-commons
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    # Enable when you have a domain configured
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    # cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  # tls:
+  # - hosts:
+  #   - grafana.YOUR_DOMAIN_HERE
+  #   secretName: sdg-grafana-tls
+  
+  rules:
+  # Path-based routing for IP access: http://<IP>/grafana
+  - http:
+      paths:
+      - path: /grafana
+        pathType: Prefix
+        backend:
+          service:
+            name: grafana-service
+            port:
+              number: 3001
+  
+  # Subdomain routing - Uncomment when you have a domain
+  # - host: grafana.YOUR_DOMAIN_HERE
+  #   http:
+  #     paths:
+  #     - path: /
+  #       pathType: Prefix
+  #       backend:
+  #         service:
+  #           name: grafana-service
+  #           port:
+  #             number: 3001
 
 ---
 # Certificate for Let's Encrypt SSL (if using cert-manager)
@@ -97,7 +270,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: your-email@example.com  # Replace with your email
+    email: REPLACE_WITH_YOUR_EMAIL@example.com  # Replace with your email
     privateKeySecretRef:
       name: letsencrypt-prod-key
     solvers:
@@ -114,7 +287,7 @@ metadata:
 spec:
   acme:
     server: https://acme-staging-v02.api.letsencrypt.org/directory
-    email: your-email@example.com  # Replace with your email
+    email: REPLACE_WITH_YOUR_EMAIL@example.com  # Replace with your email
     privateKeySecretRef:
       name: letsencrypt-staging-key
     solvers:

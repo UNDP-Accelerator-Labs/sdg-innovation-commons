@@ -154,13 +154,24 @@ def delete_stale_documents(
         logger.info("No stale documents to remove")
         return 0, 0
     
-    logger.info("Removing stale documents", count=len(stale_main_uuids))
+    # Filter out empty UUIDs
+    valid_uuids = [uuid for uuid in stale_main_uuids if uuid and uuid.strip()]
+    skipped = len(stale_main_uuids) - len(valid_uuids)
+    
+    if skipped > 0:
+        logger.warning("Skipping documents with empty UUIDs", count=skipped)
+    
+    if not valid_uuids:
+        logger.info("No valid UUIDs to remove after filtering")
+        return 0, 0
+    
+    logger.info("Removing stale documents", count=len(valid_uuids))
     
     data_removed = 0
     vec_removed = 0
     
     # Remove from data collection
-    for main_uuid in stale_main_uuids:
+    for main_uuid in valid_uuids:
         try:
             qdrant_service.client.delete(
                 collection_name=qdrant_service.data_collection,
@@ -171,7 +182,7 @@ def delete_stale_documents(
             logger.error("Failed to remove from data collection", main_uuid=main_uuid, error=str(e))
     
     # Remove from vec collection
-    for main_uuid in stale_main_uuids:
+    for main_uuid in valid_uuids:
         try:
             qdrant_service.client.delete(
                 collection_name=qdrant_service.vec_collection,
@@ -181,7 +192,7 @@ def delete_stale_documents(
             )
             vec_removed += 1
         except Exception as e:
-            logger.error("Failed to remove from vec collection", main_uuid=main_uuid, error=str(e))
+            logger.error("Failed to remove from vec collection: ", main_uuid=main_uuid, error=str(e))
     
     logger.info(
         "Removal complete",

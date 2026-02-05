@@ -1,0 +1,267 @@
+---
+# Automated Qdrant Backup CronJob
+# Runs daily backups and uploads to Azure Blob Storage
+# Ensures Qdrant data can be recovered in case of disasters
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: qdrant-backup-script
+  namespace: sdg-innovation-commons
+data:
+  backup.sh: |
+    #!/bin/bash
+    set -euo pipefail
+    
+    echo "======================================"
+    echo "Qdrant Backup Script"
+    echo "Started at: $(date -Iseconds)"
+    echo "======================================"
+    
+    # Configuration
+    QDRANT_HOST="${QDRANT_HOST:-qdrant-service}"
+    QDRANT_PORT="${QDRANT_PORT:-6333}"
+    COLLECTION_VEC="${COLLECTION_VEC:-sdg_documents_vec}"
+    COLLECTION_DATA="${COLLECTION_DATA:-sdg_documents_data}"
+    BACKUP_DIR="/backups"
+    TIMESTAMP=$(date +%Y%m%d-%H%M%S)
+    
+    # Azure Blob Storage configuration (from secrets)
+    AZURE_STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT}"
+    AZURE_STORAGE_KEY="${AZURE_STORAGE_KEY}"
+    AZURE_CONTAINER="${AZURE_BACKUP_CONTAINER:-qdrant-backups}"
+    
+    echo "Configuration:"
+    echo "  Qdrant Host: ${QDRANT_HOST}:${QDRANT_PORT}"
+    echo "  Collections: ${COLLECTION_VEC}, ${COLLECTION_DATA}"
+    echo "  Azure Container: ${AZURE_CONTAINER}"
+    echo ""
+    
+    # Function to create Qdrant snapshot
+    create_snapshot() {
+      local collection=$1
+      echo "Creating snapshot for collection: ${collection}"
+      
+      SNAPSHOT_NAME=$(curl -s -X POST \
+        "http://${QDRANT_HOST}:${QDRANT_PORT}/collections/${collection}/snapshots" \
+        -H "api-key: ${QDRANT_API_KEY}" | jq -r '.result.name')
+      
+      if [ -z "$SNAPSHOT_NAME" ] || [ "$SNAPSHOT_NAME" = "null" ]; then
+        echo "ERROR: Failed to create snapshot for ${collection}"
+        return 1
+      fi
+      
+      echo "  ✓ Snapshot created: ${SNAPSHOT_NAME}"
+      
+      # Download snapshot
+      local snapshot_file="${BACKUP_DIR}/${collection}-${TIMESTAMP}.snapshot"
+      echo "  Downloading snapshot..."
+      
+      curl -s -o "${snapshot_file}" \
+        "http://${QDRANT_HOST}:${QDRANT_PORT}/collections/${collection}/snapshots/${SNAPSHOT_NAME}" \
+        -H "api-key: ${QDRANT_API_KEY}"
+      
+      if [ ! -f "${snapshot_file}" ]; then
+        echo "ERROR: Snapshot file not created"
+        return 1
+      fi
+      
+      local file_size=$(du -h "${snapshot_file}" | cut -f1)
+      echo "  ✓ Snapshot downloaded: ${snapshot_file} (${file_size})"
+      
+      # Upload to Azure Blob Storage
+      echo "  Uploading to Azure Blob Storage..."
+      az storage blob upload \
+        --account-name "${AZURE_STORAGE_ACCOUNT}" \
+        --account-key "${AZURE_STORAGE_KEY}" \
+        --container-name "${AZURE_CONTAINER}" \
+        --name "qdrant-snapshots/${collection}/${TIMESTAMP}.snapshot" \
+        --file "${snapshot_file}" \
+        --overwrite true \
+        --tier Hot \
+        --metadata timestamp="${TIMESTAMP}" collection="${collection}" \
+        > /dev/null
+      
+      echo "  ✓ Uploaded to Azure: ${AZURE_CONTAINER}/qdrant-snapshots/${collection}/${TIMESTAMP}.snapshot"
+      
+      # Delete local file to save space
+      rm -f "${snapshot_file}"
+      
+      # Delete snapshot from Qdrant (to save space)
+      curl -s -X DELETE \
+        "http://${QDRANT_HOST}:${QDRANT_PORT}/collections/${collection}/snapshots/${SNAPSHOT_NAME}" \
+        -H "api-key: ${QDRANT_API_KEY}" > /dev/null
+      
+      echo "  ✓ Cleanup completed"
+      return 0
+    }
+    
+    # Check Qdrant health
+    echo "Checking Qdrant health..."
+    if ! curl -sf "http://${QDRANT_HOST}:${QDRANT_PORT}/health" > /dev/null; then
+      echo "ERROR: Qdrant is not healthy"
+      exit 1
+    fi
+    echo "✓ Qdrant is healthy"
+    echo ""
+    
+    # Create backups for both collections
+    echo "Starting backup process..."
+    echo ""
+    
+    SUCCESS=true
+    
+    if ! create_snapshot "${COLLECTION_VEC}"; then
+      SUCCESS=false
+      echo "ERROR: Failed to backup ${COLLECTION_VEC}"
+    fi
+    echo ""
+    
+    if ! create_snapshot "${COLLECTION_DATA}"; then
+      SUCCESS=false
+      echo "ERROR: Failed to backup ${COLLECTION_DATA}"
+    fi
+    echo ""
+    
+    # Create metadata file
+    METADATA_FILE="${BACKUP_DIR}/backup-${TIMESTAMP}.json"
+    cat > "${METADATA_FILE}" <<EOF
+    {
+      "timestamp": "$(date -Iseconds)",
+      "unix_timestamp": $(date +%s),
+      "collections": ["${COLLECTION_VEC}", "${COLLECTION_DATA}"],
+      "azure_container": "${AZURE_CONTAINER}",
+      "status": "$([ "$SUCCESS" = true ] && echo 'success' || echo 'failed')"
+    }
+    EOF
+    
+    # Upload metadata
+    az storage blob upload \
+      --account-name "${AZURE_STORAGE_ACCOUNT}" \
+      --account-key "${AZURE_STORAGE_KEY}" \
+      --container-name "${AZURE_CONTAINER}" \
+      --name "qdrant-snapshots/metadata/backup-${TIMESTAMP}.json" \
+      --file "${METADATA_FILE}" \
+      --overwrite true \
+      --tier Hot \
+      > /dev/null
+    
+    rm -f "${METADATA_FILE}"
+    
+    # Cleanup old backups (keep last 30 days)
+    echo "Cleaning up old backups (>30 days)..."
+    CUTOFF_DATE=$(date -d '30 days ago' +%Y%m%d 2>/dev/null || date -v-30d +%Y%m%d)
+    
+    az storage blob list \
+      --account-name "${AZURE_STORAGE_ACCOUNT}" \
+      --account-key "${AZURE_STORAGE_KEY}" \
+      --container-name "${AZURE_CONTAINER}" \
+      --prefix "qdrant-snapshots/" \
+      --output json | \
+      jq -r '.[] | select(.properties.creationTime | split("T")[0] | gsub("-";"") < "'${CUTOFF_DATE}'") | .name' | \
+      while read -r blob_name; do
+        echo "  Deleting old backup: ${blob_name}"
+        az storage blob delete \
+          --account-name "${AZURE_STORAGE_ACCOUNT}" \
+          --account-key "${AZURE_STORAGE_KEY}" \
+          --container-name "${AZURE_CONTAINER}" \
+          --name "${blob_name}" \
+          > /dev/null
+      done
+    
+    echo ""
+    echo "======================================"
+    if [ "$SUCCESS" = true ]; then
+      echo "✓ Backup completed successfully!"
+    else
+      echo "✗ Backup completed with errors"
+      exit 1
+    fi
+    echo "Finished at: $(date -Iseconds)"
+    echo "======================================"
+
+---
+# CronJob for automated backups
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: qdrant-backup
+  namespace: sdg-innovation-commons
+  labels:
+    app: qdrant-backup
+spec:
+  # Run daily at 2 AM UTC
+  schedule: "0 2 * * *"
+  # Keep history of last 3 successful and 1 failed jobs
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  concurrencyPolicy: Forbid  # Don't run if previous job is still running
+  jobTemplate:
+    metadata:
+      labels:
+        app: qdrant-backup
+    spec:
+      backoffLimit: 2  # Retry twice on failure
+      template:
+        metadata:
+          labels:
+            app: qdrant-backup
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: backup
+            # Using Azure CLI image with jq installed
+            image: mcr.microsoft.com/azure-cli:latest
+            command: ["/bin/bash", "/scripts/backup.sh"]
+            env:
+            # Qdrant configuration
+            - name: QDRANT_HOST
+              value: "qdrant-service"
+            - name: QDRANT_PORT
+              value: "6333"
+            - name: QDRANT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: sdg-app-secrets
+                  key: QDRANT_API_KEY
+            - name: COLLECTION_VEC
+              value: "sdg_documents_vec"
+            - name: COLLECTION_DATA
+              value: "sdg_documents_data"
+            # Azure Storage configuration
+            - name: AZURE_STORAGE_ACCOUNT
+              valueFrom:
+                secretKeyRef:
+                  name: azure-storage-secrets
+                  key: AZURE_STORAGE_ACCOUNT
+            - name: AZURE_STORAGE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: azure-storage-secrets
+                  key: AZURE_STORAGE_KEY
+            - name: AZURE_BACKUP_CONTAINER
+              value: "qdrant-backups"
+            volumeMounts:
+            - name: backup-script
+              mountPath: /scripts
+            - name: backup-temp
+              mountPath: /backups
+            resources:
+              requests:
+                memory: "512Mi"
+                cpu: "500m"
+              limits:
+                memory: "1Gi"
+                cpu: "1000m"
+          volumes:
+          - name: backup-script
+            configMap:
+              name: qdrant-backup-script
+              defaultMode: 0755
+          - name: backup-temp
+            emptyDir: {}
+
+---
+# Manual backup job (for on-demand backups)
+# Run with: kubectl create job --from=cronjob/qdrant-backup qdrant-backup-manual -n sdg-innovation-commons
+# This creates a one-time job from the cronjob template

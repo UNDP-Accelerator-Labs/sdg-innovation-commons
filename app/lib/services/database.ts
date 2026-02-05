@@ -31,6 +31,12 @@ interface DbConfig {
  * @returns Database configuration or null if not configured
  */
 function getDbConfig(key: DBKey): DbConfig | null {
+  // Allow skipping database connections for testing/development
+  if (process.env.SKIP_DB_CONNECTION === 'true') {
+    console.log(`[DB] Skipping database connection for "${key}" (SKIP_DB_CONNECTION=true)`);
+    return null;
+  }
+
   const upper = key.toUpperCase();
   
   // Support both plural and singular env var prefixes (e.g., BLOGS_ and BLOG_)
@@ -116,6 +122,19 @@ function getPool(dbKey: DBKey): any {
   const config = getDbConfig(dbKey);
   
   if (!config) {
+    // If SKIP_DB_CONNECTION is set, return a mock pool that throws on use
+    if (process.env.SKIP_DB_CONNECTION === 'true') {
+      return {
+        query: () => {
+          throw new Error(`Database queries disabled (SKIP_DB_CONNECTION=true). Cannot query "${dbKey}".`);
+        },
+        connect: () => {
+          throw new Error(`Database connections disabled (SKIP_DB_CONNECTION=true). Cannot connect to "${dbKey}".`);
+        },
+        end: () => Promise.resolve(),
+      };
+    }
+    
     throw new Error(
       `Database config for "${dbKey}" not configured. ` +
       `Expected ${dbKey.toUpperCase()}_DB_URL or ` +

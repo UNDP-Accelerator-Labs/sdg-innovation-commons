@@ -23,7 +23,7 @@ data:
   QDRANT_HOST: "qdrant-service"
   QDRANT_PORT: "6333"
   QDRANT_GRPC_PORT: "6334"
-  QDRANT_COLLECTION_NAME: "sdg_documents"
+  QDRANT_COLLECTION_NAME: "main"
   QDRANT_USE_HTTPS: "false"
   
   # Redis Configuration

@@ -35,8 +35,9 @@ spec:
         - name: QDRANT__SERVICE__API_KEY
           valueFrom:
             secretKeyRef:
-              name: sdg-app-secrets
+              name: semantic-search-secrets
               key: QDRANT_API_KEY
+              optional: true
         - name: QDRANT__SERVICE__ENABLE_TLS
           value: "false"
         - name: QDRANT__STORAGE__STORAGE_PATH
@@ -59,20 +60,21 @@ spec:
           limits:
             memory: "4Gi"
             cpu: "2000m"
+        # Use TCP probes since Qdrant health endpoint requires auth
         livenessProbe:
-          httpGet:
-            path: /health
+          tcpSocket:
             port: 6333
           initialDelaySeconds: 30
           periodSeconds: 30
           timeoutSeconds: 10
+          failureThreshold: 5
         readinessProbe:
-          httpGet:
-            path: /health
+          tcpSocket:
             port: 6333
           initialDelaySeconds: 10
           periodSeconds: 10
           timeoutSeconds: 5
+          failureThreshold: 3
       volumes:
       - name: storage
         persistentVolumeClaim:
