@@ -127,11 +127,24 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
             for result in search_results:
                 payload = result["payload"]
                 
+                # Validate record has required fields
+                doc_id = payload.get("doc_id", 0)
+                base = payload.get("base", "")
+                
+                if not base or not doc_id or doc_id == 0:
+                    logger.warning(
+                        "Skipping invalid record in recent documents",
+                        doc_id=doc_id,
+                        base=base,
+                        main_id=payload.get("main_id", "")
+                    )
+                    continue
+                
                 chunk = ResultChunk(
                     main_id=payload.get("main_id", ""),
                     score=result.get("score", 0.0),
-                    base=payload.get("base", ""),
-                    doc_id=payload.get("doc_id", 0),
+                    base=base,
+                    doc_id=doc_id,
                     url=payload.get("url", ""),
                     title=payload.get("title", ""),
                     updated=payload.get("updated", ""),
@@ -199,12 +212,26 @@ async def semantic_search(request: SearchRequest) -> SearchResponse:
             else:
                 snippets = snippets[:request.hit_limit]
             
+            # Validate record has required fields
+            doc_id = payload.get("doc_id", 0)
+            base = payload.get("base", "")
+            
+            # Skip records with invalid data (doc_id=0 or empty base)
+            if not base or not doc_id or doc_id == 0:
+                logger.warning(
+                    "Skipping invalid record in search results",
+                    doc_id=doc_id,
+                    base=base,
+                    main_id=payload.get("main_id", "")
+                )
+                continue
+            
             # Build result chunk
             chunk = ResultChunk(
-                main_id=payload.get("main_id", f"{payload.get('base')}:{payload.get('doc_id')}"),
+                main_id=payload.get("main_id", f"{base}:{doc_id}"),
                 score=result["score"],
-                base=payload.get("base", ""),
-                doc_id=payload.get("doc_id", 0),
+                base=base,
+                doc_id=doc_id,
                 url=payload.get("url", ""),
                 title=payload.get("title", ""),
                 updated=payload.get("updated", ""),
@@ -267,6 +294,26 @@ async def add_document(
         Result dictionary with success status and details
     """
     start_time = time.time()
+    
+    # Validate input - prevent adding documents with invalid data
+    if not base or not base.strip():
+        logger.error("Attempted to add document with empty base", doc_id=doc_id, url=url)
+        return {
+            "success": False,
+            "main_id": f":{doc_id}",
+            "snippets_added": 0,
+            "message": "Invalid base: base cannot be empty"
+        }
+    
+    if not doc_id or doc_id == 0:
+        logger.error("Attempted to add document with invalid doc_id", base=base, doc_id=doc_id, url=url)
+        return {
+            "success": False,
+            "main_id": f"{base}:0",
+            "snippets_added": 0,
+            "message": "Invalid doc_id: doc_id must be a non-zero integer"
+        }
+    
     main_id = f"{base}:{doc_id}"
     
     try:
@@ -333,7 +380,7 @@ async def add_document(
             main_id=main_id,
             snippets_count=len(valid_snippets),
             time_seconds=round(total_time, 2),
-            mode="dual" if settings.use_dual_collections else "legacy"
+            mode="dual"
         )
         
         return {

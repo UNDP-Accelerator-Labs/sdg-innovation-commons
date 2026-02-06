@@ -329,7 +329,6 @@ interface PadsRequestParams {
   regions?: string | string[];
   teams?: string | string[];
   pads?: string | string[];
-  id_dbpads?: string | string[];
   templates?: string | string[];
   platforms?: string | string[];
   pinboard?: string | string[];
@@ -789,9 +788,9 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     )`);
   }
 
-  // Old Pads ID filter
+  // Old Pads ID filter (id_db format for external systems)
   if (id_dbPadsArr && id_dbPadsArr.length > 0) {
-    // id_db column contains concatenated strings in format "{pad_id}_{db_id}"
+    // id_db column contains concatenated strings in format "{pad_id}-{db_id}"
     // Coerce all entries to trimmed strings so SQL can compare against text[] reliably.
     const padsParam = id_dbPadsArr.map((id: any) =>
       typeof id === "string" ? id.trim() : String(id)
@@ -800,7 +799,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     filters.push(`p.id_db = ANY($${filterParams.length}::text[])`);
   }
 
-  // Pads  ID filter
+  // Pads ID filter
   if (padsArr && padsArr.length > 0) {
     const padsParam = padsArr.map((id: any) => +id);
     filterParams.push(padsParam);
@@ -978,7 +977,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
     const totalCount = countResult.rows[0]?.count || 0;
     
     let padsData = result.rows;
-
+    
     // Load extern_db map once and create reverse lookup (id -> shortkey)
     const externDbMap = await loadExternDb();
     const idToShortkeyMap = new Map<number, string>();

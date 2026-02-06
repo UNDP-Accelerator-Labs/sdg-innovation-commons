@@ -21,7 +21,6 @@ export async function POST(request: NextRequest) {
         `DELETE FROM session WHERE sess::jsonb->>'user_uuid' = $1`,
         [session.uuid]
       );
-      console.log(`Deleted all sessions for user ${session.uuid}`);
     } catch (error) {
       console.error('Error deleting session from database:', error);
     }

@@ -130,15 +130,10 @@ def verify_jwt_token(token: str) -> Dict[str, Any]:
                 detail="JWT verification not properly configured"
             )
         
-        # Log secret info for debugging (first/last 4 chars only)
-        secret_preview = f"{jwt_secret[:4]}...{jwt_secret[-4:]}" if len(jwt_secret) > 8 else "***"
-        logger.debug("Using JWT secret", secret_preview=secret_preview)
-        
         try:
             # First, try to decode without verification to see what's in the token
             unverified = jwt.decode(token, options={"verify_signature": False})
             has_aud = "aud" in unverified
-            logger.debug("JWT payload preview", keys=list(unverified.keys()), has_aud=has_aud)
             
             # Verify JWT with proper secret
             # Check if token has audience claim, then decide verification strategy
@@ -176,7 +171,6 @@ def verify_jwt_token(token: str) -> Dict[str, Any]:
             else:
                 # Token doesn't have audience claim (e.g., API access tokens)
                 # Verify without audience check
-                logger.debug("JWT has no audience claim, verifying without audience check")
                 payload = jwt.decode(
                     token, 
                     jwt_secret, 
@@ -256,12 +250,14 @@ def verify_jwt_token(token: str) -> Dict[str, Any]:
 
 async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
     """
-    Get current user from JWT token in request (headers, cookies, query params).
+    Get current user from JWT token or API key in request.
     
     Important Security Behavior:
-    - No token provided = return None (allows public access)
-    - Valid token provided = return user info (authenticated access) 
-    - Invalid token provided = raise HTTPException (authentication failed)
+    - No token/key provided = return None (allows public access)
+    - Valid token/key provided = return user info (authenticated access) 
+    - Invalid token/key provided = raise HTTPException (authentication failed)
+    
+    Priority order: JWT token first, then API key as fallback
     
     Args:
         request: FastAPI request object
@@ -272,29 +268,51 @@ async def get_current_user(request: Request) -> Optional[Dict[str, Any]]:
     Raises:
         HTTPException: If authentication is attempted but fails
     """
+    # Try JWT first
     token = extract_jwt_from_request(request)
-    if not token:
-        # No token provided - this is fine for public access
-        return None
+    if token:
+        # Token provided - authentication is being attempted
+        try:
+            user_info = verify_jwt_token(token)
+            logger.info(
+                "User authenticated via JWT", 
+                user_id=user_info.get("user_id"),
+                rights=user_info.get("rights")
+            )
+            return user_info
+        except HTTPException:
+            # Token provided but invalid - authentication failure
+            raise
+        except Exception as e:
+            logger.error("JWT authentication system error", error=str(e))
+            raise HTTPException(
+                status_code=500,
+                detail="JWT authentication system error"
+            )
     
-    # Token provided - authentication is being attempted
-    try:
-        user_info = verify_jwt_token(token)
-        logger.info(
-            "User authenticated", 
-            user_id=user_info.get("user_id"),
-            rights=user_info.get("rights")
-        )
-        return user_info
-    except HTTPException:
-        # Token provided but invalid - authentication failure
-        raise
-    except Exception as e:
-        logger.error("Authentication system error", error=str(e))
-        raise HTTPException(
-            status_code=500,
-            detail="Authentication system error"
-        )
+    # Try API key as fallback for service-to-service communication
+    api_key = extract_api_key_from_request(request)
+    if api_key:
+        # API key provided - authenticate service
+        try:
+            api_key_info = verify_api_key(api_key)
+            logger.info(
+                "Service authenticated via API key",
+                service_type=api_key_info.get("user_id")
+            )
+            return api_key_info
+        except HTTPException:
+            # API key provided but invalid - authentication failure
+            raise
+        except Exception as e:
+            logger.error("API key authentication system error", error=str(e))
+            raise HTTPException(
+                status_code=500,
+                detail="API key authentication system error"
+            )
+    
+    # No authentication provided - this is fine for public access
+    return None
 
 
 async def require_auth(request: Request) -> Dict[str, Any]:

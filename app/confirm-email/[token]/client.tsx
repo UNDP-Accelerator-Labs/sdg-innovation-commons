@@ -17,7 +17,6 @@ export default function ConfirmEmailClient({ token }: { token: string }) {
   
   useEffect(() => {
     const verifyEmail = async () => {
-      console.log('Verifying email with token:', token);
       if (!token) {
         setStatus('error');
         setMessage('Invalid confirmation link');

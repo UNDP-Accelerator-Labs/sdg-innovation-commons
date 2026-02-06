@@ -80,7 +80,7 @@ export const padsPaths = {
         {
           name: 'id_dbpads',
           in: 'query',
-          description: 'Filter by concatenated content+database ID(s) in format {pad_id}-{db_id}',
+          description: 'Filter by concatenated content+database ID(s) in format {pad_id}-{db_id} (for external systems)',
           schema: {
             type: 'string',
           },

@@ -213,7 +213,6 @@ class QdrantService:
                     field_name=field_name,
                     field_schema=field_type,
                 )
-                logger.debug("Created payload index", collection=collection_name, field=field_name, type=field_type)
             except Exception as e:
                 # Ignore if index already exists
                 if "already exists" not in str(e).lower():
@@ -378,26 +377,30 @@ class QdrantService:
             start_time = time.time()
             
             # Calculate total limit including offset (matching NLP API)
-            # Request offset + limit results from Qdrant, then slice
+            # Request a large batch to ensure we get enough results for pagination
             real_offset = offset if offset else 0
-            total_limit = real_offset + limit
+            
+            # Request more results than needed to properly implement pagination
+            # This ensures we can accurately determine if there are more pages
+            batch_size = 1000  # Large batch to get accurate total count
             
             logger.info(
                 "Searching with groups (dual collection mode)",
                 offset=real_offset,
                 limit=limit,
-                total_limit=total_limit
+                batch_size=batch_size
             )
             
             # Build Qdrant filter from search filters
             qdrant_filter = self._build_qdrant_filter(filters)
             
             # Use search_groups to group snippets by document
+            # Request a large batch to get accurate total count
             search_result = self.client.search_groups(
                 collection_name=self.vec_collection,
                 query_vector=query_vector,
                 group_by="main_uuid",  # Group by document UUID
-                limit=total_limit,  # Request offset + limit
+                limit=batch_size,  # Request large batch
                 group_size=hit_limit,  # Max snippets per document
                 score_threshold=score_threshold or 0.0,
                 query_filter=qdrant_filter,  # Apply filters at Qdrant level
@@ -412,15 +415,70 @@ class QdrantService:
             search_time = time.time() - start_time
             all_groups = search_result.groups if hasattr(search_result, 'groups') else []
             
+            # Get the total count of all matching results (before filtering invalid)
+            total_count_raw = len(all_groups)
+            
             logger.info(
                 "Search groups completed",
-                raw_groups_count=len(all_groups),
+                total_groups_count=total_count_raw,
                 search_time=round(search_time, 3)
             )
             
-            # Slice results to get the requested page (matching NLP API)
-            # groups[offset:offset+limit] gives us exactly the page we want
-            page_groups = all_groups[real_offset:total_limit]
+            # Filter out invalid records FIRST, then paginate
+            # This ensures we always return valid records only
+            valid_groups = []
+            skipped_invalid = 0
+            
+            for group in all_groups:
+                # Extract document metadata from lookup
+                doc_data = {}
+                if hasattr(group, 'lookup') and group.lookup and group.lookup.payload:
+                    doc_data = group.lookup.payload
+                
+                # Validate record - skip invalid/corrupt records
+                doc_id = doc_data.get("doc_id", 0)
+                base = doc_data.get("base", "")
+                
+                if not base or not doc_id or doc_id == 0:
+                    skipped_invalid += 1
+                    logger.warning(
+                        "Skipping invalid record in search results",
+                        doc_id=doc_id,
+                        base=base,
+                        main_id=doc_data.get("main_id", ""),
+                        group_id=str(group.id)
+                    )
+                    continue
+                
+                valid_groups.append(group)
+            
+            # Sort valid groups by relevance score (descending) and then by meta_date (descending)
+            # This ensures most relevant AND most recent documents appear first
+            def get_sort_key(group):
+                # Get best score from hits
+                best_score = max((hit.score for hit in group.hits if hit.score), default=0.0)
+                
+                # Get meta_date from lookup payload
+                meta_date = ""
+                if hasattr(group, 'lookup') and group.lookup and group.lookup.payload:
+                    meta_date = group.lookup.payload.get("meta_date", "")
+                
+                # Return tuple for sorting:
+                # - Score as-is (will use reverse=True for descending)
+                # - Date as-is (ISO format strings sort correctly, will use reverse=True for descending)
+                # - Use empty string for missing dates so they sort last (empty < any date string)
+                date_sortable = meta_date if meta_date else ""
+                return (best_score, date_sortable)
+            
+            # Sort with reverse=True to get highest scores and newest dates first
+            valid_groups.sort(key=get_sort_key, reverse=True)
+            
+            # Update total count to reflect only valid records
+            total_count = len(valid_groups)
+            
+            # Now paginate the VALID groups only
+            page_end = real_offset + limit
+            page_groups = valid_groups[real_offset:page_end]
             
             # Convert groups to result format
             results = []
@@ -442,14 +500,16 @@ class QdrantService:
                 
                 # Build result
                 meta = unflatten_metadata(doc_data)
+                base = doc_data.get("base", "")
+                doc_id = doc_data.get("doc_id", 0)
                 
                 result = {
                     "id": str(group.id),
                     "score": best_score,
                     "payload": {
                         "main_id": doc_data.get("main_id", ""),
-                        "base": doc_data.get("base", ""),
-                        "doc_id": doc_data.get("doc_id", 0),
+                        "base": base,
+                        "doc_id": doc_id,
                         "url": doc_data.get("url", ""),
                         "title": doc_data.get("title", ""),
                         "updated": doc_data.get("updated", ""),
@@ -465,15 +525,18 @@ class QdrantService:
                 }
                 results.append(result)
             
-            # Total count is the number of groups returned (before slicing)
-            total_count = len(all_groups)
+            if skipped_invalid > 0:
+                logger.warning(f"Skipped {skipped_invalid} invalid records from raw results (total_raw={total_count_raw}, total_valid={total_count})")
             
             logger.info(
                 "Search completed",
-                total_groups=total_count,
+                total_matching_results=total_count,
+                total_raw_results=total_count_raw,
                 page_results=len(results),
+                skipped_invalid=skipped_invalid,
                 offset=real_offset,
-                limit=limit
+                limit=limit,
+                has_more=total_count > page_end
             )
             
             return results, total_count
@@ -699,12 +762,6 @@ class QdrantService:
                             points=batch,
                             wait=False
                         )
-                    
-                    logger.debug(
-                        "Added document with snippets",
-                        main_id=doc_id,
-                        snippets_count=len(snippet_points)
-                    )
             
             return True
             
@@ -782,14 +839,14 @@ class QdrantService:
                 total_limit=total_limit
             )
             
-            # Scroll through data collection ordered by updated date (descending)
+            # Scroll through data collection ordered by meta_date (descending)
             # This matches the NLP API's query_docs behavior
             scroll_result = self.client.scroll(
                 collection_name=self.data_collection,
                 scroll_filter=qdrant_filter,
                 limit=total_limit,
                 order_by=OrderBy(
-                    key="updated",  # Sort by updated field
+                    key="meta_date",  # Sort by meta_date field
                     direction=Direction.DESC  # Most recent first
                 ),
                 with_payload=True,
@@ -797,6 +854,15 @@ class QdrantService:
             )
             
             all_points = scroll_result[0] if scroll_result else []
+            
+            # DEBUG: Log what we got from Qdrant
+            logger.info(
+                "RAW scroll result from Qdrant",
+                raw_points_count=len(all_points),
+                has_filter=qdrant_filter is not None,
+                filter_details=str(qdrant_filter) if qdrant_filter else None,
+                requested_limit=total_limit
+            )
             
             # Apply pagination by slicing (matching NLP API)
             page_points = all_points[real_offset:total_limit]

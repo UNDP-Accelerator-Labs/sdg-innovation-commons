@@ -40,6 +40,12 @@ class Settings(BaseSettings):
         env="ALLOWED_ORIGINS"
     )
     
+    # Application Base URL (for generating document URLs)
+    app_base_url: str = Field(
+        default="http://localhost:3000",
+        env="APP_BASE_URL"
+    )
+    
     # Service Configuration
     service_host: str = Field(default="0.0.0.0", env="SERVICE_HOST")
     service_port: int = Field(default=8000, env="SERVICE_PORT")
@@ -59,12 +65,24 @@ class Settings(BaseSettings):
     short_snippets: bool = Field(default=True, validation_alias="SHORT_SNIPPETS")
     enable_chunk_hashing: bool = Field(default=True, validation_alias="ENABLE_CHUNK_HASHING")
     
+    # Redis Configuration (for queue)
+    redis_host: str = Field(default="localhost", env="REDIS_HOST")
+    redis_port: int = Field(default=6379, env="REDIS_PORT")
+    redis_password: Optional[str] = Field(default=None, env="REDIS_PASSWORD")
+    
     # PostgreSQL Database (for index maintenance)
     db_host: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_HOST")
     db_port: int = Field(default=5432, validation_alias="GENERAL_DB_PORT")
     db_user: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_USER")
     db_password: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_PASSWORD")
     db_name: Optional[str] = Field(default=None, validation_alias="GENERAL_DB_NAME")
+    
+    # Blog Database (separate database for blogs - optional)
+    blogs_db_host: Optional[str] = Field(default=None, validation_alias=AliasChoices("BLOGS_DB_HOST", "BLOG_DB_HOST"))
+    blogs_db_port: int = Field(default=5432, validation_alias=AliasChoices("BLOGS_DB_PORT", "BLOG_DB_PORT"))
+    blogs_db_user: Optional[str] = Field(default=None, validation_alias=AliasChoices("BLOGS_DB_USER", "BLOG_DB_USER"))
+    blogs_db_password: Optional[str] = Field(default=None, validation_alias=AliasChoices("BLOGS_DB_PASSWORD", "BLOG_DB_PASSWORD"))
+    blogs_db_name: Optional[str] = Field(default="blogs", validation_alias=AliasChoices("BLOGS_DB_NAME", "BLOG_DB_NAME"))
     
     # Chunking Parameters (matches NLP API)
     chunk_size: int = Field(default=600, env="CHUNK_SIZE")

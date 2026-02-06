@@ -93,6 +93,17 @@ local-start: ## 🚀 Start complete local environment (one command)
 	else \
 		echo "✅ .env.local found"; \
 	fi
+	@if [ ! -f .env ]; then \
+		if [ -f .env.local ]; then \
+			echo "⚠️  .env not found, creating from .env.local for worker runtime..."; \
+			cp .env.local .env 2>/dev/null || true; \
+		else \
+			echo "⚠️  .env not found, creating from .env.example..."; \
+			cp .env.example .env 2>/dev/null || true; \
+		fi; \
+	else \
+		echo "✅ .env found"; \
+	fi
 	@if [ ! -f semantic-search/.env ]; then \
 		echo "⚠️  semantic-search/.env not found, creating..."; \
 		cp semantic-search/.env.example semantic-search/.env 2>/dev/null || echo "QDRANT_HOST=localhost\nQDRANT_PORT=6333" > semantic-search/.env; \
@@ -101,7 +112,12 @@ local-start: ## 🚀 Start complete local environment (one command)
 	fi
 	@echo ""
 	@echo "📋 Step 3/5: Starting infrastructure (Qdrant, Redis)..."
-	@$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml up -d
+	@if [ -f .env.local ]; then \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml --env-file .env.local up -d qdrant redis; \
+	else \
+		echo "⚠️  .env.local not found, using default .env"; \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml up -d qdrant redis; \
+	fi
 	@echo "⏳ Waiting for infrastructure to be ready..."
 	@sleep 12
 	@echo "✅ Infrastructure ready!"
@@ -136,6 +152,9 @@ local-start: ## 🚀 Start complete local environment (one command)
 	@echo "🔍 Starting Semantic Search (http://localhost:8000)..."
 	@bash -c 'LOGDIR="$$(pwd)/logs"; cd semantic-search && ./dev.sh > "$$LOGDIR/semantic.log" 2>&1 & echo $$! > "$$LOGDIR/semantic.pid"'
 	@sleep 3
+	@echo "🔧 Starting Embedding Worker..."
+	@bash -c 'LOGDIR="$$(pwd)/logs"; cd semantic-search && ./dev-worker.sh > "$$LOGDIR/embedding-worker.log" 2>&1 & echo $$! > "$$LOGDIR/embedding-worker.pid"'
+	@sleep 2
 	@echo "⚙️  Starting Background Worker..."
 	@bash -c './scripts/dev-worker.sh > logs/worker.log 2>&1 & echo $$! > logs/worker.pid'
 	@echo ""
@@ -148,7 +167,8 @@ local-start: ## 🚀 Start complete local environment (one command)
 	@echo ""
 	@printf "🌐 Next.js:        " && curl -sf http://localhost:3000 >/dev/null 2>&1 && echo "✅ http://localhost:3000" || echo "⏳ Starting... (check logs/nextjs.log)"
 	@printf "🔍 Semantic Search: " && curl -sf http://localhost:8000/health >/dev/null 2>&1 && echo "✅ http://localhost:8000" || echo "⏳ Starting... (check logs/semantic.log)"
-	@printf "⚙️  Worker:         " && [ -f logs/worker.pid ] && echo "✅ Running (check logs/worker.log)" || echo "⏳ Starting..."
+	@printf "🔧 Embedding Worker: " && [ -f logs/embedding-worker.pid ] && echo "✅ Running (check logs/embedding-worker.log)" || echo "⏳ Starting..."
+	@printf "⚙️  Export Worker:   " && [ -f logs/worker.pid ] && echo "✅ Running (check logs/worker.log)" || echo "⏳ Starting..."
 	@printf "💾 Qdrant:         " && echo "✅ http://localhost:6333/dashboard"
 	@printf "🔴 Redis:          " && echo "✅ localhost:6379"
 	@echo ""
@@ -159,9 +179,10 @@ local-start: ## 🚀 Start complete local environment (one command)
 	@echo "   make dev-logs      - View infrastructure logs"
 	@echo ""
 	@echo "📝 View logs:"
-	@echo "   tail -f logs/nextjs.log    - Next.js logs"
-	@echo "   tail -f logs/semantic.log  - Semantic Search logs"
-	@echo "   tail -f logs/worker.log    - Worker logs"
+	@echo "   tail -f logs/nextjs.log           - Next.js logs"
+	@echo "   tail -f logs/semantic.log         - Semantic Search logs"
+	@echo "   tail -f logs/embedding-worker.log - Embedding Worker logs"
+	@echo "   tail -f logs/worker.log           - Export Worker logs"
 	@echo "════════════════════════════════════════════════════════════════"
 	@echo ""
 
@@ -183,13 +204,21 @@ local-stop: ## Stop all local services
 	@-pkill -9 -f "semantic-search/venv/bin/pip" 2>/dev/null || true
 	@-lsof -ti:8000 2>/dev/null | xargs kill -9 2>/dev/null || true
 	@-rm -f logs/semantic.pid 2>/dev/null || true
-	@echo "  Stopping Worker..."
+	@echo "  Stopping Embedding Worker..."
+	@-pkill -9 -f "semantic-search.*dev-worker\.sh" 2>/dev/null || true
+	@-pkill -9 -f "python.*worker\.py" 2>/dev/null || true
+	@-rm -f logs/embedding-worker.pid 2>/dev/null || true
+	@echo "  Stopping Export Worker..."
 	@-pkill -9 -f "dev-worker\.sh" 2>/dev/null || true
 	@-pkill -9 -f "tsx.*process_exports" 2>/dev/null || true
 	@-pkill -9 -f "bash -c.*dev-worker" 2>/dev/null || true
 	@-rm -f logs/worker.pid 2>/dev/null || true
 	@echo "  Stopping infrastructure (Qdrant, Redis)..."
-	@$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml down 2>/dev/null || true
+	@if [ -f .env.local ]; then \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml --env-file .env.local down 2>/dev/null || true; \
+	else \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml down 2>/dev/null || true; \
+	fi
 	@echo ""
 	@echo "✅ All services stopped"
 	@echo ""
@@ -198,7 +227,12 @@ local-stop: ## Stop all local services
 
 dev-infra: ## Start only infrastructure (Qdrant, Redis)
 	@echo "🚀 Starting infrastructure services..."
-	@$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml up -d
+	@if [ -f .env.local ]; then \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml --env-file .env.local up -d qdrant redis; \
+	else \
+		echo "⚠️  .env.local not found, using default .env"; \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml up -d qdrant redis; \
+	fi
 	@echo "⏳ Waiting for services to be ready..."
 	@sleep 5
 	@echo "✅ Infrastructure ready!"
@@ -220,14 +254,26 @@ dev-worker: dev-infra ## Start background worker with hot reload
 
 dev-status: ## Check status of development infrastructure
 	@echo "📊 Development Infrastructure Status:"
-	@$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml ps
+	@if [ -f .env.local ]; then \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml --env-file .env.local ps; \
+	else \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml ps; \
+	fi
 
 dev-logs: ## View logs from infrastructure services
-	@$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml logs -f
+	@if [ -f .env.local ]; then \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml --env-file .env.local logs -f; \
+	else \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml logs -f; \
+	fi
 
 dev-stop: ## Stop all development infrastructure
 	@echo "🛑 Stopping infrastructure services..."
-	@$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml down
+	@if [ -f .env.local ]; then \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml --env-file .env.local down; \
+	else \
+		$(DOCKER_COMPOSE) -f deploy/docker-compose.dev.yml down; \
+	fi
 
 # =============================================================================
 # LOCAL KUBERNETES TESTING
@@ -241,6 +287,7 @@ LOCAL_NAMESPACE ?= sdg-innovation-commons
 K8S_NEXTJS_IMAGE ?= sdg-nextjs:$(LOCAL_TAG)
 K8S_SEMANTIC_IMAGE ?= sdg-semantic-search:$(LOCAL_TAG)
 K8S_WORKER_IMAGE ?= sdg-worker:$(LOCAL_TAG)
+K8S_EMBEDDING_WORKER_IMAGE ?= sdg-semantic-search:$(LOCAL_TAG)
 
 k8s-local-setup: ## Setup local Kubernetes cluster (Docker Desktop or Minikube)
 	@echo "☸️  Setting up local Kubernetes..."
@@ -288,6 +335,7 @@ k8s-local-build: ## Build container images for local Kubernetes
 	@echo "   - sdg-nextjs:$(LOCAL_TAG)"
 	@echo "   - sdg-semantic-search:$(LOCAL_TAG)"
 	@echo "   - sdg-worker:$(LOCAL_TAG)"
+	@echo "   - embedding-worker: uses sdg-semantic-search:$(LOCAL_TAG)"
 
 k8s-local-deploy: ## Deploy to local Kubernetes
 	@echo "☸️  Deploying to local Kubernetes..."
@@ -339,6 +387,7 @@ k8s-local-deploy: ## Deploy to local Kubernetes
 	@kubectl apply -f deploy/kubernetes/05-semantic-search.yaml
 	@kubectl apply -f deploy/kubernetes/06-nextjs.yaml
 	@kubectl apply -f deploy/kubernetes/07-worker.yaml
+	@kubectl apply -f deploy/kubernetes/12-embedding-worker.yaml
 	@echo ""
 	@echo "Step 7: Restoring original manifest files..."
 	@mv deploy/kubernetes/06-nextjs.yaml.bak deploy/kubernetes/06-nextjs.yaml 2>/dev/null || true

@@ -1,0 +1,229 @@
+---
+# Embedding Worker Deployment with Auto-Scaling
+# Processes documents from Redis queue and generates embeddings
+# Scales automatically based on queue depth (0-10 workers)
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: embedding-worker-config
+  namespace: sdg-innovation-commons
+data:
+  EMBEDDING_QUEUE_NAME: "embedding_jobs"
+  BATCH_QUEUE_NAME: "embedding_batch_jobs"
+  DLQ_NAME: "embedding_dlq"
+  WORKER_BATCH_SIZE: "10"
+  MAX_RETRIES: "3"
+  JOB_TIMEOUT: "300"
+  POLL_INTERVAL: "1.0"
+
+---
+# Embedding Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: embedding-worker
+  namespace: sdg-innovation-commons
+  labels:
+    app: embedding-worker
+    component: worker
+spec:
+  # Start with 1 replica, HPA will scale up/down
+  replicas: 1
+  
+  selector:
+    matchLabels:
+      app: embedding-worker
+  
+  template:
+    metadata:
+      labels:
+        app: embedding-worker
+        component: worker
+    spec:
+      # Graceful shutdown
+      terminationGracePeriodSeconds: 60
+      
+      containers:
+      - name: worker
+        # Use the same image as semantic-search (has all dependencies)
+        image: sdg-semantic-search:local
+        imagePullPolicy: Always
+        
+        # Run the worker script
+        command: ["python3", "-u", "/app/worker.py"]
+        
+        # Load environment from semantic-search config + worker-specific config
+        envFrom:
+          - configMapRef:
+              name: semantic-search-config
+          - secretRef:
+              name: semantic-search-secrets
+          - configMapRef:
+              name: embedding-worker-config
+        
+        # Worker-specific settings
+        env:
+        - name: REDIS_HOST
+          value: "redis-service"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_DB
+          value: "0"
+        - name: SEMANTIC_SEARCH_URL
+          value: "http://semantic-search-service:8000"
+        
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "2Gi"
+            cpu: "2000m"
+        
+        # Health checks
+        livenessProbe:
+          exec:
+            command:
+            - python3
+            - -c
+            - |
+              import redis
+              import os
+              r = redis.Redis(host=os.getenv('REDIS_HOST', 'localhost'), port=int(os.getenv('REDIS_PORT', '6379')))
+              r.ping()
+          initialDelaySeconds: 30
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+        
+        # Worker doesn't have HTTP endpoint, so use Redis connectivity
+        readinessProbe:
+          exec:
+            command:
+            - python3
+            - -c
+            - |
+              import redis
+              import os
+              r = redis.Redis(host=os.getenv('REDIS_HOST', 'localhost'), port=int(os.getenv('REDIS_PORT', '6379')))
+              r.ping()
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+
+---
+# Horizontal Pod Autoscaler (HPA) - Scale based on CPU
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: embedding-worker-hpa
+  namespace: sdg-innovation-commons
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: embedding-worker
+  
+  # Scale from 0 to 10 workers
+  minReplicas: 0  # Can scale to zero when queue is empty (requires metrics-server)
+  maxReplicas: 10
+  
+  # Scale based on CPU and memory utilization
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70  # Scale up when CPU > 70%
+  
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80  # Scale up when memory > 80%
+  
+  # Scaling behavior
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 120  # Wait 2 minutes before scaling down
+      policies:
+      - type: Percent
+        value: 50  # Scale down by 50% at a time
+        periodSeconds: 60
+      - type: Pods
+        value: 2  # Or remove 2 pods at a time
+        periodSeconds: 60
+      selectPolicy: Min  # Use the policy that scales down the least
+    
+    scaleUp:
+      stabilizationWindowSeconds: 0  # Scale up immediately
+      policies:
+      - type: Percent
+        value: 100  # Double the number of pods
+        periodSeconds: 15
+      - type: Pods
+        value: 4  # Or add 4 pods at a time
+        periodSeconds: 15
+      selectPolicy: Max  # Use the policy that scales up the most
+
+---
+# Optional: KEDA ScaledObject for queue-based scaling
+# Uncomment this section if you have KEDA installed in your cluster
+# This provides more intelligent scaling based on actual queue depth
+
+# apiVersion: keda.sh/v1alpha1
+# kind: ScaledObject
+# metadata:
+#   name: embedding-worker-scaler
+#   namespace: sdg-innovation-commons
+# spec:
+#   scaleTargetRef:
+#     name: embedding-worker
+#   
+#   # Scale from 0 to 10 workers
+#   minReplicaCount: 0  # Scale to zero when queue is empty
+#   maxReplicaCount: 10
+#   
+#   # Cooldown periods
+#   cooldownPeriod: 60  # Wait 60s after scaling down before scaling down again
+#   pollingInterval: 15  # Check queue size every 15 seconds
+#   
+#   triggers:
+#   # Scale based on Redis queue length
+#   - type: redis
+#     metadata:
+#       address: redis-service.sdg-innovation-commons.svc.cluster.local:6379
+#       listName: embedding_jobs  # Main queue
+#       listLength: "5"  # Target: 5 jobs per worker
+#       activationListLength: "1"  # Wake up workers when queue has >= 1 job
+#   
+#   # Scale based on batch queue length  
+#   - type: redis
+#     metadata:
+#       address: redis-service.sdg-innovation-commons.svc.cluster.local:6379
+#       listName: embedding_batch_jobs  # Batch queue
+#       listLength: "2"  # Target: 2 batch jobs per worker
+#       activationListLength: "1"  # Wake up workers when queue has >= 1 batch
+
+---
+# Service Monitor for Prometheus (optional)
+# Uncomment if you have Prometheus Operator installed
+
+# apiVersion: monitoring.coreos.com/v1
+# kind: ServiceMonitor
+# metadata:
+#   name: embedding-worker-monitor
+#   namespace: sdg-innovation-commons
+#   labels:
+#     app: embedding-worker
+# spec:
+#   selector:
+#     matchLabels:
+#       app: embedding-worker
+#   endpoints:
+#   - port: metrics
+#     interval: 30s
+#     path: /metrics

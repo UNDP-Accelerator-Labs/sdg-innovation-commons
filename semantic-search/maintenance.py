@@ -4,6 +4,7 @@ Qdrant index maintenance functionality.
 Provides functions to clean stale documents from Qdrant collections.
 """
 import time
+import uuid
 from typing import Set, Tuple, List, Dict, Any
 import structlog
 import psycopg2
@@ -13,6 +14,9 @@ from config import settings
 from qdrant_service import qdrant_service
 
 logger = structlog.get_logger()
+
+# UUID namespace for Qdrant (must match nlpapi)
+QDRANT_UUID = uuid.UUID("5c349547-396f-47e1-b0fb-22ed665bc112")
 
 # Map of base (platform) to db_id
 DB_ID_MAP = {
@@ -51,6 +55,7 @@ def get_valid_id_dbs_from_db() -> Set[str]:
         
         logger.info("Loaded valid IDs from database", count=len(valid_ids))
         return valid_ids
+        return valid_ids
         
     finally:
         cursor.close()
@@ -60,7 +65,7 @@ def get_valid_id_dbs_from_db() -> Set[str]:
 def scan_and_identify_stale_documents(
     valid_ids: Set[str],
     batch_size: int = 100
-) -> Tuple[List[str], List[Dict[str, Any]], int]:
+) -> Tuple[List[Tuple[str, str]], List[Dict[str, Any]], int]:
     """
     Scan data collection and identify stale documents.
     
@@ -69,11 +74,12 @@ def scan_and_identify_stale_documents(
         batch_size: Number of documents to process per batch
         
     Returns:
-        Tuple of (stale_main_uuids, stale_details, total_scanned)
+        Tuple of (stale_items, stale_details, total_scanned)
+        where stale_items is List of (main_uuid, main_id) tuples
     """
     logger.info("Scanning data collection for stale documents", collection=qdrant_service.data_collection)
     
-    stale_main_uuids = []
+    stale_items = []
     stale_details = []
     offset = None
     total_scanned = 0
@@ -111,9 +117,11 @@ def scan_and_identify_stale_documents(
             
             # Check if this id_db exists in database
             if id_db not in valid_ids:
-                stale_main_uuids.append(main_uuid)
+                # Generate main_uuid from main_id (matching nlpapi logic)
+                generated_uuid = str(uuid.uuid5(QDRANT_UUID, main_id))
+                stale_items.append((generated_uuid, main_id))
                 stale_details.append({
-                    "main_uuid": main_uuid,
+                    "main_uuid": generated_uuid,
                     "main_id": main_id,
                     "base": base,
                     "doc_id": doc_id,
@@ -122,7 +130,7 @@ def scan_and_identify_stale_documents(
         
         # Progress logging
         if total_scanned % 1000 == 0:
-            logger.info("Scan progress", scanned=total_scanned, stale_found=len(stale_main_uuids))
+            logger.info("Scan progress", scanned=total_scanned, stale_found=len(stale_items))
         
         if next_offset is None:
             break
@@ -132,57 +140,53 @@ def scan_and_identify_stale_documents(
     logger.info(
         "Scan complete",
         total_scanned=total_scanned,
-        stale_found=len(stale_main_uuids)
+        stale_found=len(stale_items)
     )
     
-    return stale_main_uuids, stale_details, total_scanned
+    return stale_items, stale_details, total_scanned
 
 
 def delete_stale_documents(
-    stale_main_uuids: List[str]
+    stale_items: List[Tuple[str, str]]
 ) -> Tuple[int, int]:
     """
     Delete stale documents from both Qdrant collections.
     
     Args:
-        stale_main_uuids: List of main_uuid values to remove
+        stale_items: List of (main_uuid, main_id) tuples to remove
         
     Returns:
         Tuple of (data_removed_count, vec_removed_count)
     """
-    if not stale_main_uuids:
+    if not stale_items:
         logger.info("No stale documents to remove")
         return 0, 0
     
-    # Filter out empty UUIDs
-    valid_uuids = [uuid for uuid in stale_main_uuids if uuid and uuid.strip()]
-    skipped = len(stale_main_uuids) - len(valid_uuids)
-    
-    if skipped > 0:
-        logger.warning("Skipping documents with empty UUIDs", count=skipped)
-    
-    if not valid_uuids:
-        logger.info("No valid UUIDs to remove after filtering")
-        return 0, 0
-    
-    logger.info("Removing stale documents", count=len(valid_uuids))
+    logger.info("Removing stale documents", count=len(stale_items))
     
     data_removed = 0
     vec_removed = 0
     
-    # Remove from data collection
-    for main_uuid in valid_uuids:
+    # Remove from data collection by point ID (main_uuid)
+    # Batch deletions for better performance
+    batch_size = 100
+    for i in range(0, len(stale_items), batch_size):
+        batch = stale_items[i:i + batch_size]
         try:
+            # Delete by point IDs (main_uuid values)
+            point_ids = [item[0] for item in batch]
             qdrant_service.client.delete(
                 collection_name=qdrant_service.data_collection,
-                points_selector=[main_uuid]
+                points_selector=point_ids
             )
-            data_removed += 1
+            data_removed += len(batch)
+            logger.info(f"Data collection: removed {data_removed}/{len(stale_items)} documents")
         except Exception as e:
-            logger.error("Failed to remove from data collection", main_uuid=main_uuid, error=str(e))
+            logger.error("Failed to remove batch from data collection", batch_size=len(batch), error=str(e))
     
-    # Remove from vec collection
-    for main_uuid in valid_uuids:
+    # Remove from vec collection by filtering on main_uuid field
+    # Vec collection stores main_uuid in payload to reference data collection
+    for main_uuid, main_id in stale_items:
         try:
             qdrant_service.client.delete(
                 collection_name=qdrant_service.vec_collection,
@@ -191,8 +195,10 @@ def delete_stale_documents(
                 )
             )
             vec_removed += 1
+            if vec_removed % 100 == 0:
+                logger.info(f"Vec collection: removed {vec_removed}/{len(stale_items)} snippets")
         except Exception as e:
-            logger.error("Failed to remove from vec collection: ", main_uuid=main_uuid, error=str(e))
+            logger.error("Failed to remove from vec collection", main_uuid=main_uuid, main_id=main_id, error=str(e))
     
     logger.info(
         "Removal complete",
@@ -220,14 +226,14 @@ def clean_qdrant_index(dry_run: bool = True) -> Dict[str, Any]:
         valid_ids = get_valid_id_dbs_from_db()
         
         # Step 2: Scan and identify stale documents
-        stale_uuids, stale_details, total_scanned = scan_and_identify_stale_documents(valid_ids)
+        stale_items, stale_details, total_scanned = scan_and_identify_stale_documents(valid_ids)
         
         data_removed = 0
         vec_removed = 0
         
         # Step 3: Delete if not dry run
-        if not dry_run and stale_uuids:
-            data_removed, vec_removed = delete_stale_documents(stale_uuids)
+        if not dry_run and stale_items:
+            data_removed, vec_removed = delete_stale_documents(stale_items)
         
         elapsed = time.time() - start_time
         
@@ -236,7 +242,7 @@ def clean_qdrant_index(dry_run: bool = True) -> Dict[str, Any]:
             "dry_run": dry_run,
             "valid_ids_count": len(valid_ids),
             "documents_scanned": total_scanned,
-            "stale_documents_found": len(stale_uuids),
+            "stale_documents_found": len(stale_items),
             "data_collection_removed": data_removed,
             "vec_collection_removed": vec_removed,
             "elapsed_seconds": round(elapsed, 2),

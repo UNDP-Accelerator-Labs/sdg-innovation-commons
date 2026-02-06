@@ -11,8 +11,6 @@
 #   - Azure PostgreSQL Flexible Server created
 #   - DATABASE_URL configured in .env with Azure PostgreSQL connection string
 
-version: "3.8"
-
 services:
   # PostgreSQL Database: Using Azure PostgreSQL Flexible Server
   # No local postgres service needed - application connects directly to Azure
@@ -252,6 +250,73 @@ services:
         limits:
           memory: 1G
           cpus: "1.0"
+
+  # Embedding Worker (for indexing queue)
+  embedding-worker:
+    build:
+      context: ../semantic-search
+      dockerfile: Dockerfile.worker
+    container_name: sdg-embedding-worker
+    depends_on:
+      semantic-search:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      qdrant:
+        condition: service_healthy
+    environment:
+      # Qdrant Configuration
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - QDRANT_GRPC_PORT=6334
+      - QDRANT_API_KEY=${QDRANT_API_KEY}
+      - QDRANT_COLLECTION_NAME=sdg_documents
+
+      # Redis Queue
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-}
+
+      # Database Configuration
+      - GENERAL_DB_HOST=${GENERAL_DB_HOST}
+      - GENERAL_DB_PORT=${GENERAL_DB_PORT:-5432}
+      - GENERAL_DB_USER=${GENERAL_DB_USER}
+      - GENERAL_DB_PASSWORD=${GENERAL_DB_PASSWORD}
+      - GENERAL_DB_NAME=${GENERAL_DB_NAME}
+
+      # Optional: Separate Blogs Database
+      - BLOGS_DB_HOST=${BLOGS_DB_HOST:-}
+      - BLOGS_DB_PORT=${BLOGS_DB_PORT:-}
+      - BLOGS_DB_USER=${BLOGS_DB_USER:-}
+      - BLOGS_DB_PASSWORD=${BLOGS_DB_PASSWORD:-}
+      - BLOGS_DB_NAME=${BLOGS_DB_NAME:-}
+
+      # Worker Configuration
+      - WORKER_CONCURRENCY=${EMBEDDING_WORKER_CONCURRENCY:-2}
+      - WORKER_BATCH_SIZE=${EMBEDDING_WORKER_BATCH_SIZE:-10}
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+
+      # Embedding Model (should match semantic-search)
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-sentence-transformers/all-MiniLM-L6-v2}
+      - DEVICE=${DEVICE:-cpu}
+
+    networks:
+      - sdg-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import redis; r=redis.Redis(host='redis', port=6379); r.ping()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "2.0"
+        reservations:
+          memory: 512M
+          cpus: "0.5"
 
 # Named volumes for data persistence
 # CRITICAL: These volumes ensure data survives container restarts/removals

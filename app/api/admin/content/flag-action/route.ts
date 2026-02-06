@@ -170,10 +170,8 @@ export async function POST(request: NextRequest) {
             UPDATE ${contentTable}
             SET status = 0, updated_at = CURRENT_TIMESTAMP
             WHERE id = $1
-          `;
-          await query('general', updateContentQuery, [originalFlag.content_id]);
+          `;  await query('general', updateContentQuery, [originalFlag.content_id]);
           contentRemovalResults.dbUpdate = true;
-          console.log(`Database status updated: ${originalFlag.platform}/${originalFlag.content_id}`);
 
           // Set relevance to 1 for blogs and publications
           if (originalFlag.platform.includes('blog') || originalFlag.platform.includes('publications')) {
@@ -186,7 +184,6 @@ export async function POST(request: NextRequest) {
               // Use blogs database for blog/publication content
               await query('blogs', updateRelevanceQuery, [originalFlag.content_id]);
               contentRemovalResults.relevanceUpdate = true;
-              console.log(`Database relevance updated to 1 in blogs DB: ${originalFlag.platform}/${originalFlag.content_id}`);
             } catch (relevanceError) {
               console.error('Failed to update relevance in blogs database:', relevanceError);
               contentRemovalResults.errors.push(`Blogs database relevance update failed: ${relevanceError instanceof Error ? relevanceError.message : 'Unknown error'}`);
@@ -204,21 +201,11 @@ export async function POST(request: NextRequest) {
             if (nlpResult.error) {
               contentRemovalResults.errors.push(nlpResult.error);
             }
-            console.log(`NLP removal result:`, nlpResult);
 
           } catch (nlpError) {
             console.error('Failed to remove from NLP index:', nlpError);
             contentRemovalResults.errors.push(`NLP removal failed: ${nlpError instanceof Error ? nlpError.message : 'Unknown error'}`);
           }
-
-          // Log summary of content removal
-          console.log(`Content removal summary for ${originalFlag.platform}/${originalFlag.content_id}:`, {
-            dbUpdate: contentRemovalResults.dbUpdate,
-            nlpRemoval: contentRemovalResults.nlpRemoval,
-            relevanceUpdate: contentRemovalResults.relevanceUpdate,
-            errorCount: contentRemovalResults.errors.length,
-            errors: contentRemovalResults.errors
-          });
         }
       } catch (contentError) {
         console.error('Failed to remove content:', contentError);

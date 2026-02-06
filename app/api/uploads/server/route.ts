@@ -39,7 +39,6 @@ export async function POST(req: Request) {
     })
 
     const blobUrl = blobClient.url
-    console.log('File uploaded:', { name: file.name, size: file.size, blobName: safeName })
     
     return NextResponse.json({ blobUrl, blobName: safeName })
     

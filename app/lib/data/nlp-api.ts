@@ -6,7 +6,7 @@ import {
   commonsPlatform,
   page_limit,
 } from "@/app/lib/helpers/utils";
-import { mapPlatformToShortkey, getExternDbIdForPlatform } from "@/app/lib/helpers";
+import { mapPlatformToShortkey } from "@/app/lib/helpers";
 import platformApi from "./platform-api";
 import blogApi from "./blogs-api";
 
@@ -19,7 +19,6 @@ export interface Props {
   iso3?: any;
   doc_type?: (string | undefined)[] | undefined;
   pads?: any[];
-  id_dbpads?: any[];
 }
 
 export interface ContentRemovalProps {
@@ -68,42 +67,30 @@ export default async function nlpApi(_kwargs: Props): Promise<NlpApiResult> {
   });
 
   if (status?.toLowerCase() === "ok") {
-    // Extract unique bases (platforms)
-    const bases = hits
+    // Note: Invalid records (empty base, doc_id=0) are now filtered at the source in semantic search
+    // so hits should already be valid
+    
+    const allBases = hits
       .map((d: any) => d.base)
       .filter((value: any, index: number, self: any) => {
         return self.indexOf(value) === index;
-      })
+      });
+    
+    // Extract unique bases (platforms) that match commonsPlatform
+    const bases = allBases
       .filter((d: any) => {
         let platform = d;
         if (platform === "actionplan") platform = "action plan";
         if (platform === "blog") platform = "insight";
-        return commonsPlatform.some((c: any) => c.key === platform);
+        const matches = commonsPlatform.some((c: any) => c.key === platform);
+        return matches;
       });
 
     if (bases.length) {
       const data = await Promise.all(
         bases.map(async (b: string) => {
           const platformHits = hits.filter((d: any) => d.base === b);
-          let pads: any[] = [];
-          let id_dbpads: any[] = [];
-          
-          const _pads = await Promise.all(
-            platformHits.map(async (d: any) => {
-              if (["solution", "experiment", "actionplan"].includes(d.base)) {
-                const dbId = await getExternDbIdForPlatform(d.base);
-                if (dbId) {
-                  id_dbpads.push(`${d.doc_id}-${dbId}`);
-                  return `${d.doc_id}-${dbId}`;
-                } else {
-                  pads.push(d.doc_id);
-                  return d.doc_id;
-                }
-              }
-              pads.push(d.doc_id);
-              return d.doc_id;
-            })
-          );
+          const pads: any[] = platformHits.map((d: any) => d.doc_id);
           
           if (b === "blog") {
             return await getCountryNames(platformHits);
@@ -113,13 +100,22 @@ export default async function nlpApi(_kwargs: Props): Promise<NlpApiResult> {
           if (platform === "actionplan") platform = "action plan";
 
           const platformResponse: any = await platformApi(
-            { pads, id_dbpads },
+            { pads },
             platform,
             "pads"
           );
           
           // Handle new {count, data} structure or legacy array
           const platformData: any[] = platformResponse?.data || platformResponse || [];
+          
+          // Check for missing records
+          if (platformData.length < pads.length) {
+            const returnedIds = new Set(platformData.map((item: any) => item.id));
+            const missingIds = pads.filter((id: number) => !returnedIds.has(id));
+            if (missingIds.length > 0) {
+              console.warn(`[nlpApi] Missing ${missingIds.length} records from PostgreSQL for ${platform}`);
+            }
+          }
 
           platformData?.sort((a, b) => {
             return pads.indexOf(a.pad_id) - pads.indexOf(b.pad_id);

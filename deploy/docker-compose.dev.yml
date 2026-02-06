@@ -10,8 +10,6 @@
 # Note: Uses Azure PostgreSQL - configure DATABASE_URL in .env
 # DATABASE_URL="postgresql://user:password@servername.postgres.database.azure.com:5432/dbname?sslmode=require"
 
-version: "3.8"
-
 services:
   # PostgreSQL: Using Azure PostgreSQL Flexible Server
   # Application connects directly to Azure - no local postgres service needed
@@ -73,6 +71,148 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+
+  # Embedding API
+  # FastAPI service for semantic search and embedding management
+  embedding-api:
+    build:
+      context: ../semantic-search
+      dockerfile: Dockerfile
+    container_name: sdg-embedding-api-dev
+    env_file:
+      - ../semantic-search/.env.development # API security & Qdrant config
+      - ../.env.local # Database credentials
+    ports:
+      - "8000:8000"
+    environment:
+      # Redis configuration
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-devpassword}
+      - REDIS_DB=0
+
+      # Queue configuration
+      - EMBEDDING_QUEUE_NAME=embedding_jobs
+      - BATCH_QUEUE_NAME=embedding_batch_jobs
+      - DLQ_NAME=embedding_dlq
+
+      # Qdrant configuration
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - QDRANT_API_KEY=${QDRANT_API_KEY:-dev-secret-key}
+      - QDRANT_COLLECTION_NAME=${QDRANT_COLLECTION_NAME:-main}
+      - QDRANT_USE_HTTPS=false
+
+      # Embedding model
+      - EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+      - EMBEDDING_DIMENSION=384
+      - DEVICE=cpu
+
+      # API Security (loaded from env_file: semantic-search/.env.development)
+      # Only override if needed:
+      - ALLOWED_ORIGINS=http://localhost:3000
+
+      # Application Base URL (for generating document URLs)
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:3000}
+
+      # Database (override host for Docker, rest from .env.local)
+      - GENERAL_DB_HOST=host.docker.internal
+
+      # Service configuration
+      - SERVICE_HOST=0.0.0.0
+      - SERVICE_PORT=8000
+      - LOG_LEVEL=INFO
+
+    depends_on:
+      - redis
+      - qdrant
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    networks:
+      - sdg-dev-network
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # Embedding Worker
+  # Processes documents from Redis queue
+  # Scale with: docker-compose -f deploy/docker-compose.dev.yml up -d --scale embedding-worker=3
+  embedding-worker:
+    build:
+      context: ../semantic-search
+      dockerfile: Dockerfile.worker
+    container_name: sdg-embedding-worker-dev
+    env_file:
+      - ../semantic-search/.env.development # API security & Qdrant config
+      - ../.env.local # Database credentials
+    environment:
+      # Redis configuration
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD:-devpassword}
+      - REDIS_DB=0
+
+      # Queue configuration
+      - EMBEDDING_QUEUE_NAME=embedding_jobs
+      - BATCH_QUEUE_NAME=embedding_batch_jobs
+      - DLQ_NAME=embedding_dlq
+      - WORKER_BATCH_SIZE=10
+      - MAX_RETRIES=3
+      - JOB_TIMEOUT=300
+      - POLL_INTERVAL=1.0
+
+      # Qdrant configuration
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+      - QDRANT_API_KEY=${QDRANT_API_KEY:-dev-secret-key}
+      - QDRANT_COLLECTION_NAME=${QDRANT_COLLECTION_NAME:-main}
+
+      # Embedding model
+      - EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+      - DEVICE=cpu
+
+      # Application Base URL (for generating document URLs)
+      - APP_BASE_URL=${APP_BASE_URL:-http://localhost:3000}
+
+      # Database (loaded from .env.local via env_file, override host for Docker)
+      - GENERAL_DB_HOST=host.docker.internal
+
+      # Logging
+      - LOG_LEVEL=INFO
+
+    depends_on:
+      - redis
+      - qdrant
+
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+    networks:
+      - sdg-dev-network
+
+    restart: unless-stopped
+
+    # Health check
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python3",
+          "-c",
+          "import redis; redis.Redis(host='redis', port=6379, password='${REDIS_PASSWORD:-devpassword}').ping()",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
 # Named volumes for data persistence
 # These volumes persist data even when containers are stopped, removed, or recreated

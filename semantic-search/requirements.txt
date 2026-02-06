@@ -20,6 +20,9 @@ pandas==2.2.3
 # Database
 psycopg2-binary==2.9.10
 
+# Redis for queue
+redis==5.2.1
+
 # HTTP and async
 httpx==0.28.1
 aiofiles==24.1.0

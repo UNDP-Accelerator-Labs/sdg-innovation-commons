@@ -15,16 +15,14 @@ from models import (
     SearchFilters,
     StatsRequest,
     StatsResponse,
-    AddEmbedRequest,
-    AddEmbedResponse,
-    RemoveDocumentRequest,
     HealthResponse,
 )
 from security import get_current_user, require_auth, require_dual_auth
 from embeddings import embedding_service
 from qdrant_service import qdrant_service
-from search import semantic_search, add_document
+from search import semantic_search
 from maintenance import clean_qdrant_index
+from embed_api import router as embed_router
 
 # Configure structured logging
 structlog.configure(
@@ -132,6 +130,10 @@ def custom_openapi():
     return app.openapi_schema
 
 app.openapi = custom_openapi
+
+
+# Include routers
+app.include_router(embed_router)  # Document embedding API (with dual auth)
 
 
 @app.get("/", tags=["Root"])
@@ -279,125 +281,6 @@ async def stats_endpoint(
             status="error"
         )
 
-
-@app.post("/api/add_embed", response_model=AddEmbedResponse, tags=["Documents"])
-async def add_embed_endpoint(
-    request: AddEmbedRequest,
-    http_request: Request
-):
-    """
-    Add or update a document embedding in the vector database.
-    
-    Matches the NLP API add_embed endpoint exactly.
-    Empty input content removes the document.
-    
-    Requires DUAL authentication: Both JWT token AND API key must be valid.
-    
-    Args:
-        request: Document embedding data
-        http_request: FastAPI request object for authentication
-        
-    Returns:
-        Add embed response
-    """
-    # Require BOTH JWT and API key for document modification
-    auth = await require_dual_auth(http_request)
-    
-    logger.info(
-        "Add embed request",
-        doc_id=request.doc_id,
-        content_length=len(request.input),
-        url=request.url,
-        auth_type=auth.get("type"),
-        user_id=auth.get("user_id")
-    )
-    
-    try:
-        if not request.input.strip():
-            # Empty input removes the document (matching NLP API behavior)
-            result = qdrant_service.remove_document(str(request.doc_id))
-            
-            return AddEmbedResponse(
-                status="ok" if result["success"] else "error",
-                message=result["message"],
-                doc_id=request.doc_id,
-                snippets_added=0  # 0 since we're removing, not adding
-            )
-        
-        # Extract base from meta or infer from URL
-        base = request.meta.get("doc_type", "blog")
-        
-        result = await add_document(
-            base=base,
-            doc_id=request.doc_id,
-            url=request.url,
-            content=request.input,
-            title=request.title,
-            meta=request.meta
-        )
-        
-        return AddEmbedResponse(
-            status="ok" if result["success"] else "error",
-            message=result.get("message"),
-            doc_id=request.doc_id,
-            snippets_added=result.get("snippets_added", 0)
-        )
-        
-    except Exception as e:
-        logger.error("Add embed request failed", error=str(e), doc_id=request.doc_id)
-        return AddEmbedResponse(
-            status="error",
-            message=f"Failed to add document: {str(e)}",
-            doc_id=request.doc_id
-        )
-
-
-@app.post("/api/remove", response_model=AddEmbedResponse, tags=["Documents"])
-async def remove_document_endpoint(
-    request: RemoveDocumentRequest,
-    http_request: Request
-):
-    """
-    Simple endpoint to remove a document from the vector database.
-    
-    Only requires document ID. Ultra-secure endpoint protected by DUAL authentication:
-    Both JWT token AND API key must be valid.
-    
-    Args:
-        request: Remove document request (doc_id and optional url)
-        http_request: FastAPI request object for authentication
-        
-    Returns:
-        Remove operation response
-    """
-    # Require BOTH JWT and API key for document modification
-    auth = await require_dual_auth(http_request)
-    
-    logger.info(
-        "Remove document request",
-        doc_id=request.doc_id,
-        url=request.url,
-        auth_type=auth.get("type"),
-        user_id=auth.get("user_id")
-    )
-    
-    try:
-        result = qdrant_service.remove_document(str(request.doc_id))
-        
-        return AddEmbedResponse(
-            status="ok" if result["success"] else "error",
-            message=result["message"],
-            doc_id=request.doc_id,
-            snippets_added=0
-        )
-        
-    except Exception as e:
-        logger.error("Remove document failed", error=str(e), doc_id=request.doc_id, url=request.url)
-        return AddEmbedResponse(
-            status="error",
-            message=f"Failed to remove document: {str(e)}",
-            doc_id=request.doc_id
-        )
 
 @app.post("/api/maintenance/clean-index", tags=["Maintenance"])
 async def clean_index_endpoint(

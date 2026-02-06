@@ -136,15 +136,457 @@ The SDG Innovation Commons consists of **three interconnected services**:
 
 ### Components
 
-| Component           | Purpose                                     | Technology                             | Environment File                                                       |
-| ------------------- | ------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------- |
-| **Next.js App**     | Main web application, API routes, admin UI  | Next.js 14, React                      | `.env.local` (dev) or `..env.production` (CI/CD)                       |
-| **Semantic Search** | Vector-based search using embeddings        | Python, FastAPI, sentence-transformers | `semantic-search/.env.development` (dev) or `..env.production` (CI/CD) |
-| **Worker**          | Background job processing (exports, emails) | Node.js, Bull queues                   | Same as Next.js (shares env)                                           |
-| **Qdrant**          | Vector database for semantic search         | Qdrant (Rust)                          | No env needed (configured via Semantic Search)                         |
-| **PostgreSQL**      | Primary database (Azure managed)            | PostgreSQL 14+                         | Connection string in Next.js env                                       |
-| **Redis**           | Cache and job queue                         | Redis 7+                               | URL in Next.js env                                                     |
-| **Azure Blob**      | File storage for uploads and backups        | Azure Storage                          | Connection string in Next.js env                                       |
+| Component            | Purpose                                      | Technology                             | Environment File                                                       |
+| -------------------- | -------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------- |
+| **Next.js App**      | Main web application, API routes, admin UI   | Next.js 14, React                      | `.env.local` (dev) or `..env.production` (CI/CD)                       |
+| **Semantic Search**  | Vector-based search using embeddings         | Python, FastAPI, sentence-transformers | `semantic-search/.env.development` (dev) or `..env.production` (CI/CD) |
+| **Embedding Worker** | Background embedding processor (queue-based) | Python, Redis queue                    | Same as Semantic Search (shares env)                                   |
+| **Worker**           | Background job processing (exports, emails)  | Node.js, Bull queues                   | Same as Next.js (shares env)                                           |
+| **Qdrant**           | Vector database for semantic search          | Qdrant (Rust)                          | No env needed (configured via Semantic Search)                         |
+| **PostgreSQL**       | Primary database (Azure managed)             | PostgreSQL 14+                         | Connection string in Next.js env                                       |
+| **Redis**            | Cache and job queue                          | Redis 7+                               | URL in Next.js env                                                     |
+| **Azure Blob**       | File storage for uploads and backups         | Azure Storage                          | Connection string in Next.js env                                       |
+
+---
+
+## Semantic Search System
+
+### Overview
+
+The semantic search system provides vector-based search capabilities using sentence transformers and Qdrant vector database. It consists of three main components:
+
+1. **Semantic Search API (FastAPI)**: REST API for search operations and document indexing
+2. **Embedding Worker**: Background service that processes document embedding jobs from a Redis queue
+3. **Qdrant Vector Database**: Stores document embeddings and performs similarity search
+
+### Architecture
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│                    Semantic Search System                       │
+├────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────────┐         ┌──────────────┐                    │
+│  │   Next.js    │────────▶│  Semantic    │                    │
+│  │     App      │  API    │  Search API  │                    │
+│  │              │◀────────│  (FastAPI)   │                    │
+│  └──────────────┘         └──────┬───────┘                    │
+│         │                        │                             │
+│         │ Trigger                │ Submit Jobs                 │
+│         │ Indexing               ▼                             │
+│         │                 ┌──────────────┐                    │
+│         │                 │    Redis     │                    │
+│         │                 │    Queue     │                    │
+│         │                 └──────┬───────┘                    │
+│         │                        │                             │
+│         │                        │ Poll for Jobs               │
+│         │                        ▼                             │
+│         │                 ┌──────────────┐                    │
+│         │                 │  Embedding   │                    │
+│         │                 │   Worker     │                    │
+│         │                 │ (1-10 pods)  │                    │
+│         │                 └──────┬───────┘                    │
+│         │                        │                             │
+│         │                        │ Store Embeddings            │
+│         │                        ▼                             │
+│         │                 ┌──────────────┐                    │
+│         └────────────────▶│   Qdrant     │                    │
+│           Fetch from      │   Vector     │                    │
+│           PostgreSQL      │   Database   │                    │
+│                           └──────────────┘                    │
+│                                                                 │
+└────────────────────────────────────────────────────────────────┘
+```
+
+### Features
+
+- **Queue-Based Processing**: Documents are queued in Redis and processed asynchronously by workers
+- **Auto-Scaling**: Embedding workers scale from 0-10 based on queue depth (Kubernetes HPA)
+- **Dual Authentication**: API endpoints require both JWT token and API key for security
+- **Status Tracking**: Monitor embedding job status via API
+- **Admin Operations**: Bulk re-indexing from database (admin only)
+- **Graceful Shutdown**: Workers handle shutdown signals without losing jobs
+
+### API Endpoints
+
+#### Search Endpoints
+
+```bash
+# Search documents
+POST /api/search
+{
+  "query": "sustainable development",
+  "limit": 10,
+  "filters": {"base": ["solution"], "status": ["public"]}
+}
+
+# Get recent documents
+GET /api/recent?limit=10&base=solution&status=public
+```
+
+#### Embedding Endpoints (Require JWT + API Key)
+
+```bash
+# Submit single document for embedding
+POST /api/embed
+{
+  "main_id": "solution:123",
+  "title": "Document title",
+  "content": "Document content...",
+  "metadata": {"country": "Kenya"}
+}
+
+# Submit batch of documents
+POST /api/embed/batch
+{
+  "documents": [
+    {"main_id": "solution:123", "title": "...", "content": "..."},
+    {"main_id": "solution:124", "title": "...", "content": "..."}
+  ]
+}
+
+# Check job status
+GET /api/embed/status/{job_id}
+
+# Get queue statistics
+GET /api/embed/stats
+
+# Trigger database re-indexing (Admin only)
+POST /api/embed/trigger
+{
+  "base": "solution",  # or ["solution", "blog"] or "all"
+  "batch_size": 10
+}
+
+# Remove document from index
+DELETE /api/embed
+{
+  "main_id": "solution:123"
+}
+```
+
+#### Health Check
+
+```bash
+# API health
+GET /health
+
+# Embedding API health
+GET /api/embed/health
+```
+
+### Document Types (Bases)
+
+The system indexes four types of documents from PostgreSQL:
+
+| Base         | Table    | Status Filter  | Description                                     |
+| ------------ | -------- | -------------- | ----------------------------------------------- |
+| `solution`   | pads     | status >= 2    | Solution documents (status 2=preview, 3=public) |
+| `experiment` | pads     | status >= 2    | Experiment documents                            |
+| `actionplan` | pads     | status >= 2    | Action plan documents                           |
+| `blog`       | articles | relevance >= 2 | Blogs and Publications (all status is public)   |
+
+**Main ID Format**: `base:doc_id` (e.g., `solution:123`, `blog:456`)
+
+### Status Mapping
+
+Documents have a `meta_status` field in Qdrant for filtering:
+
+- **Pads** (solution/experiment/actionplan):
+  - status 2 → `meta_status: "preview"` (visible to authenticated users)
+  - status 3 → `meta_status: "public"` (visible to all)
+- **Blogs**:
+  - All indexed blogs → `meta_status: "public"`
+
+**Search Filtering**:
+
+- Unauthenticated users: Only see documents with `status: ["public"]`
+- Authenticated users: See documents with `status: ["preview", "public"]`
+
+### Local Development
+
+#### Start Semantic Search Services
+
+```bash
+# Terminal 1: Start infrastructure (Qdrant, Redis)
+make dev-infra
+
+# Terminal 2: Start Semantic Search API
+cd semantic-search
+source venv/bin/activate
+./dev.sh
+# Runs on http://localhost:8000
+
+# Terminal 3: Start Embedding Worker
+cd semantic-search
+source venv/bin/activate
+./dev-worker.sh
+# Processes jobs from Redis queue
+```
+
+#### Test the System
+
+```bash
+# Get JWT token from Next.js (login via browser, check network tab)
+JWT_TOKEN="your-jwt-token-here"
+API_KEY="your-api-key-from-env"
+
+# Submit a document for embedding
+curl -X POST "http://localhost:8000/api/embed" \
+  -H "Authorization: Bearer $JWT_TOKEN" \
+  -H "X-API-Key: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "main_id": "solution:123"
+  }'
+
+# Check job status
+curl "http://localhost:8000/api/embed/status/{job_id}" \
+  -H "Authorization: Bearer $JWT_TOKEN" \
+  -H "X-API-Key: $API_KEY"
+
+# Trigger bulk re-indexing (admin only)
+curl -X POST "http://localhost:8000/api/embed/trigger" \
+  -H "Authorization: Bearer $JWT_TOKEN" \
+  -H "X-API-Key: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "base": "solution",
+    "batch_size": 10
+  }'
+```
+
+### Production Deployment
+
+The semantic search system is automatically deployed via CI/CD:
+
+#### Components Deployed
+
+1. **Semantic Search API**:
+
+   - 2 replicas (auto-scales 2-5 based on CPU)
+   - Health checks on `/health` endpoint
+   - ConfigMap: `semantic-search-config`
+   - Secrets: `semantic-search-secrets`
+
+2. **Embedding Worker**:
+
+   - Starts at 1 replica
+   - Auto-scales 0-10 based on queue depth
+   - Processes jobs from Redis queue
+   - ConfigMap: `embedding-worker-config`
+   - Secrets: `embedding-worker-secrets`
+
+3. **Qdrant**:
+
+   - Single replica (StatefulSet)
+   - Persistent storage (50Gi)
+   - Daily backups to Azure Blob Storage
+
+4. **Redis**:
+   - Single replica (StatefulSet)
+   - Persistent storage (10Gi)
+   - Used for queue and cache
+
+#### Environment Variables
+
+The CI/CD pipeline creates separate ConfigMaps and Secrets for each service:
+
+**Semantic Search API** (`semantic-search-config` + `semantic-search-secrets`):
+
+```yaml
+# ConfigMap (non-sensitive)
+QDRANT_HOST=qdrant-service
+QDRANT_PORT=6333
+REDIS_HOST=redis-service
+REDIS_PORT=6379
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+LOG_LEVEL=INFO
+SERVICE_PORT=8000
+
+# Secrets (sensitive)
+QDRANT_API_KEY=<from-github-secrets>
+REDIS_PASSWORD=<from-github-secrets>
+GENERAL_DB_HOST=<from-github-secrets>
+GENERAL_DB_PASSWORD=<from-github-secrets>
+BLOGS_DB_HOST=<from-github-secrets>
+BLOGS_DB_PASSWORD=<from-github-secrets>
+API_SECRET_KEY=<from-github-secrets>
+```
+
+**Embedding Worker** (`embedding-worker-config` + `embedding-worker-secrets`):
+
+```yaml
+# ConfigMap (non-sensitive)
+WORKER_CONCURRENCY=2
+WORKER_BATCH_SIZE=10
+LOG_LEVEL=INFO
+DEVICE=cpu
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+REDIS_HOST=redis-service
+QDRANT_HOST=qdrant-service
+SEMANTIC_SEARCH_URL=http://semantic-search-service:8000
+APP_BASE_URL=<from-github-secrets>
+
+# Secrets (sensitive)
+QDRANT_API_KEY=<from-github-secrets>
+REDIS_PASSWORD=<from-github-secrets>
+GENERAL_DB_PASSWORD=<from-github-secrets>
+BLOGS_DB_PASSWORD=<from-github-secrets>
+```
+
+#### Monitoring
+
+```bash
+# Check semantic search pods
+kubectl get pods -l app=semantic-search
+
+# Check embedding worker pods
+kubectl get pods -l app=embedding-worker
+
+# View semantic search logs
+kubectl logs -f deployment/semantic-search
+
+# View worker logs
+kubectl logs -f deployment/embedding-worker
+
+# Check queue statistics
+kubectl exec -it deployment/semantic-search -- \
+  curl http://localhost:8000/api/embed/stats
+
+# Check auto-scaling status
+kubectl get hpa
+```
+
+### Troubleshooting
+
+#### Semantic Search API Not Responding
+
+```bash
+# Check if pods are running
+kubectl get pods -l app=semantic-search
+
+# Check logs
+kubectl logs -f deployment/semantic-search
+
+# Check Qdrant connection
+kubectl exec -it deployment/semantic-search -- \
+  curl http://qdrant-service:6333/health
+
+# Check Redis connection
+kubectl exec -it deployment/semantic-search -- \
+  python -c "import redis; r=redis.Redis(host='redis-service', port=6379); print(r.ping())"
+```
+
+#### Worker Not Processing Jobs
+
+```bash
+# Check if worker pods are running
+kubectl get pods -l app=embedding-worker
+
+# Check worker logs
+kubectl logs -f deployment/embedding-worker
+
+# Check queue depth in Redis
+kubectl exec -it deployment/redis -- \
+  redis-cli LLEN embedding_jobs
+
+# Manually scale workers if needed
+kubectl scale deployment/embedding-worker --replicas=5
+```
+
+#### Jobs Failing
+
+```bash
+# Check dead letter queue for failed jobs
+kubectl exec -it deployment/redis -- \
+  redis-cli LRANGE embedding_dlq 0 -1
+
+# Check job status
+curl "http://<api-url>/api/embed/status/{job_id}" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-API-Key: $API_KEY"
+
+# Retry failed jobs (requires admin access)
+# Jobs automatically retry up to 3 times before moving to DLQ
+```
+
+#### Search Returning No Results
+
+```bash
+# Check if Qdrant has documents
+kubectl exec -it deployment/qdrant -- \
+  curl http://localhost:6333/collections/main_dot_data
+
+# Check document count
+kubectl exec -it deployment/semantic-search -- \
+  curl http://localhost:8000/health
+
+# Trigger re-indexing (admin only)
+curl -X POST "http://<api-url>/api/embed/trigger" \
+  -H "Authorization: Bearer $ADMIN_JWT" \
+  -H "X-API-Key: $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"base": "all", "batch_size": 10}'
+```
+
+### Performance Tuning
+
+#### Worker Scaling
+
+The embedding worker auto-scales based on queue depth:
+
+```yaml
+# Default HPA configuration (in 12-embedding-worker.yaml)
+minReplicas: 1
+maxReplicas: 10
+metrics:
+  - type: External
+    external:
+      metric:
+        name: redis_queue_length
+      target:
+        type: AverageValue
+        averageValue: "50" # Scale when > 50 jobs per pod
+```
+
+**Adjust scaling parameters:**
+
+```bash
+# Edit the HPA
+kubectl edit hpa embedding-worker-hpa
+
+# Or manually scale
+kubectl scale deployment/embedding-worker --replicas=5
+```
+
+#### Batch Size
+
+Control how many documents are processed per batch:
+
+```bash
+# Update worker config
+kubectl set env deployment/embedding-worker WORKER_BATCH_SIZE=20
+
+# Or edit ConfigMap
+kubectl edit configmap embedding-worker-config
+# Then restart: kubectl rollout restart deployment/embedding-worker
+```
+
+#### Throughput Expectations
+
+| Setup            | Workers | Throughput       | Notes                 |
+| ---------------- | ------- | ---------------- | --------------------- |
+| Local Dev        | 1       | ~10 docs/sec     | No resource limits    |
+| K8s (1 worker)   | 1       | ~8-10 docs/sec   | 2 CPU, 2GB per worker |
+| K8s (5 workers)  | 5       | ~40-50 docs/sec  | Default max for HPA   |
+| K8s (10 workers) | 10      | ~80-100 docs/sec | Max workers           |
+
+**Full re-index time (11K documents)**:
+
+- 1 worker: ~18-20 minutes
+- 5 workers: ~3-4 minutes
+- 10 workers: ~2-3 minutes
 
 ---
 

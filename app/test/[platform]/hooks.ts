@@ -68,8 +68,6 @@ export function useTestPageData(
           'pads'
         );
 
-        console.log('[Test Page] Platform API Response with filters:', searchParams);
-
         const normalized = normalizeApiResponse(response);
         data = normalized.data;
         totalCount = normalized.count;

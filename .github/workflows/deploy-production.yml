@@ -68,6 +68,18 @@ jobs:
           cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/sdg-worker:latest
           cache-to: type=inline
 
+      - name: Build and push Embedding Worker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./semantic-search
+          file: ./semantic-search/Dockerfile.worker
+          push: true
+          tags: |
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-embedding-worker:${{ github.sha }}
+            ${{ env.ACR_LOGIN_SERVER }}/sdg-embedding-worker:latest
+          cache-from: type=registry,ref=${{ env.ACR_LOGIN_SERVER }}/sdg-embedding-worker:latest
+          cache-to: type=inline
+
       - name: Set up Azure CLI
         uses: azure/setup-kubectl@v3
 
@@ -180,6 +192,12 @@ jobs:
             --from-literal=DEVICE="cpu" \
             --from-literal=SERVICE_HOST="0.0.0.0" \
             --from-literal=SERVICE_PORT="8000" \
+            --from-literal=REDIS_HOST="redis-service" \
+            --from-literal=REDIS_PORT="6379" \
+            --from-literal=GENERAL_DB_HOST="${{ secrets.GENERAL_DB_HOST }}" \
+            --from-literal=GENERAL_DB_PORT="5432" \
+            --from-literal=GENERAL_DB_USER="${{ secrets.GENERAL_DB_USER }}" \
+            --from-literal=GENERAL_DB_NAME="${{ secrets.GENERAL_DB_NAME }}" \
             --namespace=${{ env.NAMESPACE }} \
             --dry-run=client -o yaml | kubectl apply -f -
 
@@ -188,6 +206,47 @@ jobs:
           kubectl create secret generic semantic-search-secrets \
             --from-literal=QDRANT_API_KEY='${{ secrets.QDRANT_API_KEY }}' \
             --from-literal=API_SECRET_KEY='${{ secrets.SEMANTIC_SEARCH_API_KEY }}' \
+            --from-literal=REDIS_PASSWORD='${{ secrets.REDIS_PASSWORD }}' \
+            --from-literal=GENERAL_DB_PASSWORD='${{ secrets.GENERAL_DB_PASSWORD }}' \
+            --from-literal=BLOGS_DB_PASSWORD='${{ secrets.BLOGS_DB_PASSWORD }}' \
+            --namespace=${{ env.NAMESPACE }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create/Update Embedding Worker ConfigMap
+        run: |
+          kubectl create configmap embedding-worker-config \
+            --from-literal=WORKER_CONCURRENCY="2" \
+            --from-literal=WORKER_BATCH_SIZE="10" \
+            --from-literal=LOG_LEVEL="INFO" \
+            --from-literal=DEVICE="cpu" \
+            --from-literal=EMBEDDING_MODEL="sentence-transformers/all-MiniLM-L6-v2" \
+            --from-literal=REDIS_HOST="redis-service" \
+            --from-literal=REDIS_PORT="6379" \
+            --from-literal=QDRANT_HOST="qdrant-service" \
+            --from-literal=QDRANT_PORT="6333" \
+            --from-literal=QDRANT_GRPC_PORT="6334" \
+            --from-literal=QDRANT_COLLECTION_NAME="main" \
+            --from-literal=QDRANT_USE_HTTPS="false" \
+            --from-literal=GENERAL_DB_HOST="${{ secrets.GENERAL_DB_HOST }}" \
+            --from-literal=GENERAL_DB_PORT="5432" \
+            --from-literal=GENERAL_DB_USER="${{ secrets.GENERAL_DB_USER }}" \
+            --from-literal=GENERAL_DB_NAME="${{ secrets.GENERAL_DB_NAME }}" \
+            --from-literal=BLOGS_DB_HOST="${{ secrets.BLOGS_DB_HOST }}" \
+            --from-literal=BLOGS_DB_PORT="5432" \
+            --from-literal=BLOGS_DB_USER="${{ secrets.BLOGS_DB_USER }}" \
+            --from-literal=BLOGS_DB_NAME="${{ secrets.BLOGS_DB_NAME }}" \
+            --from-literal=SEMANTIC_SEARCH_URL="http://semantic-search-service:8000" \
+            --from-literal=APP_BASE_URL="${{ secrets.NEXTAUTH_URL }}" \
+            --namespace=${{ env.NAMESPACE }} \
+            --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create/Update Embedding Worker Secrets
+        run: |
+          kubectl create secret generic embedding-worker-secrets \
+            --from-literal=QDRANT_API_KEY='${{ secrets.QDRANT_API_KEY }}' \
+            --from-literal=REDIS_PASSWORD='${{ secrets.REDIS_PASSWORD }}' \
+            --from-literal=GENERAL_DB_PASSWORD='${{ secrets.GENERAL_DB_PASSWORD }}' \
+            --from-literal=BLOGS_DB_PASSWORD='${{ secrets.BLOGS_DB_PASSWORD }}' \
             --namespace=${{ env.NAMESPACE }} \
             --dry-run=client -o yaml | kubectl apply -f -
 
@@ -212,11 +271,13 @@ jobs:
           sed -i "s|image: .*sdg-nextjs.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-nextjs:${{ github.sha }}|g" deploy/kubernetes/06-nextjs.yaml
           sed -i "s|image: .*sdg-semantic-search.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-semantic-search:${{ github.sha }}|g" deploy/kubernetes/05-semantic-search.yaml
           sed -i "s|image: .*sdg-worker.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-worker:${{ github.sha }}|g" deploy/kubernetes/07-worker.yaml
+          sed -i "s|image: .*sdg-embedding-worker.*|image: ${{ env.ACR_LOGIN_SERVER }}/sdg-embedding-worker:${{ github.sha }}|g" deploy/kubernetes/12-embedding-worker.yaml
           
           # Deploy applications
           kubectl apply -f deploy/kubernetes/05-semantic-search.yaml --namespace=${{ env.NAMESPACE }}
           kubectl apply -f deploy/kubernetes/06-nextjs.yaml --namespace=${{ env.NAMESPACE }}
           kubectl apply -f deploy/kubernetes/07-worker.yaml --namespace=${{ env.NAMESPACE }}
+          kubectl apply -f deploy/kubernetes/12-embedding-worker.yaml --namespace=${{ env.NAMESPACE }}
           kubectl apply -f deploy/kubernetes/09-qdrant-backup-cronjob.yaml --namespace=${{ env.NAMESPACE }}
           
           # Configure domain if provided
@@ -246,6 +307,7 @@ jobs:
           kubectl rollout status deployment/nextjs --timeout=600s --namespace=${{ env.NAMESPACE }}
           kubectl rollout status deployment/semantic-search --timeout=600s --namespace=${{ env.NAMESPACE }}
           kubectl rollout status deployment/worker --timeout=600s --namespace=${{ env.NAMESPACE }}
+          kubectl rollout status deployment/embedding-worker --timeout=600s --namespace=${{ env.NAMESPACE }}
 
       - name: Report Access URLs
         run: |
