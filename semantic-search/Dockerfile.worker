@@ -32,7 +32,7 @@ EXPOSE 8000
 
 # Health check (checks Redis connectivity)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-  CMD python3 -c "import redis; import os; redis.Redis(host=os.getenv('REDIS_HOST', 'localhost'), port=int(os.getenv('REDIS_PORT', '6379'))).ping()" || exit 1
+    CMD python3 -c "import redis; import os; redis.Redis(host=os.getenv('REDIS_HOST', 'localhost'), port=int(os.getenv('REDIS_PORT', '6379'))).ping()" || exit 1
 
 # Default command runs the worker
 CMD ["python3", "-u", "worker.py"]
