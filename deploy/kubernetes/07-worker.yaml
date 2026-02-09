@@ -22,7 +22,7 @@ spec:
       containers:
       - name: worker
         image: sdg-worker:local
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         
         # Load ALL environment variables from ConfigMap and Secret
         envFrom:

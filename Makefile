@@ -375,24 +375,15 @@ k8s-local-deploy: ## Deploy to local Kubernetes
 	@echo "⏳ Waiting for infrastructure to be ready..."
 	@sleep 15
 	@echo ""
-	@echo "Step 5: Updating image references for local deployment..."
-	@sed -i.bak 's|image: YOUR_REGISTRY/sdg-nextjs:latest|image: $(K8S_NEXTJS_IMAGE)|g' deploy/kubernetes/06-nextjs.yaml
-	@sed -i.bak 's|imagePullPolicy: Always|imagePullPolicy: IfNotPresent|g' deploy/kubernetes/06-nextjs.yaml
-	@sed -i.bak 's|image: YOUR_REGISTRY/sdg-semantic-search:latest|image: $(K8S_SEMANTIC_IMAGE)|g' deploy/kubernetes/05-semantic-search.yaml
-	@sed -i.bak 's|imagePullPolicy: Always|imagePullPolicy: IfNotPresent|g' deploy/kubernetes/05-semantic-search.yaml
-	@sed -i.bak 's|image: YOUR_REGISTRY/sdg-worker:latest|image: $(K8S_WORKER_IMAGE)|g' deploy/kubernetes/07-worker.yaml
-	@sed -i.bak 's|imagePullPolicy: Always|imagePullPolicy: IfNotPresent|g' deploy/kubernetes/07-worker.yaml
-	@echo ""
-	@echo "Step 6: Deploying application services..."
+	@echo "Step 5: Deploying application services..."
+	@echo "   Using local images: $(K8S_NEXTJS_IMAGE), $(K8S_SEMANTIC_IMAGE), $(K8S_WORKER_IMAGE)"
 	@kubectl apply -f deploy/kubernetes/05-semantic-search.yaml
 	@kubectl apply -f deploy/kubernetes/06-nextjs.yaml
 	@kubectl apply -f deploy/kubernetes/07-worker.yaml
 	@kubectl apply -f deploy/kubernetes/12-embedding-worker.yaml
 	@echo ""
-	@echo "Step 7: Restoring original manifest files..."
-	@mv deploy/kubernetes/06-nextjs.yaml.bak deploy/kubernetes/06-nextjs.yaml 2>/dev/null || true
-	@mv deploy/kubernetes/05-semantic-search.yaml.bak deploy/kubernetes/05-semantic-search.yaml 2>/dev/null || true
-	@mv deploy/kubernetes/07-worker.yaml.bak deploy/kubernetes/07-worker.yaml 2>/dev/null || true
+	@echo "⏳ Waiting for application pods to start..."
+	@sleep 20
 	@echo ""
 	@echo "✅ Deployment complete!"
 	@echo ""
@@ -431,26 +422,36 @@ k8s-local-logs: ## View logs from local Kubernetes pods
 	@echo "💡 For live logs: kubectl logs -f -n $(LOCAL_NAMESPACE) -l app=nextjs"
 
 k8s-local-port-forward: ## Forward ports to access services on localhost
-	@echo "🔌 Port Forwarding Setup:"
+	@echo "🔌 Starting port forwarding (background processes)..."
 	@echo ""
-	@echo "Run these in separate terminals:"
+	@# Kill any existing port-forward processes
+	@-pkill -f "kubectl port-forward.*$(LOCAL_NAMESPACE)" 2>/dev/null || true
+	@sleep 2
+	@# Start port forwarding in background
+	@echo "Starting Next.js on localhost:3000..."
+	@kubectl port-forward -n $(LOCAL_NAMESPACE) svc/nextjs-service 3000:3000 > /dev/null 2>&1 &
+	@sleep 1
+	@echo "Starting Semantic Search on localhost:8000..."
+	@kubectl port-forward -n $(LOCAL_NAMESPACE) svc/semantic-search-service 8000:8000 > /dev/null 2>&1 &
+	@sleep 1
+	@echo "Starting Qdrant Dashboard on localhost:6333..."
+	@kubectl port-forward -n $(LOCAL_NAMESPACE) svc/qdrant-service 6333:6333 > /dev/null 2>&1 &
+	@sleep 1
+	@echo "Starting Redis on localhost:6379..."
+	@kubectl port-forward -n $(LOCAL_NAMESPACE) svc/redis-service 6379:6379 > /dev/null 2>&1 &
+	@sleep 2
 	@echo ""
-	@echo "# Next.js (http://localhost:3000)"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/nextjs-service 3000:3000"
+	@echo "✅ Port forwarding active:"
+	@echo "   🌐 Next.js:        http://localhost:3000"
+	@echo "   🔍 Semantic Search: http://localhost:8000"
+	@echo "   💾 Qdrant:         http://localhost:6333/dashboard"
+	@echo "   🔴 Redis:          localhost:6379"
 	@echo ""
-	@echo "# Semantic Search (http://localhost:8000)"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/semantic-search-service 8000:8000"
+	@echo "💡 To stop port forwarding:"
+	@echo "   pkill -f 'kubectl port-forward.*$(LOCAL_NAMESPACE)'"
 	@echo ""
-	@echo "# Qdrant Dashboard (http://localhost:6333)"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/qdrant-service 6333:6333"
-	@echo ""
-	@echo "# Redis (localhost:6379)"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/redis-service 6379:6379"
-	@echo ""
-	@echo "💡 Or run all at once (in background):"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/nextjs-service 3000:3000 &"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/semantic-search-service 8000:8000 &"
-	@echo "kubectl port-forward -n $(LOCAL_NAMESPACE) svc/qdrant-service 6333:6333 &"
+	@echo "💡 To view port-forward logs, check processes:"
+	@echo "   ps aux | grep 'kubectl port-forward'"
 
 k8s-local-restart: ## Restart local Kubernetes deployments
 	@echo "🔄 Restarting deployments..."

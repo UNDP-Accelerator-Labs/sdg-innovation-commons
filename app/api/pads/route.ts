@@ -329,6 +329,7 @@ interface PadsRequestParams {
   regions?: string | string[];
   teams?: string | string[];
   pads?: string | string[];
+  id_dbpads?: string | string[];
   templates?: string | string[];
   platforms?: string | string[];
   pinboard?: string | string[];

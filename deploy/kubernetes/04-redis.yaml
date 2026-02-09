@@ -40,7 +40,7 @@ spec:
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: sdg-app-secrets
+              name: semantic-search-secrets
               key: REDIS_PASSWORD
         volumeMounts:
         - name: data
