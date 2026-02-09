@@ -17,6 +17,7 @@ export interface SessionInfo {
   collaborators?: string[];
   pinboards?: number[];
   is_trusted?: boolean;
+  trusted_domain?: string;
   loginTime: string;
 }
 

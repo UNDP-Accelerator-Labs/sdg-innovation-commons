@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import jwt from "jsonwebtoken";
 
-const { APP_SECRET } = process.env;
+const { APP_SECRET, TRUSTED_DOMAINS } = process.env;
 
 const cspLinks = [
   "'self'",
@@ -45,8 +45,64 @@ export async function proxy(request: NextRequest) {
     ];
     const isPublicApiRoute = publicApiRoutes.some(route => currentPath.startsWith(route));
 
-    // If it's an API route (not public), check for Bearer token if provided
+    // If it's an API route (not public), check for trusted domains first, then Bearer token
     if (isApiRoute && !isPublicApiRoute) {
+      // Check if request is from a trusted domain
+      const origin = request.headers.get('origin');
+      const referer = request.headers.get('referer');
+      
+      if (TRUSTED_DOMAINS) {
+        const trustedDomains = TRUSTED_DOMAINS.split(',').map(d => d.trim());
+        const requestDomain = origin || (referer ? new URL(referer).origin : null);
+        
+        if (requestDomain && trustedDomains.includes(requestDomain)) {
+          
+          // Generate automatic API token for trusted domain with rights level 3
+          try {
+            const trustedToken = jwt.sign(
+              {
+                type: 'api_access',
+                uuid: 'trusted-domain-user',
+                email: 'trusted@domain.auto',
+                rights: 3,
+                name: 'Trusted Domain User',
+                trusted_domain: requestDomain,
+                iat: Math.floor(Date.now() / 1000),
+              },
+              APP_SECRET || 'fallback-secret-key',
+              {
+                expiresIn: '1h', // Short-lived token for security
+                audience: 'sdg-innovation-commons',
+                issuer: 'sdg-innovation-commons',
+              }
+            );
+            
+            // Add trusted user info to headers for API routes to use
+            const requestHeaders = new Headers(request.headers);
+            requestHeaders.set('x-api-user-uuid', 'trusted-domain-user');
+            requestHeaders.set('x-api-user-email', 'trusted@domain.auto');
+            requestHeaders.set('x-api-user-rights', '3');
+            requestHeaders.set('x-api-user-name', 'Trusted Domain User');
+            requestHeaders.set('x-api-authenticated', 'true');
+            requestHeaders.set('x-api-trusted-domain', requestDomain);
+            requestHeaders.set('x-api-auto-generated', 'true');
+            
+            console.log(`✅ Auto-generated token for trusted domain: ${requestDomain} with rights level 3`);
+            
+            const response = NextResponse.next({
+              request: {
+                headers: requestHeaders,
+              },
+            });
+            
+            return response;
+          } catch (error) {
+            console.error('Error generating trusted domain token:', error);
+            // Continue to regular token validation if auto-generation fails
+          }
+        }
+      }
+      
       const authHeader = request.headers.get('authorization');
       
       // Check for token in multiple places: header, query params, or body
