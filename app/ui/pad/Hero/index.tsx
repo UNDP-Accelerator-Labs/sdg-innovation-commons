@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import { Button } from '@/app/ui/components/Button';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { engage } from '@/app/ui/components/Card/utils';
-import platformApi, { engageApi } from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
+import { engageApi } from '@/app/lib/data/platform';
 import Link from '@/app/ui/components/Link';
 
 interface Props {
@@ -182,8 +183,8 @@ export default function Hero({
 
 						{/* Engagement */}
 						{!isLogedIn ? null : (
-							<div className="mb-[10px] flex flex-row items-center px-5 text-sm">
-								<div className="flex flex-row items-center">
+							<div className="mb-[10px] flex flex-row items-center px-5 text-sm gap-8">
+								<div className="flex flex-row items-center ">
 									<button
 										onClick={() =>
 											handleEngage(isLiked ? 'delete' : 'insert', 'like')
@@ -248,7 +249,7 @@ export default function Hero({
 									</p>
 								</div>
 
-								<div className="flex cursor-pointer items-end justify-items-end px-5">
+								{/* <div className="flex cursor-pointer items-end justify-items-end px-5">
 									<a
 										href={hrefs}
 										target="_blank"
@@ -279,7 +280,7 @@ export default function Hero({
 											</defs>
 										</svg>
 									</a>
-								</div>
+								</div> */}
 
 								<Button
 									className={clsx(

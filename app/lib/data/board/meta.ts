@@ -1,4 +1,4 @@
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 import metaData from '@/app/lib/data/meta-data';
 import woldMap from '@/app/lib/data/world-map';
 

@@ -30,7 +30,9 @@ export default async function Section({ id, platform }: Props) {
     "pads"
   );
 
-  const [datum] = data;
+  // Handle new {count, data} structure or legacy array
+  const padsArray = (data as any)?.data || data || [];
+  const [datum] = padsArray;
   let {
     base,
     title,

@@ -1,8 +1,8 @@
-import platformApi from '@/app/lib/data/platform-api';
-import { page_limit } from '@/app/lib/utils';
+import { fetchPinboards } from '@/app/lib/data/platform';
+import { page_limit } from '@/app/lib/helpers/utils';
 
 interface Props {
-	boards: number[];
+	boards?: number[] | number | null | undefined;
 	searchParams: any;
 }
 
@@ -10,10 +10,19 @@ export default async function Data({
 	boards,
 	searchParams,
 }: Props) {
-	let result = await platformApi(
+	// If no boards are specified, return empty data instead of fetching all pinboards
+	if (!boards || 
+	    (Array.isArray(boards) && boards.length === 0) ||
+	    (typeof boards === 'number' && boards <= 0)) {
+		return {
+			data: [],
+			pages: 0
+		};
+	}
+
+	let result = await fetchPinboards(
 	    { ...searchParams, ...{ limit: page_limit, pinboard: boards } },
-	    'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
-	    'pinboards'
+	    'experiment' // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
 	);
 	let data: any[] = [];
 	let count: number = 1;

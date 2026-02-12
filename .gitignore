@@ -46,3 +46,5 @@ dep.*
 notes/
 
 Ahoy/
+
+build-output.*

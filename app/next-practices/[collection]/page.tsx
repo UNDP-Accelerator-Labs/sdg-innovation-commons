@@ -1,5 +1,5 @@
 import Collection from '@/app/ui/collection';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
 import collectionData from '@/app/lib/data/collection';
 import getSession from "@/app/lib/session";
@@ -51,10 +51,17 @@ export async function generateMetadata(
     title: data?.title,
     description: data?.description,
     openGraph: {
+      title: data?.title || 'SDG Commons - Next Practices',
+      description: data?.description || '',
+      url: `/next-practices/${id}`,
+      siteName: 'SDG Commons',
+      type: 'article',
       images,
     },
     twitter: {
       card: 'summary_large_image',
+      title: data?.title || 'SDG Commons - Next Practices',
+      description: data?.description || '',
       images: images[0] ? [images[0]] : [fallbackOg],
     },
     metadataBase,
@@ -73,10 +80,11 @@ export default async function Page({
   searchParams,
 }: incomingRequestParams) {
   let { collection } = await params;
+  const collectionId = Array.isArray(collection) ? collection[0] : collection;
 
   const session = await getSession();
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 
-  return <Collection id={collection} searchParams={sParams} session={session} />;
+  return <Collection id={collectionId} searchParams={sParams} session={session} />;
 }

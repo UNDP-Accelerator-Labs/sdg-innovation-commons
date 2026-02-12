@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import Card from '@/app/ui/components/Card/featured-card';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import { Pagination } from '@/app/ui/components/Pagination';
-import platformApi from '@/app/lib/data/platform-api';
-import { page_limit, commonsPlatform } from '@/app/lib/utils';
+import platformApi from '@/app/lib/data/platform';
+import { page_limit, commonsPlatform } from '@/app/lib/helpers/utils';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/app/ui/components/Button';
@@ -59,21 +59,39 @@ export default function Section({ searchParams }: Props) {
 
   async function fetchData(): Promise<void> {
     setLoading(true);
-    const { data, count } = await platformApi(
+    const response = await platformApi(
       { ...searchParams, ...{ limit: page_limit, space: _space, databases } },
       'experiment', // IN THIS CASE, PLATFORM IS IRRELEVANT, SINCE IT IS PULLING FROM THE GENERAL DB
       'pinboards'
     );
-    const pages = Math.ceil(count / page_limit);
+    
+    // Check for error responses
+    if (response && typeof response === 'object' && 'message' in response && !('data' in response)) {
+      console.error('API Error:', response.message);
+      setHits([]);
+      setPages(0);
+    } else {
+      const { data, count } = response;
+      const pages = Math.ceil((count || 0) / page_limit);
 
-    setHits(data);
-    setPages(pages);
+      setHits(Array.isArray(data) ? data : []);
+      setPages(pages);
+    }
+    
     setLoading(false);
   }
 
+  // Sync internal space state with URL params
+  useEffect(() => {
+    if (space !== _space) {
+      setSpace(space || 'published');
+    }
+  }, [space]);
+
+  // Fetch data when any relevant parameter changes
   useEffect(() => {
     fetchData();
-  }, [_space]);
+  }, [_space, page, search]);
 
   // Track searches when URL parameters change (for direct URL access)
   useEffect(() => {

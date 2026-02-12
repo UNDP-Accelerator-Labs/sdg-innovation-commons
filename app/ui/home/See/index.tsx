@@ -5,7 +5,7 @@ import { Button } from '@/app/ui/components/Button';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 
 export interface Props {
     boards: any[];
@@ -20,7 +20,9 @@ export default function Section({ boards, isLogedIn}: Props) {
     useEffect(() => {
         async function fetchData() {
             setLoading(true);
-            const data = await platformApi({ limit: 3, page: 1, orderby: 'random' }, 'solution', 'pads');
+            const response = await platformApi({ limit: 3, page: 1, orderby: 'random' }, 'solution', 'pads');
+            // Handle new {count, data} structure or legacy array
+            const data = (response as any)?.data || response || [];
             setHits(data);
             setLoading(false); 
         }

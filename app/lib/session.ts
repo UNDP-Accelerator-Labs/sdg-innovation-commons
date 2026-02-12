@@ -1,56 +1,43 @@
-'use server';
-import get from '@/app/lib/data/get';
-import { commonsPlatform, baseHost, LOCAL_BASE_URL } from '@/app/lib/utils';
-import jwt from 'jsonwebtoken';
-import {cache} from 'react';
+/**
+ * Legacy session module - DEPRECATED
+ * @deprecated Use '@/app/lib/services/auth' instead
+ * 
+ * This file is maintained for backward compatibility.
+ * All new code should import from the services folder.
+ * 
+ * Migration:
+ * - import { getSession } from '@/app/lib/session' 
+ *   => import { getSession } from '@/app/lib/services/auth'
+ */
 
-const  getSession = cache(async () => { 
-  try {
-    const base_url = commonsPlatform.find((p) => p.key === 'login')?.url;
-    if (!base_url) {
-      console.error('Base URL not found.');
-      return null;
-    }
+export { 
+  getSession, 
+  generateSessionToken as session_token,
+} from './services/auth';
 
-    const data = await get({
-      url: `${base_url}/apis/fetch/session`,
-      method: 'GET',
-    });
-
-
-    if (data?.status !== 200) {
-      return null;
-    }
-
-    const { session } = data;
-    return session;
-  } catch (error) {
-    console.error('Error in getSession:', error);
-    return null;
-  }
-})
-
-
-export const session_token = async () => {
-  const { uuid, rights, username } = (await getSession()) || {};
-  if (!uuid) return null;
-  const token = await jwt.sign(
-    { uuid, rights, username },
-    process.env.APP_SECRET as string,
-    {
-      audience: 'user:known',
-      issuer: baseHost?.slice(1),
-    }
-  );
-  return token;
-};
-
+/**
+ * Check if user is logged in
+ */
 export const is_user_logged_in = async () => {
-  const name = await getSession();
-  if (name && typeof name === 'object' && 'username' in name) {
-    return !!name.username;
-  }
-  return false;
+  const { getSession } = await import('./services/auth');
+  const session = await getSession();
+  return !!session?.name;
 };
 
-export default getSession;
+// Stub functions for legacy compatibility - these are no longer used with NextAuth
+export const deleteSession = async (sessionId: string): Promise<boolean> => {
+  console.warn('deleteSession called but NextAuth handles session cleanup automatically');
+  return true;
+};
+
+export const clearSessionCookies = async (): Promise<void> => {
+  console.warn('clearSessionCookies called but NextAuth handles cookies automatically');
+};
+
+export const deleteUserSessions = async (uuid: string): Promise<boolean> => {
+  console.warn('deleteUserSessions called but NextAuth manages sessions automatically');
+  return true;
+};
+
+// Re-export getSession as default for legacy compatibility
+export { getSession as default } from './services/auth';

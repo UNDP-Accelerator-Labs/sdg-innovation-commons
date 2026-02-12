@@ -1,5 +1,5 @@
-import platformApi from '@/app/lib/data/platform-api';
-import { commonsPlatform } from '@/app/lib/utils';
+import platformApi from '@/app/lib/data/platform';
+import { commonsPlatform } from '@/app/lib/helpers/utils';
 
 interface Props {
     platform: string;
@@ -28,12 +28,14 @@ export default async function Data({
 	            const platformPads: any[] = pads.filter((c: any) => c.platform === d.platform).map((c: any) => c.pad_id);
 	            
 	            if (platformPads.length) {
-		            const data: any[] = await platformApi(
-		                { include_locations: true, pads: platformPads },
-		                platform, 
-		                'pads'
-		            );
-					return data || [];
+	            const response: any = await platformApi(
+	                { include_locations: true, pads: platformPads },
+	                platform, 
+	                'pads'
+	            );
+	            // Handle new {count, data} structure or legacy array
+	            const data: any[] = (response as any)?.data || response || [];
+				return data;
 				} else return [];
 	        } else return [];
 	    })

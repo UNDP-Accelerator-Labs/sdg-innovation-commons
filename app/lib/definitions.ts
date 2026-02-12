@@ -1,23 +1,13 @@
-// This file contains type definitions for your data.
-// It describes the shape of the data, and what data type each property should accept.
-export interface ConnectionConfig {
-  database: string;
-  port?: number;
-  host?: string;
-  user?: string;
-  password?: string;
-  ssl?: boolean;
-}
+/**
+ * Legacy definitions module - DEPRECATED
+ * @deprecated Use '@/app/lib/types' instead
+ * 
+ * This file is maintained for backward compatibility.
+ * All new code should import from the types folder.
+ * 
+ * Migration:
+ * - import { ConnectionConfig } from '@/app/lib/definitions' 
+ *   => import type { ConnectionConfig } from '@/app/lib/types'
+ */
 
-
-export interface PostProps {
-  doc_id: number;
-  url: string;
-  title: string;
-  meta?: {
-    iso3: string[];
-  };
-  updated?: string;
-  snippets?: string;
-  base?: string;
-}
+export * from './types/common';

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Modal from '@/app/ui/components/Modal';
 import { Button } from '@/app/ui/components/Button';
-import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
@@ -35,27 +34,25 @@ export default function Approve({ isOpen, onClose, id, user, title }: Props) {
     setErrorMessage('');
 
     try {
-      const response = await platformApi(
-        { output: 'decide' },
-        'experiment',
-        'pinboard',
-        false,
-        'POST',
-        {
+      const response = await fetch('/api/pinboards/collaboration-decision', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           pinboard_id: id,
-          output: 'decide',
           requestor_email: user,
           decision: approval,
-        }
-      );
+        }),
+      });
 
-      if (response?.success) {
+      const data = await response.json();
+
+      if (data?.success) {
         setSuccessMessage(
-          response?.message || 'Request submitted to contributors.'
+          data?.message || 'Request submitted to contributors.'
         );
       } else {
         setErrorMessage(
-          response?.message ||
+          data?.message ||
             'An error occurred while submiting request to the board.'
         );
       }

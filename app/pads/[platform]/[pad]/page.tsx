@@ -1,7 +1,7 @@
 import Pad from '@/app/ui/pad';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
-import platformApi from '@/app/lib/data/platform-api';
+import platformApi from '@/app/lib/data/platform';
 
 type Props = {
   params: Promise<{ platform: string; pad: string | number }>;
@@ -27,7 +27,10 @@ export async function generateMetadata(
     decodeURI(platform),
     'pads'
   );
-  const [datum] = data;
+  
+  // Handle new {count, data} structure or legacy array
+  const padsArray = (data as any)?.data || data || [];
+  const [datum] = padsArray;
   let { title, vignette, snippet } = datum || {};
 
   const metadataBase = new URL('https://sdg-innovation-commons.org');
@@ -66,10 +69,17 @@ export async function generateMetadata(
     title: title || 'SDG Commons',
     description: snippet || '',
     openGraph: {
+      title: title || 'SDG Commons',
+      description: snippet || '',
+      url: `/pads/${platform}/${id}`,
+      siteName: 'SDG Commons',
+      type: 'article',
       images,
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons',
+      description: snippet || '',
       images: images[0] ? [images[0]] : [fallbackOg],
     },
     metadataBase,
@@ -88,7 +98,7 @@ export default async function Page({
   searchParams,
 }: incomingRequestParams) {
   let { platform, pad } = await params;
-  platform = decodeURI(platform);
+  platform = decodeURI(Array.isArray(platform) ? platform[0] : platform);
 
   return <Pad platform={platform} id={+pad} />;
 }

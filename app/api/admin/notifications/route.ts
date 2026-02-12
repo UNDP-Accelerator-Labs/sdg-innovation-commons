@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import getSession from '@/app/lib/session';
-import { createNotification, listNotifications, getNotification, patchNotification, getContributorInfo } from '@/app/lib/data/platform-api';
+import { createNotification, listNotifications, getNotification, patchNotification } from '@/app/lib/data/notifications';
+import { getContributorInfo } from '@/app/lib/data/contributors';
 import { unauthorized } from 'next/navigation';
 import { NextResponse } from 'next/server';
 

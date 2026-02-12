@@ -7,7 +7,7 @@ export async function GET(req: Request) {
     const session = await getSession()
     if (!session) return NextResponse.json([], { status: 200 })
 
-    const creator = session.username || session.uuid || null
+    const creator = session.name || session.uuid || null
     // admins (rights >= 4) should see all draft collections for review
     if ((session?.rights ?? 0) >= 4) {
       const res = await query('general', `

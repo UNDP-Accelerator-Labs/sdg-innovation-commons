@@ -1,8 +1,8 @@
 // import main from './main';
 import meta from './meta';
 import cards from './cards';
-import { collection as tempData } from './tempData';
 import { query } from '@/app/lib/db';
+import getSession from '@/app/lib/session';
 
 // Helper: run a promise with a short timeout to avoid long blocking DB waits
 async function withTimeout<T>(p: Promise<T>, ms: number = 2000): Promise<T | null> {
@@ -39,6 +39,10 @@ export default async function Data({
     id,
     searchParams,
 }: Props) {
+    // Get session for access control
+    const session = await getSession();
+    const loggedInUuid = session?.uuid;
+    
     // ATTEMPT TO LOAD FROM DB FIRST (slug === id)
     let collectionData: any = {};
     try {
@@ -49,6 +53,34 @@ export default async function Data({
             console.warn(`Collection DB query timed out or failed for slug=${slug}, falling back to tempData`);
         } else if (res?.rows?.length) {
             const row = res.rows[0];
+            
+            // Access control for draft collections
+            const highlights = row.highlights || {};
+            const status = highlights.status || 'draft';
+            const creatorUuid = highlights.creator_uuid;
+            
+            // If collection is not published, only creator and admins can view it
+            if (status !== 'published' && !highlights.published) {
+                const isCreator = loggedInUuid && creatorUuid && loggedInUuid === creatorUuid;
+                const isAdmin = session && (session.rights ?? 0) >= 4;
+                
+                if (!isCreator && !isAdmin) {
+                    // Return a special flag to indicate unauthorized access
+                    return {
+                        unauthorized: true,
+                        title: '',
+                        description: '',
+                        data: [],
+                        pages: 0,
+                        tags: [],
+                        sdgs: [],
+                        locations: [],
+                        highlights: {},
+                        externalResources: [],
+                    };
+                }
+            }
+            
             collectionData = {
                 id: row.slug,
                 title: row.title,
@@ -58,18 +90,41 @@ export default async function Data({
                 sections: row.sections,
                 highlights: row.highlights,
                 boards: row.boards,
+                externalResources: row.external_resources || [],
             };
         }
     } catch (e) {
-        // Log unexpected DB errors but continue to fallback to temp data
+        // Log unexpected DB errors
         const emsg = (e as any)?.message ? (e as any).message : String(e);
-        console.warn('Collection DB load error, falling back to tempData', emsg);
+        console.error('Collection DB load error', emsg);
+        // Return empty data structure if DB fails
+        return {
+            title: '',
+            description: '',
+            data: [],
+            pages: 0,
+            tags: [],
+            sdgs: [],
+            locations: [],
+            highlights: {},
+            externalResources: [],
+        };
     }
 
-    // FALLBACK TO TEMP DATA FILES (existing behaviour)
+    // If no collection found in DB, return empty data
     if (!collectionData || Object.keys(collectionData).length === 0) {
-        console.log(`Falling back to tempData for collection id=${id}`);
-        collectionData = tempData.find((d: any) => d.id === id) || {};
+        console.warn(`Collection not found for slug=${id}`);
+        return {
+            title: '',
+            description: '',
+            data: [],
+            pages: 0,
+            tags: [],
+            sdgs: [],
+            locations: [],
+            highlights: {},
+            externalResources: [],
+        };
     }
 
     const { boards } = collectionData;

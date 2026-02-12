@@ -6,6 +6,7 @@ import CollectionReview from "@/app/next-practices/[collection]/CollectionReview
 
 import Hero from "../Hero";
 import Infobar from "../Infobar";
+import NotPublished from "../NotPublished";
 import { Button } from "@/app/ui/components/Button";
 import Link from "next/link";
 
@@ -28,6 +29,7 @@ export default async function Section({
   const { page, search } = searchParams;
 
   const {
+    unauthorized,
     title,
     description,
     creatorName,
@@ -39,7 +41,13 @@ export default async function Section({
     sdgs,
     locations,
     highlights,
+    externalResources = [],
   } = await collectionData({ id, searchParams });
+
+  // If user is not authorized to view this draft collection, show NotPublished component
+  if (unauthorized) {
+    return <NotPublished />;
+  }
 
   return (
     <>
@@ -60,19 +68,6 @@ export default async function Section({
         // vignette={vignette}
       />
 
-      {/* Review panel: client component handles visibility and admin actions */}
-      {highlights?.length <= 0 || highlights?.published === true ? (
-        <></>
-      ) : (
-        <div className="home-section py-[40px] px-[40px] lg:py-[80px]">
-          <CollectionReview
-            slug={id}
-            highlights={highlights}
-            creatorName={creatorName}
-          />
-        </div>
-      )}
-
       <section className="home-section grid-bg py-[40px] lg:py-[80px]">
         <div className="inner xxl:px-[80px] xxl:w-[1440px] mx-auto w-[375px] px-[20px] md:w-[744px] lg:w-[992px] lg:px-[80px] xl:w-[1200px] xl:px-[40px]">
           {/* SEARCH */}
@@ -81,18 +76,21 @@ export default async function Section({
             method="GET"
             className="section-header relative"
           ></form>
-          {/* Display the section title and description */}
-          <div className="section-header mb-[20px] lg:mb-[100px]">
-            <div className="c-left col-span-9 lg:col-span-5">
-              <h2 className="mb-[20px]">
-                <span className="slanted-bg yellow">
-                  <span>Full List of Boards in this Collection</span>
-                </span>
-              </h2>
+        {/* Only show boards and resources section if there's content to display */}
+        {(data && data.length > 0) || (externalResources && externalResources.length > 0) ? (
+          <div className="section-wrapper">
+            {/* Display the section title and description */}
+            <div className="section-header mb-[20px] lg:mb-[100px]">
+              <div className="c-left col-span-9 lg:col-span-5">
+                <h2 className="mb-[20px]">
+                  <span className="slanted-bg yellow">
+                    <span>Boards and Resources in this Collection</span>
+                  </span>
+                </h2>
+              </div>
             </div>
-          </div>
-          {/* Display the content */}
-          <div className="section-content">
+            {/* Display the content */}
+            <div className="section-content">
             {/* Display Cards */}
             <div className="mb-[40px] grid gap-[20px] md:grid-cols-2 lg:mb-[80px] lg:grid-cols-3">
               {data?.map((post: any) => (
@@ -119,6 +117,24 @@ export default async function Section({
                   viewCount={post?.total}
                 />
               ))}
+              {/* Display External Resources as Cards */}
+              {externalResources?.map((resource: any, index: number) => (
+                <Card
+                  key={`external-${index}`}
+                  id={`external-${index}`}
+                  country="External"
+                  title={resource?.title || ""}
+                  description={resource?.description || ""}
+                  source="external"
+                  tagStyle="bg-undp-blue"
+                  tagStyleShade="bg-undp-blue-shade"
+                  href={resource?.url}
+                  isExternal={true}
+                  backgroundImage=""
+                  date=""
+                  viewCount={0}
+                />
+              ))}
             </div>
           </div>
           {pages > 1 && (
@@ -128,6 +144,8 @@ export default async function Section({
               </div>
             </div>
           )}
+          </div>
+        ) : null}
 
           {/* Edit Collection page if you are creator or admin and collection is not rejected */}
           {((highlights && highlights?.creator_uuid === session?.uuid) ||
@@ -147,6 +165,19 @@ export default async function Section({
           )}
         </div>
       </section>
+
+      {/* Review panel: client component handles visibility and admin actions */}
+      {highlights?.length <= 0 || highlights?.published === true ? (
+        <></>
+      ) : (
+        <div className="home-section py-[40px] px-[40px] lg:py-[80px]">
+          <CollectionReview
+            slug={id}
+            highlights={highlights}
+            creatorName={creatorName}
+          />
+        </div>
+      )}
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import { addComment, deleteComment } from '@/app/lib/data/platform-api';
+import { addComment, deleteComment } from '@/app/lib/data/platform';
 import clsx from 'clsx';
 import { Button } from '@/app/ui/components/Button';
 import { useState } from 'react';
@@ -29,12 +29,16 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
   const [showAll, setShowAll] = useState(false);
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
   const [showAllReplies, setShowAllReplies] = useState<{ [key: number]: boolean }>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { sharedState } = useSharedState();
   const { isLogedIn, session } = sharedState || {};
   const { rights, uuid } = session || {};
 
   const handleCommentSubmit = async (newComment: string, parentId: number | null = null) => {
+    if (isSubmitting) return; // Prevent duplicate submissions
+    
     try {
+      setIsSubmitting(true);
       await addComment(platform, newComment, padId, parentId ?? undefined);
       if (parentId === null) {
         (document.getElementById('newComment') as HTMLInputElement).value = ''; // Clear input field
@@ -42,10 +46,11 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
         (document.getElementById(`replyComment-${parentId}`) as HTMLInputElement).value = ''; // Clear reply field
         setReplyingTo(null); // Close reply field
       }
-      router.push(`#comments`);
       router.refresh();
     } catch (error) {
       console.error('Failed to submit comment:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -123,6 +128,7 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
                   '!h-[40px] grow-0 border-l-0 !text-[14px]',
                   '!px-[20px]'
                 )}
+                disabled={isSubmitting}
                 onClick={() => {
                   const replyComment = (document.getElementById(`replyComment-${comment.message_id}`) as HTMLInputElement).value;
                   if (replyComment.trim()) {
@@ -130,7 +136,7 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
                   }
                 }}
               >
-                Submit
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </Button>
             </div>
           )}
@@ -176,6 +182,7 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
                 '!h-[60px] grow-0 border-l-0 !text-[14px]',
                 '!px-[20px]'
               )}
+              disabled={isSubmitting}
               onClick={() => {
                 const newComment = (document.getElementById('newComment') as HTMLInputElement).value;
                 if (newComment.trim()) {
@@ -183,7 +190,7 @@ export default function CommentSection({ platform, padId, comments }: CommentSec
                 }
               }}
             >
-              Submit
+              {isSubmitting ? 'Submitting...' : 'Submit'}
             </Button>
           </div>
         ) : (

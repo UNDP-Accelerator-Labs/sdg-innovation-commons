@@ -3,7 +3,7 @@ import Hero from './Hero';
 import Content from './Content';
 import Footer from '@/app/ui/components/Footer';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 
 const { PROD_ENV } = process.env;
 
@@ -40,10 +40,17 @@ export async function generateMetadata(
     description: subtitle,
     metadataBase,
     openGraph: {
+      title: title || 'SDG Commons - What We See',
+      description: subtitle,
+      url: '/see',
+      siteName: 'SDG Commons',
+      type: 'website',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons - What We See',
+      description: subtitle,
       images: [ogImageUrl],
     },
   };

@@ -6,7 +6,7 @@ import Card from '@/app/ui/components/Card/without-img';
 import { NoImgCardSkeleton } from '@/app/ui/components/Card/skeleton';
 import Link from 'next/link';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { formatDate, defaultSearch } from '@/app/lib/utils';
+import { formatDate, defaultSearch } from '@/app/lib/helpers/utils';
 import { PostProps } from '@/app/lib/definitions';
 import { Props } from '../See'
 

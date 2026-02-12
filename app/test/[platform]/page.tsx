@@ -3,7 +3,7 @@ import Hero from './Hero';
 import Content from './Content';
 import Footer from '@/app/ui/components/Footer';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 
 const { PROD_ENV } = process.env;
 
@@ -44,10 +44,17 @@ export async function generateMetadata(
     description,
     metadataBase,
     openGraph: {
+      title: title || 'SDG Commons - What We Test',
+      description: description,
+      url: `/test/${platform || ''}`,
+      siteName: 'SDG Commons',
+      type: 'website',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons - What We Test',
+      description: description,
       images: [ogImageUrl],
     },
   };
@@ -59,7 +66,7 @@ export async function generateMetadata(
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {
   let { platform } = await params;
-  platform = decodeURI(platform);
+  platform = decodeURI(Array.isArray(platform) ? platform[0] : platform);
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 

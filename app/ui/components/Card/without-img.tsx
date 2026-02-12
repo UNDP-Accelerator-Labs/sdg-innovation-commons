@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import Link from '@/app/ui/components/Link';
-import { pin } from '@/app/lib/data/platform-api';
 import { Button } from '@/app/ui/components/Button';
 import { handleBoard, removeFromBoardApi } from './utils';
 import { BoardInfo } from './with-img';
@@ -11,7 +10,7 @@ import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import { CardOptions } from './commons';
 
 export interface CardProps {
-  id: number;
+  id: number | string;
   country?: string | string[];
   title: string;
   description: string;
@@ -26,6 +25,7 @@ export interface CardProps {
   source?: string;
   date?: string;
   openInNewTab?: boolean;
+  isExternal?: boolean;
   tagStyleShade?: string;
   boardInfo?: BoardInfo;
   isLogedIn?: boolean;
@@ -74,9 +74,8 @@ export default function Card({
         removeFromBoardApi(
           action,
           boardId as number,
-          id,
+          Number(id),
           source as string,
-          pin,
           showNotification,
           () => redirectUser(pathname)
         )

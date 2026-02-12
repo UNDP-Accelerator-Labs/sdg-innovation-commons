@@ -6,7 +6,6 @@ import {
   useEffect,
   ReactNode,
 } from 'react';
-import getSession from '@/app/lib/session';
 import AddToBoard from '@/app/ui/board/Add';
 import Notification from '@/app/ui/components/Notification';
 
@@ -36,14 +35,15 @@ export function SharedStateProvider({ children, session }: { children: ReactNode
   };
 
   useEffect(() => {
+      // With NextAuth, session is the user object directly
       let isValidUser = false;
-      if (session && typeof session === 'object' && 'username' in session) {
+      if (session && typeof session === 'object' && 'name' in session) {
         isValidUser = true
       }
       setSharedState((prevState: any) => ({
         ...prevState,
         isLogedIn: isValidUser,
-        session: session,
+        session: session, // NextAuth passes user object directly
       }));
 
   }, [session]);

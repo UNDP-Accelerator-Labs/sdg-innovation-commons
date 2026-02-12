@@ -3,7 +3,7 @@ import Hero from './Hero';
 import Content from './Content';
 import Footer from '@/app/ui/components/Footer';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 
 const { PROD_ENV } = process.env;
 
@@ -13,7 +13,7 @@ export async function generateMetadata(
   parent: ResolvingMetadata
 ): Promise<Metadata> {
   const { slug } = await params;
-  const decoded = decodeURI(slug);
+  const decoded = decodeURI(Array.isArray(slug) ? slug[0] : slug);
   const title = `SDG Commons - ${decoded}`;
   const description =
     "Explore our curated collection of blogs and publications that foster collaboration, innovation, and continuous learning within the Accelerator Lab networks.";
@@ -31,10 +31,17 @@ export async function generateMetadata(
     description,
     metadataBase,
     openGraph: {
+      title: title || 'SDG Commons - Learn',
+      description: description,
+      url: `/learn/${decoded}`,
+      siteName: 'SDG Commons',
+      type: 'website',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons - Learn',
+      description: description,
       images: [ogImageUrl],
     },
   };
@@ -46,7 +53,8 @@ export async function generateMetadata(
 
 export default async function Page({ params, searchParams }: incomingRequestParams) {
   let { slug } = await params;
-  slug = decodeURI(slug);
+  slug = decodeURI(Array.isArray(slug) ? slug[0] : slug);
+  console.log('Learn Page slug:', slug);
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';
 

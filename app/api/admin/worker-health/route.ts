@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import getSession from '@/app/lib/session';
 import jwt from 'jsonwebtoken';
-import { baseHost } from '@/app/lib/utils';
+import { baseHost } from '@/app/lib/helpers/utils';
 import db from '@/app/lib/db';
 
 export async function GET(req: Request) {
@@ -30,7 +30,7 @@ export async function GET(req: Request) {
     // 2) Fallback: cookie/session
     if (!authorized) {
       const session = await getSession();
-      if (session && session.username && session.rights >= 4) authorized = true;
+      if (session && session.name && session.rights >= 4) authorized = true;
     }
 
     if (!authorized) {

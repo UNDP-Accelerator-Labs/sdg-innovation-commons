@@ -1,5 +1,5 @@
 import Board from '@/app/ui/board';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 import type { Metadata, ResolvingMetadata } from 'next';
 import boardData from '@/app/lib/data/board';
 
@@ -35,11 +35,18 @@ export async function generateMetadata(
     title: data?.title,
     description: data?.description,
     openGraph: {
+      title: data?.title || 'SDG Commons - Community Curated Boards',
+      description: data?.description || '',
+      url: `/boards/${platform}/${id}`,
+      siteName: 'SDG Commons',
+      type: 'article',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       // Next Metadata supports twitter object
       card: 'summary_large_image',
+      title: data?.title || 'SDG Commons - Community Curated Boards',
+      description: data?.description || '',
       images: [ogImageUrl],
     },
     metadataBase,
@@ -55,7 +62,7 @@ export default async function Page({
   searchParams,
 }: incomingRequestParams) {
   let { platform, board } = await params;
-  platform = decodeURI(platform);
+  platform = decodeURI(Array.isArray(platform) ? platform[0] : platform);
 
   const sParams = await searchParams;
   if (!Object.keys(sParams).includes('page')) sParams['page'] = '1';

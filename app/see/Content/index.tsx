@@ -1,29 +1,18 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+
+import { useState } from 'react';
 import { MenuItem } from '@headlessui/react';
-import Card from '@/app/ui/components/Card/with-img';
-import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
-import { pagestats, Pagination } from '@/app/ui/components/Pagination';
+import clsx from 'clsx';
+import { Pagination } from '@/app/ui/components/Pagination';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
-import platformApi from '@/app/lib/data/platform-api';
-import nlpApi from '@/app/lib/data/nlp-api';
-import { page_limit, getCountryList } from '@/app/lib/utils';
 import { Button } from '@/app/ui/components/Button';
 import DropDown from '@/app/ui/components/DropDown';
 import Filters from '../Filters';
-import clsx from 'clsx';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
 import RestrictionNotice from '@/app/ui/components/RestrictionNotice';
-import { trackSearch } from '@/app/lib/analytics/search-tracking';
-
-export interface PageStatsResponse {
-  total: number;
-  pages: number;
-}
-
-interface SectionProps {
-  searchParams: any;
-}
+import { useSeePageData, useSeeSearchTracking } from '../hooks';
+import ContentGrid from '../components/ContentGrid';
+import type { SectionProps } from '../types';
 
 export default function Section({ searchParams }: SectionProps) {
   const { page, search, thematic_areas, sdgs, countries } = searchParams;
@@ -36,121 +25,39 @@ export default function Section({ searchParams }: SectionProps) {
   );
   const [filterVisibility, setFilterVisibility] = useState<boolean>(false);
 
-  const [pages, setPages] = useState<number>(0);
-  const [hits, setHits] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  // Use custom hook for data fetching
+  const {
+    loading,
+    hits,
+    pages,
+    total,
+    useNlp,
+    objectIds,
+    downloadUrl,
+    hasFilters,
+  } = useSeePageData(searchParams);
 
-  const [objectIdz, setObjectIdz] = useState<number[]>([]);
-  const [hrefs, setHref] = useState<string>('');
+  // Use custom hook for search tracking
+  useSeeSearchTracking(search, hits.length, page, { thematic_areas, sdgs, countries });
 
-  const [useNlp, setUseNlp] = useState<boolean>(true);
-  const [total, setTotal] = useState<number>(0);
-
-  const platform = 'solution';
-
-  async function fetchData(): Promise<void> {
-    setLoading(true);
-
-    let data: any[];
-
-    if (!search || hasFilterParams()) {
-      data = await platformApi(
-        { ...searchParams, ...{ limit: page_limit } },
-        platform,
-        'pads'
-      );
-      setUseNlp(false);
-
-      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
-        page,
-        platform,
-        searchParams
-      );
-      setPages(totalPages);
-      setTotal(total);
-    } else {
-      data = await nlpApi({
-        ...searchParams,
-        ...{ limit: page_limit, doc_type: platform },
-      });
-
-      const { total, pages: totalPages }: PageStatsResponse = await pagestats(
-        page,
-        [platform],
-        searchParams
-      );
-      setPages(totalPages);
-      setTotal(total);
-
-      setUseNlp(true);
-    }
-
-    const idz: number[] = data?.map((p) => p?.pad_id || p?.doc_id);
-    setObjectIdz(idz);
-    const baseUrl = await platformApi(
-      { render: true, action: 'download' },
-      platform,
-      'pads',
-      true
-    );
-    const params = new URLSearchParams();
-    idz.forEach((id) => params.append('pads', id.toString()));
-    const url = `${baseUrl}&${params.toString()}`;
-    setHref(url);
-    setHits(data);
-    setLoading(false);
-  }
-
-  const handleAddAllToBoard = (e: any) => {
+  const handleAddAllToBoard = (e: React.MouseEvent) => {
     e.preventDefault();
     setSharedState((prevState: any) => ({
       ...prevState,
       addToBoard: {
         showAddToBoardModal: true,
-        platform,
-        id: objectIdz,
+        platform: 'solution',
+        id: objectIds,
       },
     }));
   };
 
-  function hasFilterParams(): boolean {
-    const keysToCheck = ['thematic_areas', 'sdgs', 'countries', 'regions'];
-    return keysToCheck.some((key) => key in searchParams && searchParams[key]);
-  }
-
   // Handle search form submission
   const handleSearchSubmit = async (e: React.FormEvent) => {
-    // Don't prevent default - let the form submit naturally to update URL params
-    if (searchQuery && searchQuery.trim().length > 0) {
-      // Track the search (don't await to avoid blocking form submission)
-      trackSearch({
-        query: searchQuery.trim(),
-        platform: 'see',
-        searchType: 'general',
-        resultsCount: hits.length,
-        pageNumber: parseInt(page) || 1,
-        filters: { thematic_areas, sdgs, countries }
-      });
-    }
+    // Form will naturally update URL params
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // Track searches when URL parameters change (for direct URL access)
-  useEffect(() => {
-    if (search && search.trim().length > 0) {
-      trackSearch({
-        query: search.trim(),
-        platform: 'see',
-        searchType: 'general',
-        resultsCount: hits.length,
-        pageNumber: parseInt(page) || 1,
-        filters: { thematic_areas, sdgs, countries }
-      });
-    }
-  }, [search, hits.length, page, thematic_areas, sdgs, countries]);
+  const hasSearchOrFilters = Boolean(search?.length > 0 || hasFilters);
 
   return (
     <>
@@ -178,23 +85,24 @@ export default function Section({ searchParams }: SectionProps) {
               </Button>
             </div>
             <div className="col-span-5 col-start-5 flex flex-row gap-x-5 md:col-span-2 md:col-start-8 lg:col-span-1 lg:col-end-10">
-              {(hrefs?.length > 0 || (isLogedIn && search?.length > 0)) && (
+              {((isLogedIn && search?.length > 0)) && (
                 <DropDown>
-                  {hrefs?.length > 0 && (
+                  {/* {downloadUrl?.length > 0 && (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"
                     >
                       <a
                         className="block p-4 text-base text-inherit data-[focus]:bg-gray-100 data-[focus]:text-gray-900 data-[focus]:outline-none"
-                        href={hrefs}
+                        href={downloadUrl}
                         target="_blank"
+                        rel="noopener noreferrer"
                       >
                         Download All
                       </a>
                     </MenuItem>
-                  )}
-                  {isLogedIn && (search?.length > 0 || hasFilterParams()) && hits.length ? (
+                  )} */}
+                  {isLogedIn && hasSearchOrFilters && hits.length ? (
                     <MenuItem
                       as="button"
                       className="w-full bg-white text-start hover:bg-lime-yellow"
@@ -213,7 +121,7 @@ export default function Section({ searchParams }: SectionProps) {
               <button
                 type="button"
                 className="flex h-[60px] w-full cursor-pointer items-center justify-center border-[1px] border-black bg-white text-[18px]"
-                onClick={(e) => setFilterVisibility(!filterVisibility)}
+                onClick={() => setFilterVisibility(!filterVisibility)}
               >
                 <img
                   src="/images/icon-filter.svg"
@@ -233,60 +141,28 @@ export default function Section({ searchParams }: SectionProps) {
           </form>
 
           <p className="lead mb-[20px]">
-            Pin interesting solutions notes on a board by clicking “Add to
-            board”. You can create new boards or add to existing ones.
+            Pin interesting solutions notes on a board by clicking "Add to
+            board". You can create new boards or add to existing ones.
             {isLogedIn && session?.pinboards?.length ? (
               <>
-                Customize your boards by clicking on “My boards” at the bottom
+                {' '}
+                Customize your boards by clicking on "My boards" at the bottom
                 right.
               </>
             ) : null}
           </p>
 
           <ResultsInfo total={hits.length ? total : 0} searchQuery={search} useNlp={useNlp} />
-
-          {!isLogedIn && (
-            <RestrictionNotice />
-          )}
-
+          {!isLogedIn && <RestrictionNotice />}
 
           <div className="section-content">
-            {/* Display Cards */}
-            <div className="grid gap-[20px] md:grid-cols-2 xl:grid-cols-3">
-              {loading ? (
-                <ImgCardsSkeleton /> // Show Skeleton while loading
-              ) : (
-                hits?.map((post: any) => {
-                  const countries = getCountryList(post, 3);
-                  return (
-                    <Card
-                      key={post?.doc_id || post?.pad_id}
-                      id={post?.doc_id || post?.pad_id}
-                      country={countries}
-                      title={post?.title || ''}
-                      description={
-                        post?.snippets?.length
-                          ? `${post?.snippets} ${post?.snippets?.length ? '...' : ''}`
-                          : post?.snippet
-                      }
-                      source={post?.base || 'solution'}
-                      tagStyle="bg-light-green"
-                      tagStyleShade="bg-light-green-shade"
-                      href={post?.url}
-                      viewCount={0}
-                      tags={post?.tags}
-                      sdg={`SDG ${post?.sdg?.join('/')}`}
-                      backgroundImage={post?.vignette}
-                      date={post?.date}
-                      engagement={post?.engagement}
-                      data={post}
-                      isLogedIn={isLogedIn}
-                    />
-                  );
-                })
-              )}
-            </div>
+            <ContentGrid
+              loading={loading}
+              items={hits}
+              isLoggedIn={isLogedIn || false}
+            />
           </div>
+
           <div className="pagination">
             <div className="col-start-2 flex w-full justify-center">
               {!loading ? (

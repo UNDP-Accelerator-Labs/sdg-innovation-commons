@@ -5,6 +5,7 @@ import DropDown from '@/app/ui/components/DropDown';
 import { MenuItem } from '@headlessui/react';
 import UpdateBoardModal from '@/app/ui/board/Update';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { useBoardContext } from '@/app/ui/board/BoardContext';
 import { publish } from '@/app/lib/data/board/main';
 import Share from '@/app/ui/board/Share';
 import Link from 'next/link';
@@ -35,6 +36,7 @@ export default function Section({
   total,
 }: Props) {
   const router = useRouter();
+  const { boardState, optimisticUpdate } = useBoardContext();
   const [searchQuery, setSearchQuery] = useState<string>(
     searchParams.search || ''
   );
@@ -54,9 +56,23 @@ export default function Section({
 
   const publishBoard = async (e: any) => {
     e.preventDefault();
-    await publish(status, id);
-    const form = e.target.closest('form');
-    form.submit();
+    console.log('publishBoard called with status:', boardState.status, 'id:', id);
+    
+    // Optimistically update the status in the UI
+    const newStatus = (boardState.status || status) < 3 ? 3 : 1;
+    
+    try {
+      await optimisticUpdate(
+        async () => {
+          const result = await publish(boardState.status || status, id);
+          console.log('publish result:', result);
+          return result;
+        },
+        { status: newStatus }
+      );
+    } catch (error) {
+      console.error('Failed to publish board:', error);
+    }
   };
 
   const handleShare = (e: any) => {
@@ -145,7 +161,7 @@ export default function Section({
                         className="block cursor-pointer border-none bg-inherit p-4 text-base text-inherit focus:bg-gray-100 focus:text-gray-900 focus:outline-none"
                         onClick={publishBoard}
                       >
-                        {status < 3 ? 'Publish board' : 'Unpublish board'}
+                        {(boardState.status ?? status) < 3 ? 'Publish board' : 'Unpublish board'}
                       </div>
                     </MenuItem>
                   ) : (

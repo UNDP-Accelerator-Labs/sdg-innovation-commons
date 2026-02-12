@@ -5,6 +5,7 @@ import { navItems } from './navlink';
 import { usePathname, redirect } from 'next/navigation';
 import { redirectToLogin } from '@/app/lib/auth';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
+import { useSession } from 'next-auth/react';
 import Loading from '@/app/ui/components/Loading';
 import { useState } from 'react';
 
@@ -16,7 +17,10 @@ export default function DesktopNavBar() {
   contentType.set('see', ['solution']);
 
   const { sharedState } = useSharedState();
-  const username = sharedState?.session?.username || null;
+  const { data: nextAuthSession } = useSession();
+  
+  // Use NextAuth session if available, fallback to SharedState
+  const username = nextAuthSession?.user?.name || sharedState?.session?.name || null;
 
   const [loading, setLoading] = useState(false);
 

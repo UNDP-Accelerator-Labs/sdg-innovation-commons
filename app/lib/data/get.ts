@@ -1,6 +1,19 @@
+/**
+ * Legacy HTTP request module - DEPRECATED
+ * @deprecated Use '@/app/lib/services/http' instead
+ * 
+ * This file is maintained for backward compatibility.
+ * All new code should import from the services folder.
+ * 
+ * Migration:
+ * - import get from '@/app/lib/data/get' 
+ *   => import { httpRequest } from '@/app/lib/services/http'
+ */
+
 'use server';
-import axios from 'axios';
-import { cookies } from 'next/headers';
+
+import { httpRequest } from '@/app/lib/services/http';
+import type { HttpMethod } from '@/app/lib/types';
 
 export interface Props {
   url: string;
@@ -10,51 +23,8 @@ export interface Props {
 }
 
 export default async function get({ url, method, body, cache }: Props) {
-  try {
-    const cookieStore = await cookies();
-    const allCookies = cookieStore.getAll();
-    const cookieHeader = allCookies.map(cookie => `${cookie.name}=${cookie.value}`).join('; ');
-
-    const { NODE_ENV, JWT_TOKEN } = process.env;
-    const isLocalhost = NODE_ENV === 'development' || NODE_ENV === 'test';
-
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-      cookie: cookieHeader,
-    };
-
-    // Add x-access-token if running in localhost
-    // if (isLocalhost && JWT_TOKEN && !url.includes('/login')) {
-    //   headers['x-access-token'] = JWT_TOKEN;
-    // }
-
-    const response = await axios({
-      url,
-      method,
-      headers,
-      data: method !== 'GET' ? body : undefined,
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      if ([400, 401, 404, 403].includes(error.response?.status as number)) {
-        try {
-          const responseData = error?.response?.data;
-          if (responseData?.message) {
-            // return [];
-            return responseData
-          }
-          return responseData;
-        } catch {
-          throw new Error('Error parsing JSON for status 400');
-        }
-      } else {
-        console.error('Error:', error?.message);
-        throw new Error(`Error occurred...`);
-      }
-    } else {
-      throw new Error('An unexpected error occurred');
-    }
-  }
+  return httpRequest(url, {
+    method: method as HttpMethod,
+    data: body,
+  });
 }

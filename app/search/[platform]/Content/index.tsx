@@ -5,12 +5,12 @@ import BlogCard from '@/app/ui/components/Card/without-img';
 import Card from '@/app/ui/components/Card/with-img';
 import { ImgCardsSkeleton } from '@/app/ui/components/Card/skeleton';
 import nlpApi from '@/app/lib/data/nlp-api';
-import { formatDate, page_limit, getCountryList } from '@/app/lib/utils';
+import { formatDate, page_limit, getCountryList } from '@/app/lib/helpers/utils';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { pagestats, Pagination } from '@/app/ui/components/Pagination';
-import { PageStatsResponse, SectionProps } from '@/app/test/[platform]/Content';
+import type { PageStatsResponse, SectionProps } from '@/app/test/[platform]/types';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 import ResultsInfo from '@/app/ui/components/ResultInfo';
 import { trackSearch } from '@/app/lib/analytics/search-tracking';
@@ -62,15 +62,25 @@ export default function Content({
       ...searchParams,
       ...{ limit: page_limit, doc_type },
     });
+    
+    // Check for error responses from NLP API
+    if (data && typeof data === 'object' && 'message' in data && !Array.isArray(data)) {
+      console.error('NLP API Error:', (data as { message: string }).message);
+      data = [];
+    } else if (!Array.isArray(data)) {
+      console.error('Unexpected NLP API response:', data);
+      data = [];
+    }
+    
     setHits(data);
 
-    const idz: number[] = data?.map((p) => p?.pad_id || p?.doc_id);
+    const idz: number[] = Array.isArray(data) ? data.map((p) => p?.pad_id || p?.doc_id).filter(Boolean) : [];
     setObjectIdz(idz);
 
     const sorted_keys: Record<string, number[]> = {};
 
     data.forEach((item: any) => {
-      const key = item?.base;
+      const key = item.base;
       if (!sorted_keys[key]) {
         sorted_keys[key] = [];
       }

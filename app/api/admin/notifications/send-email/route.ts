@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import getSession from '@/app/lib/session';
-import { getNotification } from '@/app/lib/data/platform-api';
+import { getNotification } from '@/app/lib/data/notifications';
 import db, { query as dbQuery } from '@/app/lib/db';
-import { sendEmail } from '@/app/lib/helper';
+import { sendEmail } from '@/app/lib/helpers';
 
 function escapeHtml(s: any) {
   if (s === null || typeof s === 'undefined') return '';
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
   // capture actor info from session to record who sent the email
   const actor_uuid = session?.uuid || null;
-  const actor_name = session?.username || session?.name || null;
+  const actor_name = session?.name || null;
 
   // Build email payload for user — do NOT include admin UI link. Preserve line breaks using white-space:pre-wrap and escape HTML.
   const emailSubject = String(subject || `Notification: ${notif.type}`);

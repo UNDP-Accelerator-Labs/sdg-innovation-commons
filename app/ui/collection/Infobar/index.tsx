@@ -25,7 +25,7 @@ export default function Infobar({
 			    <div className='section-content grid grid-cols-9 gap-[20px] px-[20px] lg:px-[80px] xl:px-[40px] xxl:px-[80px]'>
 			        <div className='c-left col-span-9 lg:col-span-5'>
 		            	{
-		            	    sections.map((s: any, j: number) => {
+		            	    sections?.map((s: any, j: number) => {
 		            	        const { title, items } = s;
 		            	        return (
 		            	            <div key={j}>

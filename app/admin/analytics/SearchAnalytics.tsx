@@ -244,7 +244,7 @@ export default function SearchAnalytics() {
               </div>
             </div>
 
-            <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
+            {/* <div className="bg-purple-50 border border-purple-200 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm font-medium text-purple-600">Avg Results</p>
@@ -252,7 +252,7 @@ export default function SearchAnalytics() {
                 </div>
                 <BarChart3 className="h-8 w-8 text-purple-600" />
               </div>
-            </div>
+            </div> */}
           </div>
         )}
 
@@ -306,7 +306,7 @@ export default function SearchAnalytics() {
                 </dl>
               </div>
               
-              <div>
+              {/* <div>
                 <h4 className="font-medium text-gray-900 mb-3">Search Efficiency</h4>
                 <dl className="space-y-2">
                   <div className="flex justify-between">
@@ -318,7 +318,7 @@ export default function SearchAnalytics() {
                     <dd className="text-sm font-medium">{(stats.unique_queries / Math.max(stats.unique_users, 1)).toFixed(2)}</dd>
                   </div>
                   </dl>
-              </div>
+              </div> */}
             </div>
           </div>
         )}
@@ -346,7 +346,7 @@ export default function SearchAnalytics() {
                     <th className="px-4 py-3 font-medium text-gray-900">Platform</th>
                     <th className="px-4 py-3 font-medium text-gray-900">Count</th>
                     <th className="px-4 py-3 font-medium text-gray-900">Users</th>
-                    <th className="px-4 py-3 font-medium text-gray-900">Avg Results</th>
+                    {/* <th className="px-4 py-3 font-medium text-gray-900">Avg Results</th> */}
                     <th className="px-4 py-3 font-medium text-gray-900">Last Search</th>
                   </tr>
                 </thead>
@@ -357,7 +357,7 @@ export default function SearchAnalytics() {
                       <td className="px-4 py-3 text-gray-600 capitalize">{item.platform || 'All'}</td>
                       <td className="px-4 py-3 text-gray-900">{item.search_count}</td>
                       <td className="px-4 py-3 text-gray-600">{item.unique_users}</td>
-                      <td className="px-4 py-3 text-gray-600">{Math.round(item.avg_results)}</td>
+                      {/* <td className="px-4 py-3 text-gray-600">{Math.round(item.avg_results)}</td> */}
                       <td className="px-4 py-3 text-gray-600">{formatDate(item.last_searched)}</td>
                     </tr>
                   ))}

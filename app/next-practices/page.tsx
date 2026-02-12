@@ -3,7 +3,7 @@ import Content from './Content';
 import Navbar from '@/app/ui/components/Navbar';
 import Footer from '@/app/ui/components/Footer';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { incomingRequestParams } from '@/app/lib/utils';
+import { incomingRequestParams } from '@/app/lib/helpers/utils';
 
 const { PROD_ENV } = process.env;
 
@@ -40,10 +40,17 @@ export async function generateMetadata(
     description,
     metadataBase,
     openGraph: {
+      title: title || 'SDG Commons - Next Practices',
+      description: description,
+      url: '/next-practices',
+      siteName: 'SDG Commons',
+      type: 'website',
       images: [ogImageUrl, ...(previousImages as string[])],
     },
     twitter: {
       card: 'summary_large_image',
+      title: title || 'SDG Commons - Next Practices',
+      description: description,
       images: [ogImageUrl],
     },
   };

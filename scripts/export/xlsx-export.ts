@@ -57,8 +57,8 @@ export async function uploadXlsxWithRetries(job: any, maxRetries = 3): Promise<{
       const dbKeys: string[] = job.db_keys || [];
       const adm0Map = await fetchAdm0Map();
       const { tagMap, templateMap, sourcePadMap } = await fetchPadRelatedMaps();
-      const excludePii = !!job.exclude_pii;
-      const excludeOwnerUuid = !!job.exclude_owner_uuid;
+      const excludePii = !!job.params?.exclude_pii;
+      const excludeOwnerUuid = !!job.params?.exclude_owner_uuid;
       const statusFilter: string[] | null =
         Array.isArray(job.statuses) && job.statuses.length ? job.statuses : null;
 
@@ -75,10 +75,7 @@ export async function uploadXlsxWithRetries(job: any, maxRetries = 3): Promise<{
         effectiveIncludeEmail = includePiiOverride;
         effectiveIncludeUuid = includePiiOverride;
       }
-      if (job?.exclude_pii) {
-        effectiveIncludeName = false;
-        effectiveIncludeEmail = false;
-        effectiveIncludeUuid = false;
+          if (excludePii) {
       }
 
       for (const key of dbKeys) {
@@ -207,7 +204,9 @@ export async function uploadXlsxWithRetries(job: any, maxRetries = 3): Promise<{
             });
           } else if (['solutions', 'experiment', 'learningplan'].includes(key)) {
             // Build pads query with optional status filter
-            const { sql, params } = await buildPadsSelectSql(statusFilter);
+            // For pads, use include_pii logic (inverse of excludePii) to determine if we want original or redacted data
+            const includePii = !excludePii;
+            const { sql, params } = await buildPadsSelectSql(statusFilter, includePii);
 
             await streamQueryToHandler(key, sql, params, async (r: any) => {
               const includeCountry =
@@ -484,7 +483,7 @@ export async function uploadXlsxWithRetries(job: any, maxRetries = 3): Promise<{
 
       // Add Notes sheet
       try {
-        const notes = buildExportNotes(job, dbKeys, !!job.exclude_pii).split('\n');
+        const notes = buildExportNotes(job, dbKeys, excludePii).split('\n');
         const notesSheet = workbook.addWorksheet('Notes');
         for (const line of notes) notesSheet.addRow([line]).commit();
       } catch (noteErr: any) {

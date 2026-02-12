@@ -2,16 +2,17 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 import ProfileCard from './ProfileCard';
 import ProfileDetails from './ProfileDetails';
 import ProfileSkeleton from './ProfileSkeleton';
 import ProfileModals from './ProfileModals';
+import UserContributions from './UserContributions';
 import {
-  logoutCurrentSession,
   updatedProfile,
   deleteAccount,
   sendContactContributorEmail
-} from '@/app/lib/data/platform-api';
+} from '@/app/lib/data/contributors';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
 interface Country {
@@ -81,7 +82,7 @@ export default function ProfileContent({
   });
 
   const { sharedState } = useSharedState();
-  const { uuid, email, username } = sharedState?.session || {};
+  const { uuid, email, name: username } = sharedState?.session || {};
 
   useEffect(() => {
     if (!profileData) {
@@ -90,6 +91,9 @@ export default function ProfileContent({
       setTimeout(() => {
         setIsLoading(false);
       }, 1000);
+    } else {
+      setUser(profileData);
+      setEditForm(profileData);
     }
   }, [profileData]);
 
@@ -128,6 +132,7 @@ export default function ProfileContent({
       setIsSubmitting(true);
       const response = await updatedProfile(updatedData);
       if (response?.status === 200) {
+       await signOut({ callbackUrl: '/login', redirect: true });
         window.location.href = '/login'; // Redirect to login page on successful save
       } else {
         setErrorMessage(response?.message || 'Failed to update profile.'); // Show error message
@@ -175,6 +180,7 @@ export default function ProfileContent({
       setIsSubmitting(true);
       const response = await updatedProfile(updatedData);
       if (response?.status === 200) {
+        await signOut({ callbackUrl: '/login', redirect: true });
         window.location.href = '/login'; // Redirect to login page on successful password update
       } else {
         setErrorMessage(response?.message || 'Failed to update password.'); // Show error message in modal
@@ -219,6 +225,7 @@ export default function ProfileContent({
         alert(
           'An email has been sent to your new email address for confirmation.'
         );
+        await signOut({ callbackUrl: '/login', redirect: true });
         window.location.href = '/login'; // Redirect to login page after email update
       } else {
         if (
@@ -241,17 +248,20 @@ export default function ProfileContent({
   const handleLogout = async () => {
     setIsSubmitting(true);
     try {
-      const response = await logoutCurrentSession();
-      if (response?.status === 200 && response?.success) {
-        window.location.href = '/';
-      } else {
-        console.error(
-          'Failed to logout:',
-          response?.message || 'Unknown error'
-        );
-      }
+      // Call our custom logout endpoint to delete DB session
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+      
+      // Sign out with NextAuth without callback (redirect manually)
+      await signOut({ redirect: false });
+      // Manual redirect to ensure correct domain
+      window.location.href = '/';
     } catch (error) {
       console.error('Error during logout:', error);
+      // Fallback: force redirect even if signOut fails
+      window.location.href = '/';
     } finally {
       setIsSubmitting(false);
       setShowLogoutConfirm(false);
@@ -273,9 +283,7 @@ export default function ProfileContent({
       );
       if (response?.status === 200) {
         setDeleteAccountError('Your account has been successfully deleted.');
-        setTimeout(() => {
-          window.location.href = '/'; // Redirect to home page after deletion
-        }, 2000);
+        await signOut({ callbackUrl: '/', redirect: true });
       } else {
         setDeleteAccountError(response?.message || 'Failed to delete account.');
       }
@@ -348,8 +356,8 @@ export default function ProfileContent({
           <p>{errorMessage}</p>
         </div>
       )}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:h-full">
-        <div className="lg:col-span-1 flex flex-col">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3 lg:items-stretch">
+        <div className="lg:col-span-1 flex">
           <ProfileCard
             user={user!}
             isEditing={isEditing}
@@ -367,7 +375,7 @@ export default function ProfileContent({
             personalView={personalView} 
           />
         </div>
-        <div className="lg:col-span-2 flex flex-col">
+        <div className="lg:col-span-2 flex">
           <ProfileDetails
             user={user!}
             isEditing={isEditing}
@@ -387,7 +395,10 @@ export default function ProfileContent({
           />
         </div>
       </div>
-      {personalView && (<div className="mt-6 border border-solid border-black bg-white p-6">
+
+      {personalView && (      
+      <div className='my-10 py-10'>
+        <div className="mt-8 border border-solid border-black bg-white p-6">
         <h3 className="mb-6 font-space-mono text-xl font-bold">
           Account Settings
         </h3>
@@ -428,6 +439,7 @@ export default function ProfileContent({
             </p>
           </button>
         </div>
+      </div>
       </div>)}
 
       {/* Disable the get in touch section for contributor profiles until there is plan handling abuse and harrassment within the platform */}
@@ -455,6 +467,13 @@ export default function ProfileContent({
         </div>
       )} */}
 
+
+      {/* User Contributions Section */}
+      {user?.uuid && (
+        <div className="mt-8">
+          <UserContributions uuid={user.uuid} personalView={personalView} />
+        </div>
+      )}
 
       <ProfileModals
         userUuid={user?.uuid || ''}

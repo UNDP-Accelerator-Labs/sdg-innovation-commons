@@ -1,30 +1,17 @@
-'use server';
-import { redirect } from "next/navigation";
-import { headers } from 'next/headers'
-import { commonsPlatform, baseHost } from '@/app/lib/utils';
+/**
+ * Legacy auth module - DEPRECATED
+ * @deprecated Use '@/app/lib/services/auth' or '@/app/lib/services/auth-client' instead
+ * 
+ * This file is maintained for backward compatibility.
+ * All new code should import from the services folder.
+ * 
+ * Migration:
+ * - Client components: import from '@/app/lib/services/auth-client'
+ * - Server components: import from '@/app/lib/services/auth'
+ */
 
-export async function redirectToLogin(pathname: string) {
-  const url: string | undefined = commonsPlatform.find((p: any) => p.key === 'login')?.url
-  const app_name = 'SDG Commons'
-  const host = await getCurrentUrl(pathname)
-  // return redirect(`${url}/login?app=${encodeURIComponent(app_name)}&origin=${host}`)
-  return redirect(`/login`)
-}
-
-
-export async function getCurrentUrl(pathname: string) {
-  const headersList = await headers();
-  const host = headersList.get('host');
-  const referer = headersList.get('referer');
-
-  if (referer) {
-    return referer;
-  }
-
-  const protocol = host?.includes('localhost') ? 'http' : 'https';
-
-  return `${protocol}://${host}${pathname ?? ''}`;
-}
+// Export only client-safe functions to avoid bundling server-only code
+export { redirectToLogin, hasRight, isAdminUser, getUserDisplayName } from './services/auth-client';
 
 
 

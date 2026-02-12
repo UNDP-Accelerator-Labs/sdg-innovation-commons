@@ -71,8 +71,18 @@ export async function buildBlogSelectSql(dbKey: string, allColumns = false): Pro
 /**
  * Build SQL query for selecting pads (solutions, experiments, learning plans)
  * @param statusFilter Optional array of status values to filter by
+ * @param includePii Whether to include PII (non-redacted data) - defaults to false for safety
  */
-export async function buildPadsSelectSql(statusFilter: string[] | null): Promise<{ sql: string; params: any[] }> {
+export async function buildPadsSelectSql(statusFilter: string[] | null, includePii: boolean = false): Promise<{ sql: string; params: any[] }> {
+  // Determine which fields to select based on PII inclusion
+  const sectionsField = includePii 
+    ? 'p.sections' 
+    : 'CASE WHEN p.redacted = true THEN p.sections_redacted ELSE p.sections END AS sections';
+  
+  const fullTextField = includePii 
+    ? 'p.full_text' 
+    : 'CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END AS full_text';
+
   if (statusFilter && statusFilter.length) {
     const sql = `SELECT p.id AS pad_id,
       p.owner AS contributor_id,
@@ -82,8 +92,9 @@ export async function buildPadsSelectSql(statusFilter: string[] | null): Promise
       p.status,
       p.source AS source_pad_id,
       p.template,
-      p.full_text,
-      p.sections,
+      p.redacted,
+      ${fullTextField},
+      ${sectionsField},
       COALESCE((SELECT jsonb_agg(jsonb_build_object('pad_id', t.pad, 'tag_id', t.tag_id, 'type', t.type)) FROM tagging t WHERE t.pad = p.id), '[]') AS tags,
       COALESCE((SELECT jsonb_agg(jsonb_build_object('pad_id', l.pad, 'lat', l.lat, 'lng', l.lng, 'iso3', l.iso3)) FROM locations l WHERE l.pad = p.id), '[]') AS locations,
       COALESCE((SELECT jsonb_agg(jsonb_build_object('pad_id', m.pad, 'type', m.type, 'name', m.name, 'key', m.key, 'value', m.value)) FROM metafields m WHERE m.pad = p.id), '[]') AS metafields,
@@ -107,8 +118,9 @@ export async function buildPadsSelectSql(statusFilter: string[] | null): Promise
       p.status,
       p.source AS source_pad_id,
       p.template,
-      p.full_text,
-      p.sections,
+      p.redacted,
+      ${fullTextField},
+      ${sectionsField},
       COALESCE((SELECT jsonb_agg(jsonb_build_object('pad_id', t.pad, 'tag_id', t.tag_id, 'type', t.type)) FROM tagging t WHERE t.pad = p.id), '[]') AS tags,
       COALESCE((SELECT jsonb_agg(jsonb_build_object('pad_id', l.pad, 'lat', l.lat, 'lng', l.lng, 'iso3', l.iso3)) FROM locations l WHERE l.pad = p.id), '[]') AS locations,
       COALESCE((SELECT jsonb_agg(jsonb_build_object('pad_id', m.pad, 'type', m.type, 'name', m.name, 'key', m.key, 'value', m.value)) FROM metafields m WHERE m.pad = p.id), '[]') AS metafields,

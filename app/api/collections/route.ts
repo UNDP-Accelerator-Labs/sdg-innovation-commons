@@ -85,22 +85,59 @@ function validateSections(sections: any): { valid: boolean; message?: string } {
 
 export async function GET(req: Request) {
   try {
+    const session = await getSession();
+    const loggedInUuid = session?.uuid || null;
+
     const url = new URL(req.url);
     const slug = url.searchParams.get("slug");
     const list = url.searchParams.get("list");
+    const owner = url.searchParams.get("owner"); // Owner UUID for filtering
     const limitParam = url.searchParams.get("limit");
     const offsetParam = url.searchParams.get("offset");
 
     if (slug) {
       const res = await query(
         "general",
-        "SELECT * FROM collections WHERE slug = $1 LIMIT 1",
+        `SELECT 
+          c.*,
+          CASE 
+            WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+            ELSE COALESCE(cn.name, u.iso3)
+          END AS creator_country
+        FROM collections c
+        LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+        LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+        WHERE c.slug = $1 
+        LIMIT 1`,
         [slug]
       );
       if (!res?.rows?.length)
         return NextResponse.json({ error: "Not found" }, { status: 404 });
 
       const row = res.rows[0];
+      
+      // Access control for draft collections
+      const highlights = row.highlights || {};
+      const status = highlights.status || 'draft';
+      const creatorUuid = highlights.creator_uuid;
+      
+      // If collection is not published, only creator and admins can view it
+      if (status !== 'published' && !highlights.published) {
+        const isCreator = loggedInUuid && creatorUuid && loggedInUuid === creatorUuid;
+        const isAdmin = session && (session.rights ?? 0) >= 4;
+        
+        if (!isCreator && !isAdmin) {
+          return NextResponse.json({ 
+            error: "Forbidden", 
+            message: "This collection is currently in draft mode and has not been published yet. Only the collection creator and administrators can view unpublished collections." 
+          }, { status: 403 });
+        }
+      }
+      
+      // Add country to highlights object
+      if (row.creator_country) {
+        highlights.creator_country = row.creator_country;
+      }
       const result = {
         slug: row.slug,
         title: row.title,
@@ -109,8 +146,9 @@ export async function GET(req: Request) {
         creator_name: row.creator_name,
         main_image: row.main_image,
         sections: row.sections,
-        highlights: row.highlights,
+        highlights,
         boards: row.boards,
+        external_resources: row.external_resources || [],
         id: row.id,
         created_at: row.created_at,
         updated_at: row.updated_at,
@@ -119,29 +157,145 @@ export async function GET(req: Request) {
       return NextResponse.json(result);
     }
 
+    // Support fetching collections by owner UUID
+    if (owner) {
+      const limit = Math.min(100, Number(limitParam) || 100);
+      const offset = Math.max(0, Number(offsetParam) || 0);
+      
+      // If logged-in user is the owner, show all their collections (including drafts)
+      // Otherwise, only show published collections
+      let sql = '';
+      let params: any[] = [];
+      
+      if (loggedInUuid && loggedInUuid === owner) {
+        // User viewing their own collections - show all
+        sql = `
+          SELECT 
+            c.slug, 
+            c.title, 
+            c.description, 
+            c.main_image, 
+            c.sections, 
+            c.highlights,
+            c.boards, 
+            c.id, 
+            c.created_at, 
+            c.updated_at,
+            CASE 
+              WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+              ELSE COALESCE(cn.name, u.iso3)
+            END AS creator_country
+          FROM collections c
+          LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+          LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+          WHERE (c.highlights->>'creator_uuid')::uuid = $1::uuid
+          ORDER BY c.updated_at DESC
+          LIMIT $2 OFFSET $3
+        `;
+        params = [owner, limit, offset];
+      } else {
+        // Someone else viewing - only show published
+        sql = `
+          SELECT 
+            c.slug, 
+            c.title, 
+            c.description, 
+            c.main_image, 
+            c.sections, 
+            c.highlights,
+            c.boards, 
+            c.id, 
+            c.created_at, 
+            c.updated_at,
+            CASE 
+              WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+              ELSE COALESCE(cn.name, u.iso3)
+            END AS creator_country
+          FROM collections c
+          LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+          LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+          WHERE (c.highlights->>'creator_uuid')::uuid = $1::uuid
+            AND c.highlights->>'published' = 'true'
+          ORDER BY c.updated_at DESC
+          LIMIT $2 OFFSET $3
+        `;
+        params = [owner, limit, offset];
+      }
+      
+      const res = await query("general", sql, params);
+      const rows = (res?.rows || []).map((r: any) => {
+        // Add country to highlights object
+        const highlights = r.highlights || {};
+        if (r.creator_country) {
+          highlights.creator_country = r.creator_country;
+        }
+        return {
+          slug: r.slug,
+          title: r.title,
+          description: r.description,
+          main_image: r.main_image,
+          sections: r.sections,
+          highlights,
+          boards: r.boards,
+          external_resources: r.external_resources || [],
+          id: r.id,
+          created_at: r.created_at,
+          updated_at: r.updated_at,
+        };
+      });
+      return NextResponse.json({ data: rows, count: rows.length });
+    }
+
     // Support listing public collections: consider a collection "public" if it has at least one attached board
     if (list === "public") {
       const limit = Math.min(100, Number(limitParam) || 12);
       const offset = Math.max(0, Number(offsetParam) || 0);
       // Include collections that either have public boards attached or have been approved (highlights.published = true)
-      const sql = `SELECT slug, title, description, main_image, sections, highlights, boards, id, created_at, updated_at
-                   FROM collections
-                   WHERE highlights->> 'published' = 'true'
-                   ORDER BY updated_at DESC
-                   LIMIT $1 OFFSET $2`;
+      // Join with users and countries to get creator country name
+      const sql = `
+        SELECT 
+          c.slug, 
+          c.title, 
+          c.description, 
+          c.main_image, 
+          c.sections, 
+          c.highlights,
+          c.boards, 
+          c.id, 
+          c.created_at, 
+          c.updated_at,
+          CASE 
+            WHEN u.iso3 IS NULL OR u.iso3 = 'NUL' THEN 'Global'
+            ELSE COALESCE(cn.name, u.iso3)
+          END AS creator_country
+        FROM collections c
+        LEFT JOIN users u ON u.uuid = (c.highlights->>'creator_uuid')::uuid
+        LEFT JOIN country_names cn ON cn.iso3 = u.iso3 AND cn.language = 'en'
+        WHERE c.highlights->>'published' = 'true'
+        ORDER BY c.updated_at DESC
+        LIMIT $1 OFFSET $2
+      `;
       const res = await query("general", sql, [limit, offset]);
-      const rows = (res?.rows || []).map((r: any) => ({
-        slug: r.slug,
-        title: r.title,
-        description: r.description,
-        main_image: r.main_image,
-        sections: r.sections,
-        highlights: r.highlights,
-        boards: r.boards,
-        id: r.id,
-        created_at: r.created_at,
-        updated_at: r.updated_at,
-      }));
+      const rows = (res?.rows || []).map((r: any) => {
+        // Add country to highlights object
+        const highlights = r.highlights || {};
+        if (r.creator_country) {
+          highlights.creator_country = r.creator_country;
+        }
+        return {
+          slug: r.slug,
+          title: r.title,
+          description: r.description,
+          main_image: r.main_image,
+          sections: r.sections,
+          highlights,
+          boards: r.boards,
+          external_resources: r.external_resources || [],
+          id: r.id,
+          created_at: r.created_at,
+          updated_at: r.updated_at,
+        };
+      });
       return NextResponse.json(rows);
     }
 
@@ -166,6 +320,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
     const {
+      id, // Collection ID for updates (prevents duplication when slug changes)
       slug,
       title,
       description,
@@ -174,8 +329,26 @@ export async function POST(req: Request) {
       sections,
       highlights,
       boards,
+      external_resources,
       submit_for_review,
+      admin_publish,
     } = body || {};
+
+    // Validate admin_publish flag - only admins can use direct publish
+    if (admin_publish && (session?.rights ?? 0) < 4) {
+      return NextResponse.json({ 
+        error: "forbidden", 
+        message: "Only administrators can publish collections directly" 
+      }, { status: 403 });
+    }
+
+    // Validate conflicting flags - cannot submit for review and admin publish at the same time
+    if (submit_for_review && admin_publish) {
+      return NextResponse.json({ 
+        error: "invalid_request", 
+        message: "Cannot submit for review and publish directly at the same time" 
+      }, { status: 400 });
+    }
 
     if (!slug)
       return NextResponse.json({ error: "missing slug" }, { status: 400 });
@@ -207,7 +380,79 @@ export async function POST(req: Request) {
         );
     }
 
-    const creator_name = session.username || session.uuid || null;
+    // Validate and normalize external_resources
+    let sanitizedExternalResources: any[] | null = null;
+    if (Array.isArray(external_resources) && external_resources.length) {
+      if (external_resources.length > 50) {
+        return NextResponse.json(
+          { error: "too many external resources (max 50)" },
+          { status: 400 }
+        );
+      }
+      
+      sanitizedExternalResources = [];
+      for (const resource of external_resources) {
+        if (!resource || typeof resource !== 'object') {
+          return NextResponse.json(
+            { error: "each external resource must be an object" },
+            { status: 400 }
+          );
+        }
+        
+        const { title, description, url } = resource;
+        
+        if (!title || typeof title !== 'string' || title.length === 0) {
+          return NextResponse.json(
+            { error: "external resource title is required" },
+            { status: 400 }
+          );
+        }
+        
+        if (title.length > 500) {
+          return NextResponse.json(
+            { error: "external resource title too long (max 500 chars)" },
+            { status: 400 }
+          );
+        }
+        
+        if (!url || typeof url !== 'string' || url.length === 0) {
+          return NextResponse.json(
+            { error: "external resource url is required" },
+            { status: 400 }
+          );
+        }
+        
+        // Basic URL validation
+        try {
+          new URL(url);
+        } catch {
+          return NextResponse.json(
+            { error: "external resource url must be a valid URL" },
+            { status: 400 }
+          );
+        }
+        
+        if (url.length > 2000) {
+          return NextResponse.json(
+            { error: "external resource url too long (max 2000 chars)" },
+            { status: 400 }
+          );
+        }
+        
+        const cleanTitle = DOMPurify.sanitize(title, { ALLOWED_TAGS: [] });
+        const cleanDescription = description && typeof description === 'string' 
+          ? DOMPurify.sanitize(description, { ALLOWED_TAGS: [] }) 
+          : '';
+        
+        sanitizedExternalResources.push({
+          title: cleanTitle,
+          description: cleanDescription,
+          url: url.trim(),
+        });
+      }
+    }
+
+    const creator_name = session.name || session.uuid || null;
 
     // sanitize description and sections (txt items) to avoid XSS in stored HTML
     const allowedTags = [
@@ -274,88 +519,189 @@ export async function POST(req: Request) {
     }
 
     // Get existing highlights for updates to preserve them when not explicitly modifying
+    // Check by ID first (if provided), then by slug
     let existingHighlights: any = null;
+    let existingCollectionId: number | null = null;
     try {
-      const existingRes = await query(
-        "general", 
-        "SELECT highlights FROM collections WHERE slug = $1", 
-        [slug]
-      );
+      let existingRes;
+      if (id) {
+        // If ID is provided, use it (more reliable than slug which can change during creation)
+        existingRes = await query(
+          "general", 
+          "SELECT id, highlights FROM collections WHERE id = $1", 
+          [id]
+        );
+      } else {
+        // Fall back to slug lookup
+        existingRes = await query(
+          "general", 
+          "SELECT id, highlights FROM collections WHERE slug = $1", 
+          [slug]
+        );
+      }
       if (existingRes?.rows?.length > 0) {
         existingHighlights = existingRes.rows[0].highlights;
+        existingCollectionId = existingRes.rows[0].id;
       }
     } catch (e) {
       // Ignore error, treat as new collection
     }
 
-    // Build highlights to store: if the client explicitly requested submit-for-review, mark awaiting_review.
+    // Build highlights to store: preserve creator information from existing highlights when editing
     let finalHighlights: any = null;
-    if (submit_for_review) {
-      // When submitting for review, use existing highlights as base or provided highlights
+    const isExistingCollection = !!existingHighlights;
+    const isAdmin = (session?.rights ?? 0) >= 4;
+    
+    if (admin_publish && isAdmin) {
+      // Admin direct publish - bypass review process
       const base = highlights && typeof highlights === "object" 
         ? highlights 
         : (existingHighlights && typeof existingHighlights === "object" ? existingHighlights : {});
       finalHighlights = {
         ...base,
-        awaiting_review: true,
-        published: false,
-        status: "awaiting_review",
-        submitted_by: creator_name,
-        creator_uuid: session?.uuid || null,
-        submitted_at: new Date().toISOString(),
+        awaiting_review: false,
+        published: true,
+        status: "published",
+        // Preserve original creator info when editing, only set for new collections
+        submitted_by: isExistingCollection ? (base.submitted_by || existingHighlights?.submitted_by) : creator_name,
+        creator_uuid: isExistingCollection ? (base.creator_uuid || existingHighlights?.creator_uuid) : (session?.uuid || null),
+        published_at: new Date().toISOString(),
+        published_by: creator_name,
+        publisher_uuid: session?.uuid || null,
         comments: Array.isArray(base.comments) ? base.comments : [],
       };
+    } else if (submit_for_review) {
+      // Regular submit for review process
+      // Only trigger review for new collections or drafts, not for already published collections
+      const isAlreadyPublished = existingHighlights?.status === "published";
+      const base = highlights && typeof highlights === "object" 
+        ? highlights 
+        : (existingHighlights && typeof existingHighlights === "object" ? existingHighlights : {});
+      
+      if (isAlreadyPublished) {
+        // If already published, just preserve the existing status - don't trigger review again
+        finalHighlights = {
+          ...existingHighlights,
+          // Update content but maintain published status
+          submitted_by: existingHighlights.submitted_by,
+          creator_uuid: existingHighlights.creator_uuid,
+        };
+      } else {
+        // New or draft collection - submit for review
+        finalHighlights = {
+          ...base,
+          awaiting_review: true,
+          published: false,
+          status: "awaiting_review",
+          // Preserve original creator info when editing, only set for new collections
+          submitted_by: isExistingCollection ? (base.submitted_by || existingHighlights?.submitted_by) : creator_name,
+          creator_uuid: isExistingCollection ? (base.creator_uuid || existingHighlights?.creator_uuid) : (session?.uuid || null),
+          submitted_at: new Date().toISOString(),
+          comments: Array.isArray(base.comments) ? base.comments : [],
+        };
+      }
     } else if (highlights && typeof highlights === "object") {
-      // When highlights are explicitly provided, use them
+      // When highlights are explicitly provided, use the status from the payload
+      // This allows the client to change status (e.g., published -> draft when saving changes)
       finalHighlights = {
         ...highlights,
+        // Use status from payload if provided, otherwise use existing or default to draft
+        status: highlights.status || (isExistingCollection && existingHighlights?.status) || "draft",
+        // Set published flag based on status
+        published: highlights.status === "published" || highlights.published === true,
+        awaiting_review: highlights.awaiting_review || false,
+        // Preserve original creator info when editing
+        submitted_by: isExistingCollection && existingHighlights?.submitted_by ? existingHighlights.submitted_by : creator_name,
+        creator_uuid: isExistingCollection && existingHighlights?.creator_uuid ? existingHighlights.creator_uuid : (session?.uuid || null),
+      };
+    } else if (existingHighlights) {
+      // When no highlights provided but existing collection has highlights, preserve them completely
+      finalHighlights = existingHighlights;
+    } else {
+      // New collection with no highlights - create new with current user as creator
+      finalHighlights = {
         status: "draft",
         submitted_by: creator_name,
         creator_uuid: session?.uuid || null,
       };
-    } else if (existingHighlights) {
-      // When no highlights provided but existing collection has highlights, preserve them
-      finalHighlights = existingHighlights;
-    } else {
-      // New collection with no highlights
-      finalHighlights = null;
     }
 
-    // Upsert by slug; server sets creator_name if inserting (or leaves existing creator_name on update if null)
-    const sql = `INSERT INTO collections (slug, title, description, content, creator_name, main_image, sections, highlights, boards)
-                 VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9)
-                 ON CONFLICT (slug) DO UPDATE SET
-                   title = EXCLUDED.title,
-                   description = EXCLUDED.description,
-                   content = EXCLUDED.content,
-                   creator_name = COALESCE(collections.creator_name, EXCLUDED.creator_name),
-                   main_image = EXCLUDED.main_image,
-                   sections = EXCLUDED.sections,
-                   highlights = EXCLUDED.highlights,
-                   boards = EXCLUDED.boards,
-                   updated_at = NOW()
-                 RETURNING *`;
-
-    const params = [
-      slug,
-      title || null,
-      cleanDescription,
-      content || null,
-      creator_name,
-      main_image || null,
-      sanitizedSections ? JSON.stringify(sanitizedSections) : null,
-      finalHighlights ? JSON.stringify(finalHighlights) : null,
-      boardsArr,
-    ];
+    // Determine whether to INSERT or UPDATE based on existingCollectionId
+    let sql: string;
+    let params: any[];
+    
+    if (existingCollectionId) {
+      // Update existing collection by ID (prevents duplication when slug changes)
+      sql = `UPDATE collections SET
+               slug = $1,
+               title = $2,
+               description = $3,
+               content = $4,
+               creator_name = COALESCE(creator_name, $5),
+               main_image = $6,
+               sections = $7::jsonb,
+               highlights = $8::jsonb,
+               boards = $9,
+               external_resources = $10::jsonb,
+               updated_at = NOW()
+             WHERE id = $11
+             RETURNING *`;
+      
+      params = [
+        slug,
+        title || null,
+        cleanDescription,
+        content || null,
+        creator_name,
+        main_image || null,
+        sanitizedSections ? JSON.stringify(sanitizedSections) : null,
+        finalHighlights ? JSON.stringify(finalHighlights) : null,
+        boardsArr,
+        sanitizedExternalResources ? JSON.stringify(sanitizedExternalResources) : '[]',
+        existingCollectionId,
+      ];
+    } else {
+      // Insert new collection (with ON CONFLICT for safety)
+      sql = `INSERT INTO collections (slug, title, description, content, creator_name, main_image, sections, highlights, boards, external_resources)
+                   VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb,$9,$10::jsonb)
+                   ON CONFLICT (slug) DO UPDATE SET
+                     title = EXCLUDED.title,
+                     description = EXCLUDED.description,
+                     content = EXCLUDED.content,
+                     creator_name = COALESCE(collections.creator_name, EXCLUDED.creator_name),
+                     main_image = EXCLUDED.main_image,
+                     sections = EXCLUDED.sections,
+                     highlights = EXCLUDED.highlights,
+                     boards = EXCLUDED.boards,
+                     external_resources = EXCLUDED.external_resources,
+                     updated_at = NOW()
+                   RETURNING *`;
+      
+      params = [
+        slug,
+        title || null,
+        cleanDescription,
+        content || null,
+        creator_name,
+        main_image || null,
+        sanitizedSections ? JSON.stringify(sanitizedSections) : null,
+        finalHighlights ? JSON.stringify(finalHighlights) : null,
+        boardsArr,
+        sanitizedExternalResources ? JSON.stringify(sanitizedExternalResources) : '[]',
+      ];
+    }
 
     const res = await query("general", sql, params as any[]);
     const row = res?.rows?.[0];
     if (!row)
       return NextResponse.json({ error: "upsert failed" }, { status: 500 });
 
-    // Only notify admins when the user explicitly submitted for review
-    const needsReview = !!submit_for_review;
-    if (submit_for_review) {
+    // Determine the outcome and handle notifications
+    const isAdminPublishing = admin_publish && isAdmin;
+    const needsReview = submit_for_review && !isAdminPublishing;
+    
+    // Only send notification for regular users submitting for review
+    if (needsReview) {
       try {
         const { createNotification } = await import(
           "@/app/lib/data/platform-api"
@@ -368,10 +714,10 @@ export async function POST(req: Request) {
             title: row.title,
             creator: creator_name,
             id: row.id,
-            url: `/next-practice/${row.slug}`,
+            url: `/next-practices/${row.slug}`,
           },
           metadata: {
-            adminUrl: `/next-practice/${row.slug}`,
+            adminUrl: `/next-practices/${row.slug}`,
           },
           actor_uuid: session?.uuid || null,
         });
@@ -384,6 +730,8 @@ export async function POST(req: Request) {
       slug: row.slug,
       id: row.id,
       needs_review: needsReview,
+      published: isAdminPublishing,
+      status: isAdminPublishing ? "published" : (needsReview ? "awaiting_review" : "draft"),
     });
   } catch (e) {
     console.error("POST /api/collections error", e);

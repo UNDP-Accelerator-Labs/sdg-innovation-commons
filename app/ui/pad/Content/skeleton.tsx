@@ -1,7 +1,7 @@
 import Hero from '../Hero/skeleton';
 import Cartouche from '../Cartouche/skeleton';
 import clsx from 'clsx';
-import { shimmer } from '@/app/lib/utils';
+import { shimmer } from '@/app/lib/helpers/utils';
 
 export default function Section() {
     return (

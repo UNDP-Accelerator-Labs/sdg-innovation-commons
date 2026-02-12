@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { query } from '@/app/lib/db';
 import getSession from '@/app/lib/session';
-import { sendEmail } from '@/app/lib/helper'
+import { sendEmail } from '@/app/lib/helpers'
 
 export async function GET(req: Request) {
   try {
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
     // update highlights: add comments array and status flags
     const highlights = row.highlights || {}
     const comments = Array.isArray(highlights.comments) ? highlights.comments : []
-    if (comment?.trim()?.length > 0) comments.push({ by: session.username || session.uuid || 'admin', comment, at: new Date().toISOString() })
+    if (comment?.trim()?.length > 0) comments.push({ by: session.name || session.uuid || 'admin', comment, at: new Date().toISOString() })
 
     if (action === 'approve') {
       highlights.published = true

@@ -1,7 +1,7 @@
 'use server';
 import { z } from 'zod';
-import { sendEmail } from '@/app/lib/helper';
-import { createNotification } from '@/app/lib/data/platform-api';
+import { sendEmail } from '@/app/lib/helpers';
+import { createNotification } from '@/app/lib/data/notifications';
 
 // Utility function to get the current date
 const getCurrentDate = () => new Date().toISOString().split('T')[0];
@@ -106,7 +106,7 @@ export async function createContact(prevState: ContactState, formData: FormData)
 
   // Persist admin-facing notification instead of sending admin emails
   try {
-    const ADMIN_UI_BASE = process.env.NODE_ENV === 'production' ? 'https://sdg-innovation-commons.org' : (process.env.LOCAL_BASE_URL || 'http://localhost:3000');
+    const ADMIN_UI_BASE = process.env.NEXTAUTH_URL || process.env.LOCAL_BASE_URL || 'http://localhost:3000';
     const adminUrl = `${ADMIN_UI_BASE}/admin/notifications`;
     const notif = await createNotification({
       type: 'contact_us',

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Modal from '../../components/Modal/index';
 import { Button } from '@/app/ui/components/Button';
-import platformApi from '@/app/lib/data/platform-api';
 import clsx from 'clsx';
 import { useSharedState } from '@/app/ui/components/SharedState/Context';
 
@@ -24,23 +23,30 @@ export default function Share() {
     const email = e.target.value;
     setEmail(email);
 
-    if (!email.endsWith('@undp.org')) {
-      setErrorMessage('Only @undp.org emails are allowed.');
+    // Basic email validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (email && !emailRegex.test(email)) {
+      setErrorMessage('Please enter a valid email address.');
       setDisabled(true);
-    } else {
+    } else if (email) {
       setErrorMessage('');
       setDisabled(false);
+    } else {
+      setErrorMessage('');
+      setDisabled(true);
     }
   };
 
   const handleShare = async () => {
     setLoading(true);
     try {
-      const data = await platformApi(
-        { pinboard: boardId, email: u_email },
-        'solution',
-        'share'
-      );
+      const response = await fetch('/api/contributors/share', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pinboard: boardId, email: u_email }),
+      });
+
+      const data = await response.json();
       
       if (!data?.success) throw Error(data);
       setEmail('');
@@ -77,8 +83,7 @@ export default function Share() {
           Granting contributor access to the board <b>{title}</b> allows the user to manage and contribute to the board.
         </p>
         <p className="text-left text-sm text-gray-500">
-          Please provide user email. Only existing or UNDP users are currently
-          supported.
+          Please provide the user's email address. The user will be granted contributor access and notified via email.
         </p>
         <div className="mt-4">
           <div
