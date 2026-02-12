@@ -165,7 +165,9 @@ async function handleCsvExport(
   let sql: string;
   let params: any[] = [];
   if (['solutions', 'experiment', 'learningplan'].includes(key) && statusFilter) {
-    const { sql: builtSql, params: builtParams } = await buildPadsSelectSql(statusFilter);
+    // For pads, use include_pii logic (inverse of excludePii) to determine if we want original or redacted data
+    const includePii = !excludePii;
+    const { sql: builtSql, params: builtParams } = await buildPadsSelectSql(statusFilter, includePii);
     sql = builtSql;
     params = builtParams;
   } else {

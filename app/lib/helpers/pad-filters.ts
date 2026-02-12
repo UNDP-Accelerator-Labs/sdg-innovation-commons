@@ -163,7 +163,13 @@ export async function buildPadFilters(params: PadFilterParams): Promise<string> 
 
   // Section filter (for multi-section pads)
   if (params.section !== undefined) {
-    padFilters.push(`p.sections @> '[${params.section}]'::jsonb`);
+    // Use appropriate sections field based on user rights
+    const shouldUseRedacted = !params.uuid || (params.rights || 0) < 2;
+    if (shouldUseRedacted) {
+      padFilters.push(`(CASE WHEN p.redacted = true THEN p.sections_redacted ELSE p.sections END) @> '[${params.section}]'::jsonb`);
+    } else {
+      padFilters.push(`p.sections @> '[${params.section}]'::jsonb`);
+    }
   }
 
   // Status filter (explicit)
@@ -176,8 +182,13 @@ export async function buildPadFilters(params: PadFilterParams): Promise<string> 
   if (params.search) {
     // Escape regex special characters but preserve user intent
     const escapedSearch = params.search.replace(/[\\]/g, '\\\\').replace(/'/g, "''");
-    // Use regex match ~* (case-insensitive) like Node.JS
-    padFilters.push(`p.full_text ~* '${escapedSearch}'`);
+    // Use appropriate full_text field based on user rights
+    const shouldUseRedacted = !params.uuid || (params.rights || 0) < 2;
+    if (shouldUseRedacted) {
+      padFilters.push(`(CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END) ~* '${escapedSearch}'`);
+    } else {
+      padFilters.push(`p.full_text ~* '${escapedSearch}'`);
+    }
   }
 
   // Templates filter (supports negative filters with '-' prefix)

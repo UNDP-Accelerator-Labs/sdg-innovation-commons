@@ -204,7 +204,9 @@ export async function uploadXlsxWithRetries(job: any, maxRetries = 3): Promise<{
             });
           } else if (['solutions', 'experiment', 'learningplan'].includes(key)) {
             // Build pads query with optional status filter
-            const { sql, params } = await buildPadsSelectSql(statusFilter);
+            // For pads, use include_pii logic (inverse of excludePii) to determine if we want original or redacted data
+            const includePii = !excludePii;
+            const { sql, params } = await buildPadsSelectSql(statusFilter, includePii);
 
             await streamQueryToHandler(key, sql, params, async (r: any) => {
               const includeCountry =

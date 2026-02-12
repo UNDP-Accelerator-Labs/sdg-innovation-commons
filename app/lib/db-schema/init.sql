@@ -630,6 +630,7 @@ CREATE TABLE IF NOT EXISTS public.mobilizations
         ON DELETE NO ACTION
 )
 
+
 CREATE TABLE IF NOT EXISTS public.pads
 (
     id integer NOT NULL DEFAULT nextval('pads_id_seq'::regclass),
@@ -645,6 +646,11 @@ CREATE TABLE IF NOT EXISTS public.pads
     version ltree,
     id_db text COLLATE pg_catalog."default",
     ordb integer,
+    source_db text COLLATE pg_catalog."default",
+    template_db text COLLATE pg_catalog."default",
+    sections_redacted jsonb,
+    full_text_redacted text COLLATE pg_catalog."default",
+    redacted boolean DEFAULT false,
     CONSTRAINT pads_pkey PRIMARY KEY (id),
     CONSTRAINT pads_id_db_key UNIQUE (id_db),
     CONSTRAINT pads_source_fkey FOREIGN KEY (source)
@@ -656,7 +662,6 @@ CREATE TABLE IF NOT EXISTS public.pads
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-
 
 CREATE TABLE IF NOT EXISTS public.page_stats
 (

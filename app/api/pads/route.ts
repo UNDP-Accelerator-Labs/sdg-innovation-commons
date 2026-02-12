@@ -21,6 +21,7 @@ interface QueryBuildOptions {
   include_comments?: boolean;
   include_pinboards?: string;
   userUuid?: string;
+  userRights?: number;
   anonymize_comments?: boolean;
   isSource?: boolean;
 }
@@ -34,12 +35,17 @@ function buildQueryComponents(options: QueryBuildOptions) {
     include_comments,
     include_pinboards,
     userUuid,
+    userRights = 0,
     anonymize_comments,
     isSource = false,
   } = options;
 
   const selectFields: string[] = [];
   const joins: string[] = [];
+
+  // Determine if we should use redacted fields
+  // Users with rights < 2 or when not logged in should get redacted data if pad.redacted = true
+  const shouldUseRedacted = !userUuid || userRights < 2;
 
   // Base fields
   if (isSource) {
@@ -53,9 +59,18 @@ function buildQueryComponents(options: QueryBuildOptions) {
       'p.template',
       'p.ordb',
       'p.id_db',
-      'p.sections',
-      'p.full_text'
+      'p.redacted'
     );
+    
+    // Conditional sections and full_text selection for source pads
+    if (shouldUseRedacted) {
+      selectFields.push(
+        'CASE WHEN p.redacted = true THEN p.sections_redacted ELSE p.sections END AS sections',
+        'CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END AS full_text'
+      );
+    } else {
+      selectFields.push('p.sections', 'p.full_text');
+    }
   } else {
     selectFields.push(
       'p.id AS pad_id',
@@ -73,9 +88,19 @@ function buildQueryComponents(options: QueryBuildOptions) {
       'p.template',
       'p.ordb',
       'p.id_db',
-      'p.sections',
-      'p.full_text'
+      'p.redacted'
     );
+    
+    // Conditional sections and full_text selection for main pads
+    if (shouldUseRedacted) {
+      selectFields.push(
+        'CASE WHEN p.redacted = true THEN p.sections_redacted ELSE p.sections END AS sections',
+        'CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END AS full_text'
+      );
+    } else {
+      selectFields.push('p.sections', 'p.full_text');
+    }
+    
     joins.push(
       'LEFT JOIN users u ON u.uuid = p.owner',
       'LEFT JOIN adm0 a ON a.iso_a3 = u.iso3'
@@ -958,9 +983,20 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
   // Search filter
   if (search) {
     filterParams.push(`%${search}%`);
-    filters.push(
-      `(p.title ILIKE $${filterParams.length} OR p.full_text ILIKE $${filterParams.length})`
-    );
+    
+    // Search in appropriate fields based on user rights and redacted status
+    // Use the same logic as the select fields to determine what to search
+    const shouldUseRedacted = !userUuid || rights < 2;
+    if (shouldUseRedacted) {
+      filters.push(
+        `(p.title ILIKE $${filterParams.length} OR 
+         (CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END) ILIKE $${filterParams.length})`
+      );
+    } else {
+      filters.push(
+        `(p.title ILIKE $${filterParams.length} OR p.full_text ILIKE $${filterParams.length})`
+      );
+    }
   }
 
   // Exclude pads in review
@@ -992,6 +1028,7 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       include_comments: !!include_comments,
       include_pinboards,
       userUuid,
+      userRights: rights,
       anonymize_comments: !!anonymize_comments,
     });
 
@@ -1082,6 +1119,8 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
           include_tags: !!include_tags,
           include_locations: !!include_locations,
           include_metafields: !!include_metafields,
+          userUuid,
+          userRights: rights,
           isSource: true,
         });
 
