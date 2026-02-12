@@ -15,7 +15,6 @@
 export function scrubPII(val: any, shouldScrub: boolean = true, recordId?: string | number): any {
   if (!shouldScrub) return val;
   if (!val) return val;
-
   // Handle arrays
   if (Array.isArray(val)) {
     return val.map((item) => scrubPII(item, shouldScrub, recordId));
@@ -55,8 +54,17 @@ export function scrubPII(val: any, shouldScrub: boolean = true, recordId?: strin
     
     return scrubbed;
   }
+  //scrub primitive values (strings, numbers, etc.)
+  if (typeof val === 'string') {
+    const uuidPattern = /\b[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\b/i;
+    if (uuidPattern.test(val)) {
+      return maskUUID(val);
+    }
+    return val.includes('@') ? maskEmail(val) : val;
+    return val.includes('@') ? maskEmail(val) : val;
+  }
 
-  return val;
+return val;
 }
 
 /**
@@ -218,7 +226,6 @@ export function polishTags(data: any[], shouldScrubPII: boolean = true): any[] {
         scrubbedData.content = scrubPII(scrubbedData.content, true, recordId);
       }
     }
-    
     return scrubbedData;
   });
 }

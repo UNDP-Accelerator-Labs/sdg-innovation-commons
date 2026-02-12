@@ -322,7 +322,7 @@ function processPad(pad: any, options: ProcessPadOptions): void {
     delete pad.sections;
   }
   
-  delete pad.full_text;
+  // delete pad.full_text;
 
   if (!include_tags) {
     delete pad.tags;
@@ -1091,7 +1091,8 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
       include_tags: !!include_tags,
       include_locations: !!include_locations,
       include_metafields: !!include_metafields,
-      pseudonymize: !!pseudonymize,
+      // Default to pseudonymize for unauthenticated users or users with rights < 2
+      pseudonymize: (pseudonymize !== undefined) ? !!pseudonymize : (isPublic || (rights || 0) < 2),
       isSource: false,
       idToShortkeyMap,
       containerMap,

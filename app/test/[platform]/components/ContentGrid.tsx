@@ -31,6 +31,7 @@ export default function ContentGrid({
     );
   }
 
+  console.log('items in ContentGrid:', items);
   return (
     <div className="grid gap-[20px] md:grid-cols-2 xl:grid-cols-3">
       {items?.map((post) => {

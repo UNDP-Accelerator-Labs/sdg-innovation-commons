@@ -166,7 +166,7 @@ export async function buildPadFilters(params: PadFilterParams): Promise<string> 
     // Use appropriate sections field based on user rights
     const shouldUseRedacted = !params.uuid || (params.rights || 0) < 2;
     if (shouldUseRedacted) {
-      padFilters.push(`(CASE WHEN p.redacted = true THEN p.sections_redacted ELSE p.sections END) @> '[${params.section}]'::jsonb`);
+      padFilters.push(`(CASE WHEN p.redacted = true THEN p.sections_redacted ELSE p.sections END AS sections) @> '[${params.section}]'::jsonb`);
     } else {
       padFilters.push(`p.sections @> '[${params.section}]'::jsonb`);
     }
@@ -185,7 +185,7 @@ export async function buildPadFilters(params: PadFilterParams): Promise<string> 
     // Use appropriate full_text field based on user rights
     const shouldUseRedacted = !params.uuid || (params.rights || 0) < 2;
     if (shouldUseRedacted) {
-      padFilters.push(`(CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END) ~* '${escapedSearch}'`);
+      padFilters.push(`(CASE WHEN p.redacted = true THEN p.full_text_redacted ELSE p.full_text END AS full_text) ~* '${escapedSearch}'`);
     } else {
       padFilters.push(`p.full_text ~* '${escapedSearch}'`);
     }
