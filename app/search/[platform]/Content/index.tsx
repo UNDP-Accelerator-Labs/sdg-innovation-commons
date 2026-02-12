@@ -79,15 +79,13 @@ export default function Content({
 
     const sorted_keys: Record<string, number[]> = {};
 
-    if (Array.isArray(data)) {
-      data.forEach((item: any) => {
-        const key = item.base;
-        if (!sorted_keys[key]) {
-          sorted_keys[key] = [];
-        }
-        sorted_keys[key].push(item?.pad_id || item?.doc_id);
-      });
-    }
+    data.forEach((item: any) => {
+      const key = item.base;
+      if (!sorted_keys[key]) {
+        sorted_keys[key] = [];
+      }
+      sorted_keys[key].push(item?.pad_id || item?.doc_id);
+    });
     setAllObjectIdz(sorted_keys);
 
     setLoading(false);
