@@ -50,16 +50,8 @@ The SDG Innovation Commons is a platform for sharing and discovering sustainable
       url: 'https://sdg-innovation-commons.org',
     },
   },
-  servers: [
-    {
-      url: process.env.NEXTAUTH_URL || 'http://localhost:3000',
-      description: process.env.NEXTAUTH_URL?.includes('staging') 
-        ? 'Staging server' 
-        : process.env.NEXTAUTH_URL?.includes('localhost') 
-        ? 'Local development server'
-        : 'Production server',
-    },
-  ],
+  // `servers` intentionally left out to allow per-request server injection
+  // See app/api/swagger/route.ts for runtime server detection
   tags: [
     {
       name: 'Tags',
