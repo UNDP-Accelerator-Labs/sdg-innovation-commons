@@ -9,6 +9,9 @@ import { isURL, getImg, app_storage } from "@/app/lib/helpers/utils";
 import { loadExternDb } from "@/app/lib/helpers";
 import getSession from "@/app/lib/session";
 
+// Basic UUID v4 format check to avoid casting errors when trusted-domain auto users are used
+const isValidUuid = (val?: string | null) => !!val && /^(\{)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-5][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}(\})?$/.test(val);
+
 // Disable caching for this API route
 export const dynamic = 'force-dynamic';
 
@@ -641,12 +644,14 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
         }
       } else {
         // Check if user is UNDP
-        const isUNDPQuery = await dbQuery(
-          "general",
-          `SELECT email LIKE '%@undp.org' AS is_undp FROM users WHERE uuid = $1`,
-          [userUuid]
-        );
-        const isUNDP = isUNDPQuery.rows?.[0]?.is_undp || false;
+        // Only query if uuid is valid to avoid cast errors from trusted-domain auto users
+        const isUNDP = isValidUuid(userUuid)
+          ? (await dbQuery(
+              "general",
+              `SELECT email LIKE '%@undp.org' AS is_undp FROM users WHERE uuid = $1`,
+              [userUuid]
+            )).rows?.[0]?.is_undp || false
+          : false;
 
         if (rights < 3) {
           if (isUNDP) {
@@ -696,12 +701,13 @@ async function processPadsRequest(params: PadsRequestParams, req: NextRequest) {
         }
       } else {
         // User is logged in
-        const isUNDPQuery = await dbQuery(
-          "general",
-          `SELECT email LIKE '%@undp.org' AS is_undp FROM users WHERE uuid = $1`,
-          [userUuid]
-        );
-        const isUNDP = isUNDPQuery.rows?.[0]?.is_undp || false;
+        const isUNDP = isValidUuid(userUuid)
+          ? (await dbQuery(
+              "general",
+              `SELECT email LIKE '%@undp.org' AS is_undp FROM users WHERE uuid = $1`,
+              [userUuid]
+            )).rows?.[0]?.is_undp || false
+          : false;
 
         if (pinboardArr && pinboardArr.length > 0) {
           const pinboardPadsQuery = await dbQuery(
