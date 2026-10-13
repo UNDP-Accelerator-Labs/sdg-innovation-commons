@@ -1,6 +1,7 @@
 from sys import path as syspath
 from os.path import join, dirname, exists
 from shutil import copy
+import re
 
 syspath.append(join(dirname(__file__)))
 from compile_registry import generateFile, makeSafe, copyTemplate
