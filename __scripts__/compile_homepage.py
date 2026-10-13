@@ -9,7 +9,18 @@ syspath.append(join(dirname(__file__), '..'))
 from __registries__ import registries
 
 def compileHome (registries):
-  # print(registries)
+  """
+  Change relative path for main home page (this page is actually never seen as it only points to a redirect)
+  """
+  with open('./index.html', 'r+') as pipe:
+    content = pipe.read()
+    relative_path = '../'
+    content = re.sub(r'\{relative_path\}\/', relative_path, content, flags = re.MULTILINE)
+
+    pipe.write(content)
+    print(f'template copied')
+
+
   registries.sort(key=lambda x: x.get('title', ''))
 
   registries_dir = './registries'
